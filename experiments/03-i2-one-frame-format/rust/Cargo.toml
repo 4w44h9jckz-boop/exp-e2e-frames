@@ -9,6 +9,6 @@ publish = false
 [workspace]
 
 [dependencies]
-kohaku-frame-kit = { path = "../../../work/kohaku-rs-57858838787c/crates/frame-kit", default-features = false }
+kohaku-frame-kit = { path = "../../../work/kohaku-rs-058d89dfdf59/crates/frame-kit", default-features = false }
 alloy = { version = "2.4.1", default-features = false, features = [] }
 serde_json = "1"

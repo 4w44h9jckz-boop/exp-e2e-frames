@@ -4,7 +4,7 @@
 // cases, and the disagreements it lists must be exactly the answers that differ from the expected
 // values.
 import { createHash } from 'node:crypto'
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { keccak256 } from 'viem'
 import { describe, expect, it } from 'vitest'
@@ -13,7 +13,6 @@ const root = new URL('../', import.meta.url).pathname
 const dir = join(root, 'vectors/frame-tx')
 const load = (f: string) => JSON.parse(readFileSync(join(dir, f), 'utf8'))
 const sha = (f: string) => createHash('sha256').update(readFileSync(join(dir, f))).digest('hex')
-const recordPath = join(root, 'experiments/03-i2-one-frame-format/results.json')
 
 const txs = existsSync(join(dir, 'transactions.json')) ? load('transactions.json').cases : undefined
 
@@ -37,9 +36,13 @@ describe.runIf(txs !== undefined)('the frame transaction vector set', () => {
   })
 })
 
-const record = existsSync(recordPath) ? JSON.parse(readFileSync(recordPath, 'utf8')) : undefined
+const resultsDir = join(root, 'experiments/03-i2-one-frame-format/results')
+const records = existsSync(resultsDir)
+  ? readdirSync(resultsDir).filter((f) => f.endsWith('.json')).map((f) => ({ file: f, record: JSON.parse(readFileSync(join(resultsDir, f), 'utf8')) }))
+  : []
 
-describe.runIf(record !== undefined)('experiment 03, as recorded', () => {
+for (const { file, record } of records)
+describe(`experiment 03, as recorded in ${file}`, () => {
   it('was run against the vector set as committed', () => {
     for (const [f, h] of Object.entries(record.vectors)) expect(sha(f)).toBe(h)
   })
