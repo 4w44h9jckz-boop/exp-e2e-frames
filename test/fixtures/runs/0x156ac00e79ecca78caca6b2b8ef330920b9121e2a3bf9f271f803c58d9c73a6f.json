@@ -1,0 +1,64 @@
+{
+  "experiment": "01-x1-relayer-free-withdrawal",
+  "attempt": "first attempt, 2026-10-20 03:59 UTC: refused by node A, whose testnet profile did not take the recent-root frame",
+  "ranAt": "2026-10-20T03:59Z",
+  "pins": {
+    "skandha": {
+      "url": "https://github.com/4w44h9jckz-boop/skandha",
+      "commit": "eee680f0bb0c63b9a2c47d536ae8bddd060aa19b"
+    },
+    "kohaku-rs": {
+      "url": "https://github.com/4w44h9jckz-boop/kohaku-rs",
+      "commit": "283632980212d8db652b0565f157e98e9ff07ba2"
+    }
+  },
+  "client": "ethrex/v23.0.0-hegota-testnet-hotfix-64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c/x86_64-unknown-linux-gnu/rustc-v1.93.1",
+  "commands": [
+    "by hand, before run.ts existed, with the same steps run.ts takes",
+    "skandha: bun install && bun run build; two nodes as FRAMES.md gives them, B with --frames.handoff and booted from A",
+    "kohaku-rs: cargo build --release -p kohaku-frame-pool --example refund_withdrawal; run with SEND_RPC_URL at node A"
+  ],
+  "nodes": [
+    {
+      "name": "A",
+      "peerId": "16Uiu2HAmEZYsAA8imzWHhPEJJqng7RtdKnN33WsANZHxWXPP92Br",
+      "handoff": false,
+      "peers": [
+        "16Uiu2HAm86CJ6F11K8ZivN73SDPkJm9jtJrDQyiv5Cj8nhZYA1Pn"
+      ],
+      "lines": [
+        {
+          "t": "2026-10-20T03:59:08.744Z",
+          "node": "A",
+          "event": "rpc",
+          "hash": "0x156ac00e79ecca78caca6b2b8ef330920b9121e2a3bf9f271f803c58d9c73a6f",
+          "result": "ErrFrameUnrecognizedPrefix",
+          "head": 478568
+        }
+      ]
+    },
+    {
+      "name": "B",
+      "peerId": "16Uiu2HAm86CJ6F11K8ZivN73SDPkJm9jtJrDQyiv5Cj8nhZYA1Pn",
+      "handoff": true,
+      "peers": [
+        "16Uiu2HAmEZYsAA8imzWHhPEJJqng7RtdKnN33WsANZHxWXPP92Br"
+      ],
+      "lines": []
+    }
+  ],
+  "sender": {
+    "stdout": [
+      "deposit: 0x18357620017e5df229b4636b8f0bb9254ca8cdb34bb70c4b9feae5e456c93b2e in block 478567; leaf 5, root 0x0aeb0b49e00a07fc2bcfde9234afb9fbb653b4350c22731d6708891ae6fcd2dd published in slot 507714",
+      "withdrawal: limits 11973 / 310930 / 100000 / 25000; fee in the note 150658200000000 wei; max cost 150298200000000 wei"
+    ],
+    "deposit": "0x18357620017e5df229b4636b8f0bb9254ca8cdb34bb70c4b9feae5e456c93b2e",
+    "depositBlock": 478567
+  },
+  "expect": "refused",
+  "chain": {
+    "hash": "0x156ac00e79ecca78caca6b2b8ef330920b9121e2a3bf9f271f803c58d9c73a6f",
+    "mined": false,
+    "known": false
+  }
+}
