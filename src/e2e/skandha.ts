@@ -74,7 +74,8 @@ export async function startNode(o: {
   }
   writeFileSync(o.out, output)
   const enr = output.match(/ENR: (enr:[A-Za-z0-9_-]+)/)?.[1]
-  const peerId = output.match(/16Uiu2[A-Za-z0-9]{40,}/)?.[0]
+  // A node booted from another prints that peer's ID first, so read its own from the PeerId line.
+  const peerId = output.match(/PeerId (16Uiu2[A-Za-z0-9]{40,})/)?.[1]
   if (!enr || !peerId) throw new Error(`${o.name}: no ENR or peer ID in its output`)
   return { name: o.name, apiPort: o.apiPort, peerId, enr, log: o.log, out: o.out, child }
 }
