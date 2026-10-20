@@ -23,7 +23,7 @@
 | # | Experiment | Needs | Status |
 |---|---|---|---|
 | 01 | A privacy withdrawal with no relayer and no sequencer: handed to one node, gossiped to a second, submitted by it alone, mined with no signature | kohaku-rs's `refund_withdrawal`; skandha's frame transactions over RPC and gossip, with the testnet's recent-root frame | done: three attempts recorded, the third by `run.ts` |
-| 02 | The same withdrawal listed by a skandha includer, filling a budget per list | skandha as an includer, with a budget per list | waits on skandha's includer |
+| 02 | The same withdrawal listed by a skandha includer, filling a budget per list | skandha as an includer, with a budget per list | done: one attempt, by `run.ts`, listed by both nodes and mined |
 | 03 | A private sender's whole path: a fresh account pays with a blind ticket, a junk ticket is refused before any proof is checked, and the spend is mined | blind tickets in kohaku-rs; ticket-checked admission in skandha | later, after 02 |
 
 ## Status log
@@ -35,3 +35,8 @@
   479,311. Writing `run.ts` found two bugs in the library: a node booted from another prints that
   peer's ID before its own, and `vitest` picked up the tests of the checkouts under `work/`. Both
   are fixed on `tooling`.
+- **2026-10-20**: `tooling-inclusion-list` (the library asks a node for the list it would publish,
+  and the offline tests check recorded lists against their budget and size) and experiment 02. Its
+  first run, against skandha `7697963`, was listed by both nodes under both fills while pending
+  and mined in block 479,771. One pending withdrawal cannot show how the two fills differ; skandha's
+  fill-rule vectors do.
