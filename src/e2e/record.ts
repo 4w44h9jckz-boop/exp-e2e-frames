@@ -1,5 +1,6 @@
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
+import type { InclusionList } from './skandha.js'
 
 /**
  * A run's record, kept as a fixture under `test/fixtures/runs/`: the pins, the commands, both nodes'
@@ -16,6 +17,10 @@ export type RunRecord = {
   nodes: { name: string; peerId: string; handoff: boolean; peers: string[]; lines: Record<string, unknown>[] }[]
   sender: { stdout: string[]; deposit?: string; depositBlock?: number }
   expect: 'mined' | 'refused'
+  /** Inclusion lists a node answered while the transaction was pending, for runs that ask (experiment 02). */
+  inclusionLists?: { node: string; focil: string; at: string; list: InclusionList }[]
+  /** The run expects its transaction in a per-list (`eip-8369`) inclusion list from some node. */
+  expectListed?: boolean
   chain: Record<string, unknown>
 }
 
