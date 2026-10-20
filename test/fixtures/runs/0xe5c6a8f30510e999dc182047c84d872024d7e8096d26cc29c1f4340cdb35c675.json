@@ -1,0 +1,133 @@
+{
+  "experiment": "01-x1-relayer-free-withdrawal",
+  "attempt": "third attempt: run.ts end to end, from pinned checkouts",
+  "ranAt": "2026-10-20T05:15:51.965Z",
+  "pins": {
+    "skandha": {
+      "url": "https://github.com/4w44h9jckz-boop/skandha",
+      "commit": "2cc35b09f87d855f6880eec6fc66dbe4154aa4c0"
+    },
+    "kohaku-rs": {
+      "url": "https://github.com/4w44h9jckz-boop/kohaku-rs",
+      "commit": "283632980212d8db652b0565f157e98e9ff07ba2"
+    }
+  },
+  "client": "ethrex/v23.0.0-hegota-testnet-hotfix-64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c/x86_64-unknown-linux-gnu/rustc-v1.93.1",
+  "commands": [
+    "npx tsx experiments/01-x1-relayer-free-withdrawal/run.ts",
+    "skandha: bun install && bun run build; two nodes as FRAMES.md gives them, B with --frames.handoff and booted from A",
+    "kohaku-rs: cargo build --release -p kohaku-frame-pool --example refund_withdrawal; run with SEND_RPC_URL at node A"
+  ],
+  "nodes": [
+    {
+      "name": "A",
+      "peerId": "16Uiu2HAmBKKoni3RW2ecCLtmXEz3A4a7xd26CAZBm1UHWBVfYxHY",
+      "handoff": false,
+      "peers": [
+        "16Uiu2HAmPqEbsL9CeXnbXLAQBVCXcGouYWBRb88FuoUmnWXpNiwN"
+      ],
+      "lines": [
+        {
+          "t": "2026-10-20T05:15:39.893Z",
+          "node": "A",
+          "event": "rpc",
+          "hash": "0xe5c6a8f30510e999dc182047c84d872024d7e8096d26cc29c1f4340cdb35c675",
+          "result": "ok",
+          "client": "valid",
+          "head": 479310
+        },
+        {
+          "t": "2026-10-20T05:15:39.896Z",
+          "node": "A",
+          "event": "relay",
+          "hash": "0xe5c6a8f30510e999dc182047c84d872024d7e8096d26cc29c1f4340cdb35c675",
+          "peers": 1
+        },
+        {
+          "t": "2026-10-20T05:15:43.635Z",
+          "node": "A",
+          "event": "head",
+          "head": 479311,
+          "asked": [],
+          "verdicts": {},
+          "resimulated": [],
+          "removed": [
+            "0xe5c6a8f30510e999dc182047c84d872024d7e8096d26cc29c1f4340cdb35c675"
+          ],
+          "pending": []
+        }
+      ]
+    },
+    {
+      "name": "B",
+      "peerId": "16Uiu2HAmPqEbsL9CeXnbXLAQBVCXcGouYWBRb88FuoUmnWXpNiwN",
+      "handoff": true,
+      "peers": [
+        "16Uiu2HAmBKKoni3RW2ecCLtmXEz3A4a7xd26CAZBm1UHWBVfYxHY"
+      ],
+      "lines": [
+        {
+          "t": "2026-10-20T05:15:40.319Z",
+          "node": "B",
+          "event": "gossip",
+          "from": "16Uiu2HAmBKKoni3RW2ecCLtmXEz3A4a7xd26CAZBm1UHWBVfYxHY",
+          "hash": "0xe5c6a8f30510e999dc182047c84d872024d7e8096d26cc29c1f4340cdb35c675",
+          "result": "ok",
+          "client": "valid",
+          "outcome": "accept",
+          "head": 479310
+        },
+        {
+          "t": "2026-10-20T05:15:40.483Z",
+          "node": "B",
+          "event": "handoff",
+          "hash": "0xe5c6a8f30510e999dc182047c84d872024d7e8096d26cc29c1f4340cdb35c675",
+          "agrees": true
+        },
+        {
+          "t": "2026-10-20T05:15:44.001Z",
+          "node": "B",
+          "event": "head",
+          "head": 479311,
+          "asked": [],
+          "verdicts": {},
+          "resimulated": [],
+          "removed": [
+            "0xe5c6a8f30510e999dc182047c84d872024d7e8096d26cc29c1f4340cdb35c675"
+          ],
+          "pending": []
+        }
+      ]
+    }
+  ],
+  "sender": {
+    "stdout": [
+      "deposit: 0x65b0739af75079579da851c736c2ccb084c2194da8fc241ece06a11665085d45 in block 479308; leaf 7, root 0x2d2c327cd7f62c39de05d89e28a8b98f518ba560ecf3309d194d82b5293d82ba published in slot 508479",
+      "withdrawal: limits 11973 / 310930 / 100000 / 25000; fee in the note 150658200000000 wei; max cost 150288600000000 wei",
+      "withdrawal: 0xe5c6a8f30510e999dc182047c84d872024d7e8096d26cc29c1f4340cdb35c675 handed to http://127.0.0.1:14337/rpc/ only",
+      "withdrawal: 0xe5c6a8f30510e999dc182047c84d872024d7e8096d26cc29c1f4340cdb35c675 in block 479311, gasUsed 579649, effective price 100000007 wei, frames (status:execution+state) 1:5579+0 / 1:244744+97920 / 1:14255+183600 / 1:11531+0",
+      "fee 150658200000000 wei; charged 57964904057543; refunded 91346395848174; the pool's bound on the charge 59311804151826 (13469 gas over); kept by the pool 1346900094283; recipient 0xf65AC99D8156A3f720588FeD9ed8F728C21B49C7 received 940688195848174"
+    ],
+    "deposit": "0x65b0739af75079579da851c736c2ccb084c2194da8fc241ece06a11665085d45",
+    "depositBlock": 479308
+  },
+  "expect": "mined",
+  "chain": {
+    "hash": "0xe5c6a8f30510e999dc182047c84d872024d7e8096d26cc29c1f4340cdb35c675",
+    "mined": true,
+    "block": 479311,
+    "blockHash": "0x87de7a6ed0a0f38b1a1c659be24c6dddbdf3a5a5802c8f1a37cc3ced919336ea",
+    "status": "0x1",
+    "sender": "0xe19605853a749322655470199fd31d3f3e53baf9",
+    "payer": "0xe19605853a749322655470199fd31d3f3e53baf9",
+    "signatures": 0,
+    "frames": 4,
+    "frameStatuses": [
+      "0x1",
+      "0x1",
+      "0x1",
+      "0x1"
+    ],
+    "gasUsed": 579649
+  }
+}
