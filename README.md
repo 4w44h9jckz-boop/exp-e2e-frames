@@ -67,6 +67,7 @@ never merged.
 | # | Branch | Experiment |
 |---|---|---|
 | 01 | `exp/01-x1-relayer-free-withdrawal` | [A privacy withdrawal with no relayer and no sequencer](experiments/01-x1-relayer-free-withdrawal/): a Rust wallet's withdrawal handed to one skandha node, gossiped to a second, submitted by it alone and mined with no signature |
+| 02 | `exp/02-x2-inclusion-list` | [The same withdrawal, listed by a skandha includer under a budget per list](experiments/02-x2-inclusion-list/): both nodes list it in the inclusion list they would publish while it is pending, within the budget, then it is mined |
 
 ## Rules
 
