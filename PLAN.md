@@ -24,7 +24,8 @@
 |---|---|---|---|
 | 01 | A privacy withdrawal with no relayer and no sequencer: handed to one node, gossiped to a second, submitted by it alone, mined with no signature | kohaku-rs's `refund_withdrawal`; skandha's frame transactions over RPC and gossip, with the testnet's recent-root frame | done: three attempts recorded, the third by `run.ts` |
 | 02 | The same withdrawal listed by a skandha includer, filling a budget per list | skandha as an includer, with a budget per list | done: one attempt, by `run.ts`, listed by both nodes and mined |
-| 03 | A private sender's whole path: a fresh account pays with a blind ticket, a junk ticket is refused before any proof is checked, and the spend is mined | blind tickets in kohaku-rs; ticket-checked admission in skandha | later, after 02 |
+| 03 | One frame format across wallets: exp-frames' library, kohaku-rs's frame-kit and an implementation from the EIP texts against a public vector set | the two wallets' encoders and decoders; mined fixtures from exp-frames' `main` | done: encoding agrees everywhere; decoding shown wrong (both accept encodings a decoder must refuse, and disagree on four) |
+| 04 | A private sender's whole path: a fresh account pays with a blind ticket, a junk ticket is refused before any proof is checked, and the spend is mined | blind tickets in kohaku-rs; ticket-checked admission in skandha | later, phase 3 |
 
 ## Status log
 
@@ -40,3 +41,7 @@
   first run, against skandha `7697963`, was listed by both nodes under both fills while pending
   and mined in block 479,771. One pending withdrawal cannot show how the two fills differ; skandha's
   fill-rule vectors do.
+- **2026-10-20**: experiment 03, the first interoperability entry: a public vector set in
+  `vectors/frame-tx/` and three implementations run against it. Encoding agrees with the chain on
+  all 182 mined transactions; decoding does not, so the claim is shown wrong as written before the
+  run. X3 moves to 04.
