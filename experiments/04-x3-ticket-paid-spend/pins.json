@@ -1,0 +1,12 @@
+{
+  "skandha": {
+    "url": "https://github.com/4w44h9jckz-boop/skandha",
+    "commit": "2b1b4b0cd4f94577608859a8d66b2950db0b6922",
+    "why": "a node with --frames.claims that finds ticket paymasters by their code and checks a ticket before it asks its client (exp-mempool-l2s 10-claim-gated-admission.md version 4, 11-surface.md version 3), vectors at exp-mempool-l2s 10fd022"
+  },
+  "kohaku-rs": {
+    "url": "https://github.com/4w44h9jckz-boop/kohaku-rs",
+    "commit": "eea02a3ad21a7545a9e74201acbc42bc49a268fa",
+    "why": "kohaku-frame-ticket: Commonware's DKG for each issuer set, blind issuance, the TicketPaymaster whose runtime is the template the node recognises, and the spend"
+  }
+}

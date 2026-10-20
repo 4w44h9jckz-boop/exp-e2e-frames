@@ -51,6 +51,8 @@ export async function startNode(o: {
   out: string
   bootEnr?: string
   handoff?: boolean
+  /** `--frames.claims`: check a ticket before asking the client (FRAMES.md, "Tickets"). */
+  claims?: boolean
 }): Promise<Node> {
   const args = [
     'node', '--configFile', o.config, '--dataDir', o.dataDir,
@@ -58,7 +60,7 @@ export async function startNode(o: {
     '--p2p.port', String(o.p2pPort), '--p2p.host', '127.0.0.1',
     '--p2p.enrHost', '127.0.0.1', '--p2p.enrPort', String(o.p2pPort),
     ...(o.bootEnr ? ['--p2p.bootEnrs', o.bootEnr] : []),
-    '--frames.enable', ...(o.handoff ? ['--frames.handoff'] : []),
+    '--frames.enable', ...(o.handoff ? ['--frames.handoff'] : []), ...(o.claims ? ['--frames.claims'] : []),
     '--frames.name', o.name, '--frames.log', o.log,
   ]
   const child = start('./skandha', args, { cwd: o.dir, env: { NODE_BACKEND: 'js' } })

@@ -1,0 +1,25 @@
+# X3's runner over kohaku-rs's kohaku-frame-ticket. The paths are the checkout run.ts makes from
+# pins.json: work/<name>-<first 12 characters of the commit>. Cargo.lock starts from that
+# checkout's crates/Cargo.lock, so every shared dependency is at the version kohaku-rs tested.
+[package]
+name = "x3-ticket-runner"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+[workspace]
+
+[dependencies]
+kohaku-frame-ticket = { path = "../../../work/kohaku-rs-eea02a3ad21a/crates/frame-ticket" }
+kohaku-frame-kit = { path = "../../../work/kohaku-rs-eea02a3ad21a/crates/frame-kit" }
+kohaku-frame-accounts = { path = "../../../work/kohaku-rs-eea02a3ad21a/crates/frame-accounts" }
+alloy = "2.4.1"
+anyhow = "1.0.104"
+commonware-codec = "2026.9.0"
+commonware-cryptography = "2026.9.0"
+commonware-math = "2026.9.0"
+commonware-utils = "2026.9.0"
+hex = "0.4.3"
+rand = "0.10.2"
+serde_json = "1.0.151"
+tokio = { version = "1.53.1", features = ["macros", "rt-multi-thread", "time"] }
