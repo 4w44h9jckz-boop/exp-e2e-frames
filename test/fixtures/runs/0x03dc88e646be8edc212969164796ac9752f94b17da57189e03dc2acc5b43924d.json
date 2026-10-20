@@ -1,0 +1,1871 @@
+{
+  "experiment": "02-x2-inclusion-list",
+  "attempt": "2026-10-20T06:01:25.712Z",
+  "ranAt": "2026-10-20T06:02:51.994Z",
+  "pins": {
+    "skandha": {
+      "url": "https://github.com/4w44h9jckz-boop/skandha",
+      "commit": "7697963c614b1e39bc21a22b3c8b1eda231f8742"
+    },
+    "kohaku-rs": {
+      "url": "https://github.com/4w44h9jckz-boop/kohaku-rs",
+      "commit": "283632980212d8db652b0565f157e98e9ff07ba2"
+    }
+  },
+  "client": "ethrex/v23.0.0-hegota-testnet-hotfix-64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c/x86_64-unknown-linux-gnu/rustc-v1.93.1",
+  "commands": [
+    "npx tsx experiments/02-x2-inclusion-list/run.ts",
+    "skandha: bun install && bun run build; two nodes as FRAMES.md gives them, B with --frames.handoff and booted from A",
+    "skandha_frameInclusionList with {\"focil\": \"eip-8369\"} and {\"focil\": \"ethrex\"} on both nodes every 250 ms while the sender runs",
+    "kohaku-rs: cargo build --release -p kohaku-frame-pool --example refund_withdrawal; run with SEND_RPC_URL at node A"
+  ],
+  "nodes": [
+    {
+      "name": "A",
+      "peerId": "16Uiu2HAmPov9godJf4b5Lf39ntzGUxciob6RGPx6dZdEWsi7sRVq",
+      "handoff": false,
+      "peers": [
+        "16Uiu2HAmGt9p4DHWbbERKybeZufMpUSe9snWoxhrfcko6XVm3CKS"
+      ],
+      "lines": [
+        {
+          "t": "2026-10-20T06:02:39.598Z",
+          "node": "A",
+          "event": "rpc",
+          "hash": "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d",
+          "result": "ok",
+          "client": "valid",
+          "head": 479770
+        },
+        {
+          "t": "2026-10-20T06:02:39.600Z",
+          "node": "A",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:39.602Z",
+          "node": "A",
+          "event": "relay",
+          "hash": "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d",
+          "peers": 1
+        },
+        {
+          "t": "2026-10-20T06:02:39.605Z",
+          "node": "A",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:40.293Z",
+          "node": "A",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:40.295Z",
+          "node": "A",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:40.551Z",
+          "node": "A",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:40.553Z",
+          "node": "A",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:40.809Z",
+          "node": "A",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:40.811Z",
+          "node": "A",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:41.067Z",
+          "node": "A",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:41.069Z",
+          "node": "A",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:41.326Z",
+          "node": "A",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:41.331Z",
+          "node": "A",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:41.589Z",
+          "node": "A",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:41.591Z",
+          "node": "A",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:41.847Z",
+          "node": "A",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:41.849Z",
+          "node": "A",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:42.105Z",
+          "node": "A",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:42.107Z",
+          "node": "A",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:42.366Z",
+          "node": "A",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:42.368Z",
+          "node": "A",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:42.624Z",
+          "node": "A",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:42.626Z",
+          "node": "A",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:42.883Z",
+          "node": "A",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:42.885Z",
+          "node": "A",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:43.142Z",
+          "node": "A",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:43.144Z",
+          "node": "A",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:43.657Z",
+          "node": "A",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:43.659Z",
+          "node": "A",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:43.916Z",
+          "node": "A",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:43.918Z",
+          "node": "A",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:44.251Z",
+          "node": "A",
+          "event": "head",
+          "head": 479771,
+          "asked": [],
+          "verdicts": {},
+          "resimulated": [],
+          "removed": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "pending": []
+        }
+      ]
+    },
+    {
+      "name": "B",
+      "peerId": "16Uiu2HAmGt9p4DHWbbERKybeZufMpUSe9snWoxhrfcko6XVm3CKS",
+      "handoff": true,
+      "peers": [
+        "16Uiu2HAmPov9godJf4b5Lf39ntzGUxciob6RGPx6dZdEWsi7sRVq"
+      ],
+      "lines": [
+        {
+          "t": "2026-10-20T06:02:40.036Z",
+          "node": "B",
+          "event": "gossip",
+          "from": "16Uiu2HAmPov9godJf4b5Lf39ntzGUxciob6RGPx6dZdEWsi7sRVq",
+          "hash": "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d",
+          "result": "ok",
+          "client": "valid",
+          "outcome": "accept",
+          "head": 479770
+        },
+        {
+          "t": "2026-10-20T06:02:40.037Z",
+          "node": "B",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:40.041Z",
+          "node": "B",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:40.159Z",
+          "node": "B",
+          "event": "handoff",
+          "hash": "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d",
+          "agrees": true
+        },
+        {
+          "t": "2026-10-20T06:02:40.297Z",
+          "node": "B",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:40.298Z",
+          "node": "B",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:40.555Z",
+          "node": "B",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:40.557Z",
+          "node": "B",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:40.813Z",
+          "node": "B",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:40.815Z",
+          "node": "B",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:41.071Z",
+          "node": "B",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:41.072Z",
+          "node": "B",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:41.333Z",
+          "node": "B",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:41.335Z",
+          "node": "B",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:41.593Z",
+          "node": "B",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:41.594Z",
+          "node": "B",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:41.851Z",
+          "node": "B",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:41.853Z",
+          "node": "B",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:42.109Z",
+          "node": "B",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:42.113Z",
+          "node": "B",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:42.369Z",
+          "node": "B",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:42.371Z",
+          "node": "B",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:42.628Z",
+          "node": "B",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:42.630Z",
+          "node": "B",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:42.887Z",
+          "node": "B",
+          "event": "il",
+          "profile": "eip-8369",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:42.889Z",
+          "node": "B",
+          "event": "il",
+          "profile": "ethrex",
+          "head": 479770,
+          "hashes": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "verifyGas": "322903",
+          "pending": 1
+        },
+        {
+          "t": "2026-10-20T06:02:43.401Z",
+          "node": "B",
+          "event": "head",
+          "head": 479771,
+          "asked": [],
+          "verdicts": {},
+          "resimulated": [],
+          "removed": [
+            "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+          ],
+          "pending": []
+        }
+      ]
+    }
+  ],
+  "sender": {
+    "stdout": [
+      "deposit: 0xc8ba707b2a06311b9eeb27b03d378fef86100942596d9d598951b3fccc8e90f7 in block 479768; leaf 8, root 0x219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6 published in slot 508949",
+      "withdrawal: limits 11973 / 310930 / 100000 / 25000; fee in the note 150658200000000 wei; max cost 150295800000000 wei",
+      "withdrawal: 0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d handed to http://127.0.0.1:14337/rpc/ only",
+      "withdrawal: 0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d in block 479771, gasUsed 579685, effective price 100000007 wei, frames (status:execution+state) 1:5579+0 / 1:244744+97920 / 1:14255+183600 / 1:11531+0",
+      "fee 150658200000000 wei; charged 57968504057795; refunded 91342795847922; the pool's bound on the charge 59315404152078 (13469 gas over); kept by the pool 1346900094283; recipient 0x9458867A1F2FAd6e3e6490f17C61ECfFd38873F0 received 940684595847922"
+    ],
+    "deposit": "0xc8ba707b2a06311b9eeb27b03d378fef86100942596d9d598951b3fccc8e90f7",
+    "depositBlock": 479768
+  },
+  "expect": "mined",
+  "expectListed": true,
+  "inclusionLists": [
+    {
+      "node": "A",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:39.604Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:39.606Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "B",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:40.039Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "B",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:40.041Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:40.294Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:40.296Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "B",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:40.297Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "B",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:40.299Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:40.551Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:40.553Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "B",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:40.556Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "B",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:40.557Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:40.810Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:40.812Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "B",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:40.814Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "B",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:40.815Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:41.068Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:41.069Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "B",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:41.071Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "B",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:41.073Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:41.330Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:41.332Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "B",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:41.334Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "B",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:41.335Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:41.589Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:41.591Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "B",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:41.593Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "B",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:41.595Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:41.848Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:41.849Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "B",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:41.852Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "B",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:41.853Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:42.106Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:42.108Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "B",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:42.109Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "B",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:42.113Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:42.367Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:42.368Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "B",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:42.370Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "B",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:42.372Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:42.625Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:42.627Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "B",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:42.629Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "B",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:42.631Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:42.884Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:42.886Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "B",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:42.888Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "B",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:42.890Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:43.143Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:43.145Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:43.658Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:43.660Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:43.917Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:43.918Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479770,
+        "baseFee": "0x7",
+        "transactions": [
+          "0x06f9030e821fcde1a00f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc078094e19605853a749322655470199fd31d3f3e53baf9f902c2f8670180940000000000000000000000000000000000008272c4822ec58080b848377359fb3160077a95d6f9aaab59fc72144e644e3f93fd09f29df7473a809d1c000000000007c415219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac6ce010380c88304be9283017e808080f90228028094e19605853a749322655470199fd31d3f3e53baf9c8830186a08302cd3080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e0219a420f023ef8df3c1539e7c911a3b14585b3b84f5ae8f1773c17b05341aac60f7aec9a69b9a44d661a8d0704828d7ee6ad80a5f1441749e4dfd22f9949fc070000000000000000000000009458867a1f2fad6e3e6490f17c61ecffd38873f0000000000000000000000000e19605853a749322655470199fd31d3f3e53baf900000000000000000000000000000000000000000000000000008905d87e5600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001002231f0c747d3340ab03e89cddd4a1b3c1e05170cad4a8bfa9ab458fbed3f582b0547a9119185ff3a401c5457772ad848556ef18fba50d7cf459ba58b5c34f1860dc91b81222a16cdb8d0e7cdc9b9ec739753094ac0c171523728d9e30b9a2f811706be90b608c87482d40862fdcd0f11daddae243c95064021056a3d2fd537a421f44b3be862c511f674009b120a25d6ce79426818830299fd0f55ef58609b352e24d90bb67755dd35aeee62ef2e659caee8a991151b2b9a601aa38a9ce7756c2c5369ec60f961ea1315a2f122139f073d112eda804d62767f5018f89c93cdd202b53e7a76eacba768384fc9becbc8eee36d8b31b9ce2e696735724ec8ad42ddde808094e19605853a749322655470199fd31d3f3e53baf9c48261a8808080c0cb8405f5e100840bebc20080c0"
+        ],
+        "hashes": [
+          "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d"
+        ],
+        "verifyGas": "0x4ed57",
+        "budget": "0x100000",
+        "bytes": 786
+      }
+    },
+    {
+      "node": "A",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:20.999Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479767,
+        "baseFee": "0x7",
+        "transactions": [],
+        "hashes": [],
+        "verifyGas": "0x0",
+        "budget": "0x100000",
+        "bytes": 0
+      }
+    },
+    {
+      "node": "A",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:21.002Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479767,
+        "baseFee": "0x7",
+        "transactions": [],
+        "hashes": [],
+        "verifyGas": "0x0",
+        "budget": "0x100000",
+        "bytes": 0
+      }
+    },
+    {
+      "node": "B",
+      "focil": "eip-8369",
+      "at": "2026-10-20T06:02:21.006Z",
+      "list": {
+        "profile": "eip-8369",
+        "head": 479767,
+        "baseFee": "0x7",
+        "transactions": [],
+        "hashes": [],
+        "verifyGas": "0x0",
+        "budget": "0x100000",
+        "bytes": 0
+      }
+    },
+    {
+      "node": "B",
+      "focil": "ethrex",
+      "at": "2026-10-20T06:02:21.010Z",
+      "list": {
+        "profile": "ethrex",
+        "head": 479767,
+        "baseFee": "0x7",
+        "transactions": [],
+        "hashes": [],
+        "verifyGas": "0x0",
+        "budget": "0x100000",
+        "bytes": 0
+      }
+    }
+  ],
+  "chain": {
+    "hash": "0x03dc88e646be8edc212969164796ac9752f94b17da57189e03dc2acc5b43924d",
+    "mined": true,
+    "block": 479771,
+    "blockHash": "0x5c5f213268d71c4ac6bd8b6ae20ba3245e21550313ed83c5ee409f7b84ec7135",
+    "status": "0x1",
+    "sender": "0xe19605853a749322655470199fd31d3f3e53baf9",
+    "payer": "0xe19605853a749322655470199fd31d3f3e53baf9",
+    "signatures": 0,
+    "frames": 4,
+    "frameStatuses": [
+      "0x1",
+      "0x1",
+      "0x1",
+      "0x1"
+    ],
+    "gasUsed": 579685
+  }
+}
