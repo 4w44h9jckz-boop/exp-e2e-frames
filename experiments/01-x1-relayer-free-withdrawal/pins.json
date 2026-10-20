@@ -1,0 +1,12 @@
+{
+  "skandha": {
+    "url": "https://github.com/4w44h9jckz-boop/skandha",
+    "commit": "2cc35b09f87d855f6880eec6fc66dbe4154aa4c0",
+    "why": "frame transactions over eth_sendRawTransaction and gossip, with the testnet profile taking EIP-8272's recent-root verifier frame"
+  },
+  "kohaku-rs": {
+    "url": "https://github.com/4w44h9jckz-boop/kohaku-rs",
+    "commit": "283632980212d8db652b0565f157e98e9ff07ba2",
+    "why": "kohaku-frame-pool's refund_withdrawal, which hands its withdrawal to one chosen node"
+  }
+}
