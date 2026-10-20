@@ -25,6 +25,23 @@ describe.runIf(runs.length > 0)('recorded runs', () => {
         expect(a.handoff).toBe(false)
         expect(ev(a.lines, 'handoff')).toHaveLength(0)
       })
+      if (record.inclusionLists?.length) {
+        it('keeps every inclusion list it recorded within its budget and its size', () => {
+          for (const { list } of record.inclusionLists!) {
+            expect(BigInt(list.verifyGas) <= BigInt(list.budget)).toBe(true)
+            expect(list.bytes).toBeLessThanOrEqual(8192)
+            expect(list.transactions).toHaveLength(list.hashes.length)
+          }
+        })
+      }
+      if (record.expectListed) {
+        it('was listed by an includer under a budget per list', () => {
+          const listed = record.inclusionLists!.filter(
+            (l) => l.focil === 'eip-8369' && l.list.hashes.map((h) => h.toLowerCase()).includes(hash),
+          )
+          expect(listed.length).toBeGreaterThan(0)
+        })
+      }
       if (record.expect === 'mined') {
         it('is admitted by the first node on the client\'s verdict and relayed', () => {
           expect(ev(a.lines, 'rpc').some((l) => l.result === 'ok' && l.client === 'valid')).toBe(true)

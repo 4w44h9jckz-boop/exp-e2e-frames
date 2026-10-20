@@ -93,6 +93,33 @@ export async function peersOf(node: Node): Promise<string[]> {
 
 export const rpcUrlOf = (node: Node) => `http://127.0.0.1:${node.apiPort}/rpc/`
 
+/** What `skandha_frameInclusionList` answers: the list a node would publish from its pool at its head. */
+export type InclusionList = {
+  profile: string
+  head: number
+  baseFee: string
+  transactions: string[]
+  hashes: string[]
+  verifyGas: string
+  budget: string
+  bytes: number
+}
+
+/**
+ * The inclusion list a node would publish now, under a fill rule (`eip-8369` budgets each list on its
+ * own; `ethrex` fills one budget over a slot's lists), as its FRAMES.md "As an includer" says.
+ */
+export async function inclusionListOf(node: Node, focil: 'eip-8369' | 'ethrex'): Promise<InclusionList> {
+  const res = await fetch(rpcUrlOf(node), {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'skandha_frameInclusionList', params: [{ focil }] }),
+  })
+  const body = await res.json()
+  if (body.error) throw new Error(`skandha_frameInclusionList: ${JSON.stringify(body.error)}`)
+  return body.result as InclusionList
+}
+
 /** Every line of a node's `--frames.log` that names `hash`. */
 export function linesNaming(log: string, hash: string): Record<string, unknown>[] {
   if (!existsSync(log)) return []
