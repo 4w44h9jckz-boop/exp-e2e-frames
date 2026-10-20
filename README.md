@@ -69,6 +69,7 @@ never merged.
 | 01 | `exp/01-x1-relayer-free-withdrawal` | [A privacy withdrawal with no relayer and no sequencer](experiments/01-x1-relayer-free-withdrawal/): a Rust wallet's withdrawal handed to one skandha node, gossiped to a second, submitted by it alone and mined with no signature |
 | 02 | `exp/02-x2-inclusion-list` | [The same withdrawal, listed by a skandha includer under a budget per list](experiments/02-x2-inclusion-list/): both nodes list it in the inclusion list they would publish while it is pending, within the budget, then it is mined |
 | 03 | `exp/03-i2-one-frame-format` | [One frame format across wallets](experiments/03-i2-one-frame-format/): exp-frames' TypeScript library, kohaku-rs's frame-kit and an implementation from the EIP texts against a public vector set ([`vectors/frame-tx/`](vectors/frame-tx/)); they agreed on every encoding and disagreed on what a decoder must refuse; after both wallets tightened their decoders, they agree on everything but kohaku-rs's 64-bit chain ID |
+| 04 | `exp/04-x3-ticket-paid-spend` | [A fresh sender paid with a blind ticket](experiments/04-x3-ticket-paid-spend/): two issuer sets from Commonware's DKG, each with a ticket paymaster a skandha node finds by its code alone; the node refused two junk tickets before asking its client, and admitted four ticket-paid spends from fresh senders, two from each set, which a second node handed to the chain and each set's paymaster paid for |
 
 ## Rules
 
