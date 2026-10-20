@@ -1,0 +1,27 @@
+{
+  "name": "exp-e2e-frames",
+  "version": "0.1.0",
+  "private": true,
+  "description": "End-to-end runs of EIP-8141 frame transactions across a wallet, open mempool nodes and the ethrex Hegota testnet",
+  "type": "module",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/4w44h9jckz-boop/exp-e2e-frames.git"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "account": "tsx scripts/account.ts",
+    "faucet": "tsx scripts/faucet.ts"
+  },
+  "dependencies": {
+    "viem": "^2.57.3"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.4",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.3"
+  }
+}
