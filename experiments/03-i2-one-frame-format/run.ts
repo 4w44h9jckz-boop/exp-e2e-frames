@@ -1,8 +1,8 @@
 // I2: one frame format across wallets. Generates nothing: it runs three implementations against
 // the committed vector set in vectors/frame-tx/ and records every answer and every disagreement.
-// usage: npx tsx experiments/03-i2-one-frame-format/run.ts
+// usage: npx tsx experiments/03-i2-one-frame-format/run.ts <n-label>, which writes results/<n-label>.json
 import { createHash } from 'node:crypto'
-import { readFileSync, writeFileSync } from 'node:fs'
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import type { Hex } from 'viem'
 import { type Pin, checkout, run } from '../../src/e2e/index.js'
@@ -14,6 +14,8 @@ const vectors = join(root, 'vectors/frame-tx')
 const pins = JSON.parse(readFileSync(join(here, 'pins.json'), 'utf8')) as Record<string, Pin>
 const FILES = ['transactions.json', 'reject.json', 'execution-digest.json']
 const load = (f: string) => JSON.parse(readFileSync(join(vectors, f), 'utf8'))
+const label = process.argv[2]
+if (!label || !/^[0-9]+-[a-z0-9-]+$/.test(label)) throw new Error('give the attempt as <n-label>, e.g. 2-second-run')
 
 type Answers = {
   implementation: string
@@ -98,21 +100,24 @@ const sha = (f: string) => createHash('sha256').update(readFileSync(join(vectors
 const results = answers.map((a) => ({ implementation: a.implementation, misses: compare(a), answers: a }))
 const record = {
   experiment: '03-i2-one-frame-format',
+  attempt: label,
   ranAt: new Date().toISOString(),
   pins,
   vectors: Object.fromEntries(FILES.map((f) => [f, sha(f)])),
   cases: Object.fromEntries(FILES.map((f) => [f, load(f).cases.length])),
   commands: [
-    'npx tsx experiments/03-i2-one-frame-format/run.ts',
+    `npx tsx experiments/03-i2-one-frame-format/run.ts ${label}`,
     `cargo build --release --manifest-path experiments/03-i2-one-frame-format/rust/Cargo.toml (kohaku-rs ${pins['kohaku-rs'].commit.slice(0, 7)})`,
     'python3 experiments/03-i2-one-frame-format/py/run.py vectors/frame-tx',
   ],
   results,
 }
-writeFileSync(join(here, 'results.json'), JSON.stringify(record, null, 1) + '\n')
+mkdirSync(join(here, 'results'), { recursive: true })
+const out = join(here, 'results', `${label}.json`)
+writeFileSync(out, JSON.stringify(record, null, 1) + '\n')
 for (const r of results) {
   const by = new Map<string, number>()
   for (const m of r.misses) by.set(`${m.file}/${m.field}`, (by.get(`${m.file}/${m.field}`) ?? 0) + 1)
   console.log(`${r.implementation}: ${r.misses.length} disagreements ${JSON.stringify(Object.fromEntries(by))}`)
 }
-console.log(`recorded ${join(here, 'results.json')}`)
+console.log(`recorded ${out}`)

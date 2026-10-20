@@ -52,7 +52,7 @@ is wrong, or to the EIP when the texts leave it open.
 
 ```bash
 npm install
-npx tsx experiments/03-i2-one-frame-format/run.ts
+npx tsx experiments/03-i2-one-frame-format/run.ts 2-second-run   # writes results/2-second-run.json
 npm test
 ```
 
@@ -60,7 +60,7 @@ Steps:
 1. `run.ts` checks out both wallets at their pins.
 2. It builds the Rust runner (`cargo`).
 3. It asks each implementation for its answers.
-4. It records every answer and every disagreement in `results.json`.
+4. It records every answer and every disagreement in `results/<attempt>.json`. Every attempt is kept.
 
 `npm test` checks offline that:
 - the record was run against the vector set as committed;
@@ -71,7 +71,25 @@ The run needs no network beyond the two checkouts, and no key.
 
 ## Results
 
-Run once, on 2026-10-20, with:
+### Second run: both decoders tightened
+
+Both wallets tightened their decoders after the first run:
+- exp-frames in pull request #34, merged as `3c8d2cb`;
+- kohaku-rs in `2e4d75d`, merged with its pull request #2, so `experiment/frames` at `058d89d` has it.
+
+The second run, on 2026-10-20, was against those two `main`-line commits and the same vector set (`results/2-second-run.json`):
+
+| | Cases | exp-frames (TypeScript) | kohaku-frame-kit (Rust) | from the texts (Python) |
+|---|---:|---|---|---|
+| transactions: raw, hash, signature hash | 200 | all agree | 199 agree; refuses a chain ID over 64 bits | all agree |
+| execution digest | 10 | all agree | all agree | all agree |
+| encodings a decoder must refuse | 19 | refuses all 19 | refuses all 19 | refuses all 19 |
+
+The only disagreement left is kohaku-rs's chain ID, which it keeps as a `u64` by choice, as its doc comment now says.
+
+### First run
+
+Run on 2026-10-20 (`results/1-first-run.json`), with:
 - exp-frames at `85ee60d`;
 - kohaku-rs at `5785883`;
 - the vector set as committed with this README.
@@ -111,7 +129,7 @@ Both refuse the other nine.
 
    The text-only implementation does too, so the encoding is recoverable from
    the EIPs alone. The execution digest agrees in all three.
-2. **On decoding, it is shown wrong.** It fails the line written before the
+2. **On decoding, the first run showed it wrong. The second run closed it, except for the chain ID.** It fails the line written before the
    run: "one wallet accepts an encoding that the other refuses". exp-frames
    accepts four encodings that kohaku-rs refuses:
    - a `nonce_seq` past 64 bits;

@@ -1,12 +1,12 @@
 {
   "exp-frames": {
     "url": "https://github.com/4w44h9jckz-boop/exp-frames",
-    "commit": "85ee60d671c67a536c26265b8cba9fca78ff0360",
-    "why": "its TypeScript library (src/frametx, experiment 27's digest.ts) under test, and the mined fixtures and digest vectors the vector set is generated from; main, not a session branch"
+    "commit": "3c8d2cb6db148feda0afdc6871890cf09099d860",
+    "why": "its TypeScript library under test, with its decoder tightened after the first run (pull request #34), and the mined fixtures and digest vectors the vector set was generated from at 85ee60d; main"
   },
   "kohaku-rs": {
     "url": "https://github.com/4w44h9jckz-boop/kohaku-rs",
-    "commit": "57858838787c56240a9c6be8e92997ec7623282a",
-    "why": "kohaku-frame-kit, the Rust wallet's encoder and digest, under test; the head of experiment/frames"
+    "commit": "058d89dfdf59d15c77a2aca284a02d1bb192d3df",
+    "why": "kohaku-frame-kit under test, with its decoder tightened after the first run (2e4d75d, pull request #2); the head of experiment/frames"
   }
 }
