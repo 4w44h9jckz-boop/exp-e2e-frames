@@ -1,0 +1,12 @@
+{
+  "skandha": {
+    "url": "https://github.com/4w44h9jckz-boop/skandha",
+    "commit": "7697963c614b1e39bc21a22b3c8b1eda231f8742",
+    "why": "experiment 01's node, plus an includer that answers skandha_frameInclusionList under a budget per list or per payload"
+  },
+  "kohaku-rs": {
+    "url": "https://github.com/4w44h9jckz-boop/kohaku-rs",
+    "commit": "283632980212d8db652b0565f157e98e9ff07ba2",
+    "why": "kohaku-frame-pool's refund_withdrawal, which hands its withdrawal to one chosen node"
+  }
+}
