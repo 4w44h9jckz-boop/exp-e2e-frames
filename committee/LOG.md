@@ -156,8 +156,43 @@ record `test/fixtures/committee/c1-2026-10-21-amended.json`, chain reads at bloc
 **For the owner.** Unchanged from the entry above: the pull request for `tooling-committee`, and
 the dealt TFHE key.
 
-C2: done | exp-e2e-frames 0854ff0, co-withdraw/README.md "The witness's share format (fixed)", test/fixtures/committee/c2-2026-10-21.json | needs from wallet: none
-C1: done | exp-e2e-frames 8d11262, fhe-committee/README.md "The input format (fixed)", bls-committee/README.md "The signed result (fixed)", test/fixtures/committee/c1-2026-10-21-amended.json; TFHE key dealt, for the owner | needs from wallet: none
-C3: partial; first chain attempt stopped for the amendments, rerun next | cmw-monorepo 489e313; exp-e2e-frames exp/08-c3-epoch-reshare 525b303 | needs from wallet: none
-C6: partial; runner and checks pushed, amendments next | exp-e2e-frames exp/10-c6-accountable-signers 7902476 | needs from wallet: none
-C5: blocked on reading: ePrint 2024/405 and the Internet Archive are unreachable from this container | none | needs from wallet: none
+## 2026-10-21, second session (after the 06:00 reset)
+
+**Owner's answers (decisions/0129), done:** pull request #8 (`tooling-committee` into `main`)
+opened; C1's README says the dealer saw the whole TFHE key once, lists who holds or sees what,
+and prices threshold-fhe's distributed keygen from its specification without running it (five
+online rounds and 430 to 742 million triples, quoted; about 0.9 TB a member, derived), `c714e81`.
+
+**C3, experiment 08** (`exp/08-c3-epoch-reshare`): both arms ran on chain from `0896276`, record
+`results/chain-2-amended.json`, committed at `f2f6698`. Arm A kept one key across committees of
+4, 7 and 10 under one paymaster; its retired committee's kept shares still signed, as stated
+before the run. Arm B registered each fresh key with a paymaster of its own (2,434,267 gas each);
+its retired committee's ticket was refused at the latest paymaster (`ErrClaimInvalid`). Two
+comparisons in the test were formatting fixes (address case, gas in hex); the checks are as
+pushed. decisions/0130's reporting items: `member` mode for 423 and 512 added (`0adec74`); the
+size measurement up to 256 and the member run are still to record, then the README's results.
+
+**C6, experiment 10** (`exp/10-c6-accountable-signers`): three attempts.
+- Attempt 1 (`def840e`): the accountable form refused from 64 members by the paymaster's own
+  0.001 ETH denomination (the keys' data makes the max cost larger), not by the node.
+- Attempt 2 (`3c0f046`, 0.01 ETH): all mined but, at 256, the individual mode, refused because its
+  declared limit (the fit plus 10%) took the prefix over 500,000.
+- Attempt 3 (`4bb2de7`, 2% margin): every form mined at every size to 256 except the ECDSA control
+  at 256 (about 600,000 needed; refused for its budget). Accountable at 256: 322,587 gas aggregate,
+  427,801 individual. The threshold signature is identical from two quorums at every size. Not
+  shown wrong; 49 checks pass. README results at `d5ba3c7`.
+- Attempts 1 and 2 are kept in `results/superseded/` with their causes. The test's ECDSA check,
+  which I had added beyond the two pushed before the run, now records the control either way.
+- decisions/0130's items are in the README, derived or named as not run.
+
+**Process note.** An edit to experiment 10's README went through the artifact tool by mistake
+and published that README as a private page (it holds nothing but this public README); deleting
+it is the owner's call.
+
+**For the owner.** Merging pull request #8. Nothing else new.
+
+C2: done | exp-e2e-frames c714e81, PR #8 | needs from wallet: none
+C1: done | exp-e2e-frames c714e81, PR #8, test/fixtures/committee/c1-2026-10-21-amended.json | needs from wallet: none
+C3: partial; chain run done, size measurement and README results next | exp-e2e-frames 0adec74 on exp/08-c3-epoch-reshare, results/chain-2-amended.json | needs from wallet: none
+C6: done, ready for acceptance | exp-e2e-frames d5ba3c7 on exp/10-c6-accountable-signers, results/3-margin-2.json | needs from wallet: none
+C5: waiting for the paper in enews (decisions/0129, 0130) | none | needs from wallet: none
