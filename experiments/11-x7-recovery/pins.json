@@ -1,0 +1,12 @@
+{
+  "skandha": {
+    "url": "https://github.com/4w44h9jckz-boop/skandha",
+    "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade",
+    "why": "two nodes with frame transactions on, the testnet profile, B alone handing transactions to the chain"
+  },
+  "kohaku-rs": {
+    "url": "https://github.com/4w44h9jckz-boop/kohaku-rs",
+    "commit": "3c60049ce70b6b82b620672b5512e40cd6814a79",
+    "why": "kohaku-frame-secrets' examples: seed_wallet (build, restore with SEND_RPC_URL), guardians (setup, recover to RECOVERED_SEED_FILE) and backup (write, reopen)"
+  }
+}
