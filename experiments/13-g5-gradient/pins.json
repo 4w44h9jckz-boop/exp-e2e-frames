@@ -1,0 +1,22 @@
+{
+  "skandha": {
+    "url": "https://github.com/4w44h9jckz-boop/skandha",
+    "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade",
+    "why": "two nodes with frame transactions on, the testnet profile, B alone handing transactions to the chain; the commit experiments 05 to 07 and 12 ran"
+  },
+  "exp-frames": {
+    "url": "https://github.com/4w44h9jckz-boop/exp-frames",
+    "commit": "cf5231f88e16291e16f1ee8708d7e20529b985bd",
+    "why": "experiment 52's circuit, proving key, verifier, SealedPair and settlement, and experiments 51 and 52's results, carried into the table"
+  },
+  "kohaku-rs": {
+    "url": "https://github.com/4w44h9jckz-boop/kohaku-rs",
+    "commit": "ab056aba3348b94b682d166c933265ccf21a759d",
+    "why": "experiment 06's runner, unchanged: the result contract's deployment and the result transactions"
+  },
+  "co-snarks": {
+    "url": "https://github.com/TaceoLabs/co-snarks",
+    "commit": "436f63fa17f2f10ece38c6650df68da99fbc0307",
+    "why": "co-circom: split inputs, merge them, extend the witness and prove Groth16 in REP3; the commit the committee's workspace pins"
+  }
+}
