@@ -12,7 +12,7 @@ commitments and the circuit are exp-frames experiment 52's: `joint.circom`, its 
 **The claim.** Running that function one step at a time along the trust gradient, from no
 intermediary to a persistent operator, changes six things in the way the cells below predict:
 who sees the plaintext, what privacy rests on, who must be online, what fairness there is, what
-the output says, and which operator is left. Each step still settles on chain in one frame
+the bit reveals, and which operator remains. Each step still settles on chain in one frame
 transaction that a `VERIFY` frame checks.
 
 ## The steps
@@ -45,10 +45,10 @@ either way.
 
 ## The rows added, recorded with no prediction
 
-- Who can make the chain accept a wrong result, and what detects it.
+- Which party could get a false bit accepted on chain, and which check catches it.
 - Rounds and bytes per party.
-- Latency, and the network each latency was taken on.
-- What an abort costs, and who learns what before it.
+- Latency, with the network it was measured over.
+- The price of stopping partway, and which party knows the bit at that point.
 - Gas: the `VERIFY` frame and the whole transaction, against the testnet's 500,000 and
   EIP-8141's 100,000.
 - The post-quantum status of what each column rests on.
@@ -110,6 +110,6 @@ either way.
 ## What it does not test
 
 A malicious member or owner. Both committees are semi-honest here, as their libraries are. A
-REP3 member who deviates can make the proof leak an honest party's input, and C1's committee
-signs whatever it decrypts. The enclave is simulated: what it hides from its operator is not
+REP3 member who deviates from the protocol can leak another party's secret through the proof,
+and this repository's committee signs whatever it decrypts. The enclave is simulated: what it hides from its operator is not
 tested, only what the chain can check.
