@@ -244,3 +244,11 @@ C1: done | exp-e2e-frames b7c19a1 (PR #8 merged); co-withdraw --peers fix 7201b5
 C3: done, ready for acceptance | exp-e2e-frames 0c3a6c1 on exp/08-c3-epoch-reshare | needs from wallet: none
 C6: done, ready for acceptance | exp-e2e-frames d5ba3c7 on exp/10-c6-accountable-signers | needs from wallet: none
 C5: done, ready for acceptance | exp-e2e-frames 357f229 on exp/09-c5-traceable-shares (record from 9b51380; wording only since) | needs from wallet: none
+
+**Accepted** (the coordinator, 11:26): C3, C5 and C6, in the register's status table.
+
+C2: done | exp-e2e-frames b7c19a1 (PR #8 merged) | needs from wallet: none
+C1: done | exp-e2e-frames b7c19a1 (PR #8 merged); co-withdraw --peers fix 7201b52 on tooling-committee | needs from wallet: none
+C3: done, accepted | exp-e2e-frames 0c3a6c1 on exp/08-c3-epoch-reshare | needs from wallet: none
+C6: done, accepted | exp-e2e-frames d5ba3c7 on exp/10-c6-accountable-signers | needs from wallet: none
+C5: done, accepted | exp-e2e-frames 357f229 on exp/09-c5-traceable-shares (record from 9b51380) | needs from wallet: none
