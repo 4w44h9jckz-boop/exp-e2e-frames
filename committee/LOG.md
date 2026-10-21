@@ -226,3 +226,21 @@ C1: done | exp-e2e-frames b7c19a1 (PR #8 merged), test/fixtures/committee/c1-202
 C3: done, ready for acceptance | exp-e2e-frames 0c3a6c1 on exp/08-c3-epoch-reshare, results/chain-2-amended.json, measure-1-first-run.json, member-1-first-run.json | needs from wallet: none
 C6: done, ready for acceptance | exp-e2e-frames d5ba3c7 on exp/10-c6-accountable-signers, results/3-margin-2.json | needs from wallet: none
 C5: done, ready for acceptance | exp-e2e-frames 9b51380 on exp/09-c5-traceable-shares, results/1-first-run.json | needs from wallet: none
+
+## 2026-10-21, fourth session
+
+**co-withdraw**: `member --peers` takes the three addresses comma-separated or as three values,
+as its help text says, `7201b52`. It was defined to take three values only, while its help said
+comma-separated; X6's second run passed one comma-separated value, which voided its probe of a
+member left alone.
+
+**fhe-committee's `compare`** (G5, `exp/13-g5-gradient` at `eb96472`): read and kept on the G5
+branch as it is. Each owner's input is checked against its own metadata before `a > b` is
+evaluated, and the result is cast to `FheUint64` so that `decrypt` and the result claim read it
+unchanged. A shadowed name could read better; it is not worth a push on its own.
+
+C2: done | exp-e2e-frames b7c19a1 (PR #8 merged) | needs from wallet: none
+C1: done | exp-e2e-frames b7c19a1 (PR #8 merged); co-withdraw --peers fix 7201b52 on tooling-committee | needs from wallet: none
+C3: done, ready for acceptance | exp-e2e-frames 0c3a6c1 on exp/08-c3-epoch-reshare | needs from wallet: none
+C6: done, ready for acceptance | exp-e2e-frames d5ba3c7 on exp/10-c6-accountable-signers | needs from wallet: none
+C5: done, ready for acceptance | exp-e2e-frames 357f229 on exp/09-c5-traceable-shares (record from 9b51380; wording only since) | needs from wallet: none
