@@ -6,6 +6,11 @@ Fhenix's CoFHE node is not public, so this follows its documentation over tfhe-r
 threshold-fhe, unmodified, and tests the shape, not the product. See
 [`../README.md`](../README.md).
 
+**The key is dealt.** `setup` makes the whole TFHE key set and shares it, as threshold-fhe's own
+library example does, so the dealer saw the whole decryption key once. `../README.md`, "Who
+holds or sees what (C1)", lists every party, and "What a distributed TFHE keygen would cost"
+prices the alternative from threshold-fhe's specification.
+
 ## The input format (fixed)
 
 What the client encrypts, and what the wallet's request carries:

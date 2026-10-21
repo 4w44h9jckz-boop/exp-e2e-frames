@@ -115,15 +115,49 @@ public output, and lets them try.
 | TFHE decryption key (`BC_PARAMS_SAM_SNS`) | threshold-fhe's `gen_key_set`, shared with its `keygen_all_party_shares`: **a dealer** | four shares, any one of which reveals nothing (`n = 4`, `t = 1`) | noise-flooding distributed decryption of a result |
 | BLS12-381 signing key, `MinSig` | Commonware's Joint-Feldman DKG, every member a dealer and a player: **no dealer** | four shares, any three of which sign | signing the decrypted result for a `VERIFY` frame |
 
-**The FHE key is dealt.** threshold-fhe has a distributed key generation, but its secure
-preprocessing for these parameters is far beyond one machine's run; its own library example
-deals the key and shares it, and so does this. What the chain and the nodes see is the same
+**The FHE key is dealt, and the dealer saw the whole key once.** threshold-fhe has a distributed
+key generation, but its secure preprocessing for these parameters is far beyond one machine's
+run (priced below); its own library example deals the key and shares it, and so does this. The
+owner accepted the dealt key for the Fhenix run (2026-10-21). What the chain and the nodes see is the same
 either way: a compact public key, a result ciphertext, a signature under the BLS key. Who held
 the whole TFHE key, once, is the difference, and the record says so.
 
 The coprocessor holds only public material: the server key it evaluates with. Every member and
 the coprocessor read the same public key set, 1.2 GB, almost all of it the switch-and-squash key
 that noise-flooding decryption needs.
+
+### Who holds or sees what (C1)
+
+| Party | Holds or sees |
+|---|---|
+| the dealer, `fhe-committee setup` | **the whole TFHE decryption key, once**, while it makes and shares it; then it writes the four shares and keeps nothing. X5 runs with this dealt key at the owner's word (2026-10-21) |
+| each FHE member | its share of the TFHE key; during a decryption, the other members' messages, and the decrypted value |
+| the coprocessor | public material only: the server key, the compact public key, the CRS; inputs and results as ciphertexts |
+| the BLS DKG | no dealer: no party ever holds the BLS key |
+| each BLS member | its share of the BLS key, the public sharing, and its locks |
+| whoever combines the partials | the quorum's partial signatures; only the combined signature is published |
+| the chain and the nodes | the request's ciphertext and proof, the result's handle and value, the signature, the BLS key |
+
+### What a distributed TFHE keygen would cost (derived and quoted, not run)
+
+threshold-fhe has a robust distributed keygen; this run does not use it. From its own
+specification (`docs/CryptographicDocumentation.pdf` at the pinned commit) and code:
+- **Online: five rounds** (quoted, section 9.6.5): two to make the shared random bits in one
+  batch, one to open the seed, one to open the key material, one for the multiplications.
+- **Offline: hundreds of millions of multiplication triples** (quoted, Table 17): 430,102,352 to
+  741,538,796 for the parameter sets it tabulates with its flag `fg` set, which adds a second
+  bootstrapping key (a switch-and-squash key, which noise-flooding decryption needs), and
+  19,577,758 to 53,432,222 without it. This run's
+  `BC_PARAMS_SAM_SNS` is not one of the tabulated sets; it has a switch-and-squash key, so the
+  first range is the relevant one.
+- **Bytes** (derived, an order of magnitude only): the small-committee triple generation
+  (section 9.4.2) costs, on the happy path, one synchronous broadcast of one ring element per
+  party, `O(log q * d * n^3)` in all. With `log q = 128`, `d = 4` (the extension degree this
+  build uses), a 64-byte element, and a broadcast of about `2 n^2` messages, four members send
+  about `2 * 4^3 = 128` messages, 8 KiB, per triple, 2 KiB a member. At 430 million triples that
+  is roughly 0.9 TB sent by each member, before the five online rounds. Table 18 shows how the
+  implementation stores less (bits and distribution samples instead of triples), but the triples
+  are still generated.
 
 ### The input format (fixed)
 
