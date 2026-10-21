@@ -1,0 +1,12 @@
+{
+  "skandha": {
+    "url": "https://github.com/4w44h9jckz-boop/skandha",
+    "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade",
+    "why": "two nodes with --frames.claims, whose claim-gated profile carries both ticket paymaster templates, the bound one included (exp-mempool-l2s 10-claim-gated-admission.md version 7)"
+  },
+  "kohaku-rs": {
+    "url": "https://github.com/4w44h9jckz-boop/kohaku-rs",
+    "commit": "7bbf8e83902eb5d45e857b8c3f818646e18a5381",
+    "why": "kohaku-frame-secrets' bound_ticket example: a committee, the bound and unbound paymasters, blind issuance, the one-time key from a seed, the withdrawals and their copies; with SEND_RPC_URL, every spend, withdrawal and copy goes to that node"
+  }
+}
