@@ -248,3 +248,43 @@ process. The stand-in is the withdrawal circuit, not a balance circuit. The acco
 committee's proof for any recipient the proof names, and the run does not show who may ask the
 committee to prove.
 
+
+## Addendum: one pricing for both routes, written before its code or any transaction
+
+Run 3 showed the first condition wrong by the wallet's pricing, not by the proof. The device
+set its gas limits from a simulation of its own proof, and the committee's shares were priced at
+the pool's default limits with the worst-case fee. The wallet's authors proposed one pricing for
+every route, and this addendum tests it. Run 3's record and its checks stay as they are.
+
+**The change, in kohaku-rs.** `kohaku-frame-pool` prices every withdrawal by default at the
+pool's default limits, with the fee its worst case at those limits. The tighter pricing from a
+simulation stays, as an explicit opt-in. The commit is pinned in `pins.json` when it lands, and
+this section is not edited after that.
+
+**The claim.** Under the new default, a node sees the committee's withdrawal as it sees the
+device's. Every field a node can read is the same in the two transactions:
+- the signature count, the number of nonce keys and both fee fields;
+- for every frame: its mode, flags, target, gas limit, state gas, value, data length and
+  selector;
+- the fee the proof commits to.
+
+What may differ is what the two notes and recipients make differ: the nullifiers, the recipient,
+the proof's bytes and every hash taken over them. If the pool's root moves between the two
+proofs, the root differs too, and the runner proves both against one root to keep it out.
+
+**What would show it wrong.** Any one of these:
+- a field listed above differs under the default;
+- the device's withdrawal at the defaults is refused by node A, or reverts once mined;
+- the unused gas is not refunded, so the device's withdrawal under the default costs its note
+  more than run 3's did by more than the fee the refund returns. The runner records both
+  costs.
+
+**The plan.** The pieces of run 3, except kohaku-rs at the new commit:
+- the same circuit, proving key, verifier and pool;
+- the committee of three, as in run 3.
+
+One note is withdrawn by the device and one by the committee, each with no pricing option set.
+Each is sent to node A, and B alone hands it to the chain. The record is
+`results/4-pricing-addendum.json`. The offline checks select by record: run 3's keep their
+expected failure, and the addendum's record must pass the same comparison as a plain check.
+The update and the stopped committee are not rerun.
