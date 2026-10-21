@@ -1,0 +1,12 @@
+{
+  "skandha": {
+    "url": "https://github.com/4w44h9jckz-boop/skandha",
+    "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade",
+    "why": "two nodes with frame transactions on; A is told nothing about the result contract, B alone hands transactions to the chain"
+  },
+  "kohaku-rs": {
+    "url": "https://github.com/4w44h9jckz-boop/kohaku-rs",
+    "commit": "ab056aba3348b94b682d166c933265ccf21a759d",
+    "why": "kohaku-frame-kit and kohaku-frame-accounts: the frame transaction, its encoding and simulation, the funder's setup transaction and the CREATE2 deployment"
+  }
+}
