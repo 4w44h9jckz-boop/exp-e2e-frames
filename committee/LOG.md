@@ -158,7 +158,7 @@ the dealt TFHE key.
 
 ## 2026-10-21, second session (after the 06:00 reset)
 
-**Owner's answers (decisions/0129), done:** pull request #8 (`tooling-committee` into `main`)
+**Owner's answers, done:** pull request #8 (`tooling-committee` into `main`)
 opened; C1's README says the dealer saw the whole TFHE key once, lists who holds or sees what,
 and prices threshold-fhe's distributed keygen from its specification without running it (five
 online rounds and 430 to 742 million triples, quoted; about 0.9 TB a member, derived), `c714e81`.
@@ -169,7 +169,7 @@ online rounds and 430 to 742 million triples, quoted; about 0.9 TB a member, der
 before the run. Arm B registered each fresh key with a paymaster of its own (2,434,267 gas each);
 its retired committee's ticket was refused at the latest paymaster (`ErrClaimInvalid`). Two
 comparisons in the test were formatting fixes (address case, gas in hex); the checks are as
-pushed. decisions/0130's reporting items: `member` mode for 423 and 512 added (`0adec74`); the
+pushed. The owner's later reporting items: `member` mode for 423 and 512 added (`0adec74`); the
 size measurement up to 256 and the member run are still to record, then the README's results.
 
 **C6, experiment 10** (`exp/10-c6-accountable-signers`): three attempts.
@@ -183,7 +183,7 @@ size measurement up to 256 and the member run are still to record, then the READ
   shown wrong; 49 checks pass. README results at `d5ba3c7`.
 - Attempts 1 and 2 are kept in `results/superseded/` with their causes. The test's ECDSA check,
   which I had added beyond the two pushed before the run, now records the control either way.
-- decisions/0130's items are in the README, derived or named as not run.
+- The owner's later reporting items are in the README, derived or named as not run.
 
 **Process note.** An edit to experiment 10's README went through the artifact tool by mistake
 and published that README as a private page (it holds nothing but this public README); deleting
@@ -195,7 +195,7 @@ C2: done | exp-e2e-frames c714e81, PR #8 | needs from wallet: none
 C1: done | exp-e2e-frames c714e81, PR #8, test/fixtures/committee/c1-2026-10-21-amended.json | needs from wallet: none
 C3: partial; chain run done, size measurement and README results next | exp-e2e-frames 0adec74 on exp/08-c3-epoch-reshare, results/chain-2-amended.json | needs from wallet: none
 C6: done, ready for acceptance | exp-e2e-frames d5ba3c7 on exp/10-c6-accountable-signers, results/3-margin-2.json | needs from wallet: none
-C5: waiting for the paper in enews (decisions/0129, 0130) | none | needs from wallet: none
+C5: waiting for the paper, as the owner directed | none | needs from wallet: none
 
 ## 2026-10-21, third session
 
