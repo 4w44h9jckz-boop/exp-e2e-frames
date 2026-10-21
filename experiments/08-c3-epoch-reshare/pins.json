@@ -1,0 +1,17 @@
+{
+  "skandha": {
+    "url": "https://github.com/4w44h9jckz-boop/skandha",
+    "commit": "2b1b4b0cd4f94577608859a8d66b2950db0b6922",
+    "why": "a node with --frames.claims that finds ticket paymasters by their code and checks a ticket against the key in that code before it asks its client, as in experiment 04"
+  },
+  "kohaku-rs": {
+    "url": "https://github.com/4w44h9jckz-boop/kohaku-rs",
+    "commit": "ab056aba3348b94b682d166c933265ccf21a759d",
+    "why": "kohaku-frame-ticket: blind issuance from any share, the TicketPaymaster whose runtime is the template the node recognises, and the spend; frame-ticket is unchanged since experiment 04's eea02a3"
+  },
+  "cmw-monorepo": {
+    "url": "https://github.com/4w44h9jckz-boop/cmw-monorepo",
+    "commit": "489e313e86d5808f3d874b67c5a48a75f85b64f7",
+    "why": "Commonware v2026.9.0's Joint-Feldman DKG and Desmedt resharing, with dkg::feldman_desmedt::run counting each member's messages, bytes and compute"
+  }
+}
