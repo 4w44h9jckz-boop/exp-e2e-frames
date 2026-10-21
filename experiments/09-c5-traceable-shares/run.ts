@@ -32,11 +32,16 @@ const account = privateKeyToAccount(loadKey().privateKey)
 const wallet = createWalletClient({ account, chain, transport: http(RPC_URL) })
 const client = createPublicClient({ chain, transport: http(RPC_URL) })
 const word = (n: number | bigint) => numberToHex(BigInt(n), { size: 32 })
+// The node's estimate with fee fields caps the search at the funder's balance over the block's
+// gas limit, which fails; estimated without them, with a fifth added.
+const gasFor = async (tx: { to?: Hex; data: Hex; value?: bigint }) =>
+  (BigInt(await rpc('eth_estimateGas', [{ from: account.address, to: tx.to, data: tx.data, value: numberToHex(tx.value ?? 0n) }])) * 6n) / 5n
 
 const s = traced.scheme
 const code = `0x${readFileSync(join(here, 'contracts/StakeSlash.hex'), 'utf8').trim()}` as Hex
 const deployData = concatHex([code, s.root, word(s.n), word(s.depth)])
-const stakeHash = await wallet.sendTransaction({ data: deployData, value: STAKE * BigInt(s.n) })
+const stakeValue = STAKE * BigInt(s.n)
+const stakeHash = await wallet.sendTransaction({ data: deployData, value: stakeValue, gas: await gasFor({ data: deployData, value: stakeValue }) })
 const stakeReceipt = await client.waitForTransactionReceipt({ hash: stakeHash })
 const address = stakeReceipt.contractAddress as Hex
 console.log(`stake ${stakeHash}: block ${stakeReceipt.blockNumber}, ${stakeReceipt.gasUsed} gas, StakeSlash at ${address}`)
@@ -47,16 +52,16 @@ const stakesBefore = await Promise.all([...Array(s.n).keys()].map((i) => stakeOf
 // Forged: a random w for an innocent holder, with that holder's true path.
 let forgedAnswer: unknown = null
 try {
-  await client.estimateGas({ account, to: address, data: traced.forged.calldata })
+  await gasFor({ to: address, data: traced.forged.calldata })
 } catch (e) {
-  forgedAnswer = (e as Error).message.split('\n')[0]
+  forgedAnswer = (e as Error).message
 }
 const forgedHash = await wallet.sendTransaction({ to: address, data: traced.forged.calldata, gas: FORGED_GAS })
 const forgedReceipt = await client.waitForTransactionReceipt({ hash: forgedHash })
 console.log(`forged against holder ${traced.forged.innocent}: ${forgedHash}, block ${forgedReceipt.blockNumber}, status ${forgedReceipt.status}`)
 
 const balanceBefore = await client.getBalance({ address: account.address })
-const slashRaw = await wallet.signTransaction(await wallet.prepareTransactionRequest({ to: address, data: traced.slash.calldata }))
+const slashRaw = await wallet.signTransaction(await wallet.prepareTransactionRequest({ to: address, data: traced.slash.calldata, gas: await gasFor({ to: address, data: traced.slash.calldata }) }))
 const slashHash = await wallet.sendRawTransaction({ serializedTransaction: slashRaw })
 const slashReceipt = await client.waitForTransactionReceipt({ hash: slashHash })
 const slashTx = await client.getTransaction({ hash: slashHash })
