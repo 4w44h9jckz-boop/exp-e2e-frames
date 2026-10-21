@@ -50,15 +50,22 @@ const refusedElsewhere = await run(fhe, ['evaluate', '--public', join(dir, 'fhe/
 
 const decryption = JSON.parse(readFileSync(join(dir, 'decryption.json'), 'utf8'))
 const value = decryption.value as number
-const sign = async (sub: string, signers: string, file: string) => {
-  await run(bls_, [sub, '--dir', join(dir, 'bls'), '--signers', signers, '--chain-id', `${CHAIN_ID}`, '--request', request,
-    '--ciphertext', join(dir, 'result.bin'), '--value', `${value}`, '--out', join(dir, file)], { cwd: dir })
-  return JSON.parse(readFileSync(join(dir, file), 'utf8'))
+// Every bls-committee call writes its JSON even when it refuses; the exit status says whether it
+// made a signature.
+const sign = async (sub: string, signers: string, file: string, v = value, extra: string[] = []) => {
+  const ok = await run(bls_, [sub, '--dir', join(dir, 'bls'), '--signers', signers, '--chain-id', `${CHAIN_ID}`, '--request', request,
+    '--ciphertext', join(dir, 'result.bin'), '--value', `${v}`, '--out', join(dir, file), ...extra], { cwd: dir }).then(() => true, () => false)
+  return { exitOk: ok, ...JSON.parse(readFileSync(join(dir, file), 'utf8')) }
 }
 const signed = await sign('sign', '0,1,2', 'signed.json')
+// A second result for the same request: every member asked, then with member 0 corrupted.
+const secondResult = await sign('sign', '0,1,2,3', 'second.json', value + 1)
+const secondResultCorrupt = await sign('sign', '0,1,2,3', 'second-corrupt.json', value + 1, ['--ignore-lock', '0'])
 const below = await sign('sign-below', '0,1', 'below.json')
-const bySignersFails = await run(bls_, ['sign', '--dir', join(dir, 'bls'), '--signers', '0,1', '--chain-id', `${CHAIN_ID}`, '--request', request,
-  '--ciphertext', join(dir, 'result.bin'), '--value', `${value}`, '--out', join(dir, 'x.json')], { cwd: dir }).then(() => false, () => true)
+const bySignersFails = !(await sign('sign', '0,1', 'x.json', value, [])).exitOk
+// t = 1 member, and q - 1 = 2 members, each with their share and the DKG's public output.
+const forgeT = await sign('forge', '3', 'forge-t.json')
+const forgeQ1 = await sign('forge', '0,1', 'forge-q1.json')
 
 // The chain's EIP-2537 pairing precompile (0x0f): e(sigma, -g2) e(H(m), PK) = 1, H(m) hashed
 // here with noble as Commonware hashes it: union_unique(namespace, message) under the POP DST.
@@ -69,8 +76,15 @@ const h = bls.G1.hashToCurve(new Uint8Array([ns.length, ...ns, ...hexToBytes(sig
 const fp = (x: bigint) => numberToHex(x, { size: 64 })
 const hEip2537 = concatHex([fp(h.x), fp(h.y)])
 const head = Number.parseInt(await rpc('eth_blockNumber', []), 16)
-const pairing = async (sig: Hex) =>
-  BigInt(await rpc('eth_call', [{ to: '0x000000000000000000000000000000000000000f', data: concatHex([sig, NEG_G2, hEip2537, signed.keyEip2537]) }, numberToHex(head)])) === 1n
+const hashOf = (message: Hex) => {
+  const p = bls.G1.hashToCurve(new Uint8Array([ns.length, ...ns, ...hexToBytes(message)]), { DST }).toAffine()
+  return concatHex([fp(p.x), fp(p.y)])
+}
+const pairing = async (sig: Hex, hm: Hex = hEip2537) =>
+  BigInt(await rpc('eth_call', [{ to: '0x000000000000000000000000000000000000000f', data: concatHex([sig, NEG_G2, hm, signed.keyEip2537]) }, numberToHex(head)])) === 1n
+// The quorum's signature presented for another request: same result, same value.
+const otherRequest = keccak256(stringToHex('C1: a request this result was not made for'))
+const otherMessage = concatHex([numberToHex(CHAIN_ID, { size: 32 }), otherRequest, signed.handle, numberToHex(signed.value, { size: 32 })])
 
 const size = (f: string) => statSync(join(dir, f)).size
 const record = {
@@ -80,6 +94,7 @@ const record = {
   repoCommit,
   pins: JSON.parse(readFileSync(join(COMMITTEE_DIR, 'pins.json'), 'utf8')),
   network: 'every member in one process on one 4-core machine, in memory: a LAN time at best',
+  whoSeesPartials: 'the process that combines them: here the command line, which every member hands its partial; they are not published',
   input: { value: Number(VALUE), metadata, op: `add ${ADD}` },
   steps: Object.fromEntries(Object.entries(steps).map(([k, v]) => [k, { millis: v.millis, stdout: v.stdout }])),
   sizes: {
@@ -97,13 +112,28 @@ const record = {
   signed,
   below,
   signRefusedBelowQuorum: bySignersFails,
+  secondResult,
+  secondResultCorrupt,
+  forgeT,
+  forgeQ1,
+  budget: {
+    nodes: 500_000,
+    eip8141PublicMempool: 100_000,
+    pairingAlone: 37_700 + 2 * 32_600,
+    note: 'derived from EIP-2537 prices: the check is the ticket paymaster\'s, 122,006 gas of execution in experiment 04; no BLS check fits 100,000',
+  },
   chain: {
     rpc: RPC_URL,
     block: head,
     hashToCurveEip2537: hEip2537,
     pairingAcceptsSigned: await pairing(signed.signatureEip2537),
     pairingAcceptsBelow: await pairing(below.signatureEip2537),
+    otherRequest,
+    otherMessage,
+    pairingAcceptsForOtherRequest: await pairing(signed.signatureEip2537, hashOf(otherMessage)),
+    pairingAcceptsForged: await Promise.all([...forgeT.attempts, ...forgeQ1.attempts].map((a: { signatureEip2537: Hex }) => pairing(a.signatureEip2537))),
   },
+  shape: 'a rebuilt role: Fhenix\'s CoFHE node is not public; the coprocessor and the committee follow its documentation over tfhe-rs and threshold-fhe, unmodified. This tests the shape, not the product',
 }
 rmSync(dir, { recursive: true, force: true })
 mkdirSync(out, { recursive: true })

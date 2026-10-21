@@ -51,10 +51,16 @@ const push = (x: string) => {
 }
 
 describe('the committees workspace pins what pins.json says', () => {
+  it('every piece names its licence', () => {
+    const pins = JSON.parse(readFileSync(join(COMMITTEE, 'pins.json'), 'utf8'))
+    for (const [name, pin] of Object.entries<{ licence?: string }>(pins)) expect(pin.licence, name).toBeTruthy()
+  })
+
   it('Cargo.toml takes every git piece at the commit pins.json names', () => {
     const pins = JSON.parse(readFileSync(join(COMMITTEE, 'pins.json'), 'utf8'))
     const cargo = ['Cargo.toml', 'fhe-committee/Cargo.toml'].map((f) => readFileSync(join(COMMITTEE, f), 'utf8')).join('\n')
     for (const [, pin] of Object.entries<{ url: string; commit: string }>(pins)) {
+      if (pin.commit.startsWith('crates.io')) continue
       const lines = cargo.split('\n').filter((l) => l.includes(`git = "${pin.url}"`))
       expect(lines.length, pin.url).toBeGreaterThan(0)
       for (const l of lines) expect(l).toContain(`rev = "${pin.commit}"`)
@@ -68,7 +74,7 @@ describe.each(fixtures('c2-'))('C2 %s', (file) => {
   it('was made from a committed tree, with the pins of its time', () => {
     expect(r.entry).toBe('C2')
     expect(r.repoCommit).toMatch(/^[0-9a-f]{40}$/)
-    for (const p of Object.values<{ commit: string }>(r.pins)) expect(p.commit).toMatch(/^[0-9a-f]{40}$/)
+    for (const p of Object.values<{ commit: string }>(r.pins)) expect(p.commit).toMatch(/^[0-9a-f]{40}$|^crates\.io /)
   })
 
   it('three members agree on one proof', () => {
@@ -185,6 +191,49 @@ describe.each(fixtures('c1-'))('C1 %s', (file) => {
     expect(blsVerify(r.below.namespace, r.below.message, r.below.signatureEip2537, r.below.keyEip2537)).toBe(false)
     expect(r.chain.pairingAcceptsSigned).toBe(true)
     expect(r.chain.pairingAcceptsBelow).toBe(false)
+  })
+
+  it('names its budget, its shape, who sees the partials, and what Commonware threshold means', () => {
+    expect(r.budget.nodes).toBe(500_000)
+    expect(r.budget.pairingAlone).toBeGreaterThan(r.budget.eip8141PublicMempool)
+    expect(r.shape).toMatch(/shape, not the product/)
+    expect(r.whoSeesPartials).toBeTruthy()
+    expect(r.bls.commonware.thresholdParameter).toMatch(/^q:/)
+    expect(r.bls.commonware.polynomialDegree).toBe(r.bls.quorum - 1)
+    expect(typeof r.bls.commonware.qualifiedSetFixedBeforeKeyDependentValues).toBe('boolean')
+    // q > (n + t) / 2, t the members that may be corrupted
+    expect(r.bls.quorum).toBeGreaterThan((r.bls.members + r.bls.commonware.maxFaults) / 2)
+  })
+
+  it('a result signature is not accepted for a request it was not made for (noble and the chain)', () => {
+    expect(blsVerify(r.signed.namespace, r.chain.otherMessage, r.signed.signatureEip2537, r.signed.keyEip2537)).toBe(false)
+    expect(r.chain.pairingAcceptsForOtherRequest).toBe(false)
+    expect(r.chain.otherMessage).not.toBe(r.signed.message)
+  })
+
+  it('a second result for the same request gets no signature, even with a corrupted member', () => {
+    for (const x of [r.secondResult, r.secondResultCorrupt]) {
+      expect(x.exitOk).toBe(false)
+      expect(x.signed).toBe(false)
+      expect(x.request).toBe(r.signed.request)
+      expect(x.value).not.toBe(r.signed.value)
+      expect(x.partials).toBeLessThan(r.bls.quorum)
+    }
+    expect(r.secondResult.refusals.map((x: { member: number }) => x.member).sort()).toEqual(r.signed.signers.slice().sort())
+    expect(r.secondResultCorrupt.ignoredLocks).toEqual([0])
+  })
+
+  it('t members, and q - 1, holding their shares and the DKG output, forge nothing (noble and the chain)', () => {
+    expect(r.forgeT.members).toHaveLength(r.bls.commonware.maxFaults)
+    expect(r.forgeQ1.members).toHaveLength(r.bls.quorum - 1)
+    const attempts = [...r.forgeT.attempts, ...r.forgeQ1.attempts]
+    expect(attempts.length).toBeGreaterThan(2)
+    for (const a of attempts) {
+      expect(a.verified).toBe(false)
+      expect(blsVerify(r.signed.namespace, r.forgeT.message, a.signatureEip2537, r.signed.keyEip2537)).toBe(false)
+    }
+    expect(r.chain.pairingAcceptsForged).toHaveLength(attempts.length)
+    expect(r.chain.pairingAcceptsForged.every((x: boolean) => x === false)).toBe(true)
   })
 
   it('each partial checks against its member key, and the DKG traffic adds up', () => {

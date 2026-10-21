@@ -2,21 +2,31 @@
   "co-snarks": {
     "url": "https://github.com/TaceoLabs/co-snarks",
     "commit": "436f63fa17f2f10ece38c6650df68da99fbc0307",
-    "why": "co-groth16's REP3 prover, co-circom-types' witness shares (the format of co-circom split-witness), mpc-net's TCP network; used as TACEO wrote them"
+    "why": "co-groth16's REP3 prover, co-circom-types' witness shares (the format of co-circom split-witness), mpc-net's TCP network; used as TACEO wrote them",
+    "licence": "MIT OR Apache-2.0 for the crates used here (co-groth16, co-circom-types, mpc-core, mpc-net); co-circom and circom-mpc-compiler, not used, are GPL-3.0-only"
   },
   "kohaku-rs": {
     "url": "https://github.com/4w44h9jckz-boop/kohaku-rs",
     "commit": "ab056aba3348b94b682d166c933265ccf21a759d",
-    "why": "kohaku-tornadocash-circuit: the withdrawal circuit and the websnark proving key the wallet proves with; kohaku-tornadocash: notes and the tree"
+    "why": "kohaku-tornadocash-circuit: the withdrawal circuit and the websnark proving key the wallet proves with; kohaku-tornadocash: notes and the tree",
+    "licence": "none stated: the repository has no LICENSE file and its crates no license field at this commit"
   },
   "threshold-fhe": {
     "url": "https://github.com/zama-ai/threshold-fhe",
     "commit": "c668fdd32a33270fc3ad2fd92b49267b734463dd",
-    "why": "threshold TFHE: keygen_all_party_shares, PRSS, noise-flooding distributed decryption, used as Zama wrote them; it brings tfhe-rs =1.0.1 from crates.io, whose proven compact lists are the input format"
+    "why": "threshold TFHE: keygen_all_party_shares, PRSS, noise-flooding distributed decryption, used as Zama wrote them; it brings tfhe-rs =1.0.1 from crates.io, whose proven compact lists are the input format",
+    "licence": "BSD-3-Clause-Clear; it brings tfhe-rs 1.0.1, BSD-3-Clause-Clear"
   },
   "cmw-monorepo": {
     "url": "https://github.com/4w44h9jckz-boop/cmw-monorepo",
     "commit": "489e313e86d5808f3d874b67c5a48a75f85b64f7",
-    "why": "Commonware at upstream v2026.9.0 plus dkg::feldman_desmedt::run, patched in for every commonware-* crate: the result committee's DKG and its traffic"
+    "why": "Commonware at upstream v2026.9.0 plus dkg::feldman_desmedt::run, patched in for every commonware-* crate: the result committee's DKG and its traffic",
+    "licence": "MIT OR Apache-2.0"
+  },
+  "websnark-rs": {
+    "url": "https://crates.io/crates/websnark-rs",
+    "commit": "crates.io 0.8.0, by Cargo.lock checksum",
+    "why": "the withdrawal circuit's websnark proving key and witness format, as kohaku-rs proves with them",
+    "licence": "MIT"
   }
 }

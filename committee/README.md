@@ -22,9 +22,16 @@ dashmap) that kohaku-rs's and Commonware's crates cannot share. Commonware comes
 upstream `v2026.9.0` plus `dkg::feldman_desmedt::run`, which reports what each member sends.
 It is patched in for every `commonware-*` crate, kohaku-rs's included.
 
-Every member runs on one machine here, over loopback TCP. A time measured that way is a LAN time
-and says so wherever it is written. What each member sends, in messages and bytes, is exact and
-does not depend on the machine; it is reported first.
+Nothing here crosses a real network: the members of a committee are threads or processes on the
+same machine, talking over loopback TCP or in memory. Any wall-clock figure from such a run is
+therefore a best case, the speed of a local network at most, and each record and README names the
+network its times came from. Messages and bytes per member do not depend on the machine, so they
+come first.
+
+These are rebuilt roles, not the products: Fhenix's CoFHE node and TACEO's Merces are not public,
+so the coprocessor and the committees follow the projects' documentation and use their published
+libraries unmodified (co-snarks, tfhe-rs, threshold-fhe), each pinned with its licence in
+`pins.json`. A run tests the shape of the system, not the system.
 
 ## `co-withdraw`
 
@@ -53,21 +60,9 @@ generator 7. The reduction does the same on shares:
 
 ### The witness's share format (fixed)
 
-This is what a client hands each member, and what kohaku-rs's wallet writes when it
-secret-shares a withdrawal's witness. It is fixed: a change is a new format with a new name.
-
-| | |
-|---|---|
-| Sharing | REP3, three members: member $i$ holds $(x_i, x_{i-1})$ of an additive sharing $x = x_0 + x_1 + x_2$ over BN254's scalar field |
-| Witness | the circuit's whole witness as websnark extends it: index 0 the constant 1, then the six public inputs (root, nullifier hash, recipient, relayer, fee, refund), then every private signal: 28,300 values for this circuit, 28,293 of them private |
-| What is shared | the private signals only. The constant and the six public inputs travel in the clear in every share |
-| Encoding | co-snarks' `CompressedRep3SharedWitness<ark_bn254::Fr>` at the pinned commit, serialized with bincode 1, exactly as `co-circom split-witness` writes it. Its `witness` is `Replicated` (1,811,012 bytes per member for this circuit) or `SeededReplicated`, which a member expands locally |
-| Refused | `Additive` and `SeededAdditive` shares: replicating them would add a round between the members |
-| Files | `share-0.bin`, `share-1.bin`, `share-2.bin`, one per member, and `public.json` with the six public inputs as decimal strings |
-
-A client that has the witness as a JSON array of decimal strings, the constant first, can run
-`co-withdraw split --witness witness.json --out-dir shares`, or call `share_witness` from the
-library. Either way, member $i$ receives only `share-i.bin`.
+Written in [`co-withdraw/README.md`](co-withdraw/README.md), "The witness's share format
+(fixed)": REP3 shares of the whole websnark witness over BN254's scalar field, in co-circom's
+`split-witness` encoding.
 
 ### Command line
 
@@ -102,6 +97,19 @@ that record offline:
 
 One committee of four members, fixed for a run, holding two keys.
 
+**The claim, as amended before this run.** A request's encrypted input is evaluated by a
+coprocessor, and its result is decrypted and signed by a threshold of the committee, so a
+`VERIFY` frame checks the result by one BLS signature under the committee's key. Its budget is
+the testnet nodes' 500,000 gas for a `VERIFY` frame: no BLS check fits EIP-8141's 100,000, since
+the pairing alone costs 102,900 under EIP-2537's prices (derived). What would show it wrong:
+- a result signed by fewer than the quorum verifies;
+- a result signature verifies for a request it was not made for;
+- two different results for one request each carry a valid signature.
+
+The committee keeps `q > (n + t) / 2` (`n = 4`, `q = 3`, `t = 1`) and a lock per request in each
+member. The below-quorum test gives `t` members, and then `q - 1`, their shares and the DKG's
+public output, and lets them try.
+
 | Key | Made by | Held | Used for |
 |---|---|---|---|
 | TFHE decryption key (`BC_PARAMS_SAM_SNS`) | threshold-fhe's `gen_key_set`, shared with its `keygen_all_party_shares`: **a dealer** | four shares, any one of which reveals nothing (`n = 4`, `t = 1`) | noise-flooding distributed decryption of a result |
@@ -119,42 +127,15 @@ that noise-flooding decryption needs.
 
 ### The input format (fixed)
 
-What the client encrypts, and what the wallet's request carries:
-
-| | |
-|---|---|
-| Library | tfhe-rs `1.0.1`, the version threshold-fhe at the pinned commit builds |
-| Keys | the committee's `CompactPublicKey` (`public/compact_public_key.bin`) and `CompactPkeCrs` (`public/crs.bin`), both in tfhe-rs's `safe_serialize` |
-| Value | one `FheUint64`, alone in its list |
-| Encoding | a `ProvenCompactCiphertextList`, built with `build_with_proof_packed(crs, metadata, ZkComputeLoad::Verify)`, written with `safe_serialize`: 18,786 bytes |
-| Metadata | the bytes the proof is bound to; the coprocessor refuses the input under any other. The run that builds the request chooses them, for example the chain ID, the request contract and the sender |
-| Proof | tfhe-zk-pok's compact public-key encryption proof over BLS12-446, the curve tfhe-rs 1.0.1 fixes (`zk::Curve`). The EVM has no precompile for that curve |
-
-`fhe-committee encrypt` writes it from a value and metadata; `verify-input` checks the proof
-alone; `evaluate` checks it, expands the list and computes (`--add k` or `--mul k`, wrapping at
-2^64), and writes the result ciphertext with `safe_serialize`.
+Written in [`fhe-committee/README.md`](fhe-committee/README.md), "The input format (fixed)": one
+`FheUint64` in a tfhe-rs 1.0.1 `ProvenCompactCiphertextList`, proven under the committee's CRS
+and bound to the request's metadata.
 
 ### The signed result (fixed)
 
-`bls-committee` signs, under Commonware's `ops::sign_message::<MinSig>` with namespace
-`FRAME_FHE_RESULT_V1`:
-
-```text
-message = chain_id (32) || request (32) || handle (32) || value (32)          128 bytes
-```
-
-- `request`: 32 bytes the result transaction names its request by;
-- `handle`: keccak256 of the result ciphertext's bytes, as the coprocessor wrote them;
-- `value`: the decrypted value, big-endian.
-
-The point signed is `hash_to_curve(len(namespace) || namespace || message)` in G1, RFC 9380's
-`BLS12381G1_XMD:SHA-256_SSWU_RO_` suite under the DST `BLS_SIG_BLS12381G1_XMD:SHA-256_SSWU_RO_POP_`,
-the same as a blind ticket's. So the ticket paymaster's check, with its namespace and message
-changed, checks a result: `e(sigma, -g2) e(H(m), PK) = 1` on EIP-2537. The signature is 128 bytes
-and the key 256, in EIP-2537's encodings.
-
-`sign` refuses fewer signers than the quorum. `sign-below` writes what two of four can make, the
-interpolation of their two partials at zero, so a run can show it refused.
+Written in [`bls-committee/README.md`](bls-committee/README.md), "The signed result (fixed)":
+`chain_id || request || handle || value` under namespace `FRAME_FHE_RESULT_V1`, `MinSig`, hashed
+as a blind ticket is, with one lock per request in every member.
 
 ### Command line
 
@@ -176,8 +157,10 @@ what each member sent during the DKG.
 
 ### The recorded check
 
-`npx tsx scripts/committee-c1.ts [label]` runs all of it from a committed tree, then asks the
-chain's EIP-2537 pairing precompile (`0x0f`), by `eth_call`, about the quorum's signature and the
-two members' interpolation. It writes `test/fixtures/committee/c1-<label>.json`. `npm test`
+`npx tsx scripts/committee-c1.ts [label]` runs all of it from a committed tree: the quorum's
+signature, a second result for the same request (every member asked, then with member 0
+corrupted), and `t` and then `q - 1` members' forging attempts. It then asks the chain's EIP-2537
+pairing precompile (`0x0f`), by `eth_call`, about the quorum's signature, the same signature for
+another request, the two members' interpolation and every forging attempt. It writes `test/fixtures/committee/c1-<label>.json`. `npm test`
 checks it offline: the value, the message's layout, every signature and partial paired again with
 noble's BLS12-381, and the traffic.
