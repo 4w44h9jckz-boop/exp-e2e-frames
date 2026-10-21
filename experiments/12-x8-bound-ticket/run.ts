@@ -8,7 +8,8 @@
 import { chmodSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { english, generateMnemonic } from 'viem/accounts'
+import { createPublicClient, createWalletClient, http, parseEther } from 'viem'
+import { english, generateMnemonic, mnemonicToAccount, privateKeyToAccount } from 'viem/accounts'
 import {
   type Node, type Pin, RPC_URL, buildExample, buildSkandha, chainFacts, checkout, linesNaming, loadKey, peersOf, rpc, rpcUrlOf,
   run, startNode, stopNode, until, writeConfig,
@@ -30,7 +31,8 @@ const example = await buildExample(kohaku, 'kohaku-frame-secrets', 'bound_ticket
 // A fresh seed for this run only, in a file only this process reads, deleted after; never recorded.
 const secrets = mkdtempSync(join(tmpdir(), 'x8-'))
 const seedFile = join(secrets, 'seed')
-writeFileSync(seedFile, generateMnemonic(english))
+const phrase = generateMnemonic(english)
+writeFileSync(seedFile, phrase)
 chmodSync(seedFile, 0o600)
 
 const stamp = Date.now()
@@ -38,6 +40,19 @@ const config = join(work, `hegota-${stamp}.json`)
 writeConfig(config)
 const nodes: Node[] = []
 try {
+  // The example's first step tops up its owner 0 in a frame with no EIP-8037 state gas, which is
+  // enough only for an account that exists; with a fresh seed it reverts in simulation (attempt 1).
+  // So owner 0 (m/44'/60'/0'/0/0, as the seed derives it) is created first by an ordinary transfer
+  // from the funder, whose estimate carries the new account's state gas.
+  const owner0 = mnemonicToAccount(phrase, { addressIndex: 0 }).address
+  const chainClient = createPublicClient({ transport: http(RPC_URL) })
+  const chain = { id: await chainClient.getChainId(), name: 'testnet', nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 }, rpcUrls: { default: { http: [RPC_URL] } } }
+  const funder = createWalletClient({ account: privateKeyToAccount(privateKey), chain, transport: http(RPC_URL) })
+  const ownerCreated = await funder.sendTransaction({ to: owner0, value: parseEther('0.001') })
+  const ownerReceipt = await chainClient.waitForTransactionReceipt({ hash: ownerCreated, timeout: 180_000 })
+  if (ownerReceipt.status !== 'success') throw new Error(`creating owner 0 failed: ${ownerCreated}`)
+  console.log(`owner 0 created: ${ownerCreated} in block ${ownerReceipt.blockNumber}`)
+
   const a = await startNode({
     dir: skandha, name: 'A', config, dataDir: join(work, `a-${stamp}`), apiPort: 14337, wsPort: 14437, p2pPort: 14000,
     log: join(work, `a-${stamp}.frames.jsonl`), out: join(work, `a-${stamp}.out`), claims: true,
@@ -78,8 +93,10 @@ try {
     ranAt: new Date().toISOString(),
     pins: Object.fromEntries(Object.entries(pins).map(([k, p]) => [k, { url: p.url, commit: p.commit }])),
     client: await rpc('web3_clientVersion', []),
+    ownerCreated: { hash: ownerCreated, block: Number(ownerReceipt.blockNumber), gasUsed: Number(ownerReceipt.gasUsed), value: '0.001 ETH' },
     commands: [
       'npx tsx experiments/12-x8-bound-ticket/run.ts',
+      'viem: an ordinary transfer of 0.001 ETH from the funder creates the fresh seed\'s owner 0 before the example runs',
       'skandha: bun install && bun run build; node A with --frames.claims, node B with --frames.claims and --frames.handoff, booted from A',
       `kohaku-rs ${pins['kohaku-rs'].commit.slice(0, 7)}: cargo build --release -p kohaku-frame-secrets --example bound_ticket; run with a fresh SEED_FILE and SEND_RPC_URL at node A`,
     ],
