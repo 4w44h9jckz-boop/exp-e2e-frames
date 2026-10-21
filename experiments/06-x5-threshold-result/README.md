@@ -1,8 +1,8 @@
 # Experiment 06: an FHE result decrypted and signed by a threshold committee, checked in VERIFY
 
-**Status: written before any transaction.** This README states the claim, what would show it
-wrong and the plan. The runner, the offline checks and the results follow in later commits, and
-the checks are pushed before the first transaction is sent.
+**Status: run once, results below.** The claim, what would show it wrong and the plan were pushed
+at `839f125`; the contract, the runner and the offline checks at `8111713`, before the first
+transaction; the run is `results/1-first-run.json`.
 
 **The claim.** Fhenix's CoFHE keeps a threshold network that decrypts results. Frame transactions
 can take away everything else between that network and the chain:
@@ -60,3 +60,54 @@ Each is pinned at a full commit in `pins.json` when the runner lands.
    - the committee's messages, bytes and rounds per member, and the network those were measured on.
 
    It keeps no key or share.
+
+## Results, run 1 (`results/1-first-run.json`)
+
+On the ethrex Hegota testnet, chain 8141, 2026-10-21. `test/x5.test.ts` checks the record offline:
+11 of 11 pass.
+
+| Sent to node A | Node A's answer | Mined |
+|---|---|---|
+| the result the quorum signed (3 of 4 members) | admitted, gossiped to B, handed to the chain by B | block 494,263, status 1 |
+| the same result, signed by two members | `ErrFramePrefixReverted` | no |
+| the quorum's signature presented for another request | `ErrFramePrefixReverted` | no |
+| a second result for the same request, value 43, fees bumped, while the first was pending | `ErrFramePrefixReverted` | no |
+| the first result's bytes again, once mined | `ErrNonceTooLow` | no |
+
+- **The result contract** is 1,520 bytes of code: its runtime and the committee's 256-byte key.
+  It was deployed by the funder at block 494,260.
+- **The result transaction:** two frames, no signature, the contract as sender and payer.
+  - Its `VERIFY` frame, the committee signature's check, used **119,616 gas**. That is inside the
+    testnet's 500,000 and above EIP-8141's 100,000. No BLS check fits the second.
+  - The whole transaction used 236,963 gas. That includes the request's nonce key, which is set
+    on first use.
+- **The committee.** The second result got no signature: each member answered `Locked` for the
+  request it had already signed. So the node never had a second signed result to decide between.
+  Had a corrupted quorum signed one, the nonce key would still have let only one be mined.
+- **Communication, per member, for the decryption:** 3 rounds, 9 messages and 6,660 bytes sent.
+  All four members ran in one process on one machine, in memory, so the times are a LAN time at
+  best:
+
+  | Step | Time |
+  |---|---|
+  | setup | 30.4 s |
+  | encrypt | 3.8 s |
+  | the input's check, off chain | 2.8 s |
+  | evaluate | 5.1 s |
+  | decrypt | 16.9 s |
+  | the BLS key's DKG | 45 ms |
+
+**Against what would show it wrong: nothing observed.**
+- A result signed below the quorum was refused before inclusion, and not mined.
+- A signature was not accepted for another request.
+- At most one result for the request was mined.
+- The result needed only the committee's signature, two open nodes and the chain: no other
+  verifier and no other signer.
+
+**What the run does not show.**
+- **The input side.** The request's input proof was checked off chain, by the coprocessor's step,
+  because no `VERIFY` frame can afford it (experiment 41).
+- **The key.** The TFHE key was dealt, so the dealer saw it whole once. The committee's README
+  prices the distributed key generation that would remove the dealer.
+- **Real deployments.** The committee and the coprocessor are rebuilt roles over the published
+  libraries, not Fhenix's own network.
