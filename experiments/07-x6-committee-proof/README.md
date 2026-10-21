@@ -97,3 +97,44 @@ words above, this is what runs:
   compared field by field as the plan says. Any difference shows the claim's first condition
   wrong, whatever its cause.
 
+## Run 1, and what changed before run 2
+
+**Run 1** (2026-10-21, about 08:00 to 08:06 UTC) stopped at the update, and wrote no record:
+the runner kept everything for one record at the end. From its output and the chain:
+- the device's withdrawal was mined in block 494,616, 579,661 gas;
+- the committee's withdrawal (`0xb6ca532d...`) was mined in block 494,621, 579,685 gas, and the
+  same bytes sent again were refused with `ErrNonceTooLow`;
+- the account was deployed and its payer funded in block 494,624;
+- the update was refused: the chain's simulation found it invalid, "validation prefix frame
+  reverted". Nothing of it was mined.
+
+**The cause.** EIP-8141's default code (ethereum/EIPs `258836f9`, "Default code") reads the
+signature of a `VERIFY` frame at index 0 when its scope includes execution, and at index 1
+otherwise. The payer approves payment only, so its signature must sit at index 1. The runner
+put it at index 0, its only entry, and the payer's default code reverted.
+
+It was found without sending anything further to a node:
+- simulating the update with the payer frame's state gas raised did not help;
+- simulating it against a copy of the account that approves before its first check did not
+  help either, so the account's checks were not the cause;
+- with an empty `ARBITRARY` entry at index 0 and the payer's signature at index 1, the update
+  is valid with every check run. The account's `VERIFY` used 245,351 gas, the payer's 3,000 and
+  the credit 13,924.
+
+Those probes deployed five accounts and funded their payers (blocks 494,660 to 494,727). No
+update was sent to a node. The client refused an `ARBITRARY` entry that names a signer, so
+the entry names none and resolves to the sender. The account's `VERIFY` never reads it.
+
+**Changed before run 2:**
+- the update carries two signature entries: the empty `ARBITRARY` one at index 0, and the
+  payer's at index 1;
+- the record keeps each signature entry's scheme, signer and length. The check of the update's
+  signatures says two entries, as above, where it said one;
+- the runner writes what has finished under `results/failed/` when a later part throws, and
+  runs the Rust half without backtraces, so that its message survives;
+- the Rust half prints the chain's simulation when a node's answer is not the one expected.
+
+Whether the empty entry is "more in its prefix than the committee's proof and a payer's
+approval" is reported with the results, not decided here. It is a protocol rule about where a
+payment-only signature goes, and it costs the prefix 100 gas.
+

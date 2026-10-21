@@ -30,7 +30,7 @@ describe('experiment 07, the committee account', () => {
 })
 
 type Frame = { mode: string; flags: string; to: string | null; gasLimit: string; stateGasLimit: string; value: string; dataBytes: number; selector: string | null }
-type Facts = { sender: string; nonceKeys: string[]; maxFeePerGas: string; maxPriorityFeePerGas: string; signatures: number; frames: Frame[] }
+type Facts = { sender: string; nonceKeys: string[]; maxFeePerGas: string; maxPriorityFeePerGas: string; signatures: number; signatureEntries: { scheme: string; signer: string | null; msg: string; bytes: number }[]; frames: Frame[] }
 
 const dir = join(here, 'results')
 const runs = existsSync(dir)
@@ -129,7 +129,12 @@ for (const { file, r } of runs)
       expect(payer.to?.toLowerCase()).toBe(r.update.payer.toLowerCase())
       expect([credit.mode, credit.to?.toLowerCase(), credit.selector, credit.value]).toEqual([SENDER, account, CREDIT, '0x0'])
       expect(f.nonceKeys.map((k) => BigInt(k))).toEqual([BigInt(r.update.nullifierHash)])
-      expect(f.signatures).toBe(1)
+      // Changed after run 1, before run 2: EIP-8141's default code reads a payment-only payer's
+      // signature at index 1, so index 0 is an empty ARBITRARY entry the account never reads.
+      const [none, paid] = f.signatureEntries
+      expect(f.signatureEntries).toHaveLength(2)
+      expect([none.scheme, none.bytes, none.msg]).toEqual(['0x0', 0, '0x'])
+      expect([paid.scheme, paid.signer?.toLowerCase(), paid.msg]).toEqual(['0x1', r.update.payer.toLowerCase(), '0x'])
     })
 
     it('the update: sent to node A, gossiped to B, handed on by B alone, mined with the payer paying; the recipient credited once', () => {

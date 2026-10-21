@@ -220,12 +220,18 @@ async fn update(members_path: &str, code_path: &str) -> anyhow::Result<()> {
                 .with_execution(CREDIT_EXECUTION)
                 .with_state(STORAGE_SET_STATE_GAS),
         ],
-        signatures: vec![FrameSignature {
-            scheme: scheme::SECP256K1,
-            signer: Some(payer.address()),
-            msg: Bytes::new(),
-            signature: Bytes::new(),
-        }],
+        // EIP-8141's default code reads a payment-only payer's signature at index 1, and index 0
+        // only for a scope that includes execution. The account signs nothing, so index 0 is an
+        // empty ARBITRARY entry, which resolves to the sender and which its VERIFY never reads.
+        signatures: vec![
+            FrameSignature { scheme: scheme::ARBITRARY, signer: None, msg: Bytes::new(), signature: Bytes::new() },
+            FrameSignature {
+                scheme: scheme::SECP256K1,
+                signer: Some(payer.address()),
+                msg: Bytes::new(),
+                signature: Bytes::new(),
+            },
+        ],
         fees,
         blob_versioned_hashes: vec![],
     };
@@ -278,9 +284,9 @@ fn providers() -> anyhow::Result<(impl Provider + Clone, impl Provider + Clone)>
 async fn offer<P: Provider, N: Provider>(chain: &P, node: &N, what: &str, tx: &FrameTx, admit: bool) -> anyhow::Result<Value> {
     let (sent, admitted) = offered(chain, node, what, tx).await?;
     if admit {
-        ensure!(admitted, "the node refused: {what}");
+        ensure!(admitted, "the node refused: {what}: {}; simulation {}", sent["answer"], sent["simulation"]);
     } else {
-        ensure!(!admitted, "the node admitted: {what}");
+        ensure!(!admitted, "the node admitted: {what}; simulation {}", sent["simulation"]);
     }
     Ok(sent)
 }

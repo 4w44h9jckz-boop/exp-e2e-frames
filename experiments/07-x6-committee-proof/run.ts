@@ -48,7 +48,7 @@ const secrets = mkdtempSync(join(tmpdir(), 'x6-'))
 /** A command whose standard error may print a note: those lines are dropped and never recorded. */
 const quiet = async (cmd: string, args: string[], env: NodeJS.ProcessEnv = {}) => {
   const t = Date.now()
-  const out = await run(cmd, args, { cwd: secrets, env }).catch((e: Error) => {
+  const out = await run(cmd, args, { cwd: secrets, env: { RUST_BACKTRACE: '0', RUST_LIB_BACKTRACE: '0', ...env } }).catch((e: Error) => {
     throw new Error(e.message.split('\n').filter((l) => !/note 0x/i.test(l)).join('\n'))
   })
   return { stdout: out.split('\n').filter((l) => l.trim() && !/note 0x/i.test(l)), millis: Date.now() - t }
@@ -71,6 +71,9 @@ async function frameFacts(hash: string) {
     maxFeePerGas: tx.maxFeePerGas as string,
     maxPriorityFeePerGas: tx.maxPriorityFeePerGas as string,
     signatures: (tx.signatures ?? []).length as number,
+    signatureEntries: ((tx.signatures ?? []) as Record<string, string>[]).map((x) => ({
+      scheme: x.scheme, signer: x.signer ?? null, msg: x.msg, bytes: (x.signature.length - 2) / 2,
+    })),
     frames: (tx.frames as Record<string, string>[]).map((f, i) => ({
       mode: f.mode,
       flags: f.flags,
@@ -106,6 +109,8 @@ const stamp = Date.now()
 const config = join(work, `hegota-${stamp}.json`)
 writeConfig(config)
 const nodes: Node[] = []
+// What has finished so far, written under results/failed/ if a later part throws.
+const progress: Record<string, unknown> = {}
 try {
   const a = await startNode({
     dir: skandha, name: 'A', config, dataDir: join(work, `a-${stamp}`), apiPort: 14337, wsPort: 14437, p2pPort: 14000,
@@ -133,6 +138,7 @@ try {
   // 1. The device proves alone.
   console.log('the device withdrawal')
   const device = await refundWithdrawal(deviceBin, { privateKey, sendRpcUrl: rpcUrlOf(a) })
+  progress.device = device
   await until('the device withdrawal to be mined', async () => ((await chainFacts(device.withdrawal)).mined ? true : undefined), 300_000, 2_000)
 
   // 2. The committee proves the same kind of withdrawal from the wallet's shares.
@@ -143,6 +149,7 @@ try {
   const wProve = await quiet(coWithdraw, ['local', '--shares', wDir, '--port', '10100', '--out', wMembers])
   const withdrawal = await runnerRecord(['withdraw', '--withdrawal', join(wDir, 'withdrawal.json'), '--members', wMembers], 'withdraw.json')
   const wMemberRecords = JSON.parse(readFileSync(wMembers, 'utf8'))
+  progress.committee = { share: wShare, prove: wProve, members: wMemberRecords, withdrawal }
 
   // 3. The stand-in update: a note of the account's own tree, its inputs deleted once shared.
   console.log('the shared-state update')
@@ -154,6 +161,7 @@ try {
   rmSync(inputs)
   const uMembers = join(secrets, 'update-members.json')
   const uProve = await quiet(coWithdraw, ['local', '--shares', uDir, '--port', '10110', '--out', uMembers])
+  progress.update = { recipient, inputs: uInputs, split: uSplit, prove: uProve, members: JSON.parse(readFileSync(uMembers, 'utf8')) }
   const update = await runnerRecord(['update', '--members', uMembers, '--code', accountCode], 'update.json')
   const uMemberRecords = JSON.parse(readFileSync(uMembers, 'utf8'))
 
@@ -244,6 +252,14 @@ try {
   const path = join(results, `${attempt.replace(/[^A-Za-z0-9-]/g, '-')}.json`)
   writeFileSync(path, JSON.stringify(record, null, 2) + '\n')
   console.log(`recorded ${path}`)
+} catch (e) {
+  const failed = join(here, 'results', 'failed')
+  mkdirSync(failed, { recursive: true })
+  const path = join(failed, `${attempt.replace(/[^A-Za-z0-9-]/g, '-')}.json`)
+  const message = (e as Error).message.split('\n').filter((l) => !/note 0x|PRIVATE_KEY/i.test(l))
+  writeFileSync(path, JSON.stringify({ experiment: '07-x6-committee-proof', attempt, failedAt: new Date().toISOString(), repoCommit, failed: message, ...progress }, null, 2) + '\n')
+  console.log(`failed; what finished is in ${path}`)
+  throw e
 } finally {
   for (const n of nodes.reverse()) await stopNode(n.child)
   rmSync(secrets, { recursive: true, force: true })
