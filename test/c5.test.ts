@@ -1,14 +1,14 @@
 // Experiment 09 (C5), every recorded run checked offline. Written before the first run, with the
 // README's claim: these checks are what would show it wrong.
 //
-// - Tracing reaches the coalition: shown wrong if a trace of a box built by a coalition of f < t
-//   holders fails to name one of them, or if any trace names a holder outside the coalition.
-// - The evidence convicts on chain: shown wrong if the slashing transaction is not mined, or uses
-//   more gas than a block holds.
+// - Identification: shown wrong if, for a box that f < t holders built, the tracer's output
+//   leaves one of them out, or if any trace's output includes a holder who did not build the box.
+// - On-chain proof: shown wrong if the slashing transaction fails to land, or needs more gas than
+//   a block allows.
 //
 // Recorded either way: the queries each trace made, the evidence's bytes and gas, whether a box
-// that reads the verification key evades tracing, and that one holder of t shares leaves nothing
-// to trace (its box answers every query alike).
+// that reads the verification key evades tracing, and why a single party with t shares cannot be
+// caught this way (its box gives identical answers whatever it is asked).
 //
 // Each named holder is checked again here as the paper's judge checks it: keccak256(w) = u_i,
 // and u_i opened from the Merkle root the staking contract holds.
@@ -115,7 +115,7 @@ for (const { file, r } of runs)
       expect(r.traces.some((x: { box: string }) => x.box === 'vk-aware')).toBe(true)
     })
 
-    it('one holder of t shares leaves nothing to trace: its box answers every query alike', () => {
+    it('a single party with t shares gives the tracer nothing: identical answers to every query', () => {
       const h = r.tHolder
       expect(h.named).toBeNull()
       expect(h.answers.length).toBeGreaterThan(1)

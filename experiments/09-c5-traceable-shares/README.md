@@ -6,22 +6,25 @@ full before any code here was written. It is the one scheme this repository impl
 and only from the paper. ePrint 2023/1724, which traces a decryption key through a decoder that
 reaches a quorum, is a different setting and is not run.
 
-**The claim** (Appendix F of the series, on this paper): tracing reaches a coalition of `f < t`
-holders who build a reconstruction box, a program with their shares inside that takes `t - f`
-further shares and returns the secret, together with the buyer who supplies those shares. From
-black-box access to the box, the tracer names the `f` holders, and the evidence convicts them on
-chain: a staking contract checks it itself and slashes their stakes.
+**The claim** (Appendix F of the series, on this paper): suppose `f < t` holders put their
+shares into a program that, given `t - f` more shares from a buyer, outputs the secret. Someone
+who can only query that program, without opening it, can identify all `f` of them, and the
+identification is proof enough for a staking contract to verify unaided and take their stakes.
 
 **What would show it wrong.** Written before the first run, as the checks in
 [`test/c5.test.ts`](../../test/c5.test.ts), and pushed before the first transaction:
-- the tracer fails to name a member of the coalition, or names an innocent holder;
-- the contract cannot check the evidence within a block: the slashing transaction is not mined,
-  or uses more gas than a block holds.
+- some holder who built the box is missing from the tracer's output, or the output includes a
+  holder who had no part in it;
+- verifying the proof does not fit in one block: the slashing transaction fails to land, or
+  needs more gas than a block allows.
 
-**Done when** a box from a coalition is traced to its members and a slashing transaction is
-mined, and it is shown, as a certainty rather than a hypothesis, that one holder of `t` shares
-leaves nothing to trace: such a holder needs no box built from shares, and a box that ignores
-its inputs answers every query alike.
+The claim, these two checks and "Done when" were reworded after the run, wording only, meaning
+unchanged; `e5cd26f` holds them as first pushed, and the checks in the test are the same.
+
+**Done when** the holders behind one box have been identified and their stakes taken by a
+transaction on chain, and the run demonstrates, by construction rather than by experiment, why a
+single party with `t` shares cannot be caught this way: it never needs anyone else's share, and
+a program that disregards its inputs gives the tracer identical answers to compare.
 
 **Recorded either way:**
 - the family: tracing a box built from shares, not a decoder;
@@ -147,7 +150,8 @@ Recorded either way:
   the root on chain, a coalition knows its own components and no one else's, so it cannot tell
   the tracer's shares from a buyer's. The tracer itself must keep the key private, as the
   paper's tracing assumes.
-- **One holder of `t` shares leaves nothing to trace**, as a certainty: its box gave the same
+- **A single party with `t` shares gives the tracer nothing to work with**, by construction:
+  its box gave the same
   answer to all eight test queries and the same answer to both queries of every pair, so no
   pair gave an evaluation.
 - **The dealer can frame anyone.** It chose every point, so it holds every `w`. Non-imputability
