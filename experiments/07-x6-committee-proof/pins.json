@@ -1,0 +1,12 @@
+{
+  "skandha": {
+    "url": "https://github.com/4w44h9jckz-boop/skandha",
+    "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade",
+    "why": "two nodes with frame transactions on, the testnet profile, B alone handing transactions to the chain; the commit experiments 06 and 12 ran"
+  },
+  "kohaku-rs": {
+    "url": "https://github.com/4w44h9jckz-boop/kohaku-rs",
+    "commit": "7863a47c7f975a39ce940129ed27485d5b781971",
+    "why": "kohaku-witness-share's share_withdrawal, the wallet's witness in the committee's share format, and kohaku-frame-pool's refund_withdrawal, the device proving alone"
+  }
+}

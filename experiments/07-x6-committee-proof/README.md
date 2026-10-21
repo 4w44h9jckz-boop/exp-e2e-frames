@@ -1,8 +1,9 @@
 # Experiment 07: a proving committee in place of an operator, and what it can still hold
 
 **Status: written before any transaction.** This README states the claim, what would show it
-wrong and the plan. The runner, the offline checks and the results follow in later commits, and
-the checks are pushed before the first transaction is sent.
+wrong and the plan. The runner and the offline checks are in the same commit as this status
+line, pushed before the first transaction. The plan was made concrete in that commit; the
+changes are listed under "Amended before the first transaction" at the end.
 
 **The claim.** TACEO's co-SNARKs let a committee compute together the proof that the user's own
 device would compute. Three things follow:
@@ -24,8 +25,9 @@ device would compute. Three things follow:
 **A stand-in, stated before the run.** TACEO's private-balance circuit is not public. The
 shared-state update is therefore proved over the circuit the committee already proves: the
 privacy pool's withdrawal circuit, from experiment 01. The committee's account keeps its own
-copy of a note tree's root and a set of spent nullifiers. An update spends a note the committee
-holds in shares, proved by the committee, and moves an internal balance to the proof's recipient.
+copy of a note tree's root, and the chain's own nonce keys serve as its set of spent nullifiers.
+An update spends a note the committee holds in shares, proved by the committee, and moves an
+internal balance to the proof's recipient.
 This tests the sender, proof and payer shape that a committee's shared state takes on chain. It
 does not test a balance circuit.
 
@@ -69,3 +71,29 @@ Each is pinned at a full commit in `pins.json` when the runner lands.
    - the members' messages and bytes per proof.
 
    It keeps no key, share or note secret.
+
+## Amended before the first transaction
+
+The runner (`run.ts`), its Rust half (`rust/`), the account (`contracts/CommitteeAccount.yul`)
+and the checks (`test/x6.test.ts`) make the plan concrete. Where they differ from the plan's
+words above, this is what runs:
+
+- **No deposit for the stand-in.** The account's tree is three fresh notes that exist only
+  off chain. Its root is appended to the account's code at deployment, and the committee holds
+  the second note in shares. So step 3 deploys the account and funds a fresh payer in one
+  transaction, and deposits nothing.
+- **The spent set is the nonce-key table.** The update's only EIP-8250 nonce key is the note's
+  nullifier hash, at sequence 0. The account's `VERIFY` checks that, and stores nothing.
+- **The account's ledger.** One unit is credited to the proof's recipient, in a mapping the
+  account keeps. The proof's relayer, fee and refund must be zero.
+- **Step 4, made concrete.** A third note is deposited into the refund pool, and its witness
+  shared, but it is never proved. Two members' shares are deleted. Member 0 is then started
+  alone with its share, with a time limit, and its exit is recorded; then its share is deleted
+  too. The run records which files the wallet kept, and sends node A the note's withdrawal with
+  256 zero bytes in place of the proof: what the chain alone allows.
+- **The device's withdrawal** is kohaku-rs's `refund_withdrawal`, which proves on this machine
+  and prices its limits from a simulation. The committee's is built by the runner from
+  `share_withdrawal`'s output at the pool's default limits, with the worst-case fee. The two are
+  compared field by field as the plan says. Any difference shows the claim's first condition
+  wrong, whatever its cause.
+
