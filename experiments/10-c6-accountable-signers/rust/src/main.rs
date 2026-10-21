@@ -139,14 +139,19 @@ fn spend(chain_id: u64, fees: Fees, sender: &PrivateKeySigner, paymaster: Addres
 fn accountable_verify_limit(n: u64, q: u64, individual: bool) -> u64 {
     let words = n * 8 + 0x80;
     let fit = 126_842 + (n - 5) * 170 + (q - 4) * 875 + if individual { q * 620 } else { 0 } + words * words / 512;
-    fit + fit / 10 + 5_000
+    fit + fit * margin_percent() / 100 + 5_000
+}
+
+/// The headroom each declared limit adds to its fit, in percent: `LIMIT_MARGIN`, 10 by default.
+fn margin_percent() -> u64 {
+    env::var("LIMIT_MARGIN").ok().and_then(|v| v.parse().ok()).unwrap_or(10)
 }
 
 /// The ECDSA frame's: 18,108 at n = 5, about 3,514 a signature (the first run, n from 5 to 128),
 /// and a tenth more.
 fn ecdsa_verify_limit(n: u64, q: u64) -> u64 {
     let fit = 18_108 + (q - 4) * 3_514 + (n - 5) * 30;
-    fit + fit / 10 + 5_000
+    fit + fit * margin_percent() / 100 + 5_000
 }
 
 #[tokio::main]
@@ -325,6 +330,7 @@ async fn main() -> anyhow::Result<()> {
             "ticketNamespace": String::from_utf8_lossy(TICKET_NAMESPACE),
             "accountableNamespace": String::from_utf8_lossy(COMMIT_NAMESPACE),
             "ecdsaNamespace": String::from_utf8_lossy(ECDSA_NAMESPACE),
+            "limitMarginPercent": margin_percent(),
             "whoSeesPartials": "the combiner: each signing member sends its partial to whoever recovers the threshold signature, here this runner; only the recovered signature reaches the chain. The accountable and ECDSA forms put every signer's own contribution, or their aggregate with the bitmap, in the transaction",
             "sizes": out,
         });

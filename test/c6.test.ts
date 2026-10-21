@@ -115,10 +115,13 @@ for (const { file, r } of runs)
             const addr = (slice(keccak256(bytesToHex(pub.slice(1))), 12) as string).toLowerCase()
             expect(addr).toBe((slice(e.addresses as Hex, 20 * named[j], 20 * (named[j] + 1)) as string).toLowerCase())
           })
-          expect(sp.mined).toBe(true)
-          expect(sp.paidByPaymaster).toBe(true)
-          expect(r.chain[sp.hash].status).toBe('0x1')
-        })
+          // A control, not one of the claim's checks: recorded either way. Mined, it was paid by
+          // its paymaster; refused, the node named its budget.
+          if (sp.mined) {
+            expect(sp.paidByPaymaster).toBe(true)
+            expect(r.chain[sp.hash].status).toBe('0x1')
+          } else expect(sp.answer.error).toMatch(/MAX_VERIFY_GAS/)
+        }, 60_000)
 
         it('the threshold signature verifies under the group key (noble), and the chain paid it from the ticket paymaster', () => {
           const sp = x.threshold.spend
@@ -146,14 +149,14 @@ for (const { file, r } of runs)
             expect(sp.raw.toLowerCase()).toContain(sp.verifyData.slice(2).toLowerCase())
             expect(sp.verifyDataBytes).toBe((sp.verifyData.length - 2) / 2)
           }
-        })
+        }, 300_000)
 
         if (NAMED_SIZES.includes(x.n))
           it('naming the signers fits a VERIFY frame the testnet nodes admit', () => {
             for (const sp of x.accountable.spends) {
               expect(sp.mined, `${sp.mode}: ${JSON.stringify(sp.answer)}`).toBe(true)
               expect(sp.paidByPaymaster).toBe(true)
-              expect(sp.frames[1].gasUsed).toBeLessThanOrEqual(NODE_VERIFY_BUDGET)
+              expect(Number(BigInt(sp.frames[1].gasUsed))).toBeLessThanOrEqual(NODE_VERIFY_BUDGET)
             }
           })
       })

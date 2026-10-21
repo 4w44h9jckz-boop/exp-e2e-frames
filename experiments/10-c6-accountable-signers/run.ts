@@ -2,7 +2,7 @@
 // and the signers named by a bitmap with their own signatures checked by AccountablePaymaster, in
 // two modes, and k ECDSA signatures as a control; each spend from a fresh sender sent to the chain,
 // with its gas and bytes.
-// usage: npx tsx experiments/10-c6-accountable-signers/run.ts [attempt-label] [sizes]
+// usage: npx tsx experiments/10-c6-accountable-signers/run.ts [attempt-label] [sizes] [limit-margin-percent]
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { type Pin, chainFacts, checkout, loadKey, rpc, run } from '../../src/e2e/index.js'
@@ -28,7 +28,8 @@ const runner = join(target, 'release', 'c6-signers-runner')
 console.log(`kohaku-rs at ${kohaku}`)
 
 const out = join(work, `c6-${Date.now()}.json`)
-const stdout = await run(runner, [], { cwd: root, env: { PRIVATE_KEY: privateKey, SIZES: sizes, RECORD: out } })
+const margin = process.argv[4] ?? '10'
+const stdout = await run(runner, [], { cwd: root, env: { PRIVATE_KEY: privateKey, SIZES: sizes, RECORD: out, LIMIT_MARGIN: margin } })
 console.log(stdout)
 const sent = JSON.parse(readFileSync(out, 'utf8'))
 const hashes: string[] = sent.sizes.flatMap(
@@ -45,7 +46,7 @@ const record = {
   pins: Object.fromEntries(Object.entries(pins).map(([k, p]) => [k, { url: p.url, commit: p.commit }])),
   client: await rpc('web3_clientVersion', []),
   commands: [
-    `npx tsx experiments/10-c6-accountable-signers/run.ts ${attempt} ${sizes}`,
+    `npx tsx experiments/10-c6-accountable-signers/run.ts ${attempt} ${sizes} ${margin}`,
     `cargo build --release --manifest-path experiments/10-c6-accountable-signers/rust/Cargo.toml (kohaku-rs ${pins['kohaku-rs'].commit.slice(0, 7)}, Commonware from cmw-monorepo ${pins['cmw-monorepo'].commit.slice(0, 7)}); every spend sent to the chain's RPC`,
   ],
   runner: { stdout: stdout.trim().split('\n') },
