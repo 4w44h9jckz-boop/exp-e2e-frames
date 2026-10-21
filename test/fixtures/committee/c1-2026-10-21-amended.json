@@ -1,0 +1,409 @@
+{
+  "entry": "C1",
+  "label": "2026-10-21-amended",
+  "ranAt": "2026-10-21T02:34:35.706Z",
+  "repoCommit": "8d112622427bc2e0245104e8ab0c790eaf28b1ad",
+  "pins": {
+    "co-snarks": {
+      "url": "https://github.com/TaceoLabs/co-snarks",
+      "commit": "436f63fa17f2f10ece38c6650df68da99fbc0307",
+      "why": "co-groth16's REP3 prover, co-circom-types' witness shares (the format of co-circom split-witness), mpc-net's TCP network; used as TACEO wrote them",
+      "licence": "MIT OR Apache-2.0 for the crates used here (co-groth16, co-circom-types, mpc-core, mpc-net); co-circom and circom-mpc-compiler, not used, are GPL-3.0-only"
+    },
+    "kohaku-rs": {
+      "url": "https://github.com/4w44h9jckz-boop/kohaku-rs",
+      "commit": "ab056aba3348b94b682d166c933265ccf21a759d",
+      "why": "kohaku-tornadocash-circuit: the withdrawal circuit and the websnark proving key the wallet proves with; kohaku-tornadocash: notes and the tree",
+      "licence": "none stated: the repository has no LICENSE file and its crates no license field at this commit"
+    },
+    "threshold-fhe": {
+      "url": "https://github.com/zama-ai/threshold-fhe",
+      "commit": "c668fdd32a33270fc3ad2fd92b49267b734463dd",
+      "why": "threshold TFHE: keygen_all_party_shares, PRSS, noise-flooding distributed decryption, used as Zama wrote them; it brings tfhe-rs =1.0.1 from crates.io, whose proven compact lists are the input format",
+      "licence": "BSD-3-Clause-Clear; it brings tfhe-rs 1.0.1, BSD-3-Clause-Clear"
+    },
+    "cmw-monorepo": {
+      "url": "https://github.com/4w44h9jckz-boop/cmw-monorepo",
+      "commit": "489e313e86d5808f3d874b67c5a48a75f85b64f7",
+      "why": "Commonware at upstream v2026.9.0 plus dkg::feldman_desmedt::run, patched in for every commonware-* crate: the result committee's DKG and its traffic",
+      "licence": "MIT OR Apache-2.0"
+    },
+    "websnark-rs": {
+      "url": "https://crates.io/crates/websnark-rs",
+      "commit": "crates.io 0.8.0, by Cargo.lock checksum",
+      "why": "the withdrawal circuit's websnark proving key and witness format, as kohaku-rs proves with them",
+      "licence": "MIT"
+    }
+  },
+  "network": "every member in one process on one 4-core machine, in memory: a LAN time at best",
+  "whoSeesPartials": "the process that combines them: here the command line, which every member hands its partial; they are not published",
+  "input": {
+    "value": 41,
+    "metadata": "0x43313a206f6e6520726571756573742c20636861696e2038313431",
+    "op": "add 1"
+  },
+  "steps": {
+    "setup": {
+      "millis": 41770,
+      "stdout": ""
+    },
+    "encrypt": {
+      "millis": 3038,
+      "stdout": ""
+    },
+    "verifyInput": {
+      "millis": 2490,
+      "stdout": "valid"
+    },
+    "evaluate": {
+      "millis": 4621,
+      "stdout": ""
+    },
+    "decrypt": {
+      "millis": 12625,
+      "stdout": "42"
+    },
+    "dkg": {
+      "millis": 43,
+      "stdout": ""
+    }
+  },
+  "sizes": {
+    "compactPublicKey": 33018,
+    "crs": 3431027,
+    "keySet": 1193804535,
+    "memberShare": 450483,
+    "input": 18786,
+    "result": 527833
+  },
+  "resultHandle": "0xeab58498fe1d3545eb2f3059aa74f1bea677bc9f7e624fa1116515627ae81202",
+  "refusedUnderOtherMetadata": true,
+  "decryption": {
+    "value": 42,
+    "members": [
+      {
+        "member": 0,
+        "messagesSent": 9,
+        "bytesSent": 6660,
+        "messagesReceived": 9,
+        "bytesReceived": 6660,
+        "rounds": 3
+      },
+      {
+        "member": 1,
+        "messagesSent": 9,
+        "bytesSent": 6660,
+        "messagesReceived": 9,
+        "bytesReceived": 6660,
+        "rounds": 3
+      },
+      {
+        "member": 2,
+        "messagesSent": 9,
+        "bytesSent": 6660,
+        "messagesReceived": 9,
+        "bytesReceived": 6660,
+        "rounds": 3
+      },
+      {
+        "member": 3,
+        "messagesSent": 9,
+        "bytesSent": 6660,
+        "messagesReceived": 9,
+        "bytesReceived": 6660,
+        "rounds": 3
+      }
+    ],
+    "millis": 9298
+  },
+  "bls": {
+    "commonware": {
+      "maxFaults": 1,
+      "polynomialDegree": 2,
+      "qualifiedSet": "dkg::feldman_desmedt: each dealer broadcasts its commitment polynomial, whose constant term is its share of the group key, with its dealings in the first round; the dealers whose logs count are chosen after that, when the logs are finalized and selected. Commonware documents the consequence itself (feldman_desmedt, 'Non-Uniform Distribution'): an adversary can bias the key by O(lg N) bits, harmless for signing",
+      "qualifiedSetFixedBeforeKeyDependentValues": false,
+      "thresholdParameter": "q: Sharing::required() is the number of partials that recover a signature, n - f with f = N3f1::max_faults(n); the dealers' polynomials have degree q - 1"
+    },
+    "dkg": [
+      {
+        "bytesReceived": 3483,
+        "bytesSent": 3483,
+        "computeMicros": 5943,
+        "ed25519": "0x881c0395d9db538092e6b6dd4e9be25add7909ebfc1399e5dc943fa99ec63bfa",
+        "messagesReceived": 9,
+        "messagesSent": 9,
+        "rounds": 3
+      },
+      {
+        "bytesReceived": 3483,
+        "bytesSent": 3483,
+        "computeMicros": 6340,
+        "ed25519": "0xa30c52b331cf266c943c1e08629cbf37e8b7d8b6304588dd8c5143a457716759",
+        "messagesReceived": 9,
+        "messagesSent": 9,
+        "rounds": 3
+      },
+      {
+        "bytesReceived": 3483,
+        "bytesSent": 3483,
+        "computeMicros": 7697,
+        "ed25519": "0xdf1126833be577a285f6f397103cd3d6ab3f587031e866960e3bfd8b633f6f48",
+        "messagesReceived": 9,
+        "messagesSent": 9,
+        "rounds": 3
+      },
+      {
+        "bytesReceived": 3483,
+        "bytesSent": 3483,
+        "computeMicros": 10809,
+        "ed25519": "0xefebb6795f962690233e6dd917c3142261bb684e89595f3da6121c959967235b",
+        "messagesReceived": 9,
+        "messagesSent": 9,
+        "rounds": 3
+      }
+    ],
+    "identities": [
+      {
+        "ed25519": "0x881c0395d9db538092e6b6dd4e9be25add7909ebfc1399e5dc943fa99ec63bfa",
+        "index": 0,
+        "partialKeyEip2537": "0x0000000000000000000000000000000007c4c5e0a0b70d720af9b72b011719bbc8e46f1d34d72f2144ca30c79d0fd7a6847664f08f665d13b8093a9bcb8bc3ee0000000000000000000000000000000005929a306cb2d3001b5ee8c215bb827db82356fbe55735fddb76b762fd3e430857e1e3b628d477e5b5c20f6ee9c6623e000000000000000000000000000000000062c47bc0fa75f3644ac71a528a8cfa64dcb2fcafb52539980f5246f522da4ce52da6056961aaff88426eeb85ca1c1400000000000000000000000000000000055a4673d44afeb207ae27bc8d70b80c60a091dd938c64b24e6e8db90daee53b83812636498323d6b71405016f681b97"
+      },
+      {
+        "ed25519": "0xa30c52b331cf266c943c1e08629cbf37e8b7d8b6304588dd8c5143a457716759",
+        "index": 1,
+        "partialKeyEip2537": "0x000000000000000000000000000000000b6e6b299fd80ea212af40c1cd4693f8558bc94dcb3e8008bc3222ba5388921b3d9c0da13c04147e5a4f47d198eb97c80000000000000000000000000000000007bbb776546e4ac6f7ed2686247e96c7616a8dfd70030734315313d4f2ae271c21a335a171e3162287470ba678acd9770000000000000000000000000000000014587b645d16d1b878274c9c5a0c9d997d35a61a95c7f651531adfb2c1cd37e9e825363807ac3d95525ed5b604679bf7000000000000000000000000000000000e0dd6aaae593f974725eb47da3fad2822f82650306d75d067e91c125ade8f4b370ec51e7b3095abe8382f8258643949"
+      },
+      {
+        "ed25519": "0xdf1126833be577a285f6f397103cd3d6ab3f587031e866960e3bfd8b633f6f48",
+        "index": 2,
+        "partialKeyEip2537": "0x000000000000000000000000000000000862d846086b83f14abfba8656cc9eb4ed9205980cd5dccddaacdd0d4f6b8dc3b2cca305827dde1ab247c5a9dc78b7cc000000000000000000000000000000000adfdfb496083f1bd41bc19a2e78828e0d6f0df856b8629d4ff541239c76c2a88cf51155b4e148a45e9944f32d5dedcc0000000000000000000000000000000004653cafc0551532108265093fc8458d94ec820a68f55a3461e0bf45302a8bf7eee96f0344beb3f82fb4cf0bc0b413190000000000000000000000000000000012be992bc5108b259b682cb9b58e4cea920046b7ba514433133c410722470c1f57a0e6d3770f75a6dc9f8eff52ba0ba5"
+      },
+      {
+        "ed25519": "0xefebb6795f962690233e6dd917c3142261bb684e89595f3da6121c959967235b",
+        "index": 3,
+        "partialKeyEip2537": "0x0000000000000000000000000000000008277a19150a1c5710812e5c60012220cab90569acec86067f8bd9b686b7cddb4796a32180fbf578e13d10102228bdeb00000000000000000000000000000000019fbf2ee5f497d1f58ad912060ebfb149000d0322b1f88930227ca608105fe550fe2c66d23b07f68807637ceb8f75d000000000000000000000000000000000020e1834bc655e1ea573ab57aac1b9a44543fa3917b35661c63a423943096a3ddc45e2debff70393ab802be1919a6d1600000000000000000000000000000000174bb8e990caddf494f4f138379d25c08e685b3540297b6d79c2beffb277a81f121e0252362d21e490ea1a46372ef1e3"
+      }
+    ],
+    "keyEip2537": "0x00000000000000000000000000000000137604fccd5c013b63d8f1a99d445df800fea8932a385c961b190bd8ae3c48f8ce7a02b48e7e2491650634d4b2cd17bc0000000000000000000000000000000001f0111f282a86c5266d745b39ac189972ed3a8d15fc78f8dcfe1025d940bb2a7a3aad4c6292df863c90218bf9eb1c74000000000000000000000000000000000d9468a9083cb4d775c3bae6d0aa5f7e9594a0761d5e9992a545e15a6c09aa9d4fb767aa5d3a07fc571bb21ef44bfd2e000000000000000000000000000000000fd24f291ebde5f1da94b9086016fdfa9a18e9d5ade80f3962f74e7ba76003ff01e23fd78cdb9ee75cd49177541e9d6f",
+    "members": 4,
+    "quorum": 3
+  },
+  "signed": {
+    "exitOk": true,
+    "belowQuorum": false,
+    "chainId": 8141,
+    "handle": "0xeab58498fe1d3545eb2f3059aa74f1bea677bc9f7e624fa1116515627ae81202",
+    "ignoredLocks": [],
+    "keyEip2537": "0x00000000000000000000000000000000137604fccd5c013b63d8f1a99d445df800fea8932a385c961b190bd8ae3c48f8ce7a02b48e7e2491650634d4b2cd17bc0000000000000000000000000000000001f0111f282a86c5266d745b39ac189972ed3a8d15fc78f8dcfe1025d940bb2a7a3aad4c6292df863c90218bf9eb1c74000000000000000000000000000000000d9468a9083cb4d775c3bae6d0aa5f7e9594a0761d5e9992a545e15a6c09aa9d4fb767aa5d3a07fc571bb21ef44bfd2e000000000000000000000000000000000fd24f291ebde5f1da94b9086016fdfa9a18e9d5ade80f3962f74e7ba76003ff01e23fd78cdb9ee75cd49177541e9d6f",
+    "message": "0x0000000000000000000000000000000000000000000000000000000000001fcdcf6fea1a97963fb615a37cf40a5a99f586a27b55ba356b0cf07c7b8fe22ba575eab58498fe1d3545eb2f3059aa74f1bea677bc9f7e624fa1116515627ae81202000000000000000000000000000000000000000000000000000000000000002a",
+    "namespace": "FRAME_FHE_RESULT_V1",
+    "partials": [
+      {
+        "index": 0,
+        "signatureEip2537": "0x00000000000000000000000000000000098fd1f2c2817ff577a10ceffbd818458e9d1d5b1860b49f64c2b96b178ed65522915a6aa40562773ea80fe7f71935710000000000000000000000000000000009671b9fefc8d4ebeaddd572db1eba4d4cc67524b05996b87ebae799876e2f79af6470c565ebcf0166a4828a1eef1963"
+      },
+      {
+        "index": 1,
+        "signatureEip2537": "0x000000000000000000000000000000000514fcf6bf13afa262c593cbaca62bc8119ce8ce987aba7c01879b64c0388be8dd3a6e70d94e3161e69fac655167dcbe000000000000000000000000000000000be74bc363e7bb410b5cd8cdd0c844b8c60426521e36564c99a52aabe20537acbaf3591a3cd84a79677f548250146a81"
+      },
+      {
+        "index": 2,
+        "signatureEip2537": "0x000000000000000000000000000000000b0c62cc97a4a522a481784f0acb96382e186beea9f1f80b55f15341f9c1639f02d302f4032d9fc4686bca0947f39c03000000000000000000000000000000001676e607f83ac9bfead007d6dbac692b094fbcebaae468556475ed3c77708f941ea705f4c9dc01862a6b4a1034c79eab"
+      }
+    ],
+    "quorum": 3,
+    "refusals": [],
+    "request": "0xcf6fea1a97963fb615a37cf40a5a99f586a27b55ba356b0cf07c7b8fe22ba575",
+    "signature": "0xa10fe2b26c9e5d0388019b8dc30b871ad1a8750eb355060183b3e8a79b8b76b7b75382f9604c0295e3b6ad69e0f0d395",
+    "signatureEip2537": "0x00000000000000000000000000000000010fe2b26c9e5d0388019b8dc30b871ad1a8750eb355060183b3e8a79b8b76b7b75382f9604c0295e3b6ad69e0f0d395000000000000000000000000000000001999d0a7494831c653e476470bfef63259043f30156a32b28a4d8e7c776f383bf3cc1e6dca66828ee06a0d9e42b1e5e0",
+    "signed": true,
+    "signers": [
+      0,
+      1,
+      2
+    ],
+    "value": 42,
+    "verified": true
+  },
+  "below": {
+    "exitOk": true,
+    "belowQuorum": true,
+    "chainId": 8141,
+    "handle": "0xeab58498fe1d3545eb2f3059aa74f1bea677bc9f7e624fa1116515627ae81202",
+    "ignoredLocks": [],
+    "keyEip2537": "0x00000000000000000000000000000000137604fccd5c013b63d8f1a99d445df800fea8932a385c961b190bd8ae3c48f8ce7a02b48e7e2491650634d4b2cd17bc0000000000000000000000000000000001f0111f282a86c5266d745b39ac189972ed3a8d15fc78f8dcfe1025d940bb2a7a3aad4c6292df863c90218bf9eb1c74000000000000000000000000000000000d9468a9083cb4d775c3bae6d0aa5f7e9594a0761d5e9992a545e15a6c09aa9d4fb767aa5d3a07fc571bb21ef44bfd2e000000000000000000000000000000000fd24f291ebde5f1da94b9086016fdfa9a18e9d5ade80f3962f74e7ba76003ff01e23fd78cdb9ee75cd49177541e9d6f",
+    "message": "0x0000000000000000000000000000000000000000000000000000000000001fcdcf6fea1a97963fb615a37cf40a5a99f586a27b55ba356b0cf07c7b8fe22ba575eab58498fe1d3545eb2f3059aa74f1bea677bc9f7e624fa1116515627ae81202000000000000000000000000000000000000000000000000000000000000002a",
+    "namespace": "FRAME_FHE_RESULT_V1",
+    "partials": [
+      {
+        "index": 0,
+        "signatureEip2537": "0x00000000000000000000000000000000098fd1f2c2817ff577a10ceffbd818458e9d1d5b1860b49f64c2b96b178ed65522915a6aa40562773ea80fe7f71935710000000000000000000000000000000009671b9fefc8d4ebeaddd572db1eba4d4cc67524b05996b87ebae799876e2f79af6470c565ebcf0166a4828a1eef1963"
+      },
+      {
+        "index": 1,
+        "signatureEip2537": "0x000000000000000000000000000000000514fcf6bf13afa262c593cbaca62bc8119ce8ce987aba7c01879b64c0388be8dd3a6e70d94e3161e69fac655167dcbe000000000000000000000000000000000be74bc363e7bb410b5cd8cdd0c844b8c60426521e36564c99a52aabe20537acbaf3591a3cd84a79677f548250146a81"
+      }
+    ],
+    "quorum": 3,
+    "refusals": [],
+    "request": "0xcf6fea1a97963fb615a37cf40a5a99f586a27b55ba356b0cf07c7b8fe22ba575",
+    "signature": "0x83bc2fb196b2fd4d5a769611a70a7ee1ce6a004b82f31cbfb67192f978c37a46cedf556872628665565642528e72c59b",
+    "signatureEip2537": "0x0000000000000000000000000000000003bc2fb196b2fd4d5a769611a70a7ee1ce6a004b82f31cbfb67192f978c37a46cedf556872628665565642528e72c59b0000000000000000000000000000000003d75d880afe8be971f3b0575d636c922ed7998eb7df27229ce42920aff86a48a16d8ba4dc487fada3768c4487b10125",
+    "signed": true,
+    "signers": [
+      0,
+      1
+    ],
+    "value": 42,
+    "verified": false
+  },
+  "signRefusedBelowQuorum": true,
+  "secondResult": {
+    "exitOk": false,
+    "ignoredLocks": [],
+    "message": "0x0000000000000000000000000000000000000000000000000000000000001fcdcf6fea1a97963fb615a37cf40a5a99f586a27b55ba356b0cf07c7b8fe22ba575eab58498fe1d3545eb2f3059aa74f1bea677bc9f7e624fa1116515627ae81202000000000000000000000000000000000000000000000000000000000000002b",
+    "partials": 1,
+    "quorum": 3,
+    "refusals": [
+      {
+        "member": 0,
+        "refusal": "Locked { request: \"0xcf6fea1a97963fb615a37cf40a5a99f586a27b55ba356b0cf07c7b8fe22ba575\" }"
+      },
+      {
+        "member": 1,
+        "refusal": "Locked { request: \"0xcf6fea1a97963fb615a37cf40a5a99f586a27b55ba356b0cf07c7b8fe22ba575\" }"
+      },
+      {
+        "member": 2,
+        "refusal": "Locked { request: \"0xcf6fea1a97963fb615a37cf40a5a99f586a27b55ba356b0cf07c7b8fe22ba575\" }"
+      }
+    ],
+    "request": "0xcf6fea1a97963fb615a37cf40a5a99f586a27b55ba356b0cf07c7b8fe22ba575",
+    "signed": false,
+    "signers": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "value": 43
+  },
+  "secondResultCorrupt": {
+    "exitOk": false,
+    "ignoredLocks": [
+      0
+    ],
+    "message": "0x0000000000000000000000000000000000000000000000000000000000001fcdcf6fea1a97963fb615a37cf40a5a99f586a27b55ba356b0cf07c7b8fe22ba575eab58498fe1d3545eb2f3059aa74f1bea677bc9f7e624fa1116515627ae81202000000000000000000000000000000000000000000000000000000000000002b",
+    "partials": 2,
+    "quorum": 3,
+    "refusals": [
+      {
+        "member": 1,
+        "refusal": "Locked { request: \"0xcf6fea1a97963fb615a37cf40a5a99f586a27b55ba356b0cf07c7b8fe22ba575\" }"
+      },
+      {
+        "member": 2,
+        "refusal": "Locked { request: \"0xcf6fea1a97963fb615a37cf40a5a99f586a27b55ba356b0cf07c7b8fe22ba575\" }"
+      }
+    ],
+    "request": "0xcf6fea1a97963fb615a37cf40a5a99f586a27b55ba356b0cf07c7b8fe22ba575",
+    "signed": false,
+    "signers": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "value": 43
+  },
+  "forgeT": {
+    "exitOk": true,
+    "attempts": [
+      {
+        "signatureEip2537": "0x000000000000000000000000000000000c2cce0ff1e760857de40596bbe56a8f468ab1ede78c0ed9f6054a1bd1776e5f4fd3d3daeb1328d20af58716bac2155d0000000000000000000000000000000014b9c229fb532c2bea3470142a26db8e10e72dded00948456e002d41202ee8d24a7c7ad7247775d28d8bc4f03bcb926d",
+        "verified": false,
+        "what": "member 3's partial alone"
+      },
+      {
+        "signatureEip2537": "0x000000000000000000000000000000001010c0b0ccd2c84254b908c82212a77d3591bdf139186aa3986b7115cad8a83f05ad340727470421a324738b752cb572000000000000000000000000000000001854dae53ab997bf103b30d3d3f6ba817fc74646817355ab3c9b0da2137a1495846be0b0cffc7aa73a20351175123ab1",
+        "verified": false,
+        "what": "member 3's partial times its Lagrange weight in quorum [0, 1, 3]"
+      }
+    ],
+    "holds": "each member's own share, and every public value of the DKG: the group sharing (the summed commitments) and every member's partial key",
+    "keyEip2537": "0x00000000000000000000000000000000137604fccd5c013b63d8f1a99d445df800fea8932a385c961b190bd8ae3c48f8ce7a02b48e7e2491650634d4b2cd17bc0000000000000000000000000000000001f0111f282a86c5266d745b39ac189972ed3a8d15fc78f8dcfe1025d940bb2a7a3aad4c6292df863c90218bf9eb1c74000000000000000000000000000000000d9468a9083cb4d775c3bae6d0aa5f7e9594a0761d5e9992a545e15a6c09aa9d4fb767aa5d3a07fc571bb21ef44bfd2e000000000000000000000000000000000fd24f291ebde5f1da94b9086016fdfa9a18e9d5ade80f3962f74e7ba76003ff01e23fd78cdb9ee75cd49177541e9d6f",
+    "members": [
+      3
+    ],
+    "message": "0x0000000000000000000000000000000000000000000000000000000000001fcdcf6fea1a97963fb615a37cf40a5a99f586a27b55ba356b0cf07c7b8fe22ba575eab58498fe1d3545eb2f3059aa74f1bea677bc9f7e624fa1116515627ae81202000000000000000000000000000000000000000000000000000000000000002a"
+  },
+  "forgeQ1": {
+    "exitOk": true,
+    "attempts": [
+      {
+        "signatureEip2537": "0x00000000000000000000000000000000098fd1f2c2817ff577a10ceffbd818458e9d1d5b1860b49f64c2b96b178ed65522915a6aa40562773ea80fe7f71935710000000000000000000000000000000009671b9fefc8d4ebeaddd572db1eba4d4cc67524b05996b87ebae799876e2f79af6470c565ebcf0166a4828a1eef1963",
+        "verified": false,
+        "what": "member 0's partial alone"
+      },
+      {
+        "signatureEip2537": "0x0000000000000000000000000000000012b1add4006a4d356cc21a7022d996b93dc6eef8c8929a078eb2c08bc27c27e5f9ab25bce1b592afe30c56075755bb27000000000000000000000000000000000e823b9c568db62290f1c292786bacd9017f8486fc28cce356301b5c22fa7d36a572dfaa93b89936eedd42ab1064ca16",
+        "verified": false,
+        "what": "member 0's partial times its Lagrange weight in quorum [1, 2, 0]"
+      },
+      {
+        "signatureEip2537": "0x000000000000000000000000000000000514fcf6bf13afa262c593cbaca62bc8119ce8ce987aba7c01879b64c0388be8dd3a6e70d94e3161e69fac655167dcbe000000000000000000000000000000000be74bc363e7bb410b5cd8cdd0c844b8c60426521e36564c99a52aabe20537acbaf3591a3cd84a79677f548250146a81",
+        "verified": false,
+        "what": "member 1's partial alone"
+      },
+      {
+        "signatureEip2537": "0x0000000000000000000000000000000008ba2561c5e17de857662e6cfd8c0164ea48387fe17c04bf9d8f62bd1215d8b9a5bc0811b40fc8bbb09b24507b3256e20000000000000000000000000000000012cda454dd763939b3b601a1355ffe09cf0ddf0c3dadf072e7c71eab4cbdd7150276cc83ed871f1bbe355aaf628d0cf5",
+        "verified": false,
+        "what": "member 1's partial times its Lagrange weight in quorum [0, 2, 1]"
+      },
+      {
+        "signatureEip2537": "0x000000000000000000000000000000000193ecf327d6ea8a4713dcbe7f9f13913b5e5424d8b1b2d907275b6b4a3525a309ce2b199160c7f4fc8d65f4183f739d0000000000000000000000000000000013f299f66b1369282a44932fdc640ae55d1ec7d4f19e6b1557268eaf5713e05cd84725d6d7a316cf527c562136bb4677",
+        "verified": false,
+        "what": "the partials summed"
+      },
+      {
+        "signatureEip2537": "0x0000000000000000000000000000000003bc2fb196b2fd4d5a769611a70a7ee1ce6a004b82f31cbfb67192f978c37a46cedf556872628665565642528e72c59b0000000000000000000000000000000003d75d880afe8be971f3b0575d636c922ed7998eb7df27229ce42920aff86a48a16d8ba4dc487fada3768c4487b10125",
+        "verified": false,
+        "what": "the partials interpolated at zero"
+      }
+    ],
+    "holds": "each member's own share, and every public value of the DKG: the group sharing (the summed commitments) and every member's partial key",
+    "keyEip2537": "0x00000000000000000000000000000000137604fccd5c013b63d8f1a99d445df800fea8932a385c961b190bd8ae3c48f8ce7a02b48e7e2491650634d4b2cd17bc0000000000000000000000000000000001f0111f282a86c5266d745b39ac189972ed3a8d15fc78f8dcfe1025d940bb2a7a3aad4c6292df863c90218bf9eb1c74000000000000000000000000000000000d9468a9083cb4d775c3bae6d0aa5f7e9594a0761d5e9992a545e15a6c09aa9d4fb767aa5d3a07fc571bb21ef44bfd2e000000000000000000000000000000000fd24f291ebde5f1da94b9086016fdfa9a18e9d5ade80f3962f74e7ba76003ff01e23fd78cdb9ee75cd49177541e9d6f",
+    "members": [
+      0,
+      1
+    ],
+    "message": "0x0000000000000000000000000000000000000000000000000000000000001fcdcf6fea1a97963fb615a37cf40a5a99f586a27b55ba356b0cf07c7b8fe22ba575eab58498fe1d3545eb2f3059aa74f1bea677bc9f7e624fa1116515627ae81202000000000000000000000000000000000000000000000000000000000000002a"
+  },
+  "budget": {
+    "nodes": 500000,
+    "eip8141PublicMempool": 100000,
+    "pairingAlone": 102900,
+    "note": "derived from EIP-2537 prices: the check is the ticket paymaster's, 122,006 gas of execution in experiment 04; no BLS check fits 100,000"
+  },
+  "chain": {
+    "rpc": "https://rpc1.privacy.ethrex.xyz",
+    "block": 491465,
+    "hashToCurveEip2537": "0x0000000000000000000000000000000011537329873501499044dfbdeef80bbd4ef09a858a952bd1f15cf3b3a9cd39c1a2d3f785a32de0fb990321acae34f4120000000000000000000000000000000014e3338ebbbc43a5891bb0301f169c1596703aeee8ba4aa372cded6c3958137b24c03389b1fc5d6eec571c1d87a3a21d",
+    "pairingAcceptsSigned": true,
+    "pairingAcceptsBelow": false,
+    "otherRequest": "0xd05353ab635c53833bb27fe01ee7871f1b9a5c665353b761beefbc9caea4c16f",
+    "otherMessage": "0x0000000000000000000000000000000000000000000000000000000000001fcdd05353ab635c53833bb27fe01ee7871f1b9a5c665353b761beefbc9caea4c16feab58498fe1d3545eb2f3059aa74f1bea677bc9f7e624fa1116515627ae81202000000000000000000000000000000000000000000000000000000000000002a",
+    "pairingAcceptsForOtherRequest": false,
+    "pairingAcceptsForged": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "shape": "a rebuilt role: Fhenix's CoFHE node is not public; the coprocessor and the committee follow its documentation over tfhe-rs and threshold-fhe, unmodified. This tests the shape, not the product"
+}

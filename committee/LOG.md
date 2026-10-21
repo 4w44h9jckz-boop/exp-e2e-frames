@@ -105,8 +105,59 @@ the result ciphertext 527,833.
 2. Accept C1's dealt TFHE key for X5, with the reason above, or ask for threshold-fhe's
    distributed keygen to be attempted and its cost recorded instead.
 
-C2: done | exp-e2e-frames 0854ff0, committee/README.md "The witness's share format (fixed)", test/fixtures/committee/c2-2026-10-21.json | needs from wallet: none
-C1: done | exp-e2e-frames d84fb97, committee/README.md "The input format (fixed)" and "The signed result (fixed)", test/fixtures/committee/c1-2026-10-21.json; TFHE key dealt, for the owner | needs from wallet: none
-C3: partial | cmw-monorepo 489e313, feldman_desmedt::run | needs from wallet: none
-C6: not started | none | needs from wallet: none
-C5: not started | none | needs from wallet: none
+## 2026-10-21, first session, continued: the coordinator's three messages, and C1 amended
+
+Three messages from the coordinator reached this session at 00:57, 01:39 and 01:57 and were read
+at 02:26, after C1's first record (02:04) and after experiment 08's first chain attempt had
+started (02:12). They were acted on as follows.
+
+- **Third-party code** (pinned, unmodified, licences recorded; rebuilt roles say they test the
+  shape, not the product): every piece in `committee/pins.json` now names its licence. kohaku-rs
+  states none at its pinned commit: no LICENSE file and no license field. co-snarks' crates used
+  here are MIT OR Apache-2.0; its co-circom and compiler, not used, are GPL-3.0-only. Nothing
+  inside any third party's code was changed, and no change is needed. The C1 and C2 READMEs and
+  C1's record say the roles are rebuilt.
+- **Wording.** `committee/README.md`'s sentence on loopback times followed the brief's words; it
+  is restated in this repository's own words (`8d11262`).
+- **Formats in the library READMEs**: `co-withdraw/README.md` (the witness's share format),
+  `fhe-committee/README.md` (the input format), `bls-committee/README.md` (the signed result,
+  the lock, Commonware's parameters).
+- **C1's amendments**, written into `committee/README.md` before its rerun:
+  - the budget named: 500,000, the testnet nodes'; the pairing alone is 102,900 (derived);
+  - would show it wrong also: a signature accepted for another request; two results for one
+    request each signed;
+  - a lock per request in each member, `q > (n + t)/2` (3 > 2.5);
+  - recorded: Commonware's threshold parameter is `q` (`Sharing::required()`, `n - f`, degree
+    `q - 1`); its Feldman DKG does **not** fix the qualified set before key-dependent values are
+    revealed (each dealer's commitment goes out in round one; Commonware documents the `O(lg N)`
+    bias itself);
+  - `t` members, then `q - 1`, try to forge from their shares and the DKG's public output.
+- **The first C1 record**, made before the amendment was read, is kept unchanged at
+  `test/fixtures/committee/before-amendments/c1-2026-10-21.json`, outside what `npm test` scans.
+- **Experiment 08's first chain attempt** (started 02:12 from `525b303`) was stopped at 02:27,
+  before any spend: only its setup transaction, the funder's nonce 0 (deploy and buy four
+  tickets), was mined. The runner's record was not written, so its hash is not kept; the attempt
+  is void and will be rerun under the amended claim. Its measurement run was stopped too.
+- **The testnet key.** `PRIVATE_KEY` is not set in this session's environment. The repository's
+  own `npm run account` made one in the gitignored `.env` (address `0x58703D6A...79115`), funded
+  from the faucet; it is never printed or committed.
+
+**Result, C1 rerun.** `npx tsx scripts/committee-c1.ts 2026-10-21-amended`, from `8d11262`,
+record `test/fixtures/committee/c1-2026-10-21-amended.json`, chain reads at block 491,465:
+- 41 + 1 decrypted as 42 by four members (9 messages, 6,660 bytes, 3 rounds each; 9.3 s in one
+  process: a LAN time at best);
+- three of four signed; the precompile accepted it, and refused it for another request;
+- a second result (43) for the same request: members 0, 1 and 2 refused (locked), 3 signed: one
+  partial. With member 0 corrupted: 1 and 2 refused, two partials. No signature either time;
+- member 3 alone, and members 0 and 1, with their shares and the DKG's public output: eight
+  forging attempts, every one refused by noble and by the precompile;
+- `npm test`: 61 checks pass.
+
+**For the owner.** Unchanged from the entry above: the pull request for `tooling-committee`, and
+the dealt TFHE key.
+
+C2: done | exp-e2e-frames 0854ff0, co-withdraw/README.md "The witness's share format (fixed)", test/fixtures/committee/c2-2026-10-21.json | needs from wallet: none
+C1: done | exp-e2e-frames 8d11262, fhe-committee/README.md "The input format (fixed)", bls-committee/README.md "The signed result (fixed)", test/fixtures/committee/c1-2026-10-21-amended.json; TFHE key dealt, for the owner | needs from wallet: none
+C3: partial; first chain attempt stopped for the amendments, rerun next | cmw-monorepo 489e313; exp-e2e-frames exp/08-c3-epoch-reshare 525b303 | needs from wallet: none
+C6: partial; runner and checks pushed, amendments next | exp-e2e-frames exp/10-c6-accountable-signers 7902476 | needs from wallet: none
+C5: blocked on reading: ePrint 2024/405 and the Internet Archive are unreachable from this container | none | needs from wallet: none
