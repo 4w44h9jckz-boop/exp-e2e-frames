@@ -1,0 +1,1268 @@
+{
+  "experiment": "13-g5-gradient",
+  "attempt": "1-first-run",
+  "ranAt": "2026-10-21T08:58:21.854Z",
+  "repoCommit": "b1c8d3e785664762c6d31b50a517c5afe56672e4",
+  "pins": {
+    "skandha": {
+      "url": "https://github.com/4w44h9jckz-boop/skandha",
+      "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade"
+    },
+    "exp-frames": {
+      "url": "https://github.com/4w44h9jckz-boop/exp-frames",
+      "commit": "cf5231f88e16291e16f1ee8708d7e20529b985bd"
+    },
+    "kohaku-rs": {
+      "url": "https://github.com/4w44h9jckz-boop/kohaku-rs",
+      "commit": "ab056aba3348b94b682d166c933265ccf21a759d"
+    },
+    "co-snarks": {
+      "url": "https://github.com/TaceoLabs/co-snarks",
+      "commit": "436f63fa17f2f10ece38c6650df68da99fbc0307"
+    }
+  },
+  "client": "ethrex/v23.0.0-hegota-testnet-hotfix-64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c/x86_64-unknown-linux-gnu/rustc-v1.93.1",
+  "commands": [
+    "npx tsx experiments/13-g5-gradient/run.ts",
+    "co-snarks: cargo build --release --bin co-circom; split-input, merge-input-shares, generate-witness -O1, generate-proof groth16, verify groth16",
+    "committee/fhe-committee: setup, encrypt (two owners), verify-input, compare, decrypt; committee/bls-committee: dkg, sign 0,1,2, sign-below 0,1, sign 0,1,2,3 for the other bit",
+    "experiment 06's runner with SEND_RPC_URL at node A; exp-frames experiment 52's pair.ts for the session and the settlement",
+    "skandha: node A with --frames.enable, node B with --frames.enable and --frames.handoff, booted from A"
+  ],
+  "function": {
+    "what": "out = (a > b) over two committed 64-bit bids",
+    "session": "61473580389270703819064519158608226399321219368876706945501033258529609053",
+    "Ca": "8372234425126820244973382057435930691250509689103156582518848898744641888627",
+    "Cb": "4193316947814515498990244142470607565706178917010860834508055963949167020289",
+    "sealedPair": "0xce0b5185AE181091A0e5580414858f90C8244d3d",
+    "alice": "0xb8d790953600179Ef9eDf19AaC5cBA4a0665E455",
+    "bob": "0xc74221E64A63F62FD60260F7C481a54e5a086493",
+    "deadline": "1792576519"
+  },
+  "setup": [
+    {
+      "what": "the funder pays Alice, Bob and the pair",
+      "hash": "0x27871448b4b81b56ac36567b1fd71e2f82bd991d3df782d15c2b6e08762101d8",
+      "block": 495095,
+      "gasUsed": 412230
+    },
+    {
+      "what": "Alice opens the session with Ca and a bond",
+      "hash": "0xebcaf5e14be2bf0476bd55794434cd0705dd2a6e595379fc2c0ed60cc8d21fa8",
+      "block": 495096,
+      "gasUsed": 690231
+    },
+    {
+      "what": "Bob joins with Cb and a bond",
+      "hash": "0x48f2821a96ee1d774f0fce500b384c6f5ad847ace553a5381108a4f2af38bcc9",
+      "block": 495097,
+      "gasUsed": 157885
+    }
+  ],
+  "mpc": {
+    "circuit": {
+      "path": "experiments/52-joint-comparison/joint.circom",
+      "sha256": "c0215a8038f1d0fd9ebcad4aa64d9ce654bfd1b1354a6116e0962791786257aa"
+    },
+    "zkey": {
+      "path": "experiments/52-joint-comparison/build/joint.zkey",
+      "sha256": "d12e609f8fda977e1000ea59b1362ae26b3bc4a28a3de9c9df9517b75190fd3f"
+    },
+    "vkey": {
+      "protocol": "groth16",
+      "curve": "bn128",
+      "nPublic": 4,
+      "vk_alpha_1": [
+        "16428432848801857252194528405604668803277877773566238944394625302971855135431",
+        "16846502678714586896801519656441059708016666274385668027902869494772365009666",
+        "1"
+      ],
+      "vk_beta_2": [
+        [
+          "16348171800823588416173124589066524623406261996681292662100840445103873053252",
+          "3182164110458002340215786955198810119980427837186618912744689678939861918171"
+        ],
+        [
+          "19687132236965066906216944365591810874384658708175106803089633851114028275753",
+          "4920802715848186258981584729175884379674325733638798907835771393452862684714"
+        ],
+        [
+          "1",
+          "0"
+        ]
+      ],
+      "vk_gamma_2": [
+        [
+          "10857046999023057135944570762232829481370756359578518086990519993285655852781",
+          "11559732032986387107991004021392285783925812861821192530917403151452391805634"
+        ],
+        [
+          "8495653923123431417604973247489272438418190587263600148770280649306958101930",
+          "4082367875863433681332203403145435568316851327593401208105741076214120093531"
+        ],
+        [
+          "1",
+          "0"
+        ]
+      ],
+      "vk_delta_2": [
+        [
+          "7072020796438648629516933213423916251899345741730394510665199166388026043827",
+          "10376594728711450518696790478656330822409284756412088496839642514053335486292"
+        ],
+        [
+          "3815508371661039498971461927571419640585634165766397679301043530630336784699",
+          "6578691090291579918738657703706949704654873438986949368871791285951090413134"
+        ],
+        [
+          "1",
+          "0"
+        ]
+      ],
+      "vk_alphabeta_12": [
+        [
+          [
+            "5275725312362878540782176211860327475781113689246818544623830805017503247034",
+            "700769043921060225711174322502145319612473365595920873303028146383045646735"
+          ],
+          [
+            "16577533945604560505206253312979863148043263406037367789711279754781525822966",
+            "9408338099405950952721388539539775335199747835458172188116297223654842340186"
+          ],
+          [
+            "12663399896275491035004982800573482669934131767886952660443268164480899034271",
+            "4432711152773877173921024337047412943791122852326272337530740732443732395954"
+          ]
+        ],
+        [
+          [
+            "13121778684901402722679281862736806628725205381360313795132945954337708567513",
+            "9534744673358550231812045647241180985734073058548683258847806241019905135720"
+          ],
+          [
+            "21329152369227346659770815132468371951064045353268189088026893413117512652875",
+            "17209195434408943681049655974234541356066884378594227002358272904159790622854"
+          ],
+          [
+            "5346467096835895366917814311591075634165750361894629082277248282132405045579",
+            "15508364027636868967189209273443690126627947943852338696115233789046842639684"
+          ]
+        ]
+      ],
+      "IC": [
+        [
+          "16481100921321953832578832897537136588414453010230182237305016792396732706676",
+          "8021966872634703267992169837825369192066788217930652391318219584273864659994",
+          "1"
+        ],
+        [
+          "2498305621868309429276684442091752157361071162556424164705822171366980708932",
+          "11724661428435607581022180779763539516586174296134444739976745816992473305912",
+          "1"
+        ],
+        [
+          "7727704719845120339292401208698836877673510341449436423453020510763340659269",
+          "21127913126640653626393495257254365321719487215515760733583027577580888723121",
+          "1"
+        ],
+        [
+          "11701472682202368434801919731842364056855837007824389093133568252362317287688",
+          "2814548914633972476754781027117094484975162087117586255091195956584369201737",
+          "1"
+        ],
+        [
+          "17916069476811661410818517027414361646476804036896286259222924275999924613297",
+          "13790510038602543502831803134409359741573438712348117230995738043262238536753",
+          "1"
+        ]
+      ]
+    },
+    "attempts": [
+      {
+        "guess": 0,
+        "split": [
+          {
+            "what": "Alice splits her input",
+            "millis": 174,
+            "ok": true,
+            "out": "2026-10-21T08:55:43.244073Z  INFO Starting split input...\n2026-10-21T08:55:43.244264Z  INFO Split input took 0.138 ms\n2026-10-21T08:55:43.244347Z  INFO Wrote input share 0 to file /tmp/g5-yGdsSH/guess-0/a/alice.json.0.shared\n2026-10-21T08:55:43.244378Z  INFO Wrote input share 1 to file /tmp/g5-yGdsSH/guess-0/a/alice.json.1.shared\n2026-10-21T08:55:43.244397Z  INFO Wrote input share 2 to file /tmp/g5-yGdsSH/guess-0/a/alice.json.2.shared\n2026-10-21T08:55:43.244401Z  INFO Split input into shares successfully\n"
+          },
+          {
+            "what": "Bob splits his input",
+            "millis": 166,
+            "ok": true,
+            "out": "2026-10-21T08:55:43.410335Z  INFO Starting split input...\n2026-10-21T08:55:43.410479Z  INFO Split input took 0.106 ms\n2026-10-21T08:55:43.410555Z  INFO Wrote input share 0 to file /tmp/g5-yGdsSH/guess-0/b/bob.json.0.shared\n2026-10-21T08:55:43.410579Z  INFO Wrote input share 1 to file /tmp/g5-yGdsSH/guess-0/b/bob.json.1.shared\n2026-10-21T08:55:43.410603Z  INFO Wrote input share 2 to file /tmp/g5-yGdsSH/guess-0/b/bob.json.2.shared\n2026-10-21T08:55:43.410608Z  INFO Split input into shares successfully\n"
+          }
+        ],
+        "merge": [
+          {
+            "what": "member 0 merges",
+            "millis": 577,
+            "ok": true,
+            "out": "2026-10-21T08:55:43.978833Z  INFO Starting input shares merging...\n2026-10-21T08:55:43.979274Z  INFO Merge input shares took 0.047 ms\n2026-10-21T08:55:43.979397Z  INFO Wrote merged input share to file /tmp/g5-yGdsSH/guess-0/m/in.0.shared\n"
+          },
+          {
+            "what": "member 1 merges",
+            "millis": 591,
+            "ok": true,
+            "out": "2026-10-21T08:55:44.007713Z  INFO Starting input shares merging...\n2026-10-21T08:55:44.007758Z  INFO Merge input shares took 0.008 ms\n2026-10-21T08:55:44.007889Z  INFO Wrote merged input share to file /tmp/g5-yGdsSH/guess-0/m/in.1.shared\n"
+          },
+          {
+            "what": "member 2 merges",
+            "millis": 623,
+            "ok": true,
+            "out": "2026-10-21T08:55:44.045593Z  INFO Starting input shares merging...\n2026-10-21T08:55:44.045644Z  INFO Merge input shares took 0.006 ms\n2026-10-21T08:55:44.045727Z  INFO Wrote merged input share to file /tmp/g5-yGdsSH/guess-0/m/in.2.shared\n"
+          }
+        ],
+        "witness": [
+          {
+            "what": "member 0, the witness",
+            "millis": 663,
+            "ok": false,
+            "out": "",
+            "tail": [
+              "Caused by:",
+              "    Assertion failed during execution on line 73 in component Joint_72",
+              "Location:",
+              "    co-circom/circom-mpc-vm/src/mpc_vm.rs:557:25"
+            ]
+          },
+          {
+            "what": "member 1, the witness",
+            "millis": 650,
+            "ok": false,
+            "out": "",
+            "tail": [
+              "Caused by:",
+              "    Assertion failed during execution on line 73 in component Joint_72",
+              "Location:",
+              "    co-circom/circom-mpc-vm/src/mpc_vm.rs:557:25"
+            ]
+          },
+          {
+            "what": "member 2, the witness",
+            "millis": 648,
+            "ok": false,
+            "out": "",
+            "tail": [
+              "Caused by:",
+              "    Assertion failed during execution on line 73 in component Joint_72",
+              "Location:",
+              "    co-circom/circom-mpc-vm/src/mpc_vm.rs:557:25"
+            ]
+          }
+        ],
+        "witnessMillis": 665
+      },
+      {
+        "guess": 1,
+        "split": [
+          {
+            "what": "Alice splits her input",
+            "millis": 172,
+            "ok": true,
+            "out": "2026-10-21T08:55:44.888434Z  INFO Starting split input...\n2026-10-21T08:55:44.888579Z  INFO Split input took 0.108 ms\n2026-10-21T08:55:44.888655Z  INFO Wrote input share 0 to file /tmp/g5-yGdsSH/guess-1/a/alice.json.0.shared\n2026-10-21T08:55:44.888683Z  INFO Wrote input share 1 to file /tmp/g5-yGdsSH/guess-1/a/alice.json.1.shared\n2026-10-21T08:55:44.888711Z  INFO Wrote input share 2 to file /tmp/g5-yGdsSH/guess-1/a/alice.json.2.shared\n2026-10-21T08:55:44.888715Z  INFO Split input into shares successfully\n"
+          },
+          {
+            "what": "Bob splits his input",
+            "millis": 170,
+            "ok": true,
+            "out": "2026-10-21T08:55:45.059514Z  INFO Starting split input...\n2026-10-21T08:55:45.059661Z  INFO Split input took 0.107 ms\n2026-10-21T08:55:45.059747Z  INFO Wrote input share 0 to file /tmp/g5-yGdsSH/guess-1/b/bob.json.0.shared\n2026-10-21T08:55:45.059821Z  INFO Wrote input share 1 to file /tmp/g5-yGdsSH/guess-1/b/bob.json.1.shared\n2026-10-21T08:55:45.059844Z  INFO Wrote input share 2 to file /tmp/g5-yGdsSH/guess-1/b/bob.json.2.shared\n2026-10-21T08:55:45.059849Z  INFO Split input into shares successfully\n"
+          }
+        ],
+        "merge": [
+          {
+            "what": "member 0 merges",
+            "millis": 562,
+            "ok": true,
+            "out": "2026-10-21T08:55:45.618444Z  INFO Starting input shares merging...\n2026-10-21T08:55:45.618489Z  INFO Merge input shares took 0.006 ms\n2026-10-21T08:55:45.618572Z  INFO Wrote merged input share to file /tmp/g5-yGdsSH/guess-1/m/in.0.shared\n"
+          },
+          {
+            "what": "member 1 merges",
+            "millis": 587,
+            "ok": true,
+            "out": "2026-10-21T08:55:45.653046Z  INFO Starting input shares merging...\n2026-10-21T08:55:45.653096Z  INFO Merge input shares took 0.005 ms\n2026-10-21T08:55:45.653172Z  INFO Wrote merged input share to file /tmp/g5-yGdsSH/guess-1/m/in.1.shared\n"
+          },
+          {
+            "what": "member 2 merges",
+            "millis": 442,
+            "ok": true,
+            "out": "2026-10-21T08:55:45.514092Z  INFO Starting input shares merging...\n2026-10-21T08:55:45.514140Z  INFO Merge input shares took 0.005 ms\n2026-10-21T08:55:45.514215Z  INFO Wrote merged input share to file /tmp/g5-yGdsSH/guess-1/m/in.2.shared\n"
+          }
+        ],
+        "witness": [
+          {
+            "what": "member 0, the witness",
+            "millis": 763,
+            "ok": true,
+            "out": "2026-10-21T08:55:46.284611Z  INFO Starting witness generation...\n2026-10-21T08:55:46.409407Z  INFO Generate witness took 124.761 ms\n2026-10-21T08:55:46.409666Z  INFO Witness successfully written to /tmp/g5-yGdsSH/guess-1/m/w.0.shared\n"
+          },
+          {
+            "what": "member 1, the witness",
+            "millis": 748,
+            "ok": true,
+            "out": "2026-10-21T08:55:46.349535Z  INFO Starting witness generation...\n2026-10-21T08:55:46.409219Z  INFO Generate witness took 59.637 ms\n2026-10-21T08:55:46.409497Z  INFO Witness successfully written to /tmp/g5-yGdsSH/guess-1/m/w.1.shared\n"
+          },
+          {
+            "what": "member 2, the witness",
+            "millis": 739,
+            "ok": true,
+            "out": "2026-10-21T08:55:46.329985Z  INFO Starting witness generation...\n2026-10-21T08:55:46.409295Z  INFO Generate witness took 79.254 ms\n2026-10-21T08:55:46.409498Z  INFO Witness successfully written to /tmp/g5-yGdsSH/guess-1/m/w.2.shared\n"
+          }
+        ],
+        "witnessMillis": 763,
+        "proving": [
+          {
+            "what": "member 0, the proof",
+            "millis": 230,
+            "ok": true,
+            "out": "2026-10-21T08:55:46.433490Z  INFO Starting proof generation...\n2026-10-21T08:55:46.649400Z  INFO Generate proof took 105.895 ms\n2026-10-21T08:55:46.649451Z  INFO Wrote proof to file /tmp/g5-yGdsSH/guess-1/m/proof.0.json\n2026-10-21T08:55:46.650637Z  INFO Wrote public inputs to file /tmp/g5-yGdsSH/guess-1/public.json\n2026-10-21T08:55:46.650688Z  INFO Proof generation finished successfully\n"
+          },
+          {
+            "what": "member 1, the proof",
+            "millis": 221,
+            "ok": true,
+            "out": "2026-10-21T08:55:46.440663Z  INFO Starting proof generation...\n2026-10-21T08:55:46.649039Z  INFO Generate proof took 104.666 ms\n2026-10-21T08:55:46.649151Z  INFO Wrote proof to file /tmp/g5-yGdsSH/guess-1/m/proof.1.json\n2026-10-21T08:55:46.650564Z  INFO Proof generation finished successfully\n"
+          },
+          {
+            "what": "member 2, the proof",
+            "millis": 214,
+            "ok": true,
+            "out": "2026-10-21T08:55:46.446658Z  INFO Starting proof generation...\n2026-10-21T08:55:46.648982Z  INFO Generate proof took 107.397 ms\n2026-10-21T08:55:46.649125Z  INFO Wrote proof to file /tmp/g5-yGdsSH/guess-1/m/proof.2.json\n2026-10-21T08:55:46.649358Z  INFO Proof generation finished successfully\n"
+          }
+        ],
+        "provingMillis": 230,
+        "verify": {
+          "what": "the proof against experiment 52's verifying key",
+          "millis": 15,
+          "ok": true
+        },
+        "publicSignals": [
+          "8372234425126820244973382057435930691250509689103156582518848898744641888627",
+          "4193316947814515498990244142470607565706178917010860834508055963949167020289",
+          "61473580389270703819064519158608226399321219368876706945501033258529609053",
+          "1"
+        ],
+        "membersAgree": true,
+        "rebuilt": [
+          {
+            "members": [
+              0,
+              1
+            ],
+            "input": "a",
+            "rebuilds": true
+          },
+          {
+            "members": [
+              0,
+              1
+            ],
+            "input": "b",
+            "rebuilds": true
+          },
+          {
+            "members": [
+              1,
+              2
+            ],
+            "input": "a",
+            "rebuilds": true
+          },
+          {
+            "members": [
+              1,
+              2
+            ],
+            "input": "b",
+            "rebuilds": true
+          },
+          {
+            "members": [
+              2,
+              0
+            ],
+            "input": "a",
+            "rebuilds": true
+          },
+          {
+            "members": [
+              2,
+              0
+            ],
+            "input": "b",
+            "rebuilds": true
+          }
+        ]
+      }
+    ],
+    "out": 1,
+    "proof": {
+      "pi_a": [
+        "10401891692049379019569932417553424194752881246555174860028734673904601890174",
+        "4295120619876846846632558457544039445622329109376835256037707371493268983517",
+        "1"
+      ],
+      "pi_b": [
+        [
+          "21517786312221815239910451285020521164494727108384914401762062457667582964279",
+          "13416065429762162768661750176571401763281180331106953963237701640422114802925"
+        ],
+        [
+          "6064443640726764479043017541391759060279508645185368987147781273887545274116",
+          "16008409451510183560796289351249741561108272848116268218250801603426378463521"
+        ],
+        [
+          "1",
+          "0"
+        ]
+      ],
+      "pi_c": [
+        "15480414139196650734339459753323558004932450783802239133419500822625620550942",
+        "13353300589736474605670661465795302577197879563867580749819529863028621334978",
+        "1"
+      ],
+      "protocol": "groth16",
+      "curve": "bn128"
+    },
+    "loopback": {
+      "txBytes": 1238678,
+      "txPackets": 6721,
+      "note": "all three members, both directions, TLS included, over every attempt; nothing else was running on the loopback"
+    },
+    "network": "three members as three processes on one machine over loopback TCP with TLS: a LAN time at best",
+    "twoMembers": [
+      {
+        "what": "member 0, the witness, member 2 absent",
+        "millis": 60009,
+        "ok": false,
+        "out": "",
+        "tail": [
+          "timeout 60 /home/user/e2e-g5/work/target-cocircom/release/co-circom generate-witness -O1 --config /tmp/g5-yGdsSH/party0.toml --input /tmp/g5-yGdsSH/guess-1/m/in.0.shared --circuit /home/user/e2e-g5/work/exp-frames-cf5231f88e16/experiments/52-joint-comparison/joint.circom --protocol REP3 --curve BN254 --out /tmp/g5-yGdsSH/guess-1/m/two.0.shared exited 124"
+        ]
+      },
+      {
+        "what": "member 1, the witness, member 2 absent",
+        "millis": 60007,
+        "ok": false,
+        "out": "",
+        "tail": [
+          "timeout 60 /home/user/e2e-g5/work/target-cocircom/release/co-circom generate-witness -O1 --config /tmp/g5-yGdsSH/party1.toml --input /tmp/g5-yGdsSH/guess-1/m/in.1.shared --circuit /home/user/e2e-g5/work/exp-frames-cf5231f88e16/experiments/52-joint-comparison/joint.circom --protocol REP3 --curve BN254 --out /tmp/g5-yGdsSH/guess-1/m/two.1.shared exited 124"
+        ]
+      }
+    ],
+    "settle": {
+      "what": "the MPC committee's settlement, its proof checked in SealedPair's VERIFY",
+      "raw": "0x06f901e4821fcde09f22caf5d32925aa83a9dae555b0bae61abfc90514174fe88a367a841cb4555d8094ce0b5185ae181091a0e5580414858f90c8244d3df901a1e60180940000000000000000000000000000000000008141c4821388808088000000006ad88c07ce010380c8830493e083017e808080f90168028094ce0b5185ae181091a0e5580414858f90c8244d3dc8830249f083017e8080b901447314ecea0022caf5d32925aa83a9dae555b0bae61abfc90514174fe88a367a841cb4555d000000000000000000000000000000000000000000000000000000000000000116ff43166de930c8ddf1c56a5926c522f881afb48f0e0dabd5031c762bfb7d7e097ef3be36401b876093ebfee6ebab946382b3357b321305ac65e6f608fd0edd1da9395419da48498e5b8875cd2f7b2144d487c87b2c566af3f394b2aca93ced2f92a2ad627c332102e1676017285978033ce1d0e44430528ebfb57abc1032372364704c00ad2934d44c7a08f376322481981e4f165a0bb3ad6cf8346fee39210d685a7c86dcfa023076d74d3b3bf5dde4b0a991d1f99096b645dc96e4b8af0422399a996728df3a8687a909ad61ee599c84c973c4a0dc6f0ebaa753c863651e1d85b346cb56437e7dc2c6c8ab11f13962e77b44d2fdfd02b5d200421ba259c2c0c3016480c0",
+      "hash": "0xc5d988b97e2b2a9bc67d57c571a174e030a011c4dcbf177d4f8dc6fdd179d495",
+      "simulation": {
+        "executionError": null,
+        "executionStatus": "success",
+        "frames": [
+          {
+            "gasUsed": "0xbeb",
+            "succeeded": true
+          },
+          {
+            "gasUsed": "0x35d41",
+            "succeeded": true
+          },
+          {
+            "gasUsed": "0xd66a",
+            "succeeded": true
+          }
+        ],
+        "gasUsed": "0x7861f",
+        "maxCost": "0x3fdd3e4",
+        "payer": "0xce0b5185ae181091a0e5580414858f90c8244d3d",
+        "prefixShape": "SelfVerify",
+        "valid": true,
+        "violation": null
+      },
+      "answer": {
+        "result": "0xc5d988b97e2b2a9bc67d57c571a174e030a011c4dcbf177d4f8dc6fdd179d495"
+      }
+    },
+    "flipped": {
+      "what": "the same proof with the bit flipped",
+      "raw": "0x06f901e4821fcde09f22caf5d32925aa83a9dae555b0bae61abfc90514174fe88a367a841cb4555d8094ce0b5185ae181091a0e5580414858f90c8244d3df901a1e60180940000000000000000000000000000000000008141c4821388808088000000006ad88c07ce010380c8830493e083017e808080f90168028094ce0b5185ae181091a0e5580414858f90c8244d3dc8830249f083017e8080b901447314ecea0022caf5d32925aa83a9dae555b0bae61abfc90514174fe88a367a841cb4555d000000000000000000000000000000000000000000000000000000000000000016ff43166de930c8ddf1c56a5926c522f881afb48f0e0dabd5031c762bfb7d7e097ef3be36401b876093ebfee6ebab946382b3357b321305ac65e6f608fd0edd1da9395419da48498e5b8875cd2f7b2144d487c87b2c566af3f394b2aca93ced2f92a2ad627c332102e1676017285978033ce1d0e44430528ebfb57abc1032372364704c00ad2934d44c7a08f376322481981e4f165a0bb3ad6cf8346fee39210d685a7c86dcfa023076d74d3b3bf5dde4b0a991d1f99096b645dc96e4b8af0422399a996728df3a8687a909ad61ee599c84c973c4a0dc6f0ebaa753c863651e1d85b346cb56437e7dc2c6c8ab11f13962e77b44d2fdfd02b5d200421ba259c2c0c3016480c0",
+      "hash": "0x21f50485f667200f56c1c16553fa88f8867a24ece6e4a5d9cd023ef2f715fa5e",
+      "simulation": {
+        "executionError": null,
+        "executionStatus": null,
+        "frames": null,
+        "gasUsed": null,
+        "maxCost": "0x3fdcf34",
+        "payer": null,
+        "prefixShape": "SelfVerify",
+        "valid": false,
+        "violation": "validation prefix frame reverted"
+      },
+      "answer": {
+        "error": "eth_sendRawTransaction: {\"code\":-32000,\"message\":\"ErrFramePrefixReverted: validation prefix frame reverted\"}"
+      }
+    },
+    "settleFrames": [
+      {
+        "gasUsed": 3051,
+        "stateGasUsed": 0,
+        "status": "0x1"
+      },
+      {
+        "gasUsed": 220481,
+        "stateGasUsed": 97920,
+        "status": "0x1"
+      },
+      {
+        "gasUsed": 54890,
+        "stateGasUsed": 97920,
+        "status": "0x1"
+      }
+    ]
+  },
+  "fhe": {
+    "steps": [
+      {
+        "what": "setup: the dealt key and its shares",
+        "millis": 31284,
+        "ok": true
+      },
+      {
+        "what": "Alice encrypts her bid with a proof of knowledge",
+        "millis": 3247,
+        "ok": true
+      },
+      {
+        "what": "Bob encrypts his bid with a proof of knowledge",
+        "millis": 2942,
+        "ok": true
+      },
+      {
+        "what": "the committee checks Alice's proof",
+        "millis": 2148,
+        "ok": true
+      },
+      {
+        "what": "the committee checks Bob's proof",
+        "millis": 2444,
+        "ok": true
+      },
+      {
+        "what": "the coprocessor compares",
+        "millis": 3770,
+        "ok": true
+      },
+      {
+        "what": "all four members decrypt",
+        "millis": 3416,
+        "ok": true
+      }
+    ],
+    "decryption": {
+      "value": 1,
+      "members": [
+        {
+          "member": 0,
+          "messagesSent": 9,
+          "bytesSent": 6660,
+          "messagesReceived": 9,
+          "bytesReceived": 6660,
+          "rounds": 3
+        },
+        {
+          "member": 1,
+          "messagesSent": 9,
+          "bytesSent": 6660,
+          "messagesReceived": 9,
+          "bytesReceived": 6660,
+          "rounds": 3
+        },
+        {
+          "member": 2,
+          "messagesSent": 9,
+          "bytesSent": 6660,
+          "messagesReceived": 9,
+          "bytesReceived": 6660,
+          "rounds": 3
+        },
+        {
+          "member": 3,
+          "messagesSent": 9,
+          "bytesSent": 6660,
+          "messagesReceived": 9,
+          "bytesReceived": 6660,
+          "rounds": 3
+        }
+      ],
+      "millis": 697
+    },
+    "dkg": {
+      "millis": 46,
+      "ok": true
+    },
+    "quorum": {
+      "verified": true,
+      "signers": [
+        0,
+        1,
+        2
+      ],
+      "keyEip2537": "0x000000000000000000000000000000000a5504345ffaec172051c1aa1f7ee6a61c90a51e3edcb7f2bf0189ce12eb4487a73a5fc8971c232dedd65fe41c82fdab000000000000000000000000000000000d80dc5eb806cc88018301780c575c140d1faa41ecb671891110146188f92bb2c22394921acd441d225f809bfe600e76000000000000000000000000000000000c451b598a9535fe53bfff0452a12c4631ddaacb77b319ee8ea9b209dee24f691cea3a49c1b2ca922e0c52ffab9310cc0000000000000000000000000000000018b389a63035ba016e3bb2802e18dd8d45f76e426c4bddef7da6703797ca6e771d8e024f9532dd951e8b033c8122d007",
+      "value": 1
+    },
+    "below": {
+      "verified": false,
+      "signers": [
+        0,
+        1
+      ],
+      "belowQuorum": true
+    },
+    "second": {
+      "refusals": [
+        {
+          "member": 0,
+          "refusal": "Locked { request: \"0xe83406225ecdf31a3f75472d97315157240062b05a47eebd7e6e98be11977560\" }"
+        },
+        {
+          "member": 1,
+          "refusal": "Locked { request: \"0xe83406225ecdf31a3f75472d97315157240062b05a47eebd7e6e98be11977560\" }"
+        },
+        {
+          "member": 2,
+          "refusal": "Locked { request: \"0xe83406225ecdf31a3f75472d97315157240062b05a47eebd7e6e98be11977560\" }"
+        }
+      ],
+      "value": 0
+    },
+    "request": "0xe83406225ecdf31a3f75472d97315157240062b05a47eebd7e6e98be11977560",
+    "network": "the committee: every member in one process on one machine, in memory; a LAN time at best",
+    "result": {
+      "board": "0x9121e06f6727cde34b57f60d186c6dfd444f1af5",
+      "boardCodeBytes": 1520,
+      "chainId": 8141,
+      "key": "0x000000000000000000000000000000000a5504345ffaec172051c1aa1f7ee6a61c90a51e3edcb7f2bf0189ce12eb4487a73a5fc8971c232dedd65fe41c82fdab000000000000000000000000000000000d80dc5eb806cc88018301780c575c140d1faa41ecb671891110146188f92bb2c22394921acd441d225f809bfe600e76000000000000000000000000000000000c451b598a9535fe53bfff0452a12c4631ddaacb77b319ee8ea9b209dee24f691cea3a49c1b2ca922e0c52ffab9310cc0000000000000000000000000000000018b389a63035ba016e3bb2802e18dd8d45f76e426c4bddef7da6703797ca6e771d8e024f9532dd951e8b033c8122d007",
+      "mined": {
+        "block": "0x78e10",
+        "gasUsed": "0x39d7f",
+        "hash": "0x829e0ab800286d730bda0b7f2b4ff4f3457cd9791b7771c8a39d35cbdee031d4",
+        "status": "0x1"
+      },
+      "results": {
+        "below": {
+          "handle": "0xc02b136e766723c99bdc45e37680fe640938429fdf8a15c9b8798e3f20c3d38a",
+          "request": "0xe83406225ecdf31a3f75472d97315157240062b05a47eebd7e6e98be11977560",
+          "signatureEip2537": "0x00000000000000000000000000000000063c3a520f28e100c6a26c6d4ee987bb7596f52dd3e235868e431a233274a82a7ab5e77e671d9d3cfa3ec17dcf45c24b000000000000000000000000000000001888b79b649aa71b94682817f3816c067be3b0759fb6d0dc3c1e7275510ea660522df57c3d86c41296fcf55a1443b44a",
+          "value": 1
+        },
+        "otherRequest": "0x1b7a8bb87f6a3fa31449d490b5ce63cd2cdef310248d8b30484b3276c8283b07",
+        "quorum": {
+          "handle": "0xc02b136e766723c99bdc45e37680fe640938429fdf8a15c9b8798e3f20c3d38a",
+          "request": "0xe83406225ecdf31a3f75472d97315157240062b05a47eebd7e6e98be11977560",
+          "signatureEip2537": "0x00000000000000000000000000000000104beb72a07173e69ba0a03821e42323063d9894080a34c1ebf75b03d4254f1fa5791c3c00dd36591f4bac36fb37120e0000000000000000000000000000000018a61e34d5a4783b8c152406a07a5bde36cdfee3e151b14fa4127edd73853a4f51003f0a47341730a64cb3f77e7e0cef",
+          "value": 1
+        }
+      },
+      "salt": "0x1c2091d3708c8f7d6ccfeee36d72fb1e52edfad3b95af87b022cf5af55b64d08",
+      "sent": [
+        {
+          "answer": {
+            "error": "server returned an error response: error code -32000: ErrFramePrefixReverted: validation prefix frame reverted"
+          },
+          "hash": "0xbfee08ae5d6c441380d00edf813f08f096d0187771dc1ed2f752e49d287cea86",
+          "raw": "0x06f901c2821fcde1a0e83406225ecdf31a3f75472d97315157240062b05a47eebd7e6e98be1197756080949121e06f6727cde34b57f60d186c6dfd444f1af5f90176f8ef010380c88303d09083017e8080b8e0e83406225ecdf31a3f75472d97315157240062b05a47eebd7e6e98be11977560c02b136e766723c99bdc45e37680fe640938429fdf8a15c9b8798e3f20c3d38a000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000063c3a520f28e100c6a26c6d4ee987bb7596f52dd3e235868e431a233274a82a7ab5e77e671d9d3cfa3ec17dcf45c24b000000000000000000000000000000001888b79b649aa71b94682817f3816c067be3b0759fb6d0dc3c1e7275510ea660522df57c3d86c41296fcf55a1443b44af8830280949121e06f6727cde34b57f60d186c6dfd444f1af5c4824e208080b864f3f65e7ee83406225ecdf31a3f75472d97315157240062b05a47eebd7e6e98be11977560c02b136e766723c99bdc45e37680fe640938429fdf8a15c9b8798e3f20c3d38a0000000000000000000000000000000000000000000000000000000000000001c0cb843b9aca00843b9aca0e80c0",
+          "simulation": {
+            "executionError": null,
+            "executionStatus": null,
+            "frames": null,
+            "gasUsed": null,
+            "maxCost": "0x15e8dc76502a4",
+            "payer": null,
+            "prefixShape": "SelfVerify",
+            "valid": false,
+            "violation": "validation prefix frame reverted"
+          },
+          "to": "node A",
+          "what": "below the quorum: two members' signature"
+        },
+        {
+          "answer": {
+            "error": "server returned an error response: error code -32000: ErrFramePrefixReverted: validation prefix frame reverted"
+          },
+          "hash": "0x84e0dffcb28b2da310f15c8d72e47cb8873e73e1f3087230628ae78bda1f28ca",
+          "raw": "0x06f901c2821fcde1a01b7a8bb87f6a3fa31449d490b5ce63cd2cdef310248d8b30484b3276c8283b0780949121e06f6727cde34b57f60d186c6dfd444f1af5f90176f8ef010380c88303d09083017e8080b8e01b7a8bb87f6a3fa31449d490b5ce63cd2cdef310248d8b30484b3276c8283b07c02b136e766723c99bdc45e37680fe640938429fdf8a15c9b8798e3f20c3d38a000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000104beb72a07173e69ba0a03821e42323063d9894080a34c1ebf75b03d4254f1fa5791c3c00dd36591f4bac36fb37120e0000000000000000000000000000000018a61e34d5a4783b8c152406a07a5bde36cdfee3e151b14fa4127edd73853a4f51003f0a47341730a64cb3f77e7e0ceff8830280949121e06f6727cde34b57f60d186c6dfd444f1af5c4824e208080b864f3f65e7e1b7a8bb87f6a3fa31449d490b5ce63cd2cdef310248d8b30484b3276c8283b07c02b136e766723c99bdc45e37680fe640938429fdf8a15c9b8798e3f20c3d38a0000000000000000000000000000000000000000000000000000000000000001c0cb843b9aca00843b9aca0e80c0",
+          "simulation": {
+            "executionError": null,
+            "executionStatus": null,
+            "frames": null,
+            "gasUsed": null,
+            "maxCost": "0x15e935de7f3f4",
+            "payer": null,
+            "prefixShape": "SelfVerify",
+            "valid": false,
+            "violation": "validation prefix frame reverted"
+          },
+          "to": "node A",
+          "what": "the quorum's signature presented for another request"
+        },
+        {
+          "answer": {
+            "result": "0x829e0ab800286d730bda0b7f2b4ff4f3457cd9791b7771c8a39d35cbdee031d4"
+          },
+          "hash": "0x829e0ab800286d730bda0b7f2b4ff4f3457cd9791b7771c8a39d35cbdee031d4",
+          "raw": "0x06f901c2821fcde1a0e83406225ecdf31a3f75472d97315157240062b05a47eebd7e6e98be1197756080949121e06f6727cde34b57f60d186c6dfd444f1af5f90176f8ef010380c88303d09083017e8080b8e0e83406225ecdf31a3f75472d97315157240062b05a47eebd7e6e98be11977560c02b136e766723c99bdc45e37680fe640938429fdf8a15c9b8798e3f20c3d38a000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000104beb72a07173e69ba0a03821e42323063d9894080a34c1ebf75b03d4254f1fa5791c3c00dd36591f4bac36fb37120e0000000000000000000000000000000018a61e34d5a4783b8c152406a07a5bde36cdfee3e151b14fa4127edd73853a4f51003f0a47341730a64cb3f77e7e0ceff8830280949121e06f6727cde34b57f60d186c6dfd444f1af5c4824e208080b864f3f65e7ee83406225ecdf31a3f75472d97315157240062b05a47eebd7e6e98be11977560c02b136e766723c99bdc45e37680fe640938429fdf8a15c9b8798e3f20c3d38a0000000000000000000000000000000000000000000000000000000000000001c0cb843b9aca00843b9aca0e80c0",
+          "simulation": {
+            "executionError": null,
+            "executionStatus": "success",
+            "frames": [
+              {
+                "gasUsed": "0x1d340",
+                "succeeded": true
+              },
+              {
+                "gasUsed": "0x75d",
+                "succeeded": true
+              }
+            ],
+            "gasUsed": "0x39d7f",
+            "maxCost": "0x15e8afc2389fc",
+            "payer": "0x9121e06f6727cde34b57f60d186c6dfd444f1af5",
+            "prefixShape": "SelfVerify",
+            "valid": true,
+            "violation": null
+          },
+          "to": "node A",
+          "what": "the result the quorum signed"
+        },
+        {
+          "answer": {
+            "error": "server returned an error response: error code -32000: ErrFramePrefixReverted: validation prefix frame reverted"
+          },
+          "hash": "0xc0e4c6e245175d8a0a917284c196bfa4de5e2a2712aa2666aee97accfa2d0593",
+          "raw": "0x06f901c2821fcde1a0e83406225ecdf31a3f75472d97315157240062b05a47eebd7e6e98be1197756080949121e06f6727cde34b57f60d186c6dfd444f1af5f90176f8ef010380c88303d09083017e8080b8e0e83406225ecdf31a3f75472d97315157240062b05a47eebd7e6e98be11977560c02b136e766723c99bdc45e37680fe640938429fdf8a15c9b8798e3f20c3d38a000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000104beb72a07173e69ba0a03821e42323063d9894080a34c1ebf75b03d4254f1fa5791c3c00dd36591f4bac36fb37120e0000000000000000000000000000000018a61e34d5a4783b8c152406a07a5bde36cdfee3e151b14fa4127edd73853a4f51003f0a47341730a64cb3f77e7e0ceff8830280949121e06f6727cde34b57f60d186c6dfd444f1af5c4824e208080b864f3f65e7ee83406225ecdf31a3f75472d97315157240062b05a47eebd7e6e98be11977560c02b136e766723c99bdc45e37680fe640938429fdf8a15c9b8798e3f20c3d38a0000000000000000000000000000000000000000000000000000000000000002c0cb844190ab00844190ab1080c0",
+          "simulation": {
+            "executionError": null,
+            "executionStatus": null,
+            "frames": null,
+            "gasUsed": null,
+            "maxCost": "0x18198e22a9f20",
+            "payer": null,
+            "prefixShape": "SelfVerify",
+            "valid": false,
+            "violation": "validation prefix frame reverted"
+          },
+          "to": "node A",
+          "what": "a second result for the same request, another value, fees bumped, while the first is pending"
+        },
+        {
+          "answer": {
+            "error": "server returned an error response: error code -32000: ErrNonceTooLow"
+          },
+          "hash": "0x829e0ab800286d730bda0b7f2b4ff4f3457cd9791b7771c8a39d35cbdee031d4",
+          "raw": "0x06f901c2821fcde1a0e83406225ecdf31a3f75472d97315157240062b05a47eebd7e6e98be1197756080949121e06f6727cde34b57f60d186c6dfd444f1af5f90176f8ef010380c88303d09083017e8080b8e0e83406225ecdf31a3f75472d97315157240062b05a47eebd7e6e98be11977560c02b136e766723c99bdc45e37680fe640938429fdf8a15c9b8798e3f20c3d38a000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000104beb72a07173e69ba0a03821e42323063d9894080a34c1ebf75b03d4254f1fa5791c3c00dd36591f4bac36fb37120e0000000000000000000000000000000018a61e34d5a4783b8c152406a07a5bde36cdfee3e151b14fa4127edd73853a4f51003f0a47341730a64cb3f77e7e0ceff8830280949121e06f6727cde34b57f60d186c6dfd444f1af5c4824e208080b864f3f65e7ee83406225ecdf31a3f75472d97315157240062b05a47eebd7e6e98be11977560c02b136e766723c99bdc45e37680fe640938429fdf8a15c9b8798e3f20c3d38a0000000000000000000000000000000000000000000000000000000000000001c0cb843b9aca00843b9aca0e80c0",
+          "simulation": {
+            "executionError": null,
+            "executionStatus": null,
+            "frames": null,
+            "gasUsed": null,
+            "maxCost": "0x15e8afc2389fc",
+            "payer": null,
+            "prefixShape": "SelfVerify",
+            "valid": false,
+            "violation": "Invalid Transaction: Nonce mismatch: expected 1, got 0"
+          },
+          "to": "node A",
+          "what": "the same result again, once mined"
+        }
+      ],
+      "setup": {
+        "block": "0x78e0e",
+        "gasUsed": "0x283b61",
+        "hash": "0x3ee5e53ca310b1219f2c6908fc8e953e5026c80b311a57cf342bc56e78e83cf6",
+        "raw": "0x06f906f5821fcdc1801994a131d9454d87957dcc465fb37acd9b383648b4d5f90680ca010380c4824e20808080f9064c0280944e59b44847b379578588920ca78fbf26c0b4956cc883050c808326d90080b906281c2091d3708c8f7d6ccfeee36d72fb1e52edfad3b95af87b022cf5af55b64d086101006104f0806100185f39813860ff19018239015ff3fe60aa3314610026575f3560e01c63f3f65e7e14610021573661001d57005b5f80fd5b610263565b600ab06001600282b31461003657005b61001d5760026009b00361001d57600360065fb30361001d5760e0360361001d576002806001b30361001d57305f6001b30361001d5760086001b361001d5760036001b361001d57606460046001b30361001d5763f3f65e7e60015fb160e01c0361001d575f5b6003811061024957506001600eb00361001d576001b061001d5760015f525f35602052600fb060405f200361001d57662386f26fc100006006b01161001d5760403661020037601360f81b610240527f4652414d455f4648455f524553554c545f56310000000000000000000000000061024152466102545260605f61027437600160f71b6102d4525f6102d6535f5160206103b05f395f51905f526102d7526b5357555f524f5f504f505f2b60a01b6102f7526101596102a7565b610100515f5160206103b05f395f51905f52610161526b5357555f524f5f504f505f2b60a01b6101815260015f5b6005821061021f5750505061019a6102d0565b6101a261033c565b6080610700604061060060105afa1561001d576080610780604061064060105afa1561001d5760806060610900376101006103f0610980396080610a80610100610700600b5afa1561001d576101003860ff1901610b003960205f610300610900600f5afa1561001d5760015f510361001d5761021d6103a8565b005b821861014052806101605360016104005f19830160051b01610240816102bd565b51910190610187565b8060051b6001813591600401b10361001d5760010161009d565b30330361001d576064360361001d576024355f526044356020526004357faa1d5f0b25dff41865d3df1899cb9e93857ce12817e5b56639e6b89079e31f9060405fa2005b602061010061010361020060025afa1561001d57565b602090604d61014060025afa1561001d57565b6040610500526001610520526030610540526104005161056052610420516105805260016105a0535f5160206103d05f395f51905f526105a1526f1eabfffeb153ffffb9feffffffffaaab60801b6105c1525f61060052603061061060d161050060055afa1561001d57565b6040610500526001610520526030610540526104405161056052610460516105805260016105a0535f5160206103d05f395f51905f526105a1526f1eabfffeb153ffffb9feffffffffaaab60801b6105c1525f61064052603061065060d161050060055afa1561001d57565b60035f80aa56fe424c535f5349475f424c53313233383147315f584d443a5348412d3235365f531a0111ea397fe69a4b1ba7b6434bacd764774b84f38512bf6730d2a0f6b0f62400000000000000000000000000000000024aa2b2f08f0a91260805272dc51051c6e47ad4fa403b02b4510b647ae3d1770bac0326a805bbefd48056c8c121bdb80000000000000000000000000000000013e02b6052719f607dacd3a088274f65596bd0d09920b61ab5da61bbdc7f5049334cf11213945d57e5ac7d055d042b7e000000000000000000000000000000000d1b3cc2c7027888be51d9ef691d77bcb679afda66c73f17f9ee3837a55024f78c71363275a75d75d86bab79f74782aa0000000000000000000000000000000013fa4d4a0ad8b1ce186ed5061789213d993923066dddaf1040bc3ff59f825c78df74f2d75467e25e0f55f8a00fa030ed000000000000000000000000000000000a5504345ffaec172051c1aa1f7ee6a61c90a51e3edcb7f2bf0189ce12eb4487a73a5fc8971c232dedd65fe41c82fdab000000000000000000000000000000000d80dc5eb806cc88018301780c575c140d1faa41ecb671891110146188f92bb2c22394921acd441d225f809bfe600e76000000000000000000000000000000000c451b598a9535fe53bfff0452a12c4631ddaacb77b319ee8ea9b209dee24f691cea3a49c1b2ca922e0c52ffab9310cc0000000000000000000000000000000018b389a63035ba016e3bb2802e18dd8d45f76e426c4bddef7da6703797ca6e771d8e024f9532dd951e8b033c8122d007e50280949121e06f6727cde34b57f60d186c6dfd444f1af5c48227108087470de4df82000080f848f846018080b84100ce267e482f4515078f64cdfcfeb0436f76b2bf99cf87bb6d376230de237bc3b9442d701b541a3a30250423ef719c0f7e1dbd5cff3e2ee7f03f84c2e823275377cb843b9aca00843b9aca0e80c0"
+      }
+    },
+    "resultFrames": [
+      {
+        "gasUsed": 119616,
+        "stateGasUsed": 97920,
+        "status": "0x1"
+      },
+      {
+        "gasUsed": 1885,
+        "stateGasUsed": 0,
+        "status": "0x1"
+      }
+    ]
+  },
+  "carried": {
+    "direct coordination: experiment 52, S1, the joint proof settled": {
+      "hash": "0x13b84f26eeb5e26e6f3a177633b62ee7634b4c19964aacde8eb02b450b4eb108",
+      "mined": true,
+      "block": 491469,
+      "blockHash": "0x20fc08c4995a43824052c0a819fa053544b1cf726b0d7f0b8402df8becd571b1",
+      "status": "0x1",
+      "sender": "0xce0b5185ae181091a0e5580414858f90c8244d3d",
+      "payer": "0xce0b5185ae181091a0e5580414858f90c8244d3d",
+      "signatures": 0,
+      "frames": [
+        {
+          "gasUsed": 3051,
+          "stateGasUsed": 0,
+          "status": "0x1"
+        },
+        {
+          "gasUsed": 220481,
+          "stateGasUsed": 97920,
+          "status": "0x1"
+        },
+        {
+          "gasUsed": 54890,
+          "stateGasUsed": 97920,
+          "status": "0x1"
+        }
+      ],
+      "frameStatuses": [
+        "0x1",
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 493099
+    },
+    "direct coordination: experiment 52, S5, one prover's proof settled the same way": {
+      "hash": "0xad49fd2a7df996864765f145bb51873e6b4b58bc90ef02775b5f5183c7ceefd6",
+      "mined": true,
+      "block": 491495,
+      "blockHash": "0x3928245007cbc59f9493def296e22b0dbaa7912d81a20d0892b6382c2d93be84",
+      "status": "0x1",
+      "sender": "0xce0b5185ae181091a0e5580414858f90c8244d3d",
+      "payer": "0xce0b5185ae181091a0e5580414858f90c8244d3d",
+      "signatures": 0,
+      "frames": [
+        {
+          "gasUsed": 3051,
+          "stateGasUsed": 0,
+          "status": "0x1"
+        },
+        {
+          "gasUsed": 220481,
+          "stateGasUsed": 97920,
+          "status": "0x1"
+        },
+        {
+          "gasUsed": 54890,
+          "stateGasUsed": 97920,
+          "status": "0x1"
+        }
+      ],
+      "frameStatuses": [
+        "0x1",
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 493063
+    },
+    "enclave: experiment 51, A, the output on its attestation": {
+      "hash": "0xe294edcc0ea04cba5846032f6b70ee4fae4b0bb572b174028b4d7a34e4ed7cc2",
+      "mined": true,
+      "block": 491265,
+      "blockHash": "0x30f66086efceb5ccb2986d3edf93bc0747ee11c27d1d8c69392f1fe7929f0864",
+      "status": "0x1",
+      "sender": "0x8a93f51d44199c074fc0bf0f28358f27ffd17938",
+      "payer": "0x8a93f51d44199c074fc0bf0f28358f27ffd17938",
+      "signatures": 0,
+      "frames": [
+        {
+          "gasUsed": 9696,
+          "stateGasUsed": 97920,
+          "status": "0x1"
+        },
+        {
+          "gasUsed": 2636,
+          "stateGasUsed": 0,
+          "status": "0x1"
+        }
+      ],
+      "frameStatuses": [
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 152278
+    },
+    "enclave: experiment 51, B, the output on its proof": {
+      "hash": "0xd6a2834ce5e9ac8581672507586dc1776ff93b6d411a323ede79767c7a665540",
+      "mined": true,
+      "block": 491266,
+      "blockHash": "0x8a6cec0cdf9f641f975fe6631fbb99656e60bc3b038c3959d289bc768a29cf36",
+      "status": "0x1",
+      "sender": "0x8a93f51d44199c074fc0bf0f28358f27ffd17938",
+      "payer": "0x8a93f51d44199c074fc0bf0f28358f27ffd17938",
+      "signatures": 0,
+      "frames": [
+        {
+          "gasUsed": 245699,
+          "stateGasUsed": 97920,
+          "status": "0x1"
+        },
+        {
+          "gasUsed": 2636,
+          "stateGasUsed": 0,
+          "status": "0x1"
+        }
+      ],
+      "frameStatuses": [
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 368405
+    }
+  },
+  "nodes": [
+    {
+      "name": "A",
+      "peerId": "16Uiu2HAmVf8SGyBZRpqL7tjuwkC8Bw5PnUBNnbUNkyFQwQNszrZR",
+      "handoff": false,
+      "peers": [
+        "16Uiu2HAm9Zy6NDXzARxCEWfM5721kaPfdXgissKUdBXBjiWYYQPb"
+      ],
+      "start": {
+        "t": "2026-10-21T08:57:39.270Z",
+        "node": "A",
+        "event": "start",
+        "profile": "hegota-testnet",
+        "head": 495115,
+        "handoff": false,
+        "claims": false,
+        "binding": false
+      },
+      "lines": {
+        "0xc5d988b97e2b2a9bc67d57c571a174e030a011c4dcbf177d4f8dc6fdd179d495": [
+          {
+            "t": "2026-10-21T08:57:44.382Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0xc5d988b97e2b2a9bc67d57c571a174e030a011c4dcbf177d4f8dc6fdd179d495",
+            "result": "ok",
+            "client": "valid",
+            "head": 495116
+          },
+          {
+            "t": "2026-10-21T08:57:44.384Z",
+            "node": "A",
+            "event": "relay",
+            "hash": "0xc5d988b97e2b2a9bc67d57c571a174e030a011c4dcbf177d4f8dc6fdd179d495",
+            "peers": 1
+          },
+          {
+            "t": "2026-10-21T08:57:49.667Z",
+            "node": "A",
+            "event": "head",
+            "head": 495117,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0xc5d988b97e2b2a9bc67d57c571a174e030a011c4dcbf177d4f8dc6fdd179d495"
+            ],
+            "pending": []
+          }
+        ],
+        "0x21f50485f667200f56c1c16553fa88f8867a24ece6e4a5d9cd023ef2f715fa5e": [
+          {
+            "t": "2026-10-21T08:57:44.898Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0x21f50485f667200f56c1c16553fa88f8867a24ece6e4a5d9cd023ef2f715fa5e",
+            "result": "ErrFramePrefixReverted",
+            "client": "validation prefix frame reverted",
+            "head": 495116
+          }
+        ],
+        "0xbfee08ae5d6c441380d00edf813f08f096d0187771dc1ed2f752e49d287cea86": [
+          {
+            "t": "2026-10-21T08:58:09.868Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0xbfee08ae5d6c441380d00edf813f08f096d0187771dc1ed2f752e49d287cea86",
+            "result": "ErrFramePrefixReverted",
+            "client": "validation prefix frame reverted",
+            "head": 495119
+          }
+        ],
+        "0x84e0dffcb28b2da310f15c8d72e47cb8873e73e1f3087230628ae78bda1f28ca": [
+          {
+            "t": "2026-10-21T08:58:10.463Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0x84e0dffcb28b2da310f15c8d72e47cb8873e73e1f3087230628ae78bda1f28ca",
+            "result": "ErrFramePrefixReverted",
+            "client": "validation prefix frame reverted",
+            "head": 495119
+          }
+        ],
+        "0x829e0ab800286d730bda0b7f2b4ff4f3457cd9791b7771c8a39d35cbdee031d4": [
+          {
+            "t": "2026-10-21T08:58:10.999Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0x829e0ab800286d730bda0b7f2b4ff4f3457cd9791b7771c8a39d35cbdee031d4",
+            "result": "ok",
+            "client": "valid",
+            "head": 495119
+          },
+          {
+            "t": "2026-10-21T08:58:11.000Z",
+            "node": "A",
+            "event": "relay",
+            "hash": "0x829e0ab800286d730bda0b7f2b4ff4f3457cd9791b7771c8a39d35cbdee031d4",
+            "peers": 1
+          },
+          {
+            "t": "2026-10-21T08:58:13.680Z",
+            "node": "A",
+            "event": "head",
+            "head": 495120,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0x829e0ab800286d730bda0b7f2b4ff4f3457cd9791b7771c8a39d35cbdee031d4"
+            ],
+            "pending": []
+          },
+          {
+            "t": "2026-10-21T08:58:21.304Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0x829e0ab800286d730bda0b7f2b4ff4f3457cd9791b7771c8a39d35cbdee031d4",
+            "result": "ErrNonceTooLow",
+            "head": 495121
+          }
+        ],
+        "0xc0e4c6e245175d8a0a917284c196bfa4de5e2a2712aa2666aee97accfa2d0593": [
+          {
+            "t": "2026-10-21T08:58:11.573Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0xc0e4c6e245175d8a0a917284c196bfa4de5e2a2712aa2666aee97accfa2d0593",
+            "result": "ErrFramePrefixReverted",
+            "client": "validation prefix frame reverted",
+            "head": 495119
+          }
+        ]
+      }
+    },
+    {
+      "name": "B",
+      "peerId": "16Uiu2HAm9Zy6NDXzARxCEWfM5721kaPfdXgissKUdBXBjiWYYQPb",
+      "handoff": true,
+      "peers": [
+        "16Uiu2HAmVf8SGyBZRpqL7tjuwkC8Bw5PnUBNnbUNkyFQwQNszrZR"
+      ],
+      "start": {
+        "t": "2026-10-21T08:57:42.699Z",
+        "node": "B",
+        "event": "start",
+        "profile": "hegota-testnet",
+        "head": 495115,
+        "handoff": true,
+        "claims": false,
+        "binding": false
+      },
+      "lines": {
+        "0xc5d988b97e2b2a9bc67d57c571a174e030a011c4dcbf177d4f8dc6fdd179d495": [
+          {
+            "t": "2026-10-21T08:57:45.239Z",
+            "node": "B",
+            "event": "gossip",
+            "from": "16Uiu2HAmVf8SGyBZRpqL7tjuwkC8Bw5PnUBNnbUNkyFQwQNszrZR",
+            "hash": "0xc5d988b97e2b2a9bc67d57c571a174e030a011c4dcbf177d4f8dc6fdd179d495",
+            "result": "ok",
+            "client": "valid",
+            "outcome": "accept",
+            "head": 495116
+          },
+          {
+            "t": "2026-10-21T08:57:45.360Z",
+            "node": "B",
+            "event": "handoff",
+            "hash": "0xc5d988b97e2b2a9bc67d57c571a174e030a011c4dcbf177d4f8dc6fdd179d495",
+            "agrees": true
+          },
+          {
+            "t": "2026-10-21T08:57:50.109Z",
+            "node": "B",
+            "event": "head",
+            "head": 495117,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0xc5d988b97e2b2a9bc67d57c571a174e030a011c4dcbf177d4f8dc6fdd179d495"
+            ],
+            "pending": []
+          }
+        ],
+        "0x21f50485f667200f56c1c16553fa88f8867a24ece6e4a5d9cd023ef2f715fa5e": [],
+        "0xbfee08ae5d6c441380d00edf813f08f096d0187771dc1ed2f752e49d287cea86": [],
+        "0x84e0dffcb28b2da310f15c8d72e47cb8873e73e1f3087230628ae78bda1f28ca": [],
+        "0x829e0ab800286d730bda0b7f2b4ff4f3457cd9791b7771c8a39d35cbdee031d4": [
+          {
+            "t": "2026-10-21T08:58:11.515Z",
+            "node": "B",
+            "event": "gossip",
+            "from": "16Uiu2HAmVf8SGyBZRpqL7tjuwkC8Bw5PnUBNnbUNkyFQwQNszrZR",
+            "hash": "0x829e0ab800286d730bda0b7f2b4ff4f3457cd9791b7771c8a39d35cbdee031d4",
+            "result": "ok",
+            "client": "valid",
+            "outcome": "accept",
+            "head": 495119
+          },
+          {
+            "t": "2026-10-21T08:58:11.633Z",
+            "node": "B",
+            "event": "handoff",
+            "hash": "0x829e0ab800286d730bda0b7f2b4ff4f3457cd9791b7771c8a39d35cbdee031d4",
+            "agrees": true
+          },
+          {
+            "t": "2026-10-21T08:58:14.153Z",
+            "node": "B",
+            "event": "head",
+            "head": 495120,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0x829e0ab800286d730bda0b7f2b4ff4f3457cd9791b7771c8a39d35cbdee031d4"
+            ],
+            "pending": []
+          }
+        ],
+        "0xc0e4c6e245175d8a0a917284c196bfa4de5e2a2712aa2666aee97accfa2d0593": []
+      }
+    }
+  ],
+  "chain": {
+    "0x27871448b4b81b56ac36567b1fd71e2f82bd991d3df782d15c2b6e08762101d8": {
+      "hash": "0x27871448b4b81b56ac36567b1fd71e2f82bd991d3df782d15c2b6e08762101d8",
+      "mined": true,
+      "block": 495095,
+      "blockHash": "0x414512f09150c6dd2dcca9c0a8b4d88269971ec6afd7772bf0a98d6233a045eb",
+      "status": "0x1",
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "payer": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "signatures": 1,
+      "frames": 4,
+      "frameStatuses": [
+        "0x1",
+        "0x1",
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 412230
+    },
+    "0xebcaf5e14be2bf0476bd55794434cd0705dd2a6e595379fc2c0ed60cc8d21fa8": {
+      "hash": "0xebcaf5e14be2bf0476bd55794434cd0705dd2a6e595379fc2c0ed60cc8d21fa8",
+      "mined": true,
+      "block": 495096,
+      "blockHash": "0x977b58174efdf91ad95c9e71a61b7928fc4d4fad12f49c2104f4ea7a06f2b4e6",
+      "status": "0x1",
+      "sender": "0xb8d790953600179ef9edf19aac5cba4a0665e455",
+      "payer": "0xb8d790953600179ef9edf19aac5cba4a0665e455",
+      "signatures": 1,
+      "frames": 2,
+      "frameStatuses": [
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 690231
+    },
+    "0x48f2821a96ee1d774f0fce500b384c6f5ad847ace553a5381108a4f2af38bcc9": {
+      "hash": "0x48f2821a96ee1d774f0fce500b384c6f5ad847ace553a5381108a4f2af38bcc9",
+      "mined": true,
+      "block": 495097,
+      "blockHash": "0x79a07317e8225d36cd9beb4225aa23a01eb8085e4090b76228920b07923845f8",
+      "status": "0x1",
+      "sender": "0xc74221e64a63f62fd60260f7c481a54e5a086493",
+      "payer": "0xc74221e64a63f62fd60260f7c481a54e5a086493",
+      "signatures": 1,
+      "frames": 2,
+      "frameStatuses": [
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 157885
+    },
+    "0x3ee5e53ca310b1219f2c6908fc8e953e5026c80b311a57cf342bc56e78e83cf6": {
+      "hash": "0x3ee5e53ca310b1219f2c6908fc8e953e5026c80b311a57cf342bc56e78e83cf6",
+      "mined": true,
+      "block": 495118,
+      "blockHash": "0xdc2d9f0a05b30e6b1866460fbb98751110eb2aa4a0f55db607123a32a1a48ad2",
+      "status": "0x1",
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "payer": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "signatures": 1,
+      "frames": 3,
+      "frameStatuses": [
+        "0x1",
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 2636641
+    },
+    "0xc5d988b97e2b2a9bc67d57c571a174e030a011c4dcbf177d4f8dc6fdd179d495": {
+      "hash": "0xc5d988b97e2b2a9bc67d57c571a174e030a011c4dcbf177d4f8dc6fdd179d495",
+      "mined": true,
+      "block": 495117,
+      "blockHash": "0x98a9892370efa2a96ae5e64d1546e63f19de9d808c4df9b9f62c73b3b8ad6689",
+      "status": "0x1",
+      "sender": "0xce0b5185ae181091a0e5580414858f90c8244d3d",
+      "payer": "0xce0b5185ae181091a0e5580414858f90c8244d3d",
+      "signatures": 0,
+      "frames": 3,
+      "frameStatuses": [
+        "0x1",
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 493087
+    },
+    "0x21f50485f667200f56c1c16553fa88f8867a24ece6e4a5d9cd023ef2f715fa5e": {
+      "hash": "0x21f50485f667200f56c1c16553fa88f8867a24ece6e4a5d9cd023ef2f715fa5e",
+      "mined": false,
+      "known": false
+    },
+    "0xbfee08ae5d6c441380d00edf813f08f096d0187771dc1ed2f752e49d287cea86": {
+      "hash": "0xbfee08ae5d6c441380d00edf813f08f096d0187771dc1ed2f752e49d287cea86",
+      "mined": false,
+      "known": false
+    },
+    "0x84e0dffcb28b2da310f15c8d72e47cb8873e73e1f3087230628ae78bda1f28ca": {
+      "hash": "0x84e0dffcb28b2da310f15c8d72e47cb8873e73e1f3087230628ae78bda1f28ca",
+      "mined": false,
+      "known": false
+    },
+    "0x829e0ab800286d730bda0b7f2b4ff4f3457cd9791b7771c8a39d35cbdee031d4": {
+      "hash": "0x829e0ab800286d730bda0b7f2b4ff4f3457cd9791b7771c8a39d35cbdee031d4",
+      "mined": true,
+      "block": 495120,
+      "blockHash": "0xabe6f64fd5db833b29631f09f7700bd188cb04f4040f91805022e83b948e1b34",
+      "status": "0x1",
+      "sender": "0x9121e06f6727cde34b57f60d186c6dfd444f1af5",
+      "payer": "0x9121e06f6727cde34b57f60d186c6dfd444f1af5",
+      "signatures": 0,
+      "frames": 2,
+      "frameStatuses": [
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 236927
+    },
+    "0xc0e4c6e245175d8a0a917284c196bfa4de5e2a2712aa2666aee97accfa2d0593": {
+      "hash": "0xc0e4c6e245175d8a0a917284c196bfa4de5e2a2712aa2666aee97accfa2d0593",
+      "mined": false,
+      "known": false
+    }
+  }
+}

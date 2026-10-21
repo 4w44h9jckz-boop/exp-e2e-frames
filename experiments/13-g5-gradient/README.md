@@ -1,8 +1,9 @@
 # Experiment 13: one sealed comparison at every step of the trust gradient
 
-**Status: written before any transaction.** This README states the claim, the cells it
-predicts, how each row is measured, what would show it wrong and the plan. The runner and the
-offline checks follow, and are pushed before the first transaction.
+**Status: run.** The claim, the predicted cells and the methods were pushed before any code
+(`e8e204f`, worded at `95d8a43`), and the runner and checks before the first transaction
+(`b1c8d3e`). Run 1 is `results/1-first-run.json`, and the results are at the end. Of the 24
+predicted cells, one was measured otherwise.
 
 **The function.** Two owners each hold a 64-bit bid, `a` and `b`, and have each committed to it
 with $C = \mathrm{Poseidon}(x, r)$. The output is one bit, $\mathrm{out} = [a > b]$. The
@@ -113,3 +114,76 @@ A malicious member or owner. Both committees are semi-honest here, as their libr
 REP3 member who deviates from the protocol can leak another party's secret through the proof,
 and this repository's committee signs whatever it decrypts. The enclave is simulated: what it hides from its operator is not
 tested, only what the chain can check.
+
+## Results, run 1
+
+Run 1 (2026-10-21, recorded at 08:58 UTC; setup in blocks 495,095 to 495,097), against
+`ethrex/v23.0.0-hegota-testnet-hotfix-64b8fc09`. Alice bid 700 and Bob 650, as in experiment 52,
+so the bit is 1. `npx vitest run test/x13.test.ts`: 12 of 12 checks pass.
+
+**The two columns run here, end to end.**
+- **MPC committee.**
+  - Each owner split its own input and each member merged its shares.
+  - The guess `out = 0` stopped all three members at the circuit's line 73,
+    `out === gt[5][0]`, in about 0.65 s: the check opened one bit, that the guess was wrong.
+  - With `out = 1` the witness took 0.76 s and the three members' proof 0.23 s. They agreed
+    on one proof, which experiment 52's verifying key accepts, its public signals
+    `(Ca, Cb, session, 1)`.
+  - Sent to node A, it reached B by gossip and left through B alone. It settled the session
+    in block 495,117, 493,087 gas, with SealedPair as sender and payer. The same proof with the
+    bit flipped was refused, `ErrFramePrefixReverted`.
+- **FHE committee.**
+  - Each owner encrypted its bid with a proof of knowledge bound to the session and to itself,
+    about 3 s each, and the committee checked both proofs, about 2.3 s each.
+  - The coprocessor compared them in 3.8 s, and all four members decrypted the bit, 1.
+  - Three of four signed it. Two members' signature was refused at node A, and so was the
+    quorum's signature for another request.
+  - All three asked to sign the other bit refused, each with `Locked`.
+  - The result, sent to node A, reached B by gossip, left through B alone and was mined in
+    block 495,120, 236,927 gas. A second result and the replay were refused.
+
+**The chain cannot tell three of the routes apart.** The MPC committee's settlement used, frame
+for frame, the gas experiment 52's joint proof used and the gas one prover's proof used:
+expiry 3,051, `VERIFY` 220,481 with 97,920 state gas, settle 54,890 with 97,920. All three are
+proofs of one statement under one key, through one contract. Which of them a session settled
+by is visible only off chain.
+
+### The table
+
+M: measured in this run. C: carried, from the record named, read back from the chain in this
+run where it is a transaction. R: read from the code or the scheme, not measured. A cell in
+bold was measured otherwise than predicted.
+
+| Row | Direct coordination | MPC committee | FHE committee | Enclave, attestation | Enclave, proof |
+|---|---|---|---|---|---|
+| Who sees the plaintext | its owner only: at every stop the other had learned nothing but ciphertexts, or the bit (C, 52) | no one directly; any two members' input shares rebuild both bids, all three pairs tried (M) | **one process, the setup, held the whole key before splitting it, so one party could decrypt alone unless it erased the key (R, the committee's code)**; four members decrypt (M) | the enclave, which holds the key the bids are encrypted to (C, 51) | the same (C, 51) |
+| What privacy rests on | the joint protocol and its Paillier key, held by Alice; semi-honest (C, 52) | no two members pooling their shares (M) | the key's holders not pooling, and the dealer's erasure (R) | the enclave and its operator (C, 51) | the same (C, 51) |
+| Who must be online | both owners (C, 52) | every member: two without the third timed out at 60 s (M) | all four to decrypt (R, the committee's code); three of four to sign: two were refused (M) | the operator (R) | the operator (R) |
+| Fairness | none by cryptography; the bonds price an abort: Bob, stopping after Alice's share had shown him the bit, lost his bond to her (C, 52, S4) | the members learn the bit first, when the check opens it, and could stop before proving; the owners' bonds return at the deadline (M, R) | the members learn the bit first, at decryption, and could stop before signing; nothing on chain is locked (M, R) | the enclave learns the bit first | the same |
+| What the output says | the bit: Alice learns $b < 700$, Bob learns $a > 650$ | the same | the same | the same | the same |
+| Operator left | none past the session (C, 52) | none that can evaluate again; the input shares, if kept, still rebuild these bids (M) | the key, for every later input (R) | a machine and its keys (C, 51) | the same |
+
+### The rows added
+
+| Row | Direct coordination | MPC committee | FHE committee | Enclave, attestation | Enclave, proof |
+|---|---|---|---|---|---|
+| Who can get a false bit accepted, and what catches it | no one: the verifier checks the proof against both commitments; `out` flipped refused (C, 52) | no one, all three members together included: the same check; `out` flipped refused (M) | any three members: the contract checks only their signature, and nothing on chain checks the bit (R); the lock refused a second bit only because the members kept it (M) | the attestation key's holder: a wrong output and a measurement that never ran were both accepted in simulation (C, 51, D1 and D2) | no one: the proof binds the ciphertexts and the bit (C, 51, D3) |
+| Rounds and bytes per party | 11 round trips; Alice sent 2,452,736 B, Bob 1,275,648 B (C, 52) | not counted by the tool: 1,238,678 B on the loopback for all three members, both directions, TLS included, over both attempts (M) | decryption: 3 rounds, 9 messages and 6,660 B per member (M) | one round: each owner posts a 96-byte ciphertext (C, 51) | the same, with 256 bytes of proof (C, 51) |
+| Latency, and over what | witness 9.8 s, prover 132.8 s, both owners in one process (C, 52) | witness 0.76 s and proof 0.23 s, after a 0.65 s failed guess; three processes over loopback TLS (M) | encryption about 3 s per owner; proof checks about 2.3 s each; comparison 3.8 s; decryption 0.7 s inside 3.4 s; in one process (M) | 3.7 s from process start (C, 51) | the same run (C, 51) |
+| What stopping partway costs, and who knows the bit then | see Fairness; every abort left the one who did not abort at least what it put in (C, 52) | the members, after the check: no settlement, bonds back at the deadline (R) | the members, after decryption: no result (R) | the enclave | the enclave |
+| `VERIFY` gas and the whole transaction | 220,481; 493,099 (C, 52, S1) | 220,481; 493,087 (M) | 119,616; 236,927 (M) | 9,696; 152,278 (C, 51, A) | 245,699; 368,405 (C, 51, B) |
+| Against 500,000 and 100,000 | fits; over | fits; over | fits; over | fits both | fits; over |
+| Post-quantum status of what it rests on | Groth16 on BN254 and Paillier: neither survives; the Poseidon commitments are a hash (R) | Groth16 on BN254: does not survive; REP3's sharing is information-theoretic (R) | the TFHE ciphertexts are lattice-based; the input proof is over BLS12-446 and the signature is BLS12-381: neither survives (R) | P-256: does not survive (R) | Groth16 on BN254: does not survive (R) |
+
+**The cell measured otherwise.** For the FHE committee the prediction named a quorum of key
+holders as the parties that could decrypt. The committee's key was dealt: its setup, one
+process, made the whole key and then split it. Until that process erases the key, one party can
+decrypt alone. The privacy row predicted the erasure; the plaintext row did not, and the run's
+setup shows it. A distributed key generation would remove the dealer; it is priced in the
+committee's own README and not built.
+
+**What it does not show.** Malicious owners or members, for both committees. A committee that
+returns a proof can stop the session, but cannot get a false bit accepted; a committee that
+returns a signature can do both. The enclave is simulated, and its columns are carried, not run
+here.
+
