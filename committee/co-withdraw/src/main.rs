@@ -61,8 +61,8 @@ enum Cmd {
         id: usize,
         #[arg(long)]
         share: PathBuf,
-        /// The three members' addresses, in member order, comma-separated
-        #[arg(long, value_delimiter = ',', num_args = 3)]
+        /// The three members' addresses, in member order: comma-separated, or as three values
+        #[arg(long, value_delimiter = ',', num_args = 1..=3)]
         peers: Vec<SocketAddr>,
         #[arg(long)]
         out: PathBuf,
