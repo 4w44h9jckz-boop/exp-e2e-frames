@@ -308,3 +308,51 @@ The update and the stopped committee are not rerun.
 - **The run** is `npx tsx experiments/07-x6-committee-proof/run.ts 4-pricing-addendum
   --pricing-addendum`.
 
+
+## Results, the pricing addendum (`results/4-pricing-addendum.json`)
+
+Run on 2026-10-21, recorded at 12:37 UTC, against
+`ethrex/v23.0.0-hegota-testnet-hotfix-64b8fc09`, with kohaku-rs at `bf818dc`. A first attempt
+stopped while building, when the machine's disk filled. It wrote no record and sent nothing. The
+run below is the second attempt. `npx vitest run test/x6.test.ts`: 19 pass, and run 3's 1
+expected failure still fails as marked.
+
+**Not observed: none of the three things that would show the addendum wrong.**
+- **Every field a node reads is equal.**
+  - Both withdrawals were sent to node A, reached B by gossip, and left through B alone. Each
+    was mined unsigned, with the pool as sender and payer: the device's in block 497,198, the
+    committee's in block 497,203.
+  - Both carry no signature, one nonce key, the same two fee fields, and the same four frames,
+    by mode, flags, target, value and selector.
+  - The limits are 10,000 / 400,000 / 100,000 / 50,000, the state gas 0 / 97,920 / 183,600 /
+    0, and the data lengths 72 / 0 / 516 / 0, in both.
+  - Both proofs commit to a fee of 173,077,600,000,000 wei.
+  - What differs is what the claim allows: the roots, since each example deposited its own note
+    and proved at once, the nullifiers, the recipients and the proofs.
+- **The device's withdrawal at the defaults was admitted and mined.** Every frame succeeded.
+- **The refund returned most of the higher fee.**
+
+  | | Run 3, priced from a simulation | The addendum, the default |
+  |---|---:|---:|
+  | fee in the note, wei | 150,658,200,000,000 | 173,077,600,000,000 |
+  | refunded to the recipient, wei | 91,343,995,848,006 | 111,265,795,673,174 |
+  | the note's net cost, fee less refund, wei | 59,314,204,151,994 | 61,811,804,326,826 |
+
+  The fee rose by 22,419,400,000,000 wei. The net cost rose by 2,497,600,174,832 wei, about 4.2
+  percent (*derived*). So the refund returned all but about a ninth of the rise.
+
+**What the 4.2 percent is.** The pool keeps the difference between its bound on the charge and
+the gas actually charged. The pool's bound counts each frame's limit. The refund frame's limit
+is 50,000 under the default against 25,000 before, so the pool's margin grew by 25,000 gas at
+the transaction's effective price of about 0.1 gwei. What the pool kept rose by
+2,500,000,175,000 wei, which is the whole rise in net cost. The gas actually charged was the
+same within 2,400,000,168 wei.
+
+**Visible only after inclusion.** The two transactions used 579,649 and 579,685 gas. Their
+calldata differs in the proof's and the inputs' bytes, and a zero byte costs less than a
+non-zero one. A node sees neither figure before it admits a transaction. Once mined, the chain
+shows both, as it would for any two withdrawals.
+
+So with one pricing for both routes, the claim's first condition holds. A node cannot tell a
+withdrawal the device proved from one a committee proved, and the two share one anonymity set.
+The price is about 4 percent of the note's net cost in this pool, which the pool keeps.
