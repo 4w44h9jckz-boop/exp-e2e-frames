@@ -126,8 +126,8 @@ the paymaster's `VERIFY` gas and its data in bytes:
   aggregate form used 322,587 gas and the individual form 427,801, under the testnet nodes'
   500,000; at 5, 10 and 13 every accountable spend was mined well under it. Not shown wrong.
   Neither form fits EIP-8141's 100,000, and nor does the threshold check, at 122,006.
-- **The control.** `k` ECDSA signatures cost about 3,514 gas each: cheaper than BLS up to about
-  32 members, dearer above, and at 256 (171 signers) the declared budget passed 500,000 and the
+- **The control.** `k` ECDSA signatures cost about 3,514 gas each: cheaper than the aggregate BLS
+  form up to 64 members (155,246 against 171,227 gas), dearer from 128 (306,357 against 220,932), and at 256 (171 signers) the declared budget passed 500,000 and the
   node refused the spend, as recorded.
 - **Bytes.** The accountable form carries every member's 256-byte key, so its data grows with
   `n`: 65,737 bytes at 256 for one aggregate signature, against the threshold form's constant
