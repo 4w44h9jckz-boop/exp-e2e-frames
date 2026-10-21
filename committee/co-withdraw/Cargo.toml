@@ -1,0 +1,37 @@
+[package]
+name = "co-withdraw"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "A three-party committee proving the withdrawal circuit with TACEO's co-snarks, for the verifier the wallet's own proofs meet"
+
+[dependencies]
+co-groth16.workspace = true
+co-circom-types.workspace = true
+mpc-core.workspace = true
+mpc-net.workspace = true
+taceo-ark-algebra.workspace = true
+circom-types.workspace = true
+kohaku-tornadocash-circuit.workspace = true
+websnark-rs.workspace = true
+ark-bn254.workspace = true
+ark-ec.workspace = true
+ark-ff.workspace = true
+ark-groth16.workspace = true
+ark-serialize.workspace = true
+anyhow.workspace = true
+bincode.workspace = true
+brotli.workspace = true
+clap.workspace = true
+hex.workspace = true
+postcard.workspace = true
+rand.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+bytes.workspace = true
+eyre.workspace = true
+kohaku-tornadocash.workspace = true
+kohaku-merkle-tree.workspace = true
+ruint.workspace = true

@@ -1,0 +1,12 @@
+{
+  "co-snarks": {
+    "url": "https://github.com/TaceoLabs/co-snarks",
+    "commit": "436f63fa17f2f10ece38c6650df68da99fbc0307",
+    "why": "co-groth16's REP3 prover, co-circom-types' witness shares (the format of co-circom split-witness), mpc-net's TCP network; used as TACEO wrote them"
+  },
+  "kohaku-rs": {
+    "url": "https://github.com/4w44h9jckz-boop/kohaku-rs",
+    "commit": "ab056aba3348b94b682d166c933265ccf21a759d",
+    "why": "kohaku-tornadocash-circuit: the withdrawal circuit and the websnark proving key the wallet proves with; kohaku-tornadocash: notes and the tree"
+  }
+}
