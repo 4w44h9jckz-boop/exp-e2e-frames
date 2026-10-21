@@ -1,6 +1,7 @@
 // C6: who signed. For each committee size, a threshold signature checked by the ticket paymaster,
 // and the signers named by a bitmap with their own signatures checked by AccountablePaymaster, in
-// two modes; each spend from a fresh sender sent to the chain, with its gas and bytes.
+// two modes, and k ECDSA signatures as a control; each spend from a fresh sender sent to the chain,
+// with its gas and bytes.
 // usage: npx tsx experiments/10-c6-accountable-signers/run.ts [attempt-label] [sizes]
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -30,10 +31,13 @@ const out = join(work, `c6-${Date.now()}.json`)
 const stdout = await run(runner, [], { cwd: root, env: { PRIVATE_KEY: privateKey, SIZES: sizes, RECORD: out } })
 console.log(stdout)
 const sent = JSON.parse(readFileSync(out, 'utf8'))
-const hashes: string[] = sent.sizes.flatMap((s: { threshold: { spend: { hash: string } }; accountable: { spends: { hash: string }[] } }) => [
-  s.threshold.spend.hash,
-  ...s.accountable.spends.map((x) => x.hash),
-])
+const hashes: string[] = sent.sizes.flatMap(
+  (s: { threshold: { spend: { hash: string } }; ecdsa: { spend: { hash: string } }; accountable: { spends: { hash: string }[] } }) => [
+    s.threshold.spend.hash,
+    s.ecdsa.spend.hash,
+    ...s.accountable.spends.map((x) => x.hash),
+  ],
+)
 const record = {
   experiment: '10-c6-accountable-signers',
   attempt,

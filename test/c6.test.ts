@@ -1,8 +1,9 @@
 // Experiment 10 (C6), every recorded run checked offline. Written before the first run, with the
 // README's claim: these checks are what would show it wrong.
 //
-// - A threshold signature can be attributed after all: shown wrong if two different quorums made
-//   different signatures.
+// - "A threshold signature can be attributed from the signature and chain data alone": shown wrong
+//   if two different quorums made different signatures, or if what the chain holds for a threshold
+//   spend names any signer (it holds only the signature and the group key).
 // - Naming the signers costs more than a VERIFY frame pays: shown wrong if, at a committee size
 //   Appendix F names (3-of-5, 7-of-10, 13, 256), an accountable spend is not mined, or its VERIFY
 //   frame uses more than 500,000 gas, the most the testnet's nodes admit.
@@ -13,7 +14,8 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { join } from 'node:path'
 import { bls12_381 as bls } from '@noble/curves/bls12-381'
-import { type Hex, concatHex, hexToBigInt, hexToBytes, keccak256, numberToHex, slice, stringToHex } from 'viem'
+import { secp256k1 } from '@noble/curves/secp256k1'
+import { type Hex, bytesToHex, concatHex, hexToBigInt, hexToBytes, keccak256, numberToHex, slice, stringToHex } from 'viem'
 import { describe, expect, it } from 'vitest'
 
 const DST = 'BLS_SIG_BLS12381G1_XMD:SHA-256_SSWU_RO_POP_'
@@ -47,11 +49,11 @@ const g2 = (b: Hex) => {
 const verifies = (h: any, sig: any, key: any) =>
   bls.fields.Fp12.eql(bls.pairing(sig, bls.G2.ProjectivePoint.BASE), bls.pairing(h, key))
 
-describe('AccountablePaymaster.hex is its Yul compiled', () => {
+describe.each(['AccountablePaymaster', 'EcdsaPaymaster'])('%s.hex is its Yul compiled', (name) => {
   it('by solc 0.8.37, EVM osaka, optimizer on, 200 runs, as the ticket paymaster is', () => {
     const solc = createRequire(import.meta.url)('solc') as { compile(i: string): string; version(): string }
     expect(solc.version()).toMatch(/^0\.8\.37\+/)
-    const source = readFileSync(join(here, 'contracts/AccountablePaymaster.yul'), 'utf8')
+    const source = readFileSync(join(here, `contracts/${name}.yul`), 'utf8')
     const input = {
       language: 'Yul',
       sources: { a: { content: source } },
@@ -59,7 +61,7 @@ describe('AccountablePaymaster.hex is its Yul compiled', () => {
     }
     const out = JSON.parse(solc.compile(JSON.stringify(input)))
     const [c] = Object.values(out.contracts.a) as { evm: { bytecode: { object: string } } }[]
-    expect(c.evm.bytecode.object).toBe(readFileSync(join(here, 'contracts/AccountablePaymaster.hex'), 'utf8').trim())
+    expect(c.evm.bytecode.object).toBe(readFileSync(join(here, `contracts/${name}.hex`), 'utf8').trim())
   })
 })
 
@@ -69,6 +71,10 @@ const runs = existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith('.json'
 for (const { file, r } of runs)
   describe(`experiment 10, ${file}`, () => {
     const s = r.sent
+
+    it('records who sees the partial signatures', () => {
+      expect(s.whoSeesPartials).toMatch(/combiner/)
+    })
 
     it('pins every piece at a full commit', () => {
       for (const pin of Object.values(r.pins) as { commit: string }[]) expect(pin.commit).toMatch(/^[0-9a-f]{40}$/)
@@ -85,9 +91,33 @@ for (const { file, r } of runs)
           expect(x.quorum).toBe(x.n - x.f)
         })
 
-        it('the threshold signature is the same from two quorums, so it names no one', () => {
+        it('the threshold signature is the same from two quorums, and its frame carries nothing else', () => {
           expect(x.threshold.sameSignatureFromTwoQuorums).toBe(true)
           expect(x.threshold.signatureFromQuorumA).toBe(x.threshold.signatureFromQuorumB)
+          // epoch (8) || salt (32) || signature (128): no bitmap, no key, no index
+          expect(x.threshold.spend.verifyDataBytes).toBe(168)
+        })
+
+        it('the ECDSA control: each named member recovers from its own signature, and the chain paid it', () => {
+          const e = x.ecdsa
+          const sp = e.spend
+          expect(keccak256(e.addresses)).toBe(e.addressesCommit)
+          const bitmap = hexToBytes(sp.bitmap)
+          const named = [...Array(x.n).keys()].filter((i) => (bitmap[i >> 3] >> (i & 7)) & 1)
+          expect(named).toHaveLength(x.quorum)
+          expect(sp.digest).toBe(keccak256(concatHex([stringToHex(s.ecdsaNamespace), message(s.chainId, sp.sender, sp.salt)])))
+          sp.signatures.forEach((sig: Hex, j: number) => {
+            const r = hexToBigInt(slice(sig, 0, 32))
+            const ss = hexToBigInt(slice(sig, 32, 64))
+            const v = hexToBytes(sig)[64] - 27
+            const pub = secp256k1.Signature.fromCompact(concatHex([numberToHex(r, { size: 32 }), numberToHex(ss, { size: 32 })]).slice(2))
+              .addRecoveryBit(v).recoverPublicKey(sp.digest.slice(2)).toRawBytes(false)
+            const addr = (slice(keccak256(bytesToHex(pub.slice(1))), 12) as string).toLowerCase()
+            expect(addr).toBe((slice(e.addresses as Hex, 20 * named[j], 20 * (named[j] + 1)) as string).toLowerCase())
+          })
+          expect(sp.mined).toBe(true)
+          expect(sp.paidByPaymaster).toBe(true)
+          expect(r.chain[sp.hash].status).toBe('0x1')
         })
 
         it('the threshold signature verifies under the group key (noble), and the chain paid it from the ticket paymaster', () => {

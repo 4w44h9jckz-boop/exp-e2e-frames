@@ -65,6 +65,9 @@ const TIP: u128 = 1_000_000_000;
 /// The accountable paymaster's namespace, as its code holds it.
 const COMMIT_NAMESPACE: &[u8] = b"FRAME_COMMIT_V1";
 const ACCOUNTABLE_HEX: &str = include_str!("../../contracts/AccountablePaymaster.hex");
+const ECDSA_HEX: &str = include_str!("../../contracts/EcdsaPaymaster.hex");
+/// The ECDSA control's namespace, as its code holds it.
+const ECDSA_NAMESPACE: &[u8] = b"FRAME_ECDSA_V1";
 
 sol! {
     function post(bytes message);
@@ -80,11 +83,12 @@ struct Accountable {
     quorum: u64,
     n: u64,
     salt: B256,
+    hex: &'static str,
 }
 
 impl Accountable {
     fn initcode(&self) -> Vec<u8> {
-        let mut code = ::hex::decode(ACCOUNTABLE_HEX.trim()).expect("embedded hex");
+        let mut code = ::hex::decode(self.hex.trim()).expect("embedded hex");
         code.extend_from_slice(keccak256(&self.keys).as_slice());
         code.extend_from_slice(&U256::from(self.quorum).to_be_bytes::<32>());
         code.extend_from_slice(&U256::from(self.n).to_be_bytes::<32>());
@@ -160,12 +164,18 @@ async fn main() -> anyhow::Result<()> {
         let keys: Vec<u8> = keypairs.iter().flat_map(|(_, pk)| g2_eip2537(pk)).collect();
 
         let ticket_pm = TicketPaymaster { key: *sharing.public(), denomination: DENOMINATION, salt: B256::from(rng.random::<[u8; 32]>()) };
-        let acc = Accountable { keys: keys.clone(), quorum: q, n, salt: B256::from(rng.random::<[u8; 32]>()) };
+        let acc = Accountable { keys: keys.clone(), quorum: q, n, salt: B256::from(rng.random::<[u8; 32]>()), hex: ACCOUNTABLE_HEX };
+        // The control: n ordinary secp256k1 keys, the committee's addresses committed.
+        let ecdsa_signers: Vec<PrivateKeySigner> = (0..n).map(|_| PrivateKeySigner::random()).collect();
+        let addresses: Vec<u8> = ecdsa_signers.iter().flat_map(|k| k.address().to_vec()).collect();
+        let ecdsa = Accountable { keys: addresses.clone(), quorum: q, n, salt: B256::from(rng.random::<[u8; 32]>()), hex: ECDSA_HEX };
         let setup = send(&chain, &funder, vec![
             ticket_pm.deploy_frame(),
             ticket_pm.buy_frame(1),
             deploy_frame(&acc.initcode(), acc.salt, 0),
             Frame::sender(Some(acc.address())).with_value(DENOMINATION * U256::from(2)).with_execution(10_000),
+            deploy_frame(&ecdsa.initcode(), ecdsa.salt, 0),
+            Frame::sender(Some(ecdsa.address())).with_value(DENOMINATION).with_execution(10_000),
         ], chain_id).await?;
         let fees = rpc::suggest_fees(&chain, TIP).await?;
 
@@ -227,6 +237,43 @@ async fn main() -> anyhow::Result<()> {
             accountable.push(r);
         }
 
+        // The control: k = q members sign the digest with ECDSA, each checked on chain on its own.
+        let ecdsa_spend = {
+            let sender = PrivateKeySigner::random();
+            let c = claim(chain_id, sender.address(), &mut rng);
+            let digest = keccak256([ECDSA_NAMESPACE, &c.message()[..]].concat());
+            let mut bitmap = vec![0u8; n.div_ceil(8) as usize];
+            let mut data = vec![];
+            data.extend_from_slice(&c.epoch.to_be_bytes());
+            data.extend_from_slice(c.salt.as_slice());
+            for i in 0..q as usize {
+                bitmap[i / 8] |= 1 << (i % 8);
+            }
+            data.extend_from_slice(&bitmap);
+            data.extend_from_slice(&addresses);
+            let mut sigs = vec![];
+            for k in ecdsa_signers.iter().take(q as usize) {
+                let sig = alloy::signers::SignerSync::sign_hash_sync(k, &digest)?;
+                let mut b = [0u8; 65];
+                b[..32].copy_from_slice(&sig.r().to_be_bytes::<32>());
+                b[32..64].copy_from_slice(&sig.s().to_be_bytes::<32>());
+                b[64] = 27 + u8::from(sig.v());
+                data.extend_from_slice(&b);
+                sigs.push(hex(&b));
+            }
+            let verify = 60_000 + n * 400 + q * 4_000;
+            let tx = spend(chain_id, fees, &sender, ecdsa.address(), data.clone(), verify, &format!("C6: ECDSA control, n {n}"))?;
+            let mut r = submit(&chain, &tx, ecdsa.address(), data.len()).await?;
+            r["sender"] = json!(sender.address());
+            r["salt"] = json!(c.salt);
+            r["digest"] = json!(digest);
+            r["bitmap"] = json!(hex(&bitmap));
+            r["signatures"] = json!(sigs);
+            r["verifyData"] = json!(hex(&data));
+            r["verifyLimit"] = json!(verify);
+            r
+        };
+
         out.push(json!({
             "n": n,
             "f": f,
@@ -240,6 +287,12 @@ async fn main() -> anyhow::Result<()> {
                 "quorums": [[0, q - 1], [f + 1, (f + q) % n]],
                 "signatureFromQuorumA": hex(&sig_a.encode()),
                 "signatureFromQuorumB": hex(&sig_b.encode()),
+            },
+            "ecdsa": {
+                "paymaster": ecdsa.address(),
+                "addressesCommit": keccak256(&addresses),
+                "addresses": hex(&addresses),
+                "spend": ecdsa_spend,
             },
             "accountable": {
                 "paymaster": acc.address(),
@@ -258,6 +311,8 @@ async fn main() -> anyhow::Result<()> {
             "funder": funder.address(),
             "ticketNamespace": String::from_utf8_lossy(TICKET_NAMESPACE),
             "accountableNamespace": String::from_utf8_lossy(COMMIT_NAMESPACE),
+            "ecdsaNamespace": String::from_utf8_lossy(ECDSA_NAMESPACE),
+            "whoSeesPartials": "the combiner: each signing member sends its partial to whoever recovers the threshold signature, here this runner; only the recovered signature reaches the chain. The accountable and ECDSA forms put every signer's own contribution, or their aggregate with the bitmap, in the transaction",
             "sizes": out,
         });
         fs::write(&path, format!("{}\n", serde_json::to_string_pretty(&record)?))?;
