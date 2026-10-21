@@ -1,0 +1,60 @@
+# The committees phase 4's end-to-end runs call: each crate is a library with a command line.
+# Every outside piece is pinned at a full commit, so a run builds what was tested.
+[workspace]
+resolver = "2"
+members = ["co-withdraw", "bls-committee"]
+# Its own workspace: threshold-fhe pins exact versions that the wallet crates cannot share.
+exclude = ["fhe-committee"]
+
+[workspace.package]
+edition = "2024"
+license = "Apache-2.0"
+publish = false
+
+[workspace.dependencies]
+# TACEO's co-snarks, as its authors wrote it
+co-groth16 = { git = "https://github.com/TaceoLabs/co-snarks", rev = "436f63fa17f2f10ece38c6650df68da99fbc0307" }
+co-circom-types = { git = "https://github.com/TaceoLabs/co-snarks", rev = "436f63fa17f2f10ece38c6650df68da99fbc0307" }
+mpc-core = { git = "https://github.com/TaceoLabs/co-snarks", rev = "436f63fa17f2f10ece38c6650df68da99fbc0307" }
+mpc-net = { git = "https://github.com/TaceoLabs/co-snarks", rev = "436f63fa17f2f10ece38c6650df68da99fbc0307", features = ["local", "tcp"] }
+taceo-ark-algebra = "0.1.0"
+circom-types = { package = "taceo-circom-types", version = "0.3.1" }
+# The withdrawal circuit and its proving key, as kohaku-rs's wallet proves with them
+kohaku-tornadocash-circuit = { git = "https://github.com/4w44h9jckz-boop/kohaku-rs", rev = "ab056aba3348b94b682d166c933265ccf21a759d" }
+websnark-rs = "0.8.0"
+ark-bn254 = "0.6"
+ark-ec = "0.6"
+ark-ff = "0.6"
+ark-groth16 = "0.6"
+ark-serialize = "0.6"
+anyhow = "1"
+bincode = "1.3"
+brotli = "9"
+clap = { version = "4.5", features = ["derive"] }
+hex = "0.4"
+postcard = { version = "1", features = ["use-std"] }
+rand = "0.8"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+bytes = "1"
+eyre = "0.6"
+kohaku-tornadocash = { git = "https://github.com/4w44h9jckz-boop/kohaku-rs", rev = "ab056aba3348b94b682d166c933265ccf21a759d" }
+kohaku-merkle-tree = { git = "https://github.com/4w44h9jckz-boop/kohaku-rs", rev = "ab056aba3348b94b682d166c933265ccf21a759d" }
+ruint = "1"
+kohaku-frame-ticket = { git = "https://github.com/4w44h9jckz-boop/kohaku-rs", rev = "ab056aba3348b94b682d166c933265ccf21a759d" }
+commonware-codec = "2026.9.0"
+commonware-cryptography = "2026.9.0"
+commonware-math = "2026.9.0"
+commonware-parallel = "2026.9.0"
+commonware-utils = "2026.9.0"
+rand10 = { package = "rand", version = "0.10" }
+
+[patch.crates-io]
+# Commonware from the owner's fork at a full commit: upstream v2026.9.0 plus
+# dkg::feldman_desmedt::run, which reports what each member sends. kohaku-rs's crates take it too.
+commonware-cryptography = { git = "https://github.com/4w44h9jckz-boop/cmw-monorepo", rev = "489e313e86d5808f3d874b67c5a48a75f85b64f7" }
+commonware-codec = { git = "https://github.com/4w44h9jckz-boop/cmw-monorepo", rev = "489e313e86d5808f3d874b67c5a48a75f85b64f7" }
+commonware-math = { git = "https://github.com/4w44h9jckz-boop/cmw-monorepo", rev = "489e313e86d5808f3d874b67c5a48a75f85b64f7" }
+commonware-parallel = { git = "https://github.com/4w44h9jckz-boop/cmw-monorepo", rev = "489e313e86d5808f3d874b67c5a48a75f85b64f7" }
+commonware-utils = { git = "https://github.com/4w44h9jckz-boop/cmw-monorepo", rev = "489e313e86d5808f3d874b67c5a48a75f85b64f7" }

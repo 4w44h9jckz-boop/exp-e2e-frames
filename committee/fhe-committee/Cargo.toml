@@ -1,0 +1,26 @@
+# Its own workspace: threshold-fhe pins exact versions (tokio, tonic, tfhe) that kohaku-rs's
+# crates cannot share. Every outside piece is pinned at a full commit, as in ../pins.json.
+[workspace]
+
+[package]
+name = "fhe-committee"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+publish = false
+description = "The FHE half of a fixed committee: a threshold TFHE decryption key, with a coprocessor that evaluates"
+
+[dependencies]
+threshold-fhe = { git = "https://github.com/zama-ai/threshold-fhe", rev = "c668fdd32a33270fc3ad2fd92b49267b734463dd", features = ["testing"] }
+tfhe = { version = "=1.0.1", features = ["boolean", "shortint", "integer", "zk-pok"] }
+aes-prng = "=0.2.1"
+async-trait = "=0.1.83"
+tokio = { version = "=1.43.0", features = ["rt-multi-thread", "macros", "sync", "time"] }
+rand = "=0.8.5"
+anyhow = "1"
+bincode = "1.3"
+clap = { version = "4.5", features = ["derive"] }
+hex = "0.4"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha3 = "0.10"
