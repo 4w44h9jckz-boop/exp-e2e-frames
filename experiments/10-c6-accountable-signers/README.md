@@ -103,4 +103,39 @@ BLS12-381.
 
 ## Results
 
-None yet: the claim and the checks above are pushed before the first transaction.
+Attempt 3 (`results/3-margin-2.json`), from `4bb2de7`, on 2026-10-21, with each frame's declared
+limit 2% over its fit (`LIMIT_MARGIN`). Thirty-one spends were mined, in blocks 493,619 to
+493,692, each from a fresh sender with no ether, each paid by its paymaster. Each cell is
+the paymaster's `VERIFY` gas and its data in bytes:
+
+| n | quorum | threshold | accountable, aggregate | accountable, individual | ECDSA control |
+|---|---|---|---|---|---|
+| 5 | 4 | 122,006 / 168 | 126,842 / 1,450 | 129,351 / 1,834 | 18,108 / 401 |
+| 10 | 7 | 122,006 / 168 | 130,317 / 2,731 | 134,671 / 3,499 | 28,704 / 697 |
+| 13 | 9 | 122,006 / 168 | 132,571 / 3,499 | 138,155 / 4,523 | 35,736 / 887 |
+| 16 | 11 | 122,006 / 168 | 134,827 / 4,267 | 141,641 / 5,547 | 42,756 / 1,077 |
+| 32 | 22 | 122,006 / 168 | 147,172 / 8,365 | 160,751 / 11,053 | 81,371 / 2,114 |
+| 64 | 43 | 122,006 / 168 | 171,227 / 16,561 | 197,721 / 21,937 | 155,246 / 4,123 |
+| 128 | 86 | 122,006 / 168 | 220,932 / 32,953 | 273,871 / 43,833 | 306,357 / 8,206 |
+| 256 | 171 | 122,006 / 168 | 322,587 / 65,737 | 427,801 / 87,497 | refused / 16,307 |
+
+- **The threshold signature names no one.** At every size, the two quorums that differ made the
+  same signature, byte for byte, and its frame carries 168 bytes: epoch, salt, signature.
+  Nothing on chain or in the frame says who signed. Not shown wrong.
+- **Naming the signers fits the budget at every size Appendix F names.** At 256 members, the
+  aggregate form used 322,587 gas and the individual form 427,801, under the testnet nodes'
+  500,000; at 5, 10 and 13 every accountable spend was mined well under it. Not shown wrong.
+  Neither form fits EIP-8141's 100,000, and nor does the threshold check, at 122,006.
+- **The control.** `k` ECDSA signatures cost about 3,514 gas each: cheaper than BLS up to about
+  32 members, dearer above, and at 256 (171 signers) the declared budget passed 500,000 and the
+  node refused the spend, as recorded.
+- **Bytes.** The accountable form carries every member's 256-byte key, so its data grows with
+  `n`: 65,737 bytes at 256 for one aggregate signature, against the threshold form's constant
+  168. The keys could live in the paymaster's code up to 96 members.
+- **Noble agrees** with the chain on every signature: the threshold one under the group key,
+  each aggregate under the named keys' sum, and each individual one under its own signer's key;
+  each ECDSA signature recovers to its member's address.
+
+Attempts 1 and 2 are in `results/superseded/`, each refused somewhere by a parameter of the
+harness, not by the claim's checks: the ticket's 0.001 ETH denomination in the first, a 10%
+limit margin in the second. Their mined spends agree with attempt 3's to the gas.
