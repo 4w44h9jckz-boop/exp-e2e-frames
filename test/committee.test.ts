@@ -42,6 +42,12 @@ function groth16(vk: Vk, proof: WebsnarkProof, inputs: string[]): boolean {
 }
 
 const word = (x: string) => numberToHex(BigInt(x), { size: 32 }).slice(2)
+/** The PUSH instruction solc emits for a constant: PUSH1 to PUSH32, leading zero bytes dropped. */
+const push = (x: string) => {
+  const hex = numberToHex(BigInt(x)).slice(2).padStart(2, '0').replace(/^(00)+(?=..)/, '')
+  const padded = hex.length % 2 ? `0${hex}` : hex
+  return (0x5f + padded.length / 2).toString(16) + padded
+}
 
 describe('the committees workspace pins what pins.json says', () => {
   it('Cargo.toml takes every git piece at the commit pins.json names', () => {
@@ -78,7 +84,7 @@ describe.each(fixtures('c2-'))('C2 %s', (file) => {
     expect(keccak256(r.chain.verifierCode as Hex)).toBe(r.chain.verifierCodeHash)
     const code = (r.chain.verifierCode as string).toLowerCase()
     const coords = [...r.vk.alpha, ...r.vk.beta.flat(), ...r.vk.gamma.flat(), ...r.vk.delta.flat(), ...r.vk.ic.flat()]
-    for (const x of coords) expect(code).toContain(word(x))
+    for (const x of coords) expect(code).toContain(push(x))
     expect(r.vk.ic).toHaveLength(7)
   })
 
