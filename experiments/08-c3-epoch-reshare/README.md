@@ -23,6 +23,21 @@ that code, stay the same. It tests two published sentences:
 **Recorded either way:** whether a committee that kept its shares after handing the key on can
 still sign. If it can, ephemerality rests on erasure that nothing enforces.
 
+**Amended before the run that counts** (the owner's word, through the coordinator, 2026-10-21):
+- **The expected outcome, stated now:** the first committee's kept shares will still sign
+  under the key after both handoffs (derived: a reshare gives new shares of the same secret and
+  erases nothing). So under one key, "the chain does not notice the handoff" and "the old
+  committee can no longer sign" cannot both hold.
+- **A second arm, B:** in the same epochs, a fresh DKG among fresh members each epoch, its key
+  registered with the chain by a transaction that deploys and funds a ticket paymaster for it.
+  There the chain does notice each handoff, and the first committee's kept shares are tried at
+  the paymaster of the latest key.
+- **Both arms report** rounds and messages first, then bytes, then wall-clock with the network
+  it assumed.
+
+A first chain attempt (from `525b303`) was stopped before any spend when the amendment arrived;
+only its setup transaction was mined, and its record was not written.
+
 ## Pieces
 
 | Piece | Pin (`pins.json`) | Role |
@@ -34,7 +49,7 @@ still sign. If it can, ephemerality rests on erasure that nothing enforces.
 
 ## The run
 
-`chain`:
+`chain`, arm A:
 1. **Committee 0**: four members, by Commonware's DKG, each a dealer and a player (quorum 3).
    One transaction from the funder deploys one `TicketPaymaster` with its key and buys four
    tickets at 0.001 ETH. Neither node is told the address or the key.
@@ -47,9 +62,17 @@ still sign. If it can, ephemerality rests on erasure that nothing enforces.
 3. **The retired committee**: in a later epoch, a quorum of committee 0, which kept its shares,
    issues a fourth ticket, spent the same way.
 
-`measure`: for each size `n` in 4, 5, 7, 10, 13, 16, 32, 64, 128 and 256, a DKG among `n`,
-then a reshare from a quorum of them to `n` fresh members, in memory, every participant run in
-turn. For each participant: messages and bytes sent and received, rounds, and compute time.
+`chain`, arm B, interleaved with arm A in the same epochs: committee B0 (four members, DKG) and
+its own paymaster are set up in the same first transaction, with one ticket. In each later
+round a fresh DKG makes committee B1 (seven) or B2 (ten), and one transaction from the funder
+registers its key: it deploys a ticket paymaster with that key and buys one ticket. Each round's
+B committee issues a ticket spent through its own paymaster. In the last epoch, B0's kept shares
+issue a ticket for B2's paymaster.
+
+`measure`: for each size `n` in 4, 5, 7, 10, 13, 16, 32, 64, 128 and 256, a DKG among `n`
+(arm B's cost each epoch), then a reshare from a quorum of them to `n` fresh members (arm A's),
+in memory, every participant run in turn. For each participant: rounds and messages, then bytes,
+then compute time; a member's wall-clock is its compute plus three one-way network trips.
 
 ```text
  TICKET-PAID SPEND    sender = a fresh key (no ether, no code, nonce 0)   signatures = [sender]

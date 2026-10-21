@@ -1,11 +1,13 @@
 // Experiment 08 (C3), every recorded run checked offline. Written before the first run, with the
 // README's claim: these checks are what would show it wrong.
 //
-// chain: one paymaster deployed once with committee 0's key; committees 1 and 2 made by
+// chain, arm A: one paymaster deployed once with committee A0's key; committees A1 and A2 made by
 // resharing to fresh members must hold the same key, and each committee's ticket must be admitted
 // by the node, which checks it against the key in the paymaster's code, and paid by that
-// paymaster. Each ticket is checked again with noble's BLS12-381. The retired committee's ticket
-// is recorded either way; its outcome is the finding, not a check.
+// paymaster. Arm B (amended before the run): a fresh DKG each epoch, each key registered with a
+// paymaster of its own, each ticket admitted and paid there. Each ticket is checked again with
+// noble's BLS12-381. The first committees' kept shares are recorded either way; their outcome is
+// the finding (arm A's expected, before the run: they still sign).
 //
 // measure: every reshare keeps the key; every byte sent is received; and a member's reshare
 // takes less than an epoch at the committee sizes the posts name (3-of-5, 7-of-10, 13 nodes, 256
@@ -64,10 +66,35 @@ const runs = (prefix: string) =>
 for (const { file, r } of runs('chain-'))
   describe(`experiment 08, ${file}`, () => {
     const s = r.sent
-    const key = s.code.key as Hex
     const [a, b] = r.nodes
     const of = (node: any, hash: string, e: string): Line[] => (node.lines[hash] as Line[]).filter((l) => l.event === e)
     const live = s.rounds.filter((x: { retired?: boolean }) => !x.retired)
+    const retired = s.rounds.filter((x: { retired?: boolean }) => x.retired)
+    const keyA = s.a.code.key as Hex
+    const admittedAndPaid = (sp: any, paymaster: string) => {
+      const rpc = of(a, sp.hash, 'rpc')
+      expect(rpc).toHaveLength(1)
+      expect(rpc[0].result).toBe('ok')
+      expect(rpc[0].client).toBe('valid')
+      expect((rpc[0].claim as { valid: boolean }).valid).toBe(true)
+      const gossip = of(b, sp.hash, 'gossip')
+      expect(gossip.length).toBeGreaterThan(0)
+      expect(gossip[0].from).toBe(a.peerId)
+      expect(of(b, sp.hash, 'handoff').length).toBeGreaterThan(0)
+      const c = r.chain[sp.hash]
+      expect(c.mined).toBe(true)
+      expect(c.status).toBe('0x1')
+      expect(c.frameStatuses.every((f: string) => f === '0x1')).toBe(true)
+      expect(c.payer.toLowerCase()).toBe(paymaster.toLowerCase())
+    }
+    const ticketVerifies = (sp: any, key: Hex) =>
+      verifies(message(s.chainId, sp.sender, sp.epoch, sp.salt), sp.signature, g2FromEip2537(key))
+    const ticketInBytes = (sp: any) => {
+      expect(keccak256(sp.raw)).toBe(sp.hash.toLowerCase())
+      expect(sp.raw.toLowerCase()).toContain(
+        concatHex([numberToHex(BigInt(sp.epoch), { size: 8 }), sp.salt, g1Eip2537(sp.signature)]).slice(2).toLowerCase(),
+      )
+    }
 
     it('pins every piece at a full commit, and ran both nodes with --frames.claims', () => {
       for (const pin of Object.values(r.pins) as { commit: string }[]) expect(pin.commit).toMatch(/^[0-9a-f]{40}$/)
@@ -76,75 +103,84 @@ for (const { file, r } of runs('chain-'))
       expect(b.peers).toEqual([a.peerId])
     })
 
-    it('deployed one paymaster, the template with committee 0 key, and no other', () => {
-      expect(s.code.bytes).toBe(1105 + 256 + 32)
-      expect(s.code.templateHash).toBe(TEMPLATE)
-      expect(hexToBigInt(s.code.denomination)).toBe(DENOMINATION)
-      expect(key).toBe(s.committees[0].keyEip2537)
-      for (const x of s.rounds) expect(x.spend.payer.toLowerCase()).toBe(s.code.paymaster.toLowerCase())
-    })
-
-    it('kept one key across three committees of fresh members: 4, then 7, then 10', () => {
-      expect(s.committees.map((c: { members: number }) => c.members)).toEqual([4, 7, 10])
-      expect(s.committees.map((c: { quorum: number }) => c.quorum)).toEqual([3, 5, 7])
-      for (const c of s.committees) expect(c.keyEip2537).toBe(key)
-      const ids = s.committees.map((c: { identities: string[] }) => new Set(c.identities))
-      for (let i = 0; i < ids.length; i++)
-        for (let j = i + 1; j < ids.length; j++) expect([...ids[i]].filter((x) => ids[j].has(x))).toEqual([])
-      expect(s.committees[0].made.kind).toBe('dkg')
-      expect(s.committees[1].made.kind).toBe('reshare')
-      expect(s.committees[2].made.kind).toBe('reshare')
-      expect(s.committees[1].made.dealers).toBe(s.committees[0].quorum)
-      expect(s.committees[2].made.dealers).toBe(s.committees[1].quorum)
-    })
-
-    it('ran each committee in its own epoch, each handoff inside the epoch it opened', () => {
-      expect(live.map((x: { committee: number }) => x.committee)).toEqual([0, 1, 2])
+    it('ran each round in its own epoch, each handoff inside the epoch it opened', () => {
+      expect(live).toHaveLength(3)
       for (let i = 1; i < live.length; i++) {
         expect(live[i].epoch).toBeGreaterThan(live[i - 1].epoch)
-        expect(live[i].handoff.secondsIntoEpoch + live[i].handoff.micros / 1e6).toBeLessThan(EPOCH)
+        expect(live[i].a.handoff.secondsIntoEpoch + live[i].a.handoff.micros / 1e6).toBeLessThan(EPOCH)
+        expect(live[i].b.handoff.secondsIntoEpoch + live[i].b.handoff.dkgMicros / 1e6).toBeLessThan(EPOCH)
       }
     })
 
-    it('issued every ticket from a quorum of its committee, and it verifies under the one key (noble)', () => {
-      for (const x of s.rounds) {
-        const c = s.committees[x.committee]
-        expect(x.spend.answers).toHaveLength(c.quorum)
-        expect(new Set(x.spend.answers.map((q: { index: number }) => q.index)).size).toBe(c.quorum)
-        expect(keccak256(x.spend.raw)).toBe(x.spend.hash.toLowerCase())
-        expect(x.spend.raw.toLowerCase()).toContain(
-          concatHex([numberToHex(BigInt(x.spend.epoch), { size: 8 }), x.spend.salt, g1Eip2537(x.spend.signature)]).slice(2).toLowerCase(),
-        )
-        expect(verifies(message(s.chainId, x.spend.sender, x.spend.epoch, x.spend.salt), x.spend.signature, g2FromEip2537(key))).toBe(true)
-      }
+    describe('arm A, reshare', () => {
+      it('deployed one paymaster, the template with committee A0 key, and no other', () => {
+        expect(s.a.code.bytes).toBe(1105 + 256 + 32)
+        expect(s.a.code.templateHash).toBe(TEMPLATE)
+        expect(hexToBigInt(s.a.code.denomination)).toBe(DENOMINATION)
+        expect(keyA).toBe(s.a.committees[0].keyEip2537)
+      })
+
+      it('kept one key across three committees of fresh members: 4, then 7, then 10', () => {
+        const cs = s.a.committees
+        expect(cs.map((c: { members: number }) => c.members)).toEqual([4, 7, 10])
+        expect(cs.map((c: { quorum: number }) => c.quorum)).toEqual([3, 5, 7])
+        for (const c of cs) expect(c.keyEip2537).toBe(keyA)
+        const ids = cs.map((c: { identities: string[] }) => new Set(c.identities))
+        for (let i = 0; i < ids.length; i++)
+          for (let j = i + 1; j < ids.length; j++) expect([...ids[i]].filter((x) => ids[j].has(x))).toEqual([])
+        expect(cs.map((c: { made: { kind: string } }) => c.made.kind)).toEqual(['dkg', 'reshare', 'reshare'])
+        expect(cs[1].made.dealers).toBe(cs[0].quorum)
+        expect(cs[2].made.dealers).toBe(cs[1].quorum)
+      })
+
+      it('every committee ticket was issued by a quorum, verifies under the one key (noble), and was admitted and paid by the one paymaster', () => {
+        for (const x of live) {
+          const sp = x.a.spend
+          expect(sp.answers).toHaveLength(s.a.committees[x.a.committee].quorum)
+          ticketInBytes(sp)
+          expect(ticketVerifies(sp, keyA)).toBe(true)
+          admittedAndPaid(sp, s.a.code.paymaster)
+        }
+      })
     })
 
-    it('admitted every live committee spend at both nodes, the ticket checked first, and the chain paid it from the one paymaster', () => {
-      for (const x of live) {
-        const h = x.spend.hash
-        const rpc = of(a, h, 'rpc')
-        expect(rpc).toHaveLength(1)
-        expect(rpc[0].result).toBe('ok')
-        expect(rpc[0].client).toBe('valid')
-        expect((rpc[0].claim as { valid: boolean }).valid).toBe(true)
-        const gossip = of(b, h, 'gossip')
-        expect(gossip.length).toBeGreaterThan(0)
-        expect(gossip[0].from).toBe(a.peerId)
-        expect(of(b, h, 'handoff').length).toBeGreaterThan(0)
-        const c = r.chain[h]
-        expect(c.mined).toBe(true)
-        expect(c.status).toBe('0x1')
-        expect(c.frameStatuses.every((f: string) => f === '0x1')).toBe(true)
-        expect(c.payer.toLowerCase()).toBe(s.code.paymaster.toLowerCase())
-      }
+    describe('arm B, a fresh DKG each epoch', () => {
+      it('registered each committee key with a paymaster of its own: the template, that key', () => {
+        const keys = s.b.committees.map((c: { keyEip2537: string }) => c.keyEip2537)
+        expect(new Set(keys).size).toBe(3)
+        expect(s.b.committees.map((c: { made: { kind: string } }) => c.made.kind)).toEqual(['dkg', 'dkg', 'dkg'])
+        s.b.codes.forEach((c: any, i: number) => {
+          expect(c.templateHash).toBe(TEMPLATE)
+          expect(c.key).toBe(keys[i])
+          expect(c.paymaster).toBe(live[i].b.paymaster)
+        })
+        for (const x of live.slice(1)) expect(x.b.handoff.registration.gasUsed).toBeGreaterThan(0)
+      })
+
+      it('every committee ticket verifies under its own key only, and was admitted and paid by its own paymaster', () => {
+        live.forEach((x: any, i: number) => {
+          const sp = x.b.spend
+          ticketInBytes(sp)
+          expect(ticketVerifies(sp, s.b.committees[i].keyEip2537)).toBe(true)
+          for (let j = 0; j < 3; j++) if (j !== i) expect(ticketVerifies(sp, s.b.committees[j].keyEip2537)).toBe(false)
+          admittedAndPaid(sp, x.b.paymaster)
+        })
+      })
     })
 
-    it('recorded what the retired committee could still do, with the chain facts', () => {
-      const retired = s.rounds.filter((x: { retired?: boolean }) => x.retired)
+    it('recorded what each first committee could still do with the shares it kept', () => {
       expect(retired).toHaveLength(1)
-      expect(retired[0].committee).toBe(0)
-      expect(retired[0].epoch).toBeGreaterThan(live[live.length - 1].epoch)
-      expect(r.chain[retired[0].spend.hash]).toBeDefined()
+      const x = retired[0]
+      expect(x.epoch).toBeGreaterThan(live[live.length - 1].epoch)
+      expect(x.a.committee).toBe(0)
+      expect(x.b.committee).toBe(0)
+      expect(x.b.paymaster).toBe(live[live.length - 1].b.paymaster)
+      for (const sp of [x.a.spend, x.b.spend]) {
+        expect(typeof sp.admitted).toBe('boolean')
+        expect(r.chain[sp.hash]).toBeDefined()
+      }
+      expect(ticketVerifies(x.a.spend, keyA)).toBe(true)
+      expect(ticketVerifies(x.b.spend, s.b.committees[0].keyEip2537)).toBe(true)
     })
   })
 

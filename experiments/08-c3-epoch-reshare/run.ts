@@ -1,8 +1,10 @@
-// C3: one ticket key held by three committees in turn, the second and third by resharing, each
+// C3, arm A: one ticket key held by three committees in turn, the second and third by resharing, each
 // issuing a ticket that a fresh sender spends through one paymaster deployed once, through a
 // skandha node that checks the ticket against the key in the paymaster's code, gossiped to a
 // second that hands it to the chain. Then the first committee, with the shares it kept, issues one
-// more. `measure` instead times a DKG and a reshare in memory for several committee sizes.
+// more. Arm B, in the same epochs: a fresh DKG each epoch, its key registered with a new paymaster,
+// and the first committee's kept shares tried at the latest one. `measure` instead times a DKG and
+// a reshare in memory for several committee sizes.
 // usage: npx tsx experiments/08-c3-epoch-reshare/run.ts chain [attempt-label]
 //        npx tsx experiments/08-c3-epoch-reshare/run.ts measure [attempt-label] [sizes]
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
@@ -90,11 +92,13 @@ if (mode === 'measure') {
     })
     console.log(stdout)
     const sent = JSON.parse(readFileSync(out, 'utf8'))
-    const hashes: string[] = sent.rounds.map((r: { spend: { hash: string } }) => r.spend.hash)
+    type Spend = { hash: string; admitted: boolean }
+    const spends: Spend[] = sent.rounds.flatMap((r: { a: { spend: Spend }; b: { spend: Spend } }) => [r.a.spend, r.b.spend])
+    const hashes = spends.map((x) => x.hash)
     const removed = (n: Node, h: string) =>
       linesNaming(n.log, h).some((l) => l.event === 'head' && (l.removed as string[]).includes(h))
-    await until('both nodes to remove every spend as included', async () =>
-      hashes.every((h) => removed(a, h) && removed(b, h)) ? true : undefined, 180_000)
+    await until('both nodes to remove every admitted spend as included', async () =>
+      spends.filter((x) => x.admitted).every((x) => removed(a, x.hash) && removed(b, x.hash)) ? true : undefined, 180_000)
     const startLine = (n: Node) =>
       readFileSync(n.log, 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l)).find((l) => l.event === 'start')
     save({

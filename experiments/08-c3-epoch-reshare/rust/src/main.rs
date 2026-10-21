@@ -280,69 +280,136 @@ async fn chain() -> anyhow::Result<()> {
     let url = env::var("RPC_URL").unwrap_or_else(|_| HEGOTA_RPC_URL.to_owned());
     let node_url = env::var("SEND_RPC_URL").context("SEND_RPC_URL is the node the spends go to")?;
     let funder: PrivateKeySigner = env::var("PRIVATE_KEY")
-        .context("PRIVATE_KEY deploys the paymaster and buys the tickets")?
+        .context("PRIVATE_KEY deploys the paymasters and buys the tickets")?
         .parse()?;
     let chain = ProviderBuilder::new().connect_http(url.parse()?);
     let node = ProviderBuilder::new().connect_http(node_url.parse()?);
     let chain_id = chain.get_chain_id().await?;
     let mut rng = rand::rng();
 
-    // 1. Committee 0 and the one paymaster.
-    let c0 = dkg(&mut rng, "0", SIZES[0])?;
-    let paymaster = TicketPaymaster {
-        key: *c0.sharing().public(),
+    // Arm A, reshare: committee A0 by DKG and its one paymaster, four tickets.
+    let a0 = dkg(&mut rng, "A0", SIZES[0])?;
+    let pm_a = TicketPaymaster {
+        key: *a0.sharing().public(),
         denomination: DENOMINATION,
         salt: B256::from(rng.random::<[u8; 32]>()),
     };
-    let pm = paymaster.address();
-    println!("committee 0: {} members, quorum {}, paymaster {pm}", SIZES[0], c0.sharing().required());
-    let setup = send(&chain, &funder, vec![paymaster.deploy_frame(), paymaster.buy_frame(BUY)], chain_id).await?;
-    let code = chain.get_code_at(pm).await?;
-    let code_json = json!({
-        "paymaster": pm,
-        "bytes": code.len(),
-        "codeHash": keccak256(&code),
-        "templateHash": keccak256(&code[..code.len().saturating_sub(256 + 32)]),
-        "key": hex(&code[code.len().saturating_sub(256 + 32)..code.len().saturating_sub(32)]),
-        "denomination": hex(&code[code.len().saturating_sub(32)..]),
-    });
-    let mut ledger = Ledger::new(bought(&chain, pm).await?);
+    // Arm B, a fresh DKG each epoch: committee B0 and its paymaster, one ticket; each later
+    // committee registers its own key with a paymaster of its own.
+    let b0 = dkg(&mut rng, "B0", SIZES[0])?;
+    let pm_b0 = TicketPaymaster {
+        key: *b0.sharing().public(),
+        denomination: DENOMINATION,
+        salt: B256::from(rng.random::<[u8; 32]>()),
+    };
+    println!("arm A paymaster {}, arm B's first {}", pm_a.address(), pm_b0.address());
+    let setup = send(
+        &chain,
+        &funder,
+        vec![pm_a.deploy_frame(), pm_a.buy_frame(BUY), pm_b0.deploy_frame(), pm_b0.buy_frame(1)],
+        chain_id,
+    )
+    .await?;
+    let mut ledger_a = Ledger::new(bought(&chain, pm_a.address()).await?);
     let fees = rpc::suggest_fees(&chain, TIP).await?;
 
-    // 2. Three committees, one epoch each.
-    let mut committees: Vec<Committee> = vec![c0];
+    let mut arm_a: Vec<Committee> = vec![a0];
+    let mut arm_b: Vec<(Committee, TicketPaymaster, Value)> = vec![(b0, pm_b0, json!({ "setup": setup["hash"] }))];
     let mut rounds = vec![];
     let mut last_epoch = 0u64;
     for k in 0..SIZES.len() {
         let (epoch, head_time) = next_epoch(&chain, last_epoch).await?;
         last_epoch = epoch;
-        let mut handoff = Value::Null;
+        let mut handoff_a = Value::Null;
+        let mut handoff_b = Value::Null;
         if k > 0 {
+            // A: reshare from a quorum of the last committee.
             let started = std::time::Instant::now();
-            let next = reshare(&mut rng, k as u64, &committees[k - 1], &k.to_string(), SIZES[k])?;
+            let next = reshare(&mut rng, k as u64, &arm_a[k - 1], &format!("A{k}"), SIZES[k])?;
             ensure!(
-                next.sharing().public() == committees[0].sharing().public(),
-                "the reshare to committee {k} changed the key"
+                next.sharing().public() == arm_a[0].sharing().public(),
+                "the reshare to committee A{k} changed the key"
             );
-            handoff = json!({
+            handoff_a = json!({
                 "from": k - 1,
                 "to": k,
                 "micros": started.elapsed().as_micros() as u64,
                 "secondsIntoEpoch": head_time % EPOCH,
             });
-            println!("epoch {epoch}: reshared to committee {k}, {} members, quorum {}", SIZES[k], next.sharing().required());
-            committees.push(next);
+            arm_a.push(next);
+            // B: a fresh DKG, and its key registered: a new paymaster, deployed and funded.
+            let started = std::time::Instant::now();
+            let fresh = dkg(&mut rng, &format!("B{k}"), SIZES[k])?;
+            let dkg_micros = started.elapsed().as_micros() as u64;
+            let pm = TicketPaymaster {
+                key: *fresh.sharing().public(),
+                denomination: DENOMINATION,
+                salt: B256::from(rng.random::<[u8; 32]>()),
+            };
+            let registration = send(&chain, &funder, vec![pm.deploy_frame(), pm.buy_frame(1)], chain_id).await?;
+            handoff_b = json!({
+                "dkgMicros": dkg_micros,
+                "secondsIntoEpoch": head_time % EPOCH,
+                "registration": registration,
+                "paymaster": pm.address(),
+            });
+            println!("epoch {epoch}: A reshared to {} members; B registered a fresh key at {}", SIZES[k], pm.address());
+            arm_b.push((fresh, pm, handoff_b.clone()));
         }
-        let spent = spend_round(&chain, &node, &funder, chain_id, fees, &mut ledger, &committees[k], pm, epoch, k).await?;
-        rounds.push(json!({ "round": k, "committee": k, "epoch": epoch, "handoff": handoff, "spend": spent }));
+        let spent_a = spend_round(&chain, &node, &funder, chain_id, fees, &mut ledger_a, &arm_a[k], pm_a.address(), epoch, k, true).await?;
+        let (cb, pmb, _) = &arm_b[k];
+        let mut ledger_b = Ledger::new(bought(&chain, pmb.address()).await?);
+        let spent_b = spend_round(&chain, &node, &funder, chain_id, fees, &mut ledger_b, cb, pmb.address(), epoch, k, true).await?;
+        rounds.push(json!({
+            "round": k,
+            "epoch": epoch,
+            "a": { "committee": k, "handoff": handoff_a, "spend": spent_a },
+            "b": { "committee": k, "handoff": handoff_b, "paymaster": pmb.address(), "spend": spent_b },
+        }));
     }
 
-    // 3. Committee 0 again, after both handoffs, with the shares it kept.
+    // The first committees again, with the shares they kept: A0 at the one paymaster, B0 at the
+    // paymaster B's latest key was registered with.
     let (epoch, _) = next_epoch(&chain, last_epoch).await?;
-    let retired = spend_round(&chain, &node, &funder, chain_id, fees, &mut ledger, &committees[0], pm, epoch, SIZES.len()).await?;
-    rounds.push(json!({ "round": SIZES.len(), "committee": 0, "retired": true, "epoch": epoch, "spend": retired }));
+    let retired_a = spend_round(&chain, &node, &funder, chain_id, fees, &mut ledger_a, &arm_a[0], pm_a.address(), epoch, SIZES.len(), false).await?;
+    let (_, latest_pm, _) = &arm_b[SIZES.len() - 1];
+    let mut ledger_latest = Ledger::new(BTreeMap::from([(funder.address(), 1u64)]));
+    let retired_b = spend_round(&chain, &node, &funder, chain_id, fees, &mut ledger_latest, &arm_b[0].0, latest_pm.address(), epoch, SIZES.len(), false).await?;
+    rounds.push(json!({
+        "round": SIZES.len(),
+        "epoch": epoch,
+        "retired": true,
+        "a": { "committee": 0, "paymaster": pm_a.address(), "spend": retired_a },
+        "b": { "committee": 0, "paymaster": latest_pm.address(), "spend": retired_b },
+    }));
 
     if let Ok(path) = env::var("RECORD") {
+        let code_of = |pm: &TicketPaymaster| {
+            let chain = &chain;
+            let pm = pm.address();
+            async move {
+                let code = chain.get_code_at(pm).await?;
+                anyhow::Ok(json!({
+                    "paymaster": pm,
+                    "bytes": code.len(),
+                    "templateHash": keccak256(&code[..code.len().saturating_sub(256 + 32)]),
+                    "key": hex(&code[code.len().saturating_sub(256 + 32)..code.len().saturating_sub(32)]),
+                    "denomination": hex(&code[code.len().saturating_sub(32)..]),
+                }))
+            }
+        };
+        let mut codes_b = vec![];
+        for (_, pm, _) in &arm_b {
+            codes_b.push(code_of(pm).await?);
+        }
+        let committee_json = |c: &Committee| json!({
+            "name": c.name,
+            "members": c.keys.len(),
+            "quorum": c.sharing().required(),
+            "keyEip2537": hex(&g2_eip2537(c.sharing().public())),
+            "identities": c.keys.iter().map(|k| hex(&k.public_key().encode())).collect::<Vec<_>>(),
+            "made": c.made,
+        });
         let record = json!({
             "mode": "chain",
             "chainId": chain_id,
@@ -350,15 +417,14 @@ async fn chain() -> anyhow::Result<()> {
             "denomination": DENOMINATION,
             "funder": funder.address(),
             "setup": setup,
-            "code": code_json,
-            "committees": committees.iter().map(|c| json!({
-                "name": c.name,
-                "members": c.keys.len(),
-                "quorum": c.sharing().required(),
-                "keyEip2537": hex(&g2_eip2537(c.sharing().public())),
-                "identities": c.keys.iter().map(|k| hex(&k.public_key().encode())).collect::<Vec<_>>(),
-                "made": c.made,
-            })).collect::<Vec<_>>(),
+            "a": {
+                "code": code_of(&pm_a).await?,
+                "committees": arm_a.iter().map(committee_json).collect::<Vec<_>>(),
+            },
+            "b": {
+                "codes": codes_b,
+                "committees": arm_b.iter().map(|(c, _, _)| committee_json(c)).collect::<Vec<_>>(),
+            },
             "rounds": rounds,
         });
         fs::write(&path, format!("{}\n", serde_json::to_string_pretty(&record)?))?;
@@ -381,6 +447,7 @@ async fn spend_round<P: Provider>(
     pm: Address,
     epoch: u64,
     round: usize,
+    must: bool,
 ) -> anyhow::Result<Value> {
     let (sender, ticket, answers) = issue(committee, ledger, funder, chain_id, epoch, round)?;
     let tx = spend(chain_id, fees, &sender, &ticket, pm, round)?;
@@ -390,12 +457,28 @@ async fn spend_round<P: Provider>(
         Err(e) => json!({ "error": e.to_string() }),
     };
     println!("round {round}, committee {}: {} -> {answer}", committee.name, tx.hash());
-    ensure!(answer.get("result").is_some(), "the node refused committee {}'s spend: {answer}", committee.name);
+    let common = json!({
+        "hash": tx.hash(),
+        "raw": tx.encode(),
+        "answer": answer,
+        "sender": sender.address(),
+        "epoch": ticket.claim.epoch,
+        "salt": ticket.claim.salt,
+        "signature": hex(&ticket.signature.encode()),
+        "answers": answers,
+    });
+    if answer.get("result").is_none() {
+        ensure!(!must, "the node refused committee {}'s spend: {answer}", committee.name);
+        let mut v = common;
+        v["admitted"] = json!(false);
+        return Ok(v);
+    }
     let receipt = rpc::wait_for_confirmed_receipt(chain, tx.hash(), Duration::from_mins(4), Duration::from_secs(2)).await?;
     let pay = &receipt.frame_receipts[1];
     println!("round {round}: block {}, payer {}", receipt.block_number, receipt.payer);
-    ensure!(receipt.payer == pm, "the paymaster did not pay");
+    ensure!(!must || receipt.payer == pm, "the paymaster did not pay");
     Ok(json!({
+        "admitted": true,
         "hash": tx.hash(),
         "raw": tx.encode(),
         "answer": answer,
