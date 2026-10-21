@@ -1,0 +1,504 @@
+{
+  "experiment": "05-x4-private-transfer",
+  "attempt": "2-second-run",
+  "ranAt": "2026-10-21T07:47:46.847Z",
+  "pins": {
+    "skandha": {
+      "url": "https://github.com/4w44h9jckz-boop/skandha",
+      "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade"
+    },
+    "exp-frames": {
+      "url": "https://github.com/4w44h9jckz-boop/exp-frames",
+      "commit": "b9f290237f9918e6965e8be213cd096b02ea7606"
+    }
+  },
+  "proverPackages": [
+    "@noir-lang/noir_wasm@1.0.0-rc.6",
+    "@noir-lang/noir_js@1.0.0-rc.6",
+    "@aztec/bb.js@5.2.1"
+  ],
+  "client": "ethrex/v23.0.0-hegota-testnet-hotfix-64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c/x86_64-unknown-linux-gnu/rustc-v1.93.1",
+  "commands": [
+    "npx tsx experiments/05-x4-private-transfer/run.ts",
+    "skandha: bun install && bun run build; node A with --frames.enable, node B with --frames.enable and --frames.handoff, booted from A",
+    "exp-frames b9f2902: npm ci; go build in experiments/42-noir-transfer/groth16tool; npx tsx experiments/42-noir-transfer/pool.ts --groth16 --send <node A> --label x4-<ms> --out <file>"
+  ],
+  "nodes": [
+    {
+      "name": "A",
+      "peerId": "16Uiu2HAm7b2ookomuW7fiFBbJhDRRsZPVQmYU4ChT7kfuCjkmz5K",
+      "handoff": false,
+      "peers": [
+        "16Uiu2HAmLcNAWEZW4gWWW89Lr61qyWSfD9yJXuD84NQLd1RWR8G2"
+      ],
+      "start": {
+        "t": "2026-10-21T07:46:26.300Z",
+        "node": "A",
+        "event": "start",
+        "profile": "hegota-testnet",
+        "head": 494443,
+        "handoff": false,
+        "claims": false,
+        "binding": false
+      },
+      "lines": {
+        "0x989dda2b247f9e9020ce1ac6843b794d14bc5c08df26f1b61196a65e01dd58c6": [
+          {
+            "t": "2026-10-21T07:47:19.237Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0x989dda2b247f9e9020ce1ac6843b794d14bc5c08df26f1b61196a65e01dd58c6",
+            "result": "ok",
+            "client": "valid",
+            "head": 494450
+          },
+          {
+            "t": "2026-10-21T07:47:19.241Z",
+            "node": "A",
+            "event": "relay",
+            "hash": "0x989dda2b247f9e9020ce1ac6843b794d14bc5c08df26f1b61196a65e01dd58c6",
+            "peers": 1
+          },
+          {
+            "t": "2026-10-21T07:47:20.597Z",
+            "node": "A",
+            "event": "head",
+            "head": 494451,
+            "asked": [
+              "0x989dda2b247f9e9020ce1ac6843b794d14bc5c08df26f1b61196a65e01dd58c6"
+            ],
+            "verdicts": {
+              "0x989dda2b247f9e9020ce1ac6843b794d14bc5c08df26f1b61196a65e01dd58c6": "ok"
+            },
+            "resimulated": [],
+            "removed": [],
+            "pending": [
+              "0x989dda2b247f9e9020ce1ac6843b794d14bc5c08df26f1b61196a65e01dd58c6"
+            ]
+          },
+          {
+            "t": "2026-10-21T07:47:25.709Z",
+            "node": "A",
+            "event": "head",
+            "head": 494452,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0x989dda2b247f9e9020ce1ac6843b794d14bc5c08df26f1b61196a65e01dd58c6"
+            ],
+            "pending": []
+          }
+        ],
+        "0x1244bc5d088f519646aad2302707746c4413a670960371e1e507a6246ba99593": [
+          {
+            "t": "2026-10-21T07:47:19.712Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0x1244bc5d088f519646aad2302707746c4413a670960371e1e507a6246ba99593",
+            "result": "ErrReplaceUnderpriced",
+            "client": "valid",
+            "head": 494450
+          },
+          {
+            "t": "2026-10-21T07:47:27.190Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0x1244bc5d088f519646aad2302707746c4413a670960371e1e507a6246ba99593",
+            "result": "ErrNonceTooLow",
+            "head": 494452
+          }
+        ],
+        "0xdab9881f7a0354cbe576ab869c4bb0b37bd745d27adaa9df390c64aedcbfa8f5": [
+          {
+            "t": "2026-10-21T07:47:20.176Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0xdab9881f7a0354cbe576ab869c4bb0b37bd745d27adaa9df390c64aedcbfa8f5",
+            "result": "ErrFrameSenderBusy",
+            "client": "valid",
+            "head": 494450
+          }
+        ]
+      }
+    },
+    {
+      "name": "B",
+      "peerId": "16Uiu2HAmLcNAWEZW4gWWW89Lr61qyWSfD9yJXuD84NQLd1RWR8G2",
+      "handoff": true,
+      "peers": [
+        "16Uiu2HAm7b2ookomuW7fiFBbJhDRRsZPVQmYU4ChT7kfuCjkmz5K"
+      ],
+      "start": {
+        "t": "2026-10-21T07:46:29.738Z",
+        "node": "B",
+        "event": "start",
+        "profile": "hegota-testnet",
+        "head": 494443,
+        "handoff": true,
+        "claims": false,
+        "binding": false
+      },
+      "lines": {
+        "0x989dda2b247f9e9020ce1ac6843b794d14bc5c08df26f1b61196a65e01dd58c6": [
+          {
+            "t": "2026-10-21T07:47:19.726Z",
+            "node": "B",
+            "event": "gossip",
+            "from": "16Uiu2HAm7b2ookomuW7fiFBbJhDRRsZPVQmYU4ChT7kfuCjkmz5K",
+            "hash": "0x989dda2b247f9e9020ce1ac6843b794d14bc5c08df26f1b61196a65e01dd58c6",
+            "result": "ok",
+            "client": "valid",
+            "outcome": "accept",
+            "head": 494450
+          },
+          {
+            "t": "2026-10-21T07:47:19.891Z",
+            "node": "B",
+            "event": "handoff",
+            "hash": "0x989dda2b247f9e9020ce1ac6843b794d14bc5c08df26f1b61196a65e01dd58c6",
+            "agrees": true
+          },
+          {
+            "t": "2026-10-21T07:47:20.405Z",
+            "node": "B",
+            "event": "head",
+            "head": 494451,
+            "asked": [
+              "0x989dda2b247f9e9020ce1ac6843b794d14bc5c08df26f1b61196a65e01dd58c6"
+            ],
+            "verdicts": {
+              "0x989dda2b247f9e9020ce1ac6843b794d14bc5c08df26f1b61196a65e01dd58c6": "ok"
+            },
+            "resimulated": [],
+            "removed": [],
+            "pending": [
+              "0x989dda2b247f9e9020ce1ac6843b794d14bc5c08df26f1b61196a65e01dd58c6"
+            ]
+          },
+          {
+            "t": "2026-10-21T07:47:26.201Z",
+            "node": "B",
+            "event": "head",
+            "head": 494452,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0x989dda2b247f9e9020ce1ac6843b794d14bc5c08df26f1b61196a65e01dd58c6"
+            ],
+            "pending": []
+          }
+        ],
+        "0x1244bc5d088f519646aad2302707746c4413a670960371e1e507a6246ba99593": [],
+        "0xdab9881f7a0354cbe576ab869c4bb0b37bd745d27adaa9df390c64aedcbfa8f5": []
+      }
+    }
+  ],
+  "runner": {
+    "stdout": [
+      "=== x4-1792568783798: deploy ===",
+      "sender 0xa131d9454d87957dcC465fb37ACD9b383648B4d5  nonce_keys=[0] nonce_seq=6  max_gas=5744660",
+      "  [0] VERIFY  APPROVE_EXECUTION_AND_PAYMENT  → (sender) limits=20000/0 data=0x",
+      "  [1] SENDER  -                              → 0x4e59b44847b379578588920ca78fbf26c0b4956c limits=1500000/4184550 data=0xf98729f4524e29a034ed48cdb1277a2fc2f9aea15015ac61b23e56eb4bdf59e26104e480…(1495B)",
+      "simulate: valid=true shape=SelfVerify payer=0xa131d9454d87957dcc465fb37acd9b383648b4d5 maxCost=5744660080425240",
+      "  gasUsed=4871516 execution=success",
+      "  [0] gasUsed=100 succeeded=true",
+      "  [1] gasUsed=969586 succeeded=true",
+      "sent 0xc3d44586dbcbe44c87a502ecc05613576089588e82a3efdcfe47b642d6c35b39",
+      "mined in block 494446  payer=0xa131d9454d87957dcc465fb37acd9b383648b4d5  gasUsed=4871516 (max 5744660)  fee=0.004871516034100612ETH",
+      "  [0] VERIFY  SUCCESS  execution=100/20000 state=0/0 logs=0",
+      "  [1] SENDER  SUCCESS  execution=969586/1500000 state=3861720/4184550 logs=0",
+      "  https://dora.privacy.ethrex.xyz/tx/0xc3d44586dbcbe44c87a502ecc05613576089588e82a3efdcfe47b642d6c35b39",
+      "",
+      "=== x4-1792568783798: deposit five notes ===",
+      "sender 0xa131d9454d87957dcC465fb37ACD9b383648B4d5  nonce_keys=[0] nonce_seq=7  max_gas=15165994",
+      "  [0] VERIFY  APPROVE_EXECUTION_AND_PAYMENT  → (sender) limits=20000/0 data=0x",
+      "  [1] SENDER  -                              → 0xaF36C0d0b76f56813EC319b5b1E2EC96D9562346 value=0.0007ETH limits=2000000/3525120 data=0xe9ceb85f303182c19f16a8eb01263e51cdb1a5fe5213b5ab20af4e3ad73b3a357427ca88…(68B)",
+      "  [2] SENDER  -                              → 0xaF36C0d0b76f56813EC319b5b1E2EC96D9562346 value=0.000005ETH limits=2000000/391680 data=0xe9ceb85f0c3efbc93548b8a66582c16b81fe5710e2a183b1725e89bf025fc3dee5c4027e…(68B)",
+      "  [3] SENDER  -                              → 0xaF36C0d0b76f56813EC319b5b1E2EC96D9562346 value=0.0004ETH limits=2000000/391680 data=0xe9ceb85f303182c19f16a8eb01263e51cdb1a5fe5213b5ab20af4e3ad73b3a357427ca88…(68B)",
+      "  [4] SENDER  -                              → 0xaF36C0d0b76f56813EC319b5b1E2EC96D9562346 value=0.000009ETH limits=2000000/391680 data=0xe9ceb85f0c3efbc93548b8a66582c16b81fe5710e2a183b1725e89bf025fc3dee5c4027e…(68B)",
+      "  [5] SENDER  -                              → 0xaF36C0d0b76f56813EC319b5b1E2EC96D9562346 value=0.00005ETH limits=2000000/391680 data=0xe9ceb85f303182c19f16a8eb01263e51cdb1a5fe5213b5ab20af4e3ad73b3a357427ca88…(68B)",
+      "simulate: valid=true shape=SelfVerify payer=0xa131d9454d87957dcc465fb37acd9b383648b4d5 maxCost=15165994212323916",
+      "  gasUsed=9018104 execution=success",
+      "  [0] gasUsed=100 succeeded=true",
+      "  [1] gasUsed=1450382 succeeded=true",
+      "  [2] gasUsed=1021590 succeeded=true",
+      "  [3] gasUsed=1021590 succeeded=true",
+      "  [4] gasUsed=1021498 succeeded=true",
+      "  [5] gasUsed=1021590 succeeded=true",
+      "sent 0x77cc8a117f055e9e3106e1263b36472a1b339345e60bdc2d6d16f84809767e41",
+      "mined in block 494447  payer=0xa131d9454d87957dcc465fb37acd9b383648b4d5  gasUsed=9018104 (max 15165994)  fee=0.009018104063126728ETH",
+      "  [0] VERIFY  SUCCESS  execution=100/20000 state=0/0 logs=0",
+      "  [1] SENDER  SUCCESS  execution=1450382/2000000 state=3427200/3525120 logs=3",
+      "  [2] SENDER  SUCCESS  execution=1021590/2000000 state=0/391680 logs=3",
+      "  [3] SENDER  SUCCESS  execution=1021590/2000000 state=0/391680 logs=3",
+      "  [4] SENDER  SUCCESS  execution=1021498/2000000 state=0/391680 logs=3",
+      "  [5] SENDER  SUCCESS  execution=1021590/2000000 state=0/391680 logs=3",
+      "  https://dora.privacy.ethrex.xyz/tx/0x77cc8a117f055e9e3106e1263b36472a1b339345e60bdc2d6d16f84809767e41",
+      "x4-1792568783798 transfer: proved in 1695 ms, verifies alone: true",
+      "x4-1792568783798 a: proved in 1693 ms, verifies alone: true",
+      "x4-1792568783798 b: proved in 1766 ms, verifies alone: true",
+      "x4-1792568783798 transfer: 0x989dda2b247f9e9020ce1ac6843b794d14bc5c08df26f1b61196a65e01dd58c6 to http://127.0.0.1:14337/rpc/: {\"jsonrpc\":\"2.0\",\"id\":1,\"result\":\"0x989dda2b247f9e9020ce1ac6843b794d14bc5c08df26f1b61196a65e01dd58c6\"}",
+      "x4-1792568783798 a, while the transfer is pending: 0x1244bc5d088f519646aad2302707746c4413a670960371e1e507a6246ba99593 to http://127.0.0.1:14337/rpc/: {\"jsonrpc\":\"2.0\",\"id\":1,\"error\":{\"code\":-32000,\"message\":\"ErrReplaceUnderpriced: valid\"}}",
+      "x4-1792568783798 b, while the transfer is pending: 0xdab9881f7a0354cbe576ab869c4bb0b37bd745d27adaa9df390c64aedcbfa8f5 to http://127.0.0.1:14337/rpc/: {\"jsonrpc\":\"2.0\",\"id\":1,\"error\":{\"code\":-32000,\"message\":\"ErrFrameSenderBusy: valid\"}}",
+      "x4-1792568783798 transfer: mined in block 494452",
+      "x4-1792568783798 c, (a) again after the transfer is mined: 0x1244bc5d088f519646aad2302707746c4413a670960371e1e507a6246ba99593 to http://127.0.0.1:14337/rpc/: {\"jsonrpc\":\"2.0\",\"id\":1,\"error\":{\"code\":-32000,\"message\":\"ErrNonceTooLow\"}}"
+    ]
+  },
+  "sent": {
+    "groth16": "0xFaFcC27256f82DCCE5dDE9Af5f0b4011A5d77265",
+    "chainId": 8141,
+    "label": "x4-1792568783798",
+    "pool": "0xaF36C0d0b76f56813EC319b5b1E2EC96D9562346",
+    "adapter": "0x969ea284cFA80Cad9FAcd31b96c2e638e7cfD50e",
+    "url": "http://127.0.0.1:14337/rpc/",
+    "chainTxs": [
+      {
+        "label": "deploy",
+        "hash": "0xc3d44586dbcbe44c87a502ecc05613576089588e82a3efdcfe47b642d6c35b39",
+        "block": 494446,
+        "gasUsed": 4871516,
+        "frames": [
+          {
+            "execution": 100,
+            "state": 0,
+            "status": 1
+          },
+          {
+            "execution": 969586,
+            "state": 3861720,
+            "status": 1
+          }
+        ]
+      },
+      {
+        "label": "deposit five notes",
+        "hash": "0x77cc8a117f055e9e3106e1263b36472a1b339345e60bdc2d6d16f84809767e41",
+        "block": 494447,
+        "gasUsed": 9018104,
+        "frames": [
+          {
+            "execution": 100,
+            "state": 0,
+            "status": 1
+          },
+          {
+            "execution": 1450382,
+            "state": 3427200,
+            "status": 1
+          },
+          {
+            "execution": 1021590,
+            "state": 0,
+            "status": 1
+          },
+          {
+            "execution": 1021590,
+            "state": 0,
+            "status": 1
+          },
+          {
+            "execution": 1021498,
+            "state": 0,
+            "status": 1
+          },
+          {
+            "execution": 1021590,
+            "state": 0,
+            "status": 1
+          }
+        ]
+      }
+    ],
+    "handed": [
+      {
+        "step": "transfer",
+        "tx": "transfer",
+        "spent": [
+          0,
+          2
+        ],
+        "nullifiers": [
+          "0x06070d595e3972f6f5267304121659541597640fcf8fc686548a971a573f77cd",
+          "0x12f520fc0f8ddbaf8b28b59c2e587e9b71829c575d09f159be5f46e0010634ed"
+        ],
+        "verifiesAlone": true,
+        "url": "http://127.0.0.1:14337/rpc/",
+        "hash": "0x989dda2b247f9e9020ce1ac6843b794d14bc5c08df26f1b61196a65e01dd58c6",
+        "rawBytes": 909,
+        "raw": "0x06f90389821fcdf842a006070d595e3972f6f5267304121659541597640fcf8fc686548a971a573f77cda012f520fc0f8ddbaf8b28b59c2e587e9b71829c575d09f159be5f46e0010634ed8094af36c0d0b76f56813ec319b5b1e2ec96d9562346f90323f8670180940000000000000000000000000000000000008272c48227108080b848bb455c7835fbd0dd320416c8a247c87bfa5078aa01ee1500a02bd4c128b97698000000000008006a11a5647084f72f15b2350683ddf383685fd54ae3d0d2492c16ff9e063adf7456ce010380c883077a108302fd008080f902a8028094af36c0d0b76f56813ec319b5b1e2ec96d9562346c8832625a08305fa0080b90284b4b15d5611a5647084f72f15b2350683ddf383685fd54ae3d0d2492c16ff9e063adf745606070d595e3972f6f5267304121659541597640fcf8fc686548a971a573f77cd12f520fc0f8ddbaf8b28b59c2e587e9b71829c575d09f159be5f46e0010634ed2200ed2fcf249edb25828cf18f37cb9117d262ce8fae3ffc27af75c05dda3d30189629c09a1f8a0e341fc57ab92dd72db73a7057fc68b4cd63411159d95910be00000000000000000000000000000000000000000000000000000002540be40000000000000000000000000000000000000000000000000000000000000000e0000000000000000000000000000000000000000000000000000000000000018018fdebd73380ab3d02d1f1076fa77cabdab38dc6066e4bb646bfee0e81f7784e291945d0b7f8281653df2b4d97b94a831e6a52d60e06ee597d977f697b46f571024fa12a499cad9cab6814042c51802a775bf426e6bda58e42695490f8f557b904bfa958f2b250b74d803e670c9e6fc2edd018d84f710a3f9acc75003824a9090f53d43daa3ae5fd30aad12b6664d6d7f07dd0e816665152b885e18a6d6dfcf00156f18bc44ca8d77709bbfcde0d1e569a62d3b77738cd7638b3c1bdcfe1c14c0eafb418ccd94a8a39f7eefb33efb71ac5af6478b68322e01c9122110448e2292c103db9eda4b00a917c1a12a7ca2569bc34700c912d446fbf285a333bc831f02d88d82a637d8f836623df9284747a9df4afdc21b923be138159b0bb022576dc1ff3d8c987902d4a839b699ebbfbf401f51a299ae7a9820491e62f78932a4a770bc498d23e4ad45e58f054f1a9c70099d501becc79dbdc1a2986c9f3240f8b7d00bc815a96c77411e2fa18a4f57d37b60ee7437d0f3c8e4a4284feb8794fd39ec0c3016480c0",
+        "at": "2026-10-21T07:47:19.243Z",
+        "answer": {
+          "httpStatus": 200,
+          "body": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "result": "0x989dda2b247f9e9020ce1ac6843b794d14bc5c08df26f1b61196a65e01dd58c6"
+          }
+        }
+      },
+      {
+        "step": "a, while the transfer is pending",
+        "tx": "a",
+        "spent": [
+          0,
+          2
+        ],
+        "nullifiers": [
+          "0x06070d595e3972f6f5267304121659541597640fcf8fc686548a971a573f77cd",
+          "0x12f520fc0f8ddbaf8b28b59c2e587e9b71829c575d09f159be5f46e0010634ed"
+        ],
+        "verifiesAlone": true,
+        "url": "http://127.0.0.1:14337/rpc/",
+        "hash": "0x1244bc5d088f519646aad2302707746c4413a670960371e1e507a6246ba99593",
+        "rawBytes": 909,
+        "raw": "0x06f90389821fcdf842a006070d595e3972f6f5267304121659541597640fcf8fc686548a971a573f77cda012f520fc0f8ddbaf8b28b59c2e587e9b71829c575d09f159be5f46e0010634ed8094af36c0d0b76f56813ec319b5b1e2ec96d9562346f90323f8670180940000000000000000000000000000000000008272c48227108080b848bb455c7835fbd0dd320416c8a247c87bfa5078aa01ee1500a02bd4c128b97698000000000008006a11a5647084f72f15b2350683ddf383685fd54ae3d0d2492c16ff9e063adf7456ce010380c883077a108302fd008080f902a8028094af36c0d0b76f56813ec319b5b1e2ec96d9562346c8832625a08305fa0080b90284b4b15d5611a5647084f72f15b2350683ddf383685fd54ae3d0d2492c16ff9e063adf745606070d595e3972f6f5267304121659541597640fcf8fc686548a971a573f77cd12f520fc0f8ddbaf8b28b59c2e587e9b71829c575d09f159be5f46e0010634ed0ebe465ee938941ca3235593013abd838c812d86b48f1edbbfbdc6b3ffeb846623de1d8c3a020356ced7b41ea241e07bec4670a00ee600e7ed090ce9651b2bbd00000000000000000000000000000000000000000000000000000002540be40000000000000000000000000000000000000000000000000000000000000000e000000000000000000000000000000000000000000000000000000000000001802db4ccab680dec1e000e65db2cd8b295a6814d2ce87616408266f4f252d803dc20376cd11e552348000714fdd75ddcde26a03b8d74b63672440d1220302423701d0a31f54591c7b217c8852ea6164f1d07cfe5acf7d4fad880ee44f3a093a3bf1ba1918bcc58b15b8d81bfa7782ad267e2c4c5e41c63d3494da2c22b70545b17033d785b2a5faa0fe7b11e409b5aa045319a2cacaabce20985f41109177066220f50f196699a017aa110c5828b070642703b129bcc6730bdc156e309a1f4fce51c228ab5b41db4d644064a454165e20e5a0e41a03f9ca8bc8f6288fd0b737f0020990b82df6b52e3865f145701ca02f01744b9b7e2a8373e1becce2aca6541a90211edfa2d007bd203cafff84a2488e2e8e165b4f7819835a516d8bdec7850af1959420803b78892d83a6f103953d6f44ce2d883b0ab1f86ae14ae605427b75b2ce9950981ab299f9d91b41718705c3191c4609864764da84f8a05eb2760f14417713ffc781145d7bf81dc67fd1b8e08e45390c1d31b97e673963daeba3847b7c0c3016480c0",
+        "at": "2026-10-21T07:47:19.714Z",
+        "answer": {
+          "httpStatus": 200,
+          "body": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "error": {
+              "code": -32000,
+              "message": "ErrReplaceUnderpriced: valid"
+            }
+          }
+        }
+      },
+      {
+        "step": "b, while the transfer is pending",
+        "tx": "b",
+        "spent": [
+          0,
+          4
+        ],
+        "nullifiers": [
+          "0x12f520fc0f8ddbaf8b28b59c2e587e9b71829c575d09f159be5f46e0010634ed",
+          "0x3058fe61b4488fbf706d6c97064a8b4263c7b546019148a2a1c8a0b0a01a3243"
+        ],
+        "verifiesAlone": true,
+        "url": "http://127.0.0.1:14337/rpc/",
+        "hash": "0xdab9881f7a0354cbe576ab869c4bb0b37bd745d27adaa9df390c64aedcbfa8f5",
+        "rawBytes": 909,
+        "raw": "0x06f90389821fcdf842a012f520fc0f8ddbaf8b28b59c2e587e9b71829c575d09f159be5f46e0010634eda03058fe61b4488fbf706d6c97064a8b4263c7b546019148a2a1c8a0b0a01a32438094af36c0d0b76f56813ec319b5b1e2ec96d9562346f90323f8670180940000000000000000000000000000000000008272c48227108080b848bb455c7835fbd0dd320416c8a247c87bfa5078aa01ee1500a02bd4c128b97698000000000008006a11a5647084f72f15b2350683ddf383685fd54ae3d0d2492c16ff9e063adf7456ce010380c883077a108302fd008080f902a8028094af36c0d0b76f56813ec319b5b1e2ec96d9562346c8832625a08305fa0080b90284b4b15d5611a5647084f72f15b2350683ddf383685fd54ae3d0d2492c16ff9e063adf745612f520fc0f8ddbaf8b28b59c2e587e9b71829c575d09f159be5f46e0010634ed3058fe61b4488fbf706d6c97064a8b4263c7b546019148a2a1c8a0b0a01a32432829d2c7be527226eca5ecce6bcd510f4ba79052ac2849d101a5669303e4e71815932adf2d145343578498c5a73a7850f4e1ea5929d955896ccdb3d2d7a0479100000000000000000000000000000000000000000000000000000002540be40000000000000000000000000000000000000000000000000000000000000000e00000000000000000000000000000000000000000000000000000000000000180082e96d9b7d91a8745f044c387a49743de01fc12589ff7b8987c6477ccd435ec033ae5ee0c22d06c5f1efa84e76f02d8a276b27ed03febbfdff86fae560180e1175fea620248aee06fb255c61e95256de219e87548b3347ca2157ab4bdc0bdd10c6ae5db6555590d77ff8594c11b63810d4a60e639b8d53775062d14392e17b70268e5faf6b4a9eaf35807a7313edf90ff5fe713bcd7b268e2b6e1f03239a64e10536342e35d8bd3366aa8489a14b4fc7f12d599c0c0fa86ea59ddf98c796ddc06a5992db7f93467377e8651fe6c1f96a0ff37d8df4d4a79b93ba2e2b46b2b5321628cfe42e281827fb72d797609999a37c480f0ebe6a2c24553304b568569722eca8e8d966d116d9475738011594bc1e3a3ec9a69ce6d3f9e801cfb128c00ff204a5fd66a2c33418e2c16b1982eab10f4290b4a75c4b6297f5bbdaf54f9ce7b0ea1ab7bd1769c1ca93fa3c1b2df2d01374de33e42fc11a7a83f0acd74f83dac29fccdac46fb2b167d97b766aa656eb56db836a1fc4050d9bdd2ec4d2d059750c0c3016480c0",
+        "at": "2026-10-21T07:47:20.178Z",
+        "answer": {
+          "httpStatus": 200,
+          "body": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "error": {
+              "code": -32000,
+              "message": "ErrFrameSenderBusy: valid"
+            }
+          }
+        }
+      },
+      {
+        "step": "c, (a) again after the transfer is mined",
+        "tx": "a",
+        "spent": [
+          0,
+          2
+        ],
+        "nullifiers": [
+          "0x06070d595e3972f6f5267304121659541597640fcf8fc686548a971a573f77cd",
+          "0x12f520fc0f8ddbaf8b28b59c2e587e9b71829c575d09f159be5f46e0010634ed"
+        ],
+        "verifiesAlone": true,
+        "url": "http://127.0.0.1:14337/rpc/",
+        "hash": "0x1244bc5d088f519646aad2302707746c4413a670960371e1e507a6246ba99593",
+        "rawBytes": 909,
+        "raw": "0x06f90389821fcdf842a006070d595e3972f6f5267304121659541597640fcf8fc686548a971a573f77cda012f520fc0f8ddbaf8b28b59c2e587e9b71829c575d09f159be5f46e0010634ed8094af36c0d0b76f56813ec319b5b1e2ec96d9562346f90323f8670180940000000000000000000000000000000000008272c48227108080b848bb455c7835fbd0dd320416c8a247c87bfa5078aa01ee1500a02bd4c128b97698000000000008006a11a5647084f72f15b2350683ddf383685fd54ae3d0d2492c16ff9e063adf7456ce010380c883077a108302fd008080f902a8028094af36c0d0b76f56813ec319b5b1e2ec96d9562346c8832625a08305fa0080b90284b4b15d5611a5647084f72f15b2350683ddf383685fd54ae3d0d2492c16ff9e063adf745606070d595e3972f6f5267304121659541597640fcf8fc686548a971a573f77cd12f520fc0f8ddbaf8b28b59c2e587e9b71829c575d09f159be5f46e0010634ed0ebe465ee938941ca3235593013abd838c812d86b48f1edbbfbdc6b3ffeb846623de1d8c3a020356ced7b41ea241e07bec4670a00ee600e7ed090ce9651b2bbd00000000000000000000000000000000000000000000000000000002540be40000000000000000000000000000000000000000000000000000000000000000e000000000000000000000000000000000000000000000000000000000000001802db4ccab680dec1e000e65db2cd8b295a6814d2ce87616408266f4f252d803dc20376cd11e552348000714fdd75ddcde26a03b8d74b63672440d1220302423701d0a31f54591c7b217c8852ea6164f1d07cfe5acf7d4fad880ee44f3a093a3bf1ba1918bcc58b15b8d81bfa7782ad267e2c4c5e41c63d3494da2c22b70545b17033d785b2a5faa0fe7b11e409b5aa045319a2cacaabce20985f41109177066220f50f196699a017aa110c5828b070642703b129bcc6730bdc156e309a1f4fce51c228ab5b41db4d644064a454165e20e5a0e41a03f9ca8bc8f6288fd0b737f0020990b82df6b52e3865f145701ca02f01744b9b7e2a8373e1becce2aca6541a90211edfa2d007bd203cafff84a2488e2e8e165b4f7819835a516d8bdec7850af1959420803b78892d83a6f103953d6f44ce2d883b0ab1f86ae14ae605427b75b2ce9950981ab299f9d91b41718705c3191c4609864764da84f8a05eb2760f14417713ffc781145d7bf81dc67fd1b8e08e45390c1d31b97e673963daeba3847b7c0c3016480c0",
+        "at": "2026-10-21T07:47:27.192Z",
+        "answer": {
+          "httpStatus": 200,
+          "body": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "error": {
+              "code": -32000,
+              "message": "ErrNonceTooLow"
+            }
+          }
+        }
+      }
+    ],
+    "onChain": {
+      "transfer": {
+        "label": "",
+        "hash": "0x989dda2b247f9e9020ce1ac6843b794d14bc5c08df26f1b61196a65e01dd58c6",
+        "block": 494452,
+        "gasUsed": 3017829,
+        "frames": [
+          {
+            "execution": 5579,
+            "state": 0,
+            "status": 1
+          },
+          {
+            "execution": 356540,
+            "state": 195840,
+            "status": 1
+          },
+          {
+            "execution": 2337165,
+            "state": 97920,
+            "status": 1
+          }
+        ]
+      },
+      "a": null,
+      "b": null
+    },
+    "block": 494455
+  },
+  "transferFrames": [
+    {
+      "gasUsed": 5579,
+      "stateGasUsed": 0,
+      "status": "0x1"
+    },
+    {
+      "gasUsed": 356540,
+      "stateGasUsed": 195840,
+      "status": "0x1"
+    },
+    {
+      "gasUsed": 2337165,
+      "stateGasUsed": 97920,
+      "status": "0x1"
+    }
+  ],
+  "chain": {
+    "0x989dda2b247f9e9020ce1ac6843b794d14bc5c08df26f1b61196a65e01dd58c6": {
+      "hash": "0x989dda2b247f9e9020ce1ac6843b794d14bc5c08df26f1b61196a65e01dd58c6",
+      "mined": true,
+      "block": 494452,
+      "blockHash": "0x4aefeb0703ea03bee439dd094c41fdbf31be75ae22a24f5edde08e83e2c078c3",
+      "status": "0x1",
+      "sender": "0xaf36c0d0b76f56813ec319b5b1e2ec96d9562346",
+      "payer": "0xaf36c0d0b76f56813ec319b5b1e2ec96d9562346",
+      "signatures": 0,
+      "frames": 3,
+      "frameStatuses": [
+        "0x1",
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 3017829
+    },
+    "0x1244bc5d088f519646aad2302707746c4413a670960371e1e507a6246ba99593": {
+      "hash": "0x1244bc5d088f519646aad2302707746c4413a670960371e1e507a6246ba99593",
+      "mined": false,
+      "known": false
+    },
+    "0xdab9881f7a0354cbe576ab869c4bb0b37bd745d27adaa9df390c64aedcbfa8f5": {
+      "hash": "0xdab9881f7a0354cbe576ab869c4bb0b37bd745d27adaa9df390c64aedcbfa8f5",
+      "mined": false,
+      "known": false
+    }
+  }
+}
