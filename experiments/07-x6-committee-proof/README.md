@@ -138,3 +138,37 @@ Whether the empty entry is "more in its prefix than the committee's proof and a 
 approval" is reported with the results, not decided here. It is a protocol rule about where a
 payment-only signature goes, and it costs the prefix 100 gas.
 
+## Run 2, set aside for two defects in its record
+
+**Run 2** (2026-10-21, 08:18 to 08:20 UTC, record `results/superseded/2-second-run.json`)
+ran every part:
+- the committee's withdrawal was mined in block 494,757, and its replay refused;
+- the update was admitted by node A, gossiped, handed on by B and mined in block 494,761, its
+  recipient credited with one unit, and its replay refused;
+- the held note's withdrawal without a proof was refused, `ErrFramePrefixReverted`.
+
+Its record has two defects of this runner's, so it is kept, not read for the results:
+- **The update's member records were overwritten.** The Rust half records its own `members`
+  field, the member ids, and the runner spread it over the members' records. The update's
+  proof and inputs are on chain and in the record's other fields, but that proof's messages
+  and bytes are not.
+- **The member-alone probe tested nothing.** `co-withdraw member` takes `--peers` as three
+  separate values; its help text says comma-separated, and the runner passed one
+  comma-separated value. The member exited on its command line, before trying to reach a
+  peer.
+
+**Changed before run 3:**
+- the runner keeps the member ids as `memberIds` and the members' records as `members`;
+- the member-alone probe passes the three addresses separately, and its check refuses a
+  command-line error;
+- the device's public inputs are recorded, decoded from its mined withdrawal.
+
+**The comparison, shown wrong in run 2.** The check written before run 1, that
+a node sees every frame, limit and fee field alike, is kept verbatim. It is marked as expected
+to fail, and a new check states what matched and what did not:
+- matched: the frames' modes, scopes, targets, values, data lengths and selectors, the fee
+  fields and the absence of signatures;
+- differed: the frames' gas limits. The device set its limits from a simulation of its own
+  proof. The wallet's shares carry none to simulate, so the committee's withdrawal uses the
+  pool's defaults and the worst-case fee.
+

@@ -172,7 +172,7 @@ try {
   const hShare = await share(hDir)
   for (const i of [1, 2]) rmSync(join(hDir, `share-${i}.bin`))
   const alone = await quiet('timeout', ['150', coWithdraw, 'member', '--id', '0', '--share', join(hDir, 'share-0.bin'),
-    '--peers', '127.0.0.1:10120,127.0.0.1:10121,127.0.0.1:10122', '--out', join(secrets, 'alone.json')])
+    '--peers', '127.0.0.1:10120', '127.0.0.1:10121', '127.0.0.1:10122', '--out', join(secrets, 'alone.json')])
     .then((r) => ({ exitOk: true, millis: r.millis, tail: r.stdout.slice(-5) }))
     .catch((e: Error) => ({ exitOk: false, millis: null, tail: e.message.split('\n').slice(-5) }))
   rmSync(join(hDir, 'share-0.bin'))
@@ -219,6 +219,7 @@ try {
       depositBlock: device.depositBlock,
       withdrawal: device.withdrawal,
       frames: await frameFacts(device.withdrawal),
+      publicInputs: (await withdrawArgs(device.withdrawal)).inputs.map(String),
       verifierAccepts: await withdrawArgs(device.withdrawal).then((w) => verifierAccepts(w.proof, w.inputs, 'latest' as Hex)),
     },
     committee: {
@@ -230,12 +231,14 @@ try {
       verifierAccepts: await verifierAccepts(committeeProof, wMemberRecords[0].publicInputs, 'latest' as Hex),
     },
     update: {
+      ...update,
       recipient,
       inputs: uInputs.stdout,
       split: { millis: uSplit.millis, stdout: uSplit.stdout },
       prove: { millis: uProve.millis, stdout: uProve.stdout },
+      // The Rust half records the member ids as `members`; the members' own records go here.
+      memberIds: update.members,
       members: uMemberRecords,
-      ...update,
       frames: await frameFacts(update.mined.hash),
     },
     stopped: {

@@ -100,7 +100,10 @@ for (const { file, r } of runs)
       expect(r.committee.verifierAccepts).toBe(true)
     })
 
-    it('a node sees the committee\'s withdrawal as it sees the device\'s: every frame, limit and fee field', () => {
+    // Written before run 1 as the claim's first condition. Run 2 showed it wrong, by the
+    // wallet's pricing rather than the proof: kept verbatim, and expected to fail. The check after
+    // it says exactly what matched and what did not.
+    it.fails('a node sees the committee\'s withdrawal as it sees the device\'s: every frame, limit and fee field', () => {
       const d = r.device.frames as Facts
       const c = r.committee.frames as Facts
       const seen = (f: Facts) => ({
@@ -111,6 +114,20 @@ for (const { file, r } of runs)
         frames: f.frames.map((x) => ({ mode: x.mode, flags: x.flags, to: x.to, gasLimit: x.gasLimit, stateGasLimit: x.stateGasLimit, value: x.value, dataBytes: x.dataBytes, selector: x.selector })),
       })
       expect(seen(c)).toEqual(seen(d))
+    })
+
+    it('shown wrong by the pricing, not the proof: shapes, targets, values, data and fee fields match; the limits differ', () => {
+      const d = r.device.frames as Facts
+      const c = r.committee.frames as Facts
+      expect([c.signatures, c.nonceKeys.length, c.maxFeePerGas, c.maxPriorityFeePerGas]).toEqual([d.signatures, d.nonceKeys.length, d.maxFeePerGas, d.maxPriorityFeePerGas])
+      const shape = (f: Facts) => f.frames.map((x) => ({ mode: x.mode, flags: x.flags, to: x.to, stateGasLimit: x.stateGasLimit, value: x.value, dataBytes: x.dataBytes, selector: x.selector }))
+      expect(shape(c)).toEqual(shape(d))
+      const limits = (f: Facts) => f.frames.map((x) => BigInt(x.gasLimit))
+      // The wallet's shares are priced at the pool's default limits and the worst-case fee; the
+      // device sets its limits from a simulation of its own proof.
+      expect(limits(c)).not.toEqual(limits(d))
+      expect(typeof r.committee.withdrawal.publicInputs.fee).toBe('string')
+      expect(r.device.publicInputs).toHaveLength(6)
     })
 
     it('the same withdrawal again, once mined, was refused', () => {
@@ -160,6 +177,8 @@ for (const { file, r } of runs)
 
     it('the committee stopped: one member alone cannot prove, the wallet kept no share, and the chain refuses the withdrawal unproved', () => {
       expect(r.stopped.memberAlone.exitOk).toBe(false)
+      // Added after run 2, whose probe failed on its own command line and so tested nothing.
+      expect(r.stopped.memberAlone.tail.join('\n')).not.toMatch(/Usage:|values required/)
       expect(r.stopped.walletKept.some((f: string) => /^share-/.test(f))).toBe(false)
       refused(r.stopped.unproved.sent[0])
     })
