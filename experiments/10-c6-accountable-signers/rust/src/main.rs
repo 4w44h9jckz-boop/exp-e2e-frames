@@ -60,7 +60,10 @@ use rand::RngExt;
 use serde_json::{Value, json};
 
 const BOARD: Address = address!("0x93DD748B72dA1b1B6F1d5ec78Cb91ee52F01727d");
-const DENOMINATION: U256 = U256::from_limbs([1_000_000_000_000_000, 0, 0, 0]);
+/// 0.01 ETH: a paymaster refuses a transaction whose max cost exceeds it, and the keys the
+/// accountable form carries as data cost more than the ticket's 0.001 ETH at 64 members and up
+/// (the first run's refusals).
+const DENOMINATION: U256 = U256::from_limbs([10_000_000_000_000_000, 0, 0, 0]);
 const TIP: u128 = 1_000_000_000;
 /// The accountable paymaster's namespace, as its code holds it.
 const COMMIT_NAMESPACE: &[u8] = b"FRAME_COMMIT_V1";
@@ -129,11 +132,21 @@ fn spend(chain_id: u64, fees: Fees, sender: &PrivateKeySigner, paymaster: Addres
     Ok(tx)
 }
 
-/// Room for the accountable check: the ticket's 130,000, one G2 addition per member at most,
-/// one G1 addition per signature, the keys' hash and copies, and memory for the keys.
-fn accountable_verify_limit(n: u64) -> u64 {
+/// The accountable frame's declared execution limit: a fit to the gas the first run measured
+/// (`results/1-first-run.json`, n from 5 to 32), 170 gas a member and 875 a signer above n = 5,
+/// 620 more a signer when the signatures are added in the frame, the memory for the keys, and a
+/// tenth more. Declaring more than the check needs would trip the node's budget, not the check's.
+fn accountable_verify_limit(n: u64, q: u64, individual: bool) -> u64 {
     let words = n * 8 + 0x80;
-    130_000 + n * (600 + 375 + 200) + words * 3 + words * words / 512 + 20_000
+    let fit = 126_842 + (n - 5) * 170 + (q - 4) * 875 + if individual { q * 620 } else { 0 } + words * words / 512;
+    fit + fit / 10 + 5_000
+}
+
+/// The ECDSA frame's: 18,108 at n = 5, about 3,514 a signature (the first run, n from 5 to 128),
+/// and a tenth more.
+fn ecdsa_verify_limit(n: u64, q: u64) -> u64 {
+    let fit = 18_108 + (q - 4) * 3_514 + (n - 5) * 30;
+    fit + fit / 10 + 5_000
 }
 
 #[tokio::main]
@@ -226,7 +239,8 @@ async fn main() -> anyhow::Result<()> {
                     data.extend_from_slice(&g1_eip2537(s));
                 }
             }
-            let tx = spend(chain_id, fees, &sender, acc.address(), data.clone(), accountable_verify_limit(n), &format!("C6: accountable mode {mode}, n {n}"))?;
+            let limit = accountable_verify_limit(n, q, mode == 1);
+            let tx = spend(chain_id, fees, &sender, acc.address(), data.clone(), limit, &format!("C6: accountable mode {mode}, n {n}"))?;
             let mut r = submit(&chain, &tx, acc.address(), data.len()).await?;
             r["sender"] = json!(sender.address());
             r["salt"] = json!(c.salt);
@@ -261,7 +275,7 @@ async fn main() -> anyhow::Result<()> {
                 data.extend_from_slice(&b);
                 sigs.push(hex(&b));
             }
-            let verify = 60_000 + n * 400 + q * 4_000;
+            let verify = ecdsa_verify_limit(n, q);
             let tx = spend(chain_id, fees, &sender, ecdsa.address(), data.clone(), verify, &format!("C6: ECDSA control, n {n}"))?;
             let mut r = submit(&chain, &tx, ecdsa.address(), data.len()).await?;
             r["sender"] = json!(sender.address());
@@ -298,7 +312,6 @@ async fn main() -> anyhow::Result<()> {
                 "paymaster": acc.address(),
                 "keysCommit": keccak256(&keys),
                 "keysEip2537": hex(&keys),
-                "verifyLimit": accountable_verify_limit(n),
                 "spends": accountable,
             },
         }));
