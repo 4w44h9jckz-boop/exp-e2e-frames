@@ -23,6 +23,31 @@ signatures. In threshold signing the members' partials go to whoever combines th
 runner, and only the combined signature reaches the chain; the accountable and ECDSA forms put
 the signers in the transaction.
 
+**Reported beside the results (2026-10-21, the owner's word through the coordinator)**; the
+claim and the checks above are unchanged:
+- **Summing the signers' keys, as run, against subtracting the non-signers from a stored
+  aggregate** (derived): the paymaster adds `k = n - f` keys, one EIP-2537 G2 addition (600 gas)
+  each; holding the sum of all `n` keys in code and subtracting the `f` absent ones costs `f`
+  additions instead, about `(k - f) * 600` gas less (for 256 members, 86 fewer additions),
+  and needs the absent keys only, not the present ones.
+- **Keys from calldata checked against a stored commitment, as run, against keys from storage**
+  (derived): calldata is 16 gas a non-zero byte, about 4,100 gas for a 256-byte key plus its
+  share of one keccak; storage is 8 cold slot reads, 16,800 gas a key, and a public-mempool
+  `VERIFY` frame may read no storage but its sender's, so a paymaster cannot read keys there at
+  all. Keys in the paymaster's own code fit up to 96 G2 keys (EIP-170's 24,576 bytes).
+- **Proofs of possession at registration**: not run. The runner makes the keys itself; a
+  deployment checks each key's proof of possession before its hash is fixed in the paymaster,
+  since the aggregate check is open to rogue keys otherwise (Commonware's multisig scheme says
+  the same).
+- **Bytes on the wire, bitmap included**: every spend records its transaction's encoded bytes
+  and its `VERIFY` data's; the bitmap is `ceil(n / 8)` of them.
+- **The hash to the curve**: RFC 9380's `BLS12381G1_XMD:SHA-256_SSWU_RO_`, with
+  `expand_message_xmd` over the SHA-256 precompile, two field elements reduced with MODEXP,
+  EIP-2537's `MAP_FP_TO_G1` on each and one G1 addition, under the DST
+  `BLS_SIG_BLS12381G1_XMD:SHA-256_SSWU_RO_POP_`, as Commonware's `MinSig` hashes and as the
+  ticket paymaster does.
+- **Not run**: verifier keys of constant size for an accountable scheme (ePrint 2023/1793).
+
 ## Pieces
 
 | Piece | Pin (`pins.json`) | Role |
