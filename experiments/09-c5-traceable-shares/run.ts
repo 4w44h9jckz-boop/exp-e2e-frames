@@ -116,7 +116,7 @@ const record = {
       gasLimit: Number(slashTx.gas),
       bytes: (slashRaw.length - 2) / 2,
       raw: slashRaw,
-      logs: slashReceipt.logs.map((l) => ({ topic: l.topics[0], holder: Number(BigInt(l.data)) })),
+      logs: slashReceipt.logs.map((l) => ({ address: l.address, topics: l.topics, data: l.data })),
       stakesAfter: stakesAfter.map(String),
       callerGainedWei: (balanceAfter - balanceBefore).toString(),
       gasPaidWei: (slashReceipt.gasUsed * slashReceipt.effectiveGasPrice).toString(),
