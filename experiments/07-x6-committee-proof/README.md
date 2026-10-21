@@ -193,8 +193,9 @@ refund pool its sender and payer. The verifier the pool calls accepts both proof
 
 Both used 579,673 gas in all: the device's in block 494,793, the committee's in block 494,798.
 The fee fields, the frames' modes, scopes, targets, values, data lengths and selectors are the
-same. The limits are not, and nor is the fee the proof commits to, a public input: 150,658,200
-gwei for the device, 173,077,600 gwei for the committee.
+same. The limits are not, and nor is the fee the proof commits to, a public input: 150,658.2
+gwei for the device, 173,077.6 gwei for the committee (150,658,200,000,000 and
+173,077,600,000,000 wei; corrected after run 3, which first gave these wei figures as gwei).
 
 - **So the first condition is shown wrong, and the cause is the pricing, not the proof.** A
   wallet that proves for itself simulates its draft and tightens the limits (kohaku-rs's
