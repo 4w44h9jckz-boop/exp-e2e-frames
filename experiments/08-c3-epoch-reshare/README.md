@@ -38,6 +38,16 @@ still sign. If it can, ephemerality rests on erasure that nothing enforces.
 A first chain attempt (from `525b303`) was stopped before any spend when the amendment arrived;
 only its setup transaction was mined, and its record was not written.
 
+**Reporting added later (2026-10-21, the owner's word through the coordinator)**, beside the
+results; the claim and the checks above are unchanged:
+- committee sizes up to 423 and 512, by `member` mode below;
+- a comparison of the bytes a dealer sends with `32n + 48t`, the per-dealer figure derived in
+  the post *Evolving Committees at the Mempool Level* (`t` the faults tolerated here, `n - q`);
+- the resharing library's commit: Commonware `v2026.9.0` (`d476a23`) with this experiment's
+  `dkg::feldman_desmedt::run` on top, cmw-monorepo `489e313`;
+- that kept shares still sign is a certainty shown, not a hypothesis tested: a reshare gives new
+  shares of the same secret.
+
 ## Pieces
 
 | Piece | Pin (`pins.json`) | Role |
@@ -83,12 +93,21 @@ then compute time; a member's wall-clock is its compute plus three one-way netwo
  [2] SENDER -> board        post("C3: paid with a ticket from round k")
 ```
 
+`member`, for 423 and 512, where running every member in turn would take hours: the previous
+key is dealt by Commonware's `deal`, a quorum of its holders are the dealers, and one dealer deals
+to `n` fresh players, every one of whom checks the dealing and acknowledges it. So the dealer's
+log is the one a full round publishes. Exact: every message's encoded size, and the counts the
+protocol fixes. Timed: the dealer's own work, and each player's check of one dealing. Derived: a
+player's checks of all `q` dealings. Not measured: a player's finalization, and the other
+dealers, each the same work as the one measured.
+
 ## Run
 
 ```bash
 npm install
 npm run account && npm run faucet
 npx tsx experiments/08-c3-epoch-reshare/run.ts measure [attempt-label] [sizes]
+npx tsx experiments/08-c3-epoch-reshare/run.ts member [attempt-label] [sizes]
 npx tsx experiments/08-c3-epoch-reshare/run.ts chain [attempt-label]
 ```
 

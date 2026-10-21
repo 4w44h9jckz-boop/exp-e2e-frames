@@ -217,3 +217,23 @@ for (const { file, r } of runs('measure-'))
       }
     })
   })
+
+// member mode (sizes 423 and 512), reported beside the results: counts and sizes consistent.
+for (const { file, r } of runs('member-'))
+  describe(`experiment 08, ${file}`, () => {
+    const m = r.measured
+    it('says what it ran and what network its times assume', () => {
+      expect(m.mode).toBe('member')
+      expect(m.network).toMatch(/one process/)
+    })
+    it('counts what the protocol fixes, from the encoded sizes', () => {
+      for (const x of m.sizes) {
+        const b = x.bytes
+        expect(x.timed.playerChecksMeasured).toBe(x.n)
+        expect(x.exactPerDealer.messagesSent).toBe(2 * x.n)
+        expect(x.exactPerDealer.bytesSent).toBe(x.n * (b.dealerPubMsg + b.dealerPrivMsg) + x.n * b.dealerLog)
+        expect(x.exactPerPlayer.bytesReceived).toBe(x.quorum * (b.dealerPubMsg + b.dealerPrivMsg + b.dealerLog))
+        expect(x.postFigure32nPlus48t).toBe(32 * x.n + 48 * (x.n - x.quorum))
+      }
+    })
+  })

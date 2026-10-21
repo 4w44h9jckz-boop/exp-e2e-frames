@@ -33,11 +33,11 @@ use alloy::{
     sol_types::{SolCall, SolEvent},
 };
 use anyhow::{Context, ensure};
-use commonware_codec::Encode;
+use commonware_codec::{Encode, EncodeSize};
 use commonware_cryptography::{
     Signer as _,
     bls12381::{
-        dkg::feldman_desmedt::{self, Info, Output, Reveal, RunResult, Traffic},
+        dkg::feldman_desmedt::{self, Dealer, Info, Output, Player, Reveal, RunResult, Traffic, deal},
         primitives::{
             group::Share,
             sharing::{Mode, Sharing},
@@ -231,6 +231,7 @@ fn committee(
 async fn main() -> anyhow::Result<()> {
     match env::var("MODE").as_deref() {
         Ok("measure") => measure(),
+        Ok("member") => member(),
         Ok("chain") => chain().await,
         _ => anyhow::bail!("MODE is chain or measure"),
     }
@@ -266,6 +267,123 @@ fn measure() -> anyhow::Result<()> {
         let record = json!({
             "mode": "measure",
             "network": "every participant in one process on one machine, in turn, messages passed in memory: no network time",
+            "slotSeconds": SLOT,
+            "epochSeconds": EPOCH,
+            "sizes": out,
+        });
+        fs::write(&path, format!("{}\n", serde_json::to_string_pretty(&record)?))?;
+        println!("recorded in {path}");
+    }
+    Ok(())
+}
+
+/// One member's share of a reshare to `n` members, for sizes where running every member in turn
+/// would take hours: the previous key is dealt (`deal`), a quorum of its holders are the dealers,
+/// and one dealer deals to `n` fresh players. Every player checks that dealing and acknowledges it,
+/// so the dealer's log is the one a full round would publish. Exact: every message's encoded size,
+/// and the counts the protocol fixes. Timed: the dealer's own work and each player's check of one
+/// dealing. Not run: the other dealers (each the same work) and a player's finalization.
+fn member() -> anyhow::Result<()> {
+    let sizes: Vec<usize> = env::var("SIZES")
+        .unwrap_or_else(|_| "423,512".into())
+        .split(',')
+        .map(|s| s.trim().parse())
+        .collect::<Result<_, _>>()?;
+    let mut rng = rand::rng();
+    let mut out = vec![];
+    for n in sizes {
+        let old = identities(&mut rng, n);
+        let (previous, old_shares) = deal::<MinSig, _, N3f1>(&mut rng, Mode::NonZeroCounter, set_of(&old)?)
+            .map_err(|e| anyhow::anyhow!("{e:?}"))?;
+        let q = previous.quorum::<N3f1>() as usize;
+        let dealers: Vec<_> = old.iter().take(q).cloned().collect();
+        let players = identities(&mut rng, n);
+        let info = Info::<MinSig, ed25519::PublicKey>::new::<N3f1>(
+            DKG_NAMESPACE,
+            1,
+            Some(previous.clone()),
+            Mode::NonZeroCounter,
+            Reveal::V1,
+            set_of(&dealers)?,
+            set_of(&players)?,
+        )
+        .map_err(|e| anyhow::anyhow!("{e:?}"))?;
+        let share = old_shares.get_value(&dealers[0].public_key()).expect("dealer holds a share").clone();
+        let started = std::time::Instant::now();
+        let (mut dealer, pub_msg, priv_msgs) = Dealer::start::<N3f1>(&mut rng, info.clone(), dealers[0].clone(), Some(share))
+            .map_err(|e| anyhow::anyhow!("{e:?}"))?;
+        let dealer_start = started.elapsed();
+        let mut checks = vec![];
+        let mut ack_bytes = 0usize;
+        let mut ack_time = std::time::Duration::ZERO;
+        for (to, priv_msg) in &priv_msgs {
+            let key = players.iter().find(|k| k.public_key() == *to).context("every dealing has its player")?;
+            let mut player = Player::new(info.clone(), key.clone()).map_err(|e| anyhow::anyhow!("{e:?}"))?;
+            let t = std::time::Instant::now();
+            let ack = player
+                .dealer_message::<N3f1>(dealers[0].public_key(), pub_msg.clone(), priv_msg.clone())
+                .map_err(|e| anyhow::anyhow!("{e:?}"))?
+                .context("a fresh dealing is acknowledged")?;
+            checks.push(t.elapsed().as_micros() as u64);
+            ack_bytes = ack.encode_size();
+            let t = std::time::Instant::now();
+            dealer.receive_player_ack(to.clone(), ack).map_err(|e| anyhow::anyhow!("{e:?}"))?;
+            ack_time += t.elapsed();
+        }
+        let t = std::time::Instant::now();
+        let log = dealer.finalize::<N3f1>();
+        let finalize = t.elapsed();
+        let log_b = log.encode_size();
+        ensure!(log.check(&info).is_some(), "the dealer's log checks");
+        let (pub_b, priv_b) = (pub_msg.encode_size(), priv_msgs[0].1.encode_size());
+        checks.sort_unstable();
+        let check_median = checks[checks.len() / 2];
+        let t_faults = n - q;
+        println!("n {n}: q {q}, dealer {} ms, a player's check {} us (median)", dealer_start.as_millis(), check_median);
+        out.push(json!({
+            "n": n,
+            "quorum": q,
+            "dealers": q,
+            "bytes": {
+                "dealerPubMsg": pub_b,
+                "dealerPrivMsg": priv_b,
+                "playerAck": ack_bytes,
+                "dealerLog": log_b,
+            },
+            "exactPerDealer": {
+                "messagesSent": 2 * n,
+                "messagesReceived": n,
+                "bytesSent": n * (pub_b + priv_b) + n * log_b,
+                "bytesReceived": n * ack_bytes,
+                "uniqueBytesSent": pub_b + n * priv_b + log_b,
+                "rounds": 3,
+            },
+            "exactPerPlayer": {
+                "messagesSent": q,
+                "messagesReceived": 2 * q,
+                "bytesSent": q * ack_bytes,
+                "bytesReceived": q * (pub_b + priv_b + log_b),
+                "rounds": 3,
+            },
+            "timed": {
+                "dealerStartMicros": dealer_start.as_micros() as u64,
+                "dealerAcksMicros": ack_time.as_micros() as u64,
+                "dealerFinalizeMicros": finalize.as_micros() as u64,
+                "playerCheckMicrosMedian": check_median,
+                "playerChecksMeasured": checks.len(),
+            },
+            "derived": {
+                "playerChecksMicros": check_median * q as u64,
+                "note": "a player checks one dealing from each of the q dealers; its finalization (checking the q logs' acknowledgements and interpolating its share) is not measured here",
+            },
+            "postFigure32nPlus48t": 32 * n + 48 * t_faults,
+            "faults": t_faults,
+        }));
+    }
+    if let Ok(path) = env::var("RECORD") {
+        let record = json!({
+            "mode": "member",
+            "network": "one dealer and every player's check of its dealing, in one process on one machine, in memory: no network time",
             "slotSeconds": SLOT,
             "epochSeconds": EPOCH,
             "sizes": out,

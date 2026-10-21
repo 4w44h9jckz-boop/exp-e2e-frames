@@ -19,9 +19,9 @@ const root = new URL('../../', import.meta.url).pathname
 const pins = JSON.parse(readFileSync(join(here, 'pins.json'), 'utf8')) as Record<string, Pin>
 const work = join(root, 'work')
 const mode = process.argv[2]
-if (mode !== 'chain' && mode !== 'measure') throw new Error('usage: run.ts chain|measure [attempt-label]')
+if (mode !== 'chain' && mode !== 'measure' && mode !== 'member') throw new Error('usage: run.ts chain|measure|member [attempt-label] [sizes]')
 const attempt = process.argv[3] ?? new Date().toISOString()
-const sizes = process.argv[4] ?? '4,5,7,10,13,16,32,64,128,256'
+const sizes = process.argv[4] ?? (mode === 'member' ? '423,512' : '4,5,7,10,13,16,32,64,128,256')
 
 console.log('checking out and building the pinned pieces')
 const kohaku = await checkout('kohaku-rs', pins['kohaku-rs'], work)
@@ -44,9 +44,9 @@ const save = (record: unknown) => {
   console.log(`recorded ${path}`)
 }
 
-if (mode === 'measure') {
+if (mode === 'measure' || mode === 'member') {
   const out = join(work, `c3-measure-${stamp}.json`)
-  const stdout = await run(runner, [], { cwd: root, env: { MODE: 'measure', SIZES: sizes, RECORD: out } })
+  const stdout = await run(runner, [], { cwd: root, env: { MODE: mode, SIZES: sizes, RECORD: out } })
   console.log(stdout)
   save({
     experiment: '08-c3-epoch-reshare',
@@ -55,7 +55,7 @@ if (mode === 'measure') {
     ranAt: new Date().toISOString(),
     pins: pinsOut,
     machine: { cpus: (await import('node:os')).cpus().length, model: (await import('node:os')).cpus()[0]?.model },
-    commands: [`npx tsx experiments/08-c3-epoch-reshare/run.ts measure ${attempt} ${sizes}`],
+    commands: [`npx tsx experiments/08-c3-epoch-reshare/run.ts ${mode} ${attempt} ${sizes}`],
     runner: { stdout: stdout.trim().split('\n') },
     measured: JSON.parse(readFileSync(out, 'utf8')),
   })
