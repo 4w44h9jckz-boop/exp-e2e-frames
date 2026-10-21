@@ -37,6 +37,8 @@ if (!existsSync(join(prover, 'node_modules'))) {
 copyFileSync(join(exp42, 'build', 'prove.mjs'), join(prover, 'prove.mjs'))
 copyFileSync(join(exp42, 'Nargo.toml'), join(prover, 'transfer', 'Nargo.toml'))
 copyFileSync(join(exp42, 'transfer.nr'), join(prover, 'transfer', 'src', 'main.nr'))
+// pool.ts writes each proof to the prover's out/ and does not make it.
+mkdirSync(join(prover, 'out'), { recursive: true })
 const tool = join(exp42, 'groth16tool', 'g16tool')
 if (!existsSync(tool)) await run('go', ['build', '-o', 'g16tool', '.'], { cwd: join(exp42, 'groth16tool') })
 
@@ -66,7 +68,7 @@ try {
   const stdout = await run('npx', ['tsx', 'experiments/42-noir-transfer/pool.ts', '--groth16', '--send', rpcUrlOf(a),
     '--label', `x4-${stamp}`, '--out', out], {
     cwd: frames,
-    env: { PRIVATE_KEY: privateKey, RPC_URL, NOIR_PROVER_DIR: prover, G16_KEYS: 'experiments/42-noir-transfer/build/groth16', G16_TOOL: tool },
+    env: { PRIVATE_KEY: privateKey, RPC_URL, NOIR_PROVER_DIR: prover, G16_KEYS: join(exp42, 'build', 'groth16'), G16_TOOL: tool },
   })
   console.log(stdout)
   const sent = JSON.parse(readFileSync(out, 'utf8'))
