@@ -16,6 +16,10 @@ cargo build --release           # target/release/<crate>
 (cd fhe-committee && cargo test --release)   # its own workspace, about a minute
 ```
 
+`fhe-committee` needs `protoc`, the Protocol Buffers compiler, on the path: threshold-fhe's
+build script compiles its gRPC definitions with prost-build. A fresh machine has none; on Debian
+or Ubuntu, `apt-get install protobuf-compiler`.
+
 `fhe-committee` is a workspace of its own: threshold-fhe pins exact versions (tokio, tonic,
 dashmap) that kohaku-rs's and Commonware's crates cannot share. Commonware comes from
 [cmw-monorepo](https://github.com/4w44h9jckz-boop/cmw-monorepo)'s `committee/reshare-round`:

@@ -28,6 +28,13 @@ What the client encrypts, and what the wallet's request carries:
 alone; `evaluate` checks it, expands the list and computes (`--add k` or `--mul k`, wrapping at
 2^64), and writes the result ciphertext with `safe_serialize`.
 
+## Build
+
+```bash
+apt-get install protobuf-compiler   # protoc: threshold-fhe's build script needs it
+cargo build --release
+```
+
 ## Command line
 
 ```bash
