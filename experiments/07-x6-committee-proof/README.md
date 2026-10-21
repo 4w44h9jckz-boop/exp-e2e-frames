@@ -1,9 +1,10 @@
 # Experiment 07: a proving committee in place of an operator, and what it can still hold
 
-**Status: written before any transaction.** This README states the claim, what would show it
-wrong and the plan. The runner and the offline checks are in the same commit as this status
-line, pushed before the first transaction. The plan was made concrete in that commit; the
-changes are listed under "Amended before the first transaction" at the end.
+**Status: run.** The claim, what would show it wrong and the plan were committed before any
+transaction (`546e349`), and the runner and checks before the first (`0561401`). Run 3 is the
+record the results are read from (`results/3-third-run.json`); runs 1 and 2 are below, with what
+changed after each. In short: the claim's first condition is shown wrong by the wallet's pricing,
+not by the proof; the second and third were not observed.
 
 **The claim.** TACEO's co-SNARKs let a committee compute together the proof that the user's own
 device would compute. Three things follow:
@@ -171,4 +172,79 @@ to fail, and a new check states what matched and what did not:
 - differed: the frames' gas limits. The device set its limits from a simulation of its own
   proof. The wallet's shares carry none to simulate, so the committee's withdrawal uses the
   pool's defaults and the worst-case fee.
+
+## Results, run 3
+
+Run 3 (2026-10-21, 08:22 to 08:25 UTC), against
+`ethrex/v23.0.0-hegota-testnet-hotfix-64b8fc09` as `web3_clientVersion` reported it. Every transaction below went to node A, and
+node B alone handed transactions to the chain. `npx vitest run test/x6.test.ts`: 13 checks pass,
+and the check written before run 1 as the first condition fails, as it is marked to.
+
+**1. A withdrawal proved by the committee, beside one the device proved.** Both were sent to
+node A. Each reached B only by gossip, B passed it to the chain, and each landed unsigned, the
+refund pool its sender and payer. The verifier the pool calls accepts both proofs.
+
+| Frame | Device's limit | Committee's limit | Gas used, both |
+|---|---|---|---|
+| 0, `VERIFY` the recent root | 11,973 | 10,000 | 5,579 |
+| 1, `VERIFY` the proof, execution and payment | 310,930 | 400,000 | 244,744 + 97,920 state |
+| 2, `SENDER` withdraw | 100,000 | 100,000 | 14,255 + 183,600 state |
+| 3, the refund | 25,000 | 50,000 | 11,531 |
+
+Both used 579,673 gas in all: the device's in block 494,793, the committee's in block 494,798.
+The fee fields, the frames' modes, scopes, targets, values, data lengths and selectors are the
+same. The limits are not, and nor is the fee the proof commits to, a public input: 150,658,200
+gwei for the device, 173,077,600 gwei for the committee.
+
+- **So the first condition is shown wrong, and the cause is the pricing, not the proof.** A
+  wallet that proves for itself simulates its draft and tightens the limits (kohaku-rs's
+  `refund_withdrawal`). A wallet that hands its witness to a committee has no draft to simulate,
+  and uses the pool's defaults and the worst-case fee (`share_withdrawal`). A node sees the
+  difference in the clear. Whether a device at the defaults would be indistinguishable was not
+  tested; the gas used, frame for frame, says nothing else would differ.
+- **The committee.** Three members on loopback TCP, one machine. Each proved in about 1.43 s,
+  1.66 s for all three with connecting. Each sent its two peers six messages in all, 752 to 784
+  bytes. Each held a share of 1,811,012 bytes of the 28,300-value witness.
+
+**2. The shared-state update, the committee as sender.** The account (610 bytes of code: the
+569-byte runtime with the stand-in's root and the verifier appended) was deployed, and a fresh
+payer funded, in block 494,800. Node A admitted the update and B, which heard it
+by gossip, passed it to the chain: block 494,802, 481,166 gas, paid by the payer. The recipient's balance in the
+account's ledger reads 1. The same bytes again were refused, `ErrNonceTooLow`.
+
+| Frame | What | Limit | Gas used |
+|---|---|---|---|
+| 0, `VERIFY` the account, execution | the committee's proof, checked by the pool's verifier | 300,000 | 244,273 |
+| 1, `VERIFY` the payer, payment | the protocol's default code, its signature at index 1 | 10,000 | 3,000 + 97,920 state |
+| 2, `SENDER` the account | `credit(recipient, nullifierHash)` | 60,000 | 13,924 + 97,920 state |
+
+The 97,920 in frame 1 is the nullifier hash's first use as a nonce key, which EIP-8250 charges to
+the frame that approves payment.
+
+- **The second condition is not observed.** The prefix is the committee's proof in the account's
+  own `VERIFY` and the payer's approval, nothing else. The one addition is a protocol detail:
+  index 0 of the signature list carries an empty `ARBITRARY` entry, because the default code
+  reads a payment-only signature at index 1 (run 1). It costs the prefix 100 gas.
+- **Against the budgets.** The account's `VERIFY` fits the testnet's 500,000 and is about 2.4
+  times EIP-8141's 100,000, as the pool's is.
+
+**3. The committee stopped.** A third note was deposited and its witness shared, never proved.
+- **One member's share:** member 0, started alone with its share, exited with "timeout while
+  connecting to party 1". It cannot prove alone.
+- **What the wallet kept:** `public.json` and `withdrawal.json`, the public inputs and the
+  withdrawal's layout. No share, and no note: the note is printed to standard error once,
+  before the deposit, and the runner drops it, as a wallet that hands its witness away would.
+- **The chain alone:** the note's withdrawal with zeros in place of the proof was refused by
+  node A, `ErrFramePrefixReverted`, never gossiped and never mined.
+
+So the third condition is not observed: after the committee stopped, nothing this run had moves
+the held note, which stays in the pool. Two members together were not tried. Experiment 53 of
+exp-frames measured that any two of three such share files rebuild the witness, so "the
+committee stopped" is safe for the user only if the members' files are gone, and unsafe for the
+user's privacy for the same reason if they are not.
+
+**What this does not show.** One run of each part, on one machine, the members as threads of one
+process. The stand-in is the withdrawal circuit, not a balance circuit. The account trusts the
+committee's proof for any recipient the proof names, and the run does not show who may ask the
+committee to prove.
 

@@ -100,7 +100,7 @@ for (const { file, r } of runs)
       expect(r.committee.verifierAccepts).toBe(true)
     })
 
-    // Written before run 1 as the claim's first condition. Run 2 showed it wrong, by the
+    // Written before run 1 as the claim's first condition. Runs 2 and 3 showed it wrong, by the
     // wallet's pricing rather than the proof: kept verbatim, and expected to fail. The check after
     // it says exactly what matched and what did not.
     it.fails('a node sees the committee\'s withdrawal as it sees the device\'s: every frame, limit and fee field', () => {
