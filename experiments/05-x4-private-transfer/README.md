@@ -116,6 +116,17 @@ higher would have replaced the pending transfer rather than been refused. Only o
 could then be pending, and only one mined, so no note is spent twice either way. Only the holder
 of the notes' key can make such a copy, since it needs a new proof.
 
+**What a shared nullifier set would still need.** Derived from EIP-8250's text (Draft, read
+at ethereum/EIPs `258836f9`) and this run's record, not measured. A keyed nonce is stored under
+`slot(sender, nonce_key)`, so the nullifier set this pool gets from its nonce keys belongs to its
+sender, the pool. Two pools are two senders with two such sets: the same nullifier spent in
+each would be two first uses, and nothing in the protocol would join them. A nullifier set
+shared across pools would need every pool to be one sender, or nullifiers kept in contract
+storage that each pool reads in `VERIFY`, which the validation rules restrict. The same EIP
+keeps EIP-8141's limit of one pending frame transaction per sender in the public mempool. So
+under the EIP's own mempool rule, a pool that is one sender has one transfer pending at a time.
+The testnet profile this run used admits a second one when the two use disjoint nonce keys.
+
 **Checks.** `npx vitest run test/x4.test.ts`: 8 of 8 pass on run 2's record.
 
 **What this does not show.** Two nodes on one machine over loopback, one transfer, and one run.
