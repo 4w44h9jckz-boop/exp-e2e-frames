@@ -289,3 +289,22 @@ Each is sent to node A, and B alone hands it to the chain. The record is
 `results/4-pricing-addendum.json`. The offline checks select by record: run 3's keep their
 expected failure, and the addendum's record must pass the same comparison as a plain check.
 The update and the stopped committee are not rerun.
+
+**Amended before the addendum's first transaction, with its code.**
+- **Where each transaction is built.**
+  - kohaku-rs is pinned at `bf818dc` for its two examples: the device's `refund_withdrawal`,
+    run with no `PRICING`, and the wallet's `share_withdrawal`.
+  - The committee's transaction is still assembled by this experiment's runner, as in run 3.
+    It uses `withdrawal_tx` at the pool's default limits, from the kohaku-rs commit that
+    `committee/` links (`ab056ab`), so that the build holds one copy of those crates. Those
+    defaults are what the new commit makes every route's default.
+- **The root.** Each example deposits its own note and proves at once, so the two proofs name
+  different roots. The runner does not hold them to one root. The root is outside the fields
+  compared, as the claim allows.
+- **The cost, exactly.** The device example prints the fee, the gas charged and the refund. The
+  note's net cost is the fee less the refund. The refund is shown not to work if the net cost
+  under the default exceeds run 3's by the whole rise in fee, which is what no refund at all
+  would cost. The check reads run 3's line from its record.
+- **The run** is `npx tsx experiments/07-x6-committee-proof/run.ts 4-pricing-addendum
+  --pricing-addendum`.
+

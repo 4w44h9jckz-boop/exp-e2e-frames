@@ -5,7 +5,9 @@
 //   checked in its own VERIFY frame, a fresh payer's VERIFY frame pays;
 // - the committee stopped: a note it held in shares, its members gone, then what one share, the
 //   wallet's files and the chain alone can do.
-// usage: npx tsx experiments/07-x6-committee-proof/run.ts [attempt-label]
+// usage: npx tsx experiments/07-x6-committee-proof/run.ts [attempt-label] [--pricing-addendum]
+// With --pricing-addendum it runs the README's addendum: the two withdrawals alone, with
+// kohaku-rs's examples at the pinned commit and no pricing option set, and no update or stop.
 import { randomBytes } from 'node:crypto'
 import { mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -22,7 +24,8 @@ const here = new URL('.', import.meta.url).pathname
 const root = new URL('../../', import.meta.url).pathname
 const pins = JSON.parse(readFileSync(join(here, 'pins.json'), 'utf8')) as Record<string, Pin>
 const work = join(root, 'work')
-const attempt = process.argv[2] ?? new Date().toISOString()
+const pricingAddendum = process.argv.includes('--pricing-addendum')
+const attempt = process.argv.slice(2).find((x) => !x.startsWith('--')) ?? new Date().toISOString()
 const { privateKey } = loadKey()
 
 const repoCommit = (await run('git', ['rev-parse', 'HEAD'], { cwd: root })).trim()
@@ -151,6 +154,66 @@ try {
   const wMemberRecords = JSON.parse(readFileSync(wMembers, 'utf8'))
   progress.committee = { share: wShare, prove: wProve, members: wMemberRecords, withdrawal }
 
+  if (pricingAddendum) {
+    const mined = [device.withdrawal, withdrawal.mined.hash]
+    const removed = (n: Node, h: string) =>
+      linesNaming(n.log, h).some((l) => l.event === 'head' && (l.removed as string[]).map((x) => x.toLowerCase()).includes(h.toLowerCase()))
+    await until('both nodes to remove both withdrawals as included', async () =>
+      mined.every((h) => removed(a, h) && removed(b, h)) ? true : undefined, 180_000)
+    const hashes = [...new Set([device.withdrawal, ...withdrawal.sent.map((s: { hash: string }) => s.hash)].map((h: string) => h.toLowerCase()))]
+    const startLine = (n: Node) =>
+      readFileSync(n.log, 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l)).find((l) => l.event === 'start')
+    const run3 = JSON.parse(readFileSync(join(here, 'results', '3-third-run.json'), 'utf8'))
+    const record = {
+      experiment: '07-x6-committee-proof',
+      addendum: 'pricing',
+      attempt,
+      ranAt: new Date().toISOString(),
+      repoCommit,
+      pins: Object.fromEntries(Object.entries(pins).map(([k, p]) => [k, { url: p.url, commit: p.commit }])),
+      client: await rpc('web3_clientVersion', []),
+      network: 'the committee: three members as threads of one process over loopback TCP; the nodes: two processes on one machine over loopback',
+      commands: [
+        'npx tsx experiments/07-x6-committee-proof/run.ts 4-pricing-addendum --pricing-addendum',
+        'skandha: node A with --frames.enable, node B with --frames.enable and --frames.handoff, booted from A',
+        `kohaku-rs ${pins['kohaku-rs'].commit.slice(0, 7)}: refund_withdrawal (the device, no PRICING set) and share_withdrawal (the wallet's shares)`,
+        'committee/co-withdraw: local over the share set; the runner\'s withdraw with SEND_RPC_URL at node A',
+      ],
+      nodes: [
+        { name: 'A', peerId: a.peerId, handoff: false, peers: peers.a, start: startLine(a),
+          lines: Object.fromEntries(hashes.map((h) => [h, linesNaming(a.log, h)])) },
+        { name: 'B', peerId: b.peerId, handoff: true, peers: peers.b, start: startLine(b),
+          lines: Object.fromEntries(hashes.map((h) => [h, linesNaming(b.log, h)])) },
+      ],
+      device: {
+        stdout: device.stdout,
+        deposit: device.deposit,
+        depositBlock: device.depositBlock,
+        withdrawal: device.withdrawal,
+        frames: await frameFacts(device.withdrawal),
+        publicInputs: (await withdrawArgs(device.withdrawal)).inputs.map(String),
+        verifierAccepts: await withdrawArgs(device.withdrawal).then((w) => verifierAccepts(w.proof, w.inputs, 'latest' as Hex)),
+      },
+      committee: {
+        share: wShare,
+        prove: { millis: wProve.millis, stdout: wProve.stdout },
+        members: wMemberRecords,
+        withdrawal,
+        frames: await frameFacts(withdrawal.mined.hash),
+        verifierAccepts: await verifierAccepts(wMemberRecords[0].solidity as Hex, wMemberRecords[0].publicInputs, 'latest' as Hex),
+      },
+      // Run 3's device line, read from its record, for the cost the README compares against.
+      run3Device: run3.device.stdout.filter((l: string) => l.startsWith('fee ')),
+      chain: Object.fromEntries(await Promise.all([device.deposit, ...hashes].filter(Boolean).map(async (h) => [(h as string).toLowerCase(), await chainFacts(h as string)]))),
+    }
+    const results = join(here, 'results')
+    mkdirSync(results, { recursive: true })
+    const path = join(results, `${attempt.replace(/[^A-Za-z0-9-]/g, '-')}.json`)
+    writeFileSync(path, JSON.stringify(record, null, 2) + '\n')
+    console.log(`recorded ${path}`)
+    process.exitCode = 0
+  } else {
+
   // 3. The stand-in update: a note of the account's own tree, its inputs deleted once shared.
   console.log('the shared-state update')
   const recipient = getAddress(bytesToHex(randomBytes(20)))
@@ -255,6 +318,7 @@ try {
   const path = join(results, `${attempt.replace(/[^A-Za-z0-9-]/g, '-')}.json`)
   writeFileSync(path, JSON.stringify(record, null, 2) + '\n')
   console.log(`recorded ${path}`)
+  }
 } catch (e) {
   const failed = join(here, 'results', 'failed')
   mkdirSync(failed, { recursive: true })

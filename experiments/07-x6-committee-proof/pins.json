@@ -6,7 +6,7 @@
   },
   "kohaku-rs": {
     "url": "https://github.com/4w44h9jckz-boop/kohaku-rs",
-    "commit": "7863a47c7f975a39ce940129ed27485d5b781971",
-    "why": "kohaku-witness-share's share_withdrawal, the wallet's witness in the committee's share format, and kohaku-frame-pool's refund_withdrawal, the device proving alone"
+    "commit": "bf818dc99d99e42ec16d629d0392251dfebecdaa",
+    "why": "the pricing addendum: kohaku-frame-pool's refund_withdrawal priced by default at the pool's limits and worst-case fee, and kohaku-witness-share's share_withdrawal; run 3 pinned 7863a47"
   }
 }

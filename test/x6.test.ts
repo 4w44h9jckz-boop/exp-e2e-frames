@@ -37,7 +37,15 @@ const runs = existsSync(dir)
   ? readdirSync(dir).filter((f) => f.endsWith('.json')).map((file) => ({ file, r: JSON.parse(readFileSync(join(dir, file), 'utf8')) }))
   : []
 
-for (const { file, r } of runs)
+/** The fee, charge and refund on the device example's last line, in wei. */
+const costLine = (line: string) => {
+  const m = line.match(/^fee (\d+) wei; charged (\d+); refunded (\d+)/)
+  if (!m) throw new Error(`no cost in: ${line}`)
+  const [fee, charged, refunded] = m.slice(1).map(BigInt)
+  return { fee, charged, refunded, net: fee - refunded }
+}
+
+for (const { file, r } of runs.filter((x) => x.r.addendum !== 'pricing'))
   describe(`experiment 07, ${file}`, () => {
     const [a, b] = r.nodes
     const lines = (node: { lines: Record<string, { event: string }[]> }, hash: string, e: string) =>
@@ -186,6 +194,67 @@ for (const { file, r } of runs)
     it('records no key, share or note', () => {
       const all = JSON.stringify(r)
       expect(all).not.toMatch(/PRIVATE_KEY|note 0x/i)
+    })
+  })
+
+// The pricing addendum, written in the README before its code or any transaction: under the
+// wallet's new default, a node sees the same in both withdrawals but what the notes, recipients
+// and proofs make differ, and the refund returns what the higher fee adds.
+for (const { file, r } of runs.filter((x) => x.r.addendum === 'pricing'))
+  describe(`experiment 07, ${file}, the pricing addendum`, () => {
+    const [a, b] = r.nodes
+    const lines = (node: { lines: Record<string, { event: string }[]> }, hash: string, e: string) =>
+      (node.lines[hash.toLowerCase()] ?? []).filter((l) => l.event === e)
+    const chain = (h: string) => r.chain[h.toLowerCase()]
+    const committee = r.committee.withdrawal.sent[0]
+
+    it('pins every piece at a full commit, and peered the two nodes with each other alone', () => {
+      for (const pin of Object.values(r.pins) as { commit: string }[]) expect(pin.commit).toMatch(/^[0-9a-f]{40}$/)
+      expect(a.peers).toEqual([b.peerId])
+      expect(b.peers).toEqual([a.peerId])
+    })
+
+    it('both withdrawals: each sent to node A, reaching B by gossip and leaving through B alone, mined unsigned with the pool as sender and payer; the verifier accepts both', () => {
+      expect(committee.answer.result).toBe(committee.hash)
+      expect(committee.hash).toBe(keccak256(committee.raw))
+      for (const h of [r.device.withdrawal, committee.hash]) {
+        expect(lines(a, h, 'rpc').length).toBeGreaterThan(0)
+        expect(lines(b, h, 'gossip').length).toBeGreaterThan(0)
+        expect(lines(a, h, 'handoff')).toHaveLength(0)
+        expect(lines(b, h, 'handoff').length).toBeGreaterThan(0)
+        const c = chain(h)
+        expect([c.mined, c.status, c.signatures]).toEqual([true, '0x1', 0])
+        expect(c.frameStatuses.every((s: string) => s === '0x1')).toBe(true)
+      }
+      expect(chain(r.device.withdrawal).sender.toLowerCase()).toBe(chain(committee.hash).sender.toLowerCase())
+      expect([r.device.verifierAccepts, r.committee.verifierAccepts]).toEqual([true, true])
+    })
+
+    it('a node sees the committee\'s withdrawal as it sees the device\'s: every frame, limit and fee field', () => {
+      const seen = (f: Facts) => ({
+        signatures: f.signatures,
+        nonceKeys: f.nonceKeys.length,
+        maxFeePerGas: f.maxFeePerGas,
+        maxPriorityFeePerGas: f.maxPriorityFeePerGas,
+        frames: f.frames.map((x) => ({ mode: x.mode, flags: x.flags, to: x.to, gasLimit: x.gasLimit, stateGasLimit: x.stateGasLimit, value: x.value, dataBytes: x.dataBytes, selector: x.selector })),
+      })
+      expect(seen(r.committee.frames as Facts)).toEqual(seen(r.device.frames as Facts))
+    })
+
+    it('the fee the proof commits to is the same in both', () => {
+      // withdraw(proof, root, nullifierHash, recipient, relayer, fee, refund): the fee is input 4.
+      expect(BigInt(r.device.publicInputs[4])).toBe(BigInt(r.committee.withdrawal.publicInputs.fee))
+    })
+
+    it('the refund returns what the higher fee adds: the note\'s net cost rose by less than the whole rise in fee', () => {
+      const now = costLine(r.device.stdout.find((l: string) => l.startsWith('fee ')))
+      const before = costLine(r.run3Device[0])
+      expect(now.refunded).toBeGreaterThan(0n)
+      expect(now.net - before.net).toBeLessThan(now.fee - before.fee)
+    })
+
+    it('records no key, share or note', () => {
+      expect(JSON.stringify(r)).not.toMatch(/PRIVATE_KEY|note 0x/i)
     })
   })
 
