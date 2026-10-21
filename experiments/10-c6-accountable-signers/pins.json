@@ -1,0 +1,12 @@
+{
+  "kohaku-rs": {
+    "url": "https://github.com/4w44h9jckz-boop/kohaku-rs",
+    "commit": "ab056aba3348b94b682d166c933265ccf21a759d",
+    "why": "kohaku-frame-ticket's TicketPaymaster, the threshold form's paymaster unchanged, and the frame transaction builders"
+  },
+  "cmw-monorepo": {
+    "url": "https://github.com/4w44h9jckz-boop/cmw-monorepo",
+    "commit": "489e313e86d5808f3d874b67c5a48a75f85b64f7",
+    "why": "Commonware v2026.9.0: the dealt threshold key, threshold signing and recovery, BLS keypairs and message signing"
+  }
+}
