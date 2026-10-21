@@ -152,9 +152,9 @@ for (const { file, r } of runs('chain-'))
         s.b.codes.forEach((c: any, i: number) => {
           expect(c.templateHash).toBe(TEMPLATE)
           expect(c.key).toBe(keys[i])
-          expect(c.paymaster).toBe(live[i].b.paymaster)
+          expect(c.paymaster.toLowerCase()).toBe(live[i].b.paymaster.toLowerCase())
         })
-        for (const x of live.slice(1)) expect(x.b.handoff.registration.gasUsed).toBeGreaterThan(0)
+        for (const x of live.slice(1)) expect(BigInt(x.b.handoff.registration.gasUsed)).toBeGreaterThan(0n)
       })
 
       it('every committee ticket verifies under its own key only, and was admitted and paid by its own paymaster', () => {
