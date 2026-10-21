@@ -1,0 +1,242 @@
+{
+  "entry": "C1",
+  "label": "2026-10-21",
+  "ranAt": "2026-10-21T02:03:57.592Z",
+  "repoCommit": "d84fb97831c95bdd446b672c02fcc27b908895ce",
+  "pins": {
+    "co-snarks": {
+      "url": "https://github.com/TaceoLabs/co-snarks",
+      "commit": "436f63fa17f2f10ece38c6650df68da99fbc0307",
+      "why": "co-groth16's REP3 prover, co-circom-types' witness shares (the format of co-circom split-witness), mpc-net's TCP network; used as TACEO wrote them"
+    },
+    "kohaku-rs": {
+      "url": "https://github.com/4w44h9jckz-boop/kohaku-rs",
+      "commit": "ab056aba3348b94b682d166c933265ccf21a759d",
+      "why": "kohaku-tornadocash-circuit: the withdrawal circuit and the websnark proving key the wallet proves with; kohaku-tornadocash: notes and the tree"
+    },
+    "threshold-fhe": {
+      "url": "https://github.com/zama-ai/threshold-fhe",
+      "commit": "c668fdd32a33270fc3ad2fd92b49267b734463dd",
+      "why": "threshold TFHE: keygen_all_party_shares, PRSS, noise-flooding distributed decryption, used as Zama wrote them; it brings tfhe-rs =1.0.1 from crates.io, whose proven compact lists are the input format"
+    },
+    "cmw-monorepo": {
+      "url": "https://github.com/4w44h9jckz-boop/cmw-monorepo",
+      "commit": "489e313e86d5808f3d874b67c5a48a75f85b64f7",
+      "why": "Commonware at upstream v2026.9.0 plus dkg::feldman_desmedt::run, patched in for every commonware-* crate: the result committee's DKG and its traffic"
+    }
+  },
+  "network": "every member in one process on one 4-core machine, in memory: a LAN time at best",
+  "input": {
+    "value": 41,
+    "metadata": "0x43313a206f6e6520726571756573742c20636861696e2038313431",
+    "op": "add 1"
+  },
+  "steps": {
+    "setup": {
+      "millis": 50326,
+      "stdout": ""
+    },
+    "encrypt": {
+      "millis": 3503,
+      "stdout": ""
+    },
+    "verifyInput": {
+      "millis": 4094,
+      "stdout": "valid"
+    },
+    "evaluate": {
+      "millis": 5705,
+      "stdout": ""
+    },
+    "decrypt": {
+      "millis": 15662,
+      "stdout": "42"
+    },
+    "dkg": {
+      "millis": 37,
+      "stdout": ""
+    }
+  },
+  "sizes": {
+    "compactPublicKey": 33018,
+    "crs": 3431027,
+    "keySet": 1193804535,
+    "memberShare": 450483,
+    "input": 18786,
+    "result": 527833
+  },
+  "resultHandle": "0x5b8f04b505212d6b073d802aa6856e02650beb4801f4fc081dcbd9cabfa21e79",
+  "refusedUnderOtherMetadata": true,
+  "decryption": {
+    "value": 42,
+    "members": [
+      {
+        "member": 0,
+        "messagesSent": 9,
+        "bytesSent": 6660,
+        "messagesReceived": 9,
+        "bytesReceived": 6660,
+        "rounds": 3
+      },
+      {
+        "member": 1,
+        "messagesSent": 9,
+        "bytesSent": 6660,
+        "messagesReceived": 9,
+        "bytesReceived": 6660,
+        "rounds": 3
+      },
+      {
+        "member": 2,
+        "messagesSent": 9,
+        "bytesSent": 6660,
+        "messagesReceived": 9,
+        "bytesReceived": 6660,
+        "rounds": 3
+      },
+      {
+        "member": 3,
+        "messagesSent": 9,
+        "bytesSent": 6660,
+        "messagesReceived": 9,
+        "bytesReceived": 6660,
+        "rounds": 3
+      }
+    ],
+    "millis": 9752
+  },
+  "bls": {
+    "dkg": [
+      {
+        "bytesReceived": 3483,
+        "bytesSent": 3483,
+        "computeMicros": 6905,
+        "ed25519": "0x09fc27f2c1413338539f949a003f09e9e6f9407fde288a5e782a9936955494a6",
+        "messagesReceived": 9,
+        "messagesSent": 9,
+        "rounds": 3
+      },
+      {
+        "bytesReceived": 3483,
+        "bytesSent": 3483,
+        "computeMicros": 6035,
+        "ed25519": "0xc83109b7719b481951e7acb8ce31c46d7630b5f2b167a7e34164af655e898635",
+        "messagesReceived": 9,
+        "messagesSent": 9,
+        "rounds": 3
+      },
+      {
+        "bytesReceived": 3483,
+        "bytesSent": 3483,
+        "computeMicros": 5934,
+        "ed25519": "0xcb83d1bdc32a2508c781f146b02a57c3e42f665912b21089ffe104f980d4385b",
+        "messagesReceived": 9,
+        "messagesSent": 9,
+        "rounds": 3
+      },
+      {
+        "bytesReceived": 3483,
+        "bytesSent": 3483,
+        "computeMicros": 6047,
+        "ed25519": "0xd5ce6cc5902f8ace00cd085915494629b7e8d397b9b109e571573e6e3eb3f498",
+        "messagesReceived": 9,
+        "messagesSent": 9,
+        "rounds": 3
+      }
+    ],
+    "identities": [
+      {
+        "ed25519": "0x09fc27f2c1413338539f949a003f09e9e6f9407fde288a5e782a9936955494a6",
+        "index": 0,
+        "partialKeyEip2537": "0x0000000000000000000000000000000012d99dd4753a8eb2d2503eb657e26d5040d2a0a78c5b4e04d415b8cef0f87ecf78c57483f5a27de15b930cad6fa459460000000000000000000000000000000004646055eb124ef51a62d5520ea96643e5fd41b4f2c9a8ec3948fcee338161712b0f9bee74400f0c501724e5d2846a840000000000000000000000000000000017f78ab0cc457110904a7448ad86c5d360ce47740508869f7d15cb1de21962f472293cf6cd23919bc4174f241ca421fd000000000000000000000000000000000671b5183d284ee581a8ef9ff4603bd77e03385dd9e96eeeafbda569e22ac2e6699fb90eed32b35465c455d6979f0bd3"
+      },
+      {
+        "ed25519": "0xc83109b7719b481951e7acb8ce31c46d7630b5f2b167a7e34164af655e898635",
+        "index": 1,
+        "partialKeyEip2537": "0x0000000000000000000000000000000011828c429260ba68298e7aadd7eb8e1bf59488d395e0746341935d8e71b4c9708803e98a31fb07cf89aa20f3c6bbea5e000000000000000000000000000000000d7f7a9aea040aa8901a02a6e739e2f59a8cb67aea045e6d17296fae7da1570c5f107e01261955ea76f2f4a238552b5300000000000000000000000000000000039f6c714c873e775ac38b207f5be75ef5f6be36a49448e1170af172e890181594b67b91f3fa8efb15d849be2d5935d9000000000000000000000000000000000e3741a42a734012d59bac7b7947150998dcc0f5b60d429df553e3f3c2fd724cb0f64c9bf8255b6d557ca645e5b9124f"
+      },
+      {
+        "ed25519": "0xcb83d1bdc32a2508c781f146b02a57c3e42f665912b21089ffe104f980d4385b",
+        "index": 2,
+        "partialKeyEip2537": "0x000000000000000000000000000000000c50ea6f9cc64b13b2e98aa368334df55a9e851f14803fed8a6ecf36e2ae42c1bca8358582cf235494ce72c64f660d6100000000000000000000000000000000178ec24b09fb48b44f8a0b17827bfcccd1291f1b98ebbf4659a1f1bbd773c81427c6dd7f930297cf0f723844eb5bf8f600000000000000000000000000000000048a168e1f9b946a7c2e2841761370d6440e723dd0c614206c6bbff2c0a584abf3c968675d555ce4d7455964f665fbda000000000000000000000000000000000f15716f78854e02ce0b25fc494ad4808453439fd76ca4f1f1d66aa12814923fddc866e8f9c5807b26d9ebb1d1cf58f2"
+      },
+      {
+        "ed25519": "0xd5ce6cc5902f8ace00cd085915494629b7e8d397b9b109e571573e6e3eb3f498",
+        "index": 3,
+        "partialKeyEip2537": "0x0000000000000000000000000000000013118565af686c94f60d2e4b3144b7c0b7a358570dd419fd264b4c90ed8ac426b9116320fbe4ff920d0e9fe52bc10918000000000000000000000000000000000e7e7eb5ea432b951655a2f95f1101a8ec6ad7c31e8f2d86df6ee841cc2cfd0eaae955d9155f05182a406f710d9959890000000000000000000000000000000009cc82ae0876b996a6b51a3e50251c182fdb8baad0e9022db70c3fe4a88dcf3129880c6d8eee5069f72c42cc0c7a59f8000000000000000000000000000000001162596a6b581c986c096bdc3c284ebdf4d3a0e981b0e708fcaac3e5d32341b6453707be0485a3167f659e51ca46c9a4"
+      }
+    ],
+    "keyEip2537": "0x0000000000000000000000000000000019f1b787f808758638dfea7c0c084291505757d5dbbf67496caf655c23d93e9e7818e6318f1e18ae92dad60b175a26d100000000000000000000000000000000175635354a904a1d3e26aa4a6ac03de532a6082c93ff84181ada0c7ba58680b407e9ac54444ebf8dbe54460484fdec03000000000000000000000000000000000913d6f2d30c75772da5b3d8da2707f12c9ad3c7989c9912f1cb01398ee6eded74a53e5f9761c8793a5d55f1140933130000000000000000000000000000000003a027877d53c40ea89679e718d8637a47fa0267fd5b8750b1699c0fa8f5d428dc5098fa85e191b531bea4b9d7e23694",
+    "members": 4,
+    "quorum": 3
+  },
+  "signed": {
+    "belowQuorum": false,
+    "chainId": 8141,
+    "handle": "0x5b8f04b505212d6b073d802aa6856e02650beb4801f4fc081dcbd9cabfa21e79",
+    "keyEip2537": "0x0000000000000000000000000000000019f1b787f808758638dfea7c0c084291505757d5dbbf67496caf655c23d93e9e7818e6318f1e18ae92dad60b175a26d100000000000000000000000000000000175635354a904a1d3e26aa4a6ac03de532a6082c93ff84181ada0c7ba58680b407e9ac54444ebf8dbe54460484fdec03000000000000000000000000000000000913d6f2d30c75772da5b3d8da2707f12c9ad3c7989c9912f1cb01398ee6eded74a53e5f9761c8793a5d55f1140933130000000000000000000000000000000003a027877d53c40ea89679e718d8637a47fa0267fd5b8750b1699c0fa8f5d428dc5098fa85e191b531bea4b9d7e23694",
+    "message": "0x0000000000000000000000000000000000000000000000000000000000001fcdcf6fea1a97963fb615a37cf40a5a99f586a27b55ba356b0cf07c7b8fe22ba5755b8f04b505212d6b073d802aa6856e02650beb4801f4fc081dcbd9cabfa21e79000000000000000000000000000000000000000000000000000000000000002a",
+    "namespace": "FRAME_FHE_RESULT_V1",
+    "partials": [
+      {
+        "index": 0,
+        "signatureEip2537": "0x0000000000000000000000000000000004c4ad1cd9891ee5e1a475cc77da35a88577eb535e766b8e11f6b8fd8e2dae2f2f93ba19b6ecfc3985e2733209f00e66000000000000000000000000000000000b98d44d2d9890df7cf3b2606ee5a03dcdd49c85a7927376ebfd717d635347f5aa69c590a344fa8247e1760b41aee61a"
+      },
+      {
+        "index": 1,
+        "signatureEip2537": "0x000000000000000000000000000000000f88378946c5fc1eb98651c97addb30966975ea33db1c7ceaea50e248f955847dfe742eb84dad4c418f4bd5b3478ea82000000000000000000000000000000000a041b2a4dafa4cce3f76d08efd3d9a7b633f650d455f1163005345fef28a545d0c09064bdb01b3cb24f28ce5244965b"
+      },
+      {
+        "index": 2,
+        "signatureEip2537": "0x0000000000000000000000000000000015c540daa3282cdb59c16b5ffb43e770eb0cd8ad753194efe48f54a8bab053bad13174982e93208a018d256429f3ede0000000000000000000000000000000000ef0dc568abeb2dabb58555c5b22f0108bf7a78d6ddd885ff70ba0ff59d1563d51f62ca7de3ab1da692e901bd4a14366"
+      }
+    ],
+    "quorum": 3,
+    "request": "0xcf6fea1a97963fb615a37cf40a5a99f586a27b55ba356b0cf07c7b8fe22ba575",
+    "signature": "0xae74e51e8e6902c541704971239fd6391eb3e89ef213d3438d3bdb15f0a8dad9fdc545b18f563f3ae9d84dc67c188e6e",
+    "signatureEip2537": "0x000000000000000000000000000000000e74e51e8e6902c541704971239fd6391eb3e89ef213d3438d3bdb15f0a8dad9fdc545b18f563f3ae9d84dc67c188e6e0000000000000000000000000000000011af63eff48350205e43754cf877a1c99bea7cb57735d3632283f942a4f7de90df3efc2b3d9104cfdc9d376262a6adf0",
+    "signers": [
+      0,
+      1,
+      2
+    ],
+    "value": 42,
+    "verified": true
+  },
+  "below": {
+    "belowQuorum": true,
+    "chainId": 8141,
+    "handle": "0x5b8f04b505212d6b073d802aa6856e02650beb4801f4fc081dcbd9cabfa21e79",
+    "keyEip2537": "0x0000000000000000000000000000000019f1b787f808758638dfea7c0c084291505757d5dbbf67496caf655c23d93e9e7818e6318f1e18ae92dad60b175a26d100000000000000000000000000000000175635354a904a1d3e26aa4a6ac03de532a6082c93ff84181ada0c7ba58680b407e9ac54444ebf8dbe54460484fdec03000000000000000000000000000000000913d6f2d30c75772da5b3d8da2707f12c9ad3c7989c9912f1cb01398ee6eded74a53e5f9761c8793a5d55f1140933130000000000000000000000000000000003a027877d53c40ea89679e718d8637a47fa0267fd5b8750b1699c0fa8f5d428dc5098fa85e191b531bea4b9d7e23694",
+    "message": "0x0000000000000000000000000000000000000000000000000000000000001fcdcf6fea1a97963fb615a37cf40a5a99f586a27b55ba356b0cf07c7b8fe22ba5755b8f04b505212d6b073d802aa6856e02650beb4801f4fc081dcbd9cabfa21e79000000000000000000000000000000000000000000000000000000000000002a",
+    "namespace": "FRAME_FHE_RESULT_V1",
+    "partials": [
+      {
+        "index": 0,
+        "signatureEip2537": "0x0000000000000000000000000000000004c4ad1cd9891ee5e1a475cc77da35a88577eb535e766b8e11f6b8fd8e2dae2f2f93ba19b6ecfc3985e2733209f00e66000000000000000000000000000000000b98d44d2d9890df7cf3b2606ee5a03dcdd49c85a7927376ebfd717d635347f5aa69c590a344fa8247e1760b41aee61a"
+      },
+      {
+        "index": 1,
+        "signatureEip2537": "0x000000000000000000000000000000000f88378946c5fc1eb98651c97addb30966975ea33db1c7ceaea50e248f955847dfe742eb84dad4c418f4bd5b3478ea82000000000000000000000000000000000a041b2a4dafa4cce3f76d08efd3d9a7b633f650d455f1163005345fef28a545d0c09064bdb01b3cb24f28ce5244965b"
+      }
+    ],
+    "quorum": 3,
+    "request": "0xcf6fea1a97963fb615a37cf40a5a99f586a27b55ba356b0cf07c7b8fe22ba575",
+    "signature": "0xa830422f9ce2593bdc1bf2991be7675c5f8cd1781ae9040b77472677a18a7c35bfd864c11feac8e28bd50388817c15e9",
+    "signatureEip2537": "0x000000000000000000000000000000000830422f9ce2593bdc1bf2991be7675c5f8cd1781ae9040b77472677a18a7c35bfd864c11feac8e28bd50388817c15e9000000000000000000000000000000000e7f5b892bb1bb8f775a5192720781c164687e6a5d88f4588c2bd0d810b2ff66d0d09304ce9cf9f31a01c4b3c6e646a6",
+    "signers": [
+      0,
+      1
+    ],
+    "value": 42,
+    "verified": false
+  },
+  "signRefusedBelowQuorum": true,
+  "chain": {
+    "rpc": "https://rpc1.privacy.ethrex.xyz",
+    "block": 491179,
+    "hashToCurveEip2537": "0x0000000000000000000000000000000017aba25d2eed4906ba166d5fdc59095453349bfe9331bd19b1106ac9f8fbc2e9f1d06a238052e92aa949d2a63d047f310000000000000000000000000000000014a15434392204177cc8bccdba2865e5dfaa2aaad75dab234b694b20a491c732ac395cda5896aa9bf4b42f50e8283b49",
+    "pairingAcceptsSigned": true,
+    "pairingAcceptsBelow": false
+  }
+}
