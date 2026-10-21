@@ -1,5 +1,6 @@
-node_modules/
-.env
 *.log
-work/
+.env
 __pycache__/
+node_modules/
+target/
+work/
