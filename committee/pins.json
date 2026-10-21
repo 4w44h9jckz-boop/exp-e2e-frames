@@ -8,5 +8,15 @@
     "url": "https://github.com/4w44h9jckz-boop/kohaku-rs",
     "commit": "ab056aba3348b94b682d166c933265ccf21a759d",
     "why": "kohaku-tornadocash-circuit: the withdrawal circuit and the websnark proving key the wallet proves with; kohaku-tornadocash: notes and the tree"
+  },
+  "threshold-fhe": {
+    "url": "https://github.com/zama-ai/threshold-fhe",
+    "commit": "c668fdd32a33270fc3ad2fd92b49267b734463dd",
+    "why": "threshold TFHE: keygen_all_party_shares, PRSS, noise-flooding distributed decryption, used as Zama wrote them; it brings tfhe-rs =1.0.1 from crates.io, whose proven compact lists are the input format"
+  },
+  "cmw-monorepo": {
+    "url": "https://github.com/4w44h9jckz-boop/cmw-monorepo",
+    "commit": "489e313e86d5808f3d874b67c5a48a75f85b64f7",
+    "why": "Commonware at upstream v2026.9.0 plus dkg::feldman_desmedt::run, patched in for every commonware-* crate: the result committee's DKG and its traffic"
   }
 }

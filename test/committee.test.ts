@@ -5,8 +5,9 @@
 // code.
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
+import { bls12_381 as bls } from '@noble/curves/bls12-381'
 import { bn254 } from '@noble/curves/bn254'
-import { type Hex, keccak256, numberToHex } from 'viem'
+import { type Hex, concatHex, hexToBigInt, hexToBytes, keccak256, numberToHex, slice, stringToHex } from 'viem'
 import { describe, expect, it } from 'vitest'
 
 const DIR = new URL('./fixtures/committee/', import.meta.url).pathname
@@ -52,10 +53,10 @@ const push = (x: string) => {
 describe('the committees workspace pins what pins.json says', () => {
   it('Cargo.toml takes every git piece at the commit pins.json names', () => {
     const pins = JSON.parse(readFileSync(join(COMMITTEE, 'pins.json'), 'utf8'))
-    const cargo = readFileSync(join(COMMITTEE, 'Cargo.toml'), 'utf8')
+    const cargo = ['Cargo.toml', 'fhe-committee/Cargo.toml'].map((f) => readFileSync(join(COMMITTEE, f), 'utf8')).join('\n')
     for (const [, pin] of Object.entries<{ url: string; commit: string }>(pins)) {
       const lines = cargo.split('\n').filter((l) => l.includes(`git = "${pin.url}"`))
-      expect(lines.length).toBeGreaterThan(0)
+      expect(lines.length, pin.url).toBeGreaterThan(0)
       for (const l of lines) expect(l).toContain(`rev = "${pin.commit}"`)
     }
   })
@@ -116,5 +117,83 @@ describe.each(fixtures('c2-'))('C2 %s', (file) => {
         expect(back.messagesReceived).toBe(p.messagesSent)
       }
     }
+  })
+})
+
+/** EIP-2537's encodings, read back into noble's points. */
+const g1Eip2537 = (b: Hex) => {
+  const p = bls.G1.ProjectivePoint.fromAffine({ x: hexToBigInt(slice(b, 0, 64)), y: hexToBigInt(slice(b, 64, 128)) })
+  p.assertValidity()
+  return p
+}
+const g2Eip2537 = (b: Hex) => {
+  const c = [0, 1, 2, 3].map((i) => hexToBigInt(slice(b, 64 * i, 64 * (i + 1))))
+  const p = bls.G2.ProjectivePoint.fromAffine({
+    x: bls.fields.Fp2.fromBigTuple([c[0], c[1]]),
+    y: bls.fields.Fp2.fromBigTuple([c[2], c[3]]),
+  })
+  p.assertValidity()
+  return p
+}
+const RESULT_DST = 'BLS_SIG_BLS12381G1_XMD:SHA-256_SSWU_RO_POP_'
+/** Commonware's MinSig check: e(sigma, g2) = e(H(union_unique(namespace, message)), PK). */
+function blsVerify(namespace: string, message: Hex, signature: Hex, key: Hex): boolean {
+  const ns = hexToBytes(stringToHex(namespace))
+  const h = bls.G1.hashToCurve(new Uint8Array([ns.length, ...ns, ...hexToBytes(message)]), { DST: RESULT_DST })
+  const lhs = bls.pairing(g1Eip2537(signature), bls.G2.ProjectivePoint.BASE)
+  const rhs = bls.pairing(bls.G1.ProjectivePoint.fromAffine(h.toAffine()), g2Eip2537(key))
+  return bls.fields.Fp12.eql(lhs, rhs)
+}
+
+describe.each(fixtures('c1-'))('C1 %s', (file) => {
+  const r = JSON.parse(readFileSync(join(DIR, file), 'utf8'))
+
+  it('was made from a committed tree, and its time names its network', () => {
+    expect(r.entry).toBe('C1')
+    expect(r.repoCommit).toMatch(/^[0-9a-f]{40}$/)
+    expect(r.network).toMatch(/one process/)
+  })
+
+  it('the coprocessor evaluated the input and four members decrypted it', () => {
+    expect(r.decryption.value).toBe(r.input.value + 1)
+    expect(r.steps.verifyInput.stdout).toBe('valid')
+    expect(r.refusedUnderOtherMetadata).toBe(true)
+    expect(r.decryption.members).toHaveLength(4)
+    const sum = (k: string) => r.decryption.members.reduce((a: number, m: Record<string, number>) => a + m[k], 0)
+    expect(sum('bytesSent')).toBe(sum('bytesReceived'))
+    expect(sum('messagesSent')).toBe(sum('messagesReceived'))
+    for (const m of r.decryption.members) expect(m.rounds).toBeGreaterThan(0)
+  })
+
+  it('the signed message is chain id, request, the result handle and the value', () => {
+    const s = r.signed
+    expect(s.handle).toBe(r.resultHandle)
+    expect(s.value).toBe(r.decryption.value)
+    expect(s.message).toBe(concatHex([numberToHex(s.chainId, { size: 32 }), s.request, s.handle, numberToHex(s.value, { size: 32 })]))
+    expect(r.below.message).toBe(s.message)
+  })
+
+  it('a quorum of three signed; two could not, and their best is refused by noble and by the chain', () => {
+    expect(r.bls.members).toBe(4)
+    expect(r.bls.quorum).toBe(3)
+    expect(r.signed.signers).toHaveLength(3)
+    expect(r.signed.verified).toBe(true)
+    expect(r.signRefusedBelowQuorum).toBe(true)
+    expect(r.below.signers).toHaveLength(2)
+    expect(r.below.verified).toBe(false)
+    expect(blsVerify(r.signed.namespace, r.signed.message, r.signed.signatureEip2537, r.signed.keyEip2537)).toBe(true)
+    expect(blsVerify(r.below.namespace, r.below.message, r.below.signatureEip2537, r.below.keyEip2537)).toBe(false)
+    expect(r.chain.pairingAcceptsSigned).toBe(true)
+    expect(r.chain.pairingAcceptsBelow).toBe(false)
+  })
+
+  it('each partial checks against its member key, and the DKG traffic adds up', () => {
+    for (const p of r.signed.partials) {
+      const id = r.bls.identities.find((i: { index: number }) => i.index === p.index)
+      expect(blsVerify(r.signed.namespace, r.signed.message, p.signatureEip2537, id.partialKeyEip2537)).toBe(true)
+    }
+    const sum = (k: string) => r.bls.dkg.reduce((a: number, m: Record<string, number>) => a + m[k], 0)
+    expect(sum('bytesSent')).toBe(sum('bytesReceived'))
+    for (const m of r.bls.dkg) expect(m.rounds).toBe(3)
   })
 })
