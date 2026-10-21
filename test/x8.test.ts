@@ -10,6 +10,7 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { keccak256 } from 'viem'
+import { english } from 'viem/accounts'
 import { describe, expect, it } from 'vitest'
 
 const here = new URL('../experiments/12-x8-bound-ticket/', import.meta.url).pathname
@@ -100,9 +101,21 @@ for (const { file, r } of runs)
       for (const x of binders) expect(seen).not.toContain(x)
     })
 
+    // Narrowed after run 2: the check read the record whole and matched the variable's name in
+    // the commands line, which names SEED_FILE as what was set, not what it held. The commands are
+    // left out, and a seed phrase is looked for directly: twelve or more BIP-39 words in a row.
     it('records no key, seed or mnemonic', () => {
-      const all = JSON.stringify(r)
+      const { commands: _, ...rest } = r
+      const all = JSON.stringify(rest)
       expect(all).not.toMatch(/PRIVATE_KEY|mnemonic|SEED_FILE/i)
+      const words = new Set(english)
+      let run = 0
+      let longest = 0
+      for (const w of all.toLowerCase().split(/[^a-z]+/)) {
+        run = words.has(w) ? run + 1 : 0
+        longest = Math.max(longest, run)
+      }
+      expect(longest).toBeLessThan(12)
     })
   })
 
