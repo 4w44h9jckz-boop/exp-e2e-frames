@@ -252,3 +252,11 @@ C1: done | exp-e2e-frames b7c19a1 (PR #8 merged); co-withdraw --peers fix 7201b5
 C3: done, accepted | exp-e2e-frames 0c3a6c1 on exp/08-c3-epoch-reshare | needs from wallet: none
 C6: done, accepted | exp-e2e-frames d5ba3c7 on exp/10-c6-accountable-signers | needs from wallet: none
 C5: done, accepted | exp-e2e-frames 357f229 on exp/09-c5-traceable-shares (record from 9b51380) | needs from wallet: none
+
+## 2026-10-22, fifth session
+
+Carried here by the coordinator, from the committee session's text.
+
+PR #15 (tooling-committee, head d9bc154) closed without merging at 04:33 UTC in favour of #17, one pull request for every open branch at the owner's request. d9bc154 is an ancestor of #17's head bb7a4ec; committee/LOG.md there names no private repository; #17 keeps solc at exactly 0.8.37.
+
+Status: C1, C2 done; C3, C5, C6 done and accepted; all in #17; nothing needed from the wallet session.
