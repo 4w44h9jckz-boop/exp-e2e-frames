@@ -1,0 +1,1028 @@
+{
+  "experiment": "12-x8-bound-ticket",
+  "attempt": "2-second-run",
+  "ranAt": "2026-10-21T07:46:21.309Z",
+  "pins": {
+    "skandha": {
+      "url": "https://github.com/4w44h9jckz-boop/skandha",
+      "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade"
+    },
+    "kohaku-rs": {
+      "url": "https://github.com/4w44h9jckz-boop/kohaku-rs",
+      "commit": "7bbf8e83902eb5d45e857b8c3f818646e18a5381"
+    }
+  },
+  "client": "ethrex/v23.0.0-hegota-testnet-hotfix-64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c/x86_64-unknown-linux-gnu/rustc-v1.93.1",
+  "ownerCreated": {
+    "hash": "0x7cf6fcec752f1be96c653ec2c32cef28fcb34074c8e7923a2f5d915a201cc811",
+    "block": 494423,
+    "gasUsed": 204600,
+    "value": "0.001 ETH"
+  },
+  "commands": [
+    "npx tsx experiments/12-x8-bound-ticket/run.ts",
+    "viem: an ordinary transfer of 0.001 ETH from the funder creates the fresh seed's owner 0 before the example runs",
+    "skandha: bun install && bun run build; node A with --frames.claims, node B with --frames.claims and --frames.handoff, booted from A",
+    "kohaku-rs 7bbf8e8: cargo build --release -p kohaku-frame-secrets --example bound_ticket; run with a fresh SEED_FILE and SEND_RPC_URL at node A"
+  ],
+  "nodes": [
+    {
+      "name": "A",
+      "peerId": "16Uiu2HAmGA2hwQmdmvzFPsHrWtLSPJrsizMxvMjDUChdbforwcdg",
+      "handoff": false,
+      "claims": true,
+      "peers": [
+        "16Uiu2HAmEbRoubTJXq6QMbzTAg4mvxg6pztqRx4i1pDc9Q76DYFt"
+      ],
+      "start": {
+        "t": "2026-10-21T07:44:31.096Z",
+        "node": "A",
+        "event": "start",
+        "profile": "hegota-testnet",
+        "head": 494424,
+        "handoff": false,
+        "claims": true,
+        "binding": false
+      },
+      "lines": {
+        "0x0995891b85a6790c3a17606a1134cd1a0a0f3cad8dca762a8613aa5694323b58": [
+          {
+            "t": "2026-10-21T07:45:21.593Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0x0995891b85a6790c3a17606a1134cd1a0a0f3cad8dca762a8613aa5694323b58",
+            "result": "ok",
+            "client": "valid",
+            "claim": {
+              "epoch": 4668147,
+              "salt": "0x393dff4e935fd86a533e1f8c5dcbf58e02933906f82c2820fcf3ae9ee970ef1b",
+              "binder": "",
+              "valid": true,
+              "bound": false
+            },
+            "head": 494432
+          },
+          {
+            "t": "2026-10-21T07:45:21.596Z",
+            "node": "A",
+            "event": "relay",
+            "hash": "0x0995891b85a6790c3a17606a1134cd1a0a0f3cad8dca762a8613aa5694323b58",
+            "peers": 1
+          },
+          {
+            "t": "2026-10-21T07:45:25.399Z",
+            "node": "A",
+            "event": "head",
+            "head": 494433,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0x0995891b85a6790c3a17606a1134cd1a0a0f3cad8dca762a8613aa5694323b58"
+            ],
+            "pending": []
+          }
+        ],
+        "0xe5fc67cdfb7d4d288cd8a340004e95b354d1c4424077e0c00a2d9ab4d8944103": [
+          {
+            "t": "2026-10-21T07:45:33.650Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0xe5fc67cdfb7d4d288cd8a340004e95b354d1c4424077e0c00a2d9ab4d8944103",
+            "result": "ok",
+            "client": "valid",
+            "head": 494434
+          },
+          {
+            "t": "2026-10-21T07:45:33.652Z",
+            "node": "A",
+            "event": "relay",
+            "hash": "0xe5fc67cdfb7d4d288cd8a340004e95b354d1c4424077e0c00a2d9ab4d8944103",
+            "peers": 1
+          },
+          {
+            "t": "2026-10-21T07:45:37.388Z",
+            "node": "A",
+            "event": "head",
+            "head": 494435,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0xe5fc67cdfb7d4d288cd8a340004e95b354d1c4424077e0c00a2d9ab4d8944103"
+            ],
+            "pending": []
+          }
+        ],
+        "0xc0d8409bb1e944627618da254f8429a4408c16a1200cc6f8d6b11d6b9290628a": [
+          {
+            "t": "2026-10-21T07:45:51.233Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0xc0d8409bb1e944627618da254f8429a4408c16a1200cc6f8d6b11d6b9290628a",
+            "result": "ok",
+            "client": "valid",
+            "claim": {
+              "epoch": 4668147,
+              "salt": "0xe1bf94cdfed1458946cb93a377263dbd4d569bd0a9e5a150acea584e5de0e10a",
+              "binder": "",
+              "valid": true,
+              "bound": false
+            },
+            "head": 494437
+          },
+          {
+            "t": "2026-10-21T07:45:51.234Z",
+            "node": "A",
+            "event": "relay",
+            "hash": "0xc0d8409bb1e944627618da254f8429a4408c16a1200cc6f8d6b11d6b9290628a",
+            "peers": 1
+          }
+        ],
+        "0x6e8c436bddef4c0bce697f62eea43fc38264076855f396af8b0870c3e55ff0ff": [
+          {
+            "t": "2026-10-21T07:45:52.487Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0x6e8c436bddef4c0bce697f62eea43fc38264076855f396af8b0870c3e55ff0ff",
+            "result": "ok",
+            "client": "valid",
+            "claim": {
+              "epoch": 4668147,
+              "salt": "0xe1bf94cdfed1458946cb93a377263dbd4d569bd0a9e5a150acea584e5de0e10a",
+              "binder": "",
+              "valid": true,
+              "bound": false
+            },
+            "head": 494437
+          },
+          {
+            "t": "2026-10-21T07:45:52.487Z",
+            "node": "A",
+            "event": "relay",
+            "hash": "0x6e8c436bddef4c0bce697f62eea43fc38264076855f396af8b0870c3e55ff0ff",
+            "peers": 1
+          },
+          {
+            "t": "2026-10-21T07:45:55.483Z",
+            "node": "A",
+            "event": "head",
+            "head": 494438,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0x6e8c436bddef4c0bce697f62eea43fc38264076855f396af8b0870c3e55ff0ff"
+            ],
+            "pending": []
+          }
+        ],
+        "0xa043d8e92cc13465e766418bbc45ffc71a779ad6b22e41ce1cec9a79a7d35daf": [
+          {
+            "t": "2026-10-21T07:46:07.038Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0xa043d8e92cc13465e766418bbc45ffc71a779ad6b22e41ce1cec9a79a7d35daf",
+            "result": "ok",
+            "client": "valid",
+            "head": 494439
+          },
+          {
+            "t": "2026-10-21T07:46:07.039Z",
+            "node": "A",
+            "event": "relay",
+            "hash": "0xa043d8e92cc13465e766418bbc45ffc71a779ad6b22e41ce1cec9a79a7d35daf",
+            "peers": 1
+          },
+          {
+            "t": "2026-10-21T07:46:07.985Z",
+            "node": "A",
+            "event": "head",
+            "head": 494440,
+            "asked": [
+              "0xa043d8e92cc13465e766418bbc45ffc71a779ad6b22e41ce1cec9a79a7d35daf"
+            ],
+            "verdicts": {
+              "0xa043d8e92cc13465e766418bbc45ffc71a779ad6b22e41ce1cec9a79a7d35daf": "ok"
+            },
+            "resimulated": [],
+            "removed": [],
+            "pending": [
+              "0xa043d8e92cc13465e766418bbc45ffc71a779ad6b22e41ce1cec9a79a7d35daf"
+            ]
+          },
+          {
+            "t": "2026-10-21T07:46:13.471Z",
+            "node": "A",
+            "event": "head",
+            "head": 494441,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0xa043d8e92cc13465e766418bbc45ffc71a779ad6b22e41ce1cec9a79a7d35daf"
+            ],
+            "pending": []
+          }
+        ],
+        "0xa7b0f54bbb2c9b33eaa53d1073f127a41eeb2d28ecc81722ab4148b7155cbafb": [
+          {
+            "t": "2026-10-21T07:46:08.573Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0xa7b0f54bbb2c9b33eaa53d1073f127a41eeb2d28ecc81722ab4148b7155cbafb",
+            "result": "ErrInvalidSender",
+            "client": "frame signature list does not authenticate the sender",
+            "head": 494440
+          }
+        ],
+        "0x650f86f56628b92582f315e74cf07e667d0a12f59bb68759e54eaefd5b30b717": [
+          {
+            "t": "2026-10-21T07:46:09.116Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0x650f86f56628b92582f315e74cf07e667d0a12f59bb68759e54eaefd5b30b717",
+            "result": "ErrFramePrefixReverted",
+            "client": "validation prefix frame reverted",
+            "head": 494440
+          }
+        ],
+        "0x16f4cbdd1af066ed3f684a80f376fc462e7bf5f521fbcf517bb626c681fea797": [
+          {
+            "t": "2026-10-21T07:46:09.759Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0x16f4cbdd1af066ed3f684a80f376fc462e7bf5f521fbcf517bb626c681fea797",
+            "result": "ErrFramePrefixReverted",
+            "client": "validation prefix frame reverted",
+            "head": 494440
+          }
+        ],
+        "0x184b89ab70143fe017116e3c2c7e8416adb930f661162720dbea553c593d350d": [
+          {
+            "t": "2026-10-21T07:45:51.906Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0x184b89ab70143fe017116e3c2c7e8416adb930f661162720dbea553c593d350d",
+            "result": "ErrFramePrefixReverted",
+            "client": "validation prefix frame reverted",
+            "claim": {
+              "epoch": 4668147,
+              "salt": "0xe1bf94cdfed1458946cb93a377263dbd4d569bd0a9e5a150acea584e5de0e10a",
+              "binder": "",
+              "valid": true,
+              "bound": false
+            },
+            "head": 494437
+          }
+        ],
+        "0xc899e69e177bb501b4d23a8f2ffd5d603dca3aa8f6fc7c32f51498ddae1ac999": [
+          {
+            "t": "2026-10-21T07:46:07.576Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0xc899e69e177bb501b4d23a8f2ffd5d603dca3aa8f6fc7c32f51498ddae1ac999",
+            "result": "ErrInvalidSender",
+            "client": "frame signature list does not authenticate the sender",
+            "head": 494439
+          }
+        ]
+      }
+    },
+    {
+      "name": "B",
+      "peerId": "16Uiu2HAmEbRoubTJXq6QMbzTAg4mvxg6pztqRx4i1pDc9Q76DYFt",
+      "handoff": true,
+      "claims": true,
+      "peers": [
+        "16Uiu2HAmGA2hwQmdmvzFPsHrWtLSPJrsizMxvMjDUChdbforwcdg"
+      ],
+      "start": {
+        "t": "2026-10-21T07:44:34.342Z",
+        "node": "B",
+        "event": "start",
+        "profile": "hegota-testnet",
+        "head": 494424,
+        "handoff": true,
+        "claims": true,
+        "binding": false
+      },
+      "lines": {
+        "0x0995891b85a6790c3a17606a1134cd1a0a0f3cad8dca762a8613aa5694323b58": [
+          {
+            "t": "2026-10-21T07:45:22.613Z",
+            "node": "B",
+            "event": "gossip",
+            "from": "16Uiu2HAmGA2hwQmdmvzFPsHrWtLSPJrsizMxvMjDUChdbforwcdg",
+            "hash": "0x0995891b85a6790c3a17606a1134cd1a0a0f3cad8dca762a8613aa5694323b58",
+            "result": "ok",
+            "client": "valid",
+            "claim": {
+              "epoch": 4668147,
+              "salt": "0x393dff4e935fd86a533e1f8c5dcbf58e02933906f82c2820fcf3ae9ee970ef1b",
+              "binder": "",
+              "valid": true,
+              "bound": false
+            },
+            "outcome": "accept",
+            "head": 494432
+          },
+          {
+            "t": "2026-10-21T07:45:22.730Z",
+            "node": "B",
+            "event": "handoff",
+            "hash": "0x0995891b85a6790c3a17606a1134cd1a0a0f3cad8dca762a8613aa5694323b58",
+            "agrees": true
+          },
+          {
+            "t": "2026-10-21T07:45:25.705Z",
+            "node": "B",
+            "event": "head",
+            "head": 494433,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0x0995891b85a6790c3a17606a1134cd1a0a0f3cad8dca762a8613aa5694323b58"
+            ],
+            "pending": []
+          }
+        ],
+        "0xe5fc67cdfb7d4d288cd8a340004e95b354d1c4424077e0c00a2d9ab4d8944103": [
+          {
+            "t": "2026-10-21T07:45:34.127Z",
+            "node": "B",
+            "event": "gossip",
+            "from": "16Uiu2HAmGA2hwQmdmvzFPsHrWtLSPJrsizMxvMjDUChdbforwcdg",
+            "hash": "0xe5fc67cdfb7d4d288cd8a340004e95b354d1c4424077e0c00a2d9ab4d8944103",
+            "result": "ok",
+            "client": "valid",
+            "outcome": "accept",
+            "head": 494434
+          },
+          {
+            "t": "2026-10-21T07:45:34.301Z",
+            "node": "B",
+            "event": "handoff",
+            "hash": "0xe5fc67cdfb7d4d288cd8a340004e95b354d1c4424077e0c00a2d9ab4d8944103",
+            "agrees": true
+          },
+          {
+            "t": "2026-10-21T07:45:37.597Z",
+            "node": "B",
+            "event": "head",
+            "head": 494435,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0xe5fc67cdfb7d4d288cd8a340004e95b354d1c4424077e0c00a2d9ab4d8944103"
+            ],
+            "pending": []
+          }
+        ],
+        "0xc0d8409bb1e944627618da254f8429a4408c16a1200cc6f8d6b11d6b9290628a": [
+          {
+            "t": "2026-10-21T07:45:51.915Z",
+            "node": "B",
+            "event": "gossip",
+            "from": "16Uiu2HAmGA2hwQmdmvzFPsHrWtLSPJrsizMxvMjDUChdbforwcdg",
+            "hash": "0xc0d8409bb1e944627618da254f8429a4408c16a1200cc6f8d6b11d6b9290628a",
+            "result": "ok",
+            "client": "valid",
+            "claim": {
+              "epoch": 4668147,
+              "salt": "0xe1bf94cdfed1458946cb93a377263dbd4d569bd0a9e5a150acea584e5de0e10a",
+              "binder": "",
+              "valid": true,
+              "bound": false
+            },
+            "outcome": "accept",
+            "head": 494437
+          },
+          {
+            "t": "2026-10-21T07:45:52.078Z",
+            "node": "B",
+            "event": "handoff",
+            "hash": "0xc0d8409bb1e944627618da254f8429a4408c16a1200cc6f8d6b11d6b9290628a",
+            "agrees": true
+          }
+        ],
+        "0x6e8c436bddef4c0bce697f62eea43fc38264076855f396af8b0870c3e55ff0ff": [
+          {
+            "t": "2026-10-21T07:45:52.947Z",
+            "node": "B",
+            "event": "gossip",
+            "from": "16Uiu2HAmGA2hwQmdmvzFPsHrWtLSPJrsizMxvMjDUChdbforwcdg",
+            "hash": "0x6e8c436bddef4c0bce697f62eea43fc38264076855f396af8b0870c3e55ff0ff",
+            "result": "ok",
+            "client": "valid",
+            "claim": {
+              "epoch": 4668147,
+              "salt": "0xe1bf94cdfed1458946cb93a377263dbd4d569bd0a9e5a150acea584e5de0e10a",
+              "binder": "",
+              "valid": true,
+              "bound": false
+            },
+            "outcome": "accept",
+            "head": 494437
+          },
+          {
+            "t": "2026-10-21T07:45:53.066Z",
+            "node": "B",
+            "event": "handoff",
+            "hash": "0x6e8c436bddef4c0bce697f62eea43fc38264076855f396af8b0870c3e55ff0ff",
+            "agrees": true
+          },
+          {
+            "t": "2026-10-21T07:45:55.824Z",
+            "node": "B",
+            "event": "head",
+            "head": 494438,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0x6e8c436bddef4c0bce697f62eea43fc38264076855f396af8b0870c3e55ff0ff"
+            ],
+            "pending": []
+          }
+        ],
+        "0xa043d8e92cc13465e766418bbc45ffc71a779ad6b22e41ce1cec9a79a7d35daf": [
+          {
+            "t": "2026-10-21T07:46:08.047Z",
+            "node": "B",
+            "event": "gossip",
+            "from": "16Uiu2HAmGA2hwQmdmvzFPsHrWtLSPJrsizMxvMjDUChdbforwcdg",
+            "hash": "0xa043d8e92cc13465e766418bbc45ffc71a779ad6b22e41ce1cec9a79a7d35daf",
+            "result": "ok",
+            "client": "valid",
+            "outcome": "accept",
+            "head": 494439
+          },
+          {
+            "t": "2026-10-21T07:46:08.168Z",
+            "node": "B",
+            "event": "handoff",
+            "hash": "0xa043d8e92cc13465e766418bbc45ffc71a779ad6b22e41ce1cec9a79a7d35daf",
+            "agrees": true
+          },
+          {
+            "t": "2026-10-21T07:46:08.513Z",
+            "node": "B",
+            "event": "head",
+            "head": 494440,
+            "asked": [
+              "0xa043d8e92cc13465e766418bbc45ffc71a779ad6b22e41ce1cec9a79a7d35daf"
+            ],
+            "verdicts": {
+              "0xa043d8e92cc13465e766418bbc45ffc71a779ad6b22e41ce1cec9a79a7d35daf": "ok"
+            },
+            "resimulated": [],
+            "removed": [],
+            "pending": [
+              "0xa043d8e92cc13465e766418bbc45ffc71a779ad6b22e41ce1cec9a79a7d35daf"
+            ]
+          },
+          {
+            "t": "2026-10-21T07:46:13.835Z",
+            "node": "B",
+            "event": "head",
+            "head": 494441,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0xa043d8e92cc13465e766418bbc45ffc71a779ad6b22e41ce1cec9a79a7d35daf"
+            ],
+            "pending": []
+          }
+        ],
+        "0xa7b0f54bbb2c9b33eaa53d1073f127a41eeb2d28ecc81722ab4148b7155cbafb": [],
+        "0x650f86f56628b92582f315e74cf07e667d0a12f59bb68759e54eaefd5b30b717": [],
+        "0x16f4cbdd1af066ed3f684a80f376fc462e7bf5f521fbcf517bb626c681fea797": [],
+        "0x184b89ab70143fe017116e3c2c7e8416adb930f661162720dbea553c593d350d": [],
+        "0xc899e69e177bb501b4d23a8f2ffd5d603dca3aa8f6fc7c32f51498ddae1ac999": []
+      }
+    }
+  ],
+  "runner": {
+    "stdout": [
+      "the funder tops up owner 0: 0x49cdf068394bbb828d47187364321359253ebc638e7f67355dc02b066420b52e block 494425 gasUsed 26102",
+      "owner 0 deploys the bound and the unbound paymaster for one committee, buys 2 on each: 0x11f69fed629256a24d586caae1d33ba222e7155a04a3483ad299f455348e8f3c block 494427 gasUsed 4976427",
+      "pool note 0: block 494429, leaf 22",
+      "pool note 1: block 494431, leaf 23",
+      "four tickets issued, two bound",
+      "a fresh sender, unbound ticket: 0x0995891b85a6790c3a17606a1134cd1a0a0f3cad8dca762a8613aa5694323b58 mined in 494433, gasUsed 330640, payer 0x7022BA04ABe6228F43ce33edad5C94b55B071e33",
+      "a fresh sender, bound ticket: 0xe5fc67cdfb7d4d288cd8a340004e95b354d1c4424077e0c00a2d9ab4d8944103 mined in 494435, gasUsed 335440, payer 0x8C2D5C99677f979B30DDe842f8C6C67a76A0049a",
+      "unbound: the withdrawal: simulation valid true, None; sent: {\"result\":\"0xc0d8409bb1e944627618da254f8429a4408c16a1200cc6f8d6b11d6b9290628a\"}",
+      "unbound: a copy with its fees raised and one calldata byte changed: simulation valid false, Some(\"validation prefix frame reverted\"); sent: {\"error\":\"server returned an error response: error code -32000: ErrFramePrefixReverted: validation prefix frame reverted\"}",
+      "unbound: a copy with its fees raised, signed by no one: simulation valid true, None; sent: {\"result\":\"0x6e8c436bddef4c0bce697f62eea43fc38264076855f396af8b0870c3e55ff0ff\"}",
+      "unbound: mined: 0x6e8c436bddef4c0bce697f62eea43fc38264076855f396af8b0870c3e55ff0ff mined in 494438, gasUsed 692524, payer 0x7022BA04ABe6228F43ce33edad5C94b55B071e33",
+      "bound: the withdrawal: simulation valid true, None; sent: {\"result\":\"0xa043d8e92cc13465e766418bbc45ffc71a779ad6b22e41ce1cec9a79a7d35daf\"}",
+      "bound: a copy with its fees raised and one calldata byte changed, the binder's entry kept: simulation valid false, Some(\"frame signature list does not authenticate the sender\"); sent: {\"error\":\"server returned an error response: error code -32000: ErrInvalidSender: frame signature list does not authenticate the sender\"}",
+      "bound: a copy with its fees raised, the one-time key's signature kept: simulation valid false, Some(\"frame signature list does not authenticate the sender\"); sent: {\"error\":\"server returned an error response: error code -32000: ErrInvalidSender: frame signature list does not authenticate the sender\"}",
+      "bound: the same, its signature entry removed: simulation valid false, Some(\"validation prefix frame reverted\"); sent: {\"error\":\"server returned an error response: error code -32000: ErrFramePrefixReverted: validation prefix frame reverted\"}",
+      "bound: the same, another key named in the frame's data and signing: simulation valid false, Some(\"validation prefix frame reverted\"); sent: {\"error\":\"server returned an error response: error code -32000: ErrFramePrefixReverted: validation prefix frame reverted\"}",
+      "bound: mined: 0xa043d8e92cc13465e766418bbc45ffc71a779ad6b22e41ce1cec9a79a7d35daf mined in 494441, gasUsed 697243, payer 0x8C2D5C99677f979B30DDe842f8C6C67a76A0049a",
+      "bound template: 1185 bytes, keccak256 0x52c656815e560bb189c3fb362c9628432ca1ed6b720e239857775236c18bc1d3; unbound template: 1105 bytes, keccak256 0xec9f3f855524392a3891f2f2eb554781236d5565520d68388e455be74bdf3fe0",
+      "recorded in /home/user/e2e-x8/work/x8-1792568662778.json"
+    ]
+  },
+  "sent": {
+    "binding": [
+      {
+        "hash": "0xa043d8e92cc13465e766418bbc45ffc71a779ad6b22e41ce1cec9a79a7d35daf",
+        "raw": "0x06f9042a821fcde1a00980222621865132751b57288f7311733a07870fb16715ebcbb0d8ae4da1fc27809473e47a8da2c83beb802708fc473b5b7d094f3ee6f90381f8670180940000000000000000000000000000000000008272c48227108080b848602d9dcea629f74a71ca0f0ad9dd175ea979f3068ae1cdce9e321126bf08520700000000000800590e4d33f1153d361a9c5d4ca7ff5d12e9c147fa3df405a8fc591789ab3d2b3e35cb010280c58303f7a0808080f8df0101948c2d5c99677f979b30dde842f8c6c67a76a0049ac883020f5883017e8080b8bc0000000000473af3fe13e8ab2feb58c06c4757b6e17e35b65e43e25d0f8f2461307b4dfba60becfd218896cb7c4c5838bd29205878abd5e5f16b94be000000000000000000000000000000000530e3c8364bd4f60ecda01aa306e0722f282b81ea5f6efeffec6196019de76cb38713007522f35222fa1e56ac83c9c600000000000000000000000000000000166018f80461dc128ad2a0e9bbbf7d14e4f199d5fb64a3aec2eeb845672efb83992ccee7fa19166a2b4cd87adffd7d2df9022802809473e47a8da2c83beb802708fc473b5b7d094f3ee6c8830186a083044bb080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e00e4d33f1153d361a9c5d4ca7ff5d12e9c147fa3df405a8fc591789ab3d2b3e350980222621865132751b57288f7311733a07870fb16715ebcbb0d8ae4da1fc270000000000000000000000000268fdf5236ea451bae422e94c2b270658a4f0fc0000000000000000000000008c2d5c99677f979b30dde842f8c6c67a76a0049a0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001001243a3a188ac1b93f3afff65cb8b73b0eb8c2729a3d0024451ff633ff8c1f3ce2286adfe451caaf7cf8ab58e925ce498726a00863ba2dd6641b663ee547db9351ad1fb3ef20044fe2e8249da9011d7491b9a79692cce2261676f0841766ad94a1a11dfe831fcfb9dfb06be9ec4765ed8e9293a2d95a948701cd6b2a7181f6fd72a5560b0af5da0eaa39d7c274f5dd7a60e0ca762425afc5552963081e004cae4281c61198dbfbbd1c2d150c60ca3aea7e81324387f9b1e114249e6e71d91e7e727a9e9fd53cf89f07c1772e8736ac26c79fa8ea80862e9bae664ade4d35f88b8065d42ececcbaccd434697296c9c6efaeeb723d75dab7e9bb2c60984dff1c7acf85cf85a0194218896cb7c4c5838bd29205878abd5e5f16b94be80b841017257deef0269b91bcc07f087f22420841229e554dfe3854d20c967659675bf877f97e3d422b35e4d065e7052943ef287bbdef2080b7bba4c93808189829ae46fcb8405f5e1008405f5e10e80c0",
+        "sent": {
+          "result": "0xa043d8e92cc13465e766418bbc45ffc71a779ad6b22e41ce1cec9a79a7d35daf"
+        },
+        "sentTo": "http://127.0.0.1:14337/rpc/",
+        "simulatedFrames": [
+          {
+            "gasUsed": "0x15cb",
+            "succeeded": true
+          },
+          {
+            "gasUsed": "0x3bc51",
+            "succeeded": true
+          },
+          {
+            "gasUsed": "0x1dd79",
+            "succeeded": true
+          },
+          {
+            "gasUsed": "0x384a",
+            "succeeded": true
+          }
+        ],
+        "simulation": {
+          "valid": true,
+          "violation": null
+        },
+        "what": "bound: the withdrawal"
+      },
+      {
+        "hash": "0xa7b0f54bbb2c9b33eaa53d1073f127a41eeb2d28ecc81722ab4148b7155cbafb",
+        "raw": "0x06f9042a821fcde1a00980222621865132751b57288f7311733a07870fb16715ebcbb0d8ae4da1fc27809473e47a8da2c83beb802708fc473b5b7d094f3ee6f90381f8670180940000000000000000000000000000000000008272c48227108080b848602d9dcea629f74a71ca0f0ad9dd175ea979f3068ae1cdce9e321126bf08520700000000000800590e4d33f1153d361a9c5d4ca7ff5d12e9c147fa3df405a8fc591789ab3d2b3e35cb010280c58303f7a0808080f8df0101948c2d5c99677f979b30dde842f8c6c67a76a0049ac883020f5883017e8080b8bc0000000000473af3fe13e8ab2feb58c06c4757b6e17e35b65e43e25d0f8f2461307b4dfba60becfd218896cb7c4c5838bd29205878abd5e5f16b94be000000000000000000000000000000000530e3c8364bd4f60ecda01aa306e0722f282b81ea5f6efeffec6196019de76cb38713007522f35222fa1e56ac83c9c600000000000000000000000000000000166018f80461dc128ad2a0e9bbbf7d14e4f199d5fb64a3aec2eeb845672efb83992ccee7fa19166a2b4cd87adffd7d2df9022802809473e47a8da2c83beb802708fc473b5b7d094f3ee6c8830186a083044bb080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e00e4d33f1153d361a9c5d4ca7ff5d12e9c147fa3df405a8fc591789ab3d2b3e350980222621865132751b57288f7311733a07870fb16715ebcbb0d8ae4da1fc270000000000000000000000000268fdf5236ea451bae422e94c2b270658a4f0fc0000000000000000000000008c2d5c99677f979b30dde842f8c6c67a76a0049a0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001001243a3a188ac1b93f3afff65cb8b73b0eb8c2729a3d0024451ff633ff8c1f3ce2286adfe451caaf7cf8ab58e925ce498726a00863ba2dd6641b663ee547db9351ad1fb3ef20044fe2e8249da9011d7491b9a79692cce2261676f0841766ad94a1a11dfe831fcfb9dfb06be9ec4765ed8e9293a2d95a948701cd6b2a7181f6fd72a5560b0af5da0eaa39d7c274f5dd7a60e0ca762425afc5552963081e004cae4281c61198dbfbbd1c2d150c60ca3aea7e81324387f9b1e114249e6e71d91e7e727a9e9fd53cf89f07c1772e8736ac26c79fa8ea80862e9bae664ade4d35f88b8065d42ececcbaccd434697296c9c6efaeeb723d75dab7e9bb2c60984dff1c7acf85cf85a0194218896cb7c4c5838bd29205878abd5e5f16b94be80b841017257deef0269b91bcc07f087f22420841229e554dfe3854d20c967659675bf877f97e3d422b35e4d065e7052943ef287bbdef2080b7bba4c93808189829ae46fcb84068e778084068e779080c0",
+        "sent": {
+          "error": "server returned an error response: error code -32000: ErrInvalidSender: frame signature list does not authenticate the sender"
+        },
+        "sentTo": "http://127.0.0.1:14337/rpc/",
+        "simulatedFrames": null,
+        "simulation": {
+          "valid": false,
+          "violation": "frame signature list does not authenticate the sender"
+        },
+        "what": "bound: a copy with its fees raised, the one-time key's signature kept"
+      },
+      {
+        "hash": "0x650f86f56628b92582f315e74cf07e667d0a12f59bb68759e54eaefd5b30b717",
+        "raw": "0x06f903cd821fcde1a00980222621865132751b57288f7311733a07870fb16715ebcbb0d8ae4da1fc27809473e47a8da2c83beb802708fc473b5b7d094f3ee6f90381f8670180940000000000000000000000000000000000008272c48227108080b848602d9dcea629f74a71ca0f0ad9dd175ea979f3068ae1cdce9e321126bf08520700000000000800590e4d33f1153d361a9c5d4ca7ff5d12e9c147fa3df405a8fc591789ab3d2b3e35cb010280c58303f7a0808080f8df0101948c2d5c99677f979b30dde842f8c6c67a76a0049ac883020f5883017e8080b8bc0000000000473af3fe13e8ab2feb58c06c4757b6e17e35b65e43e25d0f8f2461307b4dfba60becfd218896cb7c4c5838bd29205878abd5e5f16b94be000000000000000000000000000000000530e3c8364bd4f60ecda01aa306e0722f282b81ea5f6efeffec6196019de76cb38713007522f35222fa1e56ac83c9c600000000000000000000000000000000166018f80461dc128ad2a0e9bbbf7d14e4f199d5fb64a3aec2eeb845672efb83992ccee7fa19166a2b4cd87adffd7d2df9022802809473e47a8da2c83beb802708fc473b5b7d094f3ee6c8830186a083044bb080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e00e4d33f1153d361a9c5d4ca7ff5d12e9c147fa3df405a8fc591789ab3d2b3e350980222621865132751b57288f7311733a07870fb16715ebcbb0d8ae4da1fc270000000000000000000000000268fdf5236ea451bae422e94c2b270658a4f0fc0000000000000000000000008c2d5c99677f979b30dde842f8c6c67a76a0049a0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001001243a3a188ac1b93f3afff65cb8b73b0eb8c2729a3d0024451ff633ff8c1f3ce2286adfe451caaf7cf8ab58e925ce498726a00863ba2dd6641b663ee547db9351ad1fb3ef20044fe2e8249da9011d7491b9a79692cce2261676f0841766ad94a1a11dfe831fcfb9dfb06be9ec4765ed8e9293a2d95a948701cd6b2a7181f6fd72a5560b0af5da0eaa39d7c274f5dd7a60e0ca762425afc5552963081e004cae4281c61198dbfbbd1c2d150c60ca3aea7e81324387f9b1e114249e6e71d91e7e727a9e9fd53cf89f07c1772e8736ac26c79fa8ea80862e9bae664ade4d35f88b8065d42ececcbaccd434697296c9c6efaeeb723d75dab7e9bb2c60984dff1c7acc0cb84068e778084068e779080c0",
+        "sent": {
+          "error": "server returned an error response: error code -32000: ErrFramePrefixReverted: validation prefix frame reverted"
+        },
+        "sentTo": "http://127.0.0.1:14337/rpc/",
+        "simulatedFrames": null,
+        "simulation": {
+          "valid": false,
+          "violation": "validation prefix frame reverted"
+        },
+        "what": "bound: the same, its signature entry removed"
+      },
+      {
+        "hash": "0x16f4cbdd1af066ed3f684a80f376fc462e7bf5f521fbcf517bb626c681fea797",
+        "raw": "0x06f9042a821fcde1a00980222621865132751b57288f7311733a07870fb16715ebcbb0d8ae4da1fc27809473e47a8da2c83beb802708fc473b5b7d094f3ee6f90381f8670180940000000000000000000000000000000000008272c48227108080b848602d9dcea629f74a71ca0f0ad9dd175ea979f3068ae1cdce9e321126bf08520700000000000800590e4d33f1153d361a9c5d4ca7ff5d12e9c147fa3df405a8fc591789ab3d2b3e35cb010280c58303f7a0808080f8df0101948c2d5c99677f979b30dde842f8c6c67a76a0049ac883020f5883017e8080b8bc0000000000473af3fe13e8ab2feb58c06c4757b6e17e35b65e43e25d0f8f2461307b4dfba60becfd99823abbacfbacbdf75a2c2eb877c571724d5063000000000000000000000000000000000530e3c8364bd4f60ecda01aa306e0722f282b81ea5f6efeffec6196019de76cb38713007522f35222fa1e56ac83c9c600000000000000000000000000000000166018f80461dc128ad2a0e9bbbf7d14e4f199d5fb64a3aec2eeb845672efb83992ccee7fa19166a2b4cd87adffd7d2df9022802809473e47a8da2c83beb802708fc473b5b7d094f3ee6c8830186a083044bb080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e00e4d33f1153d361a9c5d4ca7ff5d12e9c147fa3df405a8fc591789ab3d2b3e350980222621865132751b57288f7311733a07870fb16715ebcbb0d8ae4da1fc270000000000000000000000000268fdf5236ea451bae422e94c2b270658a4f0fc0000000000000000000000008c2d5c99677f979b30dde842f8c6c67a76a0049a0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001001243a3a188ac1b93f3afff65cb8b73b0eb8c2729a3d0024451ff633ff8c1f3ce2286adfe451caaf7cf8ab58e925ce498726a00863ba2dd6641b663ee547db9351ad1fb3ef20044fe2e8249da9011d7491b9a79692cce2261676f0841766ad94a1a11dfe831fcfb9dfb06be9ec4765ed8e9293a2d95a948701cd6b2a7181f6fd72a5560b0af5da0eaa39d7c274f5dd7a60e0ca762425afc5552963081e004cae4281c61198dbfbbd1c2d150c60ca3aea7e81324387f9b1e114249e6e71d91e7e727a9e9fd53cf89f07c1772e8736ac26c79fa8ea80862e9bae664ade4d35f88b8065d42ececcbaccd434697296c9c6efaeeb723d75dab7e9bb2c60984dff1c7acf85cf85a019499823abbacfbacbdf75a2c2eb877c571724d506380b84101f736805e3b6423eb9e7d55f76e9592b79ccca77fdc0a8aadd6c488f3ef7c7a1c24818e559bc40b0cdee8dc0fe27b5fab667d872ce66e24465de3a737cdc9cde9cb84068e778084068e779080c0",
+        "sent": {
+          "error": "server returned an error response: error code -32000: ErrFramePrefixReverted: validation prefix frame reverted"
+        },
+        "sentTo": "http://127.0.0.1:14337/rpc/",
+        "simulatedFrames": null,
+        "simulation": {
+          "valid": false,
+          "violation": "validation prefix frame reverted"
+        },
+        "what": "bound: the same, another key named in the frame's data and signing"
+      },
+      {
+        "block": "0x78b69",
+        "frames": [
+          {
+            "gasUsed": "0x15cb",
+            "stateGasUsed": "0x0",
+            "status": "0x1"
+          },
+          {
+            "gasUsed": "0x3bc51",
+            "stateGasUsed": "0x0",
+            "status": "0x1"
+          },
+          {
+            "gasUsed": "0x1dd79",
+            "stateGasUsed": "0x17e80",
+            "status": "0x1"
+          },
+          {
+            "gasUsed": "0x384a",
+            "stateGasUsed": "0x2cd30",
+            "status": "0x1"
+          }
+        ],
+        "gasUsed": "0xaa39b",
+        "hash": "0xa043d8e92cc13465e766418bbc45ffc71a779ad6b22e41ce1cec9a79a7d35daf",
+        "payer": "0x8c2d5c99677f979b30dde842f8c6c67a76a0049a",
+        "raw": "0x06f9042a821fcde1a00980222621865132751b57288f7311733a07870fb16715ebcbb0d8ae4da1fc27809473e47a8da2c83beb802708fc473b5b7d094f3ee6f90381f8670180940000000000000000000000000000000000008272c48227108080b848602d9dcea629f74a71ca0f0ad9dd175ea979f3068ae1cdce9e321126bf08520700000000000800590e4d33f1153d361a9c5d4ca7ff5d12e9c147fa3df405a8fc591789ab3d2b3e35cb010280c58303f7a0808080f8df0101948c2d5c99677f979b30dde842f8c6c67a76a0049ac883020f5883017e8080b8bc0000000000473af3fe13e8ab2feb58c06c4757b6e17e35b65e43e25d0f8f2461307b4dfba60becfd218896cb7c4c5838bd29205878abd5e5f16b94be000000000000000000000000000000000530e3c8364bd4f60ecda01aa306e0722f282b81ea5f6efeffec6196019de76cb38713007522f35222fa1e56ac83c9c600000000000000000000000000000000166018f80461dc128ad2a0e9bbbf7d14e4f199d5fb64a3aec2eeb845672efb83992ccee7fa19166a2b4cd87adffd7d2df9022802809473e47a8da2c83beb802708fc473b5b7d094f3ee6c8830186a083044bb080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e00e4d33f1153d361a9c5d4ca7ff5d12e9c147fa3df405a8fc591789ab3d2b3e350980222621865132751b57288f7311733a07870fb16715ebcbb0d8ae4da1fc270000000000000000000000000268fdf5236ea451bae422e94c2b270658a4f0fc0000000000000000000000008c2d5c99677f979b30dde842f8c6c67a76a0049a0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001001243a3a188ac1b93f3afff65cb8b73b0eb8c2729a3d0024451ff633ff8c1f3ce2286adfe451caaf7cf8ab58e925ce498726a00863ba2dd6641b663ee547db9351ad1fb3ef20044fe2e8249da9011d7491b9a79692cce2261676f0841766ad94a1a11dfe831fcfb9dfb06be9ec4765ed8e9293a2d95a948701cd6b2a7181f6fd72a5560b0af5da0eaa39d7c274f5dd7a60e0ca762425afc5552963081e004cae4281c61198dbfbbd1c2d150c60ca3aea7e81324387f9b1e114249e6e71d91e7e727a9e9fd53cf89f07c1772e8736ac26c79fa8ea80862e9bae664ade4d35f88b8065d42ececcbaccd434697296c9c6efaeeb723d75dab7e9bb2c60984dff1c7acf85cf85a0194218896cb7c4c5838bd29205878abd5e5f16b94be80b841017257deef0269b91bcc07f087f22420841229e554dfe3854d20c967659675bf877f97e3d422b35e4d065e7052943ef287bbdef2080b7bba4c93808189829ae46fcb8405f5e1008405f5e10e80c0",
+        "what": "bound: mined"
+      }
+    ],
+    "boundPaymaster": "0x8c2d5c99677f979b30dde842f8c6c67a76a0049a",
+    "boundTemplate": {
+      "keccak256": "0x52c656815e560bb189c3fb362c9628432ca1ed6b720e239857775236c18bc1d3",
+      "length": 1185
+    },
+    "calldataCopies": [
+      {
+        "byConstruction": "the pool's proof: the recipient is a public input, and nothing else reads it",
+        "hash": "0x184b89ab70143fe017116e3c2c7e8416adb930f661162720dbea553c593d350d",
+        "raw": "0x06f903b9821fcde1a02987a9ebd52600aedd43d86b09ad9bc0465aac55a7a7ffad768e36fd656eed1f809473e47a8da2c83beb802708fc473b5b7d094f3ee6f9036df8670180940000000000000000000000000000000000008272c48227108080b848602d9dcea629f74a71ca0f0ad9dd175ea979f3068ae1cdce9e321126bf08520700000000000800572678cfd7fc0d5f368acda187a47ff0e4e67c5690ae753e481b8bc0a3f276d9dccb010280c58303f7a0808080f8cb0101947022ba04abe6228f43ce33edad5c94b55b071e33c883020f5883017e8080b8a80000000000473af3e1bf94cdfed1458946cb93a377263dbd4d569bd0a9e5a150acea584e5de0e10a0000000000000000000000000000000019c879d0a3ecb40a7af0ddbe7988ae2575d2472317bfd6af5512529c86762f95d1c7fc3026e9045dd6d94061976783b800000000000000000000000000000000190af91598ca1316d50f3b7e3790709dd04b8f5d2ad4e4450637716ea7605f3ec4a266a57994b862af3f8e2ad085bd47f9022802809473e47a8da2c83beb802708fc473b5b7d094f3ee6c8830186a083044bb080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e02678cfd7fc0d5f368acda187a47ff0e4e67c5690ae753e481b8bc0a3f276d9dc2987a9ebd52600aedd43d86b09ad9bc0465aac55a7a7ffad768e36fd656eed1f00000000000000000000000024a383022fff73d448c36c1ea61569ef6fba6e090000000000000000000000007022ba04abe6228f43ce33edad5c94b55b071e3300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010010ef6b6ad907200fbf46c304b87bd7e78fa1956255d6e3764e3e2f2da20499451ee0d6cc71d5d34a5fb95d38d04a45294d20a11d3a8fb4376ed8972c2a1a552a10e08f82ba057a8fea9db90d55291bbd8cda04d5401cc29bce3dd83b1a618a3b0825dae9ba1dcbe4362cfe243d1fa48f29d9ebf8245742c936a5e4faf181472a15493f87fc956bbefd76e2d9805fba3ffe0bc3002fc3873f9ddf869f30a98bf300c0d7e672aa2fac884c5b79cbfa2230bd6b32c51aa43b36f56e2db40df10a550be87934aeaec21ea323fdc39e14383864678fc5cb14de991b47c9ed7de25e250bb3c96f61931a99a06cfd56ab01438f1cf2c6f047244c62fb17583bf5ce0cb4c0cb84068e778084068e779080c0",
+        "refusedBy": "a validation-prefix frame the node does not name",
+        "sent": {
+          "error": "server returned an error response: error code -32000: ErrFramePrefixReverted: validation prefix frame reverted"
+        },
+        "sentTo": "http://127.0.0.1:14337/rpc/",
+        "simulatedFrames": null,
+        "simulation": {
+          "valid": false,
+          "violation": "validation prefix frame reverted"
+        },
+        "what": "unbound: a copy with its fees raised and one calldata byte changed"
+      },
+      {
+        "byConstruction": "the protocol's signature check: the binder signed the original's hash, before any frame runs",
+        "hash": "0xc899e69e177bb501b4d23a8f2ffd5d603dca3aa8f6fc7c32f51498ddae1ac999",
+        "raw": "0x06f9042a821fcde1a00980222621865132751b57288f7311733a07870fb16715ebcbb0d8ae4da1fc27809473e47a8da2c83beb802708fc473b5b7d094f3ee6f90381f8670180940000000000000000000000000000000000008272c48227108080b848602d9dcea629f74a71ca0f0ad9dd175ea979f3068ae1cdce9e321126bf08520700000000000800590e4d33f1153d361a9c5d4ca7ff5d12e9c147fa3df405a8fc591789ab3d2b3e35cb010280c58303f7a0808080f8df0101948c2d5c99677f979b30dde842f8c6c67a76a0049ac883020f5883017e8080b8bc0000000000473af3fe13e8ab2feb58c06c4757b6e17e35b65e43e25d0f8f2461307b4dfba60becfd218896cb7c4c5838bd29205878abd5e5f16b94be000000000000000000000000000000000530e3c8364bd4f60ecda01aa306e0722f282b81ea5f6efeffec6196019de76cb38713007522f35222fa1e56ac83c9c600000000000000000000000000000000166018f80461dc128ad2a0e9bbbf7d14e4f199d5fb64a3aec2eeb845672efb83992ccee7fa19166a2b4cd87adffd7d2df9022802809473e47a8da2c83beb802708fc473b5b7d094f3ee6c8830186a083044bb080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e00e4d33f1153d361a9c5d4ca7ff5d12e9c147fa3df405a8fc591789ab3d2b3e350980222621865132751b57288f7311733a07870fb16715ebcbb0d8ae4da1fc270000000000000000000000000268fdf5236ea451bae422e94c2b270658a4f0fd0000000000000000000000008c2d5c99677f979b30dde842f8c6c67a76a0049a0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001001243a3a188ac1b93f3afff65cb8b73b0eb8c2729a3d0024451ff633ff8c1f3ce2286adfe451caaf7cf8ab58e925ce498726a00863ba2dd6641b663ee547db9351ad1fb3ef20044fe2e8249da9011d7491b9a79692cce2261676f0841766ad94a1a11dfe831fcfb9dfb06be9ec4765ed8e9293a2d95a948701cd6b2a7181f6fd72a5560b0af5da0eaa39d7c274f5dd7a60e0ca762425afc5552963081e004cae4281c61198dbfbbd1c2d150c60ca3aea7e81324387f9b1e114249e6e71d91e7e727a9e9fd53cf89f07c1772e8736ac26c79fa8ea80862e9bae664ade4d35f88b8065d42ececcbaccd434697296c9c6efaeeb723d75dab7e9bb2c60984dff1c7acf85cf85a0194218896cb7c4c5838bd29205878abd5e5f16b94be80b841017257deef0269b91bcc07f087f22420841229e554dfe3854d20c967659675bf877f97e3d422b35e4d065e7052943ef287bbdef2080b7bba4c93808189829ae46fcb84068e778084068e779080c0",
+        "refusedBy": "the protocol's signature check",
+        "sent": {
+          "error": "server returned an error response: error code -32000: ErrInvalidSender: frame signature list does not authenticate the sender"
+        },
+        "sentTo": "http://127.0.0.1:14337/rpc/",
+        "simulatedFrames": null,
+        "simulation": {
+          "valid": false,
+          "violation": "frame signature list does not authenticate the sender"
+        },
+        "what": "bound: a copy with its fees raised and one calldata byte changed, the binder's entry kept"
+      }
+    ],
+    "chainId": 8141,
+    "committeeKey": "0x99d66380b645ac527ef6204f938efb9a04d17219b6a0595f3da5bd76771f00f2d6a2fc564e75db38ed2d835583abfda302a97bf86827c93d1f53f08b847fc5eacac418b4e22f906398fc45961ff4dbb8471b7f6c118b40b7f6746ee3980ef788",
+    "control": [
+      {
+        "hash": "0xc0d8409bb1e944627618da254f8429a4408c16a1200cc6f8d6b11d6b9290628a",
+        "raw": "0x06f903b9821fcde1a02987a9ebd52600aedd43d86b09ad9bc0465aac55a7a7ffad768e36fd656eed1f809473e47a8da2c83beb802708fc473b5b7d094f3ee6f9036df8670180940000000000000000000000000000000000008272c48227108080b848602d9dcea629f74a71ca0f0ad9dd175ea979f3068ae1cdce9e321126bf08520700000000000800572678cfd7fc0d5f368acda187a47ff0e4e67c5690ae753e481b8bc0a3f276d9dccb010280c58303f7a0808080f8cb0101947022ba04abe6228f43ce33edad5c94b55b071e33c883020f5883017e8080b8a80000000000473af3e1bf94cdfed1458946cb93a377263dbd4d569bd0a9e5a150acea584e5de0e10a0000000000000000000000000000000019c879d0a3ecb40a7af0ddbe7988ae2575d2472317bfd6af5512529c86762f95d1c7fc3026e9045dd6d94061976783b800000000000000000000000000000000190af91598ca1316d50f3b7e3790709dd04b8f5d2ad4e4450637716ea7605f3ec4a266a57994b862af3f8e2ad085bd47f9022802809473e47a8da2c83beb802708fc473b5b7d094f3ee6c8830186a083044bb080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e02678cfd7fc0d5f368acda187a47ff0e4e67c5690ae753e481b8bc0a3f276d9dc2987a9ebd52600aedd43d86b09ad9bc0465aac55a7a7ffad768e36fd656eed1f00000000000000000000000024a383022fff73d448c36c1ea61569ef6fba6e080000000000000000000000007022ba04abe6228f43ce33edad5c94b55b071e3300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010010ef6b6ad907200fbf46c304b87bd7e78fa1956255d6e3764e3e2f2da20499451ee0d6cc71d5d34a5fb95d38d04a45294d20a11d3a8fb4376ed8972c2a1a552a10e08f82ba057a8fea9db90d55291bbd8cda04d5401cc29bce3dd83b1a618a3b0825dae9ba1dcbe4362cfe243d1fa48f29d9ebf8245742c936a5e4faf181472a15493f87fc956bbefd76e2d9805fba3ffe0bc3002fc3873f9ddf869f30a98bf300c0d7e672aa2fac884c5b79cbfa2230bd6b32c51aa43b36f56e2db40df10a550be87934aeaec21ea323fdc39e14383864678fc5cb14de991b47c9ed7de25e250bb3c96f61931a99a06cfd56ab01438f1cf2c6f047244c62fb17583bf5ce0cb4c0cb8405f5e1008405f5e10e80c0",
+        "sent": {
+          "result": "0xc0d8409bb1e944627618da254f8429a4408c16a1200cc6f8d6b11d6b9290628a"
+        },
+        "sentTo": "http://127.0.0.1:14337/rpc/",
+        "simulatedFrames": [
+          {
+            "gasUsed": "0x15cb",
+            "succeeded": true
+          },
+          {
+            "gasUsed": "0x3bc51",
+            "succeeded": true
+          },
+          {
+            "gasUsed": "0x1dc96",
+            "succeeded": true
+          },
+          {
+            "gasUsed": "0x384a",
+            "succeeded": true
+          }
+        ],
+        "simulation": {
+          "valid": true,
+          "violation": null
+        },
+        "what": "unbound: the withdrawal"
+      },
+      {
+        "hash": "0x6e8c436bddef4c0bce697f62eea43fc38264076855f396af8b0870c3e55ff0ff",
+        "raw": "0x06f903b9821fcde1a02987a9ebd52600aedd43d86b09ad9bc0465aac55a7a7ffad768e36fd656eed1f809473e47a8da2c83beb802708fc473b5b7d094f3ee6f9036df8670180940000000000000000000000000000000000008272c48227108080b848602d9dcea629f74a71ca0f0ad9dd175ea979f3068ae1cdce9e321126bf08520700000000000800572678cfd7fc0d5f368acda187a47ff0e4e67c5690ae753e481b8bc0a3f276d9dccb010280c58303f7a0808080f8cb0101947022ba04abe6228f43ce33edad5c94b55b071e33c883020f5883017e8080b8a80000000000473af3e1bf94cdfed1458946cb93a377263dbd4d569bd0a9e5a150acea584e5de0e10a0000000000000000000000000000000019c879d0a3ecb40a7af0ddbe7988ae2575d2472317bfd6af5512529c86762f95d1c7fc3026e9045dd6d94061976783b800000000000000000000000000000000190af91598ca1316d50f3b7e3790709dd04b8f5d2ad4e4450637716ea7605f3ec4a266a57994b862af3f8e2ad085bd47f9022802809473e47a8da2c83beb802708fc473b5b7d094f3ee6c8830186a083044bb080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e02678cfd7fc0d5f368acda187a47ff0e4e67c5690ae753e481b8bc0a3f276d9dc2987a9ebd52600aedd43d86b09ad9bc0465aac55a7a7ffad768e36fd656eed1f00000000000000000000000024a383022fff73d448c36c1ea61569ef6fba6e080000000000000000000000007022ba04abe6228f43ce33edad5c94b55b071e3300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010010ef6b6ad907200fbf46c304b87bd7e78fa1956255d6e3764e3e2f2da20499451ee0d6cc71d5d34a5fb95d38d04a45294d20a11d3a8fb4376ed8972c2a1a552a10e08f82ba057a8fea9db90d55291bbd8cda04d5401cc29bce3dd83b1a618a3b0825dae9ba1dcbe4362cfe243d1fa48f29d9ebf8245742c936a5e4faf181472a15493f87fc956bbefd76e2d9805fba3ffe0bc3002fc3873f9ddf869f30a98bf300c0d7e672aa2fac884c5b79cbfa2230bd6b32c51aa43b36f56e2db40df10a550be87934aeaec21ea323fdc39e14383864678fc5cb14de991b47c9ed7de25e250bb3c96f61931a99a06cfd56ab01438f1cf2c6f047244c62fb17583bf5ce0cb4c0cb84068e778084068e779080c0",
+        "sent": {
+          "result": "0x6e8c436bddef4c0bce697f62eea43fc38264076855f396af8b0870c3e55ff0ff"
+        },
+        "sentTo": "http://127.0.0.1:14337/rpc/",
+        "simulatedFrames": [
+          {
+            "gasUsed": "0x15cb",
+            "succeeded": true
+          },
+          {
+            "gasUsed": "0x3bc51",
+            "succeeded": true
+          },
+          {
+            "gasUsed": "0x1dc96",
+            "succeeded": true
+          },
+          {
+            "gasUsed": "0x384a",
+            "succeeded": true
+          }
+        ],
+        "simulation": {
+          "valid": true,
+          "violation": null
+        },
+        "what": "unbound: a copy with its fees raised, signed by no one"
+      },
+      {
+        "block": "0x78b66",
+        "frames": [
+          {
+            "gasUsed": "0x15cb",
+            "stateGasUsed": "0x0",
+            "status": "0x1"
+          },
+          {
+            "gasUsed": "0x3bc51",
+            "stateGasUsed": "0x0",
+            "status": "0x1"
+          },
+          {
+            "gasUsed": "0x1dc96",
+            "stateGasUsed": "0x17e80",
+            "status": "0x1"
+          },
+          {
+            "gasUsed": "0x384a",
+            "stateGasUsed": "0x2cd30",
+            "status": "0x1"
+          }
+        ],
+        "gasUsed": "0xa912c",
+        "hash": "0x6e8c436bddef4c0bce697f62eea43fc38264076855f396af8b0870c3e55ff0ff",
+        "payer": "0x7022ba04abe6228f43ce33edad5c94b55b071e33",
+        "raw": "0x06f903b9821fcde1a02987a9ebd52600aedd43d86b09ad9bc0465aac55a7a7ffad768e36fd656eed1f809473e47a8da2c83beb802708fc473b5b7d094f3ee6f9036df8670180940000000000000000000000000000000000008272c48227108080b848602d9dcea629f74a71ca0f0ad9dd175ea979f3068ae1cdce9e321126bf08520700000000000800572678cfd7fc0d5f368acda187a47ff0e4e67c5690ae753e481b8bc0a3f276d9dccb010280c58303f7a0808080f8cb0101947022ba04abe6228f43ce33edad5c94b55b071e33c883020f5883017e8080b8a80000000000473af3e1bf94cdfed1458946cb93a377263dbd4d569bd0a9e5a150acea584e5de0e10a0000000000000000000000000000000019c879d0a3ecb40a7af0ddbe7988ae2575d2472317bfd6af5512529c86762f95d1c7fc3026e9045dd6d94061976783b800000000000000000000000000000000190af91598ca1316d50f3b7e3790709dd04b8f5d2ad4e4450637716ea7605f3ec4a266a57994b862af3f8e2ad085bd47f9022802809473e47a8da2c83beb802708fc473b5b7d094f3ee6c8830186a083044bb080b9020421a0adb600000000000000000000000000000000000000000000000000000000000000e02678cfd7fc0d5f368acda187a47ff0e4e67c5690ae753e481b8bc0a3f276d9dc2987a9ebd52600aedd43d86b09ad9bc0465aac55a7a7ffad768e36fd656eed1f00000000000000000000000024a383022fff73d448c36c1ea61569ef6fba6e080000000000000000000000007022ba04abe6228f43ce33edad5c94b55b071e3300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010010ef6b6ad907200fbf46c304b87bd7e78fa1956255d6e3764e3e2f2da20499451ee0d6cc71d5d34a5fb95d38d04a45294d20a11d3a8fb4376ed8972c2a1a552a10e08f82ba057a8fea9db90d55291bbd8cda04d5401cc29bce3dd83b1a618a3b0825dae9ba1dcbe4362cfe243d1fa48f29d9ebf8245742c936a5e4faf181472a15493f87fc956bbefd76e2d9805fba3ffe0bc3002fc3873f9ddf869f30a98bf300c0d7e672aa2fac884c5b79cbfa2230bd6b32c51aa43b36f56e2db40df10a550be87934aeaec21ea323fdc39e14383864678fc5cb14de991b47c9ed7de25e250bb3c96f61931a99a06cfd56ab01438f1cf2c6f047244c62fb17583bf5ce0cb4c0cb84068e778084068e779080c0",
+        "what": "unbound: mined"
+      }
+    ],
+    "epoch": 4668147,
+    "issuers": [
+      {
+        "index": 0,
+        "saw": [
+          "0x8870f348dfb3e675be2a975c199910ddcc34a470900cac4973a273c27faebf1b2bab3b91fa67dc7108f11b755a664d4c",
+          "0xb417b184090a26bff578a2c1606ed1a74d9f1513f7f072cd608c855c89f0042fb21aa0c9fa3e7552217fdc17e8dd6a2d",
+          "0xb5a5ddbe2b53db59fcfcef769d7d0d15d262c21571c4667dbe93c92957f4291698c58fad06f1376fd4435a1100e25f99"
+        ]
+      },
+      {
+        "index": 1,
+        "saw": [
+          "0x8870f348dfb3e675be2a975c199910ddcc34a470900cac4973a273c27faebf1b2bab3b91fa67dc7108f11b755a664d4c",
+          "0xad9a89107d9542a899a55ccbb03023501260cc7605ed99ecbd1e2ebc8a57ff09a692aaaf03eedf3ab294c228e3ac279b",
+          "0xb5a5ddbe2b53db59fcfcef769d7d0d15d262c21571c4667dbe93c92957f4291698c58fad06f1376fd4435a1100e25f99"
+        ]
+      },
+      {
+        "index": 2,
+        "saw": [
+          "0x8870f348dfb3e675be2a975c199910ddcc34a470900cac4973a273c27faebf1b2bab3b91fa67dc7108f11b755a664d4c",
+          "0xad9a89107d9542a899a55ccbb03023501260cc7605ed99ecbd1e2ebc8a57ff09a692aaaf03eedf3ab294c228e3ac279b",
+          "0xb417b184090a26bff578a2c1606ed1a74d9f1513f7f072cd608c855c89f0042fb21aa0c9fa3e7552217fdc17e8dd6a2d"
+        ]
+      },
+      {
+        "index": 3,
+        "saw": [
+          "0xad9a89107d9542a899a55ccbb03023501260cc7605ed99ecbd1e2ebc8a57ff09a692aaaf03eedf3ab294c228e3ac279b",
+          "0xb417b184090a26bff578a2c1606ed1a74d9f1513f7f072cd608c855c89f0042fb21aa0c9fa3e7552217fdc17e8dd6a2d",
+          "0xb5a5ddbe2b53db59fcfcef769d7d0d15d262c21571c4667dbe93c92957f4291698c58fad06f1376fd4435a1100e25f99"
+        ]
+      }
+    ],
+    "owner0": "0x3c8e40941a226230adac570bb7d4dd574119d206",
+    "sendRpcUrl": "http://127.0.0.1:14337/rpc/",
+    "spends": [
+      {
+        "block": "0x78b61",
+        "frames": [
+          {
+            "gasUsed": "0x64",
+            "stateGasUsed": "0x0",
+            "status": "0x1"
+          },
+          {
+            "gasUsed": "0x1dc96",
+            "stateGasUsed": "0x2cd30",
+            "status": "0x1"
+          },
+          {
+            "gasUsed": "0x11f1",
+            "stateGasUsed": "0x0",
+            "status": "0x1"
+          }
+        ],
+        "gasUsed": "0x50b90",
+        "hash": "0x0995891b85a6790c3a17606a1134cd1a0a0f3cad8dca762a8613aa5694323b58",
+        "payer": "0x7022ba04abe6228f43ce33edad5c94b55b071e33",
+        "raw": "0x06f901d2821fcdc18080940b8809d6493ebf3a899b9c6a581ee14b96e9240ff9015dca010280c4824e20808080f8cb0101947022ba04abe6228f43ce33edad5c94b55b071e33c88301fbd08302cd3080b8a80000000000473af3393dff4e935fd86a533e1f8c5dcbf58e02933906f82c2820fcf3ae9ee970ef1b000000000000000000000000000000000dbe7a1eb21b18bb92a28b7e2e72e8e36cd05d8972eff2b51c027eb056854a10e19e031f22f07d60cd943d0c4fc6587100000000000000000000000000000000056ceba7cb8607ef97e8d313d02727460d7d4380a461ae9fcf6bd6519c3bb505a356578731e5c0bb7b56918491628412f88302809493dd748b72da1b1b6f1d5ec78cb91ee52f01727dc48275308080b864baf9b3690000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001b70616964207769746820616e20756e626f756e64207469636b65740000000000f848f846018080b8410030bb4e7e3d782fd0837b2f757ccaa7f234f8bb16f3e14c7de5e47e07fb52b8992dcbf41c70845d78fd13a21d56ab978a6617c7d8221c18ac93da22eeefe03656cb843b9aca00843b9aca0e80c0",
+        "sentTo": "http://127.0.0.1:14337/rpc/",
+        "what": "a fresh sender, unbound ticket"
+      },
+      {
+        "block": "0x78b63",
+        "frames": [
+          {
+            "gasUsed": "0x64",
+            "stateGasUsed": "0x0",
+            "status": "0x1"
+          },
+          {
+            "gasUsed": "0x1ddee",
+            "stateGasUsed": "0x2cd30",
+            "status": "0x1"
+          },
+          {
+            "gasUsed": "0x11f1",
+            "stateGasUsed": "0x0",
+            "status": "0x1"
+          }
+        ],
+        "gasUsed": "0x51e50",
+        "hash": "0xe5fc67cdfb7d4d288cd8a340004e95b354d1c4424077e0c00a2d9ab4d8944103",
+        "payer": "0x8c2d5c99677f979b30dde842f8c6c67a76a0049a",
+        "raw": "0x06f90242821fcdc18080948c52511ec38b3b9bc813675324ededf3e0a1b201f90171ca010280c4824e20808080f8df0101948c2d5c99677f979b30dde842f8c6c67a76a0049ac8830222e08302cd3080b8bc0000000000473af3261842b19d18b6ba06a71931eb71ac513326998d7de8419a58e2a559fafe4dbbb1fb110f77976c1d295164c825023a9ddc7eb2dc00000000000000000000000000000000198cc5a258cbf32569722613959c8e19cd42acc9d645e249578941fd5f1c79a8f16087d3f673e59f40323889154424790000000000000000000000000000000017034a6673222e657397f17ca00cce5e164d201a9d658c58ea379c77b2e40c7825d091468bb15199b0d70c584fe74d7df88302809493dd748b72da1b1b6f1d5ec78cb91ee52f01727dc48275308080b864baf9b36900000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000018706169642077697468206120626f756e64207469636b65740000000000000000f8a4f846018080b84101dc6f1f9586f2fce021d13a85fd1c87ac3d607fa43357019edf805a7bd245507b5af99051a57b1388b60f7bb6fe7c8658846c4ba1f534b11bdf16b7ee777f11ddf85a0194b1fb110f77976c1d295164c825023a9ddc7eb2dc80b841017fd566c77b33e98773b995100e23478480b94afe17edff4c6355174f5859f3582c04b0e5a24e82073fe0329f6dfcd032620cb86118befa75b77460f6fe8d0d1ecb843b9aca00843b9aca0e80c0",
+        "sentTo": "http://127.0.0.1:14337/rpc/",
+        "what": "a fresh sender, bound ticket"
+      }
+    ],
+    "steps": [
+      {
+        "block": "0x78b59",
+        "framesSucceeded": true,
+        "gasUsed": "0x65f6",
+        "hash": "0x49cdf068394bbb828d47187364321359253ebc638e7f67355dc02b066420b52e",
+        "payer": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+        "raw": "0x06f8a4821fcdc1800594a131d9454d87957dcc465fb37acd9b383648b4d5f1ca010380c4824e20808080e50280943c8e40941a226230adac570bb7d4dd574119d206c48227108087b1a2bc2ec5000080f848f846018080b84100de5668d8edc54c86cd8630434ffcc4ac8db992b3a501bde4b55447f86903584f0c7ebd308142824df70270fb707c2328e0b4f74ca5dd340682e3b2ee26370dc0cb843b9aca00843b9aca0e80c0",
+        "what": "the funder tops up owner 0"
+      },
+      {
+        "block": "0x78b5b",
+        "framesSucceeded": true,
+        "gasUsed": "0x4bef2b",
+        "hash": "0x11f69fed629256a24d586caae1d33ba222e7155a04a3483ad299f455348e8f3c",
+        "payer": "0x3c8e40941a226230adac570bb7d4dd574119d206",
+        "raw": "0x06f90cbe821fcdc18080943c8e40941a226230adac570bb7d4dd574119d206f90c49ca010380c4824e20808080f9061e0280944e59b44847b379578588920ca78fbf26c0b4956cc8830508e88325c61480b905faac405c25a5089ce614605d74fd3eacc86537225e7b304e26b9d904a6485c8e816101206104a1806100195f39813861011f19018239015ff3fe60aa330361020957600ab06001600282b31461001757005b6006600191b3036101ae5760bc36036101ae5761003261034b565b6006b0116101ae5760283560601c80156101ae5760403661020037600f60f81b610240526e4652414d455f5449434b45545f563160881b6102415246610250526002b060601b61027052600fb0610284526001b060c01b6102a452603c5f6102ac37600160f71b6102e8525f6102ea535f5160206103615f395f51905f526102eb526b5357555f524f5f504f505f2b60a01b61030b526100d061024a565b610100515f5160206103615f395f51905f52610161526b5357555f524f5f504f505f2b60a01b6101815260015f5b600582106101df57505050610111610273565b6101196102df565b6080610700604061060060105afa156101ae576080610780604061064060105afa156101ae576080603c610900376101006103a1610980396080610a80610100610700600b5afa156101ae576101003861011f1901610b003960205f610300610900600f5afa156101ae5760015f51036101ae575f90600bb0905f5b8281106101b257505050156101ae576101ac610359565b005b5f80fd5b60018082b4146101c5575b600101610195565b600281b46101bd57815f82b4036101bd57600193506101bd565b821861014052806101605360016104005f19830160051b0161020081610260565b519101906100fe565b61021161034b565b34156101ae578034066101ae5734045f52337fc55650ccda1011e1cdc769b1fbf546ebb8c97800b6072b49e06cd560305b1d6760205fa2005b602061010061011761020060025afa156101ae57565b602090604d61014060025afa156101ae57565b6040610500526001610520526030610540526104005161056052610420516105805260016105a0535f5160206103815f395f51905f526105a1526f1eabfffeb153ffffb9feffffffffaaab60801b6105c1525f61060052603061061060d161050060055afa156101ae57565b6040610500526001610520526030610540526104405161056052610460516105805260016105a0535f5160206103815f395f51905f526105a1526f1eabfffeb153ffffb9feffffffffaaab60801b6105c1525f61064052603061065060d161050060055afa156101ae57565b602038601f19015f395f5190565b60015f5faa56fe424c535f5349475f424c53313233383147315f584d443a5348412d3235365f531a0111ea397fe69a4b1ba7b6434bacd764774b84f38512bf6730d2a0f6b0f62400000000000000000000000000000000024aa2b2f08f0a91260805272dc51051c6e47ad4fa403b02b4510b647ae3d1770bac0326a805bbefd48056c8c121bdb80000000000000000000000000000000013e02b6052719f607dacd3a088274f65596bd0d09920b61ab5da61bbdc7f5049334cf11213945d57e5ac7d055d042b7e000000000000000000000000000000000d1b3cc2c7027888be51d9ef691d77bcb679afda66c73f17f9ee3837a55024f78c71363275a75d75d86bab79f74782aa0000000000000000000000000000000013fa4d4a0ad8b1ce186ed5061789213d993923066dddaf1040bc3ff59f825c78df74f2d75467e25e0f55f8a00fa030ed0000000000000000000000000000000002a97bf86827c93d1f53f08b847fc5eacac418b4e22f906398fc45961ff4dbb8471b7f6c118b40b7f6746ee3980ef7880000000000000000000000000000000019d66380b645ac527ef6204f938efb9a04d17219b6a0595f3da5bd76771f00f2d6a2fc564e75db38ed2d835583abfda3000000000000000000000000000000000cf41291c1f2485fd1d5f59e1fd605ac9b6a79bda6f4ba7fef423a24ba3a242127b3f537f47da7d8f31e3e1928b9f4fa0000000000000000000000000000000002e6cb17d4ad286e583f937151e4856db2837f5239bcd5aa60b4b2d55794be45731c03e0c6157ba6b99d5717af8791bc00000000000000000000000000000000000000000000000000038d7ea4c68000f905ce0280944e59b44847b379578588920ca78fbf26c0b4956cc8830502a88323e7f480b905aae50ee0ae1dda47ec231f393f8b7288c3995db3c4a3cd8151eae7c4a811fcd1f2610120610451806100195f39813861011f19018239015ff3fe60aa33036101b957600ab06001600282b31461001757005b6006600191b30361018b5760a8360361018b576100326102fb565b6006b01161018b5760403661020037600f60f81b610240526e4652414d455f5449434b45545f563160881b6102415246610250526002b060601b61027052600fb0610284526001b060c01b6102a45260285f6102ac37600160f71b6102d4525f6102d6535f5160206103115f395f51905f526102d7526b5357555f524f5f504f505f2b60a01b6102f7526100c46101fa565b610100515f5160206103115f395f51905f52610161526b5357555f524f5f504f505f2b60a01b6101815260015f5b6005821061018f57505050610105610223565b61010d61028f565b6080610700604061060060105afa1561018b576080610780604061064060105afa1561018b576080602861090037610100610351610980396080610a80610100610700600b5afa1561018b576101003861011f1901610b003960205f610300610900600f5afa1561018b5760015f510361018b57610189610309565b005b5f80fd5b821861014052806101605360016104005f19830160051b016101b081610210565b519101906100f2565b6101c16102fb565b341561018b5780340661018b5734045f52337fc55650ccda1011e1cdc769b1fbf546ebb8c97800b6072b49e06cd560305b1d6760205fa2005b602061010061010361020060025afa1561018b57565b602090604d61014060025afa1561018b57565b6040610500526001610520526030610540526104005161056052610420516105805260016105a0535f5160206103315f395f51905f526105a1526f1eabfffeb153ffffb9feffffffffaaab60801b6105c1525f61060052603061061060d161050060055afa1561018b57565b6040610500526001610520526030610540526104405161056052610460516105805260016105a0535f5160206103315f395f51905f526105a1526f1eabfffeb153ffffb9feffffffffaaab60801b6105c1525f61064052603061065060d161050060055afa1561018b57565b602038601f19015f395f5190565b60015f5faa56fe424c535f5349475f424c53313233383147315f584d443a5348412d3235365f531a0111ea397fe69a4b1ba7b6434bacd764774b84f38512bf6730d2a0f6b0f62400000000000000000000000000000000024aa2b2f08f0a91260805272dc51051c6e47ad4fa403b02b4510b647ae3d1770bac0326a805bbefd48056c8c121bdb80000000000000000000000000000000013e02b6052719f607dacd3a088274f65596bd0d09920b61ab5da61bbdc7f5049334cf11213945d57e5ac7d055d042b7e000000000000000000000000000000000d1b3cc2c7027888be51d9ef691d77bcb679afda66c73f17f9ee3837a55024f78c71363275a75d75d86bab79f74782aa0000000000000000000000000000000013fa4d4a0ad8b1ce186ed5061789213d993923066dddaf1040bc3ff59f825c78df74f2d75467e25e0f55f8a00fa030ed0000000000000000000000000000000002a97bf86827c93d1f53f08b847fc5eacac418b4e22f906398fc45961ff4dbb8471b7f6c118b40b7f6746ee3980ef7880000000000000000000000000000000019d66380b645ac527ef6204f938efb9a04d17219b6a0595f3da5bd76771f00f2d6a2fc564e75db38ed2d835583abfda3000000000000000000000000000000000cf41291c1f2485fd1d5f59e1fd605ac9b6a79bda6f4ba7fef423a24ba3a242127b3f537f47da7d8f31e3e1928b9f4fa0000000000000000000000000000000002e6cb17d4ad286e583f937151e4856db2837f5239bcd5aa60b4b2d55794be45731c03e0c6157ba6b99d5717af8791bc00000000000000000000000000000000000000000000000000038d7ea4c68000e50280948c2d5c99677f979b30dde842f8c6c67a76a0049ac48227108087071afd498d000080e50280947022ba04abe6228f43ce33edad5c94b55b071e33c48227108087071afd498d000080f848f846018080b84101c174210687ffc8e8343340c7fa6a05d818b15b50b00f3d03acd8e28c172d6e2d57edbd46d5b6c676a9ee4920002f3c3031ec1bb17fcf53bca39c389250f82adfcb843b9aca00843b9aca0e80c0",
+        "what": "owner 0 deploys the bound and the unbound paymaster for one committee, buys 2 on each"
+      },
+      {
+        "block": "0x78b5d",
+        "hash": "0x4236a50bf5b7e8e2cff61c9145e47112ee3cb0ee4e9a6634272d06c230710e36",
+        "leaf": 22,
+        "what": "owner 0 deposits keychain note 0"
+      },
+      {
+        "block": "0x78b5f",
+        "hash": "0xabfd4a0907cc95442715c98d7b0a1ebcf77c70e97398cd5cc707f62560701a41",
+        "leaf": 23,
+        "what": "owner 0 deposits keychain note 1"
+      }
+    ],
+    "tickets": {
+      "bound": [
+        {
+          "binder": "0xb1fb110f77976c1d295164c825023a9ddc7eb2dc",
+          "point": "0xa11f73d7fffe5512e4b063a6ce6e1f62848a3255ce72a7a3b546eaa59119e1b7647a966a5b4679531fe92154267285b6",
+          "sender": "0x8c52511ec38b3b9bc813675324ededf3e0a1b201"
+        },
+        {
+          "binder": "0x218896cb7c4c5838bd29205878abd5e5f16b94be",
+          "point": "0x8168a1e30e682b2851d8a4aabf4a68bc2cc42b5e778be6c70fc08f5990ccb5c2ebda2f32234b50ffffb9351cb4c2235e",
+          "sender": "0x73e47a8da2c83beb802708fc473b5b7d094f3ee6"
+        }
+      ],
+      "unbound": [
+        {
+          "point": "0xb2db6dcc883aae471831b999ddf6f1d6e818dab18963f0b79f89ba7c6d232169be9c710459ba5f357917547b5fa54562",
+          "sender": "0x0b8809d6493ebf3a899b9c6a581ee14b96e9240f"
+        },
+        {
+          "point": "0x83e702ac74079d2016500a1bbd9bfa32cfa40c62177e1e0673dd3e936d81168c18ac2e7b1865918e30c7b50c0dca42f1",
+          "sender": "0x73e47a8da2c83beb802708fc473b5b7d094f3ee6"
+        }
+      ]
+    },
+    "unboundPaymaster": "0x7022ba04abe6228f43ce33edad5c94b55b071e33",
+    "unboundTemplate": {
+      "keccak256": "0xec9f3f855524392a3891f2f2eb554781236d5565520d68388e455be74bdf3fe0",
+      "length": 1105
+    }
+  },
+  "chain": {
+    "0x0995891b85a6790c3a17606a1134cd1a0a0f3cad8dca762a8613aa5694323b58": {
+      "hash": "0x0995891b85a6790c3a17606a1134cd1a0a0f3cad8dca762a8613aa5694323b58",
+      "mined": true,
+      "block": 494433,
+      "blockHash": "0xf968a13b06eb91460862cee6a3a6bfa47e4a6355313612882a806fa2bf9f7df9",
+      "status": "0x1",
+      "sender": "0x0b8809d6493ebf3a899b9c6a581ee14b96e9240f",
+      "payer": "0x7022ba04abe6228f43ce33edad5c94b55b071e33",
+      "signatures": 1,
+      "frames": 3,
+      "frameStatuses": [
+        "0x1",
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 330640
+    },
+    "0xe5fc67cdfb7d4d288cd8a340004e95b354d1c4424077e0c00a2d9ab4d8944103": {
+      "hash": "0xe5fc67cdfb7d4d288cd8a340004e95b354d1c4424077e0c00a2d9ab4d8944103",
+      "mined": true,
+      "block": 494435,
+      "blockHash": "0x6e50f81c22be7f5748042ba07cdc66bd8fe8e7fb0a6a912b82981c4d4e958857",
+      "status": "0x1",
+      "sender": "0x8c52511ec38b3b9bc813675324ededf3e0a1b201",
+      "payer": "0x8c2d5c99677f979b30dde842f8c6c67a76a0049a",
+      "signatures": 2,
+      "frames": 3,
+      "frameStatuses": [
+        "0x1",
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 335440
+    },
+    "0xc0d8409bb1e944627618da254f8429a4408c16a1200cc6f8d6b11d6b9290628a": {
+      "hash": "0xc0d8409bb1e944627618da254f8429a4408c16a1200cc6f8d6b11d6b9290628a",
+      "mined": false,
+      "known": false
+    },
+    "0x6e8c436bddef4c0bce697f62eea43fc38264076855f396af8b0870c3e55ff0ff": {
+      "hash": "0x6e8c436bddef4c0bce697f62eea43fc38264076855f396af8b0870c3e55ff0ff",
+      "mined": true,
+      "block": 494438,
+      "blockHash": "0x143b4c2921b5b64934e9f9d8938dcb94c13f62d357a731f9106aa4790e4e024f",
+      "status": "0x1",
+      "sender": "0x73e47a8da2c83beb802708fc473b5b7d094f3ee6",
+      "payer": "0x7022ba04abe6228f43ce33edad5c94b55b071e33",
+      "signatures": 0,
+      "frames": 4,
+      "frameStatuses": [
+        "0x1",
+        "0x1",
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 692524
+    },
+    "0xa043d8e92cc13465e766418bbc45ffc71a779ad6b22e41ce1cec9a79a7d35daf": {
+      "hash": "0xa043d8e92cc13465e766418bbc45ffc71a779ad6b22e41ce1cec9a79a7d35daf",
+      "mined": true,
+      "block": 494441,
+      "blockHash": "0x8011adfe51d19213c0eabb28aa2161307e943fd95f84eb0fe44ab53e3da7a2e7",
+      "status": "0x1",
+      "sender": "0x73e47a8da2c83beb802708fc473b5b7d094f3ee6",
+      "payer": "0x8c2d5c99677f979b30dde842f8c6c67a76a0049a",
+      "signatures": 1,
+      "frames": 4,
+      "frameStatuses": [
+        "0x1",
+        "0x1",
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 697243
+    },
+    "0xa7b0f54bbb2c9b33eaa53d1073f127a41eeb2d28ecc81722ab4148b7155cbafb": {
+      "hash": "0xa7b0f54bbb2c9b33eaa53d1073f127a41eeb2d28ecc81722ab4148b7155cbafb",
+      "mined": false,
+      "known": false
+    },
+    "0x650f86f56628b92582f315e74cf07e667d0a12f59bb68759e54eaefd5b30b717": {
+      "hash": "0x650f86f56628b92582f315e74cf07e667d0a12f59bb68759e54eaefd5b30b717",
+      "mined": false,
+      "known": false
+    },
+    "0x16f4cbdd1af066ed3f684a80f376fc462e7bf5f521fbcf517bb626c681fea797": {
+      "hash": "0x16f4cbdd1af066ed3f684a80f376fc462e7bf5f521fbcf517bb626c681fea797",
+      "mined": false,
+      "known": false
+    },
+    "0x184b89ab70143fe017116e3c2c7e8416adb930f661162720dbea553c593d350d": {
+      "hash": "0x184b89ab70143fe017116e3c2c7e8416adb930f661162720dbea553c593d350d",
+      "mined": false,
+      "known": false
+    },
+    "0xc899e69e177bb501b4d23a8f2ffd5d603dca3aa8f6fc7c32f51498ddae1ac999": {
+      "hash": "0xc899e69e177bb501b4d23a8f2ffd5d603dca3aa8f6fc7c32f51498ddae1ac999",
+      "mined": false,
+      "known": false
+    }
+  }
+}
