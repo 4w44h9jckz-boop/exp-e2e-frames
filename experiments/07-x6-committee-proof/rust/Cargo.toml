@@ -1,0 +1,33 @@
+# X6's runner. It takes the committee's own crate, co-withdraw, from this repository, and kohaku-rs's
+# frame crates at the commit the committee's workspace pins, so one kohaku-rs is in the build.
+# Cargo.lock starts from committee/Cargo.lock, so every shared dependency is at the version the
+# committee tested.
+[package]
+name = "x6-committee-runner"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+[workspace]
+
+[dependencies]
+co-withdraw = { path = "../../../committee/co-withdraw" }
+kohaku-tornadocash = { git = "https://github.com/4w44h9jckz-boop/kohaku-rs", rev = "ab056aba3348b94b682d166c933265ccf21a759d" }
+kohaku-frame-kit = { git = "https://github.com/4w44h9jckz-boop/kohaku-rs", rev = "ab056aba3348b94b682d166c933265ccf21a759d" }
+kohaku-frame-accounts = { git = "https://github.com/4w44h9jckz-boop/kohaku-rs", rev = "ab056aba3348b94b682d166c933265ccf21a759d" }
+kohaku-frame-pool = { git = "https://github.com/4w44h9jckz-boop/kohaku-rs", rev = "ab056aba3348b94b682d166c933265ccf21a759d" }
+alloy = "2.4.1"
+anyhow = "1.0.104"
+hex = "0.4.3"
+rand = "0.10.2"
+ruint = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1.0.151"
+tokio = { version = "1.53.1", features = ["macros", "rt-multi-thread", "time"] }
+
+[patch.crates-io]
+commonware-cryptography = { git = "https://github.com/4w44h9jckz-boop/cmw-monorepo", rev = "489e313e86d5808f3d874b67c5a48a75f85b64f7" }
+commonware-codec = { git = "https://github.com/4w44h9jckz-boop/cmw-monorepo", rev = "489e313e86d5808f3d874b67c5a48a75f85b64f7" }
+commonware-math = { git = "https://github.com/4w44h9jckz-boop/cmw-monorepo", rev = "489e313e86d5808f3d874b67c5a48a75f85b64f7" }
+commonware-parallel = { git = "https://github.com/4w44h9jckz-boop/cmw-monorepo", rev = "489e313e86d5808f3d874b67c5a48a75f85b64f7" }
+commonware-utils = { git = "https://github.com/4w44h9jckz-boop/cmw-monorepo", rev = "489e313e86d5808f3d874b67c5a48a75f85b64f7" }
