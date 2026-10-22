@@ -1,0 +1,12 @@
+{
+  "skandha": {
+    "url": "https://github.com/4w44h9jckz-boop/skandha",
+    "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade",
+    "why": "two nodes with frame transactions on; A is told nothing about the pool, B alone hands transactions to the chain. Its frame pool plays exp-mempool-l2s's fp-07 vectors, the mined transfer's"
+  },
+  "exp-frames": {
+    "url": "https://github.com/4w44h9jckz-boop/exp-frames",
+    "commit": "b9f290237f9918e6965e8be213cd096b02ea7606",
+    "why": "experiment 42: the Noir transfer, its prover (build/prove.mjs), its committed Groth16 keys and groth16tool, the deployed verifier and adapter, and pool.ts --groth16 --send, which deploys a fresh pool on the chain and hands the transfer and two double spends to one node"
+  }
+}

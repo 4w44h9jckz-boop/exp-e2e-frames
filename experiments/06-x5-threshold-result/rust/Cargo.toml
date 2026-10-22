@@ -1,0 +1,21 @@
+# X5's runner over kohaku-rs's frame-kit and frame-accounts. The paths are the checkout run.ts
+# makes from pins.json: work/<name>-<first 12 characters of the commit>. Cargo.lock starts from
+# that checkout's crates/Cargo.lock, so every shared dependency is at the version kohaku-rs tested.
+[package]
+name = "x5-result-runner"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+[workspace]
+
+[dependencies]
+kohaku-frame-kit = { path = "../../../work/kohaku-rs-ab056aba3348/crates/frame-kit" }
+kohaku-frame-accounts = { path = "../../../work/kohaku-rs-ab056aba3348/crates/frame-accounts" }
+alloy = "2.4.1"
+anyhow = "1.0.104"
+hex = "0.4.3"
+rand = "0.10.2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1.0.151"
+tokio = { version = "1.53.1", features = ["macros", "rt-multi-thread", "time"] }

@@ -12,7 +12,7 @@ use aes_prng::AesRng;
 use anyhow::Result;
 use clap::{Parser, Subcommand};
 use fhe_committee::{
-    decrypt, encrypt, evaluate, read_public, setup, verify_input, write_public, Op, EXTENSION_DEGREE, MEMBERS,
+    compare, decrypt, encrypt, evaluate, read_public, setup, verify_input, write_public, Op, EXTENSION_DEGREE, MEMBERS,
 };
 use rand::SeedableRng;
 use threshold_fhe::execution::endpoints::keygen::PrivateKeySet;
@@ -66,6 +66,21 @@ enum Cmd {
         #[arg(long)]
         out: PathBuf,
     },
+    /// Whether the first owner's input is greater than the second's, encrypted
+    Compare {
+        #[arg(long)]
+        public: PathBuf,
+        #[arg(long)]
+        a: PathBuf,
+        #[arg(long)]
+        a_metadata: String,
+        #[arg(long)]
+        b: PathBuf,
+        #[arg(long)]
+        b_metadata: String,
+        #[arg(long)]
+        out: PathBuf,
+    },
     Decrypt {
         #[arg(long)]
         public: PathBuf,
@@ -111,6 +126,11 @@ fn main() -> Result<()> {
                 _ => anyhow::bail!("give --add or --mul"),
             };
             let result = evaluate(&read_public(&public)?, &std::fs::read(input)?, &unhex(&metadata)?, op)?;
+            std::fs::write(out, result)?;
+            Ok(())
+        }
+        Cmd::Compare { public, a, a_metadata, b, b_metadata, out } => {
+            let result = compare(&read_public(&public)?, &std::fs::read(a)?, &unhex(&a_metadata)?, &std::fs::read(b)?, &unhex(&b_metadata)?)?;
             std::fs::write(out, result)?;
             Ok(())
         }

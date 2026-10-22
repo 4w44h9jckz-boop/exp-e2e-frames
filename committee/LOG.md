@@ -158,7 +158,7 @@ the dealt TFHE key.
 
 ## 2026-10-21, second session (after the 06:00 reset)
 
-**Owner's answers (decisions/0129), done:** pull request #8 (`tooling-committee` into `main`)
+**Owner's answers, done:** pull request #8 (`tooling-committee` into `main`)
 opened; C1's README says the dealer saw the whole TFHE key once, lists who holds or sees what,
 and prices threshold-fhe's distributed keygen from its specification without running it (five
 online rounds and 430 to 742 million triples, quoted; about 0.9 TB a member, derived), `c714e81`.
@@ -169,7 +169,7 @@ online rounds and 430 to 742 million triples, quoted; about 0.9 TB a member, der
 before the run. Arm B registered each fresh key with a paymaster of its own (2,434,267 gas each);
 its retired committee's ticket was refused at the latest paymaster (`ErrClaimInvalid`). Two
 comparisons in the test were formatting fixes (address case, gas in hex); the checks are as
-pushed. decisions/0130's reporting items: `member` mode for 423 and 512 added (`0adec74`); the
+pushed. The owner's later reporting items: `member` mode for 423 and 512 added (`0adec74`); the
 size measurement up to 256 and the member run are still to record, then the README's results.
 
 **C6, experiment 10** (`exp/10-c6-accountable-signers`): three attempts.
@@ -183,7 +183,7 @@ size measurement up to 256 and the member run are still to record, then the READ
   shown wrong; 49 checks pass. README results at `d5ba3c7`.
 - Attempts 1 and 2 are kept in `results/superseded/` with their causes. The test's ECDSA check,
   which I had added beyond the two pushed before the run, now records the control either way.
-- decisions/0130's items are in the README, derived or named as not run.
+- The owner's later reporting items are in the README, derived or named as not run.
 
 **Process note.** An edit to experiment 10's README went through the artifact tool by mistake
 and published that README as a private page (it holds nothing but this public README); deleting
@@ -195,4 +195,68 @@ C2: done | exp-e2e-frames c714e81, PR #8 | needs from wallet: none
 C1: done | exp-e2e-frames c714e81, PR #8, test/fixtures/committee/c1-2026-10-21-amended.json | needs from wallet: none
 C3: partial; chain run done, size measurement and README results next | exp-e2e-frames 0adec74 on exp/08-c3-epoch-reshare, results/chain-2-amended.json | needs from wallet: none
 C6: done, ready for acceptance | exp-e2e-frames d5ba3c7 on exp/10-c6-accountable-signers, results/3-margin-2.json | needs from wallet: none
-C5: waiting for the paper in enews (decisions/0129, 0130) | none | needs from wallet: none
+C5: waiting for the paper, as the owner directed | none | needs from wallet: none
+
+## 2026-10-21, third session
+
+**C3, experiment 08** (`exp/08-c3-epoch-reshare`): the size measurement (4 to 256, every member
+in turn in one process) and `member` mode (423 and 512) recorded, results written, `0c3a6c1`.
+A member's reshare at 256 takes 6.3 s of compute, plus 450 ms for three WAN trips, against an
+epoch of 384 s; all 256 in turn took 1,421 s, the simulation's cost. Bytes a member sends grow as
+`n^2` point to point (14.8 MB at 256). At 423 and 512 a dealer's unique bytes are about 5.4 times
+the post's `32n + 48t`, and with its log sent to every player about 2,000 to 2,400 times. Not
+shown wrong; 13 checks pass. Experiment 10's run shared the CPU during sizes up to 128.
+
+**C5, experiment 09** (`exp/09-c5-traceable-shares`): the paper (ePrint 2024/405, last revised
+2024-08-12) read first; the claim, what would show it wrong and the test pushed before any code
+(`e5cd26f`), the tracer, staking contract and runner before the first transaction (`db62eeb`).
+One try stopped at the node's gas estimate before any transaction (`b51404c` fixes it). Attempt
+1, blocks 494,042 to 494,044: the perfect, smaller and noisy boxes traced to exactly their
+coalitions; the slashing transaction convicted six holders in 105,742 gas, checked by the
+contract against a Merkle root of the key; evidence forged against an innocent holder reverted.
+A box that can read the key evades tracing, so only the root goes on chain. The dealer can frame
+anyone. Not shown wrong; 23 checks pass. Results at `9b51380`.
+
+**For the owner.** C3 and C5 ready for acceptance. One harness slip is recorded in C5's README:
+the runner mislabelled the chain's ether-transfer log as a holder; the record is unchanged and the
+runner now records logs whole.
+
+C2: done | exp-e2e-frames b7c19a1 (PR #8 merged) | needs from wallet: none
+C1: done | exp-e2e-frames b7c19a1 (PR #8 merged), test/fixtures/committee/c1-2026-10-21-amended.json | needs from wallet: none
+C3: done, ready for acceptance | exp-e2e-frames 0c3a6c1 on exp/08-c3-epoch-reshare, results/chain-2-amended.json, measure-1-first-run.json, member-1-first-run.json | needs from wallet: none
+C6: done, ready for acceptance | exp-e2e-frames d5ba3c7 on exp/10-c6-accountable-signers, results/3-margin-2.json | needs from wallet: none
+C5: done, ready for acceptance | exp-e2e-frames 9b51380 on exp/09-c5-traceable-shares, results/1-first-run.json | needs from wallet: none
+
+## 2026-10-21, fourth session
+
+**co-withdraw**: `member --peers` takes the three addresses comma-separated or as three values,
+as its help text says, `7201b52`. It was defined to take three values only, while its help said
+comma-separated; X6's second run passed one comma-separated value, which voided its probe of a
+member left alone.
+
+**fhe-committee's `compare`** (G5, `exp/13-g5-gradient` at `eb96472`): read and kept on the G5
+branch as it is. Each owner's input is checked against its own metadata before `a > b` is
+evaluated, and the result is cast to `FheUint64` so that `decrypt` and the result claim read it
+unchanged. A shadowed name could read better; it is not worth a push on its own.
+
+C2: done | exp-e2e-frames b7c19a1 (PR #8 merged) | needs from wallet: none
+C1: done | exp-e2e-frames b7c19a1 (PR #8 merged); co-withdraw --peers fix 7201b52 on tooling-committee | needs from wallet: none
+C3: done, ready for acceptance | exp-e2e-frames 0c3a6c1 on exp/08-c3-epoch-reshare | needs from wallet: none
+C6: done, ready for acceptance | exp-e2e-frames d5ba3c7 on exp/10-c6-accountable-signers | needs from wallet: none
+C5: done, ready for acceptance | exp-e2e-frames 357f229 on exp/09-c5-traceable-shares (record from 9b51380; wording only since) | needs from wallet: none
+
+**Accepted** (the coordinator, 11:26): C3, C5 and C6, in the register's status table.
+
+C2: done | exp-e2e-frames b7c19a1 (PR #8 merged) | needs from wallet: none
+C1: done | exp-e2e-frames b7c19a1 (PR #8 merged); co-withdraw --peers fix 7201b52 on tooling-committee | needs from wallet: none
+C3: done, accepted | exp-e2e-frames 0c3a6c1 on exp/08-c3-epoch-reshare | needs from wallet: none
+C6: done, accepted | exp-e2e-frames d5ba3c7 on exp/10-c6-accountable-signers | needs from wallet: none
+C5: done, accepted | exp-e2e-frames 357f229 on exp/09-c5-traceable-shares (record from 9b51380) | needs from wallet: none
+
+## 2026-10-22, fifth session
+
+Carried here by the coordinator, from the committee session's text.
+
+PR #15 (tooling-committee, head d9bc154) closed without merging at 04:33 UTC in favour of #17, one pull request for every open branch at the owner's request. d9bc154 is an ancestor of #17's head bb7a4ec; committee/LOG.md there names no private repository; #17 keeps solc at exactly 0.8.37.
+
+Status: C1, C2 done; C3, C5, C6 done and accepted; all in #17; nothing needed from the wallet session.
