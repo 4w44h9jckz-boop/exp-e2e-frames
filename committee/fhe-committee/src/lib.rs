@@ -28,7 +28,7 @@ use serde::{Deserialize, Serialize};
 use tfhe::{
     integer::IntegerCiphertext,
     core_crypto::prelude::LweCiphertextCount,
-    prelude::{CiphertextList, FheDecrypt},
+    prelude::{CastInto, CiphertextList, FheDecrypt, FheOrd},
     safe_serialization::{safe_deserialize, safe_serialize},
     set_server_key,
     zk::{CompactPkeCrs, ZkComputeLoad},
@@ -130,6 +130,25 @@ pub fn evaluate(public: &Public, input: &[u8], metadata: &[u8], op: Op) -> anyho
         Op::Add(k) => x + k,
         Op::Mul(k) => x * k,
     };
+    let mut out = vec![];
+    safe_serialize(&y, &mut out, SERIALIZE_LIMIT).map_err(|e| anyhow::anyhow!("{e}"))?;
+    Ok(out)
+}
+
+/// The coprocessor on two owners' inputs, each checked against its own metadata: whether the
+/// first is greater than the second, as an encrypted 0 or 1 of the same type `evaluate` returns,
+/// so that `decrypt` reads it unchanged.
+pub fn compare(public: &Public, a: &[u8], a_metadata: &[u8], b: &[u8], b_metadata: &[u8]) -> anyhow::Result<Vec<u8>> {
+    set_server_key(public.keys.server_key.clone());
+    let one = |input: &[u8], metadata: &[u8]| -> anyhow::Result<FheUint64> {
+        let list: ProvenCompactCiphertextList =
+            safe_deserialize(input, SERIALIZE_LIMIT).map_err(|e| anyhow::anyhow!("{e}"))?;
+        let expanded = list.verify_and_expand(&public.crs, &public.keys.public_key, metadata)?;
+        expanded.get(0)?.ok_or_else(|| anyhow::anyhow!("the input list is empty"))
+    };
+    let x = one(a, a_metadata)?;
+    let y = one(b, b_metadata)?;
+    let y: FheUint64 = x.gt(&y).cast_into();
     let mut out = vec![];
     safe_serialize(&y, &mut out, SERIALIZE_LIMIT).map_err(|e| anyhow::anyhow!("{e}"))?;
     Ok(out)

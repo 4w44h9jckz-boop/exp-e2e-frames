@@ -1,0 +1,524 @@
+{
+  "experiment": "06-x5-threshold-result",
+  "attempt": "1-first-run",
+  "ranAt": "2026-10-21T07:27:27.330Z",
+  "repoCommit": "811171396084fb74046d22adab60cb3fa4607ff9",
+  "pins": {
+    "skandha": {
+      "url": "https://github.com/4w44h9jckz-boop/skandha",
+      "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade"
+    },
+    "kohaku-rs": {
+      "url": "https://github.com/4w44h9jckz-boop/kohaku-rs",
+      "commit": "ab056aba3348b94b682d166c933265ccf21a759d"
+    }
+  },
+  "client": "ethrex/v23.0.0-hegota-testnet-hotfix-64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c/x86_64-unknown-linux-gnu/rustc-v1.93.1",
+  "network": "the committee: every member in one process on one machine, in memory, a LAN time at best; the nodes: two processes on one machine over loopback",
+  "commands": [
+    "npx tsx experiments/06-x5-threshold-result/run.ts",
+    "committee/fhe-committee: setup, encrypt, verify-input, evaluate, decrypt; committee/bls-committee: dkg, sign 0,1,2, sign-below 0,1, sign 0,1,2,3 for value + 1",
+    "skandha: bun install && bun run build; node A with --frames.enable, node B with --frames.enable and --frames.handoff, booted from A",
+    "cargo build --release --manifest-path experiments/06-x5-threshold-result/rust/Cargo.toml (kohaku-rs ab056ab); run with SEND_RPC_URL at node A"
+  ],
+  "committee": {
+    "request": "0xea2a173979cfedeac0ac8e4d69b3cb30310cc56cbc1be5c1bff32bdcd577415e",
+    "metadata": "0x58353a206f6e6520726571756573742c20636861696e20383134312c20312d66697273742d72756e",
+    "steps": {
+      "setup": {
+        "millis": 30403,
+        "stdout": ""
+      },
+      "encrypt": {
+        "millis": 3799,
+        "stdout": ""
+      },
+      "verifyInput": {
+        "millis": 2779,
+        "stdout": "valid"
+      },
+      "evaluate": {
+        "millis": 5097,
+        "stdout": ""
+      },
+      "decrypt": {
+        "millis": 16908,
+        "stdout": "42"
+      },
+      "dkg": {
+        "millis": 45,
+        "stdout": ""
+      }
+    },
+    "decryption": {
+      "value": 42,
+      "members": [
+        {
+          "member": 0,
+          "messagesSent": 9,
+          "bytesSent": 6660,
+          "messagesReceived": 9,
+          "bytesReceived": 6660,
+          "rounds": 3
+        },
+        {
+          "member": 1,
+          "messagesSent": 9,
+          "bytesSent": 6660,
+          "messagesReceived": 9,
+          "bytesReceived": 6660,
+          "rounds": 3
+        },
+        {
+          "member": 2,
+          "messagesSent": 9,
+          "bytesSent": 6660,
+          "messagesReceived": 9,
+          "bytesReceived": 6660,
+          "rounds": 3
+        },
+        {
+          "member": 3,
+          "messagesSent": 9,
+          "bytesSent": 6660,
+          "messagesReceived": 9,
+          "bytesReceived": 6660,
+          "rounds": 3
+        }
+      ],
+      "millis": 11528
+    },
+    "quorum": {
+      "exitOk": true,
+      "verified": true,
+      "signers": [
+        0,
+        1,
+        2
+      ],
+      "quorum": 3,
+      "message": "0x0000000000000000000000000000000000000000000000000000000000001fcdea2a173979cfedeac0ac8e4d69b3cb30310cc56cbc1be5c1bff32bdcd577415ed46bcaf5d360a1b9c9ab3af147453dbd1fb86680bc450037ae6304b94995ac52000000000000000000000000000000000000000000000000000000000000002a",
+      "namespace": "FRAME_FHE_RESULT_V1",
+      "keyEip2537": "0x000000000000000000000000000000001883c2adb720532f3edb50d85a1d2bc27aac78d4ac358130ca95b851c7042347303a02a41861f616ebdecbb86abade940000000000000000000000000000000009d3ff5d8acf83377bda4f10237ba92aa1aac2d5bc52d53e65dad6fd24abb44278545651ab6a4c9202a3a369e7a4193600000000000000000000000000000000035dd44b3c0aa37f6052c2eb7cb7cf7286b11ea78ae0c18c2c225be3f309adfcc02b63eeaaa8891348ec8f699f4a6cce00000000000000000000000000000000189f29db77f20d06b116a90882afeebf171ccc0d3eb4f22191c82c1bb4db4c74a9a3b7a394446075ab5ae88b76d949d5"
+    },
+    "below": {
+      "exitOk": true,
+      "verified": false,
+      "signers": [
+        0,
+        1
+      ],
+      "belowQuorum": true
+    },
+    "second": {
+      "exitOk": false,
+      "refusals": [
+        {
+          "member": 0,
+          "refusal": "Locked { request: \"0xea2a173979cfedeac0ac8e4d69b3cb30310cc56cbc1be5c1bff32bdcd577415e\" }"
+        },
+        {
+          "member": 1,
+          "refusal": "Locked { request: \"0xea2a173979cfedeac0ac8e4d69b3cb30310cc56cbc1be5c1bff32bdcd577415e\" }"
+        },
+        {
+          "member": 2,
+          "refusal": "Locked { request: \"0xea2a173979cfedeac0ac8e4d69b3cb30310cc56cbc1be5c1bff32bdcd577415e\" }"
+        }
+      ],
+      "value": 43
+    }
+  },
+  "nodes": [
+    {
+      "name": "A",
+      "peerId": "16Uiu2HAkuZfww5BWbojGNx2ruNEFGAuS16p9hKwBgmzQVwQpQ3Yw",
+      "handoff": false,
+      "peers": [
+        "16Uiu2HAkujygimsd2L55a7e4rQEr52NYoUWCdMxgwh5SrsxtoP3X"
+      ],
+      "start": {
+        "t": "2026-10-21T07:26:49.696Z",
+        "node": "A",
+        "event": "start",
+        "profile": "hegota-testnet",
+        "head": 494258,
+        "handoff": false,
+        "claims": false,
+        "binding": false
+      },
+      "lines": {
+        "0x194506114eb1a49b6525e8fabb8a6de1f627a16a6eee1bad240444d559fd9f21": [
+          {
+            "t": "2026-10-21T07:27:10.058Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0x194506114eb1a49b6525e8fabb8a6de1f627a16a6eee1bad240444d559fd9f21",
+            "result": "ErrFramePrefixReverted",
+            "client": "validation prefix frame reverted",
+            "head": 494261
+          }
+        ],
+        "0xa84ed7fb4bd348f375cdb197542065112cf46f97594d341062a39a96e77a8fa1": [
+          {
+            "t": "2026-10-21T07:27:11.047Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0xa84ed7fb4bd348f375cdb197542065112cf46f97594d341062a39a96e77a8fa1",
+            "result": "ErrFramePrefixReverted",
+            "client": "validation prefix frame reverted",
+            "head": 494261
+          }
+        ],
+        "0xfc73875353a6f410133872b2de746b74268cc3cb05e63a64a1c18fbc2c634cc5": [
+          {
+            "t": "2026-10-21T07:27:12.737Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0xfc73875353a6f410133872b2de746b74268cc3cb05e63a64a1c18fbc2c634cc5",
+            "result": "ok",
+            "client": "valid",
+            "head": 494261
+          },
+          {
+            "t": "2026-10-21T07:27:12.739Z",
+            "node": "A",
+            "event": "relay",
+            "hash": "0xfc73875353a6f410133872b2de746b74268cc3cb05e63a64a1c18fbc2c634cc5",
+            "peers": 1
+          },
+          {
+            "t": "2026-10-21T07:27:14.293Z",
+            "node": "A",
+            "event": "head",
+            "head": 494262,
+            "asked": [
+              "0xfc73875353a6f410133872b2de746b74268cc3cb05e63a64a1c18fbc2c634cc5"
+            ],
+            "verdicts": {
+              "0xfc73875353a6f410133872b2de746b74268cc3cb05e63a64a1c18fbc2c634cc5": "ok"
+            },
+            "resimulated": [],
+            "removed": [],
+            "pending": [
+              "0xfc73875353a6f410133872b2de746b74268cc3cb05e63a64a1c18fbc2c634cc5"
+            ]
+          },
+          {
+            "t": "2026-10-21T07:27:20.178Z",
+            "node": "A",
+            "event": "head",
+            "head": 494263,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0xfc73875353a6f410133872b2de746b74268cc3cb05e63a64a1c18fbc2c634cc5"
+            ],
+            "pending": []
+          },
+          {
+            "t": "2026-10-21T07:27:27.325Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0xfc73875353a6f410133872b2de746b74268cc3cb05e63a64a1c18fbc2c634cc5",
+            "result": "ErrNonceTooLow",
+            "head": 494264
+          }
+        ],
+        "0x04b6c7e124a4a18e4c220f424ea73f38e227969ebcfb709b9cf24abafbb8fa35": [
+          {
+            "t": "2026-10-21T07:27:13.364Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0x04b6c7e124a4a18e4c220f424ea73f38e227969ebcfb709b9cf24abafbb8fa35",
+            "result": "ErrFramePrefixReverted",
+            "client": "validation prefix frame reverted",
+            "head": 494261
+          }
+        ]
+      }
+    },
+    {
+      "name": "B",
+      "peerId": "16Uiu2HAkujygimsd2L55a7e4rQEr52NYoUWCdMxgwh5SrsxtoP3X",
+      "handoff": true,
+      "peers": [
+        "16Uiu2HAkuZfww5BWbojGNx2ruNEFGAuS16p9hKwBgmzQVwQpQ3Yw"
+      ],
+      "start": {
+        "t": "2026-10-21T07:26:53.529Z",
+        "node": "B",
+        "event": "start",
+        "profile": "hegota-testnet",
+        "head": 494258,
+        "handoff": true,
+        "claims": false,
+        "binding": false
+      },
+      "lines": {
+        "0x194506114eb1a49b6525e8fabb8a6de1f627a16a6eee1bad240444d559fd9f21": [],
+        "0xa84ed7fb4bd348f375cdb197542065112cf46f97594d341062a39a96e77a8fa1": [],
+        "0xfc73875353a6f410133872b2de746b74268cc3cb05e63a64a1c18fbc2c634cc5": [
+          {
+            "t": "2026-10-21T07:27:13.174Z",
+            "node": "B",
+            "event": "gossip",
+            "from": "16Uiu2HAkuZfww5BWbojGNx2ruNEFGAuS16p9hKwBgmzQVwQpQ3Yw",
+            "hash": "0xfc73875353a6f410133872b2de746b74268cc3cb05e63a64a1c18fbc2c634cc5",
+            "result": "ok",
+            "client": "valid",
+            "outcome": "accept",
+            "head": 494261
+          },
+          {
+            "t": "2026-10-21T07:27:13.298Z",
+            "node": "B",
+            "event": "handoff",
+            "hash": "0xfc73875353a6f410133872b2de746b74268cc3cb05e63a64a1c18fbc2c634cc5",
+            "agrees": true
+          },
+          {
+            "t": "2026-10-21T07:27:14.126Z",
+            "node": "B",
+            "event": "head",
+            "head": 494262,
+            "asked": [
+              "0xfc73875353a6f410133872b2de746b74268cc3cb05e63a64a1c18fbc2c634cc5"
+            ],
+            "verdicts": {
+              "0xfc73875353a6f410133872b2de746b74268cc3cb05e63a64a1c18fbc2c634cc5": "ok"
+            },
+            "resimulated": [],
+            "removed": [],
+            "pending": [
+              "0xfc73875353a6f410133872b2de746b74268cc3cb05e63a64a1c18fbc2c634cc5"
+            ]
+          },
+          {
+            "t": "2026-10-21T07:27:19.945Z",
+            "node": "B",
+            "event": "head",
+            "head": 494263,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0xfc73875353a6f410133872b2de746b74268cc3cb05e63a64a1c18fbc2c634cc5"
+            ],
+            "pending": []
+          }
+        ],
+        "0x04b6c7e124a4a18e4c220f424ea73f38e227969ebcfb709b9cf24abafbb8fa35": []
+      }
+    }
+  ],
+  "runner": {
+    "stdout": [
+      "setup 0x6a7e64d133b6782d5f593ae93b96ebf3ca3da15b49c1cbedd181f1ac289012fe: block 494260, gasUsed 2636641",
+      "result contract 0x0b9E07dEEe70ba715DddC71a91C347Ea709f7582: 1520 bytes of code",
+      "below the quorum: two members' signature: 0x194506114eb1a49b6525e8fabb8a6de1f627a16a6eee1bad240444d559fd9f21 -> {\"error\":\"server returned an error response: error code -32000: ErrFramePrefixReverted: validation prefix frame reverted\"}",
+      "the quorum's signature presented for another request: 0xa84ed7fb4bd348f375cdb197542065112cf46f97594d341062a39a96e77a8fa1 -> {\"error\":\"server returned an error response: error code -32000: ErrFramePrefixReverted: validation prefix frame reverted\"}",
+      "the result the quorum signed: 0xfc73875353a6f410133872b2de746b74268cc3cb05e63a64a1c18fbc2c634cc5 -> {\"result\":\"0xfc73875353a6f410133872b2de746b74268cc3cb05e63a64a1c18fbc2c634cc5\"}",
+      "a second result for the same request, another value, fees bumped, while the first is pending: 0x04b6c7e124a4a18e4c220f424ea73f38e227969ebcfb709b9cf24abafbb8fa35 -> {\"error\":\"server returned an error response: error code -32000: ErrFramePrefixReverted: validation prefix frame reverted\"}",
+      "the result: 0xfc73875353a6f410133872b2de746b74268cc3cb05e63a64a1c18fbc2c634cc5 in block 494263, status 1, gasUsed 236963",
+      "the same result again, once mined: 0xfc73875353a6f410133872b2de746b74268cc3cb05e63a64a1c18fbc2c634cc5 -> {\"error\":\"server returned an error response: error code -32000: ErrNonceTooLow\"}",
+      "recorded /home/user/exp-e2e-frames/work/x5-1792567596080.json"
+    ]
+  },
+  "sent": {
+    "board": "0x0b9e07deee70ba715dddc71a91c347ea709f7582",
+    "boardCodeBytes": 1520,
+    "chainId": 8141,
+    "key": "0x000000000000000000000000000000001883c2adb720532f3edb50d85a1d2bc27aac78d4ac358130ca95b851c7042347303a02a41861f616ebdecbb86abade940000000000000000000000000000000009d3ff5d8acf83377bda4f10237ba92aa1aac2d5bc52d53e65dad6fd24abb44278545651ab6a4c9202a3a369e7a4193600000000000000000000000000000000035dd44b3c0aa37f6052c2eb7cb7cf7286b11ea78ae0c18c2c225be3f309adfcc02b63eeaaa8891348ec8f699f4a6cce00000000000000000000000000000000189f29db77f20d06b116a90882afeebf171ccc0d3eb4f22191c82c1bb4db4c74a9a3b7a394446075ab5ae88b76d949d5",
+    "mined": {
+      "block": "0x78ab7",
+      "gasUsed": "0x39da3",
+      "hash": "0xfc73875353a6f410133872b2de746b74268cc3cb05e63a64a1c18fbc2c634cc5",
+      "status": "0x1"
+    },
+    "results": {
+      "below": {
+        "handle": "0xd46bcaf5d360a1b9c9ab3af147453dbd1fb86680bc450037ae6304b94995ac52",
+        "request": "0xea2a173979cfedeac0ac8e4d69b3cb30310cc56cbc1be5c1bff32bdcd577415e",
+        "signatureEip2537": "0x000000000000000000000000000000000ea0fc59b639ce36f6f969a0e9a2fee7b87e86a2fd6f262cc3adc3846378edca863ae516e3072d1743913ab1abd4ae19000000000000000000000000000000000516bee4d52a06bd948b0136f8c6faffbe750cdbca013423900f8945a92c6cdf4f3fd0199e935e5b5c7fc5135add3222",
+        "value": 42
+      },
+      "otherRequest": "0x2c6070853636f51e4fa4210097dca23b65308dbbdddc9ded39c2c4cc93afefc6",
+      "quorum": {
+        "handle": "0xd46bcaf5d360a1b9c9ab3af147453dbd1fb86680bc450037ae6304b94995ac52",
+        "request": "0xea2a173979cfedeac0ac8e4d69b3cb30310cc56cbc1be5c1bff32bdcd577415e",
+        "signatureEip2537": "0x00000000000000000000000000000000127647d313895f6883ce62c565fc200c7332455cdfdfdc08b57212ff26d6fa5b1107631939937f34b94f134e2d54b1900000000000000000000000000000000013f44ad466fccdaeecbccd646cf1fbbdfcdffa89f0c53a47de7bb1db4389eac790ad411249e3abc0ce1b32081d9417e1",
+        "value": 42
+      }
+    },
+    "salt": "0x0ad2a42a45ad1e4265f7a643d4af5df4b39952a50df940f6331db4896d8caca7",
+    "sent": [
+      {
+        "answer": {
+          "error": "server returned an error response: error code -32000: ErrFramePrefixReverted: validation prefix frame reverted"
+        },
+        "hash": "0x194506114eb1a49b6525e8fabb8a6de1f627a16a6eee1bad240444d559fd9f21",
+        "raw": "0x06f901c2821fcde1a0ea2a173979cfedeac0ac8e4d69b3cb30310cc56cbc1be5c1bff32bdcd577415e80940b9e07deee70ba715dddc71a91c347ea709f7582f90176f8ef010380c88303d09083017e8080b8e0ea2a173979cfedeac0ac8e4d69b3cb30310cc56cbc1be5c1bff32bdcd577415ed46bcaf5d360a1b9c9ab3af147453dbd1fb86680bc450037ae6304b94995ac52000000000000000000000000000000000000000000000000000000000000002a000000000000000000000000000000000ea0fc59b639ce36f6f969a0e9a2fee7b87e86a2fd6f262cc3adc3846378edca863ae516e3072d1743913ab1abd4ae19000000000000000000000000000000000516bee4d52a06bd948b0136f8c6faffbe750cdbca013423900f8945a92c6cdf4f3fd0199e935e5b5c7fc5135add3222f8830280940b9e07deee70ba715dddc71a91c347ea709f7582c4824e208080b864f3f65e7eea2a173979cfedeac0ac8e4d69b3cb30310cc56cbc1be5c1bff32bdcd577415ed46bcaf5d360a1b9c9ab3af147453dbd1fb86680bc450037ae6304b94995ac52000000000000000000000000000000000000000000000000000000000000002ac0cb843b9aca00843b9aca0e80c0",
+        "simulation": {
+          "executionError": null,
+          "executionStatus": null,
+          "frames": null,
+          "gasUsed": null,
+          "maxCost": "0x15e935de7f3f4",
+          "payer": null,
+          "prefixShape": "SelfVerify",
+          "valid": false,
+          "violation": "validation prefix frame reverted"
+        },
+        "to": "node A",
+        "what": "below the quorum: two members' signature"
+      },
+      {
+        "answer": {
+          "error": "server returned an error response: error code -32000: ErrFramePrefixReverted: validation prefix frame reverted"
+        },
+        "hash": "0xa84ed7fb4bd348f375cdb197542065112cf46f97594d341062a39a96e77a8fa1",
+        "raw": "0x06f901c2821fcde1a02c6070853636f51e4fa4210097dca23b65308dbbdddc9ded39c2c4cc93afefc680940b9e07deee70ba715dddc71a91c347ea709f7582f90176f8ef010380c88303d09083017e8080b8e02c6070853636f51e4fa4210097dca23b65308dbbdddc9ded39c2c4cc93afefc6d46bcaf5d360a1b9c9ab3af147453dbd1fb86680bc450037ae6304b94995ac52000000000000000000000000000000000000000000000000000000000000002a00000000000000000000000000000000127647d313895f6883ce62c565fc200c7332455cdfdfdc08b57212ff26d6fa5b1107631939937f34b94f134e2d54b1900000000000000000000000000000000013f44ad466fccdaeecbccd646cf1fbbdfcdffa89f0c53a47de7bb1db4389eac790ad411249e3abc0ce1b32081d9417e1f8830280940b9e07deee70ba715dddc71a91c347ea709f7582c4824e208080b864f3f65e7e2c6070853636f51e4fa4210097dca23b65308dbbdddc9ded39c2c4cc93afefc6d46bcaf5d360a1b9c9ab3af147453dbd1fb86680bc450037ae6304b94995ac52000000000000000000000000000000000000000000000000000000000000002ac0cb843b9aca00843b9aca0e80c0",
+        "simulation": {
+          "executionError": null,
+          "executionStatus": null,
+          "frames": null,
+          "gasUsed": null,
+          "maxCost": "0x15e8afc2389fc",
+          "payer": null,
+          "prefixShape": "SelfVerify",
+          "valid": false,
+          "violation": "validation prefix frame reverted"
+        },
+        "to": "node A",
+        "what": "the quorum's signature presented for another request"
+      },
+      {
+        "answer": {
+          "result": "0xfc73875353a6f410133872b2de746b74268cc3cb05e63a64a1c18fbc2c634cc5"
+        },
+        "hash": "0xfc73875353a6f410133872b2de746b74268cc3cb05e63a64a1c18fbc2c634cc5",
+        "raw": "0x06f901c2821fcde1a0ea2a173979cfedeac0ac8e4d69b3cb30310cc56cbc1be5c1bff32bdcd577415e80940b9e07deee70ba715dddc71a91c347ea709f7582f90176f8ef010380c88303d09083017e8080b8e0ea2a173979cfedeac0ac8e4d69b3cb30310cc56cbc1be5c1bff32bdcd577415ed46bcaf5d360a1b9c9ab3af147453dbd1fb86680bc450037ae6304b94995ac52000000000000000000000000000000000000000000000000000000000000002a00000000000000000000000000000000127647d313895f6883ce62c565fc200c7332455cdfdfdc08b57212ff26d6fa5b1107631939937f34b94f134e2d54b1900000000000000000000000000000000013f44ad466fccdaeecbccd646cf1fbbdfcdffa89f0c53a47de7bb1db4389eac790ad411249e3abc0ce1b32081d9417e1f8830280940b9e07deee70ba715dddc71a91c347ea709f7582c4824e208080b864f3f65e7eea2a173979cfedeac0ac8e4d69b3cb30310cc56cbc1be5c1bff32bdcd577415ed46bcaf5d360a1b9c9ab3af147453dbd1fb86680bc450037ae6304b94995ac52000000000000000000000000000000000000000000000000000000000000002ac0cb843b9aca00843b9aca0e80c0",
+        "simulation": {
+          "executionError": null,
+          "executionStatus": "success",
+          "frames": [
+            {
+              "gasUsed": "0x1d340",
+              "succeeded": true
+            },
+            {
+              "gasUsed": "0x75d",
+              "succeeded": true
+            }
+          ],
+          "gasUsed": "0x39da3",
+          "maxCost": "0x15e935de7f3f4",
+          "payer": "0x0b9e07deee70ba715dddc71a91c347ea709f7582",
+          "prefixShape": "SelfVerify",
+          "valid": true,
+          "violation": null
+        },
+        "to": "node A",
+        "what": "the result the quorum signed"
+      },
+      {
+        "answer": {
+          "error": "server returned an error response: error code -32000: ErrFramePrefixReverted: validation prefix frame reverted"
+        },
+        "hash": "0x04b6c7e124a4a18e4c220f424ea73f38e227969ebcfb709b9cf24abafbb8fa35",
+        "raw": "0x06f901c2821fcde1a0ea2a173979cfedeac0ac8e4d69b3cb30310cc56cbc1be5c1bff32bdcd577415e80940b9e07deee70ba715dddc71a91c347ea709f7582f90176f8ef010380c88303d09083017e8080b8e0ea2a173979cfedeac0ac8e4d69b3cb30310cc56cbc1be5c1bff32bdcd577415ed46bcaf5d360a1b9c9ab3af147453dbd1fb86680bc450037ae6304b94995ac52000000000000000000000000000000000000000000000000000000000000002b00000000000000000000000000000000127647d313895f6883ce62c565fc200c7332455cdfdfdc08b57212ff26d6fa5b1107631939937f34b94f134e2d54b1900000000000000000000000000000000013f44ad466fccdaeecbccd646cf1fbbdfcdffa89f0c53a47de7bb1db4389eac790ad411249e3abc0ce1b32081d9417e1f8830280940b9e07deee70ba715dddc71a91c347ea709f7582c4824e208080b864f3f65e7eea2a173979cfedeac0ac8e4d69b3cb30310cc56cbc1be5c1bff32bdcd577415ed46bcaf5d360a1b9c9ab3af147453dbd1fb86680bc450037ae6304b94995ac52000000000000000000000000000000000000000000000000000000000000002bc0cb844190ab00844190ab1080c0",
+        "simulation": {
+          "executionError": null,
+          "executionStatus": null,
+          "frames": null,
+          "gasUsed": null,
+          "maxCost": "0x181a21a82ad60",
+          "payer": null,
+          "prefixShape": "SelfVerify",
+          "valid": false,
+          "violation": "validation prefix frame reverted"
+        },
+        "to": "node A",
+        "what": "a second result for the same request, another value, fees bumped, while the first is pending"
+      },
+      {
+        "answer": {
+          "error": "server returned an error response: error code -32000: ErrNonceTooLow"
+        },
+        "hash": "0xfc73875353a6f410133872b2de746b74268cc3cb05e63a64a1c18fbc2c634cc5",
+        "raw": "0x06f901c2821fcde1a0ea2a173979cfedeac0ac8e4d69b3cb30310cc56cbc1be5c1bff32bdcd577415e80940b9e07deee70ba715dddc71a91c347ea709f7582f90176f8ef010380c88303d09083017e8080b8e0ea2a173979cfedeac0ac8e4d69b3cb30310cc56cbc1be5c1bff32bdcd577415ed46bcaf5d360a1b9c9ab3af147453dbd1fb86680bc450037ae6304b94995ac52000000000000000000000000000000000000000000000000000000000000002a00000000000000000000000000000000127647d313895f6883ce62c565fc200c7332455cdfdfdc08b57212ff26d6fa5b1107631939937f34b94f134e2d54b1900000000000000000000000000000000013f44ad466fccdaeecbccd646cf1fbbdfcdffa89f0c53a47de7bb1db4389eac790ad411249e3abc0ce1b32081d9417e1f8830280940b9e07deee70ba715dddc71a91c347ea709f7582c4824e208080b864f3f65e7eea2a173979cfedeac0ac8e4d69b3cb30310cc56cbc1be5c1bff32bdcd577415ed46bcaf5d360a1b9c9ab3af147453dbd1fb86680bc450037ae6304b94995ac52000000000000000000000000000000000000000000000000000000000000002ac0cb843b9aca00843b9aca0e80c0",
+        "simulation": {
+          "executionError": null,
+          "executionStatus": null,
+          "frames": null,
+          "gasUsed": null,
+          "maxCost": "0x15e935de7f3f4",
+          "payer": null,
+          "prefixShape": "SelfVerify",
+          "valid": false,
+          "violation": "Invalid Transaction: Nonce mismatch: expected 1, got 0"
+        },
+        "to": "node A",
+        "what": "the same result again, once mined"
+      }
+    ],
+    "setup": {
+      "block": "0x78ab4",
+      "gasUsed": "0x283b61",
+      "hash": "0x6a7e64d133b6782d5f593ae93b96ebf3ca3da15b49c1cbedd181f1ac289012fe",
+      "raw": "0x06f906f5821fcdc1800194a131d9454d87957dcc465fb37acd9b383648b4d5f90680ca010380c4824e20808080f9064c0280944e59b44847b379578588920ca78fbf26c0b4956cc883050c808326d90080b906280ad2a42a45ad1e4265f7a643d4af5df4b39952a50df940f6331db4896d8caca76101006104f0806100185f39813860ff19018239015ff3fe60aa3314610026575f3560e01c63f3f65e7e14610021573661001d57005b5f80fd5b610263565b600ab06001600282b31461003657005b61001d5760026009b00361001d57600360065fb30361001d5760e0360361001d576002806001b30361001d57305f6001b30361001d5760086001b361001d5760036001b361001d57606460046001b30361001d5763f3f65e7e60015fb160e01c0361001d575f5b6003811061024957506001600eb00361001d576001b061001d5760015f525f35602052600fb060405f200361001d57662386f26fc100006006b01161001d5760403661020037601360f81b610240527f4652414d455f4648455f524553554c545f56310000000000000000000000000061024152466102545260605f61027437600160f71b6102d4525f6102d6535f5160206103b05f395f51905f526102d7526b5357555f524f5f504f505f2b60a01b6102f7526101596102a7565b610100515f5160206103b05f395f51905f52610161526b5357555f524f5f504f505f2b60a01b6101815260015f5b6005821061021f5750505061019a6102d0565b6101a261033c565b6080610700604061060060105afa1561001d576080610780604061064060105afa1561001d5760806060610900376101006103f0610980396080610a80610100610700600b5afa1561001d576101003860ff1901610b003960205f610300610900600f5afa1561001d5760015f510361001d5761021d6103a8565b005b821861014052806101605360016104005f19830160051b01610240816102bd565b51910190610187565b8060051b6001813591600401b10361001d5760010161009d565b30330361001d576064360361001d576024355f526044356020526004357faa1d5f0b25dff41865d3df1899cb9e93857ce12817e5b56639e6b89079e31f9060405fa2005b602061010061010361020060025afa1561001d57565b602090604d61014060025afa1561001d57565b6040610500526001610520526030610540526104005161056052610420516105805260016105a0535f5160206103d05f395f51905f526105a1526f1eabfffeb153ffffb9feffffffffaaab60801b6105c1525f61060052603061061060d161050060055afa1561001d57565b6040610500526001610520526030610540526104405161056052610460516105805260016105a0535f5160206103d05f395f51905f526105a1526f1eabfffeb153ffffb9feffffffffaaab60801b6105c1525f61064052603061065060d161050060055afa1561001d57565b60035f80aa56fe424c535f5349475f424c53313233383147315f584d443a5348412d3235365f531a0111ea397fe69a4b1ba7b6434bacd764774b84f38512bf6730d2a0f6b0f62400000000000000000000000000000000024aa2b2f08f0a91260805272dc51051c6e47ad4fa403b02b4510b647ae3d1770bac0326a805bbefd48056c8c121bdb80000000000000000000000000000000013e02b6052719f607dacd3a088274f65596bd0d09920b61ab5da61bbdc7f5049334cf11213945d57e5ac7d055d042b7e000000000000000000000000000000000d1b3cc2c7027888be51d9ef691d77bcb679afda66c73f17f9ee3837a55024f78c71363275a75d75d86bab79f74782aa0000000000000000000000000000000013fa4d4a0ad8b1ce186ed5061789213d993923066dddaf1040bc3ff59f825c78df74f2d75467e25e0f55f8a00fa030ed000000000000000000000000000000001883c2adb720532f3edb50d85a1d2bc27aac78d4ac358130ca95b851c7042347303a02a41861f616ebdecbb86abade940000000000000000000000000000000009d3ff5d8acf83377bda4f10237ba92aa1aac2d5bc52d53e65dad6fd24abb44278545651ab6a4c9202a3a369e7a4193600000000000000000000000000000000035dd44b3c0aa37f6052c2eb7cb7cf7286b11ea78ae0c18c2c225be3f309adfcc02b63eeaaa8891348ec8f699f4a6cce00000000000000000000000000000000189f29db77f20d06b116a90882afeebf171ccc0d3eb4f22191c82c1bb4db4c74a9a3b7a394446075ab5ae88b76d949d5e50280940b9e07deee70ba715dddc71a91c347ea709f7582c48227108087470de4df82000080f848f846018080b841005fa40faa0eb5311a3993d757ef2dd0dd83cfec8fc493dc28860656a2b2fab26e30106c9eabfca242b5f2bb6c43f0a6103266ccf33b9a568e0651f6052edfae46cb843b9aca00843b9aca0e80c0"
+    }
+  },
+  "chain": {
+    "0x6a7e64d133b6782d5f593ae93b96ebf3ca3da15b49c1cbedd181f1ac289012fe": {
+      "hash": "0x6a7e64d133b6782d5f593ae93b96ebf3ca3da15b49c1cbedd181f1ac289012fe",
+      "mined": true,
+      "block": 494260,
+      "blockHash": "0x1ab3de21166f0297c79f6b93bd9b96acdb0474f84168ddb4cf60c1b92c69135d",
+      "status": "0x1",
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "payer": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "signatures": 1,
+      "frames": 3,
+      "frameStatuses": [
+        "0x1",
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 2636641
+    },
+    "0x194506114eb1a49b6525e8fabb8a6de1f627a16a6eee1bad240444d559fd9f21": {
+      "hash": "0x194506114eb1a49b6525e8fabb8a6de1f627a16a6eee1bad240444d559fd9f21",
+      "mined": false,
+      "known": false
+    },
+    "0xa84ed7fb4bd348f375cdb197542065112cf46f97594d341062a39a96e77a8fa1": {
+      "hash": "0xa84ed7fb4bd348f375cdb197542065112cf46f97594d341062a39a96e77a8fa1",
+      "mined": false,
+      "known": false
+    },
+    "0xfc73875353a6f410133872b2de746b74268cc3cb05e63a64a1c18fbc2c634cc5": {
+      "hash": "0xfc73875353a6f410133872b2de746b74268cc3cb05e63a64a1c18fbc2c634cc5",
+      "mined": true,
+      "block": 494263,
+      "blockHash": "0x8df4468c7a9bef452c1cfb3244c543407ce09b4c1e833785adb303a7d8bf5bc7",
+      "status": "0x1",
+      "sender": "0x0b9e07deee70ba715dddc71a91c347ea709f7582",
+      "payer": "0x0b9e07deee70ba715dddc71a91c347ea709f7582",
+      "signatures": 0,
+      "frames": 2,
+      "frameStatuses": [
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 236963
+    },
+    "0x04b6c7e124a4a18e4c220f424ea73f38e227969ebcfb709b9cf24abafbb8fa35": {
+      "hash": "0x04b6c7e124a4a18e4c220f424ea73f38e227969ebcfb709b9cf24abafbb8fa35",
+      "mined": false,
+      "known": false
+    }
+  }
+}

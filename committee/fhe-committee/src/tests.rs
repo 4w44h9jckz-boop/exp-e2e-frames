@@ -22,4 +22,11 @@ fn input_evaluated_and_decrypted_by_the_committee() {
     let received: usize = d.members.iter().map(|m| m.bytes_received).sum();
     assert_eq!(sent, received);
     println!("{}", serde_json::to_string_pretty(&d).unwrap());
+
+    // Two owners' inputs compared, each under its own metadata.
+    let (ma, mb) = (b"session 1, owner a".as_slice(), b"session 1, owner b".as_slice());
+    let (a, b) = (encrypt(&public, 700, ma).unwrap(), encrypt(&public, 650, mb).unwrap());
+    assert_eq!(decrypt(&public, &shares, &compare(&public, &a, ma, &b, mb).unwrap()).unwrap().value, 1);
+    assert_eq!(decrypt(&public, &shares, &compare(&public, &b, mb, &a, ma).unwrap()).unwrap().value, 0);
+    assert!(compare(&public, &a, mb, &b, mb).is_err());
 }
