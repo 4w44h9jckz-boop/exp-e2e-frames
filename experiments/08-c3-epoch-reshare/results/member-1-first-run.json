@@ -1,0 +1,120 @@
+{
+  "experiment": "08-c3-epoch-reshare",
+  "mode": "member",
+  "attempt": "1-first-run",
+  "ranAt": "2026-10-21T06:56:55.002Z",
+  "pins": {
+    "skandha": {
+      "url": "https://github.com/4w44h9jckz-boop/skandha",
+      "commit": "2b1b4b0cd4f94577608859a8d66b2950db0b6922"
+    },
+    "kohaku-rs": {
+      "url": "https://github.com/4w44h9jckz-boop/kohaku-rs",
+      "commit": "ab056aba3348b94b682d166c933265ccf21a759d"
+    },
+    "cmw-monorepo": {
+      "url": "https://github.com/4w44h9jckz-boop/cmw-monorepo",
+      "commit": "489e313e86d5808f3d874b67c5a48a75f85b64f7"
+    }
+  },
+  "machine": {
+    "cpus": 4,
+    "model": "Intel(R) Xeon(R) Processor @ 2.80GHz"
+  },
+  "commands": [
+    "npx tsx experiments/08-c3-epoch-reshare/run.ts member 1-first-run 423,512"
+  ],
+  "runner": {
+    "stdout": [
+      "n 423: q 283, dealer 70 ms, a player's check 20215 us (median)",
+      "n 512: q 342, dealer 87 ms, a player's check 23086 us (median)",
+      "recorded in /home/user/exp-e2e-frames/work/c3-measure-1792565792863.json"
+    ]
+  },
+  "measured": {
+    "epochSeconds": 384,
+    "mode": "member",
+    "network": "one dealer and every player's check of its dealing, in one process on one machine, in memory: no network time",
+    "sizes": [
+      {
+        "bytes": {
+          "dealerLog": 68302,
+          "dealerPrivMsg": 32,
+          "dealerPubMsg": 27170,
+          "playerAck": 64
+        },
+        "dealers": 283,
+        "derived": {
+          "note": "a player checks one dealing from each of the q dealers; its finalization (checking the q logs' acknowledgements and interpolating its share) is not measured here",
+          "playerChecksMicros": 5720845
+        },
+        "exactPerDealer": {
+          "bytesReceived": 27072,
+          "bytesSent": 40398192,
+          "messagesReceived": 423,
+          "messagesSent": 846,
+          "rounds": 3,
+          "uniqueBytesSent": 109008
+        },
+        "exactPerPlayer": {
+          "bytesReceived": 27027632,
+          "bytesSent": 18112,
+          "messagesReceived": 566,
+          "messagesSent": 283,
+          "rounds": 3
+        },
+        "faults": 140,
+        "n": 423,
+        "postFigure32nPlus48t": 20256,
+        "quorum": 283,
+        "timed": {
+          "dealerAcksMicros": 25293,
+          "dealerFinalizeMicros": 1215,
+          "dealerStartMicros": 70885,
+          "playerCheckMicrosMedian": 20215,
+          "playerChecksMeasured": 423
+        }
+      },
+      {
+        "bytes": {
+          "dealerLog": 82599,
+          "dealerPrivMsg": 32,
+          "dealerPubMsg": 32834,
+          "playerAck": 64
+        },
+        "dealers": 342,
+        "derived": {
+          "note": "a player checks one dealing from each of the q dealers; its finalization (checking the q logs' acknowledgements and interpolating its share) is not measured here",
+          "playerChecksMicros": 7895412
+        },
+        "exactPerDealer": {
+          "bytesReceived": 32768,
+          "bytesSent": 59118080,
+          "messagesReceived": 512,
+          "messagesSent": 1024,
+          "rounds": 3,
+          "uniqueBytesSent": 131817
+        },
+        "exactPerPlayer": {
+          "bytesReceived": 39489030,
+          "bytesSent": 21888,
+          "messagesReceived": 684,
+          "messagesSent": 342,
+          "rounds": 3
+        },
+        "faults": 170,
+        "n": 512,
+        "postFigure32nPlus48t": 24544,
+        "quorum": 342,
+        "timed": {
+          "dealerAcksMicros": 30532,
+          "dealerFinalizeMicros": 1597,
+          "dealerStartMicros": 87266,
+          "playerCheckMicrosMedian": 23086,
+          "playerChecksMeasured": 512
+        }
+      }
+    ],
+    "slotSeconds": 12
+  }
+}
