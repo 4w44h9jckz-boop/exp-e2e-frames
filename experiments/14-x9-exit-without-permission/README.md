@@ -76,6 +76,11 @@ opening and before any transaction.
   TACEO's client proves its intent's well-formedness, and that proof is not tested here.
 - **A malicious committee.** The committee is semi-honest, as in experiments 07 to 10. Stopping
   is the fault tested.
+- **Any intent's sender can stall the queue** (added 2026-10-26, before the run, at the
+  coordinator's finding). It can withhold its note's witness, or burn its note's sequence 0 with
+  an early redemption, after which no update can spend that note. The queue has no way to skip
+  an intent, so the head stalls, escape opens after $T$ blocks, and after a reconciliation it
+  opens again. This costs the committee its liveness; it does not break the exit.
 
 **Stand-ins, stated before the run.**
 - TACEO's balance circuit is not used. The privacy pool's withdrawal circuit from experiment 01
@@ -104,7 +109,9 @@ apart by their layout:
 
 The redemption is the refund pool's withdrawal byte for byte, so the owner's side reuses
 kohaku-rs's refund-pool withdrawal with two changes: the withdraw frame's state budget is raised
-to cover the vault's writes (below), and the nonce sequence is a parameter. Intents are ordinary
+to cover the vault's writes (below), and the nonce sequence is a parameter. A note is spent once
+either way: an update marks the note it spends moved, a redemption marks its note redeemed, and
+each refuses a note marked either way. Intents are ordinary
 calls, `enqueue(bytes)`, by anyone. Every note the vault inserts, a deposit or an update's output,
 emits the refund pool's `Deposit` event, so a wallet rebuilds the tree as it does for that pool.
 
@@ -140,7 +147,7 @@ locked the committee out for good.)
 
 ### Reconciliation needs the whole committee
 
-`reconcile` carries every redemption so far, strictly ascending, each spent and as many as the
+`reconcile` carries every redemption so far, strictly ascending, each redeemed and as many as the
 vault counted, and the committee's threshold BLS signature on
 
 $$m = \mathrm{chainId} \Vert \mathrm{vault} \Vert \mathrm{escapeAt} \Vert \mathrm{keccak256}(\mathrm{list})$$
@@ -231,6 +238,8 @@ TACEO's answer, a fraud proof only the affected owner can make, is not built her
   cover the larger maximum cost, and the refund frame returns what is unused.
 - **An update's prefix** is one Groth16 check in the vault's `VERIFY` and the payer's frame,
   against the nodes' 500,000.
+- **An update marks the note it spends moved**: one more new slot, 97,920 state gas, in
+  `process`, which also writes the new leaf and its tree.
 
 ### Runner hooks and checks
 
@@ -238,30 +247,47 @@ TACEO's answer, a fraud proof only the affected owner can make, is not built her
 |---|---|
 | `committee/exit-committee` | `keys`, `initcode`, `open-intent`, `part`, `commit`, `seal`, `recipient`, `update-data`, `reconcile`, `steal`, `vectors`; secrets stay in each member's directory, and only public values are printed |
 | `committee/co-withdraw` | `member --recipient`: a member proves for the recipient above |
-| `rust/` (`x9-runner`) | `update_tx`, `reconcile_tx` and `redemption_tx`; `send-update` and `send-reconcile`, which build, sign with `PAYER_KEY`, simulate on `RPC_URL`, send to `SEND_RPC_URL` and print the outcome; and `x9-runner local`, a rehearsal of plan steps 2 to 6 against a local ethrex node at the testnet's commit |
+| `rust/` (`x9-runner`) | `update_tx`, `reconcile_tx` and `redemption_tx`; the runner's modes `deploy`, `hold`, `share`, `leaves`, `send-update`, `send-reconcile` and `send-redemption` (with `--note` or `--nullifier-hash`), each printing one JSON object with no key, note or share; `local`, a rehearsal of plan steps 2 to 6 against a local ethrex node at the testnet's commit; and `smoke`, each mode once against one |
 | `src/e2e/x9.ts` | the vault's selectors, topics and layouts, the sealing, the recipient, the reconcile message and nonce key, in TypeScript |
 | `test/x9.test.ts` | the vault compiled again; every selector and topic it hard-codes; the committee's Rust vectors (`test/fixtures/x9/vectors.json`) opened and recomputed in TypeScript |
 
 ### Rehearsed on a local node before the first transaction
 
 `x9-runner local` ran plan steps 2 to 6 against a local ethrex node built at the testnet's commit
-(`64b8fc09`), with the committee in memory and $T = E = 30$ at a 500 ms block time
-(`rehearsal/local-1.json`). These are not the run's results: one node, no skandha, no testnet.
-They show the construction does what the plan needs, and they found one defect, fixed before
-this commit: a reconcile mined before the escape window ended used up its nonce key's only
-sequence, which would have locked the committee out for good.
+(`64b8fc09`), with the committee in memory and $T = E = 30$ at a 500 ms block time. These are not
+the run's results: one node, no skandha, no testnet. They show the construction does what the
+plan needs. Two defects were found and fixed before the first transaction:
+- **A reconcile could lock the committee out** (found by the first rehearsal,
+  `rehearsal/local-1.json`): one mined before the escape window ended used up its nonce key's only
+  sequence. Reconcile now accepts any sequence.
+- **A note an update spent could be redeemed by its previous holder** (found by the coordinator
+  while writing the runner). An update spent the note only through its nonce key at sequence 0,
+  and the redemption accepts sequences 0 to 2, so the previous holder, who still knows the note,
+  could redeem it at sequence 1 during escape: one deposit paid twice. On the vault before the fix
+  (`eafbdf3`), the rehearsal's new step shows it: admitted, mined, paid
+  (`rehearsal/before-fix-eafbdf3.json`). `process` now marks the spent note moved (tag 10), and
+  both a redemption and an update refuse a note marked redeemed or moved. Reconciliation still
+  lists redemptions only.
+
+On the fixed vault (`rehearsal/local-2.json`):
 
 | Step | Outcome | Gas by frame (execution / state) |
 |---|---|---|
-| two updates with openings | mined; each owner opened its openings and found its note at the leaf | vault `VERIFY` 257,758; payer 3,000 / 97,920; `process` about 1,030,000 / 293,760 to 391,680 |
-| a redemption before $T$ blocks | mined; `withdraw` reverted; nothing paid | `VERIFY` 253,320 / 97,920; `withdraw` 2,898 |
+| two updates with openings | mined; each owner opened its openings and found its note at the leaf | vault `VERIFY` 259,928; payer 3,000 / 97,920; `process` about 1,040,000 / 391,680 to 489,600 |
+| a redemption before $T$ blocks | mined; `withdraw` reverted; nothing paid | `VERIFY` 255,490 / 97,920; `withdraw` 2,898 |
 | the members, together, for owner 0's note | no witness; their redemption without a proof refused at the node | |
-| owner 0 (sequence 1), owner 1 (sequence 0) | mined, the vault sender and payer, each recipient paid the denomination less its gas; escape mode entered | `withdraw` 40,119 / 379,440 and 36,398 / 281,520 |
+| owner 0 (sequence 1), owner 1 (sequence 0) | mined, the vault sender and payer, each recipient paid the denomination less its gas; escape mode entered | `withdraw` 40,365 / 379,440 and 36,644 / 281,520 |
 | owner 0 again (sequence 2) | refused at the node | |
-| an update in escape mode; an update over a redeemed note | both refused at the node, the second by its nonce key, which the redemption used | |
-| a reconcile before $E$ blocks | mined; `reconcile` reverted | `VERIFY` 126,738 |
-| the reconcile | mined; normal mode | `reconcile` 24,324 |
+| the previous holder of the note update 0 spent (sequence 1) | refused at the node | |
+| holder 3 redeems its own note | mined and paid | `withdraw` 36,644 / 281,520 |
+| an update in escape mode; an update over holder 3's redeemed note | both refused at the node, the second by its nonce key, which the redemption used | |
+| a reconcile before $E$ blocks | mined; `reconcile` reverted | `VERIFY` 129,038 |
+| the reconcile, three redemptions listed | mined; normal mode | `reconcile` 24,324 |
 | the update over the redeemed note, again; the queue | refused; then mined | |
+
+`x9-runner smoke` ran each runner mode once against a local node: `deploy`, `hold` (the note file
+written at mode 600), `share`, `leaves`, and `send-redemption` both ways and `send-update`, each
+refused as expected with an empty queue or no vault behind it.
 
 ## Pieces
 

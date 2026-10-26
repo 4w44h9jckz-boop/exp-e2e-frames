@@ -45,7 +45,8 @@
 // Storage: 0 next leaf, 2 last root, 3 packed: mode (bits 0-7, 0 normal, 1 escape), escapeAt
 // (bits 8-71) and redemptions (bits 72-135), so a redemption writes at most two new slots;
 // 4 head, 7 tail, 8 since, 0x100.. the tree's filled subtrees; maps by tag: 5 commitments seen,
-// 6 owed, 7 intents, 8 spent, 9 known roots.
+// 6 owed, 7 intents, 8 redeemed, 9 known roots, 10 moved by an update. A note is spent once,
+// either way: redemption and update each refuse a note marked 8 or 10.
 //
 // initcode = <this object> || committee sealing key (33, then 31 zero bytes) || ESCAPE_WINDOW
 //            || TIMEOUT || BLS group key (256, EIP-2537 G2) || verifier || hasher
@@ -86,6 +87,7 @@ object "ExitVault" {
             case 0x1cde8331 { ret(escapeAtOf()) }             // escapeAt()
             case 0xae20bed3 { ret(sload(mapslot(calldataload(4), 8))) } // spent(bytes32)
             case 0xfe3c4713 { ret(sload(mapslot(calldataload(4), 9))) } // knownRoot(bytes32)
+            case 0xd0582670 { ret(sload(mapslot(calldataload(4), 10))) } // moved(bytes32)
             case 0x9de7ab90 { ret(sload(mapslot(calldataload(4), 7))) } // intentAt(uint256)
             case 0xe231bff0 { ret(countOf()) }                // redeemed()
             case 0x9be76a90 {                                 // committeeKey(): bytes32, bytes1
@@ -168,7 +170,7 @@ object "ExitVault" {
                 if iszero(eq(txparam(0x0e), 1)) { revert(0, 0) }
                 if iszero(eq(txparam(0x10), nullifierHash)) { revert(0, 0) }
                 if gt(txparam(0x01), 2) { revert(0, 0) }
-                if sload(mapslot(nullifierHash, 8)) { revert(0, 0) }
+                if spentEither(nullifierHash) { revert(0, 0) }
 
                 // Escape mode, or normal mode with a queue that can stall.
                 if iszero(modeOf()) {
@@ -207,7 +209,7 @@ object "ExitVault" {
                 let root := calldataload(256)
                 let nullifierHash := calldataload(288)
                 if iszero(sload(mapslot(root, 9))) { revert(0, 0) }
-                if sload(mapslot(nullifierHash, 8)) { revert(0, 0) }
+                if spentEither(nullifierHash) { revert(0, 0) }
 
                 // The note is spent once: its nullifier hash is the only nonce key, at sequence 0.
                 if iszero(eq(txparam(0x0e), 1)) { revert(0, 0) }
@@ -361,7 +363,7 @@ object "ExitVault" {
                 }
                 let nullifierHash := calldataload(0x44)
                 let s := mapslot(nullifierHash, 8)
-                if sload(s) { revert(0, 0) }
+                if spentEither(nullifierHash) { revert(0, 0) }
                 sstore(s, 1)
                 let count := add(countOf(), 1)
                 setPacked(mode, escapeAt, count)
@@ -390,6 +392,9 @@ object "ExitVault" {
                 if modeOf() { revert(0, 0) }
                 let head := sload(4)
                 if iszero(gt(sload(7), head)) { revert(0, 0) }
+                // The spent note, its nullifier hash this transaction's only nonce key, is moved:
+                // no redemption of it can pay, whatever sequence its key stands at.
+                sstore(mapslot(txparam(0x10), 10), 1)
                 insert(calldataload(4))
                 mstore(0x100, head)
                 mstore(0x120, 0x40)
@@ -583,6 +588,9 @@ object "ExitVault" {
                 v := mload(0x60)
             }
             function timeout() -> v { v := word(416) }
+            function spentEither(nullifierHash) -> v {
+                v := or(sload(mapslot(nullifierHash, 8)), sload(mapslot(nullifierHash, 10)))
+            }
             function modeOf() -> v { v := and(sload(3), 0xff) }
             function escapeAtOf() -> v { v := and(shr(8, sload(3)), 0xffffffffffffffff) }
             function countOf() -> v { v := shr(72, sload(3)) }

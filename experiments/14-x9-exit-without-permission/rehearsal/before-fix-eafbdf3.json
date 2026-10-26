@@ -1,0 +1,337 @@
+{
+  "escapeWindow": 30,
+  "rehearsal": "local ethrex at the testnet's commit, block time 500 ms",
+  "steps": [
+    {
+      "admitted": true,
+      "block": "0x29",
+      "bytes": 1247,
+      "frames": [
+        {
+          "gasUsed": "0x3eede",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0xbb8",
+          "stateGasUsed": "0x17e80",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0xfdde0",
+          "stateGasUsed": "0x5fa00",
+          "status": "0x1"
+        }
+      ],
+      "gasUsed": "0x1bd577",
+      "hash": "0xa8b1ac99116b7c4c179369dafb2e30b7c1beb67333b3cce804e9266824aabfd8",
+      "modeAfter": 0,
+      "modeBefore": 0,
+      "payer": "0x756da2616320f07a724bc185ea86afd29ec2b23b",
+      "status": "0x1",
+      "step": "update 0"
+    },
+    {
+      "leaf": 4,
+      "opened": true,
+      "step": "owner 0 opens its update's openings"
+    },
+    {
+      "admitted": true,
+      "block": "0x33",
+      "bytes": 1247,
+      "frames": [
+        {
+          "gasUsed": "0x3eede",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0xbb8",
+          "stateGasUsed": "0x17e80",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0xfb67f",
+          "stateGasUsed": "0x47b80",
+          "status": "0x1"
+        }
+      ],
+      "gasUsed": "0x1a2fba",
+      "hash": "0x72b9f2c4526177bce4214c2ebe73546aaab9be94720c41ea60d2fc3313e3e3e8",
+      "modeAfter": 0,
+      "modeBefore": 0,
+      "payer": "0x756da2616320f07a724bc185ea86afd29ec2b23b",
+      "status": "0x1",
+      "step": "update 1"
+    },
+    {
+      "leaf": 5,
+      "opened": true,
+      "step": "owner 1 opens its update's openings"
+    },
+    {
+      "admitted": true,
+      "block": "0x3b",
+      "bytes": 776,
+      "frames": [
+        {
+          "gasUsed": "0x15cb",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x3dd88",
+          "stateGasUsed": "0x17e80",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0xb52",
+          "stateGasUsed": "0x0",
+          "status": "0x0"
+        },
+        {
+          "gasUsed": "0x121",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        }
+      ],
+      "gasUsed": "0x5d44a",
+      "hash": "0xac66dd9498cd6581776ce88c93c2aabdb4619adb059a315c0808b92f7bbbe773",
+      "modeAfter": 0,
+      "modeBefore": 0,
+      "payer": "0x3a1bb3861d740331c31aba8b5c90e049ac9a713f",
+      "status": "0x0",
+      "step": "an early redemption, before TIMEOUT blocks"
+    },
+    {
+      "mined": true,
+      "recipientBalance": "0x0",
+      "since": 53,
+      "step": "after the early redemption"
+    },
+    {
+      "step": "the members pool everything for owner 0's note",
+      "witnessExists": false
+    },
+    {
+      "admitted": false,
+      "bytes": 776,
+      "hash": "0x575b68370ca3407d26aed7d6490754cec38c910d138da1375204a8a0ce4893d4",
+      "modeBefore": 0,
+      "node": "server returned an error response: error code -32000: Invalid params: Frame transaction validation-prefix simulation failed: validation prefix frame reverted",
+      "simulation": "validation prefix frame reverted",
+      "step": "the members' redemption of owner 0's note, with no proof"
+    },
+    {
+      "admitted": true,
+      "block": "0x5d",
+      "bytes": 776,
+      "frames": [
+        {
+          "gasUsed": "0x15cb",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x3dd88",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x9cb7",
+          "stateGasUsed": "0x5ca30",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x2d23",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        }
+      ],
+      "gasUsed": "0xadd61",
+      "hash": "0x599a8adb121bf6634f5ea64d65d594d1ad5da416b4f978cf557f07f592dd201d",
+      "modeAfter": 1,
+      "modeBefore": 0,
+      "payer": "0x3a1bb3861d740331c31aba8b5c90e049ac9a713f",
+      "status": "0x1",
+      "step": "owner 0 redeems, sequence 1"
+    },
+    {
+      "admitted": true,
+      "block": "0x63",
+      "bytes": 776,
+      "frames": [
+        {
+          "gasUsed": "0x15cb",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x3cd09",
+          "stateGasUsed": "0x17e80",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x8e2e",
+          "stateGasUsed": "0x44bb0",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x2d23",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        }
+      ],
+      "gasUsed": "0xabe41",
+      "hash": "0x708e7930822316c888ea04f1351cf99da56e632da4550e9f00fc2e74c7a4a820",
+      "modeAfter": 1,
+      "modeBefore": 1,
+      "payer": "0x3a1bb3861d740331c31aba8b5c90e049ac9a713f",
+      "status": "0x1",
+      "step": "owner 1 redeems, sequence 0"
+    },
+    {
+      "admitted": false,
+      "bytes": 776,
+      "hash": "0x625f371c59ceabac892c3ca99da500e8e0754ad60a7956faec327f5b44ac33c8",
+      "modeBefore": 1,
+      "node": "server returned an error response: error code -32000: Invalid params: Frame transaction validation-prefix simulation failed: validation prefix frame reverted",
+      "simulation": "validation prefix frame reverted",
+      "step": "owner 0 redeems again, sequence 2"
+    },
+    {
+      "admitted": true,
+      "block": "0x6b",
+      "bytes": 776,
+      "frames": [
+        {
+          "gasUsed": "0x15cb",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x3cd09",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x8e2e",
+          "stateGasUsed": "0x44bb0",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x2d23",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        }
+      ],
+      "gasUsed": "0x93fd9",
+      "hash": "0x8f5349ca857d14c5bdfbf340fb2aa23f92f52dc75371cb6e02eedc5d2724d855",
+      "modeAfter": 1,
+      "modeBefore": 1,
+      "payer": "0x3a1bb3861d740331c31aba8b5c90e049ac9a713f",
+      "status": "0x1",
+      "step": "the previous holder of held 0 redeems the note update 0 spent, sequence 1"
+    },
+    {
+      "admitted": true,
+      "block": "0x71",
+      "bytes": 776,
+      "frames": [
+        {
+          "gasUsed": "0x15cb",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x3cd09",
+          "stateGasUsed": "0x17e80",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x8e2e",
+          "stateGasUsed": "0x44bb0",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x2d23",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        }
+      ],
+      "gasUsed": "0xabe65",
+      "hash": "0x9dd873eabda4aae40be3e0f58c45b49f0dc06c8420b85825468580598485e4e6",
+      "modeAfter": 1,
+      "modeBefore": 1,
+      "payer": "0x3a1bb3861d740331c31aba8b5c90e049ac9a713f",
+      "status": "0x1",
+      "step": "holder 3 redeems its own note, sequence 0"
+    },
+    {
+      "recipient0": "0x38d7ea46df0d0",
+      "recipient1": "0x38d7ea46ee9d0",
+      "recipient3": "0x38d7ea46ee8b0",
+      "redeemed": 4,
+      "step": "balances after the escape"
+    },
+    {
+      "admitted": false,
+      "bytes": 1247,
+      "hash": "0xf51705711e44ec27e391c973d4c7dc23429511958e838b8fa4713a42e11caf99",
+      "modeBefore": 1,
+      "node": "server returned an error response: error code -32000: Invalid params: Frame transaction validation-prefix simulation failed: validation prefix frame reverted",
+      "simulation": "validation prefix frame reverted",
+      "step": "an update in escape mode, before reconciling"
+    },
+    {
+      "admitted": false,
+      "bytes": 1247,
+      "hash": "0xbc10d300927663e3ddc4fb65a318ff3ea8902782f697c0716e72fc3edea56724",
+      "modeBefore": 1,
+      "node": "server returned an error response: error code -32000: Invalid params: Frame transaction validation-prefix simulation failed: Invalid Transaction: Nonce mismatch: expected 1, got 0",
+      "simulation": "Invalid Transaction: Nonce mismatch: expected 1, got 0",
+      "step": "an update spending a redeemed note, in escape mode"
+    },
+    {
+      "admitted": false,
+      "bytes": 509,
+      "hash": "0xf04c26c8e2f34f891a37751799d52244dd73c2320c35db9b10acd1713142075d",
+      "modeBefore": 1,
+      "node": "server returned an error response: error code -32000: Invalid params: Frame transaction validation-prefix simulation failed: validation prefix frame reverted",
+      "simulation": "validation prefix frame reverted",
+      "step": "a reconcile before the escape window ends"
+    },
+    {
+      "admitted": false,
+      "bytes": 509,
+      "hash": "0xf04c26c8e2f34f891a37751799d52244dd73c2320c35db9b10acd1713142075d",
+      "modeBefore": 1,
+      "node": "server returned an error response: error code -32000: Invalid params: Frame transaction validation-prefix simulation failed: validation prefix frame reverted",
+      "simulation": "validation prefix frame reverted",
+      "step": "the committee reconciles"
+    },
+    {
+      "admitted": false,
+      "bytes": 1247,
+      "hash": "0xbc10d300927663e3ddc4fb65a318ff3ea8902782f697c0716e72fc3edea56724",
+      "modeBefore": 1,
+      "node": "server returned an error response: error code -32000: Invalid params: Frame transaction validation-prefix simulation failed: Invalid Transaction: Nonce mismatch: expected 1, got 0",
+      "simulation": "Invalid Transaction: Nonce mismatch: expected 1, got 0",
+      "step": "an update spending a redeemed note, after reconciling"
+    },
+    {
+      "admitted": false,
+      "bytes": 1247,
+      "hash": "0xd3f9e7e820c1771f6572169ed085e21a574a73eb2535be089d8a6dd9a5d4de6a",
+      "modeBefore": 1,
+      "node": "server returned an error response: error code -32000: Invalid params: Frame transaction validation-prefix simulation failed: validation prefix frame reverted",
+      "simulation": "validation prefix frame reverted",
+      "step": "the queue processed again"
+    }
+  ],
+  "timeout": 30,
+  "vault": "0x3a1bb3861d740331c31aba8b5c90e049ac9a713f",
+  "vaultCodeBytes": 5741,
+  "withdrawState": 379440
+}
