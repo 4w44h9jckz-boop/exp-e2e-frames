@@ -238,7 +238,7 @@ TACEO's answer, a fraud proof only the affected owner can make, is not built her
 |---|---|
 | `committee/exit-committee` | `keys`, `initcode`, `open-intent`, `part`, `commit`, `seal`, `recipient`, `update-data`, `reconcile`, `steal`, `vectors`; secrets stay in each member's directory, and only public values are printed |
 | `committee/co-withdraw` | `member --recipient`: a member proves for the recipient above |
-| `rust/` (`x9-runner`) | `update_tx`, `reconcile_tx` and `redemption_tx`, and `x9-runner local`, a rehearsal of plan steps 2 to 6 against a local ethrex node at the testnet's commit |
+| `rust/` (`x9-runner`) | `update_tx`, `reconcile_tx` and `redemption_tx`; `send-update` and `send-reconcile`, which build, sign with `PAYER_KEY`, simulate on `RPC_URL`, send to `SEND_RPC_URL` and print the outcome; and `x9-runner local`, a rehearsal of plan steps 2 to 6 against a local ethrex node at the testnet's commit |
 | `src/e2e/x9.ts` | the vault's selectors, topics and layouts, the sealing, the recipient, the reconcile message and nonce key, in TypeScript |
 | `test/x9.test.ts` | the vault compiled again; every selector and topic it hard-codes; the committee's Rust vectors (`test/fixtures/x9/vectors.json`) opened and recomputed in TypeScript |
 

@@ -2,7 +2,17 @@
 //!
 //! ```text
 //! x9-runner local     rehearse the whole plan against a local ethrex node (ETHREX_BIN)
+//! x9-runner send-update    --vault <a> --nullifier-hash <h> --verify-data <hex> --process-data <hex>
+//! x9-runner send-reconcile --vault <a> --escape-at <block> --verify-data <hex>
 //! ```
+//!
+//! The two `send-` modes take the frame data `exit-committee update-data` and `exit-committee
+//! reconcile` print, build the committee's transaction with [`update_tx`] or [`reconcile_tx`],
+//! sign it with the payer's key (`PAYER_KEY`, never printed), simulate it on `RPC_URL`, send it
+//! to `SEND_RPC_URL` (default `RPC_URL`), and wait for its receipt on `RPC_URL`. They print one
+//! JSON object: the transaction's hash, bytes and raw encoding, the simulation, the node's answer,
+//! and, if mined, its block, status, payer and gas by frame, with the vault's mode before and
+//! after. A transaction the node refuses is printed, not retried.
 //!
 //! The rehearsal deploys experiment 01's hasher and verifier and the vault, then runs plan steps
 //! 2 to 6 with the committee in memory: updates with openings, an early redemption, the timeout,
@@ -570,10 +580,93 @@ fn kohaku_frame_ticket_g2(c: &bls_committee::Committee) -> [u8; 256] {
     kohaku_frame_ticket::ticket::g2_eip2537(c.sharing().public())
 }
 
+/// `--name value` pairs after the mode.
+fn flag(args: &[String], name: &str) -> anyhow::Result<String> {
+    args.windows(2)
+        .find(|w| w[0] == format!("--{name}"))
+        .map(|w| w[1].clone())
+        .with_context(|| format!("--{name} is required"))
+}
+
+/// What the testnet runner calls: build, sign, simulate, send, wait, print.
+async fn send(kind: &str, args: &[String]) -> anyhow::Result<()> {
+    let rpc_url = env::var("RPC_URL").unwrap_or_else(|_| rpc::HEGOTA_RPC_URL.to_owned());
+    let send_url = env::var("SEND_RPC_URL").unwrap_or_else(|_| rpc_url.clone());
+    let chain = ProviderBuilder::new().connect_http(rpc_url.parse()?);
+    let node = ProviderBuilder::new().connect_http(send_url.parse()?);
+    let payer: PrivateKeySigner = env::var("PAYER_KEY").context("PAYER_KEY: the payer's secret key")?.parse()?;
+    let chain_id = chain.get_chain_id().await?;
+    let vault: Address = flag(args, "vault")?.parse()?;
+    let verify: Bytes = flag(args, "verify-data")?.parse()?;
+    let fees = rpc::suggest_fees(&chain, TIP).await?;
+    let mut tx = match kind {
+        "send-update" => {
+            let nh: B256 = flag(args, "nullifier-hash")?.parse()?;
+            let process: Bytes = flag(args, "process-data")?.parse()?;
+            update_tx(chain_id, vault, nh, verify, process, payer.address(), fees)
+        }
+        _ => {
+            let escape_at: u64 = flag(args, "escape-at")?.parse()?;
+            let mut tx = reconcile_tx(chain_id, vault, escape_at, verify, payer.address(), fees);
+            tx.nonce_seq = rpc::nonce_seq(&chain, vault, &tx.nonce_keys).await?;
+            tx
+        }
+    };
+    sign_all(&mut tx, &[FrameSigner::Secp256k1(payer)])?;
+    let mode = |p: &_| {
+        let p: &alloy::providers::RootProvider = p;
+        let p = p.clone();
+        async move {
+            let out = p.call(TransactionRequest::default().to(vault).input(vec![0x29, 0x5a, 0x52, 0x12].into())).await?;
+            anyhow::Ok(U256::from_be_slice(&out).to::<u64>())
+        }
+    };
+    let before = mode(chain.root()).await?;
+    let sim = rpc::simulate(&chain, &tx, "latest").await?;
+    let answer = rpc::send(&node, &tx).await;
+    let mut out = json!({
+        "kind": kind,
+        "hash": tx.hash(),
+        "bytes": tx.encode().len(),
+        "raw": Bytes::from(tx.encode()),
+        "nonceKey": tx.nonce_keys[0],
+        "nonceSeq": tx.nonce_seq,
+        "simulation": { "valid": sim.valid, "violation": sim.violation, "executionStatus": sim.execution_status, "executionError": sim.execution_error },
+        "node": match &answer { Ok(h) => json!({ "accepted": h }), Err(e) => json!({ "error": e.to_string() }) },
+        "modeBefore": before,
+    });
+    if answer.is_ok() {
+        let r = rpc::wait_for_confirmed_receipt(&chain, tx.hash(), Duration::from_mins(5), Duration::from_secs(2)).await?;
+        out["mined"] = json!({
+            "block": r.block_number, "status": r.status, "payer": r.payer, "gasUsed": r.gas_used,
+            "frames": r.frame_receipts.iter().map(|f| json!({ "status": f.status, "gasUsed": f.gas_used, "stateGasUsed": f.state_gas_used })).collect::<Vec<_>>(),
+        });
+        out["modeAfter"] = json!(mode(chain.root()).await?);
+    }
+    println!("{}", serde_json::to_string_pretty(&out)?);
+    Ok(())
+}
+
+/// The priority fee the committee's transactions offer, as experiment 07's did.
+const TIP: u128 = 1_000_000_000;
+
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
-    match env::args().nth(1).as_deref() {
+    let args: Vec<String> = env::args().collect();
+    match args.get(1).map(String::as_str) {
         Some("local") => local().await,
-        _ => bail!("usage: x9-runner local"),
+        Some(kind @ ("send-update" | "send-reconcile")) => send(kind, &args[2..]).await,
+        // The send path against a local node and a vault that is not there: refused, printed.
+        Some("smoke-send") => {
+            let ethrex = EthrexBuilder::from_env().context("ETHREX_BIN")?.spawn().await?;
+            // SAFETY: nothing else in this process reads or writes the environment while this mode runs.
+            unsafe {
+                env::set_var("RPC_URL", ethrex.rpc_url());
+                env::set_var("PAYER_KEY", B256::from(rand::rng().random::<[u8; 32]>()).to_string());
+            }
+            let a = |s: &str| s.to_owned();
+            send("send-update", &[a("--vault"), a("0x00000000000000000000000000000000000000aa"), a("--nullifier-hash"), B256::repeat_byte(1).to_string(), a("--verify-data"), a("0x00"), a("--process-data"), a("0xdfefb7d7")]).await
+        }
+        _ => bail!("usage: x9-runner local | send-update ... | send-reconcile ..."),
     }
 }
