@@ -287,3 +287,24 @@ The coordinator reran the checks on `eafbdf3`:
 The branch is merged into #18's branch (`798d964`).
 
 X9: committee side ready for the runner | exp-e2e-frames eafbdf3, merged at 798d964 | needs from wallet: the redemption's withdraw state limit 379,440 and nonce sequences 0 to 2, sent to it
+
+## 2026-10-26, seventh session: X9's fix before any transaction, and the runner's modes
+
+Carried here by the coordinator, from the committee session's text.
+
+The coordinator found an update-spent note redeemable by its previous holder at nonce sequence 1:
+one deposit paid twice. The committee showed it admitted and paid on `eafbdf3` in a local
+rehearsal (`rehearsal/before-fix-eafbdf3.json`), and refused after the fix
+(`rehearsal/local-2.json`). The fix has `process()` mark the spent note moved. x9-runner gained
+`deploy`, `hold`, `share`, `leaves` and `send-redemption`, alongside `send-update` and
+`send-reconcile` from `570a861`, each smoke-tested on a local node.
+
+The coordinator reran the checks on `f6bd932`:
+- `npx vitest run`: 220 tests pass, plus X6's one expected failure;
+- `cargo test --release --workspace` in `committee/`: 4, 9 and 9 tests pass;
+- x9-runner builds with `--locked`.
+
+The branch is merged into #18's branch (`fe97610`). Run 1 on the test network used these modes
+and the fixed vault; its results are in experiment 14's README.
+
+X9: committee side ready for the runner | exp-e2e-frames f6bd932 on exp/14-x9-exit, merged at fe97610 | needs from wallet: none new

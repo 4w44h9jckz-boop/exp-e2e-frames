@@ -1,0 +1,2751 @@
+{
+  "experiment": "14-x9-exit-without-permission",
+  "attempt": "1-first-run",
+  "ranAt": "2026-10-26T09:37:26.784Z",
+  "repoCommit": "7909527794fecc56cc1d414e0f0f358b3fbf9ab0",
+  "pins": {
+    "skandha": {
+      "url": "https://github.com/4w44h9jckz-boop/skandha",
+      "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade"
+    },
+    "kohaku-rs": {
+      "url": "https://github.com/4w44h9jckz-boop/kohaku-rs",
+      "commit": "cf5bea509cf4884cf1e56a38a6eec97f49511888"
+    }
+  },
+  "client": "ethrex/v23.0.0-hegota-testnet-hotfix-64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c/x86_64-unknown-linux-gnu/rustc-v1.93.1",
+  "network": "the committee: three member processes on one machine over loopback TCP, a LAN time at best; the nodes: two processes on one machine over loopback",
+  "commands": [
+    "npx tsx experiments/14-x9-exit-without-permission/run.ts",
+    "skandha: node A with --frames.enable, node B with --frames.enable and --frames.handoff, booted from A",
+    "committee/exit-committee: keys, initcode, open-intent, part, commit, seal, recipient, update-data, reconcile, steal",
+    "committee/co-withdraw: member --recipient, three processes per update",
+    "x9-runner: deploy and hold to the chain; share and leaves; send-update, send-reconcile and send-redemption with SEND_RPC_URL at node A",
+    "kohaku-rs cf5bea5: exit_receive and exit_check; exit_intent and exit_redeem with SEND_RPC_URL at node A"
+  ],
+  "parameters": {
+    "timeout": 30,
+    "escapeWindow": 30,
+    "batchSize": 1,
+    "owners": 3,
+    "heldNotes": 4,
+    "holder": "0xa131d9454d87957dcC465fb37ACD9b383648B4d5",
+    "payer": "0xd6c12c13Ec4b0ca0DBD237c92e0ab6e0774f1185"
+  },
+  "setup": {
+    "committee": {
+      "blsKeyEip2537": "0x0000000000000000000000000000000013da93f16d7eaeaa26465854f7dd99ec07b93601705c0bbe159747ee3b3b0b486ae505957016b73afe3cbdcd668c6bff000000000000000000000000000000000001b5ddcb92c732781c5301a2e715e63951e42da4f7cc6c9b05abe7b939fb8cff0b2e12247c4dd2cbdd1c30ad94b5150000000000000000000000000000000004816c90e6aa90791c6793affacff40aced9226c1a21c038e9f944faece6c67456a3834edfab41c4aab4765fb3c3790a000000000000000000000000000000000ed5b459eaa1afce798c7c3603cac9aee0817a7e3553a867fa54c838763fb80bb2dadcb827046fb50804ff3a3f6a241f",
+      "blsQuorum": 3,
+      "dkg": [
+        {
+          "bytesReceived": 2128,
+          "bytesSent": 2128,
+          "messagesReceived": 6,
+          "messagesSent": 6
+        },
+        {
+          "bytesReceived": 2128,
+          "bytesSent": 2128,
+          "messagesReceived": 6,
+          "messagesSent": 6
+        },
+        {
+          "bytesReceived": 2128,
+          "bytesSent": 2128,
+          "messagesReceived": 6,
+          "messagesSent": 6
+        }
+      ],
+      "members": 3,
+      "sealingKey": "0x03019336a76963cd5acdebc9a678862c8a968450dfa96dc66bc51733f0b182bb05"
+    },
+    "initcode": {
+      "denomination": "1000000000000000",
+      "escapeWindow": 30,
+      "hasher": "0x38955FBe81DBf136A84A1c711619C0Ab8Ce7813b",
+      "salt": "0xc00bfde293cb4b32479c8bf3307d7e81d4604b8c017de98a97d88a6d8300ca56",
+      "timeout": 30,
+      "verifier": "0x87a7C1f76b03dA00de489897d436BbEDDd2133b7"
+    },
+    "deployed": {
+      "codeBytes": 5856,
+      "deploy": {
+        "block": "0x89bd3",
+        "frames": [
+          {
+            "gasUsed": "0x64",
+            "stateGasUsed": "0x0",
+            "status": "0x1"
+          },
+          {
+            "gasUsed": "0x4e3a",
+            "stateGasUsed": "0x8b83f0",
+            "status": "0x1"
+          }
+        ],
+        "gasUsed": "0x91b026",
+        "hash": "0x820a125fd00d43efc033b5a3289216ca1c8349e8794300706f82d4c2c0565d79",
+        "payer": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+        "status": "0x1"
+      },
+      "float": "10000000000000000",
+      "fund": {
+        "block": "0x89bd5",
+        "frames": [
+          {
+            "gasUsed": "0x64",
+            "stateGasUsed": "0x0",
+            "status": "0x1"
+          },
+          {
+            "gasUsed": "0xbb8",
+            "stateGasUsed": "0x2cd30",
+            "status": "0x1"
+          }
+        ],
+        "gasUsed": "0x33326",
+        "hash": "0x755becba8713ddb597b7116cf01c724625696e08f9309f2925dd21e91165fbba",
+        "payer": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+        "status": "0x1"
+      },
+      "payer": "0xd6c12c13ec4b0ca0dbd237c92e0ab6e0774f1185",
+      "payerFund": "20000000000000000",
+      "vault": "0x8412ef506255ba3994220e683b3b713bf863c272"
+    },
+    "holds": [
+      {
+        "block": "0x89bd7",
+        "commitment": "0x24056b6307fe0d15a140ea129b34cb502fdf43ad7b05cb761d6f89ebf5343d6d",
+        "hash": "0x6de21cfaefdccc641123a7458b3784028a3bca56e1be392466819aef77321010",
+        "leaf": 0,
+        "root": "0x1f06a6eff4b655415ddcb4e67b10f8d2207560932ced5299b915d91a52dd2755",
+        "slot": 597399
+      },
+      {
+        "block": "0x89bd9",
+        "commitment": "0x221c966a5f8b901a600ad6bd851cc2b8722522d63758aa6f7200e675b4e299ef",
+        "hash": "0x3cbe8ba31916280af2a79d0f0c5b5e8f9818359a0d22da3e699c67a6009eae9f",
+        "leaf": 1,
+        "root": "0x0f00fbaee09c9cb1873d8d013ccf7f4e996a57e0da865786ec7ef3fad28d0b21",
+        "slot": 597401
+      },
+      {
+        "block": "0x89bdb",
+        "commitment": "0x01b8f906e9b38698e92612d68b5687281814e75ce952c61ad78ddbacb7f0ea73",
+        "hash": "0xff340aa9a134a23de210142d33a8e16e87a072080c2cadead304f3d1754edbc0",
+        "leaf": 2,
+        "root": "0x116c01f898dd1c0f0d2cb153abf2f5201336953ec1a9d9e0828c6905e24e3b17",
+        "slot": 597403
+      },
+      {
+        "block": "0x89bdd",
+        "commitment": "0x2d63e125056bb1ab8a24c92467f194bbedec4eee482272f7ed334a64cb763a7d",
+        "hash": "0x084abee94dc0b68326df64bcc4e99e65fd81307936ce95527560ae4700f22697",
+        "leaf": 3,
+        "root": "0x01381095675bf7d89ee72b53261cf044a3901a60619f2e05f64a191a13d06daa",
+        "slot": 597405
+      }
+    ]
+  },
+  "owners": [
+    {
+      "recipient": "0xd67e575362b2ef618f3bddbf4b226a1ec1d52ec0"
+    },
+    {
+      "recipient": "0xcc04e3231b40b52163b418e37e93a8e211578ec9"
+    },
+    {
+      "recipient": "0x4b5273d8ec0778c7683076247cfd3de8266230cb"
+    }
+  ],
+  "steps": [
+    {
+      "plan": "setup",
+      "what": "owner 0's receiving address, for its holder",
+      "exit": 0,
+      "millis": 19,
+      "address": "0x9e88166f69a323c72fd86f947ec5d251242a8a01331262402e23ff2f867e311b",
+      "j": 0,
+      "o": 0,
+      "recipient": "0xd67e575362b2ef618f3bddbf4b226a1ec1d52ec0",
+      "step": "receive",
+      "vault": "0x8412ef506255ba3994220e683b3b713bf863c272"
+    },
+    {
+      "plan": "setup",
+      "what": "owner 1's receiving address, for its holder",
+      "exit": 0,
+      "millis": 20,
+      "address": "0xa8fcc0f1dfa551aff74de94b462030c2fc4550ad32cab84e681ff53d9e0e2e73",
+      "j": 0,
+      "o": 0,
+      "recipient": "0xcc04e3231b40b52163b418e37e93a8e211578ec9",
+      "step": "receive",
+      "vault": "0x8412ef506255ba3994220e683b3b713bf863c272"
+    },
+    {
+      "plan": "setup",
+      "what": "owner 2's receiving address, for its holder",
+      "exit": 0,
+      "millis": 15,
+      "address": "0xf998aa104521ea99dc74cb961790fd265ab870871a5ff784676d992a5e324bce",
+      "j": 0,
+      "o": 0,
+      "recipient": "0x4b5273d8ec0778c7683076247cfd3de8266230cb",
+      "step": "receive",
+      "vault": "0x8412ef506255ba3994220e683b3b713bf863c272"
+    },
+    {
+      "plan": "2",
+      "what": "the holder's intent for owner 0",
+      "exit": 0,
+      "millis": 10687,
+      "block": "0x89bdf",
+      "bytes": 116,
+      "emittedIndex": 0,
+      "hash": "0x111a3302a6fbf05723743990a98de04c673e9fd64b334b132215d83d13c8799b",
+      "holder": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "index": 0,
+      "intentHash": "0x982daf93c76161cde625ceea9d38cc56df2143474ae787f15a79ecf80646e9d2",
+      "outcome": "Queued",
+      "status": "0x1",
+      "step": "intent",
+      "vault": "0x8412ef506255ba3994220e683b3b713bf863c272"
+    },
+    {
+      "plan": "2",
+      "what": "the committee's update 0, spending held note 0",
+      "exit": 0,
+      "millis": 13802,
+      "bytes": 1249,
+      "hash": "0x640f6980d7708a310af64a4fe537eb2c38f77ad19820adc96642c5aef1f20f12",
+      "kind": "send-update",
+      "mined": {
+        "block": "0x89be3",
+        "frames": [
+          {
+            "gasUsed": "0x3f758",
+            "stateGasUsed": "0x0",
+            "status": "0x1"
+          },
+          {
+            "gasUsed": "0xbb8",
+            "stateGasUsed": "0x17e80",
+            "status": "0x1"
+          },
+          {
+            "gasUsed": "0x1005a8",
+            "stateGasUsed": "0x77880",
+            "status": "0x1"
+          }
+        ],
+        "gasUsed": "0x1d8439",
+        "hash": "0x640f6980d7708a310af64a4fe537eb2c38f77ad19820adc96642c5aef1f20f12",
+        "payer": "0xd6c12c13ec4b0ca0dbd237c92e0ab6e0774f1185",
+        "status": "0x1"
+      },
+      "modeAfter": 0,
+      "modeBefore": 0,
+      "node": {
+        "accepted": "0x640f6980d7708a310af64a4fe537eb2c38f77ad19820adc96642c5aef1f20f12"
+      },
+      "nonceKey": "0xcc11cd40480c79a0c3a718526d29234eab06d5a884bcab7279bb45ef16f0199",
+      "nonceSeq": 0,
+      "simulation": {
+        "executionError": null,
+        "executionStatus": "success",
+        "valid": true,
+        "violation": null
+      },
+      "intentBlock": "0x89bdf",
+      "leaf": 4,
+      "prepareMillis": 4212,
+      "proveMillis": 1930,
+      "committeeMillis": 11029,
+      "nullifierHash": "0x0cc11cd40480c79a0c3a718526d29234eab06d5a884bcab7279bb45ef16f0199",
+      "members": [
+        {
+          "member": 0,
+          "verified": true,
+          "publicInputs": [
+            "551370740069457509283562004588986170587759936756700844418501082596357729706",
+            "5768954631382054467963970024353882288265009793551022908784354068373315715481",
+            "658161169904303225595306670004049627946349242384",
+            "0",
+            "0",
+            "0"
+          ],
+          "peers": [
+            {
+              "peer": 1,
+              "messagesSent": 4,
+              "messagesReceived": 2,
+              "bytesSent": 416,
+              "bytesReceived": 336
+            },
+            {
+              "peer": 2,
+              "messagesSent": 2,
+              "messagesReceived": 4,
+              "bytesSent": 336,
+              "bytesReceived": 416
+            }
+          ],
+          "proveMs": 1550,
+          "network": "loopback TCP on one machine: a LAN time, not a WAN one"
+        },
+        {
+          "member": 1,
+          "verified": true,
+          "publicInputs": [
+            "551370740069457509283562004588986170587759936756700844418501082596357729706",
+            "5768954631382054467963970024353882288265009793551022908784354068373315715481",
+            "658161169904303225595306670004049627946349242384",
+            "0",
+            "0",
+            "0"
+          ],
+          "peers": [
+            {
+              "peer": 0,
+              "messagesSent": 2,
+              "messagesReceived": 4,
+              "bytesSent": 336,
+              "bytesReceived": 416
+            },
+            {
+              "peer": 2,
+              "messagesSent": 4,
+              "messagesReceived": 2,
+              "bytesSent": 448,
+              "bytesReceived": 336
+            }
+          ],
+          "proveMs": 1550,
+          "network": "loopback TCP on one machine: a LAN time, not a WAN one"
+        },
+        {
+          "member": 2,
+          "verified": true,
+          "publicInputs": [
+            "551370740069457509283562004588986170587759936756700844418501082596357729706",
+            "5768954631382054467963970024353882288265009793551022908784354068373315715481",
+            "658161169904303225595306670004049627946349242384",
+            "0",
+            "0",
+            "0"
+          ],
+          "peers": [
+            {
+              "peer": 0,
+              "messagesSent": 4,
+              "messagesReceived": 2,
+              "bytesSent": 416,
+              "bytesReceived": 336
+            },
+            {
+              "peer": 1,
+              "messagesSent": 2,
+              "messagesReceived": 4,
+              "bytesSent": 336,
+              "bytesReceived": 448
+            }
+          ],
+          "proveMs": 1550,
+          "network": "loopback TCP on one machine: a LAN time, not a WAN one"
+        }
+      ]
+    },
+    {
+      "plan": "2",
+      "what": "owner 0 checks its opening",
+      "exit": 0,
+      "millis": 8527,
+      "commitment": "0x04e19ff866ecfb185b96fa70d11c14331f575b6258e0eb61259b9516e39e078a",
+      "garbage": [],
+      "j": 0,
+      "leaf": 4,
+      "mode": 0,
+      "o": 0,
+      "step": "check",
+      "update": 0,
+      "vault": "0x8412ef506255ba3994220e683b3b713bf863c272",
+      "verdict": "ok"
+    },
+    {
+      "plan": "2",
+      "what": "the holder's intent for owner 1",
+      "exit": 0,
+      "millis": 14777,
+      "block": "0x89be7",
+      "bytes": 116,
+      "emittedIndex": 1,
+      "hash": "0x21528d125777c19a44a347fa124d7441c9e3bbfa8a4d99709bfb7a1bd43d31b7",
+      "holder": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "index": 1,
+      "intentHash": "0x26b5d3242bdc056d58abb19992c4730576817cba80f48b097078df6a80d8f241",
+      "outcome": "Queued",
+      "status": "0x1",
+      "step": "intent",
+      "vault": "0x8412ef506255ba3994220e683b3b713bf863c272"
+    },
+    {
+      "plan": "2",
+      "what": "the committee's update 1, spending held note 1",
+      "exit": 0,
+      "millis": 12912,
+      "bytes": 1249,
+      "hash": "0x3dce6c906cf7b68135fc83f50faf6100451ce438a99aee7f144fd2b0b07aff57",
+      "kind": "send-update",
+      "mined": {
+        "block": "0x89beb",
+        "frames": [
+          {
+            "gasUsed": "0x3f758",
+            "stateGasUsed": "0x0",
+            "status": "0x1"
+          },
+          {
+            "gasUsed": "0xbb8",
+            "stateGasUsed": "0x17e80",
+            "status": "0x1"
+          },
+          {
+            "gasUsed": "0xfde47",
+            "stateGasUsed": "0x5fa00",
+            "status": "0x1"
+          }
+        ],
+        "gasUsed": "0x1bde28",
+        "hash": "0x3dce6c906cf7b68135fc83f50faf6100451ce438a99aee7f144fd2b0b07aff57",
+        "payer": "0xd6c12c13ec4b0ca0dbd237c92e0ab6e0774f1185",
+        "status": "0x1"
+      },
+      "modeAfter": 0,
+      "modeBefore": 0,
+      "node": {
+        "accepted": "0x3dce6c906cf7b68135fc83f50faf6100451ce438a99aee7f144fd2b0b07aff57"
+      },
+      "nonceKey": "0x94df65188fa3f87847b2f3376b77376096210e66c2d6aeb8c871ca58374b0b7",
+      "nonceSeq": 0,
+      "simulation": {
+        "executionError": null,
+        "executionStatus": "success",
+        "valid": true,
+        "violation": null
+      },
+      "intentBlock": "0x89be7",
+      "leaf": 5,
+      "prepareMillis": 4233,
+      "proveMillis": 1909,
+      "committeeMillis": 11066,
+      "nullifierHash": "0x094df65188fa3f87847b2f3376b77376096210e66c2d6aeb8c871ca58374b0b7",
+      "members": [
+        {
+          "member": 0,
+          "verified": true,
+          "publicInputs": [
+            "8010749704604381951470290986632429241928169724280660647609389535447981741509",
+            "4208562889019741396141668331161230447527666750145510672109932657565150523575",
+            "77426724105441310622061098081028204503149236223",
+            "0",
+            "0",
+            "0"
+          ],
+          "peers": [
+            {
+              "peer": 1,
+              "messagesSent": 4,
+              "messagesReceived": 2,
+              "bytesSent": 416,
+              "bytesReceived": 336
+            },
+            {
+              "peer": 2,
+              "messagesSent": 2,
+              "messagesReceived": 4,
+              "bytesSent": 336,
+              "bytesReceived": 416
+            }
+          ],
+          "proveMs": 1514,
+          "network": "loopback TCP on one machine: a LAN time, not a WAN one"
+        },
+        {
+          "member": 1,
+          "verified": true,
+          "publicInputs": [
+            "8010749704604381951470290986632429241928169724280660647609389535447981741509",
+            "4208562889019741396141668331161230447527666750145510672109932657565150523575",
+            "77426724105441310622061098081028204503149236223",
+            "0",
+            "0",
+            "0"
+          ],
+          "peers": [
+            {
+              "peer": 0,
+              "messagesSent": 2,
+              "messagesReceived": 4,
+              "bytesSent": 336,
+              "bytesReceived": 416
+            },
+            {
+              "peer": 2,
+              "messagesSent": 4,
+              "messagesReceived": 2,
+              "bytesSent": 448,
+              "bytesReceived": 336
+            }
+          ],
+          "proveMs": 1522,
+          "network": "loopback TCP on one machine: a LAN time, not a WAN one"
+        },
+        {
+          "member": 2,
+          "verified": true,
+          "publicInputs": [
+            "8010749704604381951470290986632429241928169724280660647609389535447981741509",
+            "4208562889019741396141668331161230447527666750145510672109932657565150523575",
+            "77426724105441310622061098081028204503149236223",
+            "0",
+            "0",
+            "0"
+          ],
+          "peers": [
+            {
+              "peer": 0,
+              "messagesSent": 4,
+              "messagesReceived": 2,
+              "bytesSent": 416,
+              "bytesReceived": 336
+            },
+            {
+              "peer": 1,
+              "messagesSent": 2,
+              "messagesReceived": 4,
+              "bytesSent": 336,
+              "bytesReceived": 448
+            }
+          ],
+          "proveMs": 1514,
+          "network": "loopback TCP on one machine: a LAN time, not a WAN one"
+        }
+      ]
+    },
+    {
+      "plan": "2",
+      "what": "owner 1 checks its opening",
+      "exit": 0,
+      "millis": 7699,
+      "commitment": "0x0cec232520b0760d6611ce8a6580bc64dbae84621c6adad92800dba7845140b8",
+      "garbage": [],
+      "j": 0,
+      "leaf": 5,
+      "mode": 0,
+      "o": 0,
+      "step": "check",
+      "update": 1,
+      "vault": "0x8412ef506255ba3994220e683b3b713bf863c272",
+      "verdict": "ok"
+    },
+    {
+      "plan": "3",
+      "what": "the holder's intent for owner 2, which nobody processes",
+      "exit": 0,
+      "millis": 10284,
+      "block": "0x89bee",
+      "bytes": 116,
+      "emittedIndex": 2,
+      "hash": "0x7ed90f70c64c29e9357df3bfc14a2be5505fd9edda0f22616e67d919c7a7d85b",
+      "holder": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "index": 2,
+      "intentHash": "0x3300345d2c97f18298bd0acdb9e5a727021e655af62b02a7bc8da58b3fae53d8",
+      "outcome": "Queued",
+      "status": "0x1",
+      "step": "intent",
+      "vault": "0x8412ef506255ba3994220e683b3b713bf863c272"
+    },
+    {
+      "plan": "3",
+      "what": "owner 0 redeems before T blocks, sequence 0",
+      "exit": 0,
+      "millis": 28770,
+      "block": 564211,
+      "fee": "212245600000000",
+      "hash": "0xf28948ab04d770e7a993a41dd9afd245a37c3f226014d0cb8d839e15b842151c",
+      "j": 0,
+      "leaf": 4,
+      "leaves": 6,
+      "modeAfter": 0,
+      "modeBefore": 0,
+      "nullifierHash": "0x071d511f5693076c89921bcbde6e6b5973535967e77228faa84c9836b9ae6a1a",
+      "o": 0,
+      "outcome": "PaidNothing",
+      "recipient": "0xd67e575362b2ef618f3bddbf4b226a1ec1d52ec0",
+      "seq": 0,
+      "step": "redeem",
+      "update": 0,
+      "vault": "0x8412ef506255ba3994220e683b3b713bf863c272",
+      "verdict": "ok",
+      "since": 564206,
+      "deadline": 564236,
+      "beforeT": true
+    },
+    {
+      "plan": "4",
+      "what": "the committee stopped; T blocks passed",
+      "stopped": {
+        "processesRunning": 0,
+        "block": 564212,
+        "mode": 0,
+        "head": 2,
+        "tail": 3,
+        "since": 564206,
+        "escapeAt": 0,
+        "redeemed": 0,
+        "nextIndex": 6
+      },
+      "after": {
+        "block": 564236,
+        "mode": 0,
+        "head": 2,
+        "tail": 3,
+        "since": 564206,
+        "escapeAt": 0,
+        "redeemed": 0,
+        "nextIndex": 6
+      }
+    },
+    {
+      "plan": "5",
+      "what": "the members pool everything they hold for owner 0's note",
+      "attempts": [
+        {
+          "commitmentAmongLeaves": false,
+          "secretGuess": "zero"
+        },
+        {
+          "commitmentAmongLeaves": false,
+          "secretGuess": "all ones"
+        }
+      ],
+      "index": 0,
+      "noteLeaf": 4,
+      "nullifierHash": "0x071d511f5693076c89921bcbde6e6b5973535967e77228faa84c9836b9ae6a1a",
+      "pooled": [
+        "every member's part of the nullifier",
+        "the intent's B(s) and owner key",
+        "every member's sealing key and BLS share"
+      ],
+      "redemptionToTry": {
+        "nullifierHash": "0x071d511f5693076c89921bcbde6e6b5973535967e77228faa84c9836b9ae6a1a",
+        "proof": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "recipient": "0xB83d418EC53B0E84CEE02A1D854c768be147Dcdb"
+      },
+      "where": "no witness: the circuit takes the secret s, the members hold only the point B(s), and no guess puts H(n || s') among the leaves",
+      "witnessExists": false
+    },
+    {
+      "plan": "5",
+      "what": "the members' redemption of owner 0's note, with no proof, sequence 1",
+      "exit": 0,
+      "millis": 4707,
+      "bytes": 778,
+      "hash": "0x6b6c810954ccccf6713101265252744f85bfdddee653edcc3652d7ce87670911",
+      "kind": "send-redemption",
+      "modeBefore": 0,
+      "node": {
+        "error": "server returned an error response: error code -32000: ErrFramePrefixReverted: validation prefix frame reverted"
+      },
+      "nonceKey": "0x71d511f5693076c89921bcbde6e6b5973535967e77228faa84c9836b9ae6a1a",
+      "nonceSeq": 1,
+      "simulation": {
+        "executionError": null,
+        "executionStatus": null,
+        "valid": false,
+        "violation": "validation prefix frame reverted"
+      }
+    },
+    {
+      "plan": "5",
+      "what": "owner 0 redeems, sequence 1",
+      "exit": 0,
+      "millis": 27199,
+      "balance": "924706994729490",
+      "block": 564240,
+      "fee": "212245600000000",
+      "hash": "0x98d23261d8e724d31aff403c8594929e43247492b5c349f058d095fc3d49072e",
+      "j": 0,
+      "leaf": 4,
+      "leaves": 6,
+      "modeAfter": 1,
+      "modeBefore": 0,
+      "nullifierHash": "0x071d511f5693076c89921bcbde6e6b5973535967e77228faa84c9836b9ae6a1a",
+      "o": 0,
+      "outcome": "Paid",
+      "recipient": "0xd67e575362b2ef618f3bddbf4b226a1ec1d52ec0",
+      "seq": 1,
+      "step": "redeem",
+      "update": 0,
+      "vault": "0x8412ef506255ba3994220e683b3b713bf863c272",
+      "verdict": "ok"
+    },
+    {
+      "plan": "5",
+      "what": "the committee reconciles at once, before E blocks",
+      "exit": 0,
+      "millis": 13183,
+      "bytes": 453,
+      "hash": "0x4db853928f40eda41e81e332fd1858003679f32dfba06b0f3ac58099b236cc93",
+      "kind": "send-reconcile",
+      "mined": {
+        "block": "0x89c13",
+        "frames": [
+          {
+            "gasUsed": "0x1e615",
+            "stateGasUsed": "0x0",
+            "status": "0x1"
+          },
+          {
+            "gasUsed": "0xbb8",
+            "stateGasUsed": "0x17e80",
+            "status": "0x1"
+          },
+          {
+            "gasUsed": "0x243",
+            "stateGasUsed": "0x0",
+            "status": "0x0"
+          }
+        ],
+        "gasUsed": "0x3c315",
+        "hash": "0x4db853928f40eda41e81e332fd1858003679f32dfba06b0f3ac58099b236cc93",
+        "payer": "0xd6c12c13ec4b0ca0dbd237c92e0ab6e0774f1185",
+        "status": "0x0"
+      },
+      "modeAfter": 1,
+      "modeBefore": 1,
+      "node": {
+        "accepted": "0x4db853928f40eda41e81e332fd1858003679f32dfba06b0f3ac58099b236cc93"
+      },
+      "nonceKey": "0x5c826e688c18d7bb8ae324438662153769154706aedcbf9aed9ca95e81e2aa2d",
+      "nonceSeq": 0,
+      "simulation": {
+        "executionError": null,
+        "executionStatus": "reverted",
+        "valid": true,
+        "violation": null
+      },
+      "escapeAt": 564240,
+      "listed": 1
+    },
+    {
+      "plan": "5",
+      "what": "owner 1 redeems, sequence 0",
+      "exit": 0,
+      "millis": 42040,
+      "balance": "925500194785014",
+      "block": 564247,
+      "fee": "212245600000000",
+      "hash": "0xbada9fff94c6eb9bc8d1f8b269334a5afe64e0b10c20560c83637f54a821f23c",
+      "j": 0,
+      "leaf": 5,
+      "leaves": 6,
+      "modeAfter": 1,
+      "modeBefore": 1,
+      "nullifierHash": "0x300fb19bf027269d7575bb39134479adffab3ca7a89a6bb19e179acf5ac7bbaa",
+      "o": 0,
+      "outcome": "Paid",
+      "recipient": "0xcc04e3231b40b52163b418e37e93a8e211578ec9",
+      "seq": 0,
+      "step": "redeem",
+      "update": 1,
+      "vault": "0x8412ef506255ba3994220e683b3b713bf863c272",
+      "verdict": "ok"
+    },
+    {
+      "plan": "5",
+      "what": "the previous holder redeems the note update 0 spent, sequence 1",
+      "exit": 0,
+      "millis": 10296,
+      "bytes": 778,
+      "hash": "0xd3f6fb06d58949621f1afd07b4078ba503d4ed78046263d2f8913251e291c0bc",
+      "kind": "send-redemption",
+      "modeBefore": 1,
+      "node": {
+        "error": "server returned an error response: error code -32000: ErrFramePrefixReverted: validation prefix frame reverted"
+      },
+      "nonceKey": "0xcc11cd40480c79a0c3a718526d29234eab06d5a884bcab7279bb45ef16f0199",
+      "nonceSeq": 1,
+      "simulation": {
+        "executionError": null,
+        "executionStatus": null,
+        "valid": false,
+        "violation": "validation prefix frame reverted"
+      }
+    },
+    {
+      "plan": "5",
+      "what": "holder 3 redeems its own note, sequence 0",
+      "exit": 0,
+      "millis": 26493,
+      "bytes": 778,
+      "hash": "0xd9fe41b7f0b62009e3e2923eb5692bb94a24bcfedb6afbf84f63c760a98c8e23",
+      "kind": "send-redemption",
+      "mined": {
+        "block": "0x89c1d",
+        "frames": [
+          {
+            "gasUsed": "0x15cb",
+            "stateGasUsed": "0x0",
+            "status": "0x1"
+          },
+          {
+            "gasUsed": "0x3d583",
+            "stateGasUsed": "0x17e80",
+            "status": "0x1"
+          },
+          {
+            "gasUsed": "0x8f24",
+            "stateGasUsed": "0x44bb0",
+            "status": "0x1"
+          },
+          {
+            "gasUsed": "0x2d23",
+            "stateGasUsed": "0x0",
+            "status": "0x1"
+          }
+        ],
+        "gasUsed": "0xac7ed",
+        "hash": "0xd9fe41b7f0b62009e3e2923eb5692bb94a24bcfedb6afbf84f63c760a98c8e23",
+        "payer": "0x8412ef506255ba3994220e683b3b713bf863c272",
+        "status": "0x1"
+      },
+      "modeAfter": 1,
+      "modeBefore": 1,
+      "node": {
+        "accepted": "0xd9fe41b7f0b62009e3e2923eb5692bb94a24bcfedb6afbf84f63c760a98c8e23"
+      },
+      "nonceKey": "0x2f9c2f846112789db2d74eb431e6c21595d6d7edc108ed9aa9e525b60a35ac5a",
+      "nonceSeq": 0,
+      "simulation": {
+        "executionError": null,
+        "executionStatus": "success",
+        "valid": true,
+        "violation": null
+      }
+    },
+    {
+      "plan": "5",
+      "what": "owner 0 redeems again, sequence 2",
+      "exit": 1,
+      "millis": 19517,
+      "fee": "212245600000000",
+      "hash": "0xc2fd97b646cb45e1aec38ce04ca520ef1aec25f1a4048648acd463c89e888d81",
+      "j": 0,
+      "leaf": 4,
+      "leaves": 6,
+      "modeAfter": 1,
+      "modeBefore": 1,
+      "node": "server returned an error response: error code -32000: ErrFramePrefixReverted: validation prefix frame reverted",
+      "nullifierHash": "0x071d511f5693076c89921bcbde6e6b5973535967e77228faa84c9836b9ae6a1a",
+      "o": 0,
+      "outcome": "Refused",
+      "recipient": "0xd67e575362b2ef618f3bddbf4b226a1ec1d52ec0",
+      "seq": 2,
+      "step": "redeem",
+      "update": 0,
+      "vault": "0x8412ef506255ba3994220e683b3b713bf863c272",
+      "verdict": "ok"
+    },
+    {
+      "plan": "5",
+      "what": "the vault after the escape",
+      "block": 564257,
+      "mode": 1,
+      "head": 2,
+      "tail": 3,
+      "since": 564206,
+      "escapeAt": 564240,
+      "redeemed": 3,
+      "nextIndex": 6
+    },
+    {
+      "plan": "6",
+      "what": "the committee's update for intent 2 in escape mode",
+      "exit": 0,
+      "millis": 2496,
+      "bytes": 1249,
+      "hash": "0x831153766cbf0fefb642797e5b008d0039b6acc0cfeadab2509b174a4810960e",
+      "kind": "send-update",
+      "modeBefore": 1,
+      "node": {
+        "error": "server returned an error response: error code -32000: ErrFramePrefixReverted: validation prefix frame reverted"
+      },
+      "nonceKey": "0x12f5c46668ffee297e57cbb638620c5f329cd099b80e41759ca7bbb7954361db",
+      "nonceSeq": 0,
+      "simulation": {
+        "executionError": null,
+        "executionStatus": null,
+        "valid": false,
+        "violation": "validation prefix frame reverted"
+      },
+      "nullifierHash": "0x12f5c46668ffee297e57cbb638620c5f329cd099b80e41759ca7bbb7954361db"
+    },
+    {
+      "plan": "6",
+      "what": "the committee's update spending holder 3's redeemed note, in escape mode",
+      "exit": 0,
+      "millis": 2592,
+      "bytes": 1249,
+      "hash": "0xa0bdbda7fc42925d2fd535a4d46362c043e2b4106edc31644fe6627450d5ba7b",
+      "kind": "send-update",
+      "modeBefore": 1,
+      "node": {
+        "error": "server returned an error response: error code -32000: ErrNonceTooLow"
+      },
+      "nonceKey": "0x2f9c2f846112789db2d74eb431e6c21595d6d7edc108ed9aa9e525b60a35ac5a",
+      "nonceSeq": 0,
+      "simulation": {
+        "executionError": null,
+        "executionStatus": null,
+        "valid": false,
+        "violation": "Invalid Transaction: Nonce mismatch: expected 1, got 0"
+      },
+      "nullifierHash": "0x2f9c2f846112789db2d74eb431e6c21595d6d7edc108ed9aa9e525b60a35ac5a"
+    },
+    {
+      "plan": "6",
+      "what": "the committee reconciles, every redemption listed",
+      "exit": 0,
+      "millis": 13873,
+      "bytes": 519,
+      "hash": "0xbbca28e4bd4759a9e72da7d87d4e00dfcf7ef608587b6821abc505f67c44f432",
+      "kind": "send-reconcile",
+      "mined": {
+        "block": "0x89c30",
+        "frames": [
+          {
+            "gasUsed": "0x1f80e",
+            "stateGasUsed": "0x0",
+            "status": "0x1"
+          },
+          {
+            "gasUsed": "0xbb8",
+            "stateGasUsed": "0x0",
+            "status": "0x1"
+          },
+          {
+            "gasUsed": "0x5f04",
+            "stateGasUsed": "0x0",
+            "status": "0x1"
+          }
+        ],
+        "gasUsed": "0x2b737",
+        "hash": "0xbbca28e4bd4759a9e72da7d87d4e00dfcf7ef608587b6821abc505f67c44f432",
+        "payer": "0xd6c12c13ec4b0ca0dbd237c92e0ab6e0774f1185",
+        "status": "0x1"
+      },
+      "modeAfter": 0,
+      "modeBefore": 1,
+      "node": {
+        "accepted": "0xbbca28e4bd4759a9e72da7d87d4e00dfcf7ef608587b6821abc505f67c44f432"
+      },
+      "nonceKey": "0x5c826e688c18d7bb8ae324438662153769154706aedcbf9aed9ca95e81e2aa2d",
+      "nonceSeq": 1,
+      "simulation": {
+        "executionError": null,
+        "executionStatus": "success",
+        "valid": true,
+        "violation": null
+      },
+      "escapeAt": 564240,
+      "listed": 3,
+      "signers": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "plan": "6",
+      "what": "the update spending holder 3's redeemed note, after reconciling",
+      "exit": 0,
+      "millis": 2254,
+      "bytes": 1249,
+      "hash": "0xa0bdbda7fc42925d2fd535a4d46362c043e2b4106edc31644fe6627450d5ba7b",
+      "kind": "send-update",
+      "modeBefore": 0,
+      "node": {
+        "error": "server returned an error response: error code -32000: ErrNonceTooLow"
+      },
+      "nonceKey": "0x2f9c2f846112789db2d74eb431e6c21595d6d7edc108ed9aa9e525b60a35ac5a",
+      "nonceSeq": 0,
+      "simulation": {
+        "executionError": null,
+        "executionStatus": null,
+        "valid": false,
+        "violation": "Invalid Transaction: Nonce mismatch: expected 1, got 0"
+      },
+      "nullifierHash": "0x2f9c2f846112789db2d74eb431e6c21595d6d7edc108ed9aa9e525b60a35ac5a"
+    },
+    {
+      "plan": "6",
+      "what": "the queue processed again: update 2, spending held note 2",
+      "exit": 0,
+      "millis": 11954,
+      "bytes": 1249,
+      "hash": "0x5aae168f1d38548d3749698a96b6f1ec175fbfd12540db76d74aa66da5c42b77",
+      "kind": "send-update",
+      "mined": {
+        "block": "0x89c34",
+        "frames": [
+          {
+            "gasUsed": "0x3f758",
+            "stateGasUsed": "0x0",
+            "status": "0x1"
+          },
+          {
+            "gasUsed": "0xbb8",
+            "stateGasUsed": "0x17e80",
+            "status": "0x1"
+          },
+          {
+            "gasUsed": "0xfde47",
+            "stateGasUsed": "0x5fa00",
+            "status": "0x1"
+          }
+        ],
+        "gasUsed": "0x1bde10",
+        "hash": "0x5aae168f1d38548d3749698a96b6f1ec175fbfd12540db76d74aa66da5c42b77",
+        "payer": "0xd6c12c13ec4b0ca0dbd237c92e0ab6e0774f1185",
+        "status": "0x1"
+      },
+      "modeAfter": 0,
+      "modeBefore": 0,
+      "node": {
+        "accepted": "0x5aae168f1d38548d3749698a96b6f1ec175fbfd12540db76d74aa66da5c42b77"
+      },
+      "nonceKey": "0x12f5c46668ffee297e57cbb638620c5f329cd099b80e41759ca7bbb7954361db",
+      "nonceSeq": 0,
+      "simulation": {
+        "executionError": null,
+        "executionStatus": "success",
+        "valid": true,
+        "violation": null
+      },
+      "leaf": 6,
+      "committeeMillis": 10939,
+      "nullifierHash": "0x12f5c46668ffee297e57cbb638620c5f329cd099b80e41759ca7bbb7954361db"
+    },
+    {
+      "plan": "6",
+      "what": "owner 2 checks its opening",
+      "exit": 0,
+      "millis": 7725,
+      "commitment": "0x1956c9eb4ec848c2efd13f73b71f27a4ed4e19edd72a5fbcea3dd57b9ea9d2c8",
+      "garbage": [],
+      "j": 0,
+      "leaf": 6,
+      "mode": 0,
+      "o": 0,
+      "step": "check",
+      "update": 2,
+      "vault": "0x8412ef506255ba3994220e683b3b713bf863c272",
+      "verdict": "ok"
+    },
+    {
+      "plan": "6",
+      "what": "the vault at the end",
+      "block": 564278,
+      "mode": 0,
+      "head": 3,
+      "tail": 3,
+      "since": 564276,
+      "escapeAt": 564240,
+      "redeemed": 3,
+      "nextIndex": 7
+    }
+  ],
+  "openingKeyOnChain": [
+    false,
+    false,
+    false
+  ],
+  "nodes": [
+    {
+      "name": "A",
+      "peerId": "16Uiu2HAmQir9kPjXpgjVznjUvwNAjamev85NfkSbtSxGJ7V52MVN",
+      "handoff": false,
+      "peers": [
+        "16Uiu2HAm7rE4Vp6nihYZ3jPdUVLppRYqhjwaXNKYnFV4v1QgRa2Y"
+      ],
+      "start": {
+        "t": "2026-10-26T09:26:28.623Z",
+        "node": "A",
+        "event": "start",
+        "profile": "hegota-testnet",
+        "head": 564177,
+        "handoff": false,
+        "claims": false,
+        "binding": false
+      },
+      "lines": {
+        "0x111a3302a6fbf05723743990a98de04c673e9fd64b334b132215d83d13c8799b": [
+          {
+            "t": "2026-10-26T09:28:10.662Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0x111a3302a6fbf05723743990a98de04c673e9fd64b334b132215d83d13c8799b",
+            "result": "ok",
+            "client": "valid",
+            "head": 564190
+          },
+          {
+            "t": "2026-10-26T09:28:10.666Z",
+            "node": "A",
+            "event": "relay",
+            "hash": "0x111a3302a6fbf05723743990a98de04c673e9fd64b334b132215d83d13c8799b",
+            "peers": 1
+          },
+          {
+            "t": "2026-10-26T09:28:13.969Z",
+            "node": "A",
+            "event": "head",
+            "head": 564191,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0x111a3302a6fbf05723743990a98de04c673e9fd64b334b132215d83d13c8799b"
+            ],
+            "pending": []
+          }
+        ],
+        "0x640f6980d7708a310af64a4fe537eb2c38f77ad19820adc96642c5aef1f20f12": [
+          {
+            "t": "2026-10-26T09:28:33.033Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0x640f6980d7708a310af64a4fe537eb2c38f77ad19820adc96642c5aef1f20f12",
+            "result": "ok",
+            "client": "valid",
+            "head": 564194
+          },
+          {
+            "t": "2026-10-26T09:28:33.035Z",
+            "node": "A",
+            "event": "relay",
+            "hash": "0x640f6980d7708a310af64a4fe537eb2c38f77ad19820adc96642c5aef1f20f12",
+            "peers": 1
+          },
+          {
+            "t": "2026-10-26T09:28:38.087Z",
+            "node": "A",
+            "event": "head",
+            "head": 564195,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0x640f6980d7708a310af64a4fe537eb2c38f77ad19820adc96642c5aef1f20f12"
+            ],
+            "pending": []
+          }
+        ],
+        "0x21528d125777c19a44a347fa124d7441c9e3bbfa8a4d99709bfb7a1bd43d31b7": [
+          {
+            "t": "2026-10-26T09:28:54.519Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0x21528d125777c19a44a347fa124d7441c9e3bbfa8a4d99709bfb7a1bd43d31b7",
+            "result": "ok",
+            "client": "valid",
+            "head": 564197
+          },
+          {
+            "t": "2026-10-26T09:28:54.520Z",
+            "node": "A",
+            "event": "relay",
+            "hash": "0x21528d125777c19a44a347fa124d7441c9e3bbfa8a4d99709bfb7a1bd43d31b7",
+            "peers": 1
+          },
+          {
+            "t": "2026-10-26T09:28:56.085Z",
+            "node": "A",
+            "event": "head",
+            "head": 564198,
+            "asked": [
+              "0x21528d125777c19a44a347fa124d7441c9e3bbfa8a4d99709bfb7a1bd43d31b7"
+            ],
+            "verdicts": {
+              "0x21528d125777c19a44a347fa124d7441c9e3bbfa8a4d99709bfb7a1bd43d31b7": "ok"
+            },
+            "resimulated": [],
+            "removed": [],
+            "pending": [
+              "0x21528d125777c19a44a347fa124d7441c9e3bbfa8a4d99709bfb7a1bd43d31b7"
+            ]
+          },
+          {
+            "t": "2026-10-26T09:29:01.968Z",
+            "node": "A",
+            "event": "head",
+            "head": 564199,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0x21528d125777c19a44a347fa124d7441c9e3bbfa8a4d99709bfb7a1bd43d31b7"
+            ],
+            "pending": []
+          }
+        ],
+        "0x3dce6c906cf7b68135fc83f50faf6100451ce438a99aee7f144fd2b0b07aff57": [
+          {
+            "t": "2026-10-26T09:29:20.486Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0x3dce6c906cf7b68135fc83f50faf6100451ce438a99aee7f144fd2b0b07aff57",
+            "result": "ok",
+            "client": "valid",
+            "head": 564202
+          },
+          {
+            "t": "2026-10-26T09:29:20.487Z",
+            "node": "A",
+            "event": "relay",
+            "hash": "0x3dce6c906cf7b68135fc83f50faf6100451ce438a99aee7f144fd2b0b07aff57",
+            "peers": 1
+          },
+          {
+            "t": "2026-10-26T09:29:26.099Z",
+            "node": "A",
+            "event": "head",
+            "head": 564203,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0x3dce6c906cf7b68135fc83f50faf6100451ce438a99aee7f144fd2b0b07aff57"
+            ],
+            "pending": []
+          }
+        ],
+        "0x7ed90f70c64c29e9357df3bfc14a2be5505fd9edda0f22616e67d919c7a7d85b": [
+          {
+            "t": "2026-10-26T09:29:40.815Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0x7ed90f70c64c29e9357df3bfc14a2be5505fd9edda0f22616e67d919c7a7d85b",
+            "result": "ok",
+            "client": "valid",
+            "head": 564205
+          },
+          {
+            "t": "2026-10-26T09:29:40.816Z",
+            "node": "A",
+            "event": "relay",
+            "hash": "0x7ed90f70c64c29e9357df3bfc14a2be5505fd9edda0f22616e67d919c7a7d85b",
+            "peers": 1
+          },
+          {
+            "t": "2026-10-26T09:29:43.938Z",
+            "node": "A",
+            "event": "head",
+            "head": 564206,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0x7ed90f70c64c29e9357df3bfc14a2be5505fd9edda0f22616e67d919c7a7d85b"
+            ],
+            "pending": []
+          }
+        ],
+        "0xf28948ab04d770e7a993a41dd9afd245a37c3f226014d0cb8d839e15b842151c": [
+          {
+            "t": "2026-10-26T09:30:08.566Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0xf28948ab04d770e7a993a41dd9afd245a37c3f226014d0cb8d839e15b842151c",
+            "result": "ok",
+            "client": "valid",
+            "head": 564210
+          },
+          {
+            "t": "2026-10-26T09:30:08.566Z",
+            "node": "A",
+            "event": "relay",
+            "hash": "0xf28948ab04d770e7a993a41dd9afd245a37c3f226014d0cb8d839e15b842151c",
+            "peers": 1
+          },
+          {
+            "t": "2026-10-26T09:30:14.112Z",
+            "node": "A",
+            "event": "head",
+            "head": 564211,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0xf28948ab04d770e7a993a41dd9afd245a37c3f226014d0cb8d839e15b842151c"
+            ],
+            "pending": []
+          }
+        ],
+        "0x6b6c810954ccccf6713101265252744f85bfdddee653edcc3652d7ce87670911": [
+          {
+            "t": "2026-10-26T09:32:54.056Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0x6b6c810954ccccf6713101265252744f85bfdddee653edcc3652d7ce87670911",
+            "result": "ErrFramePrefixReverted",
+            "client": "validation prefix frame reverted",
+            "head": 564237
+          }
+        ],
+        "0x98d23261d8e724d31aff403c8594929e43247492b5c349f058d095fc3d49072e": [
+          {
+            "t": "2026-10-26T09:33:11.656Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0x98d23261d8e724d31aff403c8594929e43247492b5c349f058d095fc3d49072e",
+            "result": "ok",
+            "client": "valid",
+            "head": 564239
+          },
+          {
+            "t": "2026-10-26T09:33:11.659Z",
+            "node": "A",
+            "event": "relay",
+            "hash": "0x98d23261d8e724d31aff403c8594929e43247492b5c349f058d095fc3d49072e",
+            "peers": 1
+          },
+          {
+            "t": "2026-10-26T09:33:14.316Z",
+            "node": "A",
+            "event": "head",
+            "head": 564240,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0x98d23261d8e724d31aff403c8594929e43247492b5c349f058d095fc3d49072e"
+            ],
+            "pending": []
+          }
+        ],
+        "0x4db853928f40eda41e81e332fd1858003679f32dfba06b0f3ac58099b236cc93": [
+          {
+            "t": "2026-10-26T09:33:26.983Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0x4db853928f40eda41e81e332fd1858003679f32dfba06b0f3ac58099b236cc93",
+            "result": "ok",
+            "client": "valid",
+            "head": 564242
+          },
+          {
+            "t": "2026-10-26T09:33:26.985Z",
+            "node": "A",
+            "event": "relay",
+            "hash": "0x4db853928f40eda41e81e332fd1858003679f32dfba06b0f3ac58099b236cc93",
+            "peers": 1
+          },
+          {
+            "t": "2026-10-26T09:33:32.349Z",
+            "node": "A",
+            "event": "head",
+            "head": 564243,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0x4db853928f40eda41e81e332fd1858003679f32dfba06b0f3ac58099b236cc93"
+            ],
+            "pending": []
+          }
+        ],
+        "0xbada9fff94c6eb9bc8d1f8b269334a5afe64e0b10c20560c83637f54a821f23c": [
+          {
+            "t": "2026-10-26T09:33:55.882Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0xbada9fff94c6eb9bc8d1f8b269334a5afe64e0b10c20560c83637f54a821f23c",
+            "result": "ok",
+            "client": "valid",
+            "head": 564246
+          },
+          {
+            "t": "2026-10-26T09:33:55.883Z",
+            "node": "A",
+            "event": "relay",
+            "hash": "0xbada9fff94c6eb9bc8d1f8b269334a5afe64e0b10c20560c83637f54a821f23c",
+            "peers": 1
+          },
+          {
+            "t": "2026-10-26T09:34:07.451Z",
+            "node": "A",
+            "event": "head",
+            "head": 564247,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0xbada9fff94c6eb9bc8d1f8b269334a5afe64e0b10c20560c83637f54a821f23c"
+            ],
+            "pending": []
+          }
+        ],
+        "0xd3f6fb06d58949621f1afd07b4078ba503d4ed78046263d2f8913251e291c0bc": [
+          {
+            "t": "2026-10-26T09:34:30.856Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0xd3f6fb06d58949621f1afd07b4078ba503d4ed78046263d2f8913251e291c0bc",
+            "result": "ErrFramePrefixReverted",
+            "client": "validation prefix frame reverted",
+            "head": 564249
+          }
+        ],
+        "0xd9fe41b7f0b62009e3e2923eb5692bb94a24bcfedb6afbf84f63c760a98c8e23": [
+          {
+            "t": "2026-10-26T09:34:43.475Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0xd9fe41b7f0b62009e3e2923eb5692bb94a24bcfedb6afbf84f63c760a98c8e23",
+            "result": "ok",
+            "client": "valid",
+            "head": 564251
+          },
+          {
+            "t": "2026-10-26T09:34:43.476Z",
+            "node": "A",
+            "event": "relay",
+            "hash": "0xd9fe41b7f0b62009e3e2923eb5692bb94a24bcfedb6afbf84f63c760a98c8e23",
+            "peers": 1
+          },
+          {
+            "t": "2026-10-26T09:34:44.311Z",
+            "node": "A",
+            "event": "head",
+            "head": 564252,
+            "asked": [
+              "0xd9fe41b7f0b62009e3e2923eb5692bb94a24bcfedb6afbf84f63c760a98c8e23"
+            ],
+            "verdicts": {
+              "0xd9fe41b7f0b62009e3e2923eb5692bb94a24bcfedb6afbf84f63c760a98c8e23": "ok"
+            },
+            "resimulated": [],
+            "removed": [],
+            "pending": [
+              "0xd9fe41b7f0b62009e3e2923eb5692bb94a24bcfedb6afbf84f63c760a98c8e23"
+            ]
+          },
+          {
+            "t": "2026-10-26T09:34:50.394Z",
+            "node": "A",
+            "event": "head",
+            "head": 564253,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0xd9fe41b7f0b62009e3e2923eb5692bb94a24bcfedb6afbf84f63c760a98c8e23"
+            ],
+            "pending": []
+          }
+        ],
+        "0xc2fd97b646cb45e1aec38ce04ca520ef1aec25f1a4048648acd463c89e888d81": [
+          {
+            "t": "2026-10-26T09:35:16.591Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0xc2fd97b646cb45e1aec38ce04ca520ef1aec25f1a4048648acd463c89e888d81",
+            "result": "ErrFramePrefixReverted",
+            "client": "validation prefix frame reverted",
+            "head": 564257
+          }
+        ],
+        "0x831153766cbf0fefb642797e5b008d0039b6acc0cfeadab2509b174a4810960e": [
+          {
+            "t": "2026-10-26T09:35:34.044Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0x831153766cbf0fefb642797e5b008d0039b6acc0cfeadab2509b174a4810960e",
+            "result": "ErrFramePrefixReverted",
+            "client": "validation prefix frame reverted",
+            "head": 564260
+          }
+        ],
+        "0xa0bdbda7fc42925d2fd535a4d46362c043e2b4106edc31644fe6627450d5ba7b": [
+          {
+            "t": "2026-10-26T09:35:47.054Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0xa0bdbda7fc42925d2fd535a4d46362c043e2b4106edc31644fe6627450d5ba7b",
+            "result": "ErrNonceTooLow",
+            "head": 564262
+          },
+          {
+            "t": "2026-10-26T09:36:52.152Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0xa0bdbda7fc42925d2fd535a4d46362c043e2b4106edc31644fe6627450d5ba7b",
+            "result": "ErrNonceTooLow",
+            "head": 564273
+          }
+        ],
+        "0xbbca28e4bd4759a9e72da7d87d4e00dfcf7ef608587b6821abc505f67c44f432": [
+          {
+            "t": "2026-10-26T09:36:37.847Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0xbbca28e4bd4759a9e72da7d87d4e00dfcf7ef608587b6821abc505f67c44f432",
+            "result": "ok",
+            "client": "valid",
+            "head": 564270
+          },
+          {
+            "t": "2026-10-26T09:36:37.851Z",
+            "node": "A",
+            "event": "relay",
+            "hash": "0xbbca28e4bd4759a9e72da7d87d4e00dfcf7ef608587b6821abc505f67c44f432",
+            "peers": 1
+          },
+          {
+            "t": "2026-10-26T09:36:38.703Z",
+            "node": "A",
+            "event": "head",
+            "head": 564271,
+            "asked": [
+              "0xbbca28e4bd4759a9e72da7d87d4e00dfcf7ef608587b6821abc505f67c44f432"
+            ],
+            "verdicts": {
+              "0xbbca28e4bd4759a9e72da7d87d4e00dfcf7ef608587b6821abc505f67c44f432": "ok"
+            },
+            "resimulated": [],
+            "removed": [],
+            "pending": [
+              "0xbbca28e4bd4759a9e72da7d87d4e00dfcf7ef608587b6821abc505f67c44f432"
+            ]
+          },
+          {
+            "t": "2026-10-26T09:36:43.848Z",
+            "node": "A",
+            "event": "head",
+            "head": 564272,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0xbbca28e4bd4759a9e72da7d87d4e00dfcf7ef608587b6821abc505f67c44f432"
+            ],
+            "pending": []
+          }
+        ],
+        "0x5aae168f1d38548d3749698a96b6f1ec175fbfd12540db76d74aa66da5c42b77": [
+          {
+            "t": "2026-10-26T09:37:05.473Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0x5aae168f1d38548d3749698a96b6f1ec175fbfd12540db76d74aa66da5c42b77",
+            "result": "ok",
+            "client": "valid",
+            "head": 564275
+          },
+          {
+            "t": "2026-10-26T09:37:05.475Z",
+            "node": "A",
+            "event": "relay",
+            "hash": "0x5aae168f1d38548d3749698a96b6f1ec175fbfd12540db76d74aa66da5c42b77",
+            "peers": 1
+          },
+          {
+            "t": "2026-10-26T09:37:08.033Z",
+            "node": "A",
+            "event": "head",
+            "head": 564276,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0x5aae168f1d38548d3749698a96b6f1ec175fbfd12540db76d74aa66da5c42b77"
+            ],
+            "pending": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "B",
+      "peerId": "16Uiu2HAm7rE4Vp6nihYZ3jPdUVLppRYqhjwaXNKYnFV4v1QgRa2Y",
+      "handoff": true,
+      "peers": [
+        "16Uiu2HAmQir9kPjXpgjVznjUvwNAjamev85NfkSbtSxGJ7V52MVN"
+      ],
+      "start": {
+        "t": "2026-10-26T09:26:31.806Z",
+        "node": "B",
+        "event": "start",
+        "profile": "hegota-testnet",
+        "head": 564178,
+        "handoff": true,
+        "claims": false,
+        "binding": false
+      },
+      "lines": {
+        "0x111a3302a6fbf05723743990a98de04c673e9fd64b334b132215d83d13c8799b": [
+          {
+            "t": "2026-10-26T09:28:11.017Z",
+            "node": "B",
+            "event": "gossip",
+            "from": "16Uiu2HAmQir9kPjXpgjVznjUvwNAjamev85NfkSbtSxGJ7V52MVN",
+            "hash": "0x111a3302a6fbf05723743990a98de04c673e9fd64b334b132215d83d13c8799b",
+            "result": "ok",
+            "client": "valid",
+            "outcome": "accept",
+            "head": 564190
+          },
+          {
+            "t": "2026-10-26T09:28:11.147Z",
+            "node": "B",
+            "event": "handoff",
+            "hash": "0x111a3302a6fbf05723743990a98de04c673e9fd64b334b132215d83d13c8799b",
+            "agrees": true
+          },
+          {
+            "t": "2026-10-26T09:28:14.166Z",
+            "node": "B",
+            "event": "head",
+            "head": 564191,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0x111a3302a6fbf05723743990a98de04c673e9fd64b334b132215d83d13c8799b"
+            ],
+            "pending": []
+          }
+        ],
+        "0x640f6980d7708a310af64a4fe537eb2c38f77ad19820adc96642c5aef1f20f12": [
+          {
+            "t": "2026-10-26T09:28:33.903Z",
+            "node": "B",
+            "event": "gossip",
+            "from": "16Uiu2HAmQir9kPjXpgjVznjUvwNAjamev85NfkSbtSxGJ7V52MVN",
+            "hash": "0x640f6980d7708a310af64a4fe537eb2c38f77ad19820adc96642c5aef1f20f12",
+            "result": "ok",
+            "client": "valid",
+            "outcome": "accept",
+            "head": 564194
+          },
+          {
+            "t": "2026-10-26T09:28:34.047Z",
+            "node": "B",
+            "event": "handoff",
+            "hash": "0x640f6980d7708a310af64a4fe537eb2c38f77ad19820adc96642c5aef1f20f12",
+            "agrees": true
+          },
+          {
+            "t": "2026-10-26T09:28:38.263Z",
+            "node": "B",
+            "event": "head",
+            "head": 564195,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0x640f6980d7708a310af64a4fe537eb2c38f77ad19820adc96642c5aef1f20f12"
+            ],
+            "pending": []
+          }
+        ],
+        "0x21528d125777c19a44a347fa124d7441c9e3bbfa8a4d99709bfb7a1bd43d31b7": [
+          {
+            "t": "2026-10-26T09:28:54.860Z",
+            "node": "B",
+            "event": "gossip",
+            "from": "16Uiu2HAmQir9kPjXpgjVznjUvwNAjamev85NfkSbtSxGJ7V52MVN",
+            "hash": "0x21528d125777c19a44a347fa124d7441c9e3bbfa8a4d99709bfb7a1bd43d31b7",
+            "result": "ok",
+            "client": "valid",
+            "outcome": "accept",
+            "head": 564197
+          },
+          {
+            "t": "2026-10-26T09:28:55.024Z",
+            "node": "B",
+            "event": "handoff",
+            "hash": "0x21528d125777c19a44a347fa124d7441c9e3bbfa8a4d99709bfb7a1bd43d31b7",
+            "agrees": true
+          },
+          {
+            "t": "2026-10-26T09:28:56.304Z",
+            "node": "B",
+            "event": "head",
+            "head": 564198,
+            "asked": [
+              "0x21528d125777c19a44a347fa124d7441c9e3bbfa8a4d99709bfb7a1bd43d31b7"
+            ],
+            "verdicts": {
+              "0x21528d125777c19a44a347fa124d7441c9e3bbfa8a4d99709bfb7a1bd43d31b7": "ok"
+            },
+            "resimulated": [],
+            "removed": [],
+            "pending": [
+              "0x21528d125777c19a44a347fa124d7441c9e3bbfa8a4d99709bfb7a1bd43d31b7"
+            ]
+          },
+          {
+            "t": "2026-10-26T09:29:02.189Z",
+            "node": "B",
+            "event": "head",
+            "head": 564199,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0x21528d125777c19a44a347fa124d7441c9e3bbfa8a4d99709bfb7a1bd43d31b7"
+            ],
+            "pending": []
+          }
+        ],
+        "0x3dce6c906cf7b68135fc83f50faf6100451ce438a99aee7f144fd2b0b07aff57": [
+          {
+            "t": "2026-10-26T09:29:21.274Z",
+            "node": "B",
+            "event": "gossip",
+            "from": "16Uiu2HAmQir9kPjXpgjVznjUvwNAjamev85NfkSbtSxGJ7V52MVN",
+            "hash": "0x3dce6c906cf7b68135fc83f50faf6100451ce438a99aee7f144fd2b0b07aff57",
+            "result": "ok",
+            "client": "valid",
+            "outcome": "accept",
+            "head": 564202
+          },
+          {
+            "t": "2026-10-26T09:29:21.394Z",
+            "node": "B",
+            "event": "handoff",
+            "hash": "0x3dce6c906cf7b68135fc83f50faf6100451ce438a99aee7f144fd2b0b07aff57",
+            "agrees": true
+          },
+          {
+            "t": "2026-10-26T09:29:26.315Z",
+            "node": "B",
+            "event": "head",
+            "head": 564203,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0x3dce6c906cf7b68135fc83f50faf6100451ce438a99aee7f144fd2b0b07aff57"
+            ],
+            "pending": []
+          }
+        ],
+        "0x7ed90f70c64c29e9357df3bfc14a2be5505fd9edda0f22616e67d919c7a7d85b": [
+          {
+            "t": "2026-10-26T09:29:41.111Z",
+            "node": "B",
+            "event": "gossip",
+            "from": "16Uiu2HAmQir9kPjXpgjVznjUvwNAjamev85NfkSbtSxGJ7V52MVN",
+            "hash": "0x7ed90f70c64c29e9357df3bfc14a2be5505fd9edda0f22616e67d919c7a7d85b",
+            "result": "ok",
+            "client": "valid",
+            "outcome": "accept",
+            "head": 564205
+          },
+          {
+            "t": "2026-10-26T09:29:41.230Z",
+            "node": "B",
+            "event": "handoff",
+            "hash": "0x7ed90f70c64c29e9357df3bfc14a2be5505fd9edda0f22616e67d919c7a7d85b",
+            "agrees": true
+          },
+          {
+            "t": "2026-10-26T09:29:44.166Z",
+            "node": "B",
+            "event": "head",
+            "head": 564206,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0x7ed90f70c64c29e9357df3bfc14a2be5505fd9edda0f22616e67d919c7a7d85b"
+            ],
+            "pending": []
+          }
+        ],
+        "0xf28948ab04d770e7a993a41dd9afd245a37c3f226014d0cb8d839e15b842151c": [
+          {
+            "t": "2026-10-26T09:30:09.064Z",
+            "node": "B",
+            "event": "gossip",
+            "from": "16Uiu2HAmQir9kPjXpgjVznjUvwNAjamev85NfkSbtSxGJ7V52MVN",
+            "hash": "0xf28948ab04d770e7a993a41dd9afd245a37c3f226014d0cb8d839e15b842151c",
+            "result": "ok",
+            "client": "valid",
+            "outcome": "accept",
+            "head": 564210
+          },
+          {
+            "t": "2026-10-26T09:30:09.185Z",
+            "node": "B",
+            "event": "handoff",
+            "hash": "0xf28948ab04d770e7a993a41dd9afd245a37c3f226014d0cb8d839e15b842151c",
+            "agrees": true
+          },
+          {
+            "t": "2026-10-26T09:30:14.327Z",
+            "node": "B",
+            "event": "head",
+            "head": 564211,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0xf28948ab04d770e7a993a41dd9afd245a37c3f226014d0cb8d839e15b842151c"
+            ],
+            "pending": []
+          }
+        ],
+        "0x6b6c810954ccccf6713101265252744f85bfdddee653edcc3652d7ce87670911": [],
+        "0x98d23261d8e724d31aff403c8594929e43247492b5c349f058d095fc3d49072e": [
+          {
+            "t": "2026-10-26T09:33:12.077Z",
+            "node": "B",
+            "event": "gossip",
+            "from": "16Uiu2HAmQir9kPjXpgjVznjUvwNAjamev85NfkSbtSxGJ7V52MVN",
+            "hash": "0x98d23261d8e724d31aff403c8594929e43247492b5c349f058d095fc3d49072e",
+            "result": "ok",
+            "client": "valid",
+            "outcome": "accept",
+            "head": 564239
+          },
+          {
+            "t": "2026-10-26T09:33:12.202Z",
+            "node": "B",
+            "event": "handoff",
+            "hash": "0x98d23261d8e724d31aff403c8594929e43247492b5c349f058d095fc3d49072e",
+            "agrees": true
+          },
+          {
+            "t": "2026-10-26T09:33:13.899Z",
+            "node": "B",
+            "event": "head",
+            "head": 564240,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0x98d23261d8e724d31aff403c8594929e43247492b5c349f058d095fc3d49072e"
+            ],
+            "pending": []
+          }
+        ],
+        "0x4db853928f40eda41e81e332fd1858003679f32dfba06b0f3ac58099b236cc93": [
+          {
+            "t": "2026-10-26T09:33:27.358Z",
+            "node": "B",
+            "event": "gossip",
+            "from": "16Uiu2HAmQir9kPjXpgjVznjUvwNAjamev85NfkSbtSxGJ7V52MVN",
+            "hash": "0x4db853928f40eda41e81e332fd1858003679f32dfba06b0f3ac58099b236cc93",
+            "result": "ok",
+            "client": "valid",
+            "outcome": "accept",
+            "head": 564242
+          },
+          {
+            "t": "2026-10-26T09:33:27.476Z",
+            "node": "B",
+            "event": "handoff",
+            "hash": "0x4db853928f40eda41e81e332fd1858003679f32dfba06b0f3ac58099b236cc93",
+            "agrees": true
+          },
+          {
+            "t": "2026-10-26T09:33:31.999Z",
+            "node": "B",
+            "event": "head",
+            "head": 564243,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0x4db853928f40eda41e81e332fd1858003679f32dfba06b0f3ac58099b236cc93"
+            ],
+            "pending": []
+          }
+        ],
+        "0xbada9fff94c6eb9bc8d1f8b269334a5afe64e0b10c20560c83637f54a821f23c": [
+          {
+            "t": "2026-10-26T09:33:56.328Z",
+            "node": "B",
+            "event": "gossip",
+            "from": "16Uiu2HAmQir9kPjXpgjVznjUvwNAjamev85NfkSbtSxGJ7V52MVN",
+            "hash": "0xbada9fff94c6eb9bc8d1f8b269334a5afe64e0b10c20560c83637f54a821f23c",
+            "result": "ok",
+            "client": "valid",
+            "outcome": "accept",
+            "head": 564246
+          },
+          {
+            "t": "2026-10-26T09:33:56.446Z",
+            "node": "B",
+            "event": "handoff",
+            "hash": "0xbada9fff94c6eb9bc8d1f8b269334a5afe64e0b10c20560c83637f54a821f23c",
+            "agrees": true
+          },
+          {
+            "t": "2026-10-26T09:34:08.047Z",
+            "node": "B",
+            "event": "head",
+            "head": 564247,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0xbada9fff94c6eb9bc8d1f8b269334a5afe64e0b10c20560c83637f54a821f23c"
+            ],
+            "pending": []
+          }
+        ],
+        "0xd3f6fb06d58949621f1afd07b4078ba503d4ed78046263d2f8913251e291c0bc": [],
+        "0xd9fe41b7f0b62009e3e2923eb5692bb94a24bcfedb6afbf84f63c760a98c8e23": [
+          {
+            "t": "2026-10-26T09:34:44.120Z",
+            "node": "B",
+            "event": "gossip",
+            "from": "16Uiu2HAmQir9kPjXpgjVznjUvwNAjamev85NfkSbtSxGJ7V52MVN",
+            "hash": "0xd9fe41b7f0b62009e3e2923eb5692bb94a24bcfedb6afbf84f63c760a98c8e23",
+            "result": "ok",
+            "client": "valid",
+            "outcome": "accept",
+            "head": 564252
+          },
+          {
+            "t": "2026-10-26T09:34:44.239Z",
+            "node": "B",
+            "event": "handoff",
+            "hash": "0xd9fe41b7f0b62009e3e2923eb5692bb94a24bcfedb6afbf84f63c760a98c8e23",
+            "agrees": true
+          },
+          {
+            "t": "2026-10-26T09:34:50.172Z",
+            "node": "B",
+            "event": "head",
+            "head": 564253,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0xd9fe41b7f0b62009e3e2923eb5692bb94a24bcfedb6afbf84f63c760a98c8e23"
+            ],
+            "pending": []
+          }
+        ],
+        "0xc2fd97b646cb45e1aec38ce04ca520ef1aec25f1a4048648acd463c89e888d81": [],
+        "0x831153766cbf0fefb642797e5b008d0039b6acc0cfeadab2509b174a4810960e": [],
+        "0xa0bdbda7fc42925d2fd535a4d46362c043e2b4106edc31644fe6627450d5ba7b": [],
+        "0xbbca28e4bd4759a9e72da7d87d4e00dfcf7ef608587b6821abc505f67c44f432": [
+          {
+            "t": "2026-10-26T09:36:38.345Z",
+            "node": "B",
+            "event": "gossip",
+            "from": "16Uiu2HAmQir9kPjXpgjVznjUvwNAjamev85NfkSbtSxGJ7V52MVN",
+            "hash": "0xbbca28e4bd4759a9e72da7d87d4e00dfcf7ef608587b6821abc505f67c44f432",
+            "result": "ok",
+            "client": "valid",
+            "outcome": "accept",
+            "head": 564271
+          },
+          {
+            "t": "2026-10-26T09:36:38.504Z",
+            "node": "B",
+            "event": "handoff",
+            "hash": "0xbbca28e4bd4759a9e72da7d87d4e00dfcf7ef608587b6821abc505f67c44f432",
+            "agrees": true
+          },
+          {
+            "t": "2026-10-26T09:36:44.227Z",
+            "node": "B",
+            "event": "head",
+            "head": 564272,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0xbbca28e4bd4759a9e72da7d87d4e00dfcf7ef608587b6821abc505f67c44f432"
+            ],
+            "pending": []
+          }
+        ],
+        "0x5aae168f1d38548d3749698a96b6f1ec175fbfd12540db76d74aa66da5c42b77": [
+          {
+            "t": "2026-10-26T09:37:06.308Z",
+            "node": "B",
+            "event": "gossip",
+            "from": "16Uiu2HAmQir9kPjXpgjVznjUvwNAjamev85NfkSbtSxGJ7V52MVN",
+            "hash": "0x5aae168f1d38548d3749698a96b6f1ec175fbfd12540db76d74aa66da5c42b77",
+            "result": "ok",
+            "client": "valid",
+            "outcome": "accept",
+            "head": 564275
+          },
+          {
+            "t": "2026-10-26T09:37:06.430Z",
+            "node": "B",
+            "event": "handoff",
+            "hash": "0x5aae168f1d38548d3749698a96b6f1ec175fbfd12540db76d74aa66da5c42b77",
+            "agrees": true
+          },
+          {
+            "t": "2026-10-26T09:37:07.918Z",
+            "node": "B",
+            "event": "head",
+            "head": 564276,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0x5aae168f1d38548d3749698a96b6f1ec175fbfd12540db76d74aa66da5c42b77"
+            ],
+            "pending": []
+          }
+        ]
+      }
+    }
+  ],
+  "seenByBoth": true,
+  "chain": {
+    "0x111a3302a6fbf05723743990a98de04c673e9fd64b334b132215d83d13c8799b": {
+      "hash": "0x111a3302a6fbf05723743990a98de04c673e9fd64b334b132215d83d13c8799b",
+      "mined": true,
+      "block": 564191,
+      "blockHash": "0xa32509c77bb12d79a3c8df654840fa344e14965cfb634ff3abb972e98392e3b7",
+      "status": "0x1",
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "payer": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "signatures": 1,
+      "frames": [
+        {
+          "mode": "0x1",
+          "flags": "0x3",
+          "to": null,
+          "gasLimit": "0x4e20",
+          "stateGasLimit": "0x0",
+          "value": "0x0",
+          "dataBytes": 0,
+          "selector": null,
+          "gasUsed": "0x64",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "mode": "0x2",
+          "flags": "0x0",
+          "to": "0x8412ef506255ba3994220e683b3b713bf863c272",
+          "gasLimit": "0x30d40",
+          "stateGasLimit": "0x47b80",
+          "value": "0x0",
+          "dataBytes": 196,
+          "selector": "0x84473fa8",
+          "gasUsed": "0xae31",
+          "stateGasUsed": "0x47b80",
+          "status": "0x1"
+        }
+      ],
+      "frameStatuses": [
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 357527
+    },
+    "0x640f6980d7708a310af64a4fe537eb2c38f77ad19820adc96642c5aef1f20f12": {
+      "hash": "0x640f6980d7708a310af64a4fe537eb2c38f77ad19820adc96642c5aef1f20f12",
+      "mined": true,
+      "block": 564195,
+      "blockHash": "0x35041995b0aeeb5f7a6ed87f655c4645caf42d39c5601686ee0595b420998bf7",
+      "status": "0x1",
+      "sender": "0x8412ef506255ba3994220e683b3b713bf863c272",
+      "payer": "0xd6c12c13ec4b0ca0dbd237c92e0ab6e0774f1185",
+      "signatures": 2,
+      "frames": [
+        {
+          "mode": "0x1",
+          "flags": "0x2",
+          "to": null,
+          "gasLimit": "0x61a80",
+          "stateGasLimit": "0x0",
+          "value": "0x0",
+          "dataBytes": 649,
+          "selector": "0x2a86f727",
+          "gasUsed": "0x3f758",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "mode": "0x1",
+          "flags": "0x1",
+          "to": "0xd6c12c13ec4b0ca0dbd237c92e0ab6e0774f1185",
+          "gasLimit": "0x2710",
+          "stateGasLimit": "0x17e80",
+          "value": "0x0",
+          "dataBytes": 0,
+          "selector": null,
+          "gasUsed": "0xbb8",
+          "stateGasUsed": "0x17e80",
+          "status": "0x1"
+        },
+        {
+          "mode": "0x2",
+          "flags": "0x0",
+          "to": "0x8412ef506255ba3994220e683b3b713bf863c272",
+          "gasLimit": "0x16e360",
+          "stateGasLimit": "0x2dc6c0",
+          "value": "0x0",
+          "dataBytes": 333,
+          "selector": "0xdfefb7d7",
+          "gasUsed": "0x1005a8",
+          "stateGasUsed": "0x77880",
+          "status": "0x1"
+        }
+      ],
+      "frameStatuses": [
+        "0x1",
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 1934393
+    },
+    "0x21528d125777c19a44a347fa124d7441c9e3bbfa8a4d99709bfb7a1bd43d31b7": {
+      "hash": "0x21528d125777c19a44a347fa124d7441c9e3bbfa8a4d99709bfb7a1bd43d31b7",
+      "mined": true,
+      "block": 564199,
+      "blockHash": "0x620dfe17f9cf74cde197519a70171ed63879d918934bc8f297ef9c760b0fda68",
+      "status": "0x1",
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "payer": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "signatures": 1,
+      "frames": [
+        {
+          "mode": "0x1",
+          "flags": "0x3",
+          "to": null,
+          "gasLimit": "0x4e20",
+          "stateGasLimit": "0x0",
+          "value": "0x0",
+          "dataBytes": 0,
+          "selector": null,
+          "gasUsed": "0x64",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "mode": "0x2",
+          "flags": "0x0",
+          "to": "0x8412ef506255ba3994220e683b3b713bf863c272",
+          "gasLimit": "0x30d40",
+          "stateGasLimit": "0x47b80",
+          "value": "0x0",
+          "dataBytes": 196,
+          "selector": "0x84473fa8",
+          "gasUsed": "0xae31",
+          "stateGasUsed": "0x17e80",
+          "status": "0x1"
+        }
+      ],
+      "frameStatuses": [
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 161687
+    },
+    "0x3dce6c906cf7b68135fc83f50faf6100451ce438a99aee7f144fd2b0b07aff57": {
+      "hash": "0x3dce6c906cf7b68135fc83f50faf6100451ce438a99aee7f144fd2b0b07aff57",
+      "mined": true,
+      "block": 564203,
+      "blockHash": "0x4b50bf45c6eac14a6ec996ddc1fc51edc9e944d7328b633b36dfd10f5987a7b6",
+      "status": "0x1",
+      "sender": "0x8412ef506255ba3994220e683b3b713bf863c272",
+      "payer": "0xd6c12c13ec4b0ca0dbd237c92e0ab6e0774f1185",
+      "signatures": 2,
+      "frames": [
+        {
+          "mode": "0x1",
+          "flags": "0x2",
+          "to": null,
+          "gasLimit": "0x61a80",
+          "stateGasLimit": "0x0",
+          "value": "0x0",
+          "dataBytes": 649,
+          "selector": "0x15c66352",
+          "gasUsed": "0x3f758",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "mode": "0x1",
+          "flags": "0x1",
+          "to": "0xd6c12c13ec4b0ca0dbd237c92e0ab6e0774f1185",
+          "gasLimit": "0x2710",
+          "stateGasLimit": "0x17e80",
+          "value": "0x0",
+          "dataBytes": 0,
+          "selector": null,
+          "gasUsed": "0xbb8",
+          "stateGasUsed": "0x17e80",
+          "status": "0x1"
+        },
+        {
+          "mode": "0x2",
+          "flags": "0x0",
+          "to": "0x8412ef506255ba3994220e683b3b713bf863c272",
+          "gasLimit": "0x16e360",
+          "stateGasLimit": "0x2dc6c0",
+          "value": "0x0",
+          "dataBytes": 333,
+          "selector": "0xdfefb7d7",
+          "gasUsed": "0xfde47",
+          "stateGasUsed": "0x5fa00",
+          "status": "0x1"
+        }
+      ],
+      "frameStatuses": [
+        "0x1",
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 1826344
+    },
+    "0x7ed90f70c64c29e9357df3bfc14a2be5505fd9edda0f22616e67d919c7a7d85b": {
+      "hash": "0x7ed90f70c64c29e9357df3bfc14a2be5505fd9edda0f22616e67d919c7a7d85b",
+      "mined": true,
+      "block": 564206,
+      "blockHash": "0x30ccae3cead72b9b5b4cecc18bed27fe69d0a0e958437848a3e4c677a10b9201",
+      "status": "0x1",
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "payer": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "signatures": 1,
+      "frames": [
+        {
+          "mode": "0x1",
+          "flags": "0x3",
+          "to": null,
+          "gasLimit": "0x4e20",
+          "stateGasLimit": "0x0",
+          "value": "0x0",
+          "dataBytes": 0,
+          "selector": null,
+          "gasUsed": "0x64",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "mode": "0x2",
+          "flags": "0x0",
+          "to": "0x8412ef506255ba3994220e683b3b713bf863c272",
+          "gasLimit": "0x30d40",
+          "stateGasLimit": "0x47b80",
+          "value": "0x0",
+          "dataBytes": 196,
+          "selector": "0x84473fa8",
+          "gasUsed": "0xae31",
+          "stateGasUsed": "0x17e80",
+          "status": "0x1"
+        }
+      ],
+      "frameStatuses": [
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 161663
+    },
+    "0xf28948ab04d770e7a993a41dd9afd245a37c3f226014d0cb8d839e15b842151c": {
+      "hash": "0xf28948ab04d770e7a993a41dd9afd245a37c3f226014d0cb8d839e15b842151c",
+      "mined": true,
+      "block": 564211,
+      "blockHash": "0xe0b68f26357beeeeb61941953bf5934538598343355546d58b6b628cd6712a65",
+      "status": "0x0",
+      "sender": "0x8412ef506255ba3994220e683b3b713bf863c272",
+      "payer": "0x8412ef506255ba3994220e683b3b713bf863c272",
+      "signatures": 0,
+      "frames": [
+        {
+          "mode": "0x1",
+          "flags": "0x0",
+          "to": "0x0000000000000000000000000000000000008272",
+          "gasLimit": "0x2710",
+          "stateGasLimit": "0x0",
+          "value": "0x0",
+          "dataBytes": 72,
+          "selector": "0xf64f0e3c",
+          "gasUsed": "0x15cb",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "mode": "0x1",
+          "flags": "0x3",
+          "to": null,
+          "gasLimit": "0x61a80",
+          "stateGasLimit": "0x17e80",
+          "value": "0x0",
+          "dataBytes": 0,
+          "selector": null,
+          "gasUsed": "0x3e602",
+          "stateGasUsed": "0x17e80",
+          "status": "0x1"
+        },
+        {
+          "mode": "0x2",
+          "flags": "0x0",
+          "to": "0x8412ef506255ba3994220e683b3b713bf863c272",
+          "gasLimit": "0x186a0",
+          "stateGasLimit": "0x5ca30",
+          "value": "0x0",
+          "dataBytes": 516,
+          "selector": "0x21a0adb6",
+          "gasUsed": "0xb52",
+          "stateGasUsed": "0x0",
+          "status": "0x0"
+        },
+        {
+          "mode": "0x0",
+          "flags": "0x0",
+          "to": "0x8412ef506255ba3994220e683b3b713bf863c272",
+          "gasLimit": "0xc350",
+          "stateGasLimit": "0x0",
+          "value": "0x0",
+          "dataBytes": 0,
+          "selector": null,
+          "gasUsed": "0x121",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        }
+      ],
+      "frameStatuses": [
+        "0x1",
+        "0x1",
+        "0x0",
+        "0x1"
+      ],
+      "gasUsed": 384232
+    },
+    "0x6b6c810954ccccf6713101265252744f85bfdddee653edcc3652d7ce87670911": {
+      "hash": "0x6b6c810954ccccf6713101265252744f85bfdddee653edcc3652d7ce87670911",
+      "mined": false,
+      "known": false,
+      "frames": null
+    },
+    "0x98d23261d8e724d31aff403c8594929e43247492b5c349f058d095fc3d49072e": {
+      "hash": "0x98d23261d8e724d31aff403c8594929e43247492b5c349f058d095fc3d49072e",
+      "mined": true,
+      "block": 564240,
+      "blockHash": "0x520be5832a060bd4cd2741c76e8bf0e72187072e01372e2dbacd0afe2bac5d23",
+      "status": "0x1",
+      "sender": "0x8412ef506255ba3994220e683b3b713bf863c272",
+      "payer": "0x8412ef506255ba3994220e683b3b713bf863c272",
+      "signatures": 0,
+      "frames": [
+        {
+          "mode": "0x1",
+          "flags": "0x0",
+          "to": "0x0000000000000000000000000000000000008272",
+          "gasLimit": "0x2710",
+          "stateGasLimit": "0x0",
+          "value": "0x0",
+          "dataBytes": 72,
+          "selector": "0xf64f0e3c",
+          "gasUsed": "0x15cb",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "mode": "0x1",
+          "flags": "0x3",
+          "to": null,
+          "gasLimit": "0x61a80",
+          "stateGasLimit": "0x17e80",
+          "value": "0x0",
+          "dataBytes": 0,
+          "selector": null,
+          "gasUsed": "0x3e602",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "mode": "0x2",
+          "flags": "0x0",
+          "to": "0x8412ef506255ba3994220e683b3b713bf863c272",
+          "gasLimit": "0x186a0",
+          "stateGasLimit": "0x5ca30",
+          "value": "0x0",
+          "dataBytes": 516,
+          "selector": "0x21a0adb6",
+          "gasUsed": "0x9dad",
+          "stateGasUsed": "0x5ca30",
+          "status": "0x1"
+        },
+        {
+          "mode": "0x0",
+          "flags": "0x0",
+          "to": "0x8412ef506255ba3994220e683b3b713bf863c272",
+          "gasLimit": "0xc350",
+          "stateGasLimit": "0x0",
+          "value": "0x0",
+          "dataBytes": 0,
+          "selector": null,
+          "gasUsed": "0x2d23",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        }
+      ],
+      "frameStatuses": [
+        "0x1",
+        "0x1",
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 714485
+    },
+    "0x4db853928f40eda41e81e332fd1858003679f32dfba06b0f3ac58099b236cc93": {
+      "hash": "0x4db853928f40eda41e81e332fd1858003679f32dfba06b0f3ac58099b236cc93",
+      "mined": true,
+      "block": 564243,
+      "blockHash": "0xdb2da089c55877ed7e76b8497074f3b1c670738037dfbebce328e339defcbb5e",
+      "status": "0x0",
+      "sender": "0x8412ef506255ba3994220e683b3b713bf863c272",
+      "payer": "0xd6c12c13ec4b0ca0dbd237c92e0ab6e0774f1185",
+      "signatures": 2,
+      "frames": [
+        {
+          "mode": "0x1",
+          "flags": "0x2",
+          "to": null,
+          "gasLimit": "0x493e0",
+          "stateGasLimit": "0x0",
+          "value": "0x0",
+          "dataBytes": 192,
+          "selector": "0x00000000",
+          "gasUsed": "0x1e615",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "mode": "0x1",
+          "flags": "0x1",
+          "to": "0xd6c12c13ec4b0ca0dbd237c92e0ab6e0774f1185",
+          "gasLimit": "0x2710",
+          "stateGasLimit": "0x17e80",
+          "value": "0x0",
+          "dataBytes": 0,
+          "selector": null,
+          "gasUsed": "0xbb8",
+          "stateGasUsed": "0x17e80",
+          "status": "0x1"
+        },
+        {
+          "mode": "0x2",
+          "flags": "0x0",
+          "to": "0x8412ef506255ba3994220e683b3b713bf863c272",
+          "gasLimit": "0xc350",
+          "stateGasLimit": "0x0",
+          "value": "0x0",
+          "dataBytes": 4,
+          "selector": "0x8f0d7e35",
+          "gasUsed": "0x243",
+          "stateGasUsed": "0x0",
+          "status": "0x0"
+        }
+      ],
+      "frameStatuses": [
+        "0x1",
+        "0x1",
+        "0x0"
+      ],
+      "gasUsed": 246549
+    },
+    "0xbada9fff94c6eb9bc8d1f8b269334a5afe64e0b10c20560c83637f54a821f23c": {
+      "hash": "0xbada9fff94c6eb9bc8d1f8b269334a5afe64e0b10c20560c83637f54a821f23c",
+      "mined": true,
+      "block": 564247,
+      "blockHash": "0xc55a2dfb5262308a3283dca400c76a220910b61948246d4f737d5fa7c60e9a96",
+      "status": "0x1",
+      "sender": "0x8412ef506255ba3994220e683b3b713bf863c272",
+      "payer": "0x8412ef506255ba3994220e683b3b713bf863c272",
+      "signatures": 0,
+      "frames": [
+        {
+          "mode": "0x1",
+          "flags": "0x0",
+          "to": "0x0000000000000000000000000000000000008272",
+          "gasLimit": "0x2710",
+          "stateGasLimit": "0x0",
+          "value": "0x0",
+          "dataBytes": 72,
+          "selector": "0xf64f0e3c",
+          "gasUsed": "0x15cb",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "mode": "0x1",
+          "flags": "0x3",
+          "to": null,
+          "gasLimit": "0x61a80",
+          "stateGasLimit": "0x17e80",
+          "value": "0x0",
+          "dataBytes": 0,
+          "selector": null,
+          "gasUsed": "0x3d583",
+          "stateGasUsed": "0x17e80",
+          "status": "0x1"
+        },
+        {
+          "mode": "0x2",
+          "flags": "0x0",
+          "to": "0x8412ef506255ba3994220e683b3b713bf863c272",
+          "gasLimit": "0x186a0",
+          "stateGasLimit": "0x5ca30",
+          "value": "0x0",
+          "dataBytes": 516,
+          "selector": "0x21a0adb6",
+          "gasUsed": "0x8f24",
+          "stateGasUsed": "0x44bb0",
+          "status": "0x1"
+        },
+        {
+          "mode": "0x0",
+          "flags": "0x0",
+          "to": "0x8412ef506255ba3994220e683b3b713bf863c272",
+          "gasLimit": "0xc350",
+          "stateGasLimit": "0x0",
+          "value": "0x0",
+          "dataBytes": 0,
+          "selector": null,
+          "gasUsed": "0x2d23",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        }
+      ],
+      "frameStatuses": [
+        "0x1",
+        "0x1",
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 706553
+    },
+    "0xd3f6fb06d58949621f1afd07b4078ba503d4ed78046263d2f8913251e291c0bc": {
+      "hash": "0xd3f6fb06d58949621f1afd07b4078ba503d4ed78046263d2f8913251e291c0bc",
+      "mined": false,
+      "known": false,
+      "frames": null
+    },
+    "0xd9fe41b7f0b62009e3e2923eb5692bb94a24bcfedb6afbf84f63c760a98c8e23": {
+      "hash": "0xd9fe41b7f0b62009e3e2923eb5692bb94a24bcfedb6afbf84f63c760a98c8e23",
+      "mined": true,
+      "block": 564253,
+      "blockHash": "0xd660fd7b3c3f8714653788aefafda16ee8434074d24abcbdff1432f1b7110efc",
+      "status": "0x1",
+      "sender": "0x8412ef506255ba3994220e683b3b713bf863c272",
+      "payer": "0x8412ef506255ba3994220e683b3b713bf863c272",
+      "signatures": 0,
+      "frames": [
+        {
+          "mode": "0x1",
+          "flags": "0x0",
+          "to": "0x0000000000000000000000000000000000008272",
+          "gasLimit": "0x2ec5",
+          "stateGasLimit": "0x0",
+          "value": "0x0",
+          "dataBytes": 72,
+          "selector": "0xf64f0e3c",
+          "gasUsed": "0x15cb",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "mode": "0x1",
+          "flags": "0x3",
+          "to": null,
+          "gasLimit": "0x4de6b",
+          "stateGasLimit": "0x17e80",
+          "value": "0x0",
+          "dataBytes": 0,
+          "selector": null,
+          "gasUsed": "0x3d583",
+          "stateGasUsed": "0x17e80",
+          "status": "0x1"
+        },
+        {
+          "mode": "0x2",
+          "flags": "0x0",
+          "to": "0x8412ef506255ba3994220e683b3b713bf863c272",
+          "gasLimit": "0x186a0",
+          "stateGasLimit": "0x5ca30",
+          "value": "0x0",
+          "dataBytes": 516,
+          "selector": "0x21a0adb6",
+          "gasUsed": "0x8f24",
+          "stateGasUsed": "0x44bb0",
+          "status": "0x1"
+        },
+        {
+          "mode": "0x0",
+          "flags": "0x0",
+          "to": "0x8412ef506255ba3994220e683b3b713bf863c272",
+          "gasLimit": "0x61a8",
+          "stateGasLimit": "0x0",
+          "value": "0x0",
+          "dataBytes": 0,
+          "selector": null,
+          "gasUsed": "0x2d23",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        }
+      ],
+      "frameStatuses": [
+        "0x1",
+        "0x1",
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 706541
+    },
+    "0xc2fd97b646cb45e1aec38ce04ca520ef1aec25f1a4048648acd463c89e888d81": {
+      "hash": "0xc2fd97b646cb45e1aec38ce04ca520ef1aec25f1a4048648acd463c89e888d81",
+      "mined": false,
+      "known": false,
+      "frames": null
+    },
+    "0x831153766cbf0fefb642797e5b008d0039b6acc0cfeadab2509b174a4810960e": {
+      "hash": "0x831153766cbf0fefb642797e5b008d0039b6acc0cfeadab2509b174a4810960e",
+      "mined": false,
+      "known": false,
+      "frames": null
+    },
+    "0xa0bdbda7fc42925d2fd535a4d46362c043e2b4106edc31644fe6627450d5ba7b": {
+      "hash": "0xa0bdbda7fc42925d2fd535a4d46362c043e2b4106edc31644fe6627450d5ba7b",
+      "mined": false,
+      "known": false,
+      "frames": null
+    },
+    "0xbbca28e4bd4759a9e72da7d87d4e00dfcf7ef608587b6821abc505f67c44f432": {
+      "hash": "0xbbca28e4bd4759a9e72da7d87d4e00dfcf7ef608587b6821abc505f67c44f432",
+      "mined": true,
+      "block": 564272,
+      "blockHash": "0x8a809ff29d037409798508a61f387a8f8870e334dd2fc7e91781777eb320a4b5",
+      "status": "0x1",
+      "sender": "0x8412ef506255ba3994220e683b3b713bf863c272",
+      "payer": "0xd6c12c13ec4b0ca0dbd237c92e0ab6e0774f1185",
+      "signatures": 2,
+      "frames": [
+        {
+          "mode": "0x1",
+          "flags": "0x2",
+          "to": null,
+          "gasLimit": "0x493e0",
+          "stateGasLimit": "0x0",
+          "value": "0x0",
+          "dataBytes": 256,
+          "selector": "0x00000000",
+          "gasUsed": "0x1f80e",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "mode": "0x1",
+          "flags": "0x1",
+          "to": "0xd6c12c13ec4b0ca0dbd237c92e0ab6e0774f1185",
+          "gasLimit": "0x2710",
+          "stateGasLimit": "0x17e80",
+          "value": "0x0",
+          "dataBytes": 0,
+          "selector": null,
+          "gasUsed": "0xbb8",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "mode": "0x2",
+          "flags": "0x0",
+          "to": "0x8412ef506255ba3994220e683b3b713bf863c272",
+          "gasLimit": "0xc350",
+          "stateGasLimit": "0x0",
+          "value": "0x0",
+          "dataBytes": 4,
+          "selector": "0x8f0d7e35",
+          "gasUsed": "0x5f04",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        }
+      ],
+      "frameStatuses": [
+        "0x1",
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 177975
+    },
+    "0x5aae168f1d38548d3749698a96b6f1ec175fbfd12540db76d74aa66da5c42b77": {
+      "hash": "0x5aae168f1d38548d3749698a96b6f1ec175fbfd12540db76d74aa66da5c42b77",
+      "mined": true,
+      "block": 564276,
+      "blockHash": "0x539e1d9f1a17fade64bb1a1dd4cc5f6c742355fa0917d2d2a89030383a9210d2",
+      "status": "0x1",
+      "sender": "0x8412ef506255ba3994220e683b3b713bf863c272",
+      "payer": "0xd6c12c13ec4b0ca0dbd237c92e0ab6e0774f1185",
+      "signatures": 2,
+      "frames": [
+        {
+          "mode": "0x1",
+          "flags": "0x2",
+          "to": null,
+          "gasLimit": "0x61a80",
+          "stateGasLimit": "0x0",
+          "value": "0x0",
+          "dataBytes": 649,
+          "selector": "0x20835f34",
+          "gasUsed": "0x3f758",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "mode": "0x1",
+          "flags": "0x1",
+          "to": "0xd6c12c13ec4b0ca0dbd237c92e0ab6e0774f1185",
+          "gasLimit": "0x2710",
+          "stateGasLimit": "0x17e80",
+          "value": "0x0",
+          "dataBytes": 0,
+          "selector": null,
+          "gasUsed": "0xbb8",
+          "stateGasUsed": "0x17e80",
+          "status": "0x1"
+        },
+        {
+          "mode": "0x2",
+          "flags": "0x0",
+          "to": "0x8412ef506255ba3994220e683b3b713bf863c272",
+          "gasLimit": "0x16e360",
+          "stateGasLimit": "0x2dc6c0",
+          "value": "0x0",
+          "dataBytes": 333,
+          "selector": "0xdfefb7d7",
+          "gasUsed": "0xfde47",
+          "stateGasUsed": "0x5fa00",
+          "status": "0x1"
+        }
+      ],
+      "frameStatuses": [
+        "0x1",
+        "0x1",
+        "0x1"
+      ],
+      "gasUsed": 1826320
+    }
+  }
+}

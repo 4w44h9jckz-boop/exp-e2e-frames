@@ -1,8 +1,8 @@
 # Experiment 14: an exit that nobody's permission opens, for a committee that holds state
 
-**Status: claim, what would show it wrong and the plan only.** This README is committed before
-any code, contract or transaction. The construction is chosen next, by the committee's and the
-wallet's builders, and committed before the first transaction, as in experiments 05 to 13.
+**Status: run.** The claim, what would show it wrong, the plan, the construction and the runner
+were committed before the first transaction, the last of them at `7909527`. Run 1's results are
+below ("Results, run 1"): nothing in it shows the claim wrong.
 
 **Why.** Experiment 07 ran a committee that holds users' notes in shares, with its proof checked
 in its own `VERIFY` frame. Once that committee stopped, nothing moved the note it held. TACEO's
@@ -381,3 +381,88 @@ before the first transaction. None changes the claim.
 
   Before it is written, it is searched for every key, seed, note preimage, receiving address and
   member file of the run, and it is not written if any is found.
+
+## Results, run 1 (`results/1-first-run.json`)
+
+Run on 2026-10-26 on the test network (ethrex `64b8fc09`), at this repository's `7909527`, with
+skandha `ede942f` and kohaku-rs `cf5bea5`. The vault was at
+`0x8412Ef506255ba3994220E683b3b713bf863c272`, with $T = E = 30$. Every transaction but the
+deployment and the deposits went to node A. Both nodes logged every mined one as included, and
+the record holds none of the run's secrets: the runner searched it before writing it.
+
+| Plan step | Transaction | Outcome | Block |
+|---|---|---|---|
+| 2 | the holder's intent for owner 0; update 0 | both mined; owner 0's opening checks out at leaf 4 | 564,191; 564,195 |
+| 2 | the holder's intent for owner 1; update 1 | both mined; owner 1's opening checks out at leaf 5 | 564,199; 564,203 |
+| 3 | the holder's intent for owner 2, never processed | mined: the queue stalls | 564,206 |
+| 3 | owner 0 redeems, sequence 0 | mined, `withdraw` reverted, nothing paid | 564,211 |
+| 4 | none: no committee process runs | the head stays at intent 2 for $T$ blocks | to 564,236 |
+| 5 | the members' redemption of owner 0's note, no proof | refused at node A: the vault's `VERIFY` reverted | |
+| 5 | owner 0 redeems, sequence 1 | mined and paid, the vault sender and payer; escape mode entered | 564,240 |
+| 5 | the committee reconciles at once | mined, `reconcile` reverted; escape mode stays | 564,243 |
+| 5 | owner 1 redeems, sequence 0 | mined and paid, the vault sender and payer | 564,247 |
+| 5 | the previous holder redeems held note 0, which update 0 spent, sequence 1 | refused at node A: the vault's `VERIFY` reverted | |
+| 5 | holder 3 redeems its own note, sequence 0 | mined and paid | 564,253 |
+| 5 | owner 0 redeems again, sequence 2 | refused at node A: the vault's `VERIFY` reverted | |
+| 6 | the committee's update for intent 2, in escape mode | refused at node A: the vault's `VERIFY` reverted | |
+| 6 | the update spending holder 3's redeemed note, in escape mode | refused at node A: `ErrNonceTooLow`, the redemption used the key's sequence 0 | |
+| 6 | the reconciliation, three redemptions, three signers | mined; normal mode | 564,272 |
+| 6 | the update spending holder 3's redeemed note, again | refused at node A: `ErrNonceTooLow` | |
+| 6 | update 2, the queue processed again | mined; owner 2's opening checks out at leaf 6 | 564,276 |
+
+**Against each condition:**
+- **Escape mode needs only time and the user's own transaction.** Owner 0's redemption at block
+  564,240 entered escape mode by itself. That was 34 blocks after the head stalled at 564,206. No
+  signature, vote or admin took part.
+- **No committee, relayer or linked ether.** Each owner's redemption had the vault as sender and
+  payer (the receipts' `payer`). Each was proved on the owner's side and paid to a fresh
+  recipient. No committee process was running (`processesRunning: 0`). Owners 0 and 1 were paid
+  924,706,994,729,490 and 925,500,194,785,014 wei out of a $10^{15}$ wei note.
+- **Nothing paid before $T$.** The early redemption was mined at 564,211, before the deadline of
+  564,236. Its `withdraw` reverted and its recipient received nothing.
+- **No note redeemed twice.** Owner 0's second redemption was refused at the node.
+- **After the return.** Escape mode refused the committee's update. The update over a redeemed
+  note was refused before and after the reconciliation. The reconciliation was mined two blocks
+  after the escape window ended (564,270), and the queue then moved.
+- **Openings and owners.** No owner's opening key appears in any transaction or receipt of the
+  run (`openingKeyOnChain`, false for all three). Every opening is 99 bytes. Each is tied to its
+  intent's sender, which was the holder, never the owner. That an opening cannot be tied to its
+  owner rests on the sealing scheme, and the run does not test it further.
+- **The eighth: nobody but the owner.** The members, pooling everything they held for owner 0's
+  note, found no witness (`witnessExists: false`). Their redemption without a proof was refused.
+- **The ninth: no note an update spent is redeemed.** The previous holder knows held note 0, so
+  it could prove the redemption. The key stood at sequence 1, so the node's nonce check passed,
+  and the vault's `VERIFY` refused it. Read after the run at block 564,290:
+  - each of the three notes the updates spent is marked moved and not redeemed;
+  - each of the three redeemed notes is marked redeemed and not moved.
+
+  The vault still held 0.010969 ETH, more than the one note left outstanding, owner 2's.
+
+**Costs, measured** (gas used; execution and state gas by frame where they differ):
+
+| Transaction | Bytes | Gas | By frame |
+|---|---|---|---|
+| intent (`enqueue`) | 116 sealed | | |
+| update | 1,249 | 1,826,320 to 1,934,393 | vault `VERIFY` 259,928; payer 3,000 / 97,920; `process` 1,039,943 to 1,050,024 / 391,680 to 489,600 |
+| redemption | 778 | 706,541 to 714,485 | root 5,579; vault `VERIFY` 251,267 to 255,490 / 0 or 97,920; `withdraw` 36,644 / 281,520, or 40,365 / 379,440 on the vault's first; refund 11,555 |
+| early redemption | 778 | 384,232 | `VERIFY` 255,490 / 97,920; `withdraw` 2,898, reverted |
+| reconciliation | 519 | 177,975 | `VERIFY` 129,038; payer 3,000; `reconcile` 24,324 |
+| early reconciliation | 453 | 246,549 | `VERIFY` 124,437; payer 3,000 / 97,920; `reconcile` 579, reverted |
+
+The committee took about 11 s an update, its three members' proof about 1.9 s of that, over
+loopback TCP on one machine: a LAN time at best. Updates 0 and 1 were each mined four blocks
+after their intents.
+
+**Findings:**
+- **An early attempt costs the vault, not the owner.** Frames could not refuse the early
+  redemption at the node, so it was mined, cost the vault's float 384,232 gas, and paid nothing.
+  It also used the key's sequence 0, and so paid that key's first-use state gas. The owner's later
+  redemption paid none in its `VERIFY`.
+- **Two different checks did the refusing.** For the update over a redeemed note, the
+  redemption had already moved the key's sequence, so the protocol's keyed nonce refused it
+  (`ErrNonceTooLow`) before the vault's own mark was read. For the previous holder's redemption,
+  the key's sequence was free, so only the vault's moved mark stood between the holder and a
+  second payout. That is the double spend found before the run: a keyed nonce marks a spend only
+  while nobody else can use the key's next sequence.
+- **Who can stall the queue** is stated before the run and was not exercised. Any intent's sender
+  can still force escape mode. That costs the committee its liveness, not the owners their exit.
