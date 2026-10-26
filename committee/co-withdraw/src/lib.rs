@@ -173,6 +173,31 @@ pub fn read_share(bytes: &[u8]) -> anyhow::Result<Rep3SharedWitness<Fr>> {
     Ok(SharedWitness { public_inputs: share.public_inputs, witness })
 }
 
+/// The recipient's index among a shared witness's public inputs, the constant `1` at index 0
+/// included.
+pub const RECIPIENT: usize = 3;
+/// The full-witness index of the circuit's `recipient * recipient` wire: the one private value
+/// the recipient changes (`tests::the_recipient_moves_one_private_wire`).
+pub const RECIPIENT_SQUARE: usize = 28_296;
+
+/// Sets the recipient of member `id`'s shared witness to `recipient`: the public input in the
+/// clear, and its square, the one private wire it changes, as a trivial share of that public
+/// value. Every member sets the same recipient, each with its own id, so a committee can bind its
+/// proof to data chosen after the witness was shared, without learning anything private.
+pub fn set_recipient(share: &mut Rep3SharedWitness<Fr>, id: usize, recipient: Fr) -> anyhow::Result<()> {
+    use mpc_core::protocols::rep3::{Rep3PrimeFieldShare, id::PartyID};
+    let party = PartyID::try_from(id).map_err(|e| anyhow::anyhow!("member id: {e:?}"))?;
+    let n = share.public_inputs.len();
+    anyhow::ensure!(n > RECIPIENT && RECIPIENT_SQUARE >= n, "not the withdrawal circuit's witness");
+    let wire = share
+        .witness
+        .get_mut(RECIPIENT_SQUARE - n)
+        .ok_or_else(|| anyhow::anyhow!("not the withdrawal circuit's witness"))?;
+    share.public_inputs[RECIPIENT] = recipient;
+    *wire = Rep3PrimeFieldShare::promote_from_trivial(&(recipient * recipient), party);
+    Ok(())
+}
+
 /// One member's part of the proof: all three members call this at once over `net`, each with
 /// its own share, and all three return the same proof.
 pub fn prove<N: Network>(

@@ -1,0 +1,44 @@
+# X9's Rust half: the committee's update and reconciliation as frame transactions, and a rehearsal
+# of the whole plan against a local ethrex node at the testnet's commit (ETHREX_BIN), before any
+# transaction on the testnet. It takes the committee's crates from this repository and kohaku-rs's
+# frame crates at the commit the committee's workspace pins. Cargo.lock starts from
+# committee/Cargo.lock.
+[package]
+name = "x9-runner"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+[workspace]
+
+[dependencies]
+exit-committee = { path = "../../../committee/exit-committee" }
+co-withdraw = { path = "../../../committee/co-withdraw" }
+bls-committee = { path = "../../../committee/bls-committee" }
+co-circom-types = { git = "https://github.com/TaceoLabs/co-snarks", rev = "436f63fa17f2f10ece38c6650df68da99fbc0307" }
+mpc-net = { git = "https://github.com/TaceoLabs/co-snarks", rev = "436f63fa17f2f10ece38c6650df68da99fbc0307", features = ["local", "tcp"] }
+kohaku-tornadocash = { git = "https://github.com/4w44h9jckz-boop/kohaku-rs", rev = "ab056aba3348b94b682d166c933265ccf21a759d" }
+kohaku-frame-kit = { git = "https://github.com/4w44h9jckz-boop/kohaku-rs", rev = "ab056aba3348b94b682d166c933265ccf21a759d" }
+kohaku-frame-accounts = { git = "https://github.com/4w44h9jckz-boop/kohaku-rs", rev = "ab056aba3348b94b682d166c933265ccf21a759d" }
+kohaku-frame-pool = { git = "https://github.com/4w44h9jckz-boop/kohaku-rs", rev = "ab056aba3348b94b682d166c933265ccf21a759d" }
+kohaku-frame-ticket = { git = "https://github.com/4w44h9jckz-boop/kohaku-rs", rev = "ab056aba3348b94b682d166c933265ccf21a759d" }
+kohaku-fork-kit = { git = "https://github.com/4w44h9jckz-boop/kohaku-rs", rev = "ab056aba3348b94b682d166c933265ccf21a759d" }
+alloy = "2.4.1"
+ark-bn254 = "0.6"
+ark-ff = "0.6"
+anyhow = "1"
+hex = "0.4"
+rand = "0.10"
+rand08 = { package = "rand", version = "0.8" }
+ruint = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha3 = "0.10"
+tokio = { version = "1.53.1", features = ["macros", "rt-multi-thread", "time"] }
+
+[patch.crates-io]
+commonware-cryptography = { git = "https://github.com/4w44h9jckz-boop/cmw-monorepo", rev = "489e313e86d5808f3d874b67c5a48a75f85b64f7" }
+commonware-codec = { git = "https://github.com/4w44h9jckz-boop/cmw-monorepo", rev = "489e313e86d5808f3d874b67c5a48a75f85b64f7" }
+commonware-math = { git = "https://github.com/4w44h9jckz-boop/cmw-monorepo", rev = "489e313e86d5808f3d874b67c5a48a75f85b64f7" }
+commonware-parallel = { git = "https://github.com/4w44h9jckz-boop/cmw-monorepo", rev = "489e313e86d5808f3d874b67c5a48a75f85b64f7" }
+commonware-utils = { git = "https://github.com/4w44h9jckz-boop/cmw-monorepo", rev = "489e313e86d5808f3d874b67c5a48a75f85b64f7" }
