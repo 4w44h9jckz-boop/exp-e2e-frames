@@ -2,7 +2,7 @@
 # Every outside piece is pinned at a full commit, so a run builds what was tested.
 [workspace]
 resolver = "2"
-members = ["co-withdraw", "bls-committee"]
+members = ["co-withdraw", "bls-committee", "exit-committee"]
 # Its own workspace: threshold-fhe pins exact versions that the wallet crates cannot share.
 exclude = ["fhe-committee"]
 

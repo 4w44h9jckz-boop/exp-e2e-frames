@@ -1,0 +1,38 @@
+[package]
+name = "exit-committee"
+version = "0.1.0"
+description = "The committee's side of experiment 14: an update proved over shares, the openings it publishes, and its signature on reconciliation"
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+co-withdraw = { path = "../co-withdraw" }
+bls-committee = { path = "../bls-committee" }
+kohaku-frame-ticket.workspace = true
+commonware-codec.workspace = true
+commonware-cryptography.workspace = true
+commonware-parallel.workspace = true
+ark-bn254.workspace = true
+ark-ff.workspace = true
+anyhow.workspace = true
+clap.workspace = true
+hex.workspace = true
+rand.workspace = true
+rand10.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+sha3 = "0.10"
+aes-gcm = "0.10.3"
+hkdf = "0.12.4"
+k256 = { version = "0.13.4", features = ["ecdh"] }
+blake-hash = "0.2.0"
+num-bigint = "0.5.1"
+
+[dev-dependencies]
+kohaku-tornadocash.workspace = true
+ruint.workspace = true
+mpc-net.workspace = true
+co-circom-types.workspace = true
+kohaku-tornadocash-circuit.workspace = true

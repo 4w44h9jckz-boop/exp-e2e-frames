@@ -136,3 +136,51 @@ fn the_keys_shape() {
     assert_eq!(key.pk.h_query.len(), key.domain_size - 1);
     println!("witness values {}, private {}, domain {}", key.matrices.num_instance_variables + key.matrices.num_witness_variables, key.matrices.num_witness_variables, key.domain_size);
 }
+
+#[test]
+fn the_recipient_moves_one_private_wire() {
+    let mut rng = StdRng::seed_from_u64(9);
+    let notes = [note(&mut rng), note(&mut rng)];
+    let leaves: Vec<_> = notes.iter().map(Note::commitment).collect();
+    let w = |r: u64| {
+        extend_witness(&circuit_inputs(&notes[1], &leaves, U256::from(r), U256::ZERO, U256::ZERO, U256::ZERO).unwrap())
+            .unwrap()
+    };
+    let (a, b) = (w(5), w(7));
+    let moved: Vec<usize> = (0..a.len()).filter(|&i| a[i] != b[i]).collect();
+    assert_eq!(moved, vec![RECIPIENT, RECIPIENT_SQUARE]);
+    assert_eq!(b[RECIPIENT_SQUARE], Fr::from(49u64));
+}
+
+#[test]
+fn members_who_set_a_new_recipient_prove_for_it() {
+    let mut rng = StdRng::seed_from_u64(10);
+    let key = WithdrawKey::load();
+    let w = witness(&mut rng);
+    let n = key.num_instance_variables();
+    let recipient = Fr::from(0x1234_5678_9abc_def0u64);
+    let shares = share_witness(&w, n, Compression::SeededShares, &mut rng).unwrap();
+    let nets = LocalNetwork::new(MEMBERS);
+    let proofs: Vec<_> = std::thread::scope(|s| {
+        let handles: Vec<_> = nets
+            .into_iter()
+            .zip(shares.iter())
+            .enumerate()
+            .map(|(id, (net, share))| {
+                let key = &key;
+                s.spawn(move || {
+                    let mut share = read_share(share).unwrap();
+                    set_recipient(&mut share, id, recipient).unwrap();
+                    prove(&net, key, share).unwrap()
+                })
+            })
+            .collect();
+        handles.into_iter().map(|h| h.join().unwrap()).collect()
+    });
+    let mut public = public_inputs(&w, n);
+    assert!(!verify(&proofs[0], &public));
+    public[RECIPIENT - 1] = recipient;
+    for p in &proofs {
+        assert!(verify(p, &public));
+    }
+}
