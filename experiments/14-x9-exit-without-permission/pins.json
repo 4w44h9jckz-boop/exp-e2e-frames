@@ -1,0 +1,12 @@
+{
+  "skandha": {
+    "url": "https://github.com/4w44h9jckz-boop/skandha",
+    "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade",
+    "why": "two nodes with frame transactions on, the testnet profile, B alone handing transactions to the chain; the commit experiments 06, 07, 11, 12 and 13 ran"
+  },
+  "kohaku-rs": {
+    "url": "https://github.com/4w44h9jckz-boop/kohaku-rs",
+    "commit": "cf5bea509cf4884cf1e56a38a6eec97f49511888",
+    "why": "kohaku-frame-exit's four runner steps: exit_receive and exit_check and exit_redeem on each owner's device, exit_intent on the holder's"
+  }
+}

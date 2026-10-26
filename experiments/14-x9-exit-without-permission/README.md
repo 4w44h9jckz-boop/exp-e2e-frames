@@ -67,6 +67,14 @@ opening and before any transaction.
   a note's current holder sends the intent for its new owner. This is a choice of the plan, made
   by the coordinator before the run, not a change to the claim.
 
+**Amended before the run, 2026-10-26, at the owner's word.** While writing the runner, the
+coordinator found that a note an update had spent could still be redeemed by its previous holder
+during escape, so one deposit was paid twice. The committee fixed it before any transaction
+(below, "Rehearsed on a local node"). None of the eight conditions above covered it, and a vault
+that pays twice leaves its last owners with nothing to redeem. So this would also show the claim
+wrong:
+- a note that an update spent is redeemed, by anyone, its previous holder included.
+
 **Stated before the run, and not tested here:**
 - **A garbage opening.** A committee could publish an opening that does not decrypt to the note,
   and the owner would learn it only on the day it needs it. TACEO answers this with a fraud proof
@@ -312,7 +320,8 @@ refused as expected with an empty queue or no vault behind it.
 5. **The escape.** Each owner redeems its own note through node A, with the vault as sender and
    payer. A second redemption of the same note is sent too, and must be refused.
    Before the owners redeem, the committee's members, together, try to redeem an owner's note
-   with everything they hold. They must fail (amended above).
+   with everything they hold. They must fail (amended above). The previous holder of a note an
+   update spent tries to redeem that note, and must be refused (amended before the run).
 6. **The return.** The committee restarts and sends an update that spends a redeemed note, which
    must be refused. Then it reconciles, and then it processes the queue again.
 7. **The record.** For every transaction it keeps:
@@ -331,5 +340,44 @@ On the test network, through two nodes, the run shows each of these:
 - the committee's members, together, cannot redeem an owner's note;
 - after $T$ blocks, each owner's own redemption is mined with the vault as sender and payer;
 - a second redemption is refused;
+- the previous holder's redemption of a note an update spent is refused;
 - the resumed committee's update over a redeemed note is refused, and its reconciliation is
   mined.
+
+## The runner, written before the run
+
+`run.ts` runs the plan through the pieces above, with these choices made by the coordinator
+before the first transaction. None changes the claim.
+- **Who is who.** The holder is the funding account. It deploys the vault, deposits four held
+  notes, and sends every intent. The committee's payer is a fresh key, funded at deployment.
+  Each of the three owners has a seed of its own and uses opening key 0 and note 0.
+- **The committee's processes.** Each update starts three `co-withdraw member` processes over
+  loopback TCP, and they end with it. From step 4 to step 6 the runner starts none.
+- **Step 3.** The intent for owner 2 is step 4's "one more intent". It is queued at the start of
+  step 3, because a redemption reaches `withdraw` only while the queue is not empty. Owner 0
+  then redeems at once, at sequence 0, and the record states whether the redemption was mined
+  before `since` plus $T$.
+- **Step 5, in order:**
+  - the members' attempt, at owner 0's note's next sequence;
+  - owner 0, at sequence 1, which opens escape mode;
+  - the committee's reconciliation at once, before $E$ blocks. This tests the escape window, and
+    the attempt must revert;
+  - owner 1, at sequence 0;
+  - the previous holder of held note 0, which update 0 spent, at sequence 1 (the ninth
+    condition);
+  - the holder redeeming held note 3, its own, at sequence 0;
+  - owner 0 again, at sequence 2.
+- **Step 6's redeemed note** is held note 3. The wallet's examples never export an owner's note,
+  so the committee's valid witness of a redeemed note comes from a holder who redeemed its own.
+  The update for intent 2 is sent three times:
+  - over held note 2, in escape mode;
+  - over held note 3, in escape mode, and again after the reconciliation;
+  - then over held note 2 with fresh parts, as the queue processed again. Owner 2 then checks its
+    opening.
+- **The record** (`results/<attempt>.json`) keeps:
+  - each step's printed line;
+  - both nodes' lines and the chain's facts for every transaction;
+  - whether any owner's opening key appears in any transaction or receipt.
+
+  Before it is written, it is searched for every key, seed, note preimage, receiving address and
+  member file of the run, and it is not written if any is found.
