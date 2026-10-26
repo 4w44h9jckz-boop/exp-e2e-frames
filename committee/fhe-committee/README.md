@@ -6,6 +6,11 @@ Fhenix's CoFHE node is not public, so this follows its documentation over tfhe-r
 threshold-fhe, unmodified, and tests the shape, not the product. See
 [`../README.md`](../README.md).
 
+> **Read after the runs, 2026-10-26.** Fhenix's current documentation describes one Intel TDX
+> enclave that holds the whole key and decrypts, with a threshold network as its plan. This
+> committee follows that planned shape, which Fhenix's blog and SDK introduction still describe;
+> it is not Fhenix's deployment.
+
 **The key is dealt.** `setup` makes the whole TFHE key set and shares it, as threshold-fhe's own
 library example does, so the dealer saw the whole decryption key once. `../README.md`, "Who
 holds or sees what (C1)", lists every party, and "What a distributed TFHE keygen would cost"

@@ -15,6 +15,19 @@ proofs to L1. Frame transactions can take its place:
 Open mempool nodes then order the transfers and refuse a second spend of a note, with no
 sequencer, and the chain includes them.
 
+> **Read after the run, 2026-10-26: how Aztec itself differs.** This run removes Aztec's
+> proposer, committee and provers, not a double-spend check Aztec lacks. Aztec's nodes already
+> refuse a transaction "for repeating a nullifier" before relaying it, and its rollup circuit
+> makes a second spend unprovable. Aztec's client proof is a different system from this
+> circuit's: it is verified inside Aztec's rollup circuits and has no verifier of its own on L1.
+> Aztec hides which contract ran ("The addresses of all private calls are hidden from
+> observers"), which a pool as sender gives up. And Aztec's mainnet rollup has an escape hatch:
+> a bonded proposer may "bypass the committee and propose blocks" in periodic windows. Sources:
+> docs.aztec.network v6.0.0, "Transactions"; AztecProtocol/aztec-packages at `c1b606f9`,
+> `l1-contracts/src/core/EscapeHatch.sol`; aztec-labs-eng/aztec-node at `e0c29915`,
+> `yarn-project/p2p/src/msg_validators/tx_validator/double_spend_validator.ts`. The claim above
+> is kept as written before the run.
+
 **What would show it wrong.** Any one of these:
 - the transfer's proof, from a proof system the circuit's toolchain can target, cannot be checked
   in a `VERIFY` frame within the testnet's validation budget;
