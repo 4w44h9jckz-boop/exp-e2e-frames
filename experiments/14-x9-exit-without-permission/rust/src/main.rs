@@ -1,12 +1,35 @@
 //! X9's Rust half.
 //!
 //! ```text
-//! x9-runner local     rehearse the whole plan against a local ethrex node (ETHREX_BIN)
+//! x9-runner local           rehearse the whole plan against a local ethrex node (ETHREX_BIN)
+//! x9-runner smoke           each mode below once, against a local ethrex node
+//! x9-runner deploy          --initcode <file> --salt <hex> --payer <a>
+//! x9-runner hold            --vault <a> --salt <hex> --note <file>
+//! x9-runner share           --vault <a> --note <file> --out-dir <dir>
+//! x9-runner leaves          --vault <a>
+//! x9-runner send-update     --vault <a> --nullifier-hash <h> --verify-data <hex> --process-data <hex>
+//! x9-runner send-reconcile  --vault <a> --escape-at <block> --verify-data <hex>
+//! x9-runner send-redemption --vault <a> --salt <hex> --to <a> --seq <n> (--note <file> | --nullifier-hash <h>)
 //! ```
+//!
+//! The two `send-` modes take the frame data `exit-committee update-data` and `exit-committee
+//! reconcile` print, build the committee's transaction with [`update_tx`] or [`reconcile_tx`],
+//! sign it with the payer's key (`PAYER_KEY`, never printed), simulate it on `RPC_URL`, send it
+//! to `SEND_RPC_URL` (default `RPC_URL`), and wait for its receipt on `RPC_URL`. They print one
+//! JSON object: the transaction's hash, bytes and raw encoding, the simulation, the node's answer,
+//! and, if mined, its block, status, payer and gas by frame, with the vault's mode before and
+//! after. A transaction the node refuses is printed, not retried.
+//!
+//! `deploy` (PRIVATE_KEY) deploys the vault with its float and funds the payer; `hold`
+//! (PRIVATE_KEY) deposits a fresh note and writes its 62-byte preimage to the note file at mode
+//! 600; `share` writes the note's witness as three co-withdraw shares over the vault's current
+//! leaves; `send-redemption` sends a holder's own redemption, or, with a nullifier hash, the
+//! members' attempt with a zero proof, the vault as sender and payer either way.
 //!
 //! The rehearsal deploys experiment 01's hasher and verifier and the vault, then runs plan steps
 //! 2 to 6 with the committee in memory: updates with openings, an early redemption, the timeout,
 //! the members' attempt to redeem an owner's note, the owners' redemptions, a second redemption,
+//! the previous holder's attempt on a note an update spent, a holder redeeming its own note,
 //! updates refused in escape mode and over a redeemed note, a reconcile before and after the
 //! escape window, and the queue processed again. It writes what it saw to `RECORD` (default
 //! `work/x9-local.json`), with no key, share, note secret or opening plaintext.
@@ -415,8 +438,9 @@ async fn local() -> anyhow::Result<()> {
     chain.pool = FramePool { address: vault, mode: PoolMode::Refund, salt };
     chain.from_funder(chain.payer.address(), U256::from(10u128.pow(18)), vec![], 10_000, NEW_ACCOUNT_STATE_GAS).await?;
 
-    // Three holders' notes, deposited; three owners, each with its opening key and secret.
-    let held: Vec<Held> = (0..3).map(|_| Held { note: rand::rng().random() }).collect();
+    // Four holders' notes, deposited; three owners, each with its opening key and secret. The
+    // fourth note stays with its holder, who redeems it during escape.
+    let held: Vec<Held> = (0..4).map(|_| Held { note: rand::rng().random() }).collect();
     for h in &held {
         kohaku_frame_pool::chain::deposit(&chain.provider, &chain.pool, &chain.funder, &h.note).await?;
     }
@@ -501,9 +525,18 @@ async fn local() -> anyhow::Result<()> {
     chain.offer("owner 1 redeems, sequence 0", &tx1).await?;
     let (again, _, _) = redemption_tx(&chain.provider, &chain.pool, &notes_out[0].0, &leaves, to0, chain.root_slot().await?, 2).await?;
     chain.offer("owner 0 redeems again, sequence 2", &again).await?;
+    // The previous holder of the note update 0 spent still knows it; its key stands at 1.
+    let (prev, _, _) = redemption_tx(&chain.provider, &chain.pool, &held[0].note, &leaves, PrivateKeySigner::random().address(), chain.root_slot().await?, 1).await?;
+    chain.offer("the previous holder of held 0 redeems the note update 0 spent, sequence 1", &prev).await?;
+    // The fourth holder redeems its own note: a redeemed note the committee holds a witness of.
+    let to3 = PrivateKeySigner::random().address();
+    let (tx3, inputs3, ok3) = redemption_tx(&chain.provider, &chain.pool, &held[3].note, &leaves, to3, chain.root_slot().await?, 0).await?;
+    ensure!(ok3, "holder 3's redemption does not simulate");
+    chain.offer("holder 3 redeems its own note, sequence 0", &tx3).await?;
     chain.log.push(json!({
         "step": "balances after the escape",
         "recipient0": chain.provider.get_balance(to0).await?, "recipient1": chain.provider.get_balance(to1).await?,
+        "recipient3": chain.provider.get_balance(to3).await?,
         "redeemed": chain.view([0xe2, 0x31, 0xbf, 0xf0]).await?,
     }));
 
@@ -512,15 +545,16 @@ async fn local() -> anyhow::Result<()> {
     let (shares, root, nh) = holder_shares(&key, &held[2], &leaves)?;
     let pending = committee_update(&chain, &mut committee, &key, 2, &sealed2, &shares, nh, root).await?;
     chain.offer("an update in escape mode, before reconciling", &pending).await?;
-    // Owner 1 hands over its redeemed note's witness, as a holder would: the committee proves it.
-    let (shares1, root1, nh1) = holder_shares(&key, &Held { note: notes_out[1].0.clone() }, &leaves)?;
-    ensure!(nh1 == inputs1.nullifier_hash, "the redeemed note's nullifier hash");
+    // Holder 3 shares its redeemed note's witness, as a holder does: the committee proves it.
+    let (shares1, root1, nh1) = holder_shares(&key, &held[3], &leaves)?;
+    ensure!(nh1 == inputs3.nullifier_hash, "the redeemed note's nullifier hash");
     let over_redeemed = committee_update(&chain, &mut committee, &key, 2, &sealed2, &shares1, nh1, root1).await?;
     chain.offer("an update spending a redeemed note, in escape mode", &over_redeemed).await?;
 
     // Reconcile before the escape window ends, then after.
     let escape_at = chain.view([0x1c, 0xde, 0x83, 0x31]).await?;
-    let redeemed: Vec<[u8; 32]> = vec![B256::from(notes_out[0].0.nullifier_hash()).0, inputs1.nullifier_hash.0];
+    let redeemed: Vec<[u8; 32]> =
+        vec![B256::from(notes_out[0].0.nullifier_hash()).0, inputs1.nullifier_hash.0, inputs3.nullifier_hash.0];
     let payer = chain.payer.address();
     let reconcile = |escape_at: u64| -> anyhow::Result<FrameTx> {
         let (list, digest) = redemption_list(&redeemed);
@@ -570,10 +604,332 @@ fn kohaku_frame_ticket_g2(c: &bls_committee::Committee) -> [u8; 256] {
     kohaku_frame_ticket::ticket::g2_eip2537(c.sharing().public())
 }
 
+/// `--name value` pairs after the mode.
+fn flag(args: &[String], name: &str) -> anyhow::Result<String> {
+    args.windows(2)
+        .find(|w| w[0] == format!("--{name}"))
+        .map(|w| w[1].clone())
+        .with_context(|| format!("--{name} is required"))
+}
+
+struct Remote {
+    chain: alloy::providers::RootProvider,
+    node: alloy::providers::RootProvider,
+    chain_id: u64,
+}
+
+async fn remote() -> anyhow::Result<Remote> {
+    let rpc_url = env::var("RPC_URL").unwrap_or_else(|_| rpc::HEGOTA_RPC_URL.to_owned());
+    let send_url = env::var("SEND_RPC_URL").unwrap_or_else(|_| rpc_url.clone());
+    let chain = ProviderBuilder::new().disable_recommended_fillers().connect_http(rpc_url.parse()?);
+    let node = ProviderBuilder::new().disable_recommended_fillers().connect_http(send_url.parse()?);
+    let chain_id = chain.get_chain_id().await?;
+    Ok(Remote { chain, node, chain_id })
+}
+
+async fn mode_of(p: &alloy::providers::RootProvider, vault: Address) -> anyhow::Result<u64> {
+    let out = p.call(TransactionRequest::default().to(vault).input(vec![0x29, 0x5a, 0x52, 0x12].into())).await?;
+    Ok(U256::from_be_slice(&out).to::<u64>())
+}
+
+/// Simulates on the chain, sends to the node, waits if the node accepted, and returns the
+/// outcome as one JSON object.
+async fn offer_remote(r: &Remote, kind: &str, tx: &FrameTx, vault: Address) -> anyhow::Result<Value> {
+    let before = mode_of(&r.chain, vault).await?;
+    let sim = rpc::simulate(&r.chain, tx, "latest").await?;
+    let answer = rpc::send(&r.node, tx).await;
+    let mut out = json!({
+        "kind": kind,
+        "hash": tx.hash(),
+        "bytes": tx.encode().len(),
+        "raw": Bytes::from(tx.encode()),
+        "nonceKey": tx.nonce_keys[0],
+        "nonceSeq": tx.nonce_seq,
+        "simulation": { "valid": sim.valid, "violation": sim.violation, "executionStatus": sim.execution_status, "executionError": sim.execution_error },
+        "node": match &answer { Ok(h) => json!({ "accepted": h }), Err(e) => json!({ "error": e.to_string() }) },
+        "modeBefore": before,
+    });
+    if answer.is_ok() {
+        let rc = rpc::wait_for_confirmed_receipt(&r.chain, tx.hash(), Duration::from_mins(5), Duration::from_secs(2)).await?;
+        out["mined"] = receipt_json(&rc);
+        out["modeAfter"] = json!(mode_of(&r.chain, vault).await?);
+    }
+    Ok(out)
+}
+
+fn receipt_json(r: &FrameTxReceiptJson) -> Value {
+    json!({
+        "hash": r.transaction_hash, "block": r.block_number, "status": r.status, "payer": r.payer, "gasUsed": r.gas_used,
+        "frames": r.frame_receipts.iter().map(|f| json!({ "status": f.status, "gasUsed": f.gas_used, "stateGasUsed": f.state_gas_used })).collect::<Vec<_>>(),
+    })
+}
+
+/// The committee's update or reconciliation: build, sign with `PAYER_KEY`, offer.
+async fn send(kind: &str, args: &[String]) -> anyhow::Result<Value> {
+    let r = remote().await?;
+    let payer: PrivateKeySigner = env::var("PAYER_KEY").context("PAYER_KEY: the payer's secret key")?.parse()?;
+    let vault: Address = flag(args, "vault")?.parse()?;
+    let verify: Bytes = flag(args, "verify-data")?.parse()?;
+    let fees = rpc::suggest_fees(&r.chain, TIP).await?;
+    let mut tx = match kind {
+        "send-update" => {
+            let nh: B256 = flag(args, "nullifier-hash")?.parse()?;
+            let process: Bytes = flag(args, "process-data")?.parse()?;
+            update_tx(r.chain_id, vault, nh, verify, process, payer.address(), fees)
+        }
+        _ => {
+            let escape_at: u64 = flag(args, "escape-at")?.parse()?;
+            let mut tx = reconcile_tx(r.chain_id, vault, escape_at, verify, payer.address(), fees);
+            tx.nonce_seq = rpc::nonce_seq(&r.chain, vault, &tx.nonce_keys).await?;
+            tx
+        }
+    };
+    sign_all(&mut tx, &[FrameSigner::Secp256k1(payer)])?;
+    offer_remote(&r, kind, &tx, vault).await
+}
+
+fn funder() -> anyhow::Result<FrameSigner> {
+    let k: PrivateKeySigner = env::var("PRIVATE_KEY").context("PRIVATE_KEY: the funder's key")?.parse()?;
+    Ok(FrameSigner::Secp256k1(k))
+}
+
+fn salt_flag(args: &[String]) -> anyhow::Result<B256> {
+    Ok(flag(args, "salt")?.parse()?)
+}
+
+/// The holder's note file: the 62-byte preimage, nullifier then secret, hex, readable by its
+/// owner only.
+fn read_note(path: &str) -> anyhow::Result<Note> {
+    let b = hex::decode(fs::read_to_string(path)?.trim().trim_start_matches("0x"))?;
+    ensure!(b.len() == 62, "a note file holds 62 bytes");
+    let n: [u8; 31] = b[..31].try_into()?;
+    let s: [u8; 31] = b[31..].try_into()?;
+    Ok(Note::new(n, s))
+}
+
+fn write_note(path: &str, note: &Note) -> anyhow::Result<()> {
+    fs::write(path, hex::encode(note.preimage()))?;
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt;
+        fs::set_permissions(path, fs::Permissions::from_mode(0o600))?;
+    }
+    Ok(())
+}
+
+async fn chain_leaves(p: &alloy::providers::RootProvider, vault: Address) -> anyhow::Result<Vec<Field>> {
+    let out = p.call(TransactionRequest::default().to(vault).input(vec![0xfc, 0x7e, 0x9c, 0x6f].into())).await?;
+    let n = U256::from_be_slice(&out).to::<usize>();
+    Ok(if n == 0 { vec![] } else { kohaku_frame_pool::chain::leaves(p, vault, n - 1).await? })
+}
+
+async fn last_root_slot(p: &alloy::providers::RootProvider, vault: Address) -> anyhow::Result<(B256, u64)> {
+    let logs = p.get_logs(&alloy::rpc::types::Filter::new().address(vault).event_signature(RECENT_ROOT).from_block(0)).await?;
+    let last = logs.last().context("no root filed")?;
+    Ok((B256::from_slice(&last.data().data[..32]), word_u64(&last.data().data[32..64])))
+}
+
+/// `deploy`: the funder deploys the vault with its float, then funds the payer.
+async fn deploy(args: &[String]) -> anyhow::Result<Value> {
+    let r = remote().await?;
+    let funder = funder()?;
+    let raw = fs::read_to_string(flag(args, "initcode")?)?;
+    let hex_code = match serde_json::from_str::<Value>(&raw) {
+        Ok(v) => v["initcode"].as_str().context("no initcode in the file")?.to_owned(),
+        Err(_) => raw.trim().to_owned(),
+    };
+    let init: Bytes = hex_code.parse()?;
+    let salt = salt_flag(args)?;
+    ensure!(init.ends_with(salt.as_slice()), "the creation code must end with --salt, the vault's EIP-8272 salt");
+    let payer: Address = flag(args, "payer")?.parse()?;
+    let vault = create2_address(&init, salt);
+    let deploy = deploy_frame(&init, salt, 0).with_value(U256::from(FLOAT));
+    let d = funder_tx(&r, &funder, deploy.target.context("deployer")?, deploy.value, deploy.data.to_vec(), deploy.limits.execution, deploy.limits.state.max(5_000_000)).await?;
+    let code = r.chain.get_code_at(vault).await?;
+    ensure!(!code.is_empty(), "the vault is not deployed");
+    let f = funder_tx(&r, &funder, payer, U256::from(PAYER_FUND), vec![], 10_000, NEW_ACCOUNT_STATE_GAS).await?;
+    Ok(json!({ "vault": vault, "codeBytes": code.len(), "float": FLOAT.to_string(), "deploy": receipt_json(&d), "payer": payer, "payerFund": PAYER_FUND.to_string(), "fund": receipt_json(&f) }))
+}
+
+/// What the payer is funded with at deployment.
+const PAYER_FUND: u128 = 20_000_000_000_000_000;
+
+async fn funder_tx(r: &Remote, funder: &FrameSigner, to: Address, value: U256, data: Vec<u8>, execution: u64, state: u64) -> anyhow::Result<FrameTxReceiptJson> {
+    let from = funder.address();
+    let mut tx = FrameTx {
+        chain_id: r.chain_id,
+        nonce_keys: vec![U256::ZERO],
+        nonce_seq: rpc::nonce_seq(&r.chain, from, &[U256::ZERO]).await?,
+        sender: from,
+        frames: vec![
+            Frame::verify(approve::EXECUTION_AND_PAYMENT, None).with_execution(20_000),
+            Frame::sender(Some(to)).with_value(value).with_data(data).with_execution(execution).with_state(state),
+        ],
+        signatures: vec![funder.placeholder(None)],
+        fees: rpc::suggest_fees(&r.chain, TIP).await?,
+        blob_versioned_hashes: vec![],
+    };
+    sign_all(&mut tx, std::slice::from_ref(funder))?;
+    Ok(rpc::execute(&r.chain, &tx, true).await?.receipt)
+}
+
+/// `hold`: the funder deposits a fresh note, whose preimage goes to the note file only.
+async fn hold(args: &[String]) -> anyhow::Result<Value> {
+    let r = remote().await?;
+    let pool = FramePool { address: flag(args, "vault")?.parse()?, mode: PoolMode::Refund, salt: salt_flag(args)? };
+    let note: Note = rand::rng().random();
+    let path = flag(args, "note")?;
+    write_note(&path, &note)?;
+    let d = kohaku_frame_pool::chain::deposit(&r.chain, &pool, &funder()?, &note).await?;
+    Ok(json!({ "hash": d.receipt.transaction_hash, "block": d.receipt.block_number, "leaf": d.leaf_index, "commitment": B256::from(note.commitment()), "root": d.root, "slot": d.slot }))
+}
+
+/// `share`: the holder shares its note's witness over the vault's current leaves.
+async fn share(args: &[String]) -> anyhow::Result<Value> {
+    let r = remote().await?;
+    let vault: Address = flag(args, "vault")?.parse()?;
+    let note = read_note(&flag(args, "note")?)?;
+    let leaves = chain_leaves(&r.chain, vault).await?;
+    let key = WithdrawKey::load();
+    let (shares, root, nh) = holder_shares(&key, &Held { note }, &leaves)?;
+    let dir = flag(args, "out-dir")?;
+    fs::create_dir_all(&dir)?;
+    for (i, s) in shares.iter().enumerate() {
+        let p = Path::new(&dir).join(format!("share-{i}.bin"));
+        fs::write(&p, s)?;
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::PermissionsExt;
+            fs::set_permissions(&p, fs::Permissions::from_mode(0o600))?;
+        }
+    }
+    Ok(json!({ "root": root, "nullifierHash": nh, "leaves": leaves.len() }))
+}
+
+/// `send-redemption`: a holder's own (`--note`) or the members' attempt with no proof
+/// (`--nullifier-hash`), sent by nobody: the vault is sender and payer.
+async fn send_redemption(args: &[String]) -> anyhow::Result<Value> {
+    let r = remote().await?;
+    let vault: Address = flag(args, "vault")?.parse()?;
+    let pool = FramePool { address: vault, mode: PoolMode::Refund, salt: salt_flag(args)? };
+    let to: Address = flag(args, "to")?.parse()?;
+    let seq: u64 = flag(args, "seq")?.parse()?;
+    let (root, slot) = last_root_slot(&r.chain, vault).await?;
+    let tx = if let Ok(path) = flag(args, "note") {
+        let note = read_note(&path)?;
+        let leaves = chain_leaves(&r.chain, vault).await?;
+        redemption_tx(&r.chain, &pool, &note, &leaves, to, slot, seq).await?.0
+    } else {
+        let nh: B256 = flag(args, "nullifier-hash")?.parse()?;
+        let opts = WithdrawalOpts { root_slot: Some(slot), ..WithdrawalOpts::new(r.chain_id) };
+        let shape = |fee: U256| -> anyhow::Result<FrameTx> {
+            let inputs = PublicInputs { root, nullifier_hash: nh, recipient: to, relayer: vault, fee, refund: U256::ZERO };
+            let mut tx = withdrawal_tx(&pool, &inputs, &Bytes::from(vec![0; 256]), &opts)?;
+            tx.frames[2].limits.state = WITHDRAW_STATE;
+            tx.nonce_seq = seq;
+            Ok(tx)
+        };
+        shape(worst_case_max_cost(&shape(U256::MAX)?)?)?
+    };
+    offer_remote(&r, "send-redemption", &tx, vault).await
+}
+
+/// `leaves`: the vault's leaves, in order.
+async fn leaves_mode(args: &[String]) -> anyhow::Result<Value> {
+    let r = remote().await?;
+    let leaves = chain_leaves(&r.chain, flag(args, "vault")?.parse()?).await?;
+    Ok(json!({ "leaves": leaves.iter().map(|l| B256::from(*l)).collect::<Vec<_>>() }))
+}
+
+/// The priority fee the committee's transactions offer, as experiment 07's did.
+const TIP: u128 = 1_000_000_000;
+
+/// The runner's modes, each once, against a local ethrex node (ETHREX_BIN).
+async fn smoke() -> anyhow::Result<()> {
+    let funder = PrivateKeySigner::random();
+    let ethrex = EthrexBuilder::from_env().context("ETHREX_BIN")?.prefund(funder.address(), U256::from(10u128.pow(20))).block_time(Duration::from_millis(500)).spawn().await?;
+    let payer = PrivateKeySigner::random();
+    // SAFETY: nothing else in this process reads or writes the environment while this mode runs.
+    unsafe {
+        env::set_var("RPC_URL", ethrex.rpc_url());
+        env::set_var("PRIVATE_KEY", B256::from_slice(&funder.credential().to_bytes()).to_string());
+        env::set_var("PAYER_KEY", B256::from_slice(&payer.credential().to_bytes()).to_string());
+    }
+    let r = remote().await?;
+    let f = FrameSigner::Secp256k1(funder);
+    let deployments: Deployments = serde_json::from_slice(&fs::read(Path::new(env!("CARGO_MANIFEST_DIR")).join("fixtures/deployments.json"))?)?;
+    for d in &deployments.contracts {
+        funder_tx(&r, &f, d.target, U256::ZERO, d.data.to_vec(), d.execution, d.state).await?;
+    }
+    let dir = std::env::temp_dir().join(format!("x9-smoke-{}", std::process::id()));
+    fs::create_dir_all(&dir)?;
+    let sealing = seal::Keys::random(&mut rand08::rngs::OsRng);
+    let mut rng = <rand::rngs::StdRng as rand::SeedableRng>::from_rng(&mut rand::rng());
+    let bls = bls_committee::Committee::dkg(&mut rng, MEMBERS)?;
+    let salt = B256::from(rand::rng().random::<[u8; 32]>());
+    let code: Bytes = fs::read_to_string(Path::new(env!("CARGO_MANIFEST_DIR")).join("../contracts/ExitVault.hex"))?.trim().parse()?;
+    let mut init = code.to_vec();
+    let mut sk = sealing.public.to_vec();
+    sk.resize(64, 0);
+    init.extend_from_slice(&sk);
+    init.extend_from_slice(&U256::from(ESCAPE_WINDOW).to_be_bytes::<32>());
+    init.extend_from_slice(&U256::from(TIMEOUT).to_be_bytes::<32>());
+    init.extend_from_slice(&kohaku_frame_ticket_g2(&bls));
+    for a in [deployments.contracts[1].address, deployments.contracts[0].address] {
+        init.extend_from_slice(B256::left_padding_from(a.as_slice()).as_slice());
+    }
+    init.extend_from_slice(&U256::from(kohaku_frame_pool::withdrawal::DENOMINATION).to_be_bytes::<32>());
+    init.extend_from_slice(salt.as_slice());
+    let init_path = dir.join("initcode.hex");
+    fs::write(&init_path, hex::encode(&init))?;
+    let a = |s: &str| s.to_owned();
+    let path = |p: &Path| p.to_string_lossy().into_owned();
+    let d = deploy(&[a("--initcode"), path(&init_path), a("--salt"), salt.to_string(), a("--payer"), payer.address().to_string()]).await?;
+    let vault = d["vault"].as_str().context("vault")?.to_owned();
+    let note = path(&dir.join("held-0.note"));
+    let h = hold(&[a("--vault"), vault.clone(), a("--salt"), salt.to_string(), a("--note"), note.clone()]).await?;
+    let sh = share(&[a("--vault"), vault.clone(), a("--note"), note.clone(), a("--out-dir"), path(&dir.join("shares"))]).await?;
+    let l = leaves_mode(&[a("--vault"), vault.clone()]).await?;
+    let to = PrivateKeySigner::random().address().to_string();
+    let own = send_redemption(&[a("--vault"), vault.clone(), a("--salt"), salt.to_string(), a("--to"), to.clone(), a("--seq"), a("0"), a("--note"), note.clone()]).await?;
+    let nh = sh["nullifierHash"].as_str().context("nh")?.to_owned();
+    let members = send_redemption(&[a("--vault"), vault.clone(), a("--salt"), salt.to_string(), a("--to"), to, a("--seq"), a("0"), a("--nullifier-hash"), nh]).await?;
+    let up = send("send-update", &[a("--vault"), vault, a("--nullifier-hash"), B256::repeat_byte(1).to_string(), a("--verify-data"), a("0x00"), a("--process-data"), a("0xdfefb7d7")]).await?;
+    let strip = |mut v: Value| {
+        if let Some(o) = v.as_object_mut() {
+            o.remove("raw");
+        }
+        v
+    };
+    let note_mode = fs::metadata(&note)?.permissions();
+    let out = json!({
+        "deploy": d, "hold": h, "share": sh, "leaves": l,
+        "noteFileMode": format!("{:o}", std::os::unix::fs::PermissionsExt::mode(&note_mode) & 0o777),
+        "ownRedemptionWithEmptyQueue": strip(own), "membersRedemption": strip(members), "updateToAVaultThatRefuses": strip(up),
+    });
+    fs::remove_dir_all(&dir)?;
+    println!("{}", serde_json::to_string_pretty(&out)?);
+    Ok(())
+}
+
+fn print(v: anyhow::Result<Value>) -> anyhow::Result<()> {
+    println!("{}", serde_json::to_string_pretty(&v?)?);
+    Ok(())
+}
+
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
-    match env::args().nth(1).as_deref() {
+    let args: Vec<String> = env::args().collect();
+    match args.get(1).map(String::as_str) {
         Some("local") => local().await,
-        _ => bail!("usage: x9-runner local"),
+        Some(kind @ ("send-update" | "send-reconcile")) => print(send(kind, &args[2..]).await),
+        Some("deploy") => print(deploy(&args[2..]).await),
+        Some("hold") => print(hold(&args[2..]).await),
+        Some("share") => print(share(&args[2..]).await),
+        Some("send-redemption") => print(send_redemption(&args[2..]).await),
+        Some("leaves") => print(leaves_mode(&args[2..]).await),
+        // Every runner mode against a local node: deploy, hold, share, leaves, and the send modes.
+        Some("smoke") => smoke().await,
+        _ => bail!("usage: x9-runner local | deploy | hold | share | leaves | send-update | send-reconcile | send-redemption"),
     }
 }

@@ -215,6 +215,22 @@
     ]
   },
   {
+    "type": "function",
+    "name": "moved",
+    "inputs": [
+      {
+        "type": "bytes32",
+        "name": "nullifierHash"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
     "name": "intentAt",
     "type": "function",
     "stateMutability": "view",

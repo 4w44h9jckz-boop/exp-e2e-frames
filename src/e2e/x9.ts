@@ -32,6 +32,7 @@ export const SELECTORS = {
   escapeAt: '0x1cde8331',
   spent: '0xae20bed3',
   knownRoot: '0xfe3c4713',
+  moved: '0xd0582670',
   intentAt: '0x9de7ab90',
   redeemed: '0xe231bff0',
   committeeKey: '0x9be76a90',

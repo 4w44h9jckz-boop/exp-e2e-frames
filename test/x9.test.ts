@@ -56,6 +56,7 @@ const SIGNATURES: Record<string, string> = {
   escapeAt: 'escapeAt()',
   spent: 'spent(bytes32)',
   knownRoot: 'knownRoot(bytes32)',
+  moved: 'moved(bytes32)',
   intentAt: 'intentAt(uint256)',
   redeemed: 'redeemed()',
   committeeKey: 'committeeKey()',
