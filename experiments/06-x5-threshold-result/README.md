@@ -13,6 +13,19 @@ can take away everything else between that network and the chain:
 
 The network's key is then the only trust left.
 
+> **Read after the run, 2026-10-26: Fhenix's deployment is not this shape.** The claim above
+> was written from Fhenix's blog and SDK introduction, which describe a threshold network.
+> Fhenix's CoFHE documentation and its `TaskManager` contract describe what runs today. One
+> Intel TDX enclave holds the whole decryption key and decrypts: "Instead of splitting the
+> decryption computation across independent parties, Teecryptor relies on hardware
+> attestation". A decrypted value is accepted on chain against one ECDSA signer, which a
+> privileged role can replace, and one enclave checks input proofs. Fhenix calls this training
+> wheels and plans a threshold network. So this experiment runs Fhenix's planned shape, not its
+> deployment. And "as the deployed system's verifier does", below, holds only for checking the
+> input off chain: Fhenix's verifier is one enclave, not a committee. Sources:
+> cofhe-docs.fhenix.zone (Teecryptor, Key management, Future plans); FhenixProtocol/cofhe-contracts
+> at `b5c20ed4`, `TaskManager.sol`. The claim above is kept as written before the run.
+
 **Half of the original claim is already settled, and is not run here.** It said a request's own
 `VERIFY` frame would check the encrypted input's proof of knowledge. That proof, as TFHE-rs
 makes it, costs at least 3,936,012 gas to check in `VERIFY` (exp-frames experiment 41): about

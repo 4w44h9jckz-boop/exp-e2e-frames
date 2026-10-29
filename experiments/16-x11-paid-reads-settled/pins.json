@@ -1,0 +1,12 @@
+{
+  "skandha": {
+    "url": "https://github.com/4w44h9jckz-boop/skandha",
+    "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade",
+    "why": "two nodes with frame transactions on, B alone handing transactions to the chain; the commit experiments 06 to 15 ran"
+  },
+  "exp-frames": {
+    "url": "https://github.com/4w44h9jckz-boop/exp-frames",
+    "commit": "37ac4aa36e48a7be390c9cbfedb7bbc31ac6e2b5",
+    "why": "src/exp-frames/ is copied from it (frame encoding, simulation, deployment)"
+  }
+}

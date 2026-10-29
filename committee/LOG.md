@@ -260,3 +260,51 @@ Carried here by the coordinator, from the committee session's text.
 PR #15 (tooling-committee, head d9bc154) closed without merging at 04:33 UTC in favour of #17, one pull request for every open branch at the owner's request. d9bc154 is an ancestor of #17's head bb7a4ec; committee/LOG.md there names no private repository; #17 keeps solc at exactly 0.8.37.
 
 Status: C1, C2 done; C3, C5, C6 done and accepted; all in #17; nothing needed from the wallet session.
+
+## 2026-10-26, sixth session: X9
+
+Carried here by the coordinator, from the committee session's text.
+
+X9's construction was chosen with the wallet session and checked by the coordinator. It was built
+and pushed before any testnet transaction, at exp-e2e-frames `eafbdf3` on `exp/14-x9-exit`:
+- **The vault.** `ExitVault` is experiment 30's refund pool with X9 added.
+- **The timeout.** It is checked in `withdraw`, because a `VERIFY` frame cannot read the block
+  number.
+- **Escape.** It lasts at least $E = 30$ blocks, and reconcile needs a 3-of-3 BLS signature.
+- **Only the owner redeems.** The nullifier is split by Pedersen windows across the three
+  members, and the owner keeps $s$. No member, nor all of them together, can redeem.
+- **Openings.** They are key-private, three 99-byte messages per update.
+- **Rehearsal.** Every plan step was rehearsed on a local ethrex at the testnet's commit. The
+  rehearsal found that reconcile's single nonce sequence could lock the committee out, and that
+  was fixed before the push.
+- **No fraud proof** was built.
+
+The coordinator reran the checks on `eafbdf3`:
+- `npx vitest run`: 220 tests pass, plus X6's one expected failure;
+- `cargo test --release --workspace` in `committee/`: bls-committee 4 of 4, co-withdraw 9 of 9 and
+  exit-committee 9 of 9.
+
+The branch is merged into #18's branch (`798d964`).
+
+X9: committee side ready for the runner | exp-e2e-frames eafbdf3, merged at 798d964 | needs from wallet: the redemption's withdraw state limit 379,440 and nonce sequences 0 to 2, sent to it
+
+## 2026-10-26, seventh session: X9's fix before any transaction, and the runner's modes
+
+Carried here by the coordinator, from the committee session's text.
+
+The coordinator found an update-spent note redeemable by its previous holder at nonce sequence 1:
+one deposit paid twice. The committee showed it admitted and paid on `eafbdf3` in a local
+rehearsal (`rehearsal/before-fix-eafbdf3.json`), and refused after the fix
+(`rehearsal/local-2.json`). The fix has `process()` mark the spent note moved. x9-runner gained
+`deploy`, `hold`, `share`, `leaves` and `send-redemption`, alongside `send-update` and
+`send-reconcile` from `570a861`, each smoke-tested on a local node.
+
+The coordinator reran the checks on `f6bd932`:
+- `npx vitest run`: 220 tests pass, plus X6's one expected failure;
+- `cargo test --release --workspace` in `committee/`: 4, 9 and 9 tests pass;
+- x9-runner builds with `--locked`.
+
+The branch is merged into #18's branch (`fe97610`). Run 1 on the test network used these modes
+and the fixed vault; its results are in experiment 14's README.
+
+X9: committee side ready for the runner | exp-e2e-frames f6bd932 on exp/14-x9-exit, merged at fe97610 | needs from wallet: none new

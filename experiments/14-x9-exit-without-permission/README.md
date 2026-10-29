@@ -1,0 +1,468 @@
+# Experiment 14: an exit that nobody's permission opens, for a committee that holds state
+
+**Status: run.** The claim, what would show it wrong, the plan, the construction and the runner
+were committed before the first transaction, the last of them at `7909527`. Run 1's results are
+below ("Results, run 1"): nothing in it shows the claim wrong.
+
+**Why.** Experiment 07 ran a committee that holds users' notes in shares, with its proof checked
+in its own `VERIFY` frame. Once that committee stopped, nothing moved the note it held. TACEO's
+design for private payments has the same shape, and TACEO proposes an escape hatch for it, in
+"Escape hatches in MPC, and who may open them" (core.taceo.io, 2026-08-03):
+- on every transfer, the network publishes each new note's opening, encrypted to its owner;
+- if the queue of intents stalls for a fixed time, the contract changes mode by itself;
+- each user then redeems their own note alone.
+
+This experiment builds that shape in frames and asks whether frames add what such an exit needs:
+a redemption that no relayer and no committee member takes part in.
+
+**The claim.** With frame transactions, a committee that holds users' notes can be made unable to
+hold them hostage:
+- **Normal mode.** Users queue intents on chain. The committee processes the head of the queue
+  with an update, whose proof its account's `VERIFY` frame checks. With every update it also
+  publishes the new note's opening on chain, encrypted to the note's owner.
+- **The trigger.** If the head of the queue does not move for $T$ blocks, the contract enters
+  escape mode on the next call, by itself. No signature, vote or admin takes part.
+- **The escape.** Each owner decrypts its latest opening and redeems its own note with a proof
+  made on its own device. The contract is the transaction's sender and payer, so neither a
+  relayer nor any committee member takes part, and the owner needs no ether.
+- **The return.** The committee may resume only after reconciling every redemption, and no
+  update of its may spend a redeemed note.
+
+**What would show it wrong.** Any one of these:
+- escape mode needs anything besides time passing and the user's own transaction;
+- a user cannot redeem without the committee, a relayer, or ether in an account linked to them;
+- a redemption is accepted before $T$ blocks have passed with the queue stalled (amended below:
+  "accepted" means "pays out");
+- the same note is redeemed twice;
+- after it resumes, an update of the committee is accepted that spends a redeemed note, or that
+  skips reconciling;
+- a published opening lets an observer tell which owner it is for, beyond what the redemption
+  itself reveals. A redemption, like any withdrawal, reveals its amount and its recipient.
+
+**Amended before any code, 2026-10-26, at the owner's word.** Two points found while the
+builders chose the construction change the claim. Both are fixed here before any code reads an
+opening and before any transaction.
+- **An eighth condition.** With experiment 01's circuit, whoever knows a note's whole opening can
+  redeem it. A committee that made the openings could then redeem every note to itself during
+  escape, and an exit the operator can drain is not an exit. So this would also show the claim
+  wrong:
+  - anyone other than a note's owner, any committee member or all of them together included,
+    redeems that note.
+
+  The construction must make that impossible, and it can with the circuit unchanged. The
+  circuit's commitment is a Pedersen hash of the nullifier $n$ and the secret $s$, a sum of
+  terms over four-bit windows, and $s$ starts on a window boundary. So the commitment splits as
+  $H(n \Vert s) = A(n) + B(s)$. The owner keeps $s$ and sends only the point $B(s)$, and each
+  member chooses its own windows of $n$. No member knows $n$, nobody but the owner knows $s$, and
+  only the owner can prove the redemption.
+- **"Refused" before $T$ means "pays nothing".** A `VERIFY` frame may not read the block number
+  or the time on this network, so the timeout can be checked only when the transaction executes.
+  An early redemption may therefore be mined with its payout reverted. In plan step 3, and in the
+  third condition above, "refused" and "accepted" are read as "pays nothing" and "pays out". The
+  vault pays the gas of an early attempt, and how many attempts a note allows is recorded as a
+  finding about frames.
+- **Who sends an intent.** Only one proof fits a `VERIFY` frame, so each update processes one
+  intent, and its published opening is tied to whoever sent that intent. The sixth condition
+  therefore tests the owner's anonymity only if the owner never sends its own intent. In the run,
+  a note's current holder sends the intent for its new owner. This is a choice of the plan, made
+  by the coordinator before the run, not a change to the claim.
+
+**Amended before the run, 2026-10-26, at the owner's word.** While writing the runner, the
+coordinator found that a note an update had spent could still be redeemed by its previous holder
+during escape, so one deposit was paid twice. The committee fixed it before any transaction
+(below, "Rehearsed on a local node"). None of the eight conditions above covered it, and a vault
+that pays twice leaves its last owners with nothing to redeem. So this would also show the claim
+wrong:
+- a note that an update spent is redeemed, by anyone, its previous holder included.
+
+**Stated before the run, and not tested here:**
+- **A garbage opening.** A committee could publish an opening that does not decrypt to the note,
+  and the owner would learn it only on the day it needs it. TACEO answers this with a fraud proof
+  that only the affected owner can make. Whether this experiment builds one is decided before the
+  code and written here then. If it is not built, the record says so.
+- **Who sends intents.** An intent here carries what the update needs and is not itself proved.
+  TACEO's client proves its intent's well-formedness, and that proof is not tested here.
+- **A malicious committee.** The committee is semi-honest, as in experiments 07 to 10. Stopping
+  is the fault tested.
+- **Any intent's sender can stall the queue** (added 2026-10-26, before the run, at the
+  coordinator's finding). It can withhold its note's witness, or burn its note's sequence 0 with
+  an early redemption, after which no update can spend that note. The queue has no way to skip
+  an intent, so the head stalls, escape opens after $T$ blocks, and after a reconciliation it
+  opens again. This costs the committee its liveness; it does not break the exit.
+
+**Stand-ins, stated before the run.**
+- TACEO's balance circuit is not used. The privacy pool's withdrawal circuit from experiment 01
+  proves both the committee's update and the owner's redemption, as in experiment 07.
+- $T$ is set small enough for the test network, and its value is written here before the run.
+
+## Construction, chosen before the first transaction
+
+Chosen by the committee's builders on 2026-10-26, agreed with the wallet's builders, and checked
+by the coordinator against the conditions above before any code. Nothing below changes the claim
+or the conditions.
+
+### The vault
+
+`contracts/ExitVault.yul` is experiment 30's `RefundPool` (exp-frames) with an intent queue, the
+committee's update, published openings, escape mode and reconciliation added. `ExitVault.hex` is
+its creation code from solc 0.8.37, EVM osaka, optimizer on at 200 runs, and `npm test` compiles
+it again. The vault is the sender of three kinds of frame transaction, which its `VERIFY` tells
+apart by their layout:
+
+| Transaction | Frames | Nonce key | Who pays |
+|---|---|---|---|
+| redemption | `0x8272` root check; `VERIFY` vault, execution and payment; `SENDER` `withdraw`; `DEFAULT` refund | the note's nullifier hash, sequence 0, 1 or 2 | the vault, out of the note's fee |
+| update | `VERIFY` vault, execution; `VERIFY` payer, payment; `SENDER` `process` | the spent note's nullifier hash, sequence 0 | the committee's payer |
+| reconcile | `VERIFY` vault, execution; `VERIFY` payer, payment; `SENDER` `reconcile` | `keccak256("X9_RECONCILE" \Vert escapeAt)`, any sequence | the committee's payer |
+
+The redemption is the refund pool's withdrawal byte for byte, so the owner's side reuses
+kohaku-rs's refund-pool withdrawal with two changes: the withdraw frame's state budget is raised
+to cover the vault's writes (below), and the nonce sequence is a parameter. A note is spent once
+either way: an update marks the note it spends moved, a redemption marks its note redeemed, and
+each refuses a note marked either way. Intents are ordinary
+calls, `enqueue(bytes)`, by anyone. Every note the vault inserts, a deposit or an update's output,
+emits the refund pool's `Deposit` event, so a wallet rebuilds the tree as it does for that pool.
+
+### The timeout: $T = 30$ blocks, checked when the redemption executes
+
+The chain made a block every 6.1 s over the 500 blocks before 2026-10-26 07:20 UTC, so $T$ is
+about three minutes. EIP-8272 keeps a root usable for 8191 slots, so roots filed before the stall
+stay usable through it.
+
+A `VERIFY` frame cannot evaluate the timeout. At the testnet's commit (ethrex `64b8fc09`), the
+mempool's validation trace bans `NUMBER`, `SLOTNUM`, and `TIMESTAMP` outside the expiry verifier,
+and the expiry verifier sets the latest block a transaction may be included in, not the
+earliest. So the vault's `VERIFY` accepts a redemption in escape mode, or in normal mode while
+the queue is not empty, and `withdraw` decides: in normal mode it enters escape mode if the head
+has not moved for $T$ blocks, and reverts otherwise. This is the amendment's reading of
+"refused" as "pays nothing", and its consequences are recorded:
+- an early redemption is mined, pays nothing, and uses one of the note's nonce sequences;
+- the vault pays its gas, out of a float it is given at deployment (0.01 ETH in the rehearsal),
+  not out of the notes it holds;
+- each note allows three sequences, 0 to 2, so an owner can make the vault pay for at most two
+  failed attempts and still redeem, and nobody else can make it pay at all, since a redemption
+  needs a valid proof of a note;
+- with the queue empty, a redemption is refused at the node, because the vault's `VERIFY` reads
+  its own storage, which a sender's `VERIFY` may.
+
+### Escape lasts at least $E = 30$ blocks
+
+At the coordinator's request, `reconcile` reverts in its `SENDER` frame until escape mode has
+lasted $E$ blocks, so a committee cannot close the hatch the block after it opens. Its nonce key
+names the escape and accepts any sequence: an attempt mined too early reverts, and must not use up
+the committee's only way back. (The rehearsal found this: with sequence 0 only, an early attempt
+locked the committee out for good.)
+
+### Reconciliation needs the whole committee
+
+`reconcile` carries every redemption so far, strictly ascending, each redeemed and as many as the
+vault counted, and the committee's threshold BLS signature on
+
+$$m = \mathrm{chainId} \Vert \mathrm{vault} \Vert \mathrm{escapeAt} \Vert \mathrm{keccak256}(\mathrm{list})$$
+
+under Commonware's `MinSig` with the namespace `X9_RECONCILE_V1`, checked on EIP-2537 as in
+experiment 10. The key is 3-of-3, made by Commonware's DKG through `committee/bls-committee`, and
+its G2 encoding is in the vault's code. Without such an authority anyone could reconcile and
+restart the timeout while the committee stays stopped, which would show the claim wrong. Escape
+mode refuses every update at the node until a reconciliation is mined.
+
+### Notes, intents and openings
+
+The withdrawal circuit's commitment is circomlib's Pedersen hash of the nullifier $n$ and the
+secret $s$, 31 bytes each, a sum of terms over four-bit windows. With $A(x) = H(x \Vert 0)$ and
+$B(s) = H(0 \Vert s) - H(0 \Vert 0)$,
+
+$$H(n \Vert s) = A(n_0) + A(n_1) + A(n_2) - 2 H(0 \Vert 0) + B(s)$$
+
+where member $j$ chooses $n_j$, the bits of $n$ in its own windows and zero elsewhere, and $n$ is
+their bitwise OR:
+
+| Member | Windows of $n$ | Bits |
+|---|---|---|
+| 0 | 0 to 20 | 0 to 83 |
+| 1 | 21 to 41 | 84 to 167 |
+| 2 | 42 to 61 | 168 to 247 |
+
+- **The intent** carries, sealed to the committee's key, the new owner's opening key $P$ (33
+  bytes, compressed secp256k1) and the point $B(s)$ (32 bytes, packed). The owner keeps $s$; $P$
+  never appears on chain. A note's current holder sends the intent, never its owner (the plan's
+  choice above).
+- **Each member** sends the others only the point $A(n_j)$, and seals $n_j$ only to $P$. The
+  update's submitter computes the commitment $C$ from the three points and $B(s)$.
+- **No one but the owner can redeem.** No member learns $n$, and nobody but the owner learns $s$.
+  This holds because $s$ never leaves the owner's device, not because the circuit binds a note to
+  an owner's key, as TACEO's commitment does; with this circuit, whoever knows $n$ and $s$ can
+  redeem.
+
+Both kinds of message are sealed with exp-frames experiment 33's announcement scheme, with
+version `0x02`, an info string and an AAD of the vault's address and a 64-bit number:
+
+| Message | Info | AAD number | Plaintext | Sealed |
+|---|---|---|---|---|
+| intent | `x9/intent` | the intent's index | $P$ (33) and $B(s)$ (32) | 116 bytes |
+| opening | `x9/opening` | the update's number, the intent's index | $n_j$ (31), member (1), leaf (4), update number (8), 4 zero bytes | 99 bytes, three per update |
+
+The scheme is key-private: each message has a fresh ephemeral key, every message of a kind has
+the same length, and neither carries $P$ or anything derived from it but a one-byte view tag that
+only the holder of $P$'s secret can recompute. An owner tries every opening and keeps those that
+open. One proof fits a `VERIFY` frame, so each update processes one intent: the record states the
+batch size, 1, and that an opening is tied to its intent's transaction and so to its sender, the
+note's previous holder, but not to its owner.
+
+### The update's proof
+
+The holder shares its old note's witness with the recipient set to zero. Each member then sets
+the recipient over its share to
+
+$$r = \mathrm{uint160}(\mathrm{keccak256}(\mathrm{vault} \Vert \mathrm{keccak256}(\mathrm{intent}) \Vert C \Vert \mathrm{keccak256}(\mathrm{openings})))$$
+
+The recipient changes only two values of the circuit's witness, its public input and its square,
+a private wire that each member can set as a trivial share of a public value
+(`co_withdraw::set_recipient`, checked in `co-withdraw`'s tests). So the proof is bound to the
+head intent, to $C$ and to the openings published with it, and nobody can replay it with other
+openings.
+
+### What the members hold, together
+
+`exit-committee steal` pools everything the three members hold for an owner's note: every part
+of $n$, $B(s)$, the owner's key, every sealing key and BLS share. It reports whether any witness
+exists for a guess at $s$, and gives the runner the note's public inputs with a zero proof to send
+to node A. Before the run, in memory, no witness exists: the circuit needs $s$, the members hold
+only $B(s)$, and recovering $s$ from it is a discrete logarithm over 248-bit inputs.
+
+### Not built: a fraud proof for a garbage opening
+
+An owner learns that its opening is garbage only when it checks. In plan step 2 each owner
+checks, and a check means: exactly one opening for each member, each part inside its member's
+windows, leaf and update number as the event says, and $C$ rebuilt from the parts and $B(s)$.
+TACEO's answer, a fraud proof only the affected owner can make, is not built here.
+
+### Costs known before the run (derived)
+
+- **A redemption's state gas.** `withdraw` may create the recipient's account (183,600 state
+  gas), writes the note's spent slot (97,920), and on the first redemption the packed slot
+  holding mode, escape block and count (97,920). The withdraw frame's state budget is therefore
+  $183{,}600 + 2 \times 97{,}920 = 379{,}440$, against the refund pool's 183,600; the fee must
+  cover the larger maximum cost, and the refund frame returns what is unused.
+- **An update's prefix** is one Groth16 check in the vault's `VERIFY` and the payer's frame,
+  against the nodes' 500,000.
+- **An update marks the note it spends moved**: one more new slot, 97,920 state gas, in
+  `process`, which also writes the new leaf and its tree.
+
+### Runner hooks and checks
+
+| Piece | What it gives the runner |
+|---|---|
+| `committee/exit-committee` | `keys`, `initcode`, `open-intent`, `part`, `commit`, `seal`, `recipient`, `update-data`, `reconcile`, `steal`, `vectors`; secrets stay in each member's directory, and only public values are printed |
+| `committee/co-withdraw` | `member --recipient`: a member proves for the recipient above |
+| `rust/` (`x9-runner`) | `update_tx`, `reconcile_tx` and `redemption_tx`; the runner's modes `deploy`, `hold`, `share`, `leaves`, `send-update`, `send-reconcile` and `send-redemption` (with `--note` or `--nullifier-hash`), each printing one JSON object with no key, note or share; `local`, a rehearsal of plan steps 2 to 6 against a local ethrex node at the testnet's commit; and `smoke`, each mode once against one |
+| `src/e2e/x9.ts` | the vault's selectors, topics and layouts, the sealing, the recipient, the reconcile message and nonce key, in TypeScript |
+| `test/x9.test.ts` | the vault compiled again; every selector and topic it hard-codes; the committee's Rust vectors (`test/fixtures/x9/vectors.json`) opened and recomputed in TypeScript |
+
+### Rehearsed on a local node before the first transaction
+
+`x9-runner local` ran plan steps 2 to 6 against a local ethrex node built at the testnet's commit
+(`64b8fc09`), with the committee in memory and $T = E = 30$ at a 500 ms block time. These are not
+the run's results: one node, no skandha, no testnet. They show the construction does what the
+plan needs. Two defects were found and fixed before the first transaction:
+- **A reconcile could lock the committee out** (found by the first rehearsal,
+  `rehearsal/local-1.json`): one mined before the escape window ended used up its nonce key's only
+  sequence. Reconcile now accepts any sequence.
+- **A note an update spent could be redeemed by its previous holder** (found by the coordinator
+  while writing the runner). An update spent the note only through its nonce key at sequence 0,
+  and the redemption accepts sequences 0 to 2, so the previous holder, who still knows the note,
+  could redeem it at sequence 1 during escape: one deposit paid twice. On the vault before the fix
+  (`eafbdf3`), the rehearsal's new step shows it: admitted, mined, paid
+  (`rehearsal/before-fix-eafbdf3.json`). `process` now marks the spent note moved (tag 10), and
+  both a redemption and an update refuse a note marked redeemed or moved. Reconciliation still
+  lists redemptions only.
+
+On the fixed vault (`rehearsal/local-2.json`):
+
+| Step | Outcome | Gas by frame (execution / state) |
+|---|---|---|
+| two updates with openings | mined; each owner opened its openings and found its note at the leaf | vault `VERIFY` 259,928; payer 3,000 / 97,920; `process` about 1,040,000 / 391,680 to 489,600 |
+| a redemption before $T$ blocks | mined; `withdraw` reverted; nothing paid | `VERIFY` 255,490 / 97,920; `withdraw` 2,898 |
+| the members, together, for owner 0's note | no witness; their redemption without a proof refused at the node | |
+| owner 0 (sequence 1), owner 1 (sequence 0) | mined, the vault sender and payer, each recipient paid the denomination less its gas; escape mode entered | `withdraw` 40,365 / 379,440 and 36,644 / 281,520 |
+| owner 0 again (sequence 2) | refused at the node | |
+| the previous holder of the note update 0 spent (sequence 1) | refused at the node | |
+| holder 3 redeems its own note | mined and paid | `withdraw` 36,644 / 281,520 |
+| an update in escape mode; an update over holder 3's redeemed note | both refused at the node, the second by its nonce key, which the redemption used | |
+| a reconcile before $E$ blocks | mined; `reconcile` reverted | `VERIFY` 129,038 |
+| the reconcile, three redemptions listed | mined; normal mode | `reconcile` 24,324 |
+| the update over the redeemed note, again; the queue | refused; then mined | |
+
+`x9-runner smoke` ran each runner mode once against a local node: `deploy`, `hold` (the note file
+written at mode 600), `share`, `leaves`, and `send-redemption` both ways and `send-update`, each
+refused as expected with an empty queue or no vault behind it.
+
+## Pieces
+
+| Piece | Built by | Role |
+|---|---|---|
+| the vault contract | the committee's builders | intents, updates, published openings, the timeout, escape mode, redemption and reconciliation |
+| the committee's side | the committee's builders | an update proved over shares, with the opening it publishes |
+| the wallet's side | the wallet's builders | an owner's key for openings; decrypt, prove the redemption on the device, and send it |
+| the runner | the coordinator | the run through two skandha nodes on the Hegota test network, and the record |
+
+## The plan
+
+1. **Two nodes,** A and B, peered with each other only. Every transaction is sent to node A,
+   except deployments and deposits, which go to the chain directly.
+2. **Normal mode.** Two intents are queued, each sent by a note's current holder for its new
+   owner, never by the owner. The committee processes both, and each update publishes an
+   opening. Each owner checks that its opening decrypts to its note.
+3. **Too early.** With the queue stalled for fewer than $T$ blocks, a redemption is sent. It must
+   pay nothing (amended above).
+4. **The committee stops.** Its members' processes end. One more intent is queued, and the head
+   of the queue stays put for $T$ blocks.
+5. **The escape.** Each owner redeems its own note through node A, with the vault as sender and
+   payer. A second redemption of the same note is sent too, and must be refused.
+   Before the owners redeem, the committee's members, together, try to redeem an owner's note
+   with everything they hold. They must fail (amended above). The previous holder of a note an
+   update spent tries to redeem that note, and must be refused (amended before the run).
+6. **The return.** The committee restarts and sends an update that spends a redeemed note, which
+   must be refused. Then it reconciles, and then it processes the queue again.
+7. **The record.** For every transaction it keeps:
+   - its bytes and hash;
+   - each node's log lines for it;
+   - whether it was mined, and if so its block, status, payer and gas by frame;
+   - the vault's mode before and after.
+
+   It keeps no key, share, note secret or decrypted opening.
+
+## Done when
+
+On the test network, through two nodes, the run shows each of these:
+- updates with published openings are mined;
+- an early redemption pays nothing;
+- the committee's members, together, cannot redeem an owner's note;
+- after $T$ blocks, each owner's own redemption is mined with the vault as sender and payer;
+- a second redemption is refused;
+- the previous holder's redemption of a note an update spent is refused;
+- the resumed committee's update over a redeemed note is refused, and its reconciliation is
+  mined.
+
+## The runner, written before the run
+
+`run.ts` runs the plan through the pieces above, with these choices made by the coordinator
+before the first transaction. None changes the claim.
+- **Who is who.** The holder is the funding account. It deploys the vault, deposits four held
+  notes, and sends every intent. The committee's payer is a fresh key, funded at deployment.
+  Each of the three owners has a seed of its own and uses opening key 0 and note 0.
+- **The committee's processes.** Each update starts three `co-withdraw member` processes over
+  loopback TCP, and they end with it. From step 4 to step 6 the runner starts none.
+- **Step 3.** The intent for owner 2 is step 4's "one more intent". It is queued at the start of
+  step 3, because a redemption reaches `withdraw` only while the queue is not empty. Owner 0
+  then redeems at once, at sequence 0, and the record states whether the redemption was mined
+  before `since` plus $T$.
+- **Step 5, in order:**
+  - the members' attempt, at owner 0's note's next sequence;
+  - owner 0, at sequence 1, which opens escape mode;
+  - the committee's reconciliation at once, before $E$ blocks. This tests the escape window, and
+    the attempt must revert;
+  - owner 1, at sequence 0;
+  - the previous holder of held note 0, which update 0 spent, at sequence 1 (the ninth
+    condition);
+  - the holder redeeming held note 3, its own, at sequence 0;
+  - owner 0 again, at sequence 2.
+- **Step 6's redeemed note** is held note 3. The wallet's examples never export an owner's note,
+  so the committee's valid witness of a redeemed note comes from a holder who redeemed its own.
+  The update for intent 2 is sent three times:
+  - over held note 2, in escape mode;
+  - over held note 3, in escape mode, and again after the reconciliation;
+  - then over held note 2 with fresh parts, as the queue processed again. Owner 2 then checks its
+    opening.
+- **The record** (`results/<attempt>.json`) keeps:
+  - each step's printed line;
+  - both nodes' lines and the chain's facts for every transaction;
+  - whether any owner's opening key appears in any transaction or receipt.
+
+  Before it is written, it is searched for every key, seed, note preimage, receiving address and
+  member file of the run, and it is not written if any is found.
+
+## Results, run 1 (`results/1-first-run.json`)
+
+Run on 2026-10-26 on the test network (ethrex `64b8fc09`), at this repository's `7909527`, with
+skandha `ede942f` and kohaku-rs `cf5bea5`. The vault was at
+`0x8412Ef506255ba3994220E683b3b713bf863c272`, with $T = E = 30$. Every transaction but the
+deployment and the deposits went to node A. Both nodes logged every mined one as included, and
+the record holds none of the run's secrets: the runner searched it before writing it.
+
+| Plan step | Transaction | Outcome | Block |
+|---|---|---|---|
+| 2 | the holder's intent for owner 0; update 0 | both mined; owner 0's opening checks out at leaf 4 | 564,191; 564,195 |
+| 2 | the holder's intent for owner 1; update 1 | both mined; owner 1's opening checks out at leaf 5 | 564,199; 564,203 |
+| 3 | the holder's intent for owner 2, never processed | mined: the queue stalls | 564,206 |
+| 3 | owner 0 redeems, sequence 0 | mined, `withdraw` reverted, nothing paid | 564,211 |
+| 4 | none: no committee process runs | the head stays at intent 2 for $T$ blocks | to 564,236 |
+| 5 | the members' redemption of owner 0's note, no proof | refused at node A: the vault's `VERIFY` reverted | |
+| 5 | owner 0 redeems, sequence 1 | mined and paid, the vault sender and payer; escape mode entered | 564,240 |
+| 5 | the committee reconciles at once | mined, `reconcile` reverted; escape mode stays | 564,243 |
+| 5 | owner 1 redeems, sequence 0 | mined and paid, the vault sender and payer | 564,247 |
+| 5 | the previous holder redeems held note 0, which update 0 spent, sequence 1 | refused at node A: the vault's `VERIFY` reverted | |
+| 5 | holder 3 redeems its own note, sequence 0 | mined and paid | 564,253 |
+| 5 | owner 0 redeems again, sequence 2 | refused at node A: the vault's `VERIFY` reverted | |
+| 6 | the committee's update for intent 2, in escape mode | refused at node A: the vault's `VERIFY` reverted | |
+| 6 | the update spending holder 3's redeemed note, in escape mode | refused at node A: `ErrNonceTooLow`, the redemption used the key's sequence 0 | |
+| 6 | the reconciliation, three redemptions, three signers | mined; normal mode | 564,272 |
+| 6 | the update spending holder 3's redeemed note, again | refused at node A: `ErrNonceTooLow` | |
+| 6 | update 2, the queue processed again | mined; owner 2's opening checks out at leaf 6 | 564,276 |
+
+**Against each condition:**
+- **Escape mode needs only time and the user's own transaction.** Owner 0's redemption at block
+  564,240 entered escape mode by itself. That was 34 blocks after the head stalled at 564,206. No
+  signature, vote or admin took part.
+- **No committee, relayer or linked ether.** Each owner's redemption had the vault as sender and
+  payer (the receipts' `payer`). Each was proved on the owner's side and paid to a fresh
+  recipient. No committee process was running (`processesRunning: 0`). Owners 0 and 1 were paid
+  924,706,994,729,490 and 925,500,194,785,014 wei out of a $10^{15}$ wei note.
+- **Nothing paid before $T$.** The early redemption was mined at 564,211, before the deadline of
+  564,236. Its `withdraw` reverted and its recipient received nothing.
+- **No note redeemed twice.** Owner 0's second redemption was refused at the node.
+- **After the return.** Escape mode refused the committee's update. The update over a redeemed
+  note was refused before and after the reconciliation. The reconciliation was mined two blocks
+  after the escape window ended (564,270), and the queue then moved.
+- **Openings and owners.** No owner's opening key appears in any transaction or receipt of the
+  run (`openingKeyOnChain`, false for all three). Every opening is 99 bytes. Each is tied to its
+  intent's sender, which was the holder, never the owner. That an opening cannot be tied to its
+  owner rests on the sealing scheme, and the run does not test it further.
+- **The eighth: nobody but the owner.** The members, pooling everything they held for owner 0's
+  note, found no witness (`witnessExists: false`). Their redemption without a proof was refused.
+- **The ninth: no note an update spent is redeemed.** The previous holder knows held note 0, so
+  it could prove the redemption. The key stood at sequence 1, so the node's nonce check passed,
+  and the vault's `VERIFY` refused it. Read after the run at block 564,290:
+  - each of the three notes the updates spent is marked moved and not redeemed;
+  - each of the three redeemed notes is marked redeemed and not moved.
+
+  The vault still held 0.010969 ETH, more than the one note left outstanding, owner 2's.
+
+**Costs, measured** (gas used; execution and state gas by frame where they differ):
+
+| Transaction | Bytes | Gas | By frame |
+|---|---|---|---|
+| intent (`enqueue`) | 116 sealed | | |
+| update | 1,249 | 1,826,320 to 1,934,393 | vault `VERIFY` 259,928; payer 3,000 / 97,920; `process` 1,039,943 to 1,050,024 / 391,680 to 489,600 |
+| redemption | 778 | 706,541 to 714,485 | root 5,579; vault `VERIFY` 251,267 to 255,490 / 0 or 97,920; `withdraw` 36,644 / 281,520, or 40,365 / 379,440 on the vault's first; refund 11,555 |
+| early redemption | 778 | 384,232 | `VERIFY` 255,490 / 97,920; `withdraw` 2,898, reverted |
+| reconciliation | 519 | 177,975 | `VERIFY` 129,038; payer 3,000; `reconcile` 24,324 |
+| early reconciliation | 453 | 246,549 | `VERIFY` 124,437; payer 3,000 / 97,920; `reconcile` 579, reverted |
+
+The committee took about 11 s an update, its three members' proof about 1.9 s of that, over
+loopback TCP on one machine: a LAN time at best. Updates 0 and 1 were each mined four blocks
+after their intents.
+
+**Findings:**
+- **An early attempt costs the vault, not the owner.** Frames could not refuse the early
+  redemption at the node, so it was mined, cost the vault's float 384,232 gas, and paid nothing.
+  It also used the key's sequence 0, and so paid that key's first-use state gas. The owner's later
+  redemption paid none in its `VERIFY`.
+- **Two different checks did the refusing.** For the update over a redeemed note, the
+  redemption had already moved the key's sequence, so the protocol's keyed nonce refused it
+  (`ErrNonceTooLow`) before the vault's own mark was read. For the previous holder's redemption,
+  the key's sequence was free, so only the vault's moved mark stood between the holder and a
+  second payout. That is the double spend found before the run: a keyed nonce marks a spend only
+  while nobody else can use the key's next sequence.
+- **Who can stall the queue** is stated before the run and was not exercised. Any intent's sender
+  can still force escape mode. That costs the committee its liveness, not the owners their exit.

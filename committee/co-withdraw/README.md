@@ -40,3 +40,10 @@ twice: as websnark writes one (`pi_a`, `pi_b`, `pi_c`), and as the eight 32-byte
 pool's verifier takes. It also writes the public inputs, whether the proof verifies, and, for
 each peer, the messages and bytes it sent and received.
 
+`member --recipient <hex>` proves for a recipient chosen after the witness was shared, as
+experiment 14's committee binds its update to the openings it publishes. Every member passes the
+same value. The recipient changes only two values of the witness, its public input (index 3,
+counting the constant `1`) and its square (index 28,296), a private wire each member sets as a
+trivial share of the public value (`set_recipient`); `tests::the_recipient_moves_one_private_wire`
+checks that nothing else moves.
+

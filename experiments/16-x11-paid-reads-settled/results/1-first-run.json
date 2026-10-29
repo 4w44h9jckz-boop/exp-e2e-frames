@@ -1,0 +1,4176 @@
+{
+ "experiment": "exp-e2e-frames experiment 16 (X11)",
+ "run": "1-first-run",
+ "deployment": "d1",
+ "date": "2026-10-29T03:59:02.485Z",
+ "repoCommit": "04ea014218904d88eb3c2eb808a2d34740cb663f",
+ "pins": {
+  "skandha": {
+   "url": "https://github.com/4w44h9jckz-boop/skandha",
+   "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade",
+   "why": "two nodes with frame transactions on, B alone handing transactions to the chain; the commit experiments 06 to 15 ran"
+  },
+  "exp-frames": {
+   "url": "https://github.com/4w44h9jckz-boop/exp-frames",
+   "commit": "37ac4aa36e48a7be390c9cbfedb7bbc31ac6e2b5",
+   "why": "src/exp-frames/ is copied from it (frame encoding, simulation, deployment)"
+  }
+ },
+ "chainId": 8141,
+ "client": "ethrex/v23.0.0-hegota-testnet-hotfix-64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c/x86_64-unknown-linux-gnu/rustc-v1.93.1",
+ "pool": {
+  "sold": "275",
+  "paid": "274",
+  "refunded": "1",
+  "balanceAfterSetup": "18275000000000000",
+  "balanceAtEnd": "16000006980304968"
+ },
+ "members": [
+  "0xF53ef21A04DA3f3CecbC4E5486b18E41133CD5a6",
+  "0x5e8EA3033487870800Eb3f5bb71E3204DCc65F07",
+  "0x8d5fBabBb46eA9c097475A574539747E148ED002",
+  "0x37464Db77A749bFA4c82Ed40c4523dB99D0fBF8F"
+ ],
+ "price": "1000000000000",
+ "slashAmount": "1000000000000000",
+ "bond": "2000000000000000",
+ "epochBlocks": 30,
+ "tickets": [
+  {
+   "label": "s1-0",
+   "server": "s1",
+   "serial": "0x4cad634914818a0f5d5b38ec36cc616f48dbf8df96733e240896bc99ef021bd7",
+   "ticket": "0xa366cb0ca33a9fbd53f60124377e5a1135bf2a7af22337b2e860e0b18525f50124ea775e3c4306fec47d210fc8b97e38",
+   "blinded": "0x92bcf48f8760d0e23fcb10abb7398288f29412f7b626eaeeee74ba90a128cba2804f0c709e0d0ae3e50c56c86f943a97",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s16-0",
+   "server": "s16",
+   "serial": "0x3b92232b534d9e3a701207c555e4743cc9c76f1b25175c43e9ecd45a80fd106e",
+   "ticket": "0x941e99f48b102f730a372a664de9061440c00a0d1cc9e8f5ba0fcde9a6fdc2518bef7318b257c5944023be78039bd8a7",
+   "blinded": "0x82efed452abbc2f957e3b070bbe9d304fe3bfb38785d4452166774444016eab3ee6a20f1d1462b7886174701c1fd7fe7",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s16-1",
+   "server": "s16",
+   "serial": "0x8275f32e8dc9215d3a7eb0307d85619cefeedd8b5e3174211a89dd384bc49948",
+   "ticket": "0xa26b1067bce8a3fb08557e55be3df90bd05e5737cb85150f2204dc9804cc8fd609b83ef0746141a9490493d53f30aeae",
+   "blinded": "0xaf5d9c250c49cd18601fdddc4da3c515ef0253798b68e523262273f029c46111d1d2994d78f4a4a3e2e6570469f72c6e",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s16-2",
+   "server": "s16",
+   "serial": "0x0dd2e7deb541ae708e42922803c7a21218155cf2325816798e4df8159753ccba",
+   "ticket": "0xa69cc99b53f550a2f08cac3dde56867cfdff24886dd1e79d5d89a7e3f1f19d84554fad2a9edcdae5bfe1cd0e831a12e0",
+   "blinded": "0xacae48fb29a3e7d65983f4b70dcd4acd041bcf88258971037a6dddfc33941861dbc8a6f0414ed67c67786d23fa024ee1",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s16-3",
+   "server": "s16",
+   "serial": "0xac55bd28a8bf2c7f8573f39d53887a4e7ec10f89cf715f615ad3a033ad31a005",
+   "ticket": "0x8e575fae3315764c8fb988171a1b41a1c29f8db381cb584be16b1aba8b0d779553d2932fbd90016cd4fe2d985ba5b6cc",
+   "blinded": "0xa957619dfcc727ec992b6a5bac2dc8535ab2929e1bfc83a11e22ef362f258845fe42b88b06e9dc712f25da85477f2ba6",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s16-4",
+   "server": "s16",
+   "serial": "0x17848e957af66890998c297ec170ea7e2479cff02726199238ae6356560eeeff",
+   "ticket": "0x95274202bd94d390af8a4c478b75b2292536fef35cb29a4a06c4f0aa2daa4d7a5f28766806355325fb8db9f40f6fbe47",
+   "blinded": "0xadb4bc4aeaf076cf24ab2013215a7185e3cf134d2b50593e019c7f2cdc2df252690b050847405aea0f4691df73f13421",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s16-5",
+   "server": "s16",
+   "serial": "0x23c148241a22939cf00eed2836363649dcb1e0c6db3ea851b16ea53ac40322fa",
+   "ticket": "0xb6b6f52a01e4d1f3db718d15fc37078d6095ca3dc09bf55fc8523d57c438808e85893e1544f090f5bb8d2bc4e4d5289b",
+   "blinded": "0xa32854c297e881df043ba3342c49b796eaa15c81c86ee0faa6d3cbc4250db2b8074e38738493cf5bf5d313ad07f1b524",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s16-6",
+   "server": "s16",
+   "serial": "0xefebe5a43a4a0d47dd24183654ef14e400f2290ab96df52b7ca03508e6296e4e",
+   "ticket": "0xaae9f0f3a5b52dff1390a86a8f9ba8fb300d24d9d59fa74ab84fd4a265e5262a2c45e0b78c3ed25fd7bcaf9309844866",
+   "blinded": "0x88b3ac1d0dda5f7324ab8610d63add8aab7b9db361cbdbcaa5002b6b9596de0d2a23d79f59e87643a37b68362039ded5",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s16-7",
+   "server": "s16",
+   "serial": "0x11cd4b04df9ab015fc163fe81b1cb2c90cce37075350f1393edf6cf231033a5d",
+   "ticket": "0xb8ef08db46e82c2af012d262ac23f889a338b2ed7db8bb1a00938520333e0f4b375112b9edec8ad020cec9c25368dab2",
+   "blinded": "0xb656b613d1982a8011f217cbce37736c11644a42aefdbeb3e13e88e0e4b692c48d81eb08ddcb1e4510181524ac0d74f7",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s16-8",
+   "server": "s16",
+   "serial": "0x7d472534bcc78d296f0e6c364e2aa69f3dd71f55554029227fcfbc1410273b73",
+   "ticket": "0xb44cb261fdd6754b1ceda687a44e02810d025b453cba13e28af180580bf7a22655218a511b89b4e6e0a9a8bdcdf7ca1f",
+   "blinded": "0xb8dd9a9a897897b47b4bac8fb33f10d7f92bc6609b94f7e9cdb9b80eab76eb8abdf647003db4b5820ce599e4a73a58dc",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s16-9",
+   "server": "s16",
+   "serial": "0xda597c4203299780c0ef0182f7bfc7cf1a41c044aeed548b952cd1ba76b0df73",
+   "ticket": "0xa492b6a890ea6050cf6b52fe1c2b31bbb1f2fdc17f60418e475e79f2de6730abeee8047be9384796a1daca89ce621b08",
+   "blinded": "0x9673da647b50614da78fb8f5b7239be89cf52bc15ca197b1c9c01be9d8049bbf32ef9b53a7eb58730f73c8a7a73e24ab",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s16-10",
+   "server": "s16",
+   "serial": "0x54eed730b8d85a35f94dab3f18395b59646c1d2f030db95677f1f05505466ba1",
+   "ticket": "0xb34ac86ea9a93d450354f5eb5c419cb861ad9175fabe2c49f4e0364807656d101f9d4af940316fd26a3fb484ce31eb1b",
+   "blinded": "0xb07d1f54c2581bfcf9bf9dd7802b6feabce2ea23a3e9656e07591a41eb35d4a1d6b6e342761a34b07d55678284937893",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s16-11",
+   "server": "s16",
+   "serial": "0xb56b35db3d32425450a310e69e3d1ecd49ee01d8573b21cccd902045bcc409ac",
+   "ticket": "0xb15c1a3cf429e4806cebea4e3b5530c10e668e8f5358d7838828c58804ee7e62b952eed93fb6b9e8f992451004b4db27",
+   "blinded": "0x9726a86590200ac2f78b1e3c065cfc37708a40932f8bb5c6485d5d83a78887577c8b89d81477fd2cbda5eb3f4fee162a",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s16-12",
+   "server": "s16",
+   "serial": "0x19535172de925aa95f745940848b4adba7ef6b829c74e90e5cb7f680d485b005",
+   "ticket": "0xa48fe85b9630841921fa0fb857b10671f9b1b9576c217f34b9272ff8272ee8cb7ac1826abc5bde5ecf54e506c1ca5eae",
+   "blinded": "0x97539075869eb6232f13790d0c6e090bf890d2bf78b7f03240fb29546d9c4e414e2e8cdcb884d36b74a0fcae5a9a1365",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s16-13",
+   "server": "s16",
+   "serial": "0x574e8480a06bbecd4abca7abccaac2a657bb31ebee5fa8d8627939d985e9a636",
+   "ticket": "0x858863d36cef05d7be0ffe434c7c1956a91d1a538f49c665839d327ed425eeb69ab340cd901d5466dfdef5a77cdd554a",
+   "blinded": "0x8ff9efe1b6458f426d160ceb065eb24d6d22c36ecb88af785a74d6f6b55eeb8fd685338add7097e4755e6d944a3c9128",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s16-14",
+   "server": "s16",
+   "serial": "0x843c779776d632f6fd390cf122f194e197bb6dc51cc97cad0627d487ab2eb1ee",
+   "ticket": "0xa30fe62c9538a967c65893a16043ca620d7fc6f0f114c805ee6f9fe6028229f96015012a97e55decb3df2d210ff51d9b",
+   "blinded": "0x88775dbd77dd0f5779cad7c28f1df65d8f5d8899db232a0551e26af533409421834eec54df5849e6e811040b6686dbea",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s16-15",
+   "server": "s16",
+   "serial": "0x4c7ce1e4059806ecab672f1d9bfcaf52765b03401d6804a23ab68d22632dcb02",
+   "ticket": "0xa8c0668428b2216cabaf282d51ea138ddf16b85bf90dbee778a9d9ceab3ae92df22a53332aee735607ceff8addff93cd",
+   "blinded": "0x9543cc5a2cf29d68a268776f600ff678a7b0a02b98365f380728173d83d219fdd9bcf66224c3418e67502f6005b89bab",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-0",
+   "server": "s256",
+   "serial": "0x66065c28a1840eb866fef070ff381bb4cad7bfcf6c4c1564102c62f5062be30b",
+   "ticket": "0xa52a3b040add73030e9ff35f311cd5fab8e9a0d3c3cdba04aaee85bf819cd549cf892e9c52d5167e70e0499b06a8a80b",
+   "blinded": "0x86fdb3600e2d8d757649c0ee359b2b4b8369c3f4f7e3075056ecccca94473e4f7b9b703ca52636b4eb71fbfa09800e2b",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-1",
+   "server": "s256",
+   "serial": "0xc6c4f8c4f57534c8c1e51e444ad3883e8a003baed8887bb21e4c19525544c4f4",
+   "ticket": "0xa021647eaeb2eaef14a20ba8de6867687597e566b6d7c9ee8468b81fb324561c8bc87789e1f75989e38931a89d90fba5",
+   "blinded": "0x943f278761573758efebefebb497a96c5889364a96a6c41cae7eb95a2903c75826a9fdcb79eec877fa11c4b750648b65",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-2",
+   "server": "s256",
+   "serial": "0x81ba937fe3dfa5426dfdbc02f12d6380f15048da8da616d3e34e7b412727b1dc",
+   "ticket": "0x93ee59f883a2a5009cc3e82d552873f811eeb642c9f72e01c8b02589331c030cf548fc03b1e82b5cd52dd4ceefae0296",
+   "blinded": "0xa6266d9208f156d4787ac6cc047bc46e7e73cdc023a79f74b622ba7311782ed31af7827403fffa098be68500e0d85690",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-3",
+   "server": "s256",
+   "serial": "0xd904c5764520ffa18ea96c20ab7915de3c8f5f7ec6ecb63859126908080e8911",
+   "ticket": "0xb7e04ada3bab189f24d6fe83511e1d2cf7cc230203dcd68b4a17e1e838f489289874d4d8566dbdc791c5b566297e7b0d",
+   "blinded": "0xb200e7b9bc20a9c90173dc984a99585f41d9835c76e059e71a67fd2ab6f03bb980e847e9eaa94d6f4e2c1e9be8864d62",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-4",
+   "server": "s256",
+   "serial": "0xb7da7368f544facf835bebcc9ffca1b35aab6c0d125a76c018d26a967237b119",
+   "ticket": "0xa68bb69640d37fbd7798dad51ce3a9ba2fe74f03adc722bb0178d4d951dfeeec5342442abf88dc85d1bdf76ccd054630",
+   "blinded": "0xb7fe3f45f107b200627ee356a23f94c929504ab1165ec6847b4465a974c1dbd1ac795b0f67f7d82fd3ddc29f79aa868c",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-5",
+   "server": "s256",
+   "serial": "0x90ad0f603968c38b7c2385f144644a00092f50c24c1fad0531ed4b636a860704",
+   "ticket": "0xaadeb9b8da7484428502913c584bb4cbb0f134dbd53477ecfd65c73316b593979ff69756ff8c61c3930d5909b22bf032",
+   "blinded": "0x8e177f6d9b14fdb5ca8ef60ecc4398bed02eef3efe6dd4e586762d91d3683a5da35de26e4ccaa7ced42ec7cf6e1ae9f5",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-6",
+   "server": "s256",
+   "serial": "0xe5893c4936e7862502be1bb00396f94d3e41fb9925ed48a0440cb36bf7d32096",
+   "ticket": "0xa6aafade950152f4680a23d65e41fee9e9cb6fab27b5fddd13ad780c84acd0fed5aa73b463ee14806d3edd2e38da2a11",
+   "blinded": "0xb03d0e18bfb7d3d89caa247f9116967a9a989b83c8a94fec3f2b33d640a57e39639dcfd49643627809ccc4b0e10659c8",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-7",
+   "server": "s256",
+   "serial": "0x3ad8a2f6e4abf28404c0a3ced665d0c5fa413aa5e08420a153905ecfe439e15d",
+   "ticket": "0xa953f55c16a248d658e95a4eb9059e4b7b162ec2e0378fe53a02a9c62ec63d70e9ad19bca971996ee91b0693416d17a1",
+   "blinded": "0xaf41383c2d75699f70a6a751ceae79f04f6d3baa49a3b7e61a4bfb8e5a90b9714cfdb144fe0624fbb5089b774dc5247a",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-8",
+   "server": "s256",
+   "serial": "0xfea5f846c044b9dc05b59b19e48057f57160b8d86a374ae1b06826cb24f7a6b3",
+   "ticket": "0x90744e9bf73530e935ff3b8bc7b1cb3dc9b50d24314d4c6fbb91e290996926fd647a68f02466b23ac66cdf761e6704d8",
+   "blinded": "0xa2c7b5781cd1c3d3d201fa0e472c888ee1ed7ce7ad7347581cacbe1ff91cb5945f7cc36d505b215135ec12dbd3150b76",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-9",
+   "server": "s256",
+   "serial": "0x8d8793d92710774e17ce9ec2e660b3a6005958eb949ac4bdc4997d53750d7515",
+   "ticket": "0xa2272d0affbfa7ad605cfc357967a054bb708131f4073de3df9f010aa863b3c2adc990dd1f87c016ffd126e216fa0903",
+   "blinded": "0x8288d9e47404720a40108f17632def607de778e3d9c71fa5029888c81838ee1e1db69ef6ce3eedf1768875df527beeaa",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-10",
+   "server": "s256",
+   "serial": "0x4e2d8144221e78e2ae526e1558a53c3fd002795a4b4823e20c541c2701499cc4",
+   "ticket": "0xb0379cbbfb7fac53bf4d7026b659c0a1abc202f232a9782c048220f2f070f6717a20f7c0e12c0c3854f28cd0518b75c5",
+   "blinded": "0x957478af52e1b2855bf05c9e6f825025844002f91e3d362e61cdf3a7fdd97854b128a2b38bda2bd99acc4e07d1943f9e",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-11",
+   "server": "s256",
+   "serial": "0x6e9b392336fcf76de95d56c7a666277cbd4428d7282dd36ee9be7fe127d4f859",
+   "ticket": "0x905428f6c1c4f12aa33ae08ca09bc3d9b7f1bb61d4c75f4e67c9d6a9b6c4adc82a87a9f22b003560e33fec773aca4aa2",
+   "blinded": "0x8467b8c6981eef8351551224c1985c98f905717199bc2e274dd185602b79d44eb5b9ee66bc78a3de7b7db517dc46327f",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-12",
+   "server": "s256",
+   "serial": "0xfd8c51ffde34a02e0e41e9ffcd026f73a212dfc55fc6cc798d6a15a374176ab8",
+   "ticket": "0xac63e238821de8fa3d5d725399a48275a0420b661dea3def4d929f906864b9afa53e5dd91a206f566c22153ba2ac0142",
+   "blinded": "0xa3afd882f81ab9a0c8269bf453ff0369524cbe2a3292b9adce5267fa541a7b089864bc28805aa6e8b6f4ca242eb5aefc",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-13",
+   "server": "s256",
+   "serial": "0x884f57a8e8bd2c42ce7ed2cc2eb10fa009a0e4eeb6380a34b584ed89b4c57eea",
+   "ticket": "0x8b862dcf9cfe6e2f449e645e797e80ae8ba66188d6041154e81f022f68e932149c114aa81d9ccd92589e56b5aebfb371",
+   "blinded": "0xafb76f1f515824e4bad0759ccab200d90ce05391faf90394228f2a267ac96913ca6b2b2ac8b5686f8cd5379efaff2201",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-14",
+   "server": "s256",
+   "serial": "0x753f387f441b8ff1123f4ba48af393c9a0aaa8b8f046118faee8b22583cd3615",
+   "ticket": "0x8805cc7a451132c5b5d3eaefd768a794844251201aa5680eef43e81136c401d8b2144b3a0b0fc6cf6783359d6fb77dc5",
+   "blinded": "0x987da69601fe5b1b7826d425e0d14555ada6d99cc83509c88c1c2257f4143bcfacf398231a322782871a495bb016b45c",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-15",
+   "server": "s256",
+   "serial": "0x9d9da72d35a4a836099fe47e31cc513dd7cfc7d3f768bd3d33404059430f70d3",
+   "ticket": "0x8642d33c4712fc4007c83859446d9794ba35793bbfc29ea340fc589cf2d220c75f6730e494f09b9ca189a5dea024e5e5",
+   "blinded": "0xa37dfc745d52973acaa278d787492af4ffe94270eed5c555150124ab695292d55e2422b29d76c9953c76ca8eae01953e",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-16",
+   "server": "s256",
+   "serial": "0x1e4eac3c40147a8032d2776707c4d5898cc94617e3cd10f1f7df264279a00f2f",
+   "ticket": "0xa2d71d6076af2e68441a626bf4d422a9668b49cb45a7129f6aabbaeccf72cce952452cf004d574577d6bdcb6ec119661",
+   "blinded": "0x83c04977c28ad222cb6833c242c99b1fede2dcb495592557f0b486b1990ec832940d38f789f615c59a641d49af50fa4d",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-17",
+   "server": "s256",
+   "serial": "0x53418b563a9cfeacfe44fea5f00aaf79e8aebe474c8c611cd90a8a6e91d05ed8",
+   "ticket": "0x85576b261acc3b1ad53de027488d27e45215658a22900286285c4696447f322d5c21728218b2e0dd325981fdeef39b07",
+   "blinded": "0x8a22d4722dcfae74c41cf87e466a568347029bf6494c6af58188486fc33758fe3f5793627602e783c7a899b7f7aa754a",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-18",
+   "server": "s256",
+   "serial": "0x6c44d87dcc34c13be853c76181f1a3494c3e7e44e79aba2299d5976c814a9b59",
+   "ticket": "0x9617cb85cb10c535679d9628a36b706e9c4197dbacdbbfd1fc90aca33ab6c190be04bc29f110a3333780a01bb4e33b17",
+   "blinded": "0xaaba2e429dfc51c5f40e56eb9c9b57beaff815c89bb4c297008c65265982ef42a53313f2bed367990eff1523a79443c4",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-19",
+   "server": "s256",
+   "serial": "0xf1bf1e12c1682d409da2838eaaf859c682d068f150f6acc6341a04a4db3ec88e",
+   "ticket": "0xb03b7d86c198ce391bfc74bafa7fc10aaa807f261e32931c7bcab049029ece3b60462e363416f028bd7188324d9d1eab",
+   "blinded": "0x83e44faa0e9a2c8bc58026d801a376093c78591fd0e3d57b2fb623a316c696b8727ad5c1e0eca75b3227420371f4f799",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-20",
+   "server": "s256",
+   "serial": "0x48e680e75e7b1353ee24ce30bd096f373c46daa4fab5a7a3c327d4264053118e",
+   "ticket": "0x8e2341866ec339a5225a4df837090fb4c5fc7ab807218ec0508a905abc2ede42f16aa938bb13b6221c7af1a526672ef8",
+   "blinded": "0xa4cf84fbabd4d77bfad75570bc81ab067953cfc0ab6d09bdb39728981a9f14798bacdc12427b6d42e74d42d9de9cfb2a",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-21",
+   "server": "s256",
+   "serial": "0x78ff6f2e754900525e6d4796727fb59da0553a2762dd58ad9003ed7505ccee27",
+   "ticket": "0x8b232d970a5aaec3646337db4f428e91cba60ec89dcaf0443938009e064b3c0ebc8f776271aec32b822f43bbfbc933cb",
+   "blinded": "0x8b569457bc4b6f675f47a1296655bd94ac29b63ef9d26e9a3aa4d5b19ccce638660b1f524c635eb9181efa01864477c4",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-22",
+   "server": "s256",
+   "serial": "0x9fc764d147c2c60c1b4fe53b6f6e5933e09e4bf30f086aeedf78101f3f13f721",
+   "ticket": "0x87d0317a0de3133f2249dbfd736355c8f349643ffdf7127dd0453867a34d934a73628bfd429f3808920011cdf6bab9c4",
+   "blinded": "0xa47ead1755ac1ea8e8f441929d486cfd8341473ff248a4c67129def11272f1d2d2608193086008f9a84dc519c0a01dee",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-23",
+   "server": "s256",
+   "serial": "0x3ded3470b2cbe767f8bef2b386307af033a6734e1e7b49828299967805e2ec25",
+   "ticket": "0x82266ce482ada74c50ac8101ace2d3682b0f175c2a12921b00cc71c67a1ed5ea4eebbf3f6e05fbef1cc792b5d17f162a",
+   "blinded": "0xb99a2ffae992841d9a9000788c2bd058d7f7abdb155f309f5b93f7149eb7d3ffc3af62fc6ee90883657d621f17b3bb4e",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-24",
+   "server": "s256",
+   "serial": "0xb47f4bf2d9258050317f587c0aeff7230192cc6054b32ccbf0a9cef5d3e12305",
+   "ticket": "0xa6af0a6b909dfca0ed33b8a7d38303a229484ad458c6672d3735f2ded4afda2fa403fa2a4e0af6301a90c108e076d5a2",
+   "blinded": "0x96c5be32d2560dc113a8e173405475670786af1f3fb2f532aa92c48a00603cceee8ab471ab630ca82bfc1beda9bae333",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-25",
+   "server": "s256",
+   "serial": "0xe62106ac0433f120d145088f6b750fa74ca71cc14a73d64f003c571db4c10aac",
+   "ticket": "0xb6c2656030edce723aa6b0562d2541fb5a3e8c5f7e6f2f0fdfeeb4180a835e201782c39a1d51836071569f5f3c0de359",
+   "blinded": "0xb00dcc99ffbf91f83b18f24c72085299511aca26d0bcbe337789557899c7b3fdf944b32272fceca02576ca782fad913e",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-26",
+   "server": "s256",
+   "serial": "0xc13b0199ae16eea2557b427b84252445d1454cec6aeba854ab710ba22effd0a9",
+   "ticket": "0x8625f30ab687951f0963246c80896aa7749cf753aae41b803d3744fea559bfcfc03abd397afad0b4b4e4d7cef2eb6884",
+   "blinded": "0xa5bd62d9a3d61e695cefb6a61acc85fb755a40d30e6a0a0059684f410c686e4b2f572650a22a371ca1a70873d0c5a26a",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-27",
+   "server": "s256",
+   "serial": "0x6f0f40d86cebb5385a4b4e04fe2526cb287ed7c10237b7c2b0e5317864e42c26",
+   "ticket": "0xadf603522f8bfade96a5ba52c2bd0114b8d1fec0f54d1c0ac3af6d98a0a722bb0c2bfc904375f0f692f03e60d4fef392",
+   "blinded": "0x91ef337c788496a1534e29d9de647b0cbff24bd7ae99db0849b696fe586c914c89bbd56e41e0d93fe10e520066de4834",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-28",
+   "server": "s256",
+   "serial": "0x4322321ffc34718a54ee6d51f08c7e036556fb8e63f4c15961a589add2398510",
+   "ticket": "0xa00749f3864e8f646762a8ae518d1b1c6a07cf2465f98d2ba9e26c688772801e08f8baf208cc1a23969f7b25b8c85435",
+   "blinded": "0x85be32a17afb90092820d247fd29530bfc27bd3f4739228e0728066f9ec05214be50865a7aa753e6e90f0e10f1f27bd0",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-29",
+   "server": "s256",
+   "serial": "0xd19bf01c9532b3766fd311f7f3024f76d503333d5eaa20e30f463cfbd35a972b",
+   "ticket": "0x8bd04b646cd65bd5d9b726d5cd4a54702e35168ddf5233f0456078699b0e780b78e2c9771fe4f329a5feaedaef8cf0c6",
+   "blinded": "0x912b2cf4fbd8f5aac2aa6728e8951d8233dabc8ce41e0bac5c05626023c753c411b3c78db4042904a5ff2f49e04bd64a",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-30",
+   "server": "s256",
+   "serial": "0x36162fd71750a1a8508199b04748f64e81748a601c8ade68361b74d8aab67a3b",
+   "ticket": "0xabcd3429e255a7aaa3c2e4c12c4ebeb98c4431eaa5f8389f443dacbc201d76ccd59d949d7711fd2d81b4600f97d30d96",
+   "blinded": "0xa7b0d437d46bfef8d275ff569036cbc608f52248e612d6aefb262f1f6e1909b1b0182940b993b269070a0efd04e67f12",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-31",
+   "server": "s256",
+   "serial": "0x7fa9a21b432be19d25092c11b2fe268d7f08003ab3f59ebd59fdfc87f0efb3e5",
+   "ticket": "0xaa1dc315d9ad7c52221c34ea14981c924eb330a3456c09527d5b9d5d5ef92d08614ab29214d21c07f6512569f3c752a0",
+   "blinded": "0x8fbc4900d1c3cd827e3dfe86e2e07dd04674ac97ad6f0f9a0eb33443f42dab71fbb8bd638c7654162d166d31daa2afc3",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-32",
+   "server": "s256",
+   "serial": "0xec4e1be19d72e1fb479030b8da7ebae493b705d6fa5d1e80915c2d87a94c2fb3",
+   "ticket": "0x8105b344a544922cd3603718d6fa0c515e94b2bfa9c12a7357a92b5549a5c5f50028e108936615ecf441204f49ab4598",
+   "blinded": "0x9997ed22b2e162fcf8ecba1ceafd367445ef0ec1c222efe2922e5803d24d860491ba351ccc759d884998b09934cf0666",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-33",
+   "server": "s256",
+   "serial": "0x766d14a8470a9d0ebcdb74b763b1e50c7757ca4cd1915ab11577a7358096d629",
+   "ticket": "0x85c647d69ff5909ba3cbda3437231d6ba65329d3f9833daff8cafb63970b00370843aff8930659e6d94336e063624ffc",
+   "blinded": "0x88df3652a8c35da7c593745d0fa290cc23abe43efbf3bf1e90a0c5959baf2613e3907700bbe4b32ffb6775dd534c138b",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-34",
+   "server": "s256",
+   "serial": "0x79dee00286a0ca17b6a098a34bf6cd51557ccf4cfd80c38128e16369f8838feb",
+   "ticket": "0x91aa99d31142507eafe3149f1c8a8bc0fa44f8286f43b4776e290fcfeb936c43b68fce1704636de6f1cbad3fad994f97",
+   "blinded": "0x95db1f961e6129882736b2fae301524c65e98b74a935b176a7b6473007e39e7a8baa0b008259a7ad49b6e2a5fd9b2453",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-35",
+   "server": "s256",
+   "serial": "0x2a4d9edb3ca18a821c94eae51e575841ae4927aa2e9a5337795b3f9ed10cd8d3",
+   "ticket": "0xafcfa0e074b457b6e456a78db1cc8824c9bdc7cf63fa5ae4938ed5ba41d6fa3190bd49a4033d902f47897b2fec6b39fc",
+   "blinded": "0xb941ec9eaf188dfd9cef526aaef4d16d00f5fee923b0a8afcd202283312684dce29cf963dc55ee660be6cd0c03d854d0",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-36",
+   "server": "s256",
+   "serial": "0x743cd4d470ff8cbcd3f45f113386e00ec478adfdf0c0efe05304749f47a18344",
+   "ticket": "0xb3ce8eede58a6906ce483bf5c28608b7197107f985c6525ed6741f8f48544323147350c05eab4d126300c2baa041c458",
+   "blinded": "0xb070b50566ef00240c6ff783738d14f49544ead18af9817ee03bb13421a5920e14849c823e17298e857f5130b499c816",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-37",
+   "server": "s256",
+   "serial": "0x3d113d4b6f21f689e4e0aca218e820aeda059adfa29de582e06e69f09f700acd",
+   "ticket": "0xb14faf0ccc8ea5e1d2f1cafc4f4ce45ea3ee54c07445f2dfb6d09f71a9643e5b9774d2e2a6892862842da73e1a182366",
+   "blinded": "0x95dfff884b81a212840a37c9aff497b142fc78406f2aa04b791efc899d5a5b900081cbd3fab8243029329d9b67aa24aa",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-38",
+   "server": "s256",
+   "serial": "0x224dd255378ad82db3e88c783926d1f6f88bb68c1a6297ad49bf8403a5d16a30",
+   "ticket": "0xb6f9c1fb25bc9e28278466e5014e174dd319286e359007839a17a3e3e1dcb5053849fbc370ba91723915c10f1d34582d",
+   "blinded": "0xa635777920756f235cd8a01bddb3ab6eedef04325e832d0b9b1c4a91cb1a0c93b41632393263baffe99d047023034704",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-39",
+   "server": "s256",
+   "serial": "0xdac96ae3be448ec81cfa60698fd3d77cd86eef576122ab54127fc5e29fd05be6",
+   "ticket": "0xb95f282e5b371d6c4d306d24552a3cd877ebe5d5fe99fff0f15309c55cfd331c481610c07dcb83551f64a37ad5db4a46",
+   "blinded": "0xb91659f2967dd7f2a7c0ddd7a329275bbf39db1c36eaa3ede8f2869ebe83def41bf1716651d4fb82f9b39395bab9f34c",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-40",
+   "server": "s256",
+   "serial": "0xa918bc61a520bdcabe43de191f0263fbabad423789b36e416a726929706c3f5b",
+   "ticket": "0x93aa62f889ca75314d9b2f5af940f8adea90d4e58ca0010a454e94e7214497e9ce343235ce287ffc1ea601de752eda6e",
+   "blinded": "0x874c5e2ab156f27448eca2f1a2ed846afe3ac81fb073480df07f3ee87505fbc2e98a4b717d70008624c2f6d49b3f5713",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-41",
+   "server": "s256",
+   "serial": "0xc4d8f7dab9f61b4db1c62d76c952ba3cbd4936dd5dd34775af04d3102367a05f",
+   "ticket": "0xb51727ebbff4f091fc508a00d36c454cb9f5b4660727e1ae5cda1ba78a6fb044f9525605d2a177bc4028bc284052d9fc",
+   "blinded": "0x86cf266784c8b4902e0fa99a06753c5bc90d548aa755e59e8670a20628c705fdae1d2f50aa88588a9d72c9efc0aced1b",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-42",
+   "server": "s256",
+   "serial": "0x84e631932253f0875f1c6dfa639a897e1fab78e0b89d9b2f3770997d7ae0619f",
+   "ticket": "0x93986417a6ab5352927d6dc79291e3f24b49483caa70faa9a5c9dfb406d0ccc5f0d07b47fa326251d99e4ed953645bd4",
+   "blinded": "0x978fbf1248f6d33f6fbeff412fc09f05409b501b31472f2f577909df78fae725a21db7d3e662a664a57b06403c59649d",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-43",
+   "server": "s256",
+   "serial": "0x70871738d42f9179d695a242216655ca227b9d53e946bd31bd084ece571a34cf",
+   "ticket": "0xb61a559515d03246a41b78fc8e8603af7239c0e55a26c7c4ff48388fcf8fceef61027779ee1416b10059aae93241defd",
+   "blinded": "0x96b3f0b221962d9ba42d2bac8b994f46aeea70ac55a3d278a9444b3a2466e1b42ab9e20cb25c5f06b2af397e63d68443",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-44",
+   "server": "s256",
+   "serial": "0xf69d74f8557a020525378e02e689c4b602e1109542b13d508af68b29ded73b2d",
+   "ticket": "0x94d0a67bcb2d4f2e48f1585b255fc5f96409fdce1f4ef4341ef8d6841214173c1d05ed6d18b129451b72412d65606187",
+   "blinded": "0xb7cf9935995768c74bfd6cf4649d5165adfc37e44799da6a23bb342ec4af7c0dacaffe37ecd847b8744e471e70ea1634",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-45",
+   "server": "s256",
+   "serial": "0x87cf9f2bd29cf5884d09bcb55dffdc8609272d5fa4f6373aa16a7b987626fcb6",
+   "ticket": "0xb69e33a64e9cb1d13c4fb867bc00209a68d87d51f77fb9931703ecc1b7b14d0ebbcfce75358124b3b17e913fac03cdfe",
+   "blinded": "0xa578a04a7f0831e64a6d866e4180548a22db57eafdafd775ea0c96b9b2c8011d57377097fcfd00f3b2d4bf58df81e650",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-46",
+   "server": "s256",
+   "serial": "0x6596f95d5ef9c0d9b76a0950f2004c6ef65baee912fcefc0599d8b1ae677f572",
+   "ticket": "0x943bf45b6dde0f68c2ecb643c3be56033b9f27eb5b4d9d93ed4441e9610e4221c9ce62b893ef51f5342b9f59e46b60d2",
+   "blinded": "0x80d2009f21e933ffc2de36a300a08745fcb03b6ef6bb9a8355852ff55db904eff2acc6143abc571837f3491d1b2c40c6",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-47",
+   "server": "s256",
+   "serial": "0xa6b2bfc45f83ec1e15406b7c952dd6a41e72c47ffc92bbf7c69ec76b61d752ca",
+   "ticket": "0x8171c9e00bf39557e0bd516833e3a3310dd7734d59b086f7eb27b035c34110206f52b0f51f4982d9aca017f3baa931a7",
+   "blinded": "0xb63e7cd3eedcffa60c0be29c5f553112c256c95d3f491cacf9218f02e5eefbde4a7a3985a73b4d30c2b7c99f926d54d8",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-48",
+   "server": "s256",
+   "serial": "0x5c332b0f99c4b0dc99d211605598d6c9751303277402b916f4218a6e5d50f6bf",
+   "ticket": "0x96f3ebc25da9ef189211b52f0f69173970680928d028b90b73e24b2d9b16de15da29365d9c836b5f77633bb470831669",
+   "blinded": "0xa0a04cfeb92e5bbff00013921c2c91231795899c621393509170a1ffd3454da97a10003d7d370ad5880bdb1fa9c7586f",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-49",
+   "server": "s256",
+   "serial": "0x1ddac664de509b1ccd519f81996699e02344ea6f4e66471d40a4d1d088325c28",
+   "ticket": "0xb9a58fb0114ce0ed018b1b9bc62e697881d922dbc3366c051aabb48308245e52329197185f5825fcb34b927e8cc08e01",
+   "blinded": "0x8b3231088902999428dcc790dd143c6eaf293d0dfada6a9a46ff6a1651c01e36a3634285a4d8b3547c3f8ddebbeaec38",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-50",
+   "server": "s256",
+   "serial": "0x832354eb513904cfe287aebddd4487b8e8b279ae582dd4837ae046b436dd9383",
+   "ticket": "0xa2451d4b556fe3650b9ef8ede356c1d4228ac32597ba7fb9b85f7317103f54f16d1f399f21b1892c644edbb946ab68e1",
+   "blinded": "0xa48a48c92f3efee5686874bb7115d28f7126f532c32516874dff6f4831e07d489983f7e08aacdf23029db799df60d469",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-51",
+   "server": "s256",
+   "serial": "0x51d3e23d350c9bda249d9c03e3a8a079fbac6ca509139519aa9b1204b06d21ba",
+   "ticket": "0xa544ea0fe744f1f3867771dbd6a6dbc728b10f2ae488349d740c48b33801a203582680e0c1ba77ecf96f798c5ad3c3c7",
+   "blinded": "0x866b2281ad4e868f6252786ef3e33957cc80ac4dde3b0de101642debdee9d60c4edd0128aff1a2666e524d2166e3f152",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-52",
+   "server": "s256",
+   "serial": "0x405afd863000d285667554f7fd06663416aec493526e3ee88fa10da13330228b",
+   "ticket": "0x8a93f461485a49918df78d118ba5a0d544049466dab25043960ed3a2f10d433ea367e61c3048cd962eecac9e06c3dd84",
+   "blinded": "0x8a6d121dd33f4816f262acd21cb9ccd4c87f06d3de33e048d0e1f375266d40e1ab04bc1fa419d49e07c6a8a859f01439",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-53",
+   "server": "s256",
+   "serial": "0xebe1b757411e1d577ba80962f36e3c6704b93eb3b78919c7f97864e65f24017e",
+   "ticket": "0xb6237a901ab1b347f41c677fa06be4ae2f8b985184f42cdc9f14048cf4c4f63f376d8f103e5f3a4d02ceaf3005293685",
+   "blinded": "0xb9f6ced9bf79c574284c2ee247dd18be217aeffc6610cb673969ef5d667916776e9d10a51713c9dbc907184f07c5deda",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-54",
+   "server": "s256",
+   "serial": "0x88d7a1830df21122a5e79a38fbf55660759cd9a48fc98e0ef1b22facd54e6023",
+   "ticket": "0x892a0fcae21c34936c9c97b66147eefb4ed17a884d4ba30545442123c23e16c1ab8bf4f4c192639355db50b0842a5ef5",
+   "blinded": "0x8ec33d6158cc9e98c6b5372dfd76e587cc0921272ee52a402bef3d3c7df5baca7895d34bbdd573feff42d98c9f969dbd",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-55",
+   "server": "s256",
+   "serial": "0x3ac779f4fff7776d256a34fdf5b212a364e77a030438c7df7522efbbddb765cc",
+   "ticket": "0xb4afca42d30993cc11c8c01f4ccab68374bae0f14b283d41d9229d5d9a777ffe62b532d244c6345a78e8c98b222b1761",
+   "blinded": "0xaf95c6cc57237c0d8e192b07092171ab5281bb31e3a7ba7ce634103bf3fdafc69a85032c069a19da4fd7fb2fe38c1052",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-56",
+   "server": "s256",
+   "serial": "0x55f2d0e216fbf97ef2f832cc7d488b42b73780dfe9f745fe70300c4a5a3029cb",
+   "ticket": "0xb183037f61e887e24e36d08f2e404275d682c14be0f16d3aa0d300639d1071f4360842a5c49cd20b3f2fa5e287192ef3",
+   "blinded": "0x8ea05b793565cada4c150d9fd01b7ccece13c0112f32cab3e85c3b8bc5b0a734cb0a3b1ed9246b9b2c65cbb14ba262a6",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-57",
+   "server": "s256",
+   "serial": "0x7de081a4b72bf697e832dc5f78032a0a9b4069390a58ba2e38cb0fdc1667adf6",
+   "ticket": "0x84e5d1fa077d95fa94597ac48e153f2eb4acbf07930efcf2ab3198699a785586dc3bf0728897c35fd19f9412c6ee386e",
+   "blinded": "0x985b89f0c71b7679e1dc13531e0d0dbdfa2ee647ffba9dd58f5a0a09579b2d3c2d1f4f69ff368d5d10462bdd3cb23bcb",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-58",
+   "server": "s256",
+   "serial": "0x66a71ae831957239e6aa002fce448e15d171e8005b95bab8a794423f057f92c1",
+   "ticket": "0xa4fd908beaf667add3a0c7532c45f726a0507fb19d461136fce29710b40b5d930a4a9c7c58403812dbe8465ed406c606",
+   "blinded": "0xa5cce13398dedc76be91e6d1bc42d44721309f62e6c093f3424be2162f4bae1fc56238d22581fd5674aa0329f4c5c4de",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-59",
+   "server": "s256",
+   "serial": "0x9a6d1a7ae4cd2ef66d14f6b34c712da9d2e40c6d4fad6909dc9a5bbf998f7534",
+   "ticket": "0x87cd6880d9219d2aa67dce8814b680a5fa0d7e720146088482e2a5a632872d78d7e1e4d155ddc20edf5159982fba6170",
+   "blinded": "0x98d002ad2fdc629b8c41120410383fe88a1a6b317742a468f4bfa73fc723e0147bb416b73220873d50467419c6c8e467",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-60",
+   "server": "s256",
+   "serial": "0x9c7cc209d80f964008984e45c2f56f7a89d2e0003c9afb094cbf3475d93c7b31",
+   "ticket": "0xaee38c3e9fcd7e703bbd14f5410fa61bd85a49d57209e2bf1c24c4aeb3cc9fdc57a2af87b8e4c32f2e901104280712c0",
+   "blinded": "0xb63dc683306e8c4d941ef6babc3d7a0270a130f9dd21ca5bb0eaa59848fbd7edd1445ce878d76c54d4e30c3e179a2b8f",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-61",
+   "server": "s256",
+   "serial": "0xa9babbf17e7caf1bf0f1923946163b881b95b57c595873d10fc3d5edec17c998",
+   "ticket": "0x8fc547fc938192da078557007c8a54fbe2cde0260630de1525f56374cd0dccf1c6cb274c436353006d95fc4957d92374",
+   "blinded": "0xb9a2a4e182b1f912e1bf90d3860436cfe2a99c2c65726f1833ce981f470f21ab6c25cc45d3a961d2ff81f6164b981ccf",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-62",
+   "server": "s256",
+   "serial": "0xf6023775420becb07bff89fa570b6a2c1de2067602913331835be17d20f7a177",
+   "ticket": "0xa81f0cc174bb392d88a1ed329a87341659d99fd5adb5601452c61c7b216a8e6d153a38c4b749842a410641807002938d",
+   "blinded": "0x8e9478937595024fc4063722516fec35f746c48fad01b9894826983d7b1cbba63c5690c5d7751444d62dd06a30634d77",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-63",
+   "server": "s256",
+   "serial": "0x039f06a09893821768bda2419875f24deefed5006996b46ded411a45ca2e7041",
+   "ticket": "0x97f6799efdb7b962265df06bd4c5dabbb312539c10bf678e5ce7f74ebe72013af0658c666f9c74a510079013d243152e",
+   "blinded": "0xb7e367cea67aff8983e12542e3495ae9236961c51a7263871cd68b97eeab7c1203c7e40ef41f59e7c64fe43c91e2fbee",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-64",
+   "server": "s256",
+   "serial": "0x81b0cbf8b57ebccd42d4c5daab0271423ace4b7fe33956916b89e069b0ac8dc2",
+   "ticket": "0xae6fa4f67bbac44148a8c7d5081c726b1f31d37e56227cdb374c2a0f8dbdc7017279926f55a9b1ba8c38a90a2e919732",
+   "blinded": "0x8cf473be9e73929b35431dfb76adbb823b509feb9697696a33b7c90c9c802bdedd30e2c51fa19d16a69266a451df4bd3",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-65",
+   "server": "s256",
+   "serial": "0x2afa14b7ae6c3e794759ed1641b0ea65ed79b98d1fe1c0c7caddcd5da3b9efbd",
+   "ticket": "0xaf6a3056adff7b3fcbcf15bfed7a00c821e204ff949b50c9a0091f1e056a209c5987b9963d956a4341b7245a67285e6c",
+   "blinded": "0x8c0908f8545fbc759de39877b37bba639684313a11786de53c7416e31ac3ce70e99d97bb6367bebdb18d1eb9d51067fe",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-66",
+   "server": "s256",
+   "serial": "0xe4488765764631b34265db079b7517baeef628ce4e4a191c460a1a736bbf065f",
+   "ticket": "0x8a85676e0829b155089236ffee85f368a6de1fbf0c52bcd8f5529b52e120257beb7756c70c24335c84fdbd696696bb07",
+   "blinded": "0xab4cb7ca8dd41f27e3f27a075b257d0714d761e2ba13f6945d53325a8995cd731aa7ce579bd72aa3ed238b9c39d02849",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-67",
+   "server": "s256",
+   "serial": "0x47f0100dacc70b801cd23d5e314719485e888d4147909f9a69f8b939721db50f",
+   "ticket": "0xb25837fa99248383708f7799948f79106df409e4f26c784a662020df36f33e3267ebbaf6d06a6e35253e798e2764e4e0",
+   "blinded": "0xaf6f675598e7ae084ef47fefa4c89caecfe1f4761e84c94a519ee64fda975fb5b02a1a7635440d955603ee828bbce740",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-68",
+   "server": "s256",
+   "serial": "0xd97ccff53068be0dcf883912400008ffbe6f410051f129886c5de5ad6dcc359d",
+   "ticket": "0xb10dc8ab8d439cb28b42fa542367e0b278276916cad6026913b34f4e1e8884bad4a235bd4526bb11d94ff556007564f6",
+   "blinded": "0x967a5b2950c99a11e523737e564b40f43483b1f85a3ab0155a104d831a3c0d4953dd0c320ef52bc017548898e6c911c6",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-69",
+   "server": "s256",
+   "serial": "0xbf10df029c1de19bc7ba627818bda3f59b6081bd69e662a96b6a6d59812a1b3e",
+   "ticket": "0x96b582f189ea22f91d2d390abad1eacf3985e172801b366362f9aa1eb30d124bbcbec302e3d5149a9e21d1ea21a04c7f",
+   "blinded": "0x93792f0f957c5eb676fe386e88c5d7e33865a2a8f5e5cbcdfc2018757cf0f82855ecce8906249bf9d1e15a121a251890",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-70",
+   "server": "s256",
+   "serial": "0x933aad124c9c5e72be19ffef84b6cd1ad59ebad9360cd26dcd0d01bf07f78b66",
+   "ticket": "0x8deb992ca8b780b6c9d51178e160de6574174dde86ab45d5e74ba1fa77dff5b6f538c420bac849be34b61522de3b64be",
+   "blinded": "0xb341e41eaba8f670da482d484f7a7527324040414acb5cc828612119ff98d0107c88b5c3a45abf0e48e10f0c1e9525fb",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-71",
+   "server": "s256",
+   "serial": "0xb35b5c014ae4a94b3ac90ae16b0efe3a03ddc4e5697087d31b41556b33e80728",
+   "ticket": "0x807a89db7f6193a391df1e21bc1df1222e09900334d72a1ee46e1b8b51720a1e8f7b41c4ca8f8438938d4c986f2fdec3",
+   "blinded": "0xa05be85a39042cb714666397089e3d36f364abd16cb0201593d4a34f3d1280bb0943e82ce8222c385995ee9198b592dc",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-72",
+   "server": "s256",
+   "serial": "0x04a660b3ed5f48efabe56ff352a04a70e171c9d02674e79d549648fbc31a7f3e",
+   "ticket": "0xb0defe895655cc76351114334ea55c4a95201556104708f649d3717ded28f6ab87ce97ec05b407300443d9b38c228979",
+   "blinded": "0x94fdb65f51695ec3dde57699a71aa19f832f44970c35f81209835cfd3370ad52a5baf290cdb1daf92f1893a713eccb3a",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-73",
+   "server": "s256",
+   "serial": "0x369413b4cf5e57fa6016a2cb687b04baf61d4942f0b98da5dae5abd692d21492",
+   "ticket": "0x8caaf6feebf9a7f3df8620e3bd3760b1713a1e0ad130fb0089ccd16d1c949f8b9456de99148e1d7a0da2ec537825e316",
+   "blinded": "0x830349733b21a59ed6a3cad80b65daa04237b46482a92171e46157075ccc64f5cfc383f7daed0b78486a9b44c77ed284",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-74",
+   "server": "s256",
+   "serial": "0x9249c2c2e982649ab3196aee5885c97e2559f48b0433ddcbfae082f45f7b3e07",
+   "ticket": "0xb4a47f6415d79db947556475cb1d163fb071430a46f1ee038625d20170d1f3ba4d995f5480cd7722647018f9836d2344",
+   "blinded": "0xa59169d0fd9ad5566c11928c4bc43bf8a1eaa73c60f6d43d14fb698d22850a81c12d968d2e5f6d5a13037c037a725767",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-75",
+   "server": "s256",
+   "serial": "0x01f1fff59cafe55690f725c28039dfd391af489f858d1dae14f318949725d9ab",
+   "ticket": "0x82a199d69561fed6cc5abbe30ddfd56af77cd547efb8ddfd4fd26a0f4541408091f8f549e1024bbb9924b9295eb3f6dd",
+   "blinded": "0xb8d9b47018d4e18906fb6ca4da65ba4c4e0422d46c5f00199d7225590e3c40f2992d6f904e82746c4d7e27b246d27cba",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-76",
+   "server": "s256",
+   "serial": "0x44a7fd25c84bebb55b45ba35e91f8dcdb09a28ae22d1347b71c933fff0dac34e",
+   "ticket": "0xb6753c36375accdbe1d607e74e3b149b02788293d23cf58742604b2420aec3b022ddef225ad62fa9076795941a650e78",
+   "blinded": "0xabf3ec62d530c5c3713a41ad1e6f6f0d249507a68cf48927f8232957d0e633b1d98629fbae535948ef849ec3b3e02bbc",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-77",
+   "server": "s256",
+   "serial": "0x61e1d83db932780a09b7dfc6040704e75d862c9c5c3de206936171a160682c83",
+   "ticket": "0xa2f646a7325a1477688b5689dceb154e0a2a8826b04464e710f63eecab8005717e35570b4f3d4761f58fd2a99b19d88e",
+   "blinded": "0x8cd1b2a902173fa3fda72285de4f2c9aa1b2a55f40cf1be24326d6243271c32f793e8123f864a9aa1f83dab52f3edcd2",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-78",
+   "server": "s256",
+   "serial": "0x2ab21b03a673419fcfdc35f5600d05b11891a0ac69951d3464f9c35b50fadf5c",
+   "ticket": "0xb6e7b3398a91c5ef34ea55d87aae496baac0b8e080b316f876f0806762052ee402f593629ae57ca2f3e23c99f2f5a25f",
+   "blinded": "0x85aae85fb2ee15c3c3ab10b2b804e9b78f7887f3da25cbec69d491593d6632e8043b40bce11c618b27fb3aa64d1f1724",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-79",
+   "server": "s256",
+   "serial": "0x0b102b1a834c1f05e9d29feef81f97310209ecd0e5c6adcb95debd0328e24193",
+   "ticket": "0x8d793fe2b8db596f577d42cb982e021f2a6164018d960039117ab86786baf1af71f1dd50a9ea516ee1f80c7ecea67e77",
+   "blinded": "0xad222cddd3bbc9229425848b82af6c5674b4ad5bfb3e7ba057be60defdc80d900ba95efb609c9fa1821573327f5575fa",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-80",
+   "server": "s256",
+   "serial": "0x4c16a6e550d091d194a8319bcb14ad29472296f388615e4521c762ca66528de1",
+   "ticket": "0xb6bdb298231e977c4be1bc0ebd004fd471a1646316d1ebdc5d08e74c08554aa3bfd01835790d97aeabd150c14d82b3c8",
+   "blinded": "0xaef5ca99ba31573587d0fc26b50c43e4c7a29146db19a49fde527bfec77d892d18ec4ea0af2870af2e010c44f3fb0e7d",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-81",
+   "server": "s256",
+   "serial": "0xf79b123a93948fd690d9a0704c0588fb6277fde750bd732f28420fc28eb243c5",
+   "ticket": "0x84c52b256f015eabe1b85e359f8b8ca2ddbad4eda26c0f9cc039a9f6237405dd0ea55b44308e0f145b21a7f9feea5917",
+   "blinded": "0xb99a2fa9e2090da7bdc5510a40eefac882eb8695a0b7bd13fdebee8c7bea9603b41f7e169b1269947605a9f9c022184e",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-82",
+   "server": "s256",
+   "serial": "0x1c4869554f977674ab54a08ac28ff64f0c4794d0ed6e6feb71b9bb063415a454",
+   "ticket": "0x8a39dd7701deddc98681953eff6e3722f1e03ad407aedd978aca6dfb62ed4011185b24a38fde79fd92258dcd799b5add",
+   "blinded": "0xb9c2ef12345c08438943b552937720c1a07ec48edbf86f7787e48ab21a871dfeb58952ba60604c310d9d6673719c7bff",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-83",
+   "server": "s256",
+   "serial": "0xc99f0f5c2f72d0a42b1752a6a5f5170159f48017cf666ddb683ab6e387ecb7d3",
+   "ticket": "0xa79c5e24b0ff283bf3a32aa9bdad7627c4dcb51c9f152fdd4e87f460ef7a3e314257ea27b25a0efab02045264d8003b5",
+   "blinded": "0x9420e91904ae245bed443189ea801ed5b5f2f1b59cdcf703c5e2c7e5b0d95af8f39fc4829f4a01009637dcfd19c85377",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-84",
+   "server": "s256",
+   "serial": "0x30b3fc8b0da8c7cfae64633c4ce7f7fa8634aeae207285fe7ac62f37240e4089",
+   "ticket": "0x8b865f3b444223e591e7016a08ce0f0df6cb8c3540355f6eabe571f93d5e9545a3deea1b5e3318aac96af1ca9e2d0f64",
+   "blinded": "0xa683277d607b9d482e24c43881fe576e5958c5abe2cc67d53883fababd3649d6c9be9ebc3df87c362ec3f1d9667f9a27",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-85",
+   "server": "s256",
+   "serial": "0xc5eb0d80e7d944cf18c01e4c0cc4cce200e046f935921384bff964645f848453",
+   "ticket": "0xb4bc94505b46cd01f58d65a14fda954a29ce8c51c0c23da997a43bfc6f41bb4328669a21013bee714c608d4a65c55006",
+   "blinded": "0x8c0c19fc8bc3b54637cebf830eecb40b770f80fe2642b69137afd0b6a03ea332c74e1543984315d1cbeeb2fa3344903b",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-86",
+   "server": "s256",
+   "serial": "0x6362312ed1742d4cba97018c6edc95e8ad46c1738dbc078285ba89f86f5432ac",
+   "ticket": "0x868fe42f234f373103ffdb5009dce07e934c0cd185d0990111a63d1ce0a02a1333ced8e58875ff154c64357552767449",
+   "blinded": "0x917ab29f5e8a117d07f6ff9a5d1cbead5a5077ca3ca49c01289184be8c14d8e5c6f68d492c479da973f564d4449e8122",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-87",
+   "server": "s256",
+   "serial": "0xda587efc443c09452e286414e963ceb993d4779d2f188bc260895ac4bc7c1db5",
+   "ticket": "0xb637bf606eb4571a0024fa430e3df23f28280eb6f5285527e1324a7d9a22d76fbc4ffbf543bedd212d0ee486328b95f8",
+   "blinded": "0x8011d0a8b7e1647135f58723d5a88391a2b4db8665172b942fe97c7bd52e517448cd7aae8e1ecdd7e2dd3f76069d23e2",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-88",
+   "server": "s256",
+   "serial": "0xc3f572b749ca8f8aaf68d45853c06caab51701bf3c8d2bc004f238c861b55a44",
+   "ticket": "0xab7da1923f3ecb59a22330e91423fb065b3d875822c55e7b30b6707083ad9214d21776424b134353909f7902729dd8d2",
+   "blinded": "0xaf98faeebc1ea1435ba4da09606dbf03c89a9a4eb7b4ca19637a1ee517337cd9a141d11d85a9b1d8a25c59fe57a5354b",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-89",
+   "server": "s256",
+   "serial": "0x68a7ff25b333aa5cec0cd5a3592cc415e82369e180e1535eb83158d48789f624",
+   "ticket": "0x9426a43beecf7e68156f814776c88900aa633c28dbb04c853b1e04196d45f31b3ff38f57a7916d1a413ae7ef09febd7b",
+   "blinded": "0x87376c16305d76b0a9ffe72cc8f562a9be436e61a10f15bad03c1bfb5e2468240a0a3b2166e7a0a729bee172c2f601a4",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-90",
+   "server": "s256",
+   "serial": "0x60329fb1ed55312687754a5dde971506d9a60443b5c319abbb6268c9379ef0a5",
+   "ticket": "0x8f58cbdf406a2b1a8152dce7202bd547e431f8f2c67d8d58b3ec59417c2d1e65718c1e351ac01ad795cafe1b7e6f95f3",
+   "blinded": "0xb805f937fdc784ee1a20065f0792dc0694c72e8ed17156118a20165de28cf236c320b145b062cecfb75264b86b106d6e",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-91",
+   "server": "s256",
+   "serial": "0xe90a0d60e68753ec8e54bcd15002cd954477916ed7c6ccadf9f2562494061671",
+   "ticket": "0x8591a03d3f1944b9d3c4bfde5419f729cb5ab8a7b4671ceb061aa7ff1ef216f8ad7a322674994ca062bf2c6157331592",
+   "blinded": "0xb62af14b99ee0332d1a7be959de911d1252f29ff1e3c97aa8aae9fba92f237ee5d8a833b7c65bccfdbbceb279012b151",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-92",
+   "server": "s256",
+   "serial": "0xb614c4ef165ef4ddd6cc10c75760ca3af2afe75b9d6d28f1e947b497f4646e8a",
+   "ticket": "0xab95477a04b5b3e8fe207255f348198b01b0f35e853bb7d4bafcccd954d2b1c51bd8e308d4a7a22d8b036b79e6c6cc6d",
+   "blinded": "0xa9946d43867c523ce692bc346a520db6a073370de147aa96be954595aee54a40247401f1fe831fb2c7383ec8db075471",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-93",
+   "server": "s256",
+   "serial": "0x5db37dc7206ea94ee0636970df7737f8eab5d19bb090d457e3b13dbc5f79370e",
+   "ticket": "0xb58c9e261165b74e52b5cb16427b6176909d16c847292a6192c480982a54887922552b642f04c1db66f855743e7b1817",
+   "blinded": "0xb6e0a2c37ec042944f60d4a99752714ac7e66648fd74bf5b6c3c2303ce0837e6ae2b995ab712970c2dad897edf3d7192",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-94",
+   "server": "s256",
+   "serial": "0x871d74850b7f666f0bb459cd794d147a82cd594e112450b56163f80b832bb944",
+   "ticket": "0xb0f7b560822b9888d6094d78abdf94b8402d72533600455fa13620a9745a8c5aeabaa94a92862895fdc3a56bb8225df6",
+   "blinded": "0xae238b701d9b2e19045274e9c5a5e02733ebcd3e1177ad10239c32d5e7a04f368cc579bc3edd11698c91266526cbee99",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-95",
+   "server": "s256",
+   "serial": "0xfca1030f8dc8f0609ec4c79ae8bfec378fbf90256c62882dcb5cb857a5626a22",
+   "ticket": "0xb9e5ebc6038e2d11be45c04b9995538e58fc1370a1068c8f835d9d58daff98e81394bdba58b749ed623dd692910295fc",
+   "blinded": "0x98e4be6c2e7c276fe3b3a721b4761cd81c90203d5eaf98ade28d325c21d6b1433cb24df48a92fbdf3bc5192431ec2be8",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-96",
+   "server": "s256",
+   "serial": "0x75ae26f51e4321368c26705e4f9ec770f03ac4cb71ba1cf747904118feadbeec",
+   "ticket": "0x957960decbc3a4603e29121e0ee6f5a8e7f5f430b1dea8681f28bf8e3584d0aafd8040957fa6d57e5be53b04bdeeab0e",
+   "blinded": "0xaed19d7718a680592ccdf4b7185cc0fc4912a0bac2b365c2202e944302bd4ebb861cbcc050117feb26f10426717232cc",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-97",
+   "server": "s256",
+   "serial": "0xe8b8687183790f5ff1c2fdbe87b0451575b19c111526a09fbb40dba31e4b8e50",
+   "ticket": "0xaededaf462b94ddac6bcdb35fb9fbaa418f508410a15423bfc65b8fc6db2ec13ea3b9fc991985043714ef896ab461548",
+   "blinded": "0xb78b7c272feb4bd88b10a926e947d6dbabd3fd81847b5e0d227a2ce4b48aca9ce96267c21786aba4ad31fa7290312e82",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-98",
+   "server": "s256",
+   "serial": "0x667d267aba76e7848f897b99e07df49f71f89b37ff92ae28c56bc8c6a1eb5b39",
+   "ticket": "0xb8f18987c3473fd2a2804d60c4aecda2d4746331924c75c604d5f8ce2823ba568b3bd20972853be38395a990661cea77",
+   "blinded": "0xabe6fed79404348d87e6e714de2c4733c0ffb975950522d22b407af5696f445b3a5f5e34eab7972cb95cc379622e0b82",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-99",
+   "server": "s256",
+   "serial": "0xfd41ff698b6693e9ac3f0835669f85e2dc22a076b75f773f25daec8aa5c33c99",
+   "ticket": "0xb4711bddef79fb531ed932be26689bd433e1e98aa4f85942c387a8c86681f0872c6e06076c8f7f5d692cba762f2f0269",
+   "blinded": "0x8a218a85e2f45ecf35e6a812caf60ae3b0d3180e51c8f0d5a7fa6cae2dcca0a902e79c90085f6ceb91821d5b9e0b4460",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-100",
+   "server": "s256",
+   "serial": "0x2cda4c5c5e6af35ed9c196fb29b8da12623c14a2ab58d80fa31d7f37740355b1",
+   "ticket": "0x85019367f4a017d72da85ae3000272ddf2af254f4c7b52187f4a060bab06cd151bdbc5941f5b314e78fdb0acfcf7de05",
+   "blinded": "0x98ee621a9c17c9a25d9f8f3edeea4449d4ee8065336c90e19e4a147a92590e6c00fb766efa8e5ce6aa6c965b8a2da6d1",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-101",
+   "server": "s256",
+   "serial": "0x914b9dcd60037dae926da3ecbb623780ccf901fd888aa19fa9fea547a10d68ae",
+   "ticket": "0xab2d4a98cf02e554a2e086b33ed7e0552c9ddf650b56ddcdf45d1ad22d4e338256ed3980a29c23afbd564b1cc9648908",
+   "blinded": "0x8c4f124ee1faad55eba6d99b03f3237ed8c66afbb43eb62be2c8f844947f81229d8fb5c0af904c11b9c16da8291cedc9",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-102",
+   "server": "s256",
+   "serial": "0x270f2ea8576840777a4693b8748080298a89a5e2de5ece22d914b1d00d69221e",
+   "ticket": "0xafaef57911dbf6214499c06aacb417c9c008f62439c76a789684c5ab6a9b3f92e357825952e56d04427a1887d5f598e2",
+   "blinded": "0x8e64dcc8f44f72ecfdd9db9c323c4675012ae6905a1b98e835da9855cc666f0a74f42c3e8724cba043bc2e996e4303f8",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-103",
+   "server": "s256",
+   "serial": "0xbc247c1fb1e5a92c94962c903700f470de782d17d6b38eb8344f9f308dfaf1ba",
+   "ticket": "0x89d276c7888f996d356ada3b6da88fe0ee4992b75acff17004abc4faaed3047cb21dc7d5dff9835732308226fbf4cebb",
+   "blinded": "0xa18dd89f72b02b82b882bacc04c070abda662f2794ae1611ac1a788cfe52b87d515858a2bb3ba520bd5daae571c7b5bf",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-104",
+   "server": "s256",
+   "serial": "0xe8c03c663f5b9ba2cff9b1dbc642ae13920c38b3b9ae5c83edff5d4fb67e4ca0",
+   "ticket": "0x8cc7bf712551504628e8f581313da36fdb3987acad78edc1fda069a0b79a959e5e8f3f26fa00a6fd6c2a4e4970d8c9e2",
+   "blinded": "0xa1334a948987807adc8918420852f69d0472e78f307baad5c0aeacd5408e26cf36753a63b5a3bbc8698a9b4783c2f180",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-105",
+   "server": "s256",
+   "serial": "0x25845bdeac9e5fea6c2cfa2cba6db174e70bf649d3ce90a3426f9670bb074652",
+   "ticket": "0xa4f27a49216648c393c008e0b70b2e5224ecb48244b304ddda956163f462b7b120b4b297a3b920c81e3471507d6a81f5",
+   "blinded": "0xb5c29ef6ea77a5f0715e7e651dcb3f48daf2fd0cd094e8ac3a9c31c2a9349b756876636a6f2e45c88e73f6128b50d13c",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-106",
+   "server": "s256",
+   "serial": "0xfc79527290e05fba6289a022303933a9c68c54c3eb79a5548cea6c97666b525d",
+   "ticket": "0x813a2dad074a13f0f4e71fbe0ccb25c2f341de45b26c8f997d7f561ddda544b96b735f10c2cdde53beb036d540da9c0b",
+   "blinded": "0xa013f0f69a28122c4f69b0984d721ba1b03524e3832fc59fca7b12b47e56958b4c154cb4029d6fc257db702820d940e9",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-107",
+   "server": "s256",
+   "serial": "0x939617af853a2af59c2d8978811a0f29c8b25e14832a9d809f6b673b5cb4d6cf",
+   "ticket": "0xaf2060fd96b0ec070129a5929e278aa0e5fe3e68b2ca78c180fb3c788258fdb5c5e864957a87b76cf19f639050103c40",
+   "blinded": "0x9865557327a85e0f93786e8279511d1f2340c79e16757861eb784fe0b0a4f6b5f5106cb2d7fde07d88d41257b317e118",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-108",
+   "server": "s256",
+   "serial": "0x42f611d6f2ca4d9f884b626bd1dc90ebf4d59ff8e4cb5359bde97d9e251851ff",
+   "ticket": "0x8cd4d140c0c4b89a26a84317659527fd03cd173b14ef957d86fae3e7ba85c7d33e7887fb41b96fae7917067f7bdbb688",
+   "blinded": "0xa5cddc36844e5f9701ae1964d53c044e26a2744c233b5c53eab89ad421cc8b523e8ff67227ff0fd7edcf56a8bd61d208",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-109",
+   "server": "s256",
+   "serial": "0x797ea1c7bbd46557606483321cde5cee430ad98bd2638ff5ba0c7009514ae5b3",
+   "ticket": "0x8b2d319a0c9ccecb0fb8b8533274aa27591ea39400e10b56bb91488f7fdc0a8df83d7a61cc92cde8ce6a629265bdd72d",
+   "blinded": "0x88ba947371e1def7372fbe52765fff278e9cfea6293ba6997f629cd4480ad945986edc35350411f3c3fdcea3c6b77293",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-110",
+   "server": "s256",
+   "serial": "0xab527c5bbde84a210e5cd3ddc25fe565d36872a1ed465e1723e271e6d7abf8dd",
+   "ticket": "0x96aa7613ee1114eb0286d944be2c7c90a77f66fffe3157eb150ea08cd7bfd6733cb7cb2dd2e26dbfd1b9e9f447c62b9d",
+   "blinded": "0xb3f405077fcd33158125cf93c162ce1fa31a6a1bfd589ff1bbde3b7c8dd57c8b4afa5c0082b0af031bc3d2992346f0a2",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-111",
+   "server": "s256",
+   "serial": "0x17ffac21828e19ee88a6af81d03173d12ec47c0b45dbc5d176e2cb71900fba00",
+   "ticket": "0xacb4d6e964b0d409b876c9b182fdbb717169e0d48e8ee92a7b2287901c7c3ced5f432bd85762cee358617a89f2e65c22",
+   "blinded": "0x94a864b1c58dbfff9e1f9acec47fa03e102d0815b81378253f9d286df09e27fd81e2095ec34e880a2c61438293cdeb01",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-112",
+   "server": "s256",
+   "serial": "0x0f21bc49151493614455f9bd59428be6a5c984e85448205ad750d52195f5233d",
+   "ticket": "0x885c434a7979e48fb98a9a08191fd5bf5e973f9952e0be766adb58a6de92efff06e99748ba10893d2a56bb9674b2a47f",
+   "blinded": "0x882b34b895e78f82078350c5cbeb573f164a15288fb29fa280232410cf5054bcb673e9efaf2bbec2779d4852d09ed483",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-113",
+   "server": "s256",
+   "serial": "0x22a011b5b82827027ef6a3981c5a63498267c8d2bc0fc7e506aee489b05bc396",
+   "ticket": "0xacf1d91119ad582595a2b810d2fc1cd7d96fe15b64d25eeb4459bef3e236f68e4b8e44e52f9040e3c3e90c1dbd68d5d0",
+   "blinded": "0xa4d397407c7afabfed1702ecb04ece1ee816d8afb0f16b199859a65e80477c492218e8e6941afab38937716880ae8d76",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-114",
+   "server": "s256",
+   "serial": "0x6504d8b96b65fe722600d66830c16fac5c3c71528b704eff83062725f8e7b5f8",
+   "ticket": "0x861f3de39d9c0d81370841420a55902626f22c1fc084efc900535848c1a3729252b60fe4235effd119dbceafc6921cdd",
+   "blinded": "0x961b943316e0ee9ee498486a5e88af7aec2e3da3ba4c7c69158c3680ad75787e81c695d3e910793f9bbee19e8a3c9702",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-115",
+   "server": "s256",
+   "serial": "0x350f9cb7855d635ec18d707f358ff77affd27262bc036aced212fff8df9673f8",
+   "ticket": "0xb1818713d83d7cc70484d09b5bdabe6d340fc8caba089391379068242f6a2837ed88938d546424e582a9c10230fa1b47",
+   "blinded": "0xb2c51a96f718825c86ef2af368dd82bd3a288370aa61b68ff6ad6ee590cfa3453f24fee6786e51b3ae075ca09908c3cd",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-116",
+   "server": "s256",
+   "serial": "0xb64276a95640d1b22bc3c57e07f3c171d05373241bf8345fa0e6a0ac1693e840",
+   "ticket": "0x91e2486a4f0707673c398ed02bb374c936620bc5883b5d86e87f9baddf40f63b4bd5e98c64978e50af9dcb805040697e",
+   "blinded": "0xad7c6cbba214d0362dfaa76cc7daf4c4926da23f863ab2dc5239c056386fdd7605af3ff7122912bbb7b3d31202471acd",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-117",
+   "server": "s256",
+   "serial": "0xb2c217fb2fceb25c7ee6ec35cec34a1b6f5d12ba8b7721433033ccedcfaa8069",
+   "ticket": "0xa880d2ac497e896983f0c4e0271e4c060d97e83ca68efbb8690a9ebf36686e50dd8fe196fc915442f233f68ab2b74c9d",
+   "blinded": "0xad0d5519c60f87e2f545157daad83bfb5f6c19c98f711784789b7e52f44aa1c210df019fedae1ab07c06aecae0354d63",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-118",
+   "server": "s256",
+   "serial": "0x986ee2e1ec04ed2cb7ed5054f84cd27232d05300436715f3dece13f65081f63b",
+   "ticket": "0x909d991a0de9dbc59034d4d4b213359592b8137395b4ea77c0ad8a4791bbd9cead0ce416befd9d905cfedd3d1a2f1503",
+   "blinded": "0x8e942917b99c4fd07551f2654974a982320ebd1d3985d6b0ba9868905e940427b0fca1408ffa0111b0d7975516867f7d",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-119",
+   "server": "s256",
+   "serial": "0xc083446ced48c1dd2e86b4bee6844a27854ec409ec1d9e4bf507104f91bf2b21",
+   "ticket": "0xb435f1667a197b645433c7e39722c6a46b7c57f55a2e029acc52786fe6c8ebf7e011df932607110cf332dc787d7bdb28",
+   "blinded": "0x918e1794468822effdec447a3912bd59bbe30646774f832de9ed1a45beeb7554e728a8bc63a96de7f571f04b077323f0",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-120",
+   "server": "s256",
+   "serial": "0x015cf18c6b270d011bbf1df3627b37a65000ee507d2ad5ceeeadba025ade730e",
+   "ticket": "0x87c9e4fde785c3b0222d2df16d91cc5094e1bfea985cf354f965c28ba5efb0d8551b44b7382c1211b598c45e0888ec83",
+   "blinded": "0x8983e8efe75cc77464a4869a5b80e9094b7a7a36405123a533913a930cb6ac5c351a0043eb53abf0d070114353606a09",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-121",
+   "server": "s256",
+   "serial": "0xaa50a3993c3a9dd99016e0724ebe2879b6a88e6259fe54fde897acea28c190e0",
+   "ticket": "0x92958bc11b592fb7a00f72d08501ea7359369562d873104c9ca0001d10077bc13c22cae855213e55c1f19da48696e4b1",
+   "blinded": "0xac8c6d1315362a81732482756f2afc454d1807000af15a90118695d46bf15dbb4bc1b161410dd3cf07e65e0102d20aef",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-122",
+   "server": "s256",
+   "serial": "0x8af4e21879a81024e94c4e518b760b64a52f29893cc4760b68dda04cbcdcfa6b",
+   "ticket": "0x98bf2275fdaeaf087a6a5a88cae7b57e679eaee586136163c9b81888d8e0c1827211988b4edc3d962a5858f4ffc529db",
+   "blinded": "0xb70dc0115c6c4b139cf098e76a904fb1601a43084689dcf614a39c7cb70804989c453bff27ca6b88825a6e3b2692d623",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-123",
+   "server": "s256",
+   "serial": "0x378a05d1a79afcb7b77f1492f397c863d3c7c11f2a8bce7f281adbee0505ce14",
+   "ticket": "0xb1e4fc04b6108b7995192ca1cdf286cf5b7868dd4558b250d709b20f381c61bb5f84ee44bf1d4ead50dafebc2f7687a5",
+   "blinded": "0x87ec37bedc5809f84f1fb1d5c237f9fe1f7bb6e2856b59dccf5e9ddd82ae047830a574921736f5a3f06a14de488c25aa",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-124",
+   "server": "s256",
+   "serial": "0x54e8aa9cb6d0a5b96302bebd32d8e6f9998012aece0d816622515e2df7dc353b",
+   "ticket": "0x87b95486c13b6d80da6697004a7d70e3798293dd0d6abc57c3f1b82f5685f77f4fee224f17b88c770030bd2b148b0e63",
+   "blinded": "0xb9fa44983d6ead0759bb572ad9a926571410e86c44c3c64aa9eac643b722586f85ccd6d3efad39c82e584e5fde1095ad",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-125",
+   "server": "s256",
+   "serial": "0x447f3da703dcfe2cb441f8b683dcbf95256926a4c6ac1604068abbc0d04fd262",
+   "ticket": "0x8c026e4d52a19e8cc5f0f0904e64f383ca7827dc7c52f9299d07df4d01259832f73a37d7bc09b137d21c2dbda4e523fc",
+   "blinded": "0xa94ca5fc64db74bbbd9fd78366e9a586a8f711c8bf859b6b28e4a3bb9a7f18be7478f36de07970206a176038a87756bd",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-126",
+   "server": "s256",
+   "serial": "0xc63cbf685fe600ed7eb2fbc85c69c3e95df2da407859bc4209c4cf81a28ec5fd",
+   "ticket": "0x894110f74b5ffc0c740f3b583f3db98db353e91933b98645d6bc2d0f498692c9dde23024c87dcce908ce07994b5443f1",
+   "blinded": "0x8b88ef89737d229a1012024e36a8ebcae0464d22dd82ea4efe75acfc9614563bccd2e91081c3890b3037f5a207254883",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-127",
+   "server": "s256",
+   "serial": "0x4195d9479cae3c4b50bdced66aaff1e28226ba1f6d925df3699434f465f752d3",
+   "ticket": "0x9779491e1352741a4f1b10ff21638649d132b8483679057adf0d19b338bff8220f077c26f81ec49fa4cd9d474b99a994",
+   "blinded": "0x83c78cd1a729a9bbef17c65a000df4d5f8d714e8f8b0bb44d7092d1fb8cd63fa7fae53962d362269b87e8e38a0db35fc",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-128",
+   "server": "s256",
+   "serial": "0x011d324c966b98a1ac7ccd84f1cf81cce9629498ca176a3016b3b196bfb7d060",
+   "ticket": "0xa623731607676b52cde74510de7db9619474bcc8c96fbbd03ae70316b5625c6d93a049885eee3d37cb8e653d28eeaef7",
+   "blinded": "0xb3a5c674974828bce1320c3edf2912a5bdb3bc720d7583a0280d049225d5e68de1b7700f1f4346dfbea1f5b4d61710ff",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-129",
+   "server": "s256",
+   "serial": "0x6dc3d8e2b34eb964246da916714c797c38a192d56d0a313a5443c68cb8bd5a96",
+   "ticket": "0x9448b1ef3a6457025440fe984f08101ceea0ed0a2b5b44710462e8ed23f0dc7831ca2187d9e6d71fe18167abd83099f6",
+   "blinded": "0xa88a2f92271f17db2a5c4077eacf40d931f9528553a0919a218b7d56fdc16fda2ad311b693e7923f1f0c62dd6cefa481",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-130",
+   "server": "s256",
+   "serial": "0x0c6d3727d14b49185a3e60d5bda8524fbab06cf142fce7f03989d1202e3d6f53",
+   "ticket": "0xb89ffd3ac8ddfeed17f4fb418af03d5c6c94826149f2c2f1d045106aae90d2e9f4a6050ab7dd0673a4612041cdc8cb26",
+   "blinded": "0xb0b336c79f84726012f62a26ca315e5449eb05e354d690317e2beb0286d64020fdac6fdb477878597210d1b5c87ea801",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-131",
+   "server": "s256",
+   "serial": "0x81a7932084265f62f7064beb1e7836e0b564a1796c59097813dc6846765346dd",
+   "ticket": "0xa804c830eef4bd8e099ff2f568a9cb887904d03b581d32b0bb675f601a4eaf6237a043eccdadd3ef3913babe481836c6",
+   "blinded": "0x8f40852203dcf514af06b3edd1fefb17d6ad2d17dd7d144ce197fd592e7d711ac692d14da130a51cbd086433a86d4db9",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-132",
+   "server": "s256",
+   "serial": "0x9e22703e67f19829901ed737a4ea97e18a86b636cd77c8330b2f986e042ec25e",
+   "ticket": "0xb445c6897f4bd07c2ac6960919991711c408714efd698dcd563bddff425bdcdb4dfc45d8d3ba6dc860170b0908b45c45",
+   "blinded": "0xb187c1c51c2317fdb26e1f8d2ec6b82f491f939b71a1988c81dbd37d6af97175a34c582f4d84f3f0dd11f7d74e337b9b",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-133",
+   "server": "s256",
+   "serial": "0x73c54c6d4f242c26d89adaad8dd22fd38168e93dcd494087d11b36da86e45df2",
+   "ticket": "0x97e01ea3d1be98b35c07b7900726d68f6e3007d6d1a7052135f43531d361e5908ff9bd29f8bcec6cc951516525ff34ce",
+   "blinded": "0xa0e92a4e6b403e2224a851d4164e3e2a21916d19de54538f720144ca5799fde85e7838e407e5329bde63ab30041369e0",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-134",
+   "server": "s256",
+   "serial": "0x38b80e9dfba6e0de1ece21de0963cd3498c174557946e1cc039dc758a5b012e3",
+   "ticket": "0xb87d7b804d694a9dadce77de5b4f28bf06e074117a44d602d092bf46ae8b851c23ca7478c5fc56be48ad22d382a7abc8",
+   "blinded": "0x95156ff3d0f2f25c6949bf6810b968012ac5bc23a12ae081258dcb039acec4ae0a5ae3e6fe11c98acdeec03ad4e97629",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-135",
+   "server": "s256",
+   "serial": "0x50e499c93a5c011ffb7abd709122a27416891a39621f7f2206a712e8f71b9f71",
+   "ticket": "0xb10ced2c2d72be70cb7bd30789a1d1ec2e00a9a8373b5fb9e80f02887f7ceec24307e7dd8f4135bd70beba97e9a2c43e",
+   "blinded": "0x8fd2d1d4e271c23b65aa0c9f102bbc420779760bf9091a40f9afa7837662d40edca4eb4658e83a317f4c1493be3d336b",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-136",
+   "server": "s256",
+   "serial": "0x66d847674e5280e476cee7a9f215ae4ca671ddf6670104e246f9f6c4c3ff4f11",
+   "ticket": "0xb91738f42f9f528c096ba037970d1804d3d86557f9db76622d55e1e3c096ede5203cb2aa11b0331d30ceed9ed1b8bc78",
+   "blinded": "0x9853a90a513f09c2afa40ad61740cd89c320203d78d06ecc2336c4cce0e94db8f4efb256eea55b0e36647fbbc42987c4",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-137",
+   "server": "s256",
+   "serial": "0xd204fdbaf8d0f8318d331b32e3a4ca27d02c7bde5b499a57bd35966138a9e22d",
+   "ticket": "0x9687ac78d9c32ea82eeb22c1b48483c61ce992588c9a81a75d134b8e836abd4473848bfb86b33194e6d0ed0c6cba1f3d",
+   "blinded": "0x8580604de13128e533249c0a376f6191cd10f924a09a3720d49ea24ad6e5e1ad1fc28d6a794caf8d09801e6366c2231d",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-138",
+   "server": "s256",
+   "serial": "0xc110952d3ae878622e433ea1f2c62f80adb9149ebed8f3d3e71bf44055845568",
+   "ticket": "0x909c9295b1fb5c7f4eeb3ccfd9548c1eca6b7f4464312bff8b64eabd6223170c84e38ac5ccf44d89523519b7ac266ac9",
+   "blinded": "0x997ac3c2845afa33fafd37ee8170842c2646e8054e6c124ae8dfae0c5f080c5665b05cfef5a92360706d8146452d9f4c",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-139",
+   "server": "s256",
+   "serial": "0x131983f011e1d42eb8c987e518e5afc8227248a95c20933a103e6d31a0d5440d",
+   "ticket": "0x9284155ba6ee51b8e3f09c8196baf21d86f0d20e54a15c664fd447ddd64c8d81c29e8d1fc57f39d1afa27fd72f3586c6",
+   "blinded": "0x80dddd94a8d183beb87671ceccf6d7a45ed92793906560e4dd5b87b5183611da4cc778c069b52686efab07cac105af40",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-140",
+   "server": "s256",
+   "serial": "0x56d32c439b2e84229bda442764f3c836aa9f961c089bf9cf34b11e993c7236a6",
+   "ticket": "0x885d5febc81c2d8f54a9294a20f5d67ec4d70f823c9daeec72a0896adc0aa54a0897836abe242274f23d6a1197ac5e2c",
+   "blinded": "0xb2c93a9531d470934d9fa66a8cc0145f2fd2ab529200b41cdf6af3b0774d7816995d384d7022eb5a3fabb28ba1b3e73c",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-141",
+   "server": "s256",
+   "serial": "0xceb449fdbafd3bdc3003097e31d0f7fc0d31f9f81778da309095ccd9fc5c1038",
+   "ticket": "0xa2276bf6d4c7bd09d6fb465a25f1aae9215044e0b2b733e51e22fd0e7858a2181359ce951ce6b08cb39b435894e4ffb9",
+   "blinded": "0xb8399cec67655c624d2f83585b746803b37d6d18b257ec522fe0f110f13fd61eafcd24a6b464d00ee64b35161e3fc022",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-142",
+   "server": "s256",
+   "serial": "0x6919be37919605563f7b0c0393c20d9bf8374c4a641e84baa59d72a19be6c704",
+   "ticket": "0x85197d8ad5e695b7ea239d0188048eb85872c3340352700518bd0c21d59c432dc13217148808541cfaa30d56d07d947e",
+   "blinded": "0x8d8af813368fa87fb6eddaa7f6b76208d283098901eab20b6263ddb32c6025d868c42cc73d0b9fd60b4aacc0e812a2b1",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-143",
+   "server": "s256",
+   "serial": "0x6acad3741c1c283a76ccb067101e716782a0092220f9bee4f7f6d2b9570aa7da",
+   "ticket": "0xb2c6cc1d9f7285a2d74a83b083a1961f55a6d5cf92caa6e5bfd2dee080f0ca69882815bf451c315f46594bb6c81a1bf7",
+   "blinded": "0x95d9e7e2c00042c29cd90e447a8316b30b34c90bb3ee0ae21b33dd0b5a9f0b2b2c8a87399382ebe57a3c868498a26807",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-144",
+   "server": "s256",
+   "serial": "0x92e8c3af737ba8c993037d7a325944b96cf87c36b05a1777eb461933823fb686",
+   "ticket": "0x97cd65bf42124a543b91424f76c7093fa211342af5516001935d3b81e66c3352947d1b08df9b50a3de2120f2d2e0d7ae",
+   "blinded": "0x881aa7040fe4e22e1a330f347160683f92699464736272beaf6a6cb3c39ef00f163032a5ca4ccf56cb25e19c7f32e061",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-145",
+   "server": "s256",
+   "serial": "0x24f8a3f17658268c3a226936bc4a4d5789e0ed17e0be2bb1a6c92a3dc3e1fb1f",
+   "ticket": "0x93aefacdc392448ead7fbd97eaa1b0c226391c7e8ad6cbc800270e693f533146f952c5524c8cf87c1b32f959b3c385db",
+   "blinded": "0xa53a0ca2114aa42ca152e3c82eb08524cd9af4145780739da0ac385c62b50641a9c830dd65cbcff3a7eaf301769b5c6b",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-146",
+   "server": "s256",
+   "serial": "0x8b9979ac4b76b9e4e79fe3c5c6dee52b86a357c77fb96c269e898bf64878ab15",
+   "ticket": "0x8ed70e42e96a46d78c92ead729b9cd63ca4929434afeaa24d36434d073680075468f095c0bdd955646beab1f64b9d87a",
+   "blinded": "0x90d20c9113ed418f257da77f1e753a225bad0762e463f7c47c7ab9944b5a5ed5e6254b5f19a28342ab4f300930bebe32",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-147",
+   "server": "s256",
+   "serial": "0x1d265167cfed2616cd6707183fcedf0c2c81808034c6f621df0def3ec6241f72",
+   "ticket": "0x8caed90057ed49a27f911c52a5a5e0d1fb3e4595dd1d4de55cc57c18ca0a664e849cc11c1a1444a0ae7746e7fc9793e5",
+   "blinded": "0xad521c977fe30540468c5e1d235229e90ad7cd72b6c064f1e4c2852ddc7b23171e49122d3a232570445d7bd4054c819f",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-148",
+   "server": "s256",
+   "serial": "0x5bbed7f9a337b946bfb8897ac4378d614c5b2ab52ceb27bfc4c98aaa5a8da244",
+   "ticket": "0xac45550f2d1c9e16b29d22f63a41fc0f710d470a08218bada79da2af45270268fd4aa6460f30a92ea952e832628baba0",
+   "blinded": "0x8e60f393138bb5113e977a794167c835edf5fad6f574de274952b0070f0fe99b496ff9a9e42a76ab59eaed2fcf4d1679",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-149",
+   "server": "s256",
+   "serial": "0x00204f9099407fbacbb22ef6d2e2161524528dc414d7d5dc56ea36f3d14b24e5",
+   "ticket": "0xac18e1696209d669d3ee8c5ba334acb693e2549d95b46e4c13aa6a63b438607c73fea5fbdc591d4147a1436067160eb1",
+   "blinded": "0xb9f9d780c4dfc8b4a73db9efc2756ebe3f885947a1eabc3d3d103c6e2a5eaea1e013ead4bf1d2070d52a91999d1916ac",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-150",
+   "server": "s256",
+   "serial": "0x61ed60f8874449f6a7b95cf72da51e481219c13c47f509aeebaf3991a50bff7a",
+   "ticket": "0xad9727c2953191259a8b5f4a6ad68903cfba64e1b0262096b70f3031082054e64d37b8de481ce9127a2ded15969472ee",
+   "blinded": "0x806c3d9c6f2c5a8f6f2ba59d1f112f93aaf548fddec2f599fe62b9df7dd93ee5259ef6389cdb37a2615b42d70e6a59a5",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-151",
+   "server": "s256",
+   "serial": "0x97d1cc218085c5cf9f305b020ec77e3687260c9a495cf7281f5fe2cde9dc4e46",
+   "ticket": "0xb3a066cbe8d3a0159aae730f2b4d1a0665fdb2cdac5bdfddb7f573f8c4e6cb287c91066d9e0c5757bc3b60e5a8cb80ae",
+   "blinded": "0xaba3dd533131a2a195f54151543d663928d2126283f623ccddadb313a588d7e02a0c1a7bab3259b5b517e5492d51804c",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-152",
+   "server": "s256",
+   "serial": "0x69ae320acd55721f62f1c3f270990ca2b2b52b4778e67e506a43b3c61f5ffa72",
+   "ticket": "0xb48d365e51ed25551b856219b7e3b4ee4db8430b87ac3522f45f3c10e55836d9d3b537a12722010486b89386ba0c2d29",
+   "blinded": "0xa29b6f03d74b04481060824332f4f1d17e1652eb957883fcd4d20871ac8810c78ac41b7b34bdc6b2c53b2bfa54468239",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-153",
+   "server": "s256",
+   "serial": "0x6547bb6b075a392eddaba730fb18d4affc40ce1a32bc326726ffd9b4676390ff",
+   "ticket": "0xb29b1f89b3c51972392179f174b550196e4c0e2457351e5a7136da3abdbcd69a13221881d9bd5196c3e8e41436d6646f",
+   "blinded": "0x8e6ae1eb7b5c4158fa79b1b922eaba3baf3b1f16f5840bc850f9d53f9bcfc2cef7a81fb72e085b952ba82ed7082bad12",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-154",
+   "server": "s256",
+   "serial": "0xcd21a851c8ee0b81035615e3f06bd168aebf144047edcc5ac048b9c55b89848a",
+   "ticket": "0xafac5d1130d20f22a6d330009aec2e02b44050900e99d63ad5e86493d0cee2fcace93a371fec38b172661ceb3972b68b",
+   "blinded": "0x8536805b3cdec362a3eab352d1c7212729b3b3e39853e0f8f31c8e33956417c98379943b5aef68634a092d2425c0b08b",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-155",
+   "server": "s256",
+   "serial": "0x8db4dea5390db2e800bcd7e04b4a34982745817a82cd0c37c33c680c87a4acc9",
+   "ticket": "0x90a5f6081dd2f6fab3a4a39b3a0054b4c0e8c6c3605fd90f71208f74158d8983614ac62c0fda64509d72d13d7a52a79b",
+   "blinded": "0xaeadacf03bd615ce8bf08238f1d87b2406848048cdb55b48d2dcb2953bfc155643e750833a6fe9657a2df9bd1d03c8a0",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-156",
+   "server": "s256",
+   "serial": "0x98b78e6f08a05451b2a677beac7a03dee9a22404934ec83cb211f379b04161a1",
+   "ticket": "0xac285f676c4a57638a8deef5833b9b2df161b824e182a6fadbe1630fe1db391dce68eaafd54138dc5d691ffb0b058398",
+   "blinded": "0xb9620cbba0e430849b0c2699ff97d7d9ea9ac4f34a058beb3fd07109c2ccab8de60a9e184219a6483b8dc971bfe60016",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-157",
+   "server": "s256",
+   "serial": "0x95958fd352505dc2b12807bcfc3763ca40baedc8f74e8016d6b9f10a8764702c",
+   "ticket": "0xb1ac3a16f96bbb8d9870b9ddd39fb1402c154566170b2d6c9697e034ba550c61b3228685dd696664a48f632ba001f882",
+   "blinded": "0x96d692a086bfeb52d3a40e2c2e0acbdac7b5a2badcf381d8c51b07614afdbad44fef5903d33a8c6318146dacf80a94ff",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-158",
+   "server": "s256",
+   "serial": "0x251b7ca08a124c2ed95ea1bcce955a2c1507078ddba283bb05f4d3ac20a84a5f",
+   "ticket": "0xa1d69882f33e8be7c33faf2e10654a03839dd7351ce74cd10cda8bd88818c7cfec6e54b4f09f89a480b5c58f3e80cab3",
+   "blinded": "0xb84e06cc8f50d0df27ffbfed88509824615d4f2de6ac5a77f7a7f2563380b74512b5042fc2ad15f847a8505eca639783",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-159",
+   "server": "s256",
+   "serial": "0x553b4cfb70c034042278e794a132dff8f0e86febbed9c9cf83a420b39f725cd1",
+   "ticket": "0x86d939831bb6895652aff6d0e1dbbe11a48b08dd9b17a9ef393bd78348db7ab834b09962195b66eb3a699364fc01d4a0",
+   "blinded": "0x90edb28c970179c88c3a9032b7722516176e7ddac4786f89e61d4154ef611ea1baf3be99cddef3e31aa8bed76d4f0d80",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-160",
+   "server": "s256",
+   "serial": "0x280545fae4633d8dfd30d5a3fb42c7b860c52717f77f50eaf65d2a3c9dad1f28",
+   "ticket": "0x861e4609401cf83cebb8a2be85c064f2c04c328b3e2b3cb3a3547f7726f9b927d327bac67480031828a9803cc50350d0",
+   "blinded": "0xa1f53d4d1c01c35863201c7cf314fe9ebcbec0b651223c7f0934d94e8fb98b83f15fdf51ee8739d8722ee1cd078cc62d",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-161",
+   "server": "s256",
+   "serial": "0xe4743c4cdd6363910a25ae3b23a50933d48760ff3b72eb2efd406f59467a1664",
+   "ticket": "0x985348ae58a108c801c7e0e891d1b95a0b7c98a94790d88950021444ac8a80fc99bcc39dfea73f7ffd40fe9a57750e9f",
+   "blinded": "0x88dda3a52ed392b4034c5de804a19e19c9a9a8d8f5609167932d762ddf8f1b15daabaaf036df939fb4b9ce7570f33cc0",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-162",
+   "server": "s256",
+   "serial": "0x789b8020c872b12c7602d96321a294f78a0f4c0469fa4b2acb035861d064ee04",
+   "ticket": "0xa8c87e9ad8221969d9117f950cc3fb845fd16d61e7594f1e89de312b09db94f06cbfe1a471518ba8b234adccfb1fda5b",
+   "blinded": "0x80c111d2ced861d9a6492bb9089be82b381456fbe95316b032f0c0178109c45dcd6662b8004680592b3fc529f5cfb348",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-163",
+   "server": "s256",
+   "serial": "0x697866dbaed92ee5ebf648d10803b253142947abeee747eb1826f65850702ea7",
+   "ticket": "0x982660fd36084142d84e44a6bbaba5890a1f8ca5d42ff8ac83b771e2a13eefd65d715dd261ffc546e8d1a71f835a3e20",
+   "blinded": "0x848459d51cd76d3a83cb118e4262056c31bc69901c55b5f6ffbf497e918547e88a83c30ff4b74e8c9b68b4b02e21834c",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-164",
+   "server": "s256",
+   "serial": "0xf360aa96d6cb5e16e589b7f5df578c582aa08f93fa21906d894c5ad689829fa2",
+   "ticket": "0xa714f4d96fd758922c27fd13d30e2933d45efa8dd27a23472ef327ca5cf4a33b758dd0f6fab7924e4271dbbb5a9ce5eb",
+   "blinded": "0xa9dd870fb366aca7f0f600ec9663254bf48ed4c903f22718e27be815bb80dca317f9d9fcca0e0de647d84d62216a11b3",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-165",
+   "server": "s256",
+   "serial": "0x696928d4aced4416f5e6d019dea7e7d7a399510d9e203c608cad9fcdf37e8928",
+   "ticket": "0xb521a3dd49760e668cd58869739d45402e2560894d8f9f6ededb6b2e872ae4524add9b18223804cdd3f0d96b0280ee25",
+   "blinded": "0xb60e50267ab0d14e36d5c6299d7c06bcec5273d3e1b1d928bc7f1bb5b9513c819d039ce8bb7f5436c0f212d32cd6b710",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-166",
+   "server": "s256",
+   "serial": "0x1119c4af7ced87ba2204f4245fc41ac4f19dd3cbc34f3b5b286d02e176229dc9",
+   "ticket": "0xb909695bdad7e54262c2277e38aa561dc95f3d531774d2bbc6fea927c6ed638a8e4f7c30e6da277360e35a0730417f52",
+   "blinded": "0xb9867129fdc3d9176afe3e96e0b3752d55738d71a5182323d7d101848fc991d3d256ae904bfc3a31394732ca378c480c",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-167",
+   "server": "s256",
+   "serial": "0xd66dde04cffddbd94ed1386aa8d307329d22b05f1b0a7d18f15bd69b9f5afaa1",
+   "ticket": "0xa3233d6bf548ce306504bf9712b35769f823047653fb5f793a9db154c8d16c946099ecb11949862208c9f5ec61dcfdb1",
+   "blinded": "0xa6e105f6a46fd5a0c41a44c3685fa5cb471b16512640653958963d089b6c7098a87fd77b2ec85f6417f65648d85e888c",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-168",
+   "server": "s256",
+   "serial": "0x2be54f26ba4b75336049446a290a87c33db5a1087b93f3fd3be2aa6101b43aca",
+   "ticket": "0x953f046cf553faf74e74712bf396f6038b98b4a2cc228da07ec7fcd35ad0b9bf4d8f485159ecaf70b2ef419cf940b0dc",
+   "blinded": "0xb31ee85a6d73a9e6f57acf4720847f4855d836d36a6ae29af6ce17900cb196fb3401a97440cff5f3a30a3badfdcc1ee6",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-169",
+   "server": "s256",
+   "serial": "0xa35aabd037172d308d1f45ec3720011ba0a9e424cd423ff6b20d46a3675542b4",
+   "ticket": "0x8fc6d5d9d23fe0f8a4b5eebf875ec195d9ae62c4a338678788cca72329f07fa3b28785abd1294f3897798d49b7941afa",
+   "blinded": "0xb3681caccbb88e0b08865817f8d9aab6342ebf2806892baf3244d6ffea19b11b87317e2d7578299ad0eadf669d27219c",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-170",
+   "server": "s256",
+   "serial": "0xcc7e827bdffb1257ec8b256abf72d4b57369f4d5e29a9118f687718f1f886aa1",
+   "ticket": "0xb68b81fdf6de056847d10d9747259364550f039b074e5927b637477ab2212889c47a927f73f6c8c4494bae749b5ef742",
+   "blinded": "0xa7f09749be2122a42f9dc2dbe071276a67eef33131dc723372e1a4ee45e1b728b0be7c9c77e4c08f1ed710cea49a69b8",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-171",
+   "server": "s256",
+   "serial": "0x14973cfc0ed484c5292242abd4622857a24016fd50b5f97b12b1383b9a08e739",
+   "ticket": "0xb6252fefdbcee56506b32496a536ea65f9aba41d51c16147209d9201405b6620e38b9b59dbde031eed4d261abec79815",
+   "blinded": "0xac57e173b65cbd2d62c6142d512ea8e68825ba84afb8193d3c0e6d1510681bde60c9402e2021a080234650d333be8d13",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-172",
+   "server": "s256",
+   "serial": "0xceb189f157b836b9e7954008494f98088125077668c5c6e227e1c223c4e94f4a",
+   "ticket": "0x8768317ccc65d4ce40e13c365b433af0432d6d1640aac0c06e6718adc37bdb8fca0064bcf3dbed91d7fbbf89ef4f1d98",
+   "blinded": "0x93a9bc1e1661eed574de26b30a7180de1dd595726384667e7baf077bf1c404d1689b692542b38db94eb443c20192626b",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-173",
+   "server": "s256",
+   "serial": "0xc1418aa89e2c0c47a63fe4aaa60d54640eb5ce65c49a9a6e1aaed58557d06c23",
+   "ticket": "0xa966bc67a19b10c9f0b2c9e63ed6807f8455880e480d0d92d2913ae6ef11c48102cf512f1d8d4cf0ea2e957473477125",
+   "blinded": "0x8b2443b47a3892245bbb47b3df27d1b3e8f5815c0ccb45ed4c9152e5702663ea1e0060742f6140706ee83ebc4d4bc39f",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-174",
+   "server": "s256",
+   "serial": "0x8d3fbb07b3a9ac1543cc74a57a16fa046cfa5fabaa9330ace2e35e292ce87e98",
+   "ticket": "0xb58684299b459f4522c2bbde0e1d16d2c70aa69b68d730b77a98151b35373814a7eb6e519ebaf0a0062c96d03eabdf16",
+   "blinded": "0xa58a10a91d12cfcfc5107201c22ef336a2d40d4c13505b22a3b47284b30b0c2cfc11013ae518b56f1258f89d8d3f5cb6",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-175",
+   "server": "s256",
+   "serial": "0xb874504c7761c716ffe0076d554544101c7b3fb38c4075ee4c4456802a6533a2",
+   "ticket": "0x86aff6523577232ec23642baf0abd247882d27cf0b76a23caf4be4308c6a3afccba47a93d51612d5c7ed4a4ba47fdf93",
+   "blinded": "0x89eff76e6bf193f14229c1601b5310ca898a9e11a9b955f8b5c930a6446c1268ceff4b031106e5afac2b53ecf12e603e",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-176",
+   "server": "s256",
+   "serial": "0x0bfda1005b1c98efd92f8afe70df24d3088794feeeb4fe751a4426d1b0404cdb",
+   "ticket": "0x8776e61da748978836884cf1c81f6c3213ca2256efa89d392ed355b9d5888ffeb39d4d6a7b10c573b4b8cd725cb88e22",
+   "blinded": "0x81b8f6eb1df3d25ca33c00f0f2123e363969dcbe5db63ae33a1689d2be517fb4936228f980f346ff55aea7bc0be2bb80",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-177",
+   "server": "s256",
+   "serial": "0xf6ef3f057b50229696b24a690caf6d8b6433d519f0bf67d461de13fe0d2e9fa1",
+   "ticket": "0xae59f26660c3d0d7840d2f84fe1256218004a6dc21818b7e0bfff76333154600d5d2b78fbeddfd85b43e170a02f63415",
+   "blinded": "0x921bd9065cc25b42e6fd661e294a3a456b93da781f35a2a7382a112047aa0ef97cad7dd00f3d4d0f0c5ad407958b98ba",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-178",
+   "server": "s256",
+   "serial": "0x0c6b9d0a8abc26d8da76172cee73072c10c44a39a92e74f4e5876a0681998812",
+   "ticket": "0x96d35085d34fc7edb27613acfeed38f07deec8d0ec48693fa3d6335de7f86f73037238564a3048bf1d26548958e8c2de",
+   "blinded": "0xa4ccb9f23eb605692e9d277f125093352af60b8211a918df20c5b18b97591b29e62a15e52716d53b3476b35bac64e5fe",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-179",
+   "server": "s256",
+   "serial": "0xdd8838c4301cf37759b4a666020a23c3f2d6add6d9c3b802072f56999b41b051",
+   "ticket": "0xb734f0c43a564b6beb712d1a57f6152b82b9689ddcb1cf505d5f433c7a90e50b57a199871f877cc58f49870cb6b1c6ad",
+   "blinded": "0x89ded56f2a3bc89098aa988e03445c85e47f1a6f59a4f35af36e2ece868234882bae6a364503f186cd669fc045340270",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-180",
+   "server": "s256",
+   "serial": "0xed2b1e12e1071bc6e11eb7e7e583f8afc3147c7673c51347da6bfced9ce70c6f",
+   "ticket": "0x954afe9e1066e9e7bc1112c40463f38e00c3f80a36a994fcb3c840371465758e43e86535965f876f2cf061c90e48dd83",
+   "blinded": "0xb86501bab35e4458b80c925bd9e1c9711462c83e03ae73e6fb04ae88af04b4d71f523dc19be2d615cfe53d113ecb6139",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-181",
+   "server": "s256",
+   "serial": "0xe1667d43a60ec9cb5bad48062de7647b7310c3fd9acea593cd7fcd23722ca741",
+   "ticket": "0x8a95e0a28747f7bec23ce70929af5bca8b064468dfa5a43e531eec3f927e97196d2c91354a052c5d71d55d484bae3e88",
+   "blinded": "0xac24e24ea37b986c4a5b1075f80bc4507709364ba14960d8d06fe65883e0bf42dc320a67dec50d83a1d645fd2e78ef5e",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-182",
+   "server": "s256",
+   "serial": "0xb34432fffc2eb6c77856bf9cde5b2f2768ee38ece470e5214366431c8138e158",
+   "ticket": "0x8937b9bb7525c705466c1295f233fc6c3678f23d1984dad2c02a48e4460cc885ae1f0150fa60b2de008e9b018dca2480",
+   "blinded": "0x851a2b1512ce4bd82507e9ad439390b3d5144f0675ae76afcc74022922517102dc74d09d78281655d868b6292f047316",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-183",
+   "server": "s256",
+   "serial": "0x4e676b8daac9b053a052425c17694cdc8177464886642bf3bb903106846c906b",
+   "ticket": "0xaef5f551f9ee6ec8407d64ebfa83f8339e1d29a126ffa7702e16262a9a4e7e23e1838639be4921bf5f27c545823fc9b2",
+   "blinded": "0x818d264790163ca89c3b7664d8382790c9f242c7c1c537e3d7cc94d1e635e245b5fb788445deaaf03d22f72cbd6b698e",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-184",
+   "server": "s256",
+   "serial": "0xb460ba737d2b6f0bd6e550c8fb14f97b2f385adb31af1b903c7a67acef4f9b1d",
+   "ticket": "0xabacb1acb23763044fe007a33e8eb4e31b0bfb1349ba8801fcc0db8f0ebb015dfcbe0a8f9e62a125256b55ad3725f2ad",
+   "blinded": "0xb432717bac50445181c8c81775fd8e0b43f906e17abcb5fc57d94c7adb62e2087af6dd37b32dc3eb036994402c3814fc",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-185",
+   "server": "s256",
+   "serial": "0x40ca2162b2fffe3cf14db950be89dacfa2958f21096ea11acc9c855deb2f8cd1",
+   "ticket": "0xb49271167a7762993833a3bb4df1cbb16f23e3280185ef1c44ee5efc07a9505dc33f1cea9095f6f22df0cfbafa083a8a",
+   "blinded": "0xb403530b41f73e744062666c97355294d5a53929b0144a49bc071ae6564f0ce99aba01a2342d39c4887dca8f6ed48fed",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-186",
+   "server": "s256",
+   "serial": "0x6a588fd7c4688d2d0f544709ca22bf36f1ac227094cbef17565c11aa1b2bb592",
+   "ticket": "0xb9d661b55c9e682d097a8442a1d18cd58b1dd3bde9e07ed6c7d44316b9bf3c10dfe66a9bb8ce9e2bcf091c0f097e3fbb",
+   "blinded": "0xa540af08c6f8ee5ccdc9ad66bd1d0dbf3d612d1863cafb1e756fbfa221f83e8ab16b9dfc5b71ca3bde4102399c87f762",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-187",
+   "server": "s256",
+   "serial": "0x5bd8d94ec7860a84bca59b432eee4943f697946c702cc12898f3c8fb406d9ebc",
+   "ticket": "0xb62c172edbfb3f26f39e22f42ad86d1604e86b1c0e29766ab86bec4d65f597dedd1b01cd467c4f7c7486b8813282d58e",
+   "blinded": "0x8688223ca033868731c1c992ecd8041da3d8338bed64fe23ed35f8f7d32c15ed1b5f773cde694a0a3c41cd1a922bf909",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-188",
+   "server": "s256",
+   "serial": "0x743dadc12924d0f8bd1bc120d29ced5f4e1ff783b94dd28ea1f4d7c45b55e5f1",
+   "ticket": "0x96179166f02667a64d99b11291b0d1219d37202b50aac5510844591e7ae0b6e0cfa2c73be0d816bc2efa8506f96ebace",
+   "blinded": "0xb024bdf6a345f1f7151357b11ba8df9e421794c8304ca22f334d0278195eb07747a74961224bcdbb6ce19b46432b599a",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-189",
+   "server": "s256",
+   "serial": "0x902c873157ce5d0b6b4cd62dde7f9ea230c2ce28cedd1582fb5d61afc424f64d",
+   "ticket": "0x876a3313505ee11217af9a1868e4a089eee0b50761d18843e4f926b7e810b7c68a2bf7267d9882d97f5285eb4c6b0520",
+   "blinded": "0x8082b0c0a6dbffc862f476e0e08e96090ae175a12ee053ad76f23fc010bafba7df0fb2b66da6f483beebb974f190f4d1",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-190",
+   "server": "s256",
+   "serial": "0x3c0807f4b20345590a1c5f27159ef435096b66814aaaad8303365d46c57bc851",
+   "ticket": "0xb510f18b626e395a0ba37f27c1f473cb2ace8d5dc64f487615c8937b3ff45b9065a712a81f3ea9a93943337e97deefba",
+   "blinded": "0xb57c3a46c3539b65a3decfaa97bc1de8e63b075ab8dec563dc089dc871f553a83d5a57950496351873581f172b69b43d",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-191",
+   "server": "s256",
+   "serial": "0x434667f15115391af0a16eefdc256e5698492b6b2655b5e7d2b329df3ccd7c58",
+   "ticket": "0x83e042ed1abbd48cae6e6e3aae99559b2350b2caa62ce85381b7c24e84d4eb7526c860948fe8eb895812840ba39b77da",
+   "blinded": "0x8be8278d103d92657b403f5f8d5914f97b289c94e100df08d9ceda4bcff4d8b0058622cf257f878a54e4e2e5749eaa81",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-192",
+   "server": "s256",
+   "serial": "0xfa877a8bf1a7d4631253fc914bebc4cc8df58571a1162b56184063ce38e08593",
+   "ticket": "0x87a394749464eaddc92067bc2ebc80b9952980a3e91f457a1bf415755d4d60b1c90d44f11b9bca50d5ef4f0a9d4451df",
+   "blinded": "0xb346e9a610524e8189f8be213b2d3a671fb02d5a738f882b559710ffd354cef23edbceeb68729c20bd4728585d519566",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-193",
+   "server": "s256",
+   "serial": "0x89dd45110d749787c1118a507668a4dff8b4de86ab0d06c1be4a29997126968e",
+   "ticket": "0xa269b3af25d92b377c60cf3576dcd3a26badffc34296c73b2930fddc6e9a22c70008d5f4be0c8bc5c56753e113aabc70",
+   "blinded": "0x834d9c6052634d315cdb43ac90af12b5fd09cb3ff0e1a140f75015a5ad8498efb78871a52856d69a618eebed453a7565",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-194",
+   "server": "s256",
+   "serial": "0x51ba33de5efe2b6224017e6e528cbb1889764a88b36f4d4816beb3d40293247d",
+   "ticket": "0x86038834612aceabfbd515e089d3cfb4e3cdf7e922b482ade951dfa29489fd6be24ace1637384e13016c3a1e68b2f355",
+   "blinded": "0x81d664b62f3f6059e880be2e25bda6ff39814cdd02683475be8d079c4b30b5b423df4b5fb473ead1867665313cd9dc70",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-195",
+   "server": "s256",
+   "serial": "0x1d8c12d8daaf10d584ada024b5ead6fee8243ef652e1e5e1a8ab8996c8ebd64b",
+   "ticket": "0x8ca08a3dd98513c6c3221f0cd55168c650f524d76fc13f6abf7e767032b05c5cc7399a707fd72ed20b0c5b438c3efdc6",
+   "blinded": "0xad35bd5e343d1a6e928d57278506f96ea24766870441198a7d3d452cd85cb3bc9fc8973c9ad7a565827adea539f1a14e",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-196",
+   "server": "s256",
+   "serial": "0xc72256297617019f4e51d7367a593e5512a694c68043e6019b33eba340b75636",
+   "ticket": "0xa273138850d822a72d8295cd0a340e809ff1966dfb3520e54fe84d37e2ad4693fc88f89a3a6e5bb414a2d7289b10a3f4",
+   "blinded": "0x8a6e345eb5125243ad254da132311f4cb306fd14f0bd141df3e721810b34c598cb44fb8054eb5016ef053dc2acf4393d",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-197",
+   "server": "s256",
+   "serial": "0xb519abc9acd639e4c04a4ed93898dbcfc575847fc4a3e70059e3b862cfcf2b76",
+   "ticket": "0x8c9e543174d52e5900b7f5ee9fd87a4dc530b6cb8d24fe7c203603cbe3b1fca805d8d94e63ad6a6b5f608d5a1beeba4b",
+   "blinded": "0x990309329f04816a5035823a7f986e36723929e8dfc091a5e9989dffd7ecafb9ceda91547915be099f1301852089c022",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-198",
+   "server": "s256",
+   "serial": "0xbcee8c87b7d0f8b62af8f3ff2fde865a4574c28e200193e7e25dbc66aa629a28",
+   "ticket": "0x846392486b40228724f731e8fb44766dc1de47fe8d6d6241b29bf20d35a004d745db90f5ed507a75569dd59ddb1a0613",
+   "blinded": "0xaf3b9a5f7154200ab19ff8ad35a54c094ec28c92d6bb81360d5a06079321449fe5d6da8dac9675709e1d587fcaa54508",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-199",
+   "server": "s256",
+   "serial": "0x51e0a355c854fd45931da42786ee263760ebb8fc8e4c8a5660298b61131ed44c",
+   "ticket": "0x8d45f80558d142f5ac48b3ff6c5def4663126fbe3e93068070968f16df1f61a75e3a485c4aa6f2a4611afb2515629797",
+   "blinded": "0x8a8048ac15bcf59cb6637a57ca5eb417dc1de4e9ccda19931486e8ef08a6cca10e17d02a7aff1838de8b94df9cf99798",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-200",
+   "server": "s256",
+   "serial": "0x4f72af51f086a059b11810280f07603e9b999cf7c416ae658dcc5bab599a57d5",
+   "ticket": "0xb6ccbd56bdae1140c2896d630b47020a126c7cd2af2439f3a86af9020df86610f533bff2cb3059e7fab782ea3e43b187",
+   "blinded": "0xaf18495fb42a7e8ae3c4796ad149bf54da8305a9aec2caf5084502328ddf9ca42b48fc584c23075df9b85df363616942",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-201",
+   "server": "s256",
+   "serial": "0x3b1b7e02645861815d17fa3e5bbd0cb2296564fba741ce394b0ff2b1a42f3471",
+   "ticket": "0x880d9d1443acd9c90b9728e6ccad406118423afd339be9507c9ee39b8c743231d8f054ddc55e281dba34217c0105e3c3",
+   "blinded": "0xa457edc36ec54b445d334cd13ebd292e168dd9b440cf5bca866e0deae8ab8baa0aadafe638d2c6f9d62541d5a57c2c7c",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-202",
+   "server": "s256",
+   "serial": "0x9685ee7557f65b7760ea9c4bd97b9f299c79ff0815c3d86a9aeaa9641257ece4",
+   "ticket": "0x962eeb83c3241592712040c324ffd06fa2797891415b6315c1ffe69a7c17f083ea767a5d20259d916d9a97b9b0138b8d",
+   "blinded": "0x85927bfbe41543e11ec17ce2ca2f30f2138c0749e161ac1caf86b81ff510844d1374d30c38b7dc7981f030b03bf7c393",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-203",
+   "server": "s256",
+   "serial": "0x8143f5070123ccd7da10c440900a3ee842bd16a76c77595cf716d6e83463dd6b",
+   "ticket": "0x8e392cf292d2118b3b69a6352ca4137ad86291b18b41d1301fefa5ca530d94ad96d0b8d448e9ef1f240f0a7f56a50135",
+   "blinded": "0xa788598536c734244f380fe54b0049032b2f152efca316edf3b1b29d15a80f97229e15f05d3166d39d7f9c5ca8ccdbb9",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-204",
+   "server": "s256",
+   "serial": "0x882a77601a79d64f7019c4588f7ac7db453d8e1091ed8c9206dab7ad1d55f57f",
+   "ticket": "0x8028f4038f11bf323079514f4160b999979b96e1993a1bcd3fd68e597da4d4cb9b164b03250a1b767580faea11084757",
+   "blinded": "0x873e421b1658973f5d18e9184fc0634b9911fb00b5d761ab27db65682065b0805e6c79403621c6c6209d258cd5e14973",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-205",
+   "server": "s256",
+   "serial": "0x3a5bced512e969261f06f4cbd033e59f4846bb3b39c114c448e2afb79ae43dcf",
+   "ticket": "0x86018e45464272d4d1d22c3ea29a121b9d29a81960cfb0a430f22fa6d6583b4551815addd89fc0dc4d0662c77d481696",
+   "blinded": "0xa90a900e2155bfc2c30c80597adf13ae34ff52b00a0b2031d81f316d3a96cf8602c9ec763eced831bccb40d402d3395c",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-206",
+   "server": "s256",
+   "serial": "0x24e60627151fa79b7571f0c27fea3ca983134d38eda44821cd98acc308c3c440",
+   "ticket": "0xb1c54800281d50552bd98aa70b63d97fbdb5ae9df239e6e58a829856daaa5d91bc4c24227b21776bfd58051e89ffa924",
+   "blinded": "0xa3c4c431c0ed9d8528c71c2b40167b5e555720f92b14c013d237bed126a179ff01fa765e0b8600fc2257f03cee4d8def",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-207",
+   "server": "s256",
+   "serial": "0xbb421a3ba73c7e38851bbe5217b614ce84c19c6263d014b795d3ce74059adb87",
+   "ticket": "0x8de7347865cb6c568134e8cbbf8e293a8a39ca548950fccf99936076c0f9b640229134e8ccd9018a2af570ec3dc234e6",
+   "blinded": "0xaa788a68bbf38be42113d4ab295efc2033e4ba4bf451a584487c601da0d0bf1ee1ec7127c09e5f8c6679d9d71ab608b6",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-208",
+   "server": "s256",
+   "serial": "0xa0a814251030648de79d33b670f641d743bc55d6eb46069bba3ad4d2a2a8c41a",
+   "ticket": "0xb98dafdfc69a7d04e190a4432257918ee7bffd46f58cac27aaff8b669d091dfcfe7e82fda26da61dde3468e1ad7d73f4",
+   "blinded": "0x89157641c02ee14bfe9c3f697f861864d91805c0e77a0e268707e8267f0d071495dc05fb960af8fc83c0b8371b62104f",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-209",
+   "server": "s256",
+   "serial": "0x697dfa58c760ebcfa1b6567b740cd65a6ee26d177aeb2696b00940517ecb4976",
+   "ticket": "0xb264268a532628996dfdfd79b62f0fcf499e16ccfcaf1d8f2d307e3d296049f4ec4c4b91b911a41a631701a2867472a3",
+   "blinded": "0x91ce636b566c08a966faf3e3c3256e1025283d4bd4098a58bc17660db7866fdb343a2452b015ff08453da263376e2e35",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-210",
+   "server": "s256",
+   "serial": "0x851265af1a2202c07756fae69b5acf3c5a3d481f4c5f1d2fb107eef46a6fca93",
+   "ticket": "0x8430b560894107d7ff669e61dd84644db2b2f0f331df97c37bb28c4dfe78c9de078527798ca4fd5399a711b3589aebfc",
+   "blinded": "0x9952746b735f99aa849a28764d615b0366e5118074b72ae795c8138bbb6f68a74a20725fef32f9d04c1401a293d9286c",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-211",
+   "server": "s256",
+   "serial": "0x171fafdd49a9826329965a13d222c5aa467572bb5299eadc5ae7beb904ddf4bd",
+   "ticket": "0xaa23ec2915cbdf30832d51f244f723d7793cb7197ff7a5596f5e645489735f8137f834f6475ff1ea0821b2d2873b0bd7",
+   "blinded": "0x9393e35da2f6d75769889c0e24573838e40f6545e84fd5498c68227682d4af4364fdabc90d10ef49c95eb70bcf4da5d5",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-212",
+   "server": "s256",
+   "serial": "0x6d3aae88662d30c4ae02ddff957346691e24b518ce9739c2b059b72248555ce8",
+   "ticket": "0xafb8b7d8d84c732c2e67d3e55122c0ca20444f599247a848feaaab8c2a3d44b2dd070f444dfe2aec36894c0be4169f09",
+   "blinded": "0x864a61d3248ac8032cab067f6d0bbb9aa998d91714f546fe6a710dc52661332f0e637019642b45c7c3db205aca6f5b37",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-213",
+   "server": "s256",
+   "serial": "0xc77c3f7812f887e163a2d6c5e52635d3f46691de99df93729cc5c135a80d5267",
+   "ticket": "0x959e0bcfc242b1e8c12a39558931ffba703069035736c363210af48ef4dd66016bc234210d157dc02fc07fc6d9cecc3a",
+   "blinded": "0xa67e94a7a5c97fb2fc4e09b47d2108fe8e766f4dc278fd67fa70035143219218a9c2fa9ad90f39b19ff0bb0040ff663a",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-214",
+   "server": "s256",
+   "serial": "0x67036c5113e7fc6cf7c2814fd3fb5053df7415aa63e51e58f0963adc5cfa4019",
+   "ticket": "0x97af4c9d46ac80c3a410bbc2e762a80c39b1b464351676128bb574ec64dba02a889fe6a4e1bfc2aaab2fe17d0faafcfa",
+   "blinded": "0xa48c8530b881e2300ae5433123b3344b5e1b419b21711d44dab626b3c6e68d6412afddc557a355e64ba9d48670ec4b06",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-215",
+   "server": "s256",
+   "serial": "0x1576171e832d3d5ddb4aa0df5d1eaecd797df01901b8953829d4ef7a2d0563f5",
+   "ticket": "0x942a5264d4f23b45f2ddefba5e7df537bf7350d7b2c80581dc3b6f022f372fff5b529a80ff3112121fb36f341d5759fb",
+   "blinded": "0xa938d6d171ad450d6961e17df3206d8962fe064c4284cb04d5fb274619e6828a4de1788202599a77fbfb60cd2a94ffc5",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-216",
+   "server": "s256",
+   "serial": "0x512b76ab7796aed3150cfedba77aeff2b5de8bc0049a9b1b54a9599ac955308d",
+   "ticket": "0x8aa65ecd4428d1dd0ed5ff4ee88cf218aad65f9bb802c6adb3d0c1a71754589c47c4699ea433e39a44bd5ec87734f380",
+   "blinded": "0x8fa3cc50b733e172fe970b9c0f9fb9aff09aedc034d63bb97a52098279a3df220481a579406498d1199e7d0d2af73637",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-217",
+   "server": "s256",
+   "serial": "0x6ee837c73ae400d3aad5e2369796667b0a9dc35abdfa60fa04a33fcbd361f2e6",
+   "ticket": "0x99c0f119f4b061147410a0c1dd59b4df29770dc3c986cac10fde1a7519484819c688f0c6e9e268118093aecee12cd75e",
+   "blinded": "0x99349e2da157b9a1ae1064d9bb53dca2bd6c1174b4414d27866f54b6adeedb55f2da7f633627c051701dcbb946a4ce27",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-218",
+   "server": "s256",
+   "serial": "0x391607019da0f530f87e5dc42dd8326e33017fc6fec3e1629dd75ada81186484",
+   "ticket": "0xa2828983ff8c183e72ed9d957df977b312de864e57fb1c082ae3482aa01c82d283eb08595dabf3f0aa1a898f1acb9702",
+   "blinded": "0x844f3196abd31dd966eabbc5726c132659baa79a21c37a21ecc8cd56d838bdcee066e6e7366b9d0891e1c4a2a77562ec",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-219",
+   "server": "s256",
+   "serial": "0x151cb8ec4d1bae7ad1079688016f749a6c291ad18be23c78b86f8a97274e85e6",
+   "ticket": "0xb2f0b06e0a9d732b2af393f668d6698800e5492ba6e842f34c2fb45e97e768093c706a5ac21e8a5f942abc0fe87b412a",
+   "blinded": "0xae2f3e6121febfe0c60443117d87b0b668ffa2396ca17a0694d2d2f1f92290eff3736b5a374c863866da926f5ed68d25",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-220",
+   "server": "s256",
+   "serial": "0x80a269ab6d287ed30a4a33ec81e085290672d028fe2f4b0424c273eeb3c6b203",
+   "ticket": "0x83d38a0670f8b3b1750b3a64cce5a455be6d511c4d4ef68f4b7bfadee72a53e2dc18debfc3aa75679d5dbcd383251e1b",
+   "blinded": "0x8de46e7eed13b0fb1a76aa3f6290941273f1edc7e8479740d4abf05eba790461ab97d2731083b2ffdefb568021d3f99d",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-221",
+   "server": "s256",
+   "serial": "0xc276d162d2686521f5a1e641b8d89c1db1c0be574bd2c85ce84383772074669c",
+   "ticket": "0x89d756f99c4c2276b054a4a4abd80b35a0e9ac0717b7d48ccae413e2c9f6e7fc1ea7697d0f330390f28fef089c5527eb",
+   "blinded": "0x92fbe6ecf84b510b0de93c3271dac1f4560c9ba28b3a0dec24ed97ae22d7cca6654ed270d8eef3401694e3aa49e30d0f",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-222",
+   "server": "s256",
+   "serial": "0xbb61558afcdf57fc5666fdfd31e7061b799d1caa9a07bcacf322175036ea2755",
+   "ticket": "0xb84e6a02a2b54d66cd0c29feabb625bcd33a986d4b0a14dafbe305ac9383a92fc4ce377a75c0642c11623d4cec7d0315",
+   "blinded": "0x9776ff929a32f10780a01add5f89b05d5658e668d2759ce9db3a1f5467f339173e5e58794a2a8729ca4f0295229ef1da",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-223",
+   "server": "s256",
+   "serial": "0x6ce092c4d19c6232b38a9ebf4c434cb419170010d690f613eb600bd75dfb8bfb",
+   "ticket": "0x925f067e47cfcb535bb8bc3933fadb29c02f7a9087a2b66f24fcbee0499a4d42e945f831ec56749f827445d16450bde6",
+   "blinded": "0xb99e6f3eff7f7af6fd5f27b4f19ef25c20d211d7b162967fec735a870e3a151fb5ff14c0a8768915cfd04f26f65dca15",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-224",
+   "server": "s256",
+   "serial": "0xda430d853779c1d694ab53598207370192e8d676fef2c7ee74ea26aaeb880a63",
+   "ticket": "0xb317cb4be24712c7d6451baca6584d663a6d364567735c6a6ce27fc683463e608770cd21e13bc0ae64913c332d62df09",
+   "blinded": "0x8a243091c5db1ed46d07f7e631a4720f390270b7b675681a8b33577c45be151ffc69ef10c0fc21786e27492e64dff031",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-225",
+   "server": "s256",
+   "serial": "0x02d650bc4370783e8be6547a42a1fcc839b74bd9675c9d7e2b9b4c664fad111a",
+   "ticket": "0x83a40120f98dffd49b79dfa7671f656901ed553663dffc63cfd59a0c1f617ece4ae782ed931b19eb1399ca02284f7142",
+   "blinded": "0x8826e125383a367675d7248c86e9538f238bc517d7593c22b939b4389fe4059706a523a82d609b540a3df3b4dcbe0bab",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-226",
+   "server": "s256",
+   "serial": "0x6a8942b7b2c50846c1d87cc397d1136afb5c2d571dd11e869a39f7b994769bb0",
+   "ticket": "0x8a4b48cd82ec331442c1e882489f2053432e9875d743b70bc11893acd1645ec7b047620e443db820c2e32f1593f667fc",
+   "blinded": "0xafcc41077340182490a4c0bcd9e20623e85c64b80851e683860d65198a3026c8fa97ec3d6c5879c416f491ad084ab7f7",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-227",
+   "server": "s256",
+   "serial": "0x8017d234f9c4bd156e5fa61b45b582149d6d7241ef04d3a7f253b607e8a6e998",
+   "ticket": "0x8656f2b57926933a258eee349783639e4d69bb22166025697f30270254237f3561484a3c96b0d76d6ea9096af7c66ea8",
+   "blinded": "0xaea5f6d180cbe4ff03b06f02c182a6e8d21db514362463957ebeab46e9653d82cdfec1aaef4823c029abb9c9f5392957",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-228",
+   "server": "s256",
+   "serial": "0x5aaa4d40998782b1a06ae42fc7abf3c7c58115b80c723941d16f7c125486edfc",
+   "ticket": "0x8c3d9097dbb16524194c09a098a9f14fabebea46f07fdff9fae6aa942e8be2acc0046eaa0ce7b8584164e76b3db661c5",
+   "blinded": "0x9806ddac3d7e91abc760b15a474507fcf1e5dcc951513c9bb02040f6aef79eaff22b85ee3994969eb785347c876ead59",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-229",
+   "server": "s256",
+   "serial": "0x79b488a4890f7cea85afd677ad5db34943bd8bfad7381ebb34b1916966d956ac",
+   "ticket": "0xacbad4db7c57e7bd13eb98e129e806deaf728de26103d66ee925035c2ec8a216d085768d274208e470eebbf4b5f555c8",
+   "blinded": "0xa8ef87972f892750ac3f9decff8ad4c1f8d1242e4020e3baea7ce7e58f09ccb99ff0a97edb89361d10e655b8236722a1",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-230",
+   "server": "s256",
+   "serial": "0xe1fc79a4784f389da398e28d83aba44d4e161cfde55ecb3cf20f20bb14a7378b",
+   "ticket": "0xaf03152db6a576ca3b609f817e361faf3d06da3fcaa63bfa5b2974092d86c0d7b5d01ed72b00dfd21c0217e99cfb8a11",
+   "blinded": "0xb8e80fe18d0ca48b73101b82f0e4d93d98558c3e2eb335c2f2ba65f615807a1f29995550c25dbafdda821d8d2b8d6bcf",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-231",
+   "server": "s256",
+   "serial": "0x8a1293296f43690ab4caea188a8055530d473671acfd37c57940ece1b80176aa",
+   "ticket": "0xb7bb6158e246efcd84ad75fe45f93468f9d8e49b8df532cf59e74fd323075037b8f9e35afa14db03b59fcedbff1c8fa3",
+   "blinded": "0xac832b49289918e1b4715a3f0aa8a0c57f758a76625e61b8b652b1ec3078d310de4cf4e83291e70a337fae1605a31e7d",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-232",
+   "server": "s256",
+   "serial": "0x70859e574a5cae257f61afcc55e6c44fa6591c7b60f5f4f1cc8a3313f463028e",
+   "ticket": "0xa49a59ab1382ffca56ccba06cdd2e037872629491c24d866e964ed5926ebb281ed0244945cde8fd7abb5faf5efff911a",
+   "blinded": "0x83ae5bf55093b7065a359baa300d3091b32efb5f8fc168ac7a5cac3b0c505de569bcef71b0e0e97eb56e5d7b4001f114",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-233",
+   "server": "s256",
+   "serial": "0x4f3e3a931ec18cf4df25dafc1e54e6cf2611b75e1e78bdb2dff359d11cf86f16",
+   "ticket": "0xa28b58953d217854d34238fbaa05e1f8da1ad6faa20f7af7cc77ba7bb78efabd4cbc79ff89984263a7b26f59b80ff728",
+   "blinded": "0xaa75bc523482f1e69b17c33d102bcac2fd3e007f0af184cf6867a8b578a8d4546963d2bc956544f5180e9909501c77a4",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-234",
+   "server": "s256",
+   "serial": "0x3610b4ebf38ec913acfb5450f5d35a276e2dd5f59c54e4788b35ce56fb18c1e7",
+   "ticket": "0xa89f2ea74ac0b7d36fdc4e8c014a275ef851de075cd8304d9b02b89f6a47d577e1f6d0c9a120fa34a6da150018cc0b01",
+   "blinded": "0xa5d04e2b459b908b41ba0a0a5f6bc1f85a26118a6f0cdf354720ac37a88dd692b80c6478726217224c1b42f8d6ee6ee6",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-235",
+   "server": "s256",
+   "serial": "0xd93ac16620f75d6a19351242a03719924e6160433965adbbf2f98e8b5496096e",
+   "ticket": "0xb499fadeb07db2b00774ca6df5cda85bdfb0133ac014e2d9dd71318b0e31583a65a0a57e8f740c3d295ba48242857778",
+   "blinded": "0xa43ec9963c40d3ccf57a95c69c4ec111adf2fe77832ba901b3b6951891baba19afbb29e73ba0196fc8752b91ddf9d368",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-236",
+   "server": "s256",
+   "serial": "0x70edf60b5b3fefd42d2714b2fa9860e211821acfb121f72d42f976e7a12ef988",
+   "ticket": "0x82751d95a38d3f447f0ef4d608bfc2786e7601f58f3cea7b79d7974fd943c777080498e1be096a7d103601c03075d80c",
+   "blinded": "0xb32c18a7ec2b7b384dc77a51adb2a00273e979590d5a2a6f453ec1a0b309d043fb397af6de08fdad95022c77c9cc3ef0",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-237",
+   "server": "s256",
+   "serial": "0x70e85437255b4b056f054ffa7ba702ec25b461c171eeb3534d69450de99bb0dd",
+   "ticket": "0x8e2560913882678be948d02daba277c39426300fa0fa11c436dbf7eba496bf52742267c8c1da61d59a4fe450ffc2583b",
+   "blinded": "0xb56263d92d470be3f51e7a191d33e1b4ec73da6d0748dd8e1ce26591a0919ca9436aafc6fabe5c7f3682b38beadb75f3",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-238",
+   "server": "s256",
+   "serial": "0xe5842173046dacf48f465257b0bedbc3f597da63bd3bdfa4f8d91b07f802378a",
+   "ticket": "0x8695a172d899b4e852673c4e0ee1a922b072b28ea861d97ffab52306d1d40d5dad1f0364cdcdadddf86aa3bb936be993",
+   "blinded": "0x99309e376d250d063f3d181ad51d7677c0da2b23d1903f1e90192a3847c01d99de4acf527d1f3b935f9200adc8d04ba5",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-239",
+   "server": "s256",
+   "serial": "0x48e4965ef3b766e3df4d811e438f9b934cd70053311437a8a4f8f4682f470b7d",
+   "ticket": "0xb9676eec538da2a5c11d9167f4a61b065b851967fd19e0b2719738a6a24c93fdb97b7163584f0d416ab9e9da3782ad38",
+   "blinded": "0xb8772a8fc42b63c77f10c6f91ad3e0d34938987d2c9a10cb6381ab56a00ebbb869fb848964075c6a13dad944946cd4b6",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-240",
+   "server": "s256",
+   "serial": "0xc94fe93f61d63f7c1bc47049275795d395eb29adcbeb1fe68f05b1f9fe13efb8",
+   "ticket": "0xb9bf9f96ed09b71b6491c7042201cbfa28a757c4a07e2d01adddad778f8b5ec84c601bd6c23d084958658ddf812f58ec",
+   "blinded": "0x867d94e0c0d40b02608fafc2b6e007541384ddd7e10520f8d0b879fbd662c317eadaeff40d2ef7ac9d187f9f2542c5b0",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-241",
+   "server": "s256",
+   "serial": "0xe77072b9c332234e623326c4773fb5b49c9416cc6725768d73ea2a226eb759cb",
+   "ticket": "0x995d3251d88d30098e184975929839afcdd6423857c714067a0b3418c67aa4cf1be4d998d18c1f4108321a2734cfe797",
+   "blinded": "0xb286070c77d7566cfe20874b6e15d24f45c60de8335dd99ae641f181134ac6a1f688f0062020e81318fbbc65a544694f",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-242",
+   "server": "s256",
+   "serial": "0xb0e4caaa6670e15d11f5bfae8948b401af819f478bccdc91e3729a1864162c3e",
+   "ticket": "0x86a5aa298b10974fce44fa0ea8ec7c15b1509113f204714c02090e8ea4e68ee25205ecacbebc2e4f442cf2d01973e09d",
+   "blinded": "0xa60707e11b9105544da8a658110ca257479051fffc4d38da3727d454c26f278d8f0917d234941be11bc6ac25b137e85d",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-243",
+   "server": "s256",
+   "serial": "0x27c674e51e9058b9433655dce5503f6df11d7d7ea2792429ac49bb121e3081b3",
+   "ticket": "0x85283763dc906deed8a34c4fc25f007e7d9555f202945e005c84dd00e4b12c711bfa1107a6030228dfb96746e55c502f",
+   "blinded": "0xabe2c418fe3504c961c839e18acfac56ee1277a89a614ea748b347cbe1c53bc0c6a8e394fd52ff457ca9885f7d45485f",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-244",
+   "server": "s256",
+   "serial": "0xddd689b2e36620dda3b95df0bc91c75236cc68affcfcddfdaff43e55ac8039e8",
+   "ticket": "0xa592acf2a9e5448ae7b9135779244570c41e13db8bac159d0fee8262c5dd1cf343223606d6e27a1339c475d5440c15c7",
+   "blinded": "0xa3175bf2b0277ea6a6c7637d3c4a2d54cc677810d0937d71498301481a5dd048f59ce1429604a2b98067f43923c58feb",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-245",
+   "server": "s256",
+   "serial": "0xb53640fb87023c39323c965bf032c0815b69d76c4728adcc3927f8460a2c0810",
+   "ticket": "0x80d197fa74d47b22adeb21b5c33831a5309f99f58c2985d13fa6e08ea5522fa833eedb25f113bdad89161b212f9624a3",
+   "blinded": "0x85a78b74e5e2028cbf6b11fb615e893ccdc748c2e37f128e6850d541469ee992442f27407d96137220cc36dc129f6369",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-246",
+   "server": "s256",
+   "serial": "0xdbd0f0872f2f353663d1697592b8d6ba5679e06a32c83e5040e19689ca30896f",
+   "ticket": "0xb211a7e1614b3162f67cd04b1c7ef23eddc72f601dfcd6d6c76c9b126e6a1f27d787694d8d7434c38f20b70650efe735",
+   "blinded": "0xb0ebf756db9643bb3b8fb18d2860563e907ffac5693c08c14a95bca6dc4a945bd3a958b36af716b956187a57950d58f8",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-247",
+   "server": "s256",
+   "serial": "0x5994afd6263b9d66f1bc3fa2ea683f31c2972c3721fbe35efd2d4d58228a210c",
+   "ticket": "0xb8e99b03938161b8c613cbe9aa3e2471fbc4bcae5b6937408d82ff4e255501f9720719093ca1eb0389ef0b35e15bd065",
+   "blinded": "0xafb0ea055ce9aa73c10ef2e381fbc20470f10a0fb8f48b98e5ae0312ee6d39d7b29b3e3f0a94c08e2baa75e495f05eae",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-248",
+   "server": "s256",
+   "serial": "0x32adbfbd765d2cfbc6203d299c46871df01df0342afb6c3ed91500c3f13d612e",
+   "ticket": "0x8d2b9ce6ff753ee8fa654ee9e4865f9f9d2325d07e4fe5351f91ca81278498d88f8bbb32bf04802a5a367f36ffb0a9b4",
+   "blinded": "0x8090c0698c9e3e46c0e80a5dd19ca6da2d1a07e89bf1be92b686be73e1f8b1c3430735138a6f1a2432247786028df46d",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-249",
+   "server": "s256",
+   "serial": "0x64215173f70c7a869254b30362da9e1f9a240ecb698bdae3a8edf72dc4c3e834",
+   "ticket": "0xa6c4cdb18dc11f5960f055274668a33f73bb31821c9462d9e11fe9d2287b486cce15758293e28d5a7e8c6c42e6422c85",
+   "blinded": "0x8a35bb600638453e4cd45b671c68c5bd124632d7f1056e9f6dbff6be170f4a9bfaa4fbdb3ac7e02428f313303c12f35a",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-250",
+   "server": "s256",
+   "serial": "0x566cc256f1549de67a6904146390faef44022ea0cf7357378eec658545821c49",
+   "ticket": "0xa73d6fb413aca41b41a335e75d2137e5c902e854d64fb33fe20d5915687f8d60ab27fd2b88a3c61ce070d0648ce029ac",
+   "blinded": "0xa89ce4cf809a3f5b4afe81787b62c32c7672c1471a79a63890c7523bdc9a5f7c0cfd91c9e5b7a6abd5c8a6c4fd6faaa6",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-251",
+   "server": "s256",
+   "serial": "0xdaed3fc48aaf1c882ff21962ca4dad04b58e8a1f9d69fb60d3b6012b83836b6c",
+   "ticket": "0xa22cf96a7f065209de7cab6f2d3a38acb4e79b371ec773560bff78ff72db4eb67579cca294a4ad9d149986ecf8aeb0e0",
+   "blinded": "0xa49c520a205f4ebd4f844e33dbf3d0fc3abfd28bda58d8febbfaa901627ad0b8e8ee6b58b1f27c409641d4aac804e474",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-252",
+   "server": "s256",
+   "serial": "0xc4dbc7a0f36e3fe684867d1c245c4bbc98722bf7018f3820a3927999746ffca4",
+   "ticket": "0x83939cd7aa0bca2a39705dcf517f3dd4e842c53ec3bbd490393d795cde445ea7d6c9ded60feb02b99c6a499db6a8a419",
+   "blinded": "0xb0047a9fdaa36f860fc44e30ba16757345102cb2ba731894c3b4094d9757d16f335bfe270a903ae07308f4417cc08388",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "s256-253",
+   "server": "s256",
+   "serial": "0x03092e8dd05de2693dae6dc31628d17563ee0c276b8b0b599be4a55b02966529",
+   "ticket": "0xa719e6f98b86ea9143b39b6f4c6fa3733617dd0521e85bd3d37aa105cd3757a0823c6c919e4e90db23f6adf1d77fdfb1",
+   "blinded": "0xa9a13c6a6627d9f3214ff44ed13005d46204aff16282236ee15445ff7d72a4f3ccc4b7e092da574440db17976f6969e1",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  },
+  {
+   "label": "s256-254",
+   "server": "s256",
+   "serial": "0xe0de9e0881d4cb4ece1b1ec2f91d324bf957d3ff3e8a4124fcb01e0936b1f41a",
+   "ticket": "0x8c76e7ddbecb72aa60fcc053313a53611c4b84d87bc3aa59dd75e1ca1e6730e027c2463ebd2b8879c1af58ca31ab5818",
+   "blinded": "0x8edb6da58645b9d4683d15712a9cacb6d858a06281b1f38df620c5d8eff518dc8fe0b93b1195d9bb79d9a1c144f81b72",
+   "quorum": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "label": "s256-255",
+   "server": "s256",
+   "serial": "0x926f5f1447e3f735f6ac42e95986c47083d75936728f6ccf6f774ae885fccb59",
+   "ticket": "0x95c9356fbce3d4cf70f8483c832c03b8ad0a832591842eed61db1a0e77c723832192de2c0bc346eb522dbc7df1981eea",
+   "blinded": "0xa632358ee33150634a0f28f0ce7039f3c251cc2fedce2e4d355f0d5cc7095601885f121330b2af757ca18ea27329c2d6",
+   "quorum": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "sd-0",
+   "server": "sd",
+   "serial": "0x8bd3164b6b5bb995c413ecddaf073ae45c5bd55441ad91221166c5174ee8262b",
+   "ticket": "0xacdaa012c03c9322e49fa7c49441b360f21f130a1330c3f4ec500424870611e494ad5ac6fa441e6a4ea1074039b3614b",
+   "blinded": "0x906f4d830274b47846d9a0e7f6f6429a9c696f8643792c1f8537a4bac2e7552990a5872ada3ddc1d16fe8b55dd0361fb",
+   "quorum": [
+    0,
+    2,
+    3
+   ]
+  },
+  {
+   "label": "sd-1",
+   "server": "sd",
+   "serial": "0x4ffc524bec58810b028533bead45245b48fdd9604a79a2fcdc6899690403cf3b",
+   "ticket": "0xb1f2a0a35244b3b23f45ef2f8ab27127a99a2164d331e31cb24ee8954d4e464e0e9b3124d614f35269bf0c91215a9970",
+   "blinded": "0xaf644258d855ace9c8b9aac81155883d854ab93517e1261d994efed37927fecb4c70d0e9222d0125ea57c097ebffcc39",
+   "quorum": [
+    0,
+    1,
+    3
+   ]
+  }
+ ],
+ "setup": [
+  {
+   "what": "deploy the pool",
+   "hash": "0x540437e48367e9174ad1003b6492f1a80d561cfe78d4439afbd04372db0a9ecd",
+   "block": 602544,
+   "gasUsed": 5709774,
+   "ok": true,
+   "attempt": 1
+  },
+  {
+   "what": "four bonds, the tickets bought, and a float",
+   "hash": "0xefe361d223ae340dfda658c150bd68b9e258d9b8964e138cbb18904512fc8ea8",
+   "block": 602545,
+   "gasUsed": 618432,
+   "ok": true,
+   "attempt": 1
+  }
+ ],
+ "steps": [
+  {
+   "step": "settle the batch of 1",
+   "expect": "mined",
+   "outcome": "mined",
+   "hash": "0x41a11485a367eb81b30b30e1e8e8d9da6b25c34fdffe905f34276218349b2f78",
+   "block": 602581,
+   "gasUsed": 442224,
+   "calldataBytes": 612,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 19122,
+     "state": 97920
+    },
+    {
+     "status": 1,
+     "execution": 24584,
+     "state": 281520
+    }
+   ],
+   "simulation": {
+    "valid": true,
+    "violation": null,
+    "executionStatus": "success",
+    "gasUsed": 442224,
+    "frames": [
+     {
+      "gasUsed": 19122,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 24584,
+      "succeeded": true
+     }
+    ]
+   },
+   "nodeA": [
+    {
+     "t": "2026-10-29T03:55:44.530Z",
+     "event": "rpc",
+     "result": "ok",
+     "client": "valid"
+    },
+    {
+     "t": "2026-10-29T03:55:44.533Z",
+     "event": "relay",
+     "peers": 1
+    }
+   ],
+   "nodeB": [
+    {
+     "t": "2026-10-29T03:55:44.995Z",
+     "event": "gossip",
+     "result": "ok",
+     "client": "valid",
+     "outcome": "accept"
+    },
+    {
+     "t": "2026-10-29T03:55:45.152Z",
+     "event": "handoff",
+     "agrees": true
+    }
+   ],
+   "n": 1
+  },
+  {
+   "step": "settle the batch of 16",
+   "expect": "mined",
+   "outcome": "mined",
+   "hash": "0x0ad6d0eff1749015962f3416426f32f8195ede299f8c443aa2aeb3b595b4c552",
+   "block": 602582,
+   "gasUsed": 344304,
+   "calldataBytes": 612,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 19122,
+     "state": 97920
+    },
+    {
+     "status": 1,
+     "execution": 24584,
+     "state": 183600
+    }
+   ],
+   "simulation": {
+    "valid": true,
+    "violation": null,
+    "executionStatus": "success",
+    "gasUsed": 344304,
+    "frames": [
+     {
+      "gasUsed": 19122,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 24584,
+      "succeeded": true
+     }
+    ]
+   },
+   "nodeA": [
+    {
+     "t": "2026-10-29T03:55:51.567Z",
+     "event": "rpc",
+     "result": "ok",
+     "client": "valid"
+    },
+    {
+     "t": "2026-10-29T03:55:51.568Z",
+     "event": "relay",
+     "peers": 1
+    }
+   ],
+   "nodeB": [
+    {
+     "t": "2026-10-29T03:55:51.977Z",
+     "event": "gossip",
+     "result": "ok",
+     "client": "valid",
+     "outcome": "accept"
+    },
+    {
+     "t": "2026-10-29T03:55:52.094Z",
+     "event": "handoff",
+     "agrees": true
+    }
+   ],
+   "n": 16
+  },
+  {
+   "step": "settle the batch of 256",
+   "expect": "mined",
+   "outcome": "mined",
+   "hash": "0x734f35583932069b63297cc43c4bafc1f7e1c6d02e2a2bd090dca6c98e6da5e0",
+   "block": 602583,
+   "gasUsed": 344280,
+   "calldataBytes": 612,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 19122,
+     "state": 97920
+    },
+    {
+     "status": 1,
+     "execution": 24584,
+     "state": 183600
+    }
+   ],
+   "simulation": {
+    "valid": true,
+    "violation": null,
+    "executionStatus": "success",
+    "gasUsed": 344280,
+    "frames": [
+     {
+      "gasUsed": 19122,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 24584,
+      "succeeded": true
+     }
+    ]
+   },
+   "nodeA": [
+    {
+     "t": "2026-10-29T03:55:56.992Z",
+     "event": "rpc",
+     "result": "ok",
+     "client": "valid"
+    },
+    {
+     "t": "2026-10-29T03:55:56.993Z",
+     "event": "relay",
+     "peers": 1
+    }
+   ],
+   "nodeB": [
+    {
+     "t": "2026-10-29T03:55:57.890Z",
+     "event": "gossip",
+     "result": "ok",
+     "client": "valid",
+     "outcome": "accept"
+    },
+    {
+     "t": "2026-10-29T03:55:58.053Z",
+     "event": "handoff",
+     "agrees": true
+    }
+   ],
+   "n": 256
+  },
+  {
+   "step": "settle the batch of 16 again",
+   "expect": "refused",
+   "outcome": "refused",
+   "hash": "0x0ad6d0eff1749015962f3416426f32f8195ede299f8c443aa2aeb3b595b4c552",
+   "calldataBytes": 612,
+   "simulation": {
+    "valid": false,
+    "violation": "Invalid Transaction: Nonce mismatch: expected 1, got 0",
+    "executionStatus": null,
+    "gasUsed": null
+   },
+   "nodeA": "Missing or invalid parameters.",
+   "nodeALog": [
+    {
+     "t": "2026-10-29T03:55:51.567Z",
+     "event": "rpc",
+     "result": "ok",
+     "client": "valid"
+    },
+    {
+     "t": "2026-10-29T03:55:51.568Z",
+     "event": "relay",
+     "peers": 1
+    },
+    {
+     "t": "2026-10-29T03:56:01.845Z",
+     "event": "rpc",
+     "result": "ErrNonceTooLow"
+    }
+   ]
+  },
+  {
+   "step": "settle, under sd, with the batch of 1's signatures",
+   "expect": "refused",
+   "outcome": "refused",
+   "hash": "0x5009d1a8946887aba73ca68d245112c5d1000de0dc1d08dfece7c1034c8a83bd",
+   "calldataBytes": 612,
+   "simulation": {
+    "valid": false,
+    "violation": "validation prefix frame reverted",
+    "executionStatus": null,
+    "gasUsed": null
+   },
+   "nodeA": "Missing or invalid parameters.",
+   "nodeALog": [
+    {
+     "t": "2026-10-29T03:56:02.349Z",
+     "event": "rpc",
+     "result": "ErrFramePrefixReverted",
+     "client": "validation prefix frame reverted"
+    }
+   ]
+  },
+  {
+   "step": "settle sd's batch with two of its signatures",
+   "expect": "refused",
+   "outcome": "refused",
+   "hash": "0xf4d69d04b3953003f87d381723b1da6a875ce0ef0418adaa8e30cd2b34e28d88",
+   "calldataBytes": 612,
+   "simulation": {
+    "valid": false,
+    "violation": "validation prefix frame reverted",
+    "executionStatus": null,
+    "gasUsed": null
+   },
+   "nodeA": "Missing or invalid parameters.",
+   "nodeALog": [
+    {
+     "t": "2026-10-29T03:56:02.896Z",
+     "event": "rpc",
+     "result": "ErrFramePrefixReverted",
+     "client": "validation prefix frame reverted"
+    }
+   ]
+  },
+  {
+   "step": "settle sd's batch without the withheld read",
+   "expect": "mined",
+   "outcome": "mined",
+   "hash": "0x5324aee820875367117f9594d1b8c01bd5ff85f41c6249fc6cf02e598ba38353",
+   "block": 602584,
+   "gasUsed": 344316,
+   "calldataBytes": 612,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 19122,
+     "state": 97920
+    },
+    {
+     "status": 1,
+     "execution": 24584,
+     "state": 183600
+    }
+   ],
+   "simulation": {
+    "valid": true,
+    "violation": null,
+    "executionStatus": "success",
+    "gasUsed": 344316,
+    "frames": [
+     {
+      "gasUsed": 19122,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 24584,
+      "succeeded": true
+     }
+    ]
+   },
+   "nodeA": [
+    {
+     "t": "2026-10-29T03:56:03.393Z",
+     "event": "rpc",
+     "result": "ok",
+     "client": "valid"
+    },
+    {
+     "t": "2026-10-29T03:56:03.393Z",
+     "event": "relay",
+     "peers": 1
+    }
+   ],
+   "nodeB": [
+    {
+     "t": "2026-10-29T03:56:03.799Z",
+     "event": "gossip",
+     "result": "ok",
+     "client": "valid",
+     "outcome": "accept"
+    },
+    {
+     "t": "2026-10-29T03:56:03.955Z",
+     "event": "handoff",
+     "agrees": true
+    }
+   ],
+   "n": 1
+  },
+  {
+   "step": "the withheld read refunded",
+   "expect": "mined",
+   "outcome": "mined",
+   "hash": "0x3bf002a41ba9ca7d37440ca08b56841e746234f17b5f9f9b8663c147a3fda60b",
+   "block": 602611,
+   "gasUsed": 441255,
+   "calldataBytes": 548,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 18955,
+     "state": 97920
+    },
+    {
+     "status": 1,
+     "execution": 24062,
+     "state": 281520
+    }
+   ],
+   "simulation": {
+    "valid": true,
+    "violation": null,
+    "executionStatus": "success",
+    "gasUsed": 441255,
+    "frames": [
+     {
+      "gasUsed": 18955,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 24062,
+      "succeeded": true
+     }
+    ]
+   },
+   "nodeA": [
+    {
+     "t": "2026-10-29T03:58:44.883Z",
+     "event": "rpc",
+     "result": "ok",
+     "client": "valid"
+    },
+    {
+     "t": "2026-10-29T03:58:44.885Z",
+     "event": "relay",
+     "peers": 1
+    }
+   ],
+   "nodeB": [
+    {
+     "t": "2026-10-29T03:58:45.338Z",
+     "event": "gossip",
+     "result": "ok",
+     "client": "valid",
+     "outcome": "accept"
+    },
+    {
+     "t": "2026-10-29T03:58:45.455Z",
+     "event": "handoff",
+     "agrees": true
+    }
+   ]
+  },
+  {
+   "step": "settle the repeat with the dishonest signature and two over another batch",
+   "expect": "refused",
+   "outcome": "refused",
+   "hash": "0x3b54c62f77656d38693530224f6fe08ab889e8140b0fa32d7d2ce3d14eaac844",
+   "calldataBytes": 612,
+   "simulation": {
+    "valid": false,
+    "violation": "validation prefix frame reverted",
+    "executionStatus": null,
+    "gasUsed": null
+   },
+   "nodeA": "Missing or invalid parameters.",
+   "nodeALog": [
+    {
+     "t": "2026-10-29T03:58:50.262Z",
+     "event": "rpc",
+     "result": "ErrFramePrefixReverted",
+     "client": "validation prefix frame reverted"
+    }
+   ]
+  },
+  {
+   "step": "refund a settled serial with the dishonest signature and two over its batch",
+   "expect": "refused",
+   "outcome": "refused",
+   "hash": "0xd9a2d8f7f80fabc7e771e7be20daf1bbd267cb0e624aec4ab9eb3cc531a6b847",
+   "calldataBytes": 548,
+   "simulation": {
+    "valid": false,
+    "violation": "validation prefix frame reverted",
+    "executionStatus": null,
+    "gasUsed": null
+   },
+   "nodeA": "Missing or invalid parameters.",
+   "nodeALog": [
+    {
+     "t": "2026-10-29T03:58:50.726Z",
+     "event": "rpc",
+     "result": "ErrFramePrefixReverted",
+     "client": "validation prefix frame reverted"
+    }
+   ]
+  },
+  {
+   "step": "slash: two batches with no serial in common",
+   "expect": "refused",
+   "outcome": "refused",
+   "hash": "0x2a2df894e8fd9cab1ebd94270ef3652f3dbea6cb01dba23e892c3669a848a35e",
+   "calldataBytes": 1252,
+   "simulation": {
+    "valid": false,
+    "violation": "validation prefix frame reverted",
+    "executionStatus": null,
+    "gasUsed": null
+   },
+   "nodeA": "Missing or invalid parameters.",
+   "nodeALog": [
+    {
+     "t": "2026-10-29T03:58:51.236Z",
+     "event": "rpc",
+     "result": "ErrFramePrefixReverted",
+     "client": "validation prefix frame reverted"
+    }
+   ]
+  },
+  {
+   "step": "slash: one serial in two batches",
+   "expect": "mined",
+   "outcome": "mined",
+   "hash": "0x4e2d3d020fd348d03d178dc3ecd7edb32bb110e7bcfd7a90e5197f26e7a97a3a",
+   "block": 602612,
+   "gasUsed": 376838,
+   "calldataBytes": 1252,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 12101,
+     "state": 97920
+    },
+    {
+     "status": 1,
+     "execution": 24434,
+     "state": 183600
+    }
+   ],
+   "simulation": {
+    "valid": true,
+    "violation": null,
+    "executionStatus": "success",
+    "gasUsed": 376838,
+    "frames": [
+     {
+      "gasUsed": 12101,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 24434,
+      "succeeded": true
+     }
+    ]
+   },
+   "nodeA": [
+    {
+     "t": "2026-10-29T03:58:51.935Z",
+     "event": "rpc",
+     "result": "ok",
+     "client": "valid"
+    },
+    {
+     "t": "2026-10-29T03:58:51.936Z",
+     "event": "relay",
+     "peers": 1
+    }
+   ],
+   "nodeB": [
+    {
+     "t": "2026-10-29T03:58:52.346Z",
+     "event": "gossip",
+     "result": "ok",
+     "client": "valid",
+     "outcome": "accept"
+    },
+    {
+     "t": "2026-10-29T03:58:52.465Z",
+     "event": "handoff",
+     "agrees": true
+    }
+   ],
+   "kind": 1
+  },
+  {
+   "step": "slash: the same pair again",
+   "expect": "refused",
+   "outcome": "refused",
+   "hash": "0x4e2d3d020fd348d03d178dc3ecd7edb32bb110e7bcfd7a90e5197f26e7a97a3a",
+   "calldataBytes": 1252,
+   "simulation": {
+    "valid": false,
+    "violation": "Invalid Transaction: Nonce mismatch: expected 1, got 0",
+    "executionStatus": null,
+    "gasUsed": null
+   },
+   "nodeA": "Missing or invalid parameters.",
+   "nodeALog": [
+    {
+     "t": "2026-10-29T03:58:51.935Z",
+     "event": "rpc",
+     "result": "ok",
+     "client": "valid"
+    },
+    {
+     "t": "2026-10-29T03:58:51.936Z",
+     "event": "relay",
+     "peers": 1
+    },
+    {
+     "t": "2026-10-29T03:58:56.629Z",
+     "event": "rpc",
+     "result": "ErrNonceTooLow"
+    }
+   ]
+  },
+  {
+   "step": "slash: one serial in a batch and a refund",
+   "expect": "mined",
+   "outcome": "mined",
+   "hash": "0x4ee5395dc3246db82fa552724b993f326b8890bfcc2ab63a75aa5dc105acd732",
+   "block": 602613,
+   "gasUsed": 168662,
+   "calldataBytes": 868,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 12660,
+     "state": 97920
+    },
+    {
+     "status": 1,
+     "execution": 24434,
+     "state": 0
+    }
+   ],
+   "simulation": {
+    "valid": true,
+    "violation": null,
+    "executionStatus": "success",
+    "gasUsed": 168662,
+    "frames": [
+     {
+      "gasUsed": 12660,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 24434,
+      "succeeded": true
+     }
+    ]
+   },
+   "nodeA": [
+    {
+     "t": "2026-10-29T03:58:57.173Z",
+     "event": "rpc",
+     "result": "ok",
+     "client": "valid"
+    },
+    {
+     "t": "2026-10-29T03:58:57.173Z",
+     "event": "relay",
+     "peers": 1
+    }
+   ],
+   "nodeB": [
+    {
+     "t": "2026-10-29T03:58:57.573Z",
+     "event": "gossip",
+     "result": "ok",
+     "client": "valid",
+     "outcome": "accept"
+    },
+    {
+     "t": "2026-10-29T03:58:57.689Z",
+     "event": "handoff",
+     "agrees": true
+    }
+   ],
+   "kind": 2
+  }
+ ],
+ "issuance": {
+  "tickets": 275,
+  "millis": 14864,
+  "key": "0xb149d16cd67b17df546215bdd5a7a22f4fcd7a54a6fa46d264658b036f46160f708fd8aa92fd5479ace2fb99ca199b90092e87f6a1de4c42870677d26c1b4ad216378e7ad69bb1b9abbf64ee27ef7aa7f12bd6b6e167108e278df2fdbd7870dd",
+  "note": "the issuers' key is dealt by one process here; experiment 04 and exp-frames 36 used Commonware's DKG"
+ },
+ "reads": {
+  "epoch": 20085,
+  "reads": 275,
+  "delivered": 274,
+  "withheldFromAttesters": [
+   "sd-1"
+  ],
+  "withheldFromReader": [
+   "s1-0"
+  ],
+  "firstHead": 602550,
+  "lastHead": 602559,
+  "memberCheckMillis": [
+   {
+    "member": 0,
+    "mean": 38.99,
+    "max": 70.3
+   },
+   {
+    "member": 1,
+    "mean": 38.94,
+    "max": 54.41
+   },
+   {
+    "member": 2,
+    "mean": 39.05,
+    "max": 70.68
+   },
+   {
+    "member": 3,
+    "mean": 38.77,
+    "max": 64.05
+   }
+  ]
+ },
+ "withheldAnswer": {
+  "from": "member 1",
+  "fetched": true,
+  "decryptsToTheAnswer": true
+ },
+ "refund": {
+  "recipient": "0x80E09BE0eFf4414b5a61660BC4947FC37317FC76",
+  "received": "999000000000"
+ },
+ "slashes": {
+  "reporter": "0x4484B39434Da8D25525ad3107fc52e2A27589CeE",
+  "received": "1999998000000000",
+  "bonds": [
+   "2000000000000000",
+   "2000000000000000",
+   "2000000000000000",
+   "0"
+  ]
+ },
+ "onChain": {
+  "transactions": 7,
+  "searchedFor": "every query, every answer, every ciphertext, the reader's X25519 key and the buyer's address",
+  "found": 0
+ },
+ "verdicts": [
+  {
+   "what": "the batch of 1",
+   "signed": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "refusals": []
+  },
+  {
+   "what": "the batch of 16",
+   "signed": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "refusals": []
+  },
+  {
+   "what": "the batch of 256",
+   "signed": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "refusals": []
+  },
+  {
+   "what": "sd's batch with the withheld read",
+   "signed": [
+    3
+   ],
+   "refusals": [
+    {
+     "member": 0,
+     "reason": "serial 0x4ffc524b was never delivered to me"
+    },
+    {
+     "member": 1,
+     "reason": "serial 0x4ffc524b was never delivered to me"
+    },
+    {
+     "member": 2,
+     "reason": "serial 0x4ffc524b was never delivered to me"
+    }
+   ]
+  },
+  {
+   "what": "sd's batch without it",
+   "signed": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "refusals": []
+  },
+  {
+   "what": "the withheld read's refund, asked",
+   "signed": [
+    3
+   ]
+  },
+  {
+   "what": "the withheld read's refund, an epoch later",
+   "signed": [
+    0,
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "what": "a refund of a settled serial",
+   "signed": [
+    3
+   ],
+   "refusals": [
+    {
+     "member": 0,
+     "reason": "it was delivered"
+    },
+    {
+     "member": 1,
+     "reason": "it was delivered"
+    },
+    {
+     "member": 2,
+     "reason": "it was delivered"
+    }
+   ]
+  },
+  {
+   "what": "a batch repeating a settled serial",
+   "signed": [
+    3
+   ],
+   "refusals": [
+    {
+     "member": 0,
+     "reason": "serial 0x4cad6349 is already in a signed batch"
+    },
+    {
+     "member": 1,
+     "reason": "serial 0x4cad6349 is already in a signed batch"
+    },
+    {
+     "member": 2,
+     "reason": "serial 0x4cad6349 is already in a signed batch"
+    }
+   ]
+  }
+ ],
+ "servers": {
+  "s1": "0xCC5CE2c651f848d85a98f7348aC3758ABb477DEC",
+  "s16": "0xCe9F402BA9FCa67028C0a25095C538450001D880",
+  "s256": "0x338841cA749B47a1FE9F08Fd1Dec68dfD7fCDc8c",
+  "sd": "0xB8fa408FD3649d34c9FD94FD7CA09f6f22d0f147"
+ }
+}

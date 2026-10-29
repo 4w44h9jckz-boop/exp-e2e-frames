@@ -1,0 +1,1709 @@
+{
+ "experiment": "exp-e2e-frames experiment 15 (X10)",
+ "run": "1-first-run",
+ "deployment": "d5",
+ "date": "2026-10-29T03:17:13.520Z",
+ "repoCommit": "269fba1a224abdc9fa81c8e6edd1d45a91accd48",
+ "pins": {
+  "skandha": {
+   "url": "https://github.com/4w44h9jckz-boop/skandha",
+   "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade",
+   "why": "two nodes with frame transactions on, B alone handing transactions to the chain; the commit experiments 06 to 14 ran"
+  },
+  "co-snarks": {
+   "url": "https://github.com/TaceoLabs/co-snarks",
+   "commit": "436f63fa17f2f10ece38c6650df68da99fbc0307",
+   "why": "co-circom (REP3) for the round's three-member committee, as experiment 13 ran it"
+  },
+  "exp-frames": {
+   "url": "https://github.com/4w44h9jckz-boop/exp-frames",
+   "commit": "37ac4aa36e48a7be390c9cbfedb7bbc31ac6e2b5",
+   "why": "src/exp-frames/ is copied from it (frame encoding, simulation, deployment); Groth16Verifier.yul and the hasher from its experiments 32 and 06"
+  }
+ },
+ "chainId": 8141,
+ "client": "ethrex/v23.0.0-hegota-testnet-hotfix-64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c/x86_64-unknown-linux-gnu/rustc-v1.93.1",
+ "contracts": {
+  "verifier/kernel": "0x25A6C75D3232b91447D4058ad947Aa2A3f48B657",
+  "verifier/import": "0xaa00aA7E7294d1013DD4b7d5A1f141459b4b904f",
+  "verifier/batch8": "0x02477c3F1f0232da98fc1cBD892f693fA721A571",
+  "verifier/round4": "0x9E008514073E384DD9b8E9719e5cf09FE28411d8",
+  "token": "0xA349d22219367A3354d72230d521c6baC250C995",
+  "amm": "0x359DBDEf57D8bD9f878Ac984CFd2919593B05F73",
+  "relay": "0xE7f3CCB0d5EFa9942919798c4E4F3f1435dEe081",
+  "probe/underpay": "0x0ddE91223A96254114dD3a80028a0B619d9D02C9",
+  "probe/twice": "0x94B85d873A2815B191419C5554D84443a98c7784",
+  "probe/relay": "0xA044cd9C677C73866aDaB674cE0cC4Bc0d1e825d",
+  "probe/silent": "0x62f51e2160213820d3fbBb6F87050260953C7884",
+  "registry/tree": "0x163D21cDc2Dbc78B8EAF2AFC1c52dDbDe305d03F",
+  "registry/append": "0x4DC7ae97af3C6F93057159B19E9420Bfdf55f853"
+ },
+ "hasher": "0x38955FBe81DBf136A84A1c711619C0Ab8Ce7813b",
+ "liquidity": {
+  "ether": "20000000000000000",
+  "token": "1000000000000000000"
+ },
+ "setup": [
+  {
+   "what": "deploy verifier/kernel",
+   "hash": "0x9fb58202fcd4f07059bb8d012fd73b9c95f0b86970940144995a133205c80037",
+   "block": 602139,
+   "gasUsed": 2367348,
+   "ok": true,
+   "attempt": 1
+  },
+  {
+   "what": "deploy verifier/import",
+   "hash": "0x55cbc1a0c568fd4ba7605ab7a8b1c5c47c73e963762563ad7a8526ed3a190321",
+   "block": 602140,
+   "gasUsed": 2061300,
+   "ok": true,
+   "attempt": 1
+  },
+  {
+   "what": "deploy verifier/batch8",
+   "hash": "0x27f02c0adbf6cf6ffab195243748638013e3fa9d395185737ba3ccd5c79ce15e",
+   "block": 602141,
+   "gasUsed": 2775412,
+   "ok": true,
+   "attempt": 1
+  },
+  {
+   "what": "deploy verifier/round4",
+   "hash": "0xb96dcf3015015f45451b4c09ac8d3125a7225a8009b9a0bd6653cb5965dea94d",
+   "block": 602142,
+   "gasUsed": 3285492,
+   "ok": true,
+   "attempt": 1
+  },
+  {
+   "what": "deploy token",
+   "hash": "0xd65caefeb08fd9cdba2fb7268299fb9dafbe5a7f18b6870675ba5ff6a9131fb8",
+   "block": 602143,
+   "gasUsed": 1584822,
+   "ok": true,
+   "attempt": 1
+  },
+  {
+   "what": "deploy amm",
+   "hash": "0x027b7f28b44be21a28fb2e2b407bcfa7ef2b0f2eba20d3e0327fff1dbad92d24",
+   "block": 602144,
+   "gasUsed": 2777554,
+   "ok": true,
+   "attempt": 1
+  },
+  {
+   "what": "deploy relay",
+   "hash": "0x13655cf229c70d07814b89a24cfaf10d25475566f1737def5e6ad0558a5b4dd9",
+   "block": 602145,
+   "gasUsed": 607636,
+   "ok": true,
+   "attempt": 1
+  },
+  {
+   "what": "deploy probe/underpay",
+   "hash": "0x346c2415b92ad8083090e7d138124e4dc453fcd3cf41a302d5085fab1591abbc",
+   "block": 602146,
+   "gasUsed": 2169002,
+   "ok": true,
+   "attempt": 1
+  },
+  {
+   "what": "deploy probe/twice",
+   "hash": "0xccc0ca3135adbd63c9c4010edce8de23d53299b607e7baf7018bb18e320b22d1",
+   "block": 602147,
+   "gasUsed": 2169002,
+   "ok": true,
+   "attempt": 1
+  },
+  {
+   "what": "deploy probe/relay",
+   "hash": "0xa634090caefce109707172d6498f86decf761201d693002f5ffa78890c2524a7",
+   "block": 602148,
+   "gasUsed": 2169002,
+   "ok": true,
+   "attempt": 1
+  },
+  {
+   "what": "deploy probe/silent",
+   "hash": "0xda61911411c97a413e60e975c28dea233271a6f4d2e402799c547336414388b1",
+   "block": 602149,
+   "gasUsed": 2169002,
+   "ok": true,
+   "attempt": 1
+  },
+  {
+   "what": "deploy registry/tree",
+   "hash": "0x083a4bb61181355590fe9ecfbde8a553f12aeda7c818827fde23cb838c32c0bd",
+   "block": 602150,
+   "gasUsed": 9349400,
+   "ok": true,
+   "attempt": 1
+  },
+  {
+   "what": "deploy registry/append",
+   "hash": "0x23573d838b99e1865e6e4082123017eaa121d31f781062e5c02d79a04f51974b",
+   "block": 602151,
+   "gasUsed": 9447320,
+   "ok": true,
+   "attempt": 1
+  },
+  {
+   "what": "liquidity: the token minted to the pool, and ether",
+   "hash": "0x11a1ba0033b2193f562252b1353269a43bc6c12908291642785d4d8e31e606f7",
+   "block": 602152,
+   "gasUsed": 142690,
+   "ok": true,
+   "attempt": 1
+  },
+  {
+   "what": "a float for each registry",
+   "hash": "0x0c9af50f8363fc34554c6a87727367a5a6bf1c13ed1a6d707e4086a88b872d29",
+   "block": 602153,
+   "gasUsed": 35497,
+   "ok": true,
+   "attempt": 1
+  },
+  {
+   "what": "deposit r0 into the tree registry",
+   "hash": "0x1510bae1359b59332bab09ce0eb19d788ef260f1cd5e4545a4f2628ca38ebbf3",
+   "block": 602154,
+   "gasUsed": 3332130,
+   "ok": true,
+   "attempt": 1
+  },
+  {
+   "what": "deposit r1 into the tree registry",
+   "hash": "0xc2a12ba042a7b23ee88505ea0b189894db9708c5561fec2575062eb93c04e240",
+   "block": 602155,
+   "gasUsed": 1167809,
+   "ok": true,
+   "attempt": 1
+  },
+  {
+   "what": "deposit slip into the tree registry",
+   "hash": "0x96edf802e4ec78302df30a63fa038d6ff97bfb19b2964475e92f806348a396a2",
+   "block": 602156,
+   "gasUsed": 1167809,
+   "ok": true,
+   "attempt": 1
+  },
+  {
+   "what": "deposit probe-underpay into the tree registry",
+   "hash": "0x0ef549374147b74391cea9c56548a74b962674d39602ce2e3352c9d9248aaaf7",
+   "block": 602157,
+   "gasUsed": 1157728,
+   "ok": true,
+   "attempt": 1
+  },
+  {
+   "what": "deposit probe-twice into the tree registry",
+   "hash": "0xf8275668350b42033801e2065538b3628e7713440b07fac51bf09b06ee0e3417",
+   "block": 602158,
+   "gasUsed": 1167821,
+   "ok": true,
+   "attempt": 1
+  },
+  {
+   "what": "deposit probe-relay into the tree registry",
+   "hash": "0x20c8858d50a10fdee4e010f5d974864f87fcaac761a0690a8d028607f9313573",
+   "block": 602159,
+   "gasUsed": 1157728,
+   "ok": true,
+   "attempt": 1
+  },
+  {
+   "what": "deposit probe-silent into the tree registry",
+   "hash": "0x5de54b3885029c031f567d93cb2c06c701a16971d11385b544367d7eb24c91d2",
+   "block": 602160,
+   "gasUsed": 1157728,
+   "ok": true,
+   "attempt": 1
+  },
+  {
+   "what": "deposit eight notes into the append registry",
+   "hash": "0x89c05a14efcec6c9091132a80d699fe81afd790ddc41fcb90b9e592f6c503a36",
+   "block": 602161,
+   "gasUsed": 852313,
+   "ok": true,
+   "attempt": 1
+  },
+  {
+   "what": "three more deposits into the append registry",
+   "hash": "0xc0820ce4d9d973b95004e6f7728631e3c234bb1e0a3fd889711af825fea476d8",
+   "block": 602207,
+   "gasUsed": 343894,
+   "ok": true,
+   "attempt": 1
+  }
+ ],
+ "steps": [
+  {
+   "step": "R0a: spend and export, the AMM registers a receipt",
+   "expect": "mined",
+   "outcome": "mined",
+   "hash": "0x398f975adf08ae5febbf7100191a12865963c968b22fc5f64d51ee1cd5b6fb79",
+   "block": 602165,
+   "gasUsed": 626206,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 5579,
+     "state": 0
+    },
+    {
+     "status": 1,
+     "execution": 233437,
+     "state": 97920
+    },
+    {
+     "status": 1,
+     "execution": 69789,
+     "state": 195840
+    }
+   ],
+   "simulation": {
+    "valid": true,
+    "violation": null,
+    "executionStatus": "success",
+    "gasUsed": 626206,
+    "frames": [
+     {
+      "gasUsed": 5579,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 233437,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 69789,
+      "succeeded": true
+     }
+    ]
+   },
+   "nodeA": [
+    {
+     "t": "2026-10-29T03:11:57.803Z",
+     "event": "rpc",
+     "result": "ok",
+     "client": "valid"
+    },
+    {
+     "t": "2026-10-29T03:11:57.806Z",
+     "event": "relay",
+     "peers": 1
+    }
+   ],
+   "nodeB": [
+    {
+     "t": "2026-10-29T03:11:58.227Z",
+     "event": "gossip",
+     "result": "ok",
+     "client": "valid",
+     "outcome": "accept"
+    },
+    {
+     "t": "2026-10-29T03:11:58.356Z",
+     "event": "handoff",
+     "agrees": true
+    }
+   ],
+   "registry": "0x163D21cDc2Dbc78B8EAF2AFC1c52dDbDe305d03F",
+   "how": 2,
+   "destination": "0x359DBDEf57D8bD9f878Ac984CFd2919593B05F73",
+   "minOut": "45108395400804978",
+   "nullifier": "0x10a805283705c9beaba34e57c86ecccbefd11ca162a261b253211a27dc2696ec",
+   "calldataBytes": 740
+  },
+  {
+   "step": "R0b: claim the receipt with a second proof",
+   "expect": "mined",
+   "outcome": "mined",
+   "hash": "0x89238a2ea0d5ad32395feda2f3691bab7f75bf1f8e55cd71dc1d1e4945ca92d5",
+   "block": 602166,
+   "gasUsed": 1412863,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 214788,
+     "state": 97920
+    },
+    {
+     "status": 1,
+     "execution": 981901,
+     "state": 97920
+    }
+   ],
+   "simulation": {
+    "valid": true,
+    "violation": null,
+    "executionStatus": "success",
+    "gasUsed": 1412863,
+    "frames": [
+     {
+      "gasUsed": 214788,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 981901,
+      "succeeded": true
+     }
+    ]
+   },
+   "nodeA": [
+    {
+     "t": "2026-10-29T03:12:03.808Z",
+     "event": "rpc",
+     "result": "ok",
+     "client": "valid"
+    },
+    {
+     "t": "2026-10-29T03:12:03.808Z",
+     "event": "relay",
+     "peers": 1
+    }
+   ],
+   "nodeB": [
+    {
+     "t": "2026-10-29T03:12:04.227Z",
+     "event": "gossip",
+     "result": "ok",
+     "client": "valid",
+     "outcome": "accept"
+    },
+    {
+     "t": "2026-10-29T03:12:04.367Z",
+     "event": "handoff",
+     "agrees": true
+    }
+   ],
+   "receiptId": "0xd6d4790b13d483698a5494d6b995d945e16808bdb4e7cbe20b38964104972051",
+   "value": "47482521474531556"
+  },
+  {
+   "step": "R1: spend, export, swap and the new note in one transaction",
+   "expect": "mined",
+   "outcome": "mined",
+   "hash": "0x8e6ea69c9b16efa9a1acd33d510b45854eec76a113e20ce9e53628c84bfa5628",
+   "block": 602169,
+   "gasUsed": 1555433,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 5579,
+     "state": 0
+    },
+    {
+     "status": 1,
+     "execution": 233437,
+     "state": 97920
+    },
+    {
+     "status": 1,
+     "execution": 1096924,
+     "state": 97920
+    }
+   ],
+   "simulation": {
+    "valid": true,
+    "violation": null,
+    "executionStatus": "success",
+    "gasUsed": 1555433,
+    "frames": [
+     {
+      "gasUsed": 5579,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 233437,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 1096924,
+      "succeeded": true
+     }
+    ]
+   },
+   "nodeA": [
+    {
+     "t": "2026-10-29T03:12:20.440Z",
+     "event": "rpc",
+     "result": "ok",
+     "client": "valid"
+    },
+    {
+     "t": "2026-10-29T03:12:20.441Z",
+     "event": "relay",
+     "peers": 1
+    }
+   ],
+   "nodeB": [
+    {
+     "t": "2026-10-29T03:12:21.317Z",
+     "event": "gossip",
+     "result": "ok",
+     "client": "valid",
+     "outcome": "accept"
+    },
+    {
+     "t": "2026-10-29T03:12:21.435Z",
+     "event": "handoff",
+     "agrees": true
+    }
+   ],
+   "registry": "0x163D21cDc2Dbc78B8EAF2AFC1c52dDbDe305d03F",
+   "how": 1,
+   "destination": "0x359DBDEf57D8bD9f878Ac984CFd2919593B05F73",
+   "minOut": "41013262128969600",
+   "nullifier": "0x8e1bf2e542eca038d8ebc6645a310579003a57e320389335ce91bf23fbfb10a",
+   "calldataBytes": 740
+  },
+  {
+   "step": "F3: a minimum the pool cannot meet",
+   "expect": "mined",
+   "outcome": "mined",
+   "hash": "0x775cab4554121db87e4ae641f76025cf72fc9be5f75812d34f4b03324eee3950",
+   "block": 602172,
+   "gasUsed": 1463599,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 5579,
+     "state": 0
+    },
+    {
+     "status": 1,
+     "execution": 233437,
+     "state": 97920
+    },
+    {
+     "status": 1,
+     "execution": 1005078,
+     "state": 97920
+    }
+   ],
+   "simulation": {
+    "valid": true,
+    "violation": null,
+    "executionStatus": "success",
+    "gasUsed": 1463599,
+    "frames": [
+     {
+      "gasUsed": 5579,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 233437,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 1005078,
+      "succeeded": true
+     }
+    ]
+   },
+   "nodeA": [
+    {
+     "t": "2026-10-29T03:12:39.995Z",
+     "event": "rpc",
+     "result": "ok",
+     "client": "valid"
+    },
+    {
+     "t": "2026-10-29T03:12:39.995Z",
+     "event": "relay",
+     "peers": 1
+    }
+   ],
+   "nodeB": [
+    {
+     "t": "2026-10-29T03:12:40.464Z",
+     "event": "gossip",
+     "result": "ok",
+     "client": "valid",
+     "outcome": "accept"
+    },
+    {
+     "t": "2026-10-29T03:12:40.642Z",
+     "event": "handoff",
+     "agrees": true
+    }
+   ],
+   "registry": "0x163D21cDc2Dbc78B8EAF2AFC1c52dDbDe305d03F",
+   "how": 1,
+   "destination": "0x359DBDEf57D8bD9f878Ac984CFd2919593B05F73",
+   "minOut": "394229552599039690",
+   "nullifier": "0x22fa7c406c79c8576fde4183bbd5581c4225218ef838204c76ef0dc92fd553c4",
+   "calldataBytes": 740
+  },
+  {
+   "step": "F2-underpay: a destination that misbehaves (underpay)",
+   "expect": "mined",
+   "outcome": "mined",
+   "hash": "0x15434066ff56d938ecec748251313385b75bbe59d748c8582bfe5eb50575518c",
+   "block": 602175,
+   "gasUsed": 1462225,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 5579,
+     "state": 0
+    },
+    {
+     "status": 1,
+     "execution": 233437,
+     "state": 97920
+    },
+    {
+     "status": 1,
+     "execution": 1003836,
+     "state": 97920
+    }
+   ],
+   "simulation": {
+    "valid": true,
+    "violation": null,
+    "executionStatus": "success",
+    "gasUsed": 1462225,
+    "frames": [
+     {
+      "gasUsed": 5579,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 233437,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 1003836,
+      "succeeded": true
+     }
+    ]
+   },
+   "nodeA": [
+    {
+     "t": "2026-10-29T03:12:57.144Z",
+     "event": "rpc",
+     "result": "ok",
+     "client": "valid"
+    },
+    {
+     "t": "2026-10-29T03:12:57.144Z",
+     "event": "relay",
+     "peers": 1
+    }
+   ],
+   "nodeB": [
+    {
+     "t": "2026-10-29T03:12:57.569Z",
+     "event": "gossip",
+     "result": "ok",
+     "client": "valid",
+     "outcome": "accept"
+    },
+    {
+     "t": "2026-10-29T03:12:57.686Z",
+     "event": "handoff",
+     "agrees": true
+    }
+   ],
+   "registry": "0x163D21cDc2Dbc78B8EAF2AFC1c52dDbDe305d03F",
+   "how": 1,
+   "destination": "0x0ddE91223A96254114dD3a80028a0B619d9D02C9",
+   "minOut": "1000",
+   "nullifier": "0x2b82a66954eaafdd6890102347b99c7f11d0d7d1ba1ccca7f2db7b48d5372f53",
+   "calldataBytes": 740
+  },
+  {
+   "step": "F2-twice: a destination that misbehaves (twice)",
+   "expect": "mined",
+   "outcome": "mined",
+   "hash": "0xc2e30e9ca4ebec2e06a129e9c551e98d471d3df38d54b5603547ddaab9f3b958",
+   "block": 602178,
+   "gasUsed": 2474499,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 5579,
+     "state": 0
+    },
+    {
+     "status": 1,
+     "execution": 233437,
+     "state": 97920
+    },
+    {
+     "status": 1,
+     "execution": 2016074,
+     "state": 97920
+    }
+   ],
+   "simulation": {
+    "valid": true,
+    "violation": null,
+    "executionStatus": "success",
+    "gasUsed": 2474499,
+    "frames": [
+     {
+      "gasUsed": 5579,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 233437,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 2016074,
+      "succeeded": true
+     }
+    ]
+   },
+   "nodeA": [
+    {
+     "t": "2026-10-29T03:13:14.631Z",
+     "event": "rpc",
+     "result": "ok",
+     "client": "valid"
+    },
+    {
+     "t": "2026-10-29T03:13:14.632Z",
+     "event": "relay",
+     "peers": 1
+    }
+   ],
+   "nodeB": [
+    {
+     "t": "2026-10-29T03:13:15.053Z",
+     "event": "gossip",
+     "result": "ok",
+     "client": "valid",
+     "outcome": "accept"
+    },
+    {
+     "t": "2026-10-29T03:13:15.176Z",
+     "event": "handoff",
+     "agrees": true
+    }
+   ],
+   "registry": "0x163D21cDc2Dbc78B8EAF2AFC1c52dDbDe305d03F",
+   "how": 1,
+   "destination": "0x94B85d873A2815B191419C5554D84443a98c7784",
+   "minOut": "1000",
+   "nullifier": "0xdc272d2a5f05b7f8b9eff47874c74ecf1408b3551649b459f6648099b4d3878",
+   "calldataBytes": 740
+  },
+  {
+   "step": "F2-relay: a destination that misbehaves (relay)",
+   "expect": "mined",
+   "outcome": "mined",
+   "hash": "0xa4facfee0d8047b3b5469287b772accd9e34525568e9cda4f3a98969412970b9",
+   "block": 602181,
+   "gasUsed": 1477627,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 5579,
+     "state": 0
+    },
+    {
+     "status": 1,
+     "execution": 233437,
+     "state": 97920
+    },
+    {
+     "status": 1,
+     "execution": 1019178,
+     "state": 97920
+    }
+   ],
+   "simulation": {
+    "valid": true,
+    "violation": null,
+    "executionStatus": "success",
+    "gasUsed": 1477627,
+    "frames": [
+     {
+      "gasUsed": 5579,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 233437,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 1019178,
+      "succeeded": true
+     }
+    ]
+   },
+   "nodeA": [
+    {
+     "t": "2026-10-29T03:13:34.266Z",
+     "event": "rpc",
+     "result": "ok",
+     "client": "valid"
+    },
+    {
+     "t": "2026-10-29T03:13:34.267Z",
+     "event": "relay",
+     "peers": 1
+    }
+   ],
+   "nodeB": [
+    {
+     "t": "2026-10-29T03:13:34.686Z",
+     "event": "gossip",
+     "result": "ok",
+     "client": "valid",
+     "outcome": "accept"
+    },
+    {
+     "t": "2026-10-29T03:13:34.804Z",
+     "event": "handoff",
+     "agrees": true
+    }
+   ],
+   "registry": "0x163D21cDc2Dbc78B8EAF2AFC1c52dDbDe305d03F",
+   "how": 1,
+   "destination": "0xA044cd9C677C73866aDaB674cE0cC4Bc0d1e825d",
+   "minOut": "1000",
+   "nullifier": "0x1c1d3e60c5d820a700195adb8817e05903bed5fb485d97f08f8b85ed7afbcea",
+   "calldataBytes": 740
+  },
+  {
+   "step": "F2-silent: a destination that misbehaves (silent)",
+   "expect": "mined",
+   "outcome": "mined",
+   "hash": "0xd2981384d3bbf079ff08ff4e3bef9af38191631e7b48ee4574ef9abcc7b32b24",
+   "block": 602184,
+   "gasUsed": 1450043,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 5579,
+     "state": 0
+    },
+    {
+     "status": 1,
+     "execution": 233437,
+     "state": 97920
+    },
+    {
+     "status": 1,
+     "execution": 991630,
+     "state": 97920
+    }
+   ],
+   "simulation": {
+    "valid": true,
+    "violation": null,
+    "executionStatus": "success",
+    "gasUsed": 1450043,
+    "frames": [
+     {
+      "gasUsed": 5579,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 233437,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 991630,
+      "succeeded": true
+     }
+    ]
+   },
+   "nodeA": [
+    {
+     "t": "2026-10-29T03:13:51.643Z",
+     "event": "rpc",
+     "result": "ok",
+     "client": "valid"
+    },
+    {
+     "t": "2026-10-29T03:13:51.644Z",
+     "event": "relay",
+     "peers": 1
+    }
+   ],
+   "nodeB": [
+    {
+     "t": "2026-10-29T03:13:52.066Z",
+     "event": "gossip",
+     "result": "ok",
+     "client": "valid",
+     "outcome": "accept"
+    },
+    {
+     "t": "2026-10-29T03:13:52.187Z",
+     "event": "handoff",
+     "agrees": true
+    }
+   ],
+   "registry": "0x163D21cDc2Dbc78B8EAF2AFC1c52dDbDe305d03F",
+   "how": 1,
+   "destination": "0x62f51e2160213820d3fbBb6F87050260953C7884",
+   "minOut": "1000",
+   "nullifier": "0x4a928b663a2134c7c6ce49d4dac67450549c0f1b96a5915301686cb8ec39d7b",
+   "calldataBytes": 740
+  },
+  {
+   "step": "P8a: the claimed note (R0) paid out",
+   "expect": "mined",
+   "outcome": "mined",
+   "hash": "0xad9b2a3a2af049d3f79cc868b28b49747efcb08cb8ca2344444b2971876359aa",
+   "block": 602187,
+   "gasUsed": 489780,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 5579,
+     "state": 0
+    },
+    {
+     "status": 1,
+     "execution": 232855,
+     "state": 97920
+    },
+    {
+     "status": 1,
+     "execution": 33017,
+     "state": 97920
+    }
+   ],
+   "simulation": {
+    "valid": true,
+    "violation": null,
+    "executionStatus": "success",
+    "gasUsed": 489780,
+    "frames": [
+     {
+      "gasUsed": 5579,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 232855,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 33017,
+      "succeeded": true
+     }
+    ]
+   },
+   "nodeA": [
+    {
+     "t": "2026-10-29T03:14:09.689Z",
+     "event": "rpc",
+     "result": "ok",
+     "client": "valid"
+    },
+    {
+     "t": "2026-10-29T03:14:09.690Z",
+     "event": "relay",
+     "peers": 1
+    }
+   ],
+   "nodeB": [
+    {
+     "t": "2026-10-29T03:14:10.098Z",
+     "event": "gossip",
+     "result": "ok",
+     "client": "valid",
+     "outcome": "accept"
+    },
+    {
+     "t": "2026-10-29T03:14:10.215Z",
+     "event": "handoff",
+     "agrees": true
+    }
+   ],
+   "registry": "0x163D21cDc2Dbc78B8EAF2AFC1c52dDbDe305d03F",
+   "recipient": "0x89405116821CA49dF30b8186347f997bD0488f25",
+   "recipientBalance": "47482521474531556"
+  },
+  {
+   "step": "P8b: the completed note (R1) paid out",
+   "expect": "mined",
+   "outcome": "mined",
+   "hash": "0x84daa4ce6cab49e15a80b78175a1934d470f9271650c3d626974300b73389205",
+   "block": 602190,
+   "gasUsed": 478188,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 5579,
+     "state": 0
+    },
+    {
+     "status": 1,
+     "execution": 232855,
+     "state": 97920
+    },
+    {
+     "status": 1,
+     "execution": 33017,
+     "state": 97920
+    }
+   ],
+   "simulation": {
+    "valid": true,
+    "violation": null,
+    "executionStatus": "success",
+    "gasUsed": 489804,
+    "frames": [
+     {
+      "gasUsed": 5579,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 232855,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 33017,
+      "succeeded": true
+     }
+    ]
+   },
+   "nodeA": [
+    {
+     "t": "2026-10-29T03:14:26.656Z",
+     "event": "rpc",
+     "result": "ok",
+     "client": "valid"
+    },
+    {
+     "t": "2026-10-29T03:14:26.656Z",
+     "event": "relay",
+     "peers": 1
+    }
+   ],
+   "nodeB": [
+    {
+     "t": "2026-10-29T03:14:27.063Z",
+     "event": "gossip",
+     "result": "ok",
+     "client": "valid",
+     "outcome": "accept"
+    },
+    {
+     "t": "2026-10-29T03:14:27.180Z",
+     "event": "handoff",
+     "agrees": true
+    }
+   ],
+   "registry": "0x163D21cDc2Dbc78B8EAF2AFC1c52dDbDe305d03F",
+   "recipient": "0xa63EAb29A4E7e57580331c1Db9AE656fA250Aecc",
+   "recipientBalance": "43171854872599579"
+  },
+  {
+   "step": "P8c: the refund note (F3) paid out",
+   "expect": "mined",
+   "outcome": "mined",
+   "hash": "0x9d929ba19e3615d30826f347e8628a44f9424bbe94793d106350f30d326e8363",
+   "block": 602193,
+   "gasUsed": 557457,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 5579,
+     "state": 0
+    },
+    {
+     "status": 1,
+     "execution": 232912,
+     "state": 97920
+    },
+    {
+     "status": 1,
+     "execution": 14933,
+     "state": 183600
+    }
+   ],
+   "simulation": {
+    "valid": true,
+    "violation": null,
+    "executionStatus": "success",
+    "gasUsed": 557457,
+    "frames": [
+     {
+      "gasUsed": 5579,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 232912,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 14933,
+      "succeeded": true
+     }
+    ]
+   },
+   "nodeA": [
+    {
+     "t": "2026-10-29T03:14:45.649Z",
+     "event": "rpc",
+     "result": "ok",
+     "client": "valid"
+    },
+    {
+     "t": "2026-10-29T03:14:45.650Z",
+     "event": "relay",
+     "peers": 1
+    }
+   ],
+   "nodeB": [
+    {
+     "t": "2026-10-29T03:14:46.057Z",
+     "event": "gossip",
+     "result": "ok",
+     "client": "valid",
+     "outcome": "accept"
+    },
+    {
+     "t": "2026-10-29T03:14:46.177Z",
+     "event": "handoff",
+     "agrees": true
+    }
+   ],
+   "registry": "0x163D21cDc2Dbc78B8EAF2AFC1c52dDbDe305d03F",
+   "recipient": "0xB99b91AeCc345d3eb58938Ee22e75D654DF613Df",
+   "recipientBalance": "999990000000000"
+  },
+  {
+   "step": "B0: the first batch of eight",
+   "expect": "mined",
+   "outcome": "mined",
+   "hash": "0x742e696b4c70e31dc8871bf413d915c9874f678a6ec0c2b67420df9eefbc9472",
+   "block": 602195,
+   "gasUsed": 623638,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 270191,
+     "state": 97920
+    },
+    {
+     "status": 1,
+     "execution": 37397,
+     "state": 195840
+    }
+   ],
+   "simulation": {
+    "valid": true,
+    "violation": null,
+    "executionStatus": "success",
+    "gasUsed": 623638,
+    "frames": [
+     {
+      "gasUsed": 270191,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 37397,
+      "succeeded": true
+     }
+    ]
+   },
+   "nodeA": [
+    {
+     "t": "2026-10-29T03:14:59.848Z",
+     "event": "rpc",
+     "result": "ok",
+     "client": "valid"
+    },
+    {
+     "t": "2026-10-29T03:14:59.849Z",
+     "event": "relay",
+     "peers": 1
+    }
+   ],
+   "nodeB": [
+    {
+     "t": "2026-10-29T03:15:00.263Z",
+     "event": "gossip",
+     "result": "ok",
+     "client": "valid",
+     "outcome": "accept"
+    },
+    {
+     "t": "2026-10-29T03:15:00.384Z",
+     "event": "handoff",
+     "agrees": true
+    }
+   ],
+   "start": 0,
+   "newRoot": "0x2b77cd85ed78212eecd10e062df560f3bf31ca31a09a6623754207f38f64a1a"
+  },
+  {
+   "step": "R2: R1 on the appending registry",
+   "expect": "mined",
+   "outcome": "mined",
+   "hash": "0x116200915edfa884b409096b1f88b1f170eeb5f7890e92e4c963767479dcf907",
+   "block": 602198,
+   "gasUsed": 597193,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 5579,
+     "state": 0
+    },
+    {
+     "status": 1,
+     "execution": 233433,
+     "state": 97920
+    },
+    {
+     "status": 1,
+     "execution": 138724,
+     "state": 97920
+    }
+   ],
+   "simulation": {
+    "valid": true,
+    "violation": null,
+    "executionStatus": "success",
+    "gasUsed": 597193,
+    "frames": [
+     {
+      "gasUsed": 5579,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 233433,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 138724,
+      "succeeded": true
+     }
+    ]
+   },
+   "nodeA": [
+    {
+     "t": "2026-10-29T03:15:14.348Z",
+     "event": "rpc",
+     "result": "ok",
+     "client": "valid"
+    },
+    {
+     "t": "2026-10-29T03:15:14.350Z",
+     "event": "relay",
+     "peers": 1
+    }
+   ],
+   "nodeB": [
+    {
+     "t": "2026-10-29T03:15:14.799Z",
+     "event": "gossip",
+     "result": "ok",
+     "client": "valid",
+     "outcome": "accept"
+    },
+    {
+     "t": "2026-10-29T03:15:14.923Z",
+     "event": "handoff",
+     "agrees": true
+    }
+   ],
+   "registry": "0x4DC7ae97af3C6F93057159B19E9420Bfdf55f853",
+   "how": 1,
+   "destination": "0x359DBDEf57D8bD9f878Ac984CFd2919593B05F73",
+   "minOut": "37451807496908770",
+   "nullifier": "0x25a0292be8a62425c977ff2b12670d5ee72d983857a7ca17e9ab69105ab85568",
+   "calldataBytes": 740
+  },
+  {
+   "step": "R3: a round of four owners, one proof by a committee of three",
+   "expect": "mined",
+   "outcome": "mined",
+   "hash": "0x0140f62778fc49df4789bb4a299521b47391aa067e99de8ea245b313167db657",
+   "block": 602204,
+   "gasUsed": 1038424,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 5579,
+     "state": 0
+    },
+    {
+     "status": 1,
+     "execution": 294499,
+     "state": 391680
+    },
+    {
+     "status": 1,
+     "execution": 317109,
+     "state": 0
+    }
+   ],
+   "simulation": {
+    "valid": true,
+    "violation": null,
+    "executionStatus": "success",
+    "gasUsed": 1038424,
+    "frames": [
+     {
+      "gasUsed": 5579,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 294499,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 317109,
+      "succeeded": true
+     }
+    ]
+   },
+   "nodeA": [
+    {
+     "t": "2026-10-29T03:15:49.489Z",
+     "event": "rpc",
+     "result": "ok",
+     "client": "valid"
+    },
+    {
+     "t": "2026-10-29T03:15:49.490Z",
+     "event": "relay",
+     "peers": 1
+    }
+   ],
+   "nodeB": [
+    {
+     "t": "2026-10-29T03:15:50.462Z",
+     "event": "gossip",
+     "result": "ok",
+     "client": "valid",
+     "outcome": "accept"
+    },
+    {
+     "t": "2026-10-29T03:15:50.585Z",
+     "event": "handoff",
+     "agrees": true
+    }
+   ]
+  },
+  {
+   "step": "F7: a round with a note already spent",
+   "expect": "refused",
+   "outcome": "refused",
+   "hash": "0x5360e1a4a6c2fe767dffdd6a6eb4eab0239301eefa33e730208c9c9e09edef5a",
+   "simulation": {
+    "valid": false,
+    "violation": "Invalid Transaction: Nonce mismatch: expected 1, got 0",
+    "executionStatus": null,
+    "gasUsed": null
+   },
+   "nodeA": "Missing or invalid parameters.",
+   "nodeALog": [
+    {
+     "t": "2026-10-29T03:16:10.541Z",
+     "event": "rpc",
+     "result": "ErrNonceTooLow"
+    }
+   ]
+  },
+  {
+   "step": "F5: a batch whose leaves are not the accumulator's",
+   "expect": "refused",
+   "outcome": "refused",
+   "hash": "0xf214789d5877d3fd400a7237560bdb875499ecc3cc043b22b85b9ad8decfb8d2",
+   "simulation": {
+    "valid": false,
+    "violation": "validation prefix frame reverted",
+    "executionStatus": null,
+    "gasUsed": null
+   },
+   "nodeA": "Missing or invalid parameters.",
+   "nodeALog": [
+    {
+     "t": "2026-10-29T03:16:22.828Z",
+     "event": "rpc",
+     "result": "ErrFramePrefixReverted",
+     "client": "validation prefix frame reverted"
+    }
+   ]
+  },
+  {
+   "step": "B1: the second batch, with R2's and the round's notes",
+   "expect": "mined",
+   "outcome": "mined",
+   "hash": "0x91958e3b3e7dc7e6936279070aca4254ede79dabac4c40eb1481905542743273",
+   "block": 602210,
+   "gasUsed": 525754,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 270191,
+     "state": 97920
+    },
+    {
+     "status": 1,
+     "execution": 37397,
+     "state": 97920
+    }
+   ],
+   "simulation": {
+    "valid": true,
+    "violation": null,
+    "executionStatus": "success",
+    "gasUsed": 525754,
+    "frames": [
+     {
+      "gasUsed": 270191,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 37397,
+      "succeeded": true
+     }
+    ]
+   },
+   "nodeA": [
+    {
+     "t": "2026-10-29T03:16:31.940Z",
+     "event": "rpc",
+     "result": "ok",
+     "client": "valid"
+    },
+    {
+     "t": "2026-10-29T03:16:31.941Z",
+     "event": "relay",
+     "peers": 1
+    }
+   ],
+   "nodeB": [
+    {
+     "t": "2026-10-29T03:16:32.394Z",
+     "event": "gossip",
+     "result": "ok",
+     "client": "valid",
+     "outcome": "accept"
+    },
+    {
+     "t": "2026-10-29T03:16:32.513Z",
+     "event": "handoff",
+     "agrees": true
+    }
+   ],
+   "start": 8,
+   "newRoot": "0x88e7d0b602985ad84f9e0702d5330a131038a2aab7f9b4d17b74949300ecf99"
+  },
+  {
+   "step": "P8d: the completed note (R2) paid out",
+   "expect": "mined",
+   "outcome": "mined",
+   "hash": "0x402bd9b30c3367df3e2371f06d7bb494764a7cc8720fd1a26328b5ab780274d7",
+   "block": 602213,
+   "gasUsed": 489802,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 5579,
+     "state": 0
+    },
+    {
+     "status": 1,
+     "execution": 232853,
+     "state": 97920
+    },
+    {
+     "status": 1,
+     "execution": 33017,
+     "state": 97920
+    }
+   ],
+   "simulation": {
+    "valid": true,
+    "violation": null,
+    "executionStatus": "success",
+    "gasUsed": 489802,
+    "frames": [
+     {
+      "gasUsed": 5579,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 232853,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 33017,
+      "succeeded": true
+     }
+    ]
+   },
+   "nodeA": [
+    {
+     "t": "2026-10-29T03:16:50.500Z",
+     "event": "rpc",
+     "result": "ok",
+     "client": "valid"
+    },
+    {
+     "t": "2026-10-29T03:16:50.502Z",
+     "event": "relay",
+     "peers": 1
+    }
+   ],
+   "nodeB": [
+    {
+     "t": "2026-10-29T03:16:50.961Z",
+     "event": "gossip",
+     "result": "ok",
+     "client": "valid",
+     "outcome": "accept"
+    },
+    {
+     "t": "2026-10-29T03:16:51.081Z",
+     "event": "handoff",
+     "agrees": true
+    }
+   ],
+   "registry": "0x4DC7ae97af3C6F93057159B19E9420Bfdf55f853",
+   "recipient": "0x50558330C4DA464EfC4a8f552E938bD3b535F6CB",
+   "recipientBalance": "39422955259903969"
+  },
+  {
+   "step": "P8e: a round's note paid out",
+   "expect": "mined",
+   "outcome": "mined",
+   "hash": "0xf3dd5970c759b2786406231784e5e28b603de71d83ea36c237a785ce68ac2381",
+   "block": 602216,
+   "gasUsed": 489766,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 5579,
+     "state": 0
+    },
+    {
+     "status": 1,
+     "execution": 232853,
+     "state": 97920
+    },
+    {
+     "status": 1,
+     "execution": 33017,
+     "state": 97920
+    }
+   ],
+   "simulation": {
+    "valid": true,
+    "violation": null,
+    "executionStatus": "success",
+    "gasUsed": 489766,
+    "frames": [
+     {
+      "gasUsed": 5579,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 232853,
+      "succeeded": true
+     },
+     {
+      "gasUsed": 33017,
+      "succeeded": true
+     }
+    ]
+   },
+   "nodeA": [
+    {
+     "t": "2026-10-29T03:17:08.912Z",
+     "event": "rpc",
+     "result": "ok",
+     "client": "valid"
+    },
+    {
+     "t": "2026-10-29T03:17:08.912Z",
+     "event": "relay",
+     "peers": 1
+    }
+   ],
+   "nodeB": [
+    {
+     "t": "2026-10-29T03:17:09.324Z",
+     "event": "gossip",
+     "result": "ok",
+     "client": "valid",
+     "outcome": "accept"
+    },
+    {
+     "t": "2026-10-29T03:17:09.446Z",
+     "event": "handoff",
+     "agrees": true
+    }
+   ],
+   "registry": "0x4DC7ae97af3C6F93057159B19E9420Bfdf55f853",
+   "recipient": "0xa62Aa8960fd13364e0E98DEf2D233Eaeb80FB209",
+   "recipientBalance": "32136950371255423"
+  }
+ ],
+ "r0": {
+  "receiptValue": "47482521474531556",
+  "blocks": 1
+ },
+ "abuse": {
+  "underpay": {
+   "refunded": 1,
+   "completed": 0,
+   "registryTokenDelta": "0",
+   "probeEtherDelta": "0"
+  },
+  "twice": {
+   "refunded": 1,
+   "completed": 0,
+   "registryTokenDelta": "0",
+   "probeEtherDelta": "0"
+  },
+  "relay": {
+   "refunded": 1,
+   "completed": 0,
+   "registryTokenDelta": "0",
+   "probeEtherDelta": "0"
+  },
+  "silent": {
+   "refunded": 1,
+   "completed": 0,
+   "registryTokenDelta": "0",
+   "probeEtherDelta": "0"
+  },
+  "outside": "reverted"
+ },
+ "committee": {
+  "members": 3,
+  "protocol": "REP3 (co-circom), three processes on one machine over loopback TCP with TLS: a LAN time at best",
+  "split": [
+   {
+    "what": "owner 0 splits its input",
+    "millis": 70,
+    "ok": true
+   },
+   {
+    "what": "owner 1 splits its input",
+    "millis": 59,
+    "ok": true
+   },
+   {
+    "what": "owner 2 splits its input",
+    "millis": 57,
+    "ok": true
+   },
+   {
+    "what": "owner 3 splits its input",
+    "millis": 72,
+    "ok": true
+   }
+  ],
+  "merge": [
+   {
+    "what": "member 0 merges the four owners' shares",
+    "millis": 2016,
+    "ok": true
+   },
+   {
+    "what": "member 1 merges the four owners' shares",
+    "millis": 2152,
+    "ok": true
+   },
+   {
+    "what": "member 2 merges the four owners' shares",
+    "millis": 2257,
+    "ok": true
+   }
+  ],
+  "witness": [
+   {
+    "what": "member 0, the witness",
+    "millis": 10494,
+    "ok": true
+   },
+   {
+    "what": "member 1, the witness",
+    "millis": 10477,
+    "ok": true
+   },
+   {
+    "what": "member 2, the witness",
+    "millis": 10463,
+    "ok": true
+   }
+  ],
+  "witnessMillis": 10505,
+  "proving": [
+   {
+    "what": "member 0, the proof",
+    "millis": 6009,
+    "ok": true
+   },
+   {
+    "what": "member 1, the proof",
+    "millis": 5986,
+    "ok": true
+   },
+   {
+    "what": "member 2, the proof",
+    "millis": 5970,
+    "ok": true
+   }
+  ],
+  "provingMillis": 6009,
+  "loopback": {
+   "txBytes": 56698729,
+   "txPackets": 558857,
+   "note": "all three members, both directions, TLS included; nothing else was meant to run on the loopback"
+  },
+  "membersAgree": true,
+  "signalsMatch": true,
+  "verifies": true
+ },
+ "round": {
+  "completed": [
+   {
+    "value": "32136950371255423",
+    "leaf": "0x2d22cfc2668a6bdc899465cada69e038228a460edeec303cfbf31fc407b16f6c"
+   },
+   {
+    "value": "32136950371255423",
+    "leaf": "0x293d681ec2d1a514d5591bb7682da955ef5db4328d26876dffc12090ca6b4ffd"
+   },
+   {
+    "value": "32136950371255423",
+    "leaf": "0x6c685e4f8f2c1ee53e4b2fafe57e75a519ccff6335ff6ade30f337a17e0df4d"
+   },
+   {
+    "value": "32136950371255423",
+    "leaf": "0x40d0e4d2d15c605d43e4667732fc369addc80ca70544d83bbbf8c82622f9faf"
+   }
+  ]
+ },
+ "latency": {
+  "r2ToSpendableBlocks": 12,
+  "r3ToSpendableBlocks": 6
+ },
+ "proving": {
+  "R0a: spend and export, the AMM registers a receipt": 4670,
+  "R0b": 470,
+  "R1: spend, export, swap and the new note in one transaction": 3865,
+  "F3: a minimum the pool cannot meet": 4016,
+  "F2-underpay: a destination that misbehaves (underpay)": 3859,
+  "F2-twice: a destination that misbehaves (twice)": 3711,
+  "F2-relay: a destination that misbehaves (relay)": 3791,
+  "F2-silent: a destination that misbehaves (silent)": 3686,
+  "P8a: the claimed note (R0) paid out": 4190,
+  "P8b: the completed note (R1) paid out": 3936,
+  "P8c: the refund note (F3) paid out": 3965,
+  "B0: the first batch of eight": 4921,
+  "R2: R1 on the appending registry": 3725,
+  "B1: the second batch, with R2's and the round's notes": 4744,
+  "P8d: the completed note (R2) paid out": 3525,
+  "P8e: a round's note paid out": 3613
+ }
+}

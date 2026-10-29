@@ -21,7 +21,7 @@ use clap::{Parser, Subcommand};
 use co_circom_types::Compression;
 use co_withdraw::{
     Counted, MEMBERS, WithdrawKey, circuit_inputs, extend_witness, prove, public_inputs,
-    read_share, share_witness, solidity_proof, verify,
+    read_share, set_recipient, share_witness, solidity_proof, verify,
 };
 use mpc_net::{
     Network,
@@ -64,6 +64,10 @@ enum Cmd {
         /// The three members' addresses, in member order: comma-separated, or as three values
         #[arg(long, value_delimiter = ',', num_args = 1..=3)]
         peers: Vec<SocketAddr>,
+        /// Prove for this recipient (0x-hex, below the field's order) in place of the shared
+        /// witness's own; every member must pass the same one
+        #[arg(long)]
+        recipient: Option<String>,
         #[arg(long)]
         out: PathBuf,
     },
@@ -144,6 +148,14 @@ fn parse_fr(s: &str) -> Result<Fr> {
     Ok(Fr::from_be_bytes_mod_order(&v.to_be_bytes::<32>()))
 }
 
+/// A field element given in hex or decimal, refused unless it is below the field's order.
+fn fr_hex(s: &str) -> Result<Fr> {
+    let v: ruint::aliases::U256 = s.parse().with_context(|| format!("not a number: {s}"))?;
+    let x = Fr::from_be_bytes_mod_order(&v.to_be_bytes::<32>());
+    anyhow::ensure!(num_dec(&x.into_bigint().to_bytes_be()) == v.to_string(), "{s} is not below the field's order");
+    Ok(x)
+}
+
 fn split(inputs: Option<PathBuf>, witness: Option<PathBuf>, seeded: bool, out_dir: &Path) -> Result<()> {
     let key = WithdrawKey::load();
     let n = key.num_instance_variables();
@@ -195,9 +207,18 @@ fn tcp(id: usize, peers: &[SocketAddr]) -> Result<TcpNetwork> {
     TcpNetwork::new(config).map_err(|e| anyhow::anyhow!("network: {e:?}"))
 }
 
-fn member(id: usize, share: &[u8], peers: &[SocketAddr], key: &WithdrawKey) -> Result<MemberRecord> {
+fn member(
+    id: usize,
+    share: &[u8],
+    peers: &[SocketAddr],
+    recipient: Option<Fr>,
+    key: &WithdrawKey,
+) -> Result<MemberRecord> {
     anyhow::ensure!(peers.len() == MEMBERS && id < MEMBERS, "three peers, and an id below 3");
-    let share = read_share(share)?;
+    let mut share = read_share(share)?;
+    if let Some(r) = recipient {
+        set_recipient(&mut share, id, r)?;
+    }
     let net = Counted::new(tcp(id, peers)?);
     let start = Instant::now();
     let proof = prove(&net, key, share.clone())?;
@@ -239,9 +260,10 @@ fn member(id: usize, share: &[u8], peers: &[SocketAddr], key: &WithdrawKey) -> R
 fn main() -> Result<()> {
     match Cli::parse().cmd {
         Cmd::Split { inputs, witness, seeded, out_dir } => split(inputs, witness, seeded, &out_dir),
-        Cmd::Member { id, share, peers, out } => {
+        Cmd::Member { id, share, peers, recipient, out } => {
             let key = WithdrawKey::load();
-            let record = member(id, &std::fs::read(share)?, &peers, &key)?;
+            let recipient = recipient.as_deref().map(fr_hex).transpose()?;
+            let record = member(id, &std::fs::read(share)?, &peers, recipient, &key)?;
             std::fs::write(out, serde_json::to_vec_pretty(&record)?)?;
             anyhow::ensure!(record.verified, "the proof does not verify");
             Ok(())
@@ -257,7 +279,7 @@ fn main() -> Result<()> {
                 let handles: Vec<_> = (0..MEMBERS)
                     .map(|i| {
                         let (key, peers, share) = (&key, &peers, &shares[i]);
-                        s.spawn(move || member(i, share, peers, key))
+                        s.spawn(move || member(i, share, peers, None, key))
                     })
                     .collect();
                 handles.into_iter().map(|h| h.join().expect("member thread")).collect::<Result<_>>()

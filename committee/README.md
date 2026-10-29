@@ -37,6 +37,12 @@ so the coprocessor and the committees follow the projects' documentation and use
 libraries unmodified (co-snarks, tfhe-rs, threshold-fhe), each pinned with its licence in
 `pins.json`. A run tests the shape of the system, not the system.
 
+> **Read after the runs, 2026-10-26: the shapes and the products differ more than this said.**
+> Fhenix's deployment decrypts in one TDX enclave holding the whole key, with a threshold
+> network planned; `fhe-committee` follows the plan. TACEO's design has the client post an
+> intent with its own proof and the network prove each shared-state update; `co-withdraw`'s
+> proving of one user's own withdrawal is a use of TACEO's co-snarks, not that design.
+
 ## `co-withdraw`
 
 **What it proves.** The Tornado Cash withdrawal circuit, with the proving key

@@ -32,6 +32,18 @@ internal balance to the proof's recipient.
 This tests the sender, proof and payer shape that a committee's shared state takes on chain. It
 does not test a balance circuit.
 
+> **Read after the run, 2026-10-26: TACEO's design differs from the first arm.** In TACEO's
+> private payments, balances are held in shares across an MPC network. The client posts an
+> intent with its own proof, and the network proves each update with a coSNARK that the chain
+> checks against the old commitment and the intent. The first arm here, a committee proving one
+> user's own withdrawal, is a use of TACEO's co-snarks, not TACEO's design. The second arm, the
+> committee as sender with its proof checked in `VERIFY`, is the shape TACEO's design takes on
+> chain. On the third condition: TACEO is building an escape hatch, a timeout after which each
+> user redeems their own note from an opening published to them on every transfer. A system
+> with one would show "missing" wrong in the good direction, as the claim allows; none was
+> built here. Source: TACEO, "Escape hatches in MPC, and who may open them",
+> core.taceo.io, 2026-08-03. The claim above is kept as written before the run.
+
 ## Pieces
 
 | Piece | Role |

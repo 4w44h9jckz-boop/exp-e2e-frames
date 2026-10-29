@@ -1,0 +1,443 @@
+[
+  {
+    "name": "deposit",
+    "type": "function",
+    "stateMutability": "payable",
+    "inputs": [
+      {
+        "type": "bytes32",
+        "name": "commitment"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "name": "withdraw",
+    "type": "function",
+    "stateMutability": "nonpayable",
+    "inputs": [
+      {
+        "type": "bytes",
+        "name": "proof"
+      },
+      {
+        "type": "bytes32",
+        "name": "root"
+      },
+      {
+        "type": "bytes32",
+        "name": "nullifierHash"
+      },
+      {
+        "type": "address",
+        "name": "recipient"
+      },
+      {
+        "type": "address",
+        "name": "relayer"
+      },
+      {
+        "type": "uint256",
+        "name": "fee"
+      },
+      {
+        "type": "uint256",
+        "name": "refund"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "name": "enqueue",
+    "type": "function",
+    "stateMutability": "nonpayable",
+    "inputs": [
+      {
+        "type": "bytes",
+        "name": "sealed"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "name": "claim",
+    "type": "function",
+    "stateMutability": "nonpayable",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "who"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "name": "republish",
+    "type": "function",
+    "stateMutability": "nonpayable",
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "name": "getLastRoot",
+    "type": "function",
+    "stateMutability": "view",
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "bytes32"
+      }
+    ]
+  },
+  {
+    "name": "nextIndex",
+    "type": "function",
+    "stateMutability": "view",
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256"
+      }
+    ]
+  },
+  {
+    "name": "owed",
+    "type": "function",
+    "stateMutability": "view",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "who"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "uint256"
+      }
+    ]
+  },
+  {
+    "name": "sourceId",
+    "type": "function",
+    "stateMutability": "view",
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "bytes32"
+      }
+    ]
+  },
+  {
+    "name": "mode",
+    "type": "function",
+    "stateMutability": "view",
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256"
+      }
+    ]
+  },
+  {
+    "name": "head",
+    "type": "function",
+    "stateMutability": "view",
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256"
+      }
+    ]
+  },
+  {
+    "name": "tail",
+    "type": "function",
+    "stateMutability": "view",
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256"
+      }
+    ]
+  },
+  {
+    "name": "since",
+    "type": "function",
+    "stateMutability": "view",
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256"
+      }
+    ]
+  },
+  {
+    "name": "escapeAt",
+    "type": "function",
+    "stateMutability": "view",
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256"
+      }
+    ]
+  },
+  {
+    "name": "spent",
+    "type": "function",
+    "stateMutability": "view",
+    "inputs": [
+      {
+        "type": "bytes32",
+        "name": "nullifierHash"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "uint256"
+      }
+    ]
+  },
+  {
+    "name": "knownRoot",
+    "type": "function",
+    "stateMutability": "view",
+    "inputs": [
+      {
+        "type": "bytes32",
+        "name": "root"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "uint256"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "moved",
+    "inputs": [
+      {
+        "type": "bytes32",
+        "name": "nullifierHash"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "intentAt",
+    "type": "function",
+    "stateMutability": "view",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "index"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "bytes32"
+      }
+    ]
+  },
+  {
+    "name": "redeemed",
+    "type": "function",
+    "stateMutability": "view",
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256"
+      }
+    ]
+  },
+  {
+    "name": "committeeKey",
+    "type": "function",
+    "stateMutability": "view",
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "bytes32",
+        "name": "high"
+      },
+      {
+        "type": "bytes32",
+        "name": "low"
+      }
+    ]
+  },
+  {
+    "name": "timeout",
+    "type": "function",
+    "stateMutability": "view",
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256"
+      }
+    ]
+  },
+  {
+    "name": "escapeWindow",
+    "type": "function",
+    "stateMutability": "view",
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256"
+      }
+    ]
+  },
+  {
+    "name": "Deposit",
+    "type": "event",
+    "inputs": [
+      {
+        "type": "bytes32",
+        "name": "commitment",
+        "indexed": true
+      },
+      {
+        "type": "uint32",
+        "name": "leafIndex"
+      },
+      {
+        "type": "uint256",
+        "name": "timestamp"
+      }
+    ]
+  },
+  {
+    "name": "Withdrawal",
+    "type": "event",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "to"
+      },
+      {
+        "type": "bytes32",
+        "name": "nullifierHash"
+      },
+      {
+        "type": "address",
+        "name": "relayer",
+        "indexed": true
+      },
+      {
+        "type": "uint256",
+        "name": "fee"
+      }
+    ]
+  },
+  {
+    "name": "FeeRefund",
+    "type": "event",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "recipient",
+        "indexed": true
+      },
+      {
+        "type": "uint256",
+        "name": "refunded"
+      },
+      {
+        "type": "uint256",
+        "name": "chargedAtMost"
+      }
+    ]
+  },
+  {
+    "name": "Intent",
+    "type": "event",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "index"
+      },
+      {
+        "type": "bytes",
+        "name": "sealed"
+      }
+    ]
+  },
+  {
+    "name": "Opening",
+    "type": "event",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "updateNumber"
+      },
+      {
+        "type": "bytes",
+        "name": "openings"
+      }
+    ]
+  },
+  {
+    "name": "Escape",
+    "type": "event",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "since"
+      },
+      {
+        "type": "uint256",
+        "name": "at"
+      }
+    ]
+  },
+  {
+    "name": "Redeemed",
+    "type": "event",
+    "inputs": [
+      {
+        "type": "bytes32",
+        "name": "nullifierHash"
+      },
+      {
+        "type": "uint256",
+        "name": "count"
+      }
+    ]
+  },
+  {
+    "name": "Reconciled",
+    "type": "event",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "count"
+      },
+      {
+        "type": "uint256",
+        "name": "at"
+      }
+    ]
+  },
+  {
+    "name": "RecentRoot",
+    "type": "event",
+    "inputs": [
+      {
+        "type": "bytes32",
+        "name": "root"
+      },
+      {
+        "type": "uint64",
+        "name": "slot"
+      }
+    ]
+  }
+]
