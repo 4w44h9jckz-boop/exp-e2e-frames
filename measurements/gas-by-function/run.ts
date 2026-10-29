@@ -28,19 +28,34 @@ const preGas = new Map<string, number>(), preByClass = new Map<string, Map<strin
 const otherTo = new Map<string, number>(), otherSel = new Map<string, number>()
 const errors = new Map<string, number>()
 const rows: { block: number; txs: number; gas_used: number; gas_by_class: Record<string, number> }[] = []
-let blobGas = 0, totalGas = 0, totalTx = 0, mismatch = 0
+let blobGas = 0, totalGas = 0, totalTx = 0, mismatch = 0, retries = 0
 const t0 = Date.now()
+
+// The free endpoint times out now and then, so a block gets three attempts before it is left out.
+async function readBlock(bn: number) {
+  const tag = `0x${bn.toString(16)}`
+  for (let attempt = 1; ; attempt++) {
+    try {
+      return [
+        await rpc('eth_getBlockByNumber', [tag, true], PROVIDER),
+        await rpc('eth_getBlockReceipts', [tag], PROVIDER),
+        await rpc('debug_traceBlockByNumber', [tag, { tracer: 'callTracer' }], PROVIDER),
+      ]
+    } catch (e) {
+      console.log(`  block ${bn}, attempt ${attempt}: ${(e as Error).message.slice(0, 80)}`)
+      if (attempt === 3) throw e
+      retries += 1
+      await new Promise((r) => setTimeout(r, 2000 * attempt))
+    }
+  }
+}
 
 for (const [k, bn] of blocks.entries()) {
   let blk, rcs, tr
   try {
-    blk = await rpc('eth_getBlockByNumber', [`0x${bn.toString(16)}`, true], PROVIDER)
-    rcs = await rpc('eth_getBlockReceipts', [`0x${bn.toString(16)}`], PROVIDER)
-    tr = await rpc('debug_traceBlockByNumber', [`0x${bn.toString(16)}`, { tracer: 'callTracer' }], PROVIDER)
+    ;[blk, rcs, tr] = await readBlock(bn)
   } catch (e) {
     add(errors, (e as Error).name, 1)
-    console.log(`  block ${bn}: ${(e as Error).message.slice(0, 80)}`)
-    await new Promise((r) => setTimeout(r, 2000))
     continue
   }
   const byHash = new Map<string, any>(rcs.map((r: any) => [r.transactionHash, r])) // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -72,7 +87,7 @@ const share = (x: number) => (totalGas ? Math.round((10000 * x) / totalGas) / 10
 const top = (m: Map<string, number>, k: number) => [...m].sort((a, b) => b[1] - a[1]).slice(0, k)
 const sum = (m: Map<string, number>) => [...m.values()].reduce((a, b) => a + b, 0)
 console.log(`\n${rows.length} blocks of ${n}, ${totalTx} transactions, ${totalGas.toLocaleString('en')} execution gas, ` +
-  `${sum(errors)} errors, ${mismatch} trace/receipt gas mismatches`)
+  `${sum(errors)} errors after ${retries} retries, ${mismatch} trace/receipt gas mismatches`)
 for (const c of CLASSES) console.log(`  ${c.padEnd(18)} ${String(count.get(c) ?? 0).padStart(7)} txs ${(gas.get(c) ?? 0).toLocaleString('en').padStart(15)} gas ${String(share(gas.get(c) ?? 0)).padStart(6)}%`)
 const verifying = [...preGas].filter(([k]) => KIND[k] !== 'copy').reduce((a, [, v]) => a + v, 0)
 console.log(`  precompile gas, all but identity: ${verifying.toLocaleString('en')} (${share(verifying)}%)`)
@@ -89,7 +104,7 @@ writeFileSync(out, JSON.stringify({
   precompile_gas_by_class: Object.fromEntries([...preByClass].map(([c, m]) => [c, Object.fromEntries(m)])),
   event_signatures: EVENTS, event_hits: Object.fromEntries(allSigs.map((s) => [s, hits.get(s) ?? 0])),
   other_call_top_recipients_by_gas: top(otherTo, 25), other_call_top_selectors_by_gas: top(otherSel, 25),
-  errors: Object.fromEntries(errors), trace_receipt_gas_mismatches: mismatch, blocks: rows,
+  errors: Object.fromEntries(errors), retries, trace_receipt_gas_mismatches: mismatch, blocks: rows,
   exclusions: 'classes by event, first match wins, in the documented order; precompile gas is a lower bound on ' +
     'verification gas; execution gas only, blob gas separate; storage writes not separated; one provider, one ' +
     'sample, a spot reading',
