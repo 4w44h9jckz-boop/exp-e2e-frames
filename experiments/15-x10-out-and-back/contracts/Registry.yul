@@ -52,11 +52,13 @@
 // (words appended to the deployed code and read back from its end).
 object "Registry" {
     code {
+        // Read the mode before the runtime is copied to memory 0, which `word` uses as scratch.
+        let mode := word(64)
         let size := datasize("runtime")
         datacopy(0, dataoffset("runtime"), size)
         codecopy(size, sub(codesize(), 224), 224)
         // MODE 1 starts from the empty tree's root, which it publishes when the first batch lands.
-        if eq(word(64), 1) { sstore(2, EMPTY_ROOT()) }
+        if eq(mode, 1) { sstore(2, EMPTY_ROOT()) }
         return(0, add(size, 224))
 
         function word(fromEnd) -> v {

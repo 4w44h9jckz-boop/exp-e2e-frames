@@ -41,12 +41,27 @@ const note = (s: X.Secrets) => { secretStrings.push(s.nullifierSecret.toString(1
 
 // ---- set-up, to the chain directly ----
 
+// The testnet's RPC can drop a transaction it acknowledged. A set-up transaction that gets no
+// receipt is sent again once, if the funder's nonce shows it never landed.
 async function setupTx(what: string, frames: Parameters<typeof sendFrames>[2]) {
-  const r = await sendFrames(chain, privateKey, frames, { label: what })
-  if (!r?.hash || !r.receipt) throw new Error(`${what}: not mined`)
-  const ok = r.receipt.frameReceipts.every((f) => frameReceiptStatus(f) === 1)
-  setup.push({ what, hash: r.hash, block: Number(BigInt(r.receipt.blockNumber)), gasUsed: Number(BigInt(r.receipt.gasUsed)), ok })
-  if (!ok) throw new Error(`${what}: a frame failed`)
+  for (let attempt = 1; ; attempt++) {
+    const nonce = await chain.getTransactionCount({ address: funder, blockTag: 'latest' })
+    try {
+      const r = await sendFrames(chain, privateKey, frames, { label: what })
+      if (!r?.hash || !r.receipt) throw new Error(`${what}: not mined`)
+      const ok = r.receipt.frameReceipts.every((f) => frameReceiptStatus(f) === 1)
+      setup.push({ what, hash: r.hash, block: Number(BigInt(r.receipt.blockNumber)), gasUsed: Number(BigInt(r.receipt.gasUsed)), ok, attempt })
+      if (!ok) throw new Error(`${what}: a frame failed`)
+      // Wait for a node that has the transaction's effects before the next simulation.
+      await X.settled(`${what}: the funder's nonce`, async () => ((await chain.getTransactionCount({ address: funder, blockTag: 'latest' })) > nonce ? true : undefined))
+      return
+    } catch (e) {
+      const msg = (e as Error).message
+      if (attempt > 1 || !msg.startsWith('no receipt')) throw e
+      if ((await chain.getTransactionCount({ address: funder, blockTag: 'latest' })) !== nonce) throw e
+      console.log(`${what}: no receipt and the nonce has not moved; sending again`)
+    }
+  }
 }
 
 console.log(`deployment ${X.DEPLOYMENT}: tree registry ${X.treeRegistry.address}, append registry ${X.appendRegistry.address}, amm ${X.amm.address}`)
@@ -57,14 +72,19 @@ for (const c of contracts) {
 }
 if (!(await chain.getCode({ address: X.HASHER }))) throw new Error('experiment 06\'s hasher is not on the chain')
 for (const c of contracts) await setupTx(`deploy ${c.label}`, [c.deploy])
+// The registries answer, in the mode they were built for, before anything is sent to them.
+for (const r of [X.treeRegistry, X.appendRegistry]) {
+  const mode = await X.settled(`${r.label}: mode()`, async () => BigInt(await chain.readContract({ address: r.address, abi: X.registryAbi, functionName: 'mode' })))
+  if (mode !== r.mode) throw new Error(`${r.label} answers mode ${mode}, not ${r.mode}`)
+}
 
-const LIQUIDITY_ETH = 5n * 10n ** 16n
+const LIQUIDITY_ETH = 2n * 10n ** 16n
 const LIQUIDITY_TOKEN = 10n ** 24n
 await setupTx('liquidity: the token minted to the pool, and ether', [
   X.callFrame(X.token.address, encodeFunctionData({ abi: X.tokenAbi, functionName: 'mint', args: [X.amm.address, LIQUIDITY_TOKEN] })),
   X.callFrame(X.amm.address, encodeFunctionData({ abi: X.ammAbi, functionName: 'addEther' }), LIQUIDITY_ETH),
 ])
-const FLOAT = 2n * 10n ** 16n
+const FLOAT = 10n ** 16n
 await setupTx('a float for each registry', [X.callFrame(X.treeRegistry.address, '0x', FLOAT, 50_000n, 0n), X.callFrame(X.appendRegistry.address, '0x', FLOAT, 50_000n, 0n)])
 
 // The notes. Tree registry: R0, R1, the slippage case and the four misbehaving destinations.
@@ -74,6 +94,10 @@ const appendNotes = ['r2', 'round0', 'round1', 'round2', 'round3', 'fill0', 'fil
 for (const l of [...treeNotes, ...appendNotes]) note(secretsOf(l))
 for (const l of treeNotes) await setupTx(`deposit ${l} into the tree registry`, [X.depositFrame(X.treeRegistry, X.innerOf(secretsOf(l)), X.DENOMINATION)])
 await setupTx('deposit eight notes into the append registry', appendNotes.map((l) => X.depositFrame(X.appendRegistry, X.innerOf(secretsOf(l)), X.DENOMINATION)))
+for (const [r, n] of [[X.treeRegistry, treeNotes.length], [X.appendRegistry, appendNotes.length]] as const) {
+  const count = await X.read(chain, r, 'leafCount')
+  if (count !== BigInt(n)) throw new Error(`${r.label} holds ${count} leaves, not ${n}`)
+}
 
 // ---- the nodes ----
 
@@ -107,7 +131,13 @@ try {
 
   /** Simulate; if it says what `expect` says, send to node A; for a mined step, wait for it. */
   async function step(name: string, tx: FrameTx, expect: 'mined' | 'refused', extra: Row = {}) {
-    const sim = await simulateFrameTx(chain, tx)
+    // A node that lags may not have the root or the leaves yet: for a step that should be mined,
+    // simulate again for a while before calling it refused.
+    let sim = await simulateFrameTx(chain, tx)
+    for (let i = 0; expect === 'mined' && (!sim.valid || sim.executionStatus !== 'success') && i < 10; i++) {
+      await new Promise((res) => setTimeout(res, 6_000))
+      sim = await simulateFrameTx(chain, tx)
+    }
     const simRow = { valid: sim.valid, violation: sim.violation, executionStatus: sim.executionStatus, gasUsed: sim.gasUsed ? Number(BigInt(sim.gasUsed)) : null, frames: sim.frames?.map((f) => ({ gasUsed: Number(BigInt(f.gasUsed)), succeeded: f.succeeded })) }
     if (expect === 'refused') {
       if (sim.valid) throw new Error(`${name}: expected a refusal, but simulation admits it (${JSON.stringify(simRow)})`)
