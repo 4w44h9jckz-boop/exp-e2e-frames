@@ -10,11 +10,12 @@ import { type FrameTxJson, frameTxFromJson, frameTxHash, getFrameTxJson, makeCli
 const here = new URL('.', import.meta.url).pathname
 const runLabel = process.argv[2]
 if (!runLabel) throw new Error('usage: fixtures.ts <n>-<label>')
-const record = JSON.parse(readFileSync(join(here, 'results', `${runLabel}.json`), 'utf8')) as { steps: { step: string; hash?: Hex }[]; contracts: Record<string, string> }
+const record = JSON.parse(readFileSync(join(here, 'results', `${runLabel}.json`), 'utf8')) as { steps: { step: string; outcome: string; hash?: Hex }[]; contracts: Record<string, string> }
 const client = makeClient()
 const out = []
 for (const s of record.steps) {
-  if (!s.hash) continue
+  // A refused step carries the hash it would have had; it was never mined.
+  if (!s.hash || s.outcome === 'refused') continue
   const json = (await getFrameTxJson(client, s.hash)) as FrameTxJson | null
   if (!json) throw new Error(`${s.step}: ${s.hash} not found`)
   const tx = frameTxFromJson(json)
