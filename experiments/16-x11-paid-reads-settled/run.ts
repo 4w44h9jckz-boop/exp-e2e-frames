@@ -366,7 +366,8 @@ try {
     found: needles.filter((n) => raw.some((t) => t.toLowerCase().includes(n.slice(2).toLowerCase()))).length,
   }
   out.verdicts = verdicts
-  out.pool = {
+  // Not `pool`: the record's `pool` is the pool's address (run 1's record lost it to this object).
+  out.accounts = {
     sold: (await read<bigint>('sold')).toString(),
     paid: (await read<bigint>('paid')).toString(),
     refunded: (await read<bigint>('refunded')).toString(),

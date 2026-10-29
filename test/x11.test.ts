@@ -87,8 +87,9 @@ describe.runIf(runs.length > 0)('the recorded runs rebuild and their signatures 
         }
       })
     }
+    // About 40 ms a ticket: well over vitest's default timeout for a run's few hundred.
     it(`${f}: every ticket is the issuers' signature for its server and serial`, () => {
       for (const t of fx.tickets) expect(verifyTicket(fx.key, t.server, t.serial, t.ticket)).toBe(true)
-    })
+    }, 120_000)
   }
 })

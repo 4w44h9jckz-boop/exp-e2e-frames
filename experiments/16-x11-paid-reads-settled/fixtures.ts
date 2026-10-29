@@ -6,13 +6,12 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import type { Address, Hex } from 'viem'
-import { type FrameTxJson, frameTxFromJson, frameTxHash, getFrameTxJson, makeClient, serializeFrameTx } from '../../src/exp-frames/frametx/index.js'
+import { type FrameTxJson, frameTxFromJson, frameTxHash, getFrameTxJson, makeClient, parseFrameTx, serializeFrameTx } from '../../src/exp-frames/frametx/index.js'
 
 const here = new URL('.', import.meta.url).pathname
 const runLabel = process.argv[2]
 if (!runLabel) throw new Error('usage: fixtures.ts <n>-<label>')
 type Record = {
-  pool: Address
   members: Address[]
   chainId: number
   issuance: { key: Hex }
@@ -32,8 +31,13 @@ for (const s of record.steps) {
   if (frameTxHash(tx).toLowerCase() !== s.hash.toLowerCase()) throw new Error(`${s.step}: rebuilt hash differs`)
   transactions.push({ step: s.step, hash: s.hash, raw: serializeFrameTx(tx) })
 }
+// Every transaction kept here was sent by the pool, as its own sender. Run 1's record has no
+// separate field for its address: the accounting object `pool` overwrote it (run.ts now keeps both).
+const senders = [...new Set(transactions.map((t) => parseFrameTx(t.raw).sender.toLowerCase()))]
+if (senders.length !== 1) throw new Error(`the transactions have ${senders.length} senders, not one`)
+const pool = parseFrameTx(transactions[0].raw).sender
 const tickets = record.tickets.map((t) => ({ server: record.servers[t.server], serial: t.serial, ticket: t.ticket }))
 const dir = new URL('../../test/fixtures/x11/', import.meta.url).pathname
 mkdirSync(dir, { recursive: true })
-writeFileSync(join(dir, `${runLabel}.json`), `${JSON.stringify({ run: runLabel, pool: record.pool, members: record.members, chainId: record.chainId, key: record.issuance.key, tickets, transactions }, null, 1)}\n`)
+writeFileSync(join(dir, `${runLabel}.json`), `${JSON.stringify({ run: runLabel, pool, members: record.members, chainId: record.chainId, key: record.issuance.key, tickets, transactions }, null, 1)}\n`)
 console.log(`${transactions.length} transactions and ${tickets.length} tickets kept in test/fixtures/x11/${runLabel}.json`)
