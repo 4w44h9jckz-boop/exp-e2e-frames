@@ -1,0 +1,3437 @@
+{
+  "retrieved": "2026-10-29T05:21:16.984Z",
+  "commit": "4ef0dd9d9370af89c09e44081673c3336454f94e",
+  "command": "npx tsx measurements/gas-by-function/run.ts 200 50400 26296054",
+  "provider": "https://eth.drpc.org",
+  "head": 26296054,
+  "span_blocks": 50400,
+  "sample_blocks": 200,
+  "blocks_read": 200,
+  "transactions": 50329,
+  "execution_gas": 6302102864,
+  "blob_gas": 127664128,
+  "classes": [
+    "reverted",
+    "blob-carrier",
+    "rollup-settle",
+    "bridge",
+    "trade",
+    "lend-or-pool",
+    "oracle",
+    "validator-deposit",
+    "token-move",
+    "eth-transfer",
+    "create",
+    "other-call"
+  ],
+  "by_class": {
+    "reverted": {
+      "txs": 753,
+      "gas": 113435257,
+      "gas_share_pct": 1.8
+    },
+    "blob-carrier": {
+      "txs": 394,
+      "gas": 39173214,
+      "gas_share_pct": 0.62
+    },
+    "rollup-settle": {
+      "txs": 95,
+      "gas": 26300378,
+      "gas_share_pct": 0.42
+    },
+    "bridge": {
+      "txs": 103,
+      "gas": 43661165,
+      "gas_share_pct": 0.69
+    },
+    "trade": {
+      "txs": 6430,
+      "gas": 1901832394,
+      "gas_share_pct": 30.18
+    },
+    "lend-or-pool": {
+      "txs": 214,
+      "gas": 75865402,
+      "gas_share_pct": 1.2
+    },
+    "oracle": {
+      "txs": 52,
+      "gas": 8741473,
+      "gas_share_pct": 0.14
+    },
+    "validator-deposit": {
+      "txs": 4,
+      "gas": 236811,
+      "gas_share_pct": 0
+    },
+    "token-move": {
+      "txs": 22458,
+      "gas": 2684274257,
+      "gas_share_pct": 42.59
+    },
+    "eth-transfer": {
+      "txs": 14968,
+      "gas": 319198966,
+      "gas_share_pct": 5.06
+    },
+    "create": {
+      "txs": 77,
+      "gas": 123553375,
+      "gas_share_pct": 1.96
+    },
+    "other-call": {
+      "txs": 4781,
+      "gas": 965830172,
+      "gas_share_pct": 15.33
+    }
+  },
+  "precompile_gas": {
+    "ecrecover": 33542720,
+    "identity": 138825,
+    "sha256": 456132,
+    "modexp": 22792472,
+    "bn254-mul": 27378000,
+    "bn254-add": 687600,
+    "bn254-pairing": 18315000,
+    "kzg-point-evaluation": 3700000,
+    "p256verify": 117300,
+    "bls12-g1add": 96000,
+    "bls12-map-fp2-to-g2": 238000,
+    "bls12-g2add": 3000,
+    "bls12-pairing": 823200,
+    "bls12-map-fp-to-g1": 22000,
+    "bls12-g1msm": 165816
+  },
+  "precompile_kind": {
+    "ecrecover": "signature",
+    "p256verify": "signature",
+    "sha256": "hash",
+    "ripemd160": "hash",
+    "blake2f": "hash",
+    "identity": "copy"
+  },
+  "precompile_gas_by_class": {
+    "trade": {
+      "ecrecover": 6558000,
+      "identity": 102153,
+      "sha256": 1320,
+      "modexp": 12240,
+      "p256verify": 34500
+    },
+    "token-move": {
+      "ecrecover": 14880000,
+      "identity": 31140,
+      "sha256": 52656,
+      "modexp": 1175452,
+      "bn254-mul": 1044000,
+      "bn254-add": 27600,
+      "bn254-pairing": 3054000,
+      "p256verify": 55200,
+      "bls12-g1add": 31875,
+      "bls12-map-fp2-to-g2": 95200,
+      "bls12-g2add": 1200,
+      "bls12-pairing": 308700,
+      "kzg-point-evaluation": 50000,
+      "bls12-g1msm": 165816,
+      "bls12-map-fp-to-g1": 5500
+    },
+    "other-call": {
+      "ecrecover": 10349720,
+      "sha256": 374976,
+      "modexp": 21386812,
+      "bn254-mul": 22764000,
+      "bn254-add": 570750,
+      "bn254-pairing": 12933000,
+      "kzg-point-evaluation": 2100000,
+      "identity": 711,
+      "p256verify": 27600,
+      "bls12-map-fp-to-g1": 16500,
+      "bls12-g1add": 64125,
+      "bls12-pairing": 514500,
+      "bls12-map-fp2-to-g2": 142800,
+      "bls12-g2add": 1800
+    },
+    "eth-transfer": {},
+    "rollup-settle": {
+      "modexp": 217968,
+      "bn254-mul": 3546000,
+      "bn254-add": 88650,
+      "bn254-pairing": 2147000,
+      "ecrecover": 12000,
+      "sha256": 3504
+    },
+    "oracle": {
+      "ecrecover": 1047000
+    },
+    "lend-or-pool": {
+      "ecrecover": 171000,
+      "bn254-mul": 24000,
+      "bn254-add": 600,
+      "bn254-pairing": 181000,
+      "identity": 99
+    },
+    "blob-carrier": {
+      "sha256": 21156,
+      "ecrecover": 288000,
+      "kzg-point-evaluation": 1550000
+    },
+    "reverted": {
+      "ecrecover": 219000,
+      "identity": 4722
+    },
+    "validator-deposit": {
+      "sha256": 2520
+    },
+    "bridge": {
+      "ecrecover": 18000
+    },
+    "create": {}
+  },
+  "event_signatures": {
+    "rollup-settle": [
+      "DisputeGameCreated(address,uint32,bytes32)",
+      "OutputProposed(bytes32,uint256,uint256,uint256)",
+      "SequencerBatchDelivered(uint256,bytes32,bytes32,bytes32,uint256,(uint64,uint64,uint64,uint64),uint8)",
+      "AssertionConfirmed(bytes32,bytes32,bytes32)",
+      "BlockCommit(uint256,bytes32,bytes32)",
+      "BlocksVerification(uint256,uint256)",
+      "BlockExecution(uint256,bytes32,bytes32)",
+      "LogStateUpdate(uint256,int256,uint256)",
+      "CommitBatch(uint256,bytes32)",
+      "FinalizeBatch(uint256,bytes32,bytes32,bytes32)",
+      "DataSubmittedV3(bytes32,bytes32,bytes32)",
+      "DataFinalizedV3(uint256,uint256,bytes32,bytes32,bytes32)"
+    ],
+    "bridge": [
+      "TransactionDeposited(address,address,uint256,bytes)",
+      "WithdrawalProven(bytes32,address,address)",
+      "WithdrawalFinalized(bytes32,bool)",
+      "MessageDelivered(uint256,bytes32,address,uint8,address,bytes32,uint256,uint64)",
+      "OutBoxTransactionExecuted(address,address,uint256,uint256)",
+      "NewPriorityRequest(uint256,bytes32,uint64,(uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256[4],bytes,bytes,uint256[],bytes,bytes),bytes[])"
+    ],
+    "trade": [
+      "Swap(address,uint256,uint256,uint256,uint256,address)",
+      "Swap(address,address,int256,int256,uint160,uint128,int24)",
+      "Swap(address,address,int256,int256,uint160,uint128,int24,uint128,uint128)",
+      "Swap(bytes32,address,int128,int128,uint160,uint128,int24,uint24)",
+      "Swap(bytes32,address,address,uint256,uint256)",
+      "TokenExchange(address,int128,uint256,int128,uint256)",
+      "TokenExchangeUnderlying(address,int128,uint256,int128,uint256)",
+      "TokenExchange(address,uint256,uint256,uint256,uint256)",
+      "TokenExchange(address,uint256,uint256,uint256,uint256,uint256,uint256)",
+      "Trade(address,address,address,uint256,uint256,uint256,bytes)",
+      "Fill(bytes32,address,address,uint256)",
+      "OrderFilled(bytes32,uint256)"
+    ],
+    "lend-or-pool": [
+      "Supply(address,address,address,uint256,uint16)",
+      "Withdraw(address,address,address,uint256)",
+      "Borrow(address,address,address,uint256,uint8,uint256,uint16)",
+      "Repay(address,address,address,uint256,bool)",
+      "LiquidationCall(address,address,address,uint256,uint256,address,bool)",
+      "Supply(bytes32,address,address,uint256,uint256)",
+      "Withdraw(bytes32,address,address,address,uint256,uint256)",
+      "Borrow(bytes32,address,address,address,uint256,uint256)",
+      "Repay(bytes32,address,address,uint256,uint256)",
+      "SupplyCollateral(bytes32,address,address,uint256)",
+      "WithdrawCollateral(bytes32,address,address,address,uint256)",
+      "Liquidate(bytes32,address,address,uint256,uint256,uint256,uint256,uint256)",
+      "Supply(address,address,uint256)",
+      "Withdraw(address,address,uint256)",
+      "SupplyCollateral(address,address,address,uint256)",
+      "WithdrawCollateral(address,address,address,uint256)",
+      "Deposit(address,address,uint256,uint256)",
+      "Withdraw(address,address,address,uint256,uint256)"
+    ],
+    "oracle": [
+      "AnswerUpdated(int256,uint256,uint256)",
+      "NewTransmission(uint32,int192,address,int192[],bytes,bytes32)",
+      "NewTransmission(uint32,int192,address,uint32,int192[],bytes,bytes32)"
+    ],
+    "validator-deposit": [
+      "DepositEvent(bytes,bytes,bytes,bytes,bytes)"
+    ],
+    "token-move": [
+      "Transfer(address,address,uint256)",
+      "Approval(address,address,uint256)",
+      "ApprovalForAll(address,address,bool)",
+      "TransferSingle(address,address,address,uint256,uint256)",
+      "TransferBatch(address,address,address,uint256[],uint256[])",
+      "Deposit(address,uint256)",
+      "Withdrawal(address,uint256)"
+    ]
+  },
+  "event_hits": {
+    "DisputeGameCreated(address,uint32,bytes32)": 18,
+    "OutputProposed(bytes32,uint256,uint256,uint256)": 9,
+    "SequencerBatchDelivered(uint256,bytes32,bytes32,bytes32,uint256,(uint64,uint64,uint64,uint64),uint8)": 25,
+    "AssertionConfirmed(bytes32,bytes32,bytes32)": 5,
+    "BlockCommit(uint256,bytes32,bytes32)": 8,
+    "BlocksVerification(uint256,uint256)": 17,
+    "BlockExecution(uint256,bytes32,bytes32)": 11,
+    "LogStateUpdate(uint256,int256,uint256)": 0,
+    "CommitBatch(uint256,bytes32)": 0,
+    "FinalizeBatch(uint256,bytes32,bytes32,bytes32)": 2,
+    "DataSubmittedV3(bytes32,bytes32,bytes32)": 0,
+    "DataFinalizedV3(uint256,uint256,bytes32,bytes32,bytes32)": 0,
+    "TransactionDeposited(address,address,uint256,bytes)": 23,
+    "WithdrawalProven(bytes32,address,address)": 31,
+    "WithdrawalFinalized(bytes32,bool)": 12,
+    "MessageDelivered(uint256,bytes32,address,uint8,address,bytes32,uint256,uint64)": 18,
+    "OutBoxTransactionExecuted(address,address,uint256,uint256)": 20,
+    "NewPriorityRequest(uint256,bytes32,uint64,(uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256[4],bytes,bytes,uint256[],bytes,bytes),bytes[])": 0,
+    "Swap(address,uint256,uint256,uint256,uint256,address)": 1489,
+    "Swap(address,address,int256,int256,uint160,uint128,int24)": 2886,
+    "Swap(address,address,int256,int256,uint160,uint128,int24,uint128,uint128)": 274,
+    "Swap(bytes32,address,int128,int128,uint160,uint128,int24,uint24)": 2572,
+    "Swap(bytes32,address,address,uint256,uint256)": 33,
+    "TokenExchange(address,int128,uint256,int128,uint256)": 154,
+    "TokenExchangeUnderlying(address,int128,uint256,int128,uint256)": 8,
+    "TokenExchange(address,uint256,uint256,uint256,uint256)": 70,
+    "TokenExchange(address,uint256,uint256,uint256,uint256,uint256,uint256)": 120,
+    "Trade(address,address,address,uint256,uint256,uint256,bytes)": 154,
+    "Fill(bytes32,address,address,uint256)": 35,
+    "OrderFilled(bytes32,uint256)": 108,
+    "Supply(address,address,address,uint256,uint16)": 38,
+    "Withdraw(address,address,address,uint256)": 37,
+    "Borrow(address,address,address,uint256,uint8,uint256,uint16)": 20,
+    "Repay(address,address,address,uint256,bool)": 14,
+    "LiquidationCall(address,address,address,uint256,uint256,address,bool)": 0,
+    "Supply(bytes32,address,address,uint256,uint256)": 24,
+    "Withdraw(bytes32,address,address,address,uint256,uint256)": 30,
+    "Borrow(bytes32,address,address,address,uint256,uint256)": 10,
+    "Repay(bytes32,address,address,uint256,uint256)": 9,
+    "SupplyCollateral(bytes32,address,address,uint256)": 7,
+    "WithdrawCollateral(bytes32,address,address,address,uint256)": 5,
+    "Liquidate(bytes32,address,address,uint256,uint256,uint256,uint256,uint256)": 0,
+    "Supply(address,address,uint256)": 3,
+    "Withdraw(address,address,uint256)": 1,
+    "SupplyCollateral(address,address,address,uint256)": 0,
+    "WithdrawCollateral(address,address,address,uint256)": 0,
+    "Deposit(address,address,uint256,uint256)": 37,
+    "Withdraw(address,address,address,uint256,uint256)": 41,
+    "AnswerUpdated(int256,uint256,uint256)": 52,
+    "NewTransmission(uint32,int192,address,int192[],bytes,bytes32)": 0,
+    "NewTransmission(uint32,int192,address,uint32,int192[],bytes,bytes32)": 0,
+    "DepositEvent(bytes,bytes,bytes,bytes,bytes)": 4,
+    "Transfer(address,address,uint256)": 20644,
+    "Approval(address,address,uint256)": 2624,
+    "ApprovalForAll(address,address,bool)": 109,
+    "TransferSingle(address,address,address,uint256,uint256)": 96,
+    "TransferBatch(address,address,address,uint256[],uint256[])": 3,
+    "Deposit(address,uint256)": 256,
+    "Withdrawal(address,uint256)": 250
+  },
+  "other_call_top_recipients_by_gas": [
+    [
+      "0x6ef3ef48e48cb00a87afe6132d920c498e34a229",
+      108766464
+    ],
+    [
+      "0x004395edb43efca9885cedad51ec9faf93bd34ac",
+      102465038
+    ],
+    [
+      "0x0de8bf93da2f7eecb3d9169422413a9bef4ef628",
+      70636282
+    ],
+    [
+      "0xd64ef1417eb047ed0b54736a5a41f01178c391c6",
+      62259931
+    ],
+    [
+      "0xeb81a3dbfedc87a7e175546f9515a0849051c2d0",
+      39515423
+    ],
+    [
+      "0xbff70a12896b6cc6902da43bad4725b0cda62a43",
+      19989437
+    ],
+    [
+      "0xba08ef4193a12be61a768fd96e625b541702828f",
+      18115878
+    ],
+    [
+      "0x0000000071727de22e5e9d8baf0edac6f37da032",
+      17190742
+    ],
+    [
+      "0x8d8210a0252a706cb5de0c6f8e46b6d3692afc19",
+      16156228
+    ],
+    [
+      "0xca11bde05977b3631167028862be2a173976ca11",
+      15457752
+    ],
+    [
+      "0xa9d1e08c7793af67e9d92fe308d5697fb81d3e43",
+      14359613
+    ],
+    [
+      "0xe37a2663cc9c119ba41572c40fab0bbb23a5402f",
+      14328144
+    ],
+    [
+      "0x1a36abe92e391dd8d8b687af5e4560c3eb0723c6",
+      11367920
+    ],
+    [
+      "0x91ff8bbd8ebb07893010d50a48a1609e5ebd8e34",
+      10456588
+    ],
+    [
+      "0xfeeeeee44046c3f61a8cc081e0918ef0de0a7ffc",
+      10273488
+    ],
+    [
+      "0x82c89d6ba0881a8b9e804aadfa0955d9acf7ba1f",
+      10191248
+    ],
+    [
+      "0x000000000000e3471accafa9659dc7e948a69d32",
+      9373857
+    ],
+    [
+      "0xd90e2f925da726b50c4ed8d0fb90ad053324f31b",
+      8423606
+    ],
+    [
+      "0x2b7377d585d95b29a1f5fe58e580a6c305b1c3c9",
+      7658726
+    ],
+    [
+      "0x30515be163c23576e606230503010a87fcffa295",
+      7622959
+    ],
+    [
+      "0x61a2cad6b545983dbddb1de52d338cc319a4903e",
+      7390792
+    ],
+    [
+      "0xc02ab410f0734efa3f14628780e6e695156024c2",
+      7093436
+    ],
+    [
+      "0x0ec68c5b10f21effb74f2a5c61dfe6b08c0db6cb",
+      6986702
+    ],
+    [
+      "0x9cca509ca17d5e5750e0c126abbef904eb4e6fa2",
+      6868484
+    ],
+    [
+      "0xcd2deb180529dfffe06b0c45aa0b5a317d3b1169",
+      6582973
+    ]
+  ],
+  "other_call_top_selectors_by_gas": [
+    [
+      "0xac9650d8",
+      122232489
+    ],
+    [
+      "0xbb739814",
+      108766464
+    ],
+    [
+      "0xb1ae2ed1",
+      70636282
+    ],
+    [
+      "0x10c07082",
+      44819522
+    ],
+    [
+      "0x7411326b",
+      39515423
+    ],
+    [
+      "0x656a7675",
+      28307126
+    ],
+    [
+      "0x765e827f",
+      19946030
+    ],
+    [
+      "0xb143044b",
+      19391369
+    ],
+    [
+      "0xffc3a769",
+      16156228
+    ],
+    [
+      "0x1a1da075",
+      14359613
+    ],
+    [
+      "0x5de4c42e",
+      14328144
+    ],
+    [
+      "0x64617461",
+      13030240
+    ],
+    [
+      "0x069d1525",
+      10456588
+    ],
+    [
+      "0xcd5421e2",
+      9373857
+    ],
+    [
+      "0xe2aa4226",
+      7658726
+    ],
+    [
+      "0xc76bd193",
+      7622959
+    ],
+    [
+      "0x8cb91e60",
+      7322146
+    ],
+    [
+      "0x0894edf1",
+      7093436
+    ],
+    [
+      "0x6ceef480",
+      6582973
+    ],
+    [
+      "0x4e43e495",
+      6522040
+    ],
+    [
+      "0x301f42e9",
+      6281676
+    ],
+    [
+      "0x1688f0b9",
+      6249891
+    ],
+    [
+      "0xefa862a7",
+      6093484
+    ],
+    [
+      "0x13a237df",
+      6062828
+    ],
+    [
+      "0x22de982d",
+      5846634
+    ]
+  ],
+  "errors": {},
+  "retries": 0,
+  "trace_receipt_gas_mismatches": 0,
+  "blocks": [
+    {
+      "block": 26245655,
+      "txs": 172,
+      "gas_used": 40998174,
+      "gas_by_class": {
+        "trade": 9925196,
+        "token-move": 26047557,
+        "other-call": 2933759,
+        "eth-transfer": 939843,
+        "rollup-settle": 191763,
+        "oracle": 135830,
+        "lend-or-pool": 782226,
+        "blob-carrier": 42000
+      }
+    },
+    {
+      "block": 26245907,
+      "txs": 318,
+      "gas_used": 44970094,
+      "gas_by_class": {
+        "trade": 21862836,
+        "token-move": 14338142,
+        "eth-transfer": 1155055,
+        "lend-or-pool": 2426476,
+        "other-call": 4449036,
+        "reverted": 670840,
+        "validator-deposit": 67709
+      }
+    },
+    {
+      "block": 26246159,
+      "txs": 64,
+      "gas_used": 8927527,
+      "gas_by_class": {
+        "trade": 3147788,
+        "other-call": 4468464,
+        "token-move": 513275,
+        "eth-transfer": 798000
+      }
+    },
+    {
+      "block": 26246411,
+      "txs": 247,
+      "gas_used": 24036566,
+      "gas_by_class": {
+        "trade": 7691582,
+        "token-move": 10641657,
+        "eth-transfer": 1596211,
+        "other-call": 3056781,
+        "lend-or-pool": 228956,
+        "oracle": 144547,
+        "reverted": 655832,
+        "blob-carrier": 21000
+      }
+    },
+    {
+      "block": 26246663,
+      "txs": 297,
+      "gas_used": 27335790,
+      "gas_by_class": {
+        "trade": 8368825,
+        "token-move": 10438126,
+        "eth-transfer": 2646113,
+        "other-call": 4385251,
+        "blob-carrier": 328576,
+        "lend-or-pool": 167277,
+        "bridge": 1001622
+      }
+    },
+    {
+      "block": 26246915,
+      "txs": 270,
+      "gas_used": 30543679,
+      "gas_by_class": {
+        "trade": 18526627,
+        "token-move": 8870498,
+        "eth-transfer": 1638101,
+        "other-call": 906641,
+        "reverted": 345407,
+        "blob-carrier": 144456,
+        "lend-or-pool": 111949
+      }
+    },
+    {
+      "block": 26247167,
+      "txs": 241,
+      "gas_used": 23246434,
+      "gas_by_class": {
+        "token-move": 7262888,
+        "eth-transfer": 1533518,
+        "trade": 8666472,
+        "other-call": 4772101,
+        "lend-or-pool": 169575,
+        "bridge": 241038,
+        "reverted": 236824,
+        "blob-carrier": 364018
+      }
+    },
+    {
+      "block": 26247419,
+      "txs": 246,
+      "gas_used": 40256589,
+      "gas_by_class": {
+        "trade": 9342193,
+        "token-move": 20384525,
+        "other-call": 6550301,
+        "eth-transfer": 1911165,
+        "lend-or-pool": 713091,
+        "bridge": 647374,
+        "reverted": 287462,
+        "blob-carrier": 21000,
+        "rollup-settle": 399478
+      }
+    },
+    {
+      "block": 26247671,
+      "txs": 214,
+      "gas_used": 27492782,
+      "gas_by_class": {
+        "trade": 9492695,
+        "other-call": 4631766,
+        "token-move": 7973888,
+        "eth-transfer": 1113287,
+        "reverted": 1685574,
+        "create": 1441787,
+        "blob-carrier": 165456,
+        "oracle": 92505,
+        "lend-or-pool": 118891,
+        "rollup-settle": 499777,
+        "bridge": 277156
+      }
+    },
+    {
+      "block": 26247923,
+      "txs": 233,
+      "gas_used": 25248131,
+      "gas_by_class": {
+        "trade": 8573202,
+        "eth-transfer": 1532666,
+        "token-move": 9455261,
+        "reverted": 2561219,
+        "other-call": 3125783
+      }
+    },
+    {
+      "block": 26248175,
+      "txs": 346,
+      "gas_used": 44472236,
+      "gas_by_class": {
+        "trade": 15392185,
+        "token-move": 13952413,
+        "other-call": 9328847,
+        "eth-transfer": 2220989,
+        "blob-carrier": 186456,
+        "reverted": 1392755,
+        "oracle": 271612,
+        "bridge": 380771,
+        "create": 401124,
+        "lend-or-pool": 828293,
+        "rollup-settle": 116791
+      }
+    },
+    {
+      "block": 26248427,
+      "txs": 526,
+      "gas_used": 43668310,
+      "gas_by_class": {
+        "trade": 13557136,
+        "token-move": 23571253,
+        "eth-transfer": 2284124,
+        "other-call": 2877171,
+        "blob-carrier": 144456,
+        "rollup-settle": 367836,
+        "lend-or-pool": 199853,
+        "reverted": 666481
+      }
+    },
+    {
+      "block": 26248679,
+      "txs": 334,
+      "gas_used": 44237110,
+      "gas_by_class": {
+        "token-move": 8842587,
+        "trade": 24329871,
+        "eth-transfer": 2100189,
+        "reverted": 4161556,
+        "other-call": 1471643,
+        "blob-carrier": 571425,
+        "lend-or-pool": 2499401,
+        "rollup-settle": 260438
+      }
+    },
+    {
+      "block": 26248931,
+      "txs": 444,
+      "gas_used": 57669919,
+      "gas_by_class": {
+        "other-call": 14740821,
+        "trade": 17846743,
+        "token-move": 18491369,
+        "eth-transfer": 2450038,
+        "reverted": 2644825,
+        "blob-carrier": 629130,
+        "lend-or-pool": 443414,
+        "bridge": 315110,
+        "rollup-settle": 108469
+      }
+    },
+    {
+      "block": 26249183,
+      "txs": 320,
+      "gas_used": 31216557,
+      "gas_by_class": {
+        "trade": 12771861,
+        "token-move": 13757077,
+        "other-call": 1034253,
+        "eth-transfer": 2002264,
+        "lend-or-pool": 844437,
+        "blob-carrier": 600321,
+        "reverted": 97875,
+        "rollup-settle": 108469
+      }
+    },
+    {
+      "block": 26249435,
+      "txs": 233,
+      "gas_used": 23230106,
+      "gas_by_class": {
+        "trade": 9226176,
+        "other-call": 3108502,
+        "token-move": 8581305,
+        "eth-transfer": 1770608,
+        "lend-or-pool": 158240,
+        "blob-carrier": 207456,
+        "reverted": 177819
+      }
+    },
+    {
+      "block": 26249687,
+      "txs": 233,
+      "gas_used": 21156641,
+      "gas_by_class": {
+        "trade": 6322517,
+        "token-move": 10144375,
+        "other-call": 1351964,
+        "eth-transfer": 1365336,
+        "lend-or-pool": 494487,
+        "bridge": 100089,
+        "blob-carrier": 42000,
+        "reverted": 1161186,
+        "rollup-settle": 174687
+      }
+    },
+    {
+      "block": 26249939,
+      "txs": 278,
+      "gas_used": 32834146,
+      "gas_by_class": {
+        "trade": 14865031,
+        "eth-transfer": 1397426,
+        "token-move": 14342813,
+        "other-call": 1389686,
+        "reverted": 394386,
+        "lend-or-pool": 423804,
+        "blob-carrier": 21000
+      }
+    },
+    {
+      "block": 26250191,
+      "txs": 212,
+      "gas_used": 39429055,
+      "gas_by_class": {
+        "trade": 9885169,
+        "token-move": 24753969,
+        "eth-transfer": 1428337,
+        "other-call": 1616245,
+        "create": 731065,
+        "lend-or-pool": 836956,
+        "blob-carrier": 177314
+      }
+    },
+    {
+      "block": 26250443,
+      "txs": 582,
+      "gas_used": 59985110,
+      "gas_by_class": {
+        "trade": 23945747,
+        "other-call": 7674642,
+        "token-move": 20524597,
+        "eth-transfer": 4788509,
+        "blob-carrier": 165456,
+        "rollup-settle": 710363,
+        "reverted": 2013885,
+        "lend-or-pool": 161911
+      }
+    },
+    {
+      "block": 26250695,
+      "txs": 89,
+      "gas_used": 7026950,
+      "gas_by_class": {
+        "blob-carrier": 42000,
+        "other-call": 691509,
+        "token-move": 3868142,
+        "eth-transfer": 540871,
+        "trade": 1701233,
+        "rollup-settle": 93195,
+        "reverted": 90000
+      }
+    },
+    {
+      "block": 26250947,
+      "txs": 253,
+      "gas_used": 34059643,
+      "gas_by_class": {
+        "trade": 13776240,
+        "other-call": 6002913,
+        "token-move": 10223269,
+        "eth-transfer": 1491324,
+        "blob-carrier": 42000,
+        "create": 406398,
+        "reverted": 1963446,
+        "rollup-settle": 154053
+      }
+    },
+    {
+      "block": 26251199,
+      "txs": 263,
+      "gas_used": 37820022,
+      "gas_by_class": {
+        "trade": 11009652,
+        "token-move": 14480436,
+        "reverted": 919151,
+        "eth-transfer": 1890118,
+        "other-call": 5242238,
+        "blob-carrier": 144456,
+        "lend-or-pool": 2505907,
+        "create": 1628064
+      }
+    },
+    {
+      "block": 26251451,
+      "txs": 276,
+      "gas_used": 51517144,
+      "gas_by_class": {
+        "trade": 11303523,
+        "lend-or-pool": 554887,
+        "eth-transfer": 2948136,
+        "token-move": 35856487,
+        "other-call": 709084,
+        "oracle": 145027
+      }
+    },
+    {
+      "block": 26251703,
+      "txs": 334,
+      "gas_used": 23515479,
+      "gas_by_class": {
+        "other-call": 2495656,
+        "token-move": 12374027,
+        "trade": 4450235,
+        "eth-transfer": 3485091,
+        "blob-carrier": 63000,
+        "lend-or-pool": 573422,
+        "reverted": 74048
+      }
+    },
+    {
+      "block": 26251955,
+      "txs": 205,
+      "gas_used": 15945937,
+      "gas_by_class": {
+        "trade": 5454781,
+        "token-move": 5821055,
+        "eth-transfer": 2379169,
+        "other-call": 1743932,
+        "reverted": 547000
+      }
+    },
+    {
+      "block": 26252207,
+      "txs": 410,
+      "gas_used": 26249236,
+      "gas_by_class": {
+        "trade": 5568620,
+        "blob-carrier": 21000,
+        "token-move": 13471001,
+        "eth-transfer": 4862434,
+        "other-call": 1674536,
+        "create": 297332,
+        "lend-or-pool": 265635,
+        "reverted": 88678
+      }
+    },
+    {
+      "block": 26252459,
+      "txs": 202,
+      "gas_used": 56967156,
+      "gas_by_class": {
+        "trade": 14270635,
+        "token-move": 39896436,
+        "eth-transfer": 1391979,
+        "rollup-settle": 118543,
+        "other-call": 474219,
+        "reverted": 176234,
+        "blob-carrier": 63000,
+        "lend-or-pool": 576110
+      }
+    },
+    {
+      "block": 26252711,
+      "txs": 142,
+      "gas_used": 59986124,
+      "gas_by_class": {
+        "trade": 12158745,
+        "other-call": 4436318,
+        "token-move": 42335965,
+        "eth-transfer": 735110,
+        "blob-carrier": 21000,
+        "reverted": 124311,
+        "rollup-settle": 174675
+      }
+    },
+    {
+      "block": 26252963,
+      "txs": 273,
+      "gas_used": 30708625,
+      "gas_by_class": {
+        "trade": 5248291,
+        "token-move": 13383167,
+        "eth-transfer": 1611855,
+        "other-call": 10145948,
+        "blob-carrier": 152885,
+        "oracle": 117702,
+        "reverted": 48777
+      }
+    },
+    {
+      "block": 26253215,
+      "txs": 212,
+      "gas_used": 39771909,
+      "gas_by_class": {
+        "trade": 7101646,
+        "other-call": 13093658,
+        "eth-transfer": 1448104,
+        "token-move": 17135201,
+        "blob-carrier": 401154,
+        "rollup-settle": 174675,
+        "oracle": 135806,
+        "lend-or-pool": 281665
+      }
+    },
+    {
+      "block": 26253467,
+      "txs": 240,
+      "gas_used": 50913951,
+      "gas_by_class": {
+        "trade": 15112844,
+        "token-move": 23035114,
+        "eth-transfer": 1281107,
+        "other-call": 8792906,
+        "oracle": 427850,
+        "rollup-settle": 662135,
+        "reverted": 1601995
+      }
+    },
+    {
+      "block": 26253719,
+      "txs": 132,
+      "gas_used": 18166782,
+      "gas_by_class": {
+        "trade": 5184784,
+        "token-move": 6629034,
+        "eth-transfer": 420055,
+        "other-call": 5694026,
+        "blob-carrier": 21000,
+        "reverted": 137650,
+        "create": 80233
+      }
+    },
+    {
+      "block": 26253971,
+      "txs": 50,
+      "gas_used": 3116776,
+      "gas_by_class": {
+        "trade": 911690,
+        "reverted": 33336,
+        "eth-transfer": 537658,
+        "token-move": 1634092
+      }
+    },
+    {
+      "block": 26254223,
+      "txs": 234,
+      "gas_used": 26729995,
+      "gas_by_class": {
+        "trade": 8160983,
+        "token-move": 14455830,
+        "eth-transfer": 1579137,
+        "blob-carrier": 21000,
+        "other-call": 1631289,
+        "bridge": 234878,
+        "reverted": 37855,
+        "rollup-settle": 609023
+      }
+    },
+    {
+      "block": 26254475,
+      "txs": 204,
+      "gas_used": 29056754,
+      "gas_by_class": {
+        "trade": 6805349,
+        "blob-carrier": 530169,
+        "eth-transfer": 918800,
+        "create": 5344508,
+        "token-move": 12120141,
+        "other-call": 2699386,
+        "reverted": 138576,
+        "rollup-settle": 499825
+      }
+    },
+    {
+      "block": 26254727,
+      "txs": 357,
+      "gas_used": 38978255,
+      "gas_by_class": {
+        "trade": 6119794,
+        "other-call": 8849292,
+        "eth-transfer": 2913933,
+        "token-move": 15057761,
+        "create": 4878258,
+        "rollup-settle": 118555,
+        "reverted": 506055,
+        "lend-or-pool": 275411,
+        "blob-carrier": 63000,
+        "bridge": 196196
+      }
+    },
+    {
+      "block": 26254979,
+      "txs": 273,
+      "gas_used": 25558530,
+      "gas_by_class": {
+        "other-call": 959025,
+        "trade": 8668004,
+        "token-move": 10871284,
+        "eth-transfer": 2477945,
+        "reverted": 365437,
+        "blob-carrier": 21000,
+        "bridge": 289501,
+        "create": 1906334
+      }
+    },
+    {
+      "block": 26255231,
+      "txs": 219,
+      "gas_used": 29538217,
+      "gas_by_class": {
+        "trade": 12297893,
+        "token-move": 8973655,
+        "reverted": 1651047,
+        "other-call": 2281576,
+        "lend-or-pool": 2954192,
+        "eth-transfer": 1155736,
+        "blob-carrier": 224118
+      }
+    },
+    {
+      "block": 26255483,
+      "txs": 622,
+      "gas_used": 56310079,
+      "gas_by_class": {
+        "trade": 10035875,
+        "token-move": 31351994,
+        "other-call": 10933070,
+        "eth-transfer": 3045200,
+        "reverted": 529012,
+        "blob-carrier": 21000,
+        "bridge": 393928
+      }
+    },
+    {
+      "block": 26255735,
+      "txs": 265,
+      "gas_used": 24507733,
+      "gas_by_class": {
+        "trade": 4175565,
+        "token-move": 12569568,
+        "reverted": 1086002,
+        "eth-transfer": 1407000,
+        "other-call": 2336620,
+        "blob-carrier": 701400,
+        "create": 1730561,
+        "lend-or-pool": 501017
+      }
+    },
+    {
+      "block": 26255987,
+      "txs": 317,
+      "gas_used": 24143396,
+      "gas_by_class": {
+        "trade": 5411730,
+        "other-call": 2298974,
+        "token-move": 13134852,
+        "blob-carrier": 599364,
+        "reverted": 33360,
+        "eth-transfer": 2058987,
+        "oracle": 136010,
+        "lend-or-pool": 470119
+      }
+    },
+    {
+      "block": 26256239,
+      "txs": 296,
+      "gas_used": 34091415,
+      "gas_by_class": {
+        "trade": 8312185,
+        "other-call": 2952022,
+        "token-move": 20672682,
+        "eth-transfer": 1800921,
+        "lend-or-pool": 269605,
+        "blob-carrier": 84000
+      }
+    },
+    {
+      "block": 26256491,
+      "txs": 270,
+      "gas_used": 26503757,
+      "gas_by_class": {
+        "trade": 7360048,
+        "token-move": 12488525,
+        "eth-transfer": 2251572,
+        "lend-or-pool": 450006,
+        "other-call": 2353065,
+        "reverted": 979632,
+        "create": 461348,
+        "bridge": 159561
+      }
+    },
+    {
+      "block": 26256743,
+      "txs": 498,
+      "gas_used": 49719272,
+      "gas_by_class": {
+        "trade": 11470268,
+        "other-call": 3168593,
+        "eth-transfer": 3830678,
+        "token-move": 28057516,
+        "blob-carrier": 84000,
+        "reverted": 550330,
+        "lend-or-pool": 986549,
+        "bridge": 1417273,
+        "rollup-settle": 154065
+      }
+    },
+    {
+      "block": 26256995,
+      "txs": 239,
+      "gas_used": 24683961,
+      "gas_by_class": {
+        "trade": 7896667,
+        "token-move": 13030272,
+        "eth-transfer": 1533243,
+        "blob-carrier": 144456,
+        "other-call": 760501,
+        "rollup-settle": 802175,
+        "reverted": 128323,
+        "create": 388324
+      }
+    },
+    {
+      "block": 26257247,
+      "txs": 139,
+      "gas_used": 59998339,
+      "gas_by_class": {
+        "trade": 4411181,
+        "eth-transfer": 756062,
+        "token-move": 53760284,
+        "other-call": 771895,
+        "blob-carrier": 144456,
+        "reverted": 37879,
+        "rollup-settle": 116582
+      }
+    },
+    {
+      "block": 26257499,
+      "txs": 229,
+      "gas_used": 35780706,
+      "gas_by_class": {
+        "trade": 9092541,
+        "token-move": 13850403,
+        "other-call": 9284279,
+        "eth-transfer": 1155563,
+        "reverted": 2376920,
+        "blob-carrier": 21000
+      }
+    },
+    {
+      "block": 26257751,
+      "txs": 233,
+      "gas_used": 23733772,
+      "gas_by_class": {
+        "trade": 8508374,
+        "lend-or-pool": 1406909,
+        "token-move": 7810181,
+        "other-call": 1594939,
+        "oracle": 146720,
+        "eth-transfer": 1287453,
+        "reverted": 2065255,
+        "bridge": 913941
+      }
+    },
+    {
+      "block": 26258003,
+      "txs": 423,
+      "gas_used": 45914470,
+      "gas_by_class": {
+        "trade": 9772432,
+        "other-call": 6919737,
+        "token-move": 23753841,
+        "eth-transfer": 3822772,
+        "rollup-settle": 93207,
+        "reverted": 1237838,
+        "lend-or-pool": 217067,
+        "bridge": 97576
+      }
+    },
+    {
+      "block": 26258255,
+      "txs": 208,
+      "gas_used": 10396120,
+      "gas_by_class": {
+        "token-move": 6679731,
+        "blob-carrier": 340972,
+        "eth-transfer": 1401816,
+        "trade": 1043133,
+        "other-call": 785914,
+        "oracle": 144554
+      }
+    },
+    {
+      "block": 26258507,
+      "txs": 320,
+      "gas_used": 34451333,
+      "gas_by_class": {
+        "trade": 14610566,
+        "token-move": 9317720,
+        "other-call": 6616876,
+        "eth-transfer": 2569194,
+        "lend-or-pool": 310060,
+        "reverted": 523881,
+        "blob-carrier": 503036
+      }
+    },
+    {
+      "block": 26258759,
+      "txs": 264,
+      "gas_used": 31564852,
+      "gas_by_class": {
+        "trade": 15012644,
+        "token-move": 8666313,
+        "eth-transfer": 1323055,
+        "other-call": 3099898,
+        "blob-carrier": 288028,
+        "lend-or-pool": 595475,
+        "create": 387961,
+        "rollup-settle": 594257,
+        "bridge": 1407931,
+        "reverted": 189290
+      }
+    },
+    {
+      "block": 26259011,
+      "txs": 201,
+      "gas_used": 25239234,
+      "gas_by_class": {
+        "trade": 8573306,
+        "other-call": 7991247,
+        "eth-transfer": 754819,
+        "token-move": 6311635,
+        "blob-carrier": 165456,
+        "oracle": 183165,
+        "reverted": 385974,
+        "lend-or-pool": 450807,
+        "create": 422825
+      }
+    },
+    {
+      "block": 26259263,
+      "txs": 337,
+      "gas_used": 42140304,
+      "gas_by_class": {
+        "trade": 15229034,
+        "token-move": 12112334,
+        "reverted": 1059593,
+        "other-call": 9471142,
+        "eth-transfer": 2794768,
+        "blob-carrier": 160734,
+        "lend-or-pool": 1013643,
+        "rollup-settle": 154053,
+        "oracle": 145003
+      }
+    },
+    {
+      "block": 26259515,
+      "txs": 301,
+      "gas_used": 30395520,
+      "gas_by_class": {
+        "other-call": 2658320,
+        "trade": 15929366,
+        "token-move": 6566478,
+        "create": 841809,
+        "eth-transfer": 1968920,
+        "lend-or-pool": 1893089,
+        "reverted": 331296,
+        "bridge": 108027,
+        "rollup-settle": 98215
+      }
+    },
+    {
+      "block": 26259767,
+      "txs": 167,
+      "gas_used": 21711628,
+      "gas_by_class": {
+        "trade": 7581587,
+        "other-call": 6111732,
+        "token-move": 3088266,
+        "bridge": 1765235,
+        "reverted": 1423040,
+        "eth-transfer": 1369909,
+        "blob-carrier": 371859
+      }
+    },
+    {
+      "block": 26260019,
+      "txs": 189,
+      "gas_used": 59992385,
+      "gas_by_class": {
+        "trade": 11054883,
+        "eth-transfer": 1155173,
+        "reverted": 304077,
+        "token-move": 45329509,
+        "other-call": 1787003,
+        "blob-carrier": 361740
+      }
+    },
+    {
+      "block": 26260271,
+      "txs": 187,
+      "gas_used": 19286512,
+      "gas_by_class": {
+        "eth-transfer": 1533472,
+        "blob-carrier": 523100,
+        "token-move": 8933840,
+        "trade": 5653875,
+        "other-call": 2433040,
+        "create": 171335,
+        "reverted": 37850
+      }
+    },
+    {
+      "block": 26260523,
+      "txs": 205,
+      "gas_used": 27889775,
+      "gas_by_class": {
+        "eth-transfer": 1443859,
+        "token-move": 12526185,
+        "other-call": 2669249,
+        "trade": 6797463,
+        "reverted": 3946154,
+        "oracle": 145231,
+        "blob-carrier": 361634
+      }
+    },
+    {
+      "block": 26260775,
+      "txs": 263,
+      "gas_used": 59996938,
+      "gas_by_class": {
+        "trade": 10209859,
+        "eth-transfer": 1617231,
+        "token-move": 19749322,
+        "other-call": 27074221,
+        "create": 90575,
+        "reverted": 537085,
+        "lend-or-pool": 718645
+      }
+    },
+    {
+      "block": 26261027,
+      "txs": 272,
+      "gas_used": 32508844,
+      "gas_by_class": {
+        "trade": 10852879,
+        "eth-transfer": 1894137,
+        "blob-carrier": 42000,
+        "token-move": 15718868,
+        "other-call": 2153924,
+        "create": 121566,
+        "rollup-settle": 595905,
+        "reverted": 988681,
+        "lend-or-pool": 140884
+      }
+    },
+    {
+      "block": 26261279,
+      "txs": 328,
+      "gas_used": 29483030,
+      "gas_by_class": {
+        "trade": 8139447,
+        "token-move": 13047779,
+        "blob-carrier": 186456,
+        "eth-transfer": 2983950,
+        "other-call": 4618668,
+        "reverted": 388175,
+        "rollup-settle": 118555
+      }
+    },
+    {
+      "block": 26261531,
+      "txs": 267,
+      "gas_used": 37077121,
+      "gas_by_class": {
+        "trade": 13111396,
+        "token-move": 12675697,
+        "eth-transfer": 1600137,
+        "other-call": 8248443,
+        "reverted": 939191,
+        "blob-carrier": 63000,
+        "lend-or-pool": 439257
+      }
+    },
+    {
+      "block": 26261783,
+      "txs": 376,
+      "gas_used": 32057509,
+      "gas_by_class": {
+        "trade": 10111141,
+        "token-move": 17406397,
+        "eth-transfer": 1701089,
+        "other-call": 1843978,
+        "reverted": 176762,
+        "blob-carrier": 117536,
+        "lend-or-pool": 80091,
+        "bridge": 620515
+      }
+    },
+    {
+      "block": 26262035,
+      "txs": 357,
+      "gas_used": 46386620,
+      "gas_by_class": {
+        "oracle": 150630,
+        "other-call": 4580633,
+        "trade": 18660042,
+        "token-move": 18216014,
+        "eth-transfer": 1849717,
+        "blob-carrier": 42000,
+        "rollup-settle": 564963,
+        "reverted": 1584053,
+        "lend-or-pool": 383463,
+        "create": 355105
+      }
+    },
+    {
+      "block": 26262287,
+      "txs": 118,
+      "gas_used": 21447318,
+      "gas_by_class": {
+        "trade": 6101846,
+        "token-move": 4707716,
+        "oracle": 183897,
+        "eth-transfer": 504110,
+        "other-call": 9530370,
+        "lend-or-pool": 264064,
+        "reverted": 155315
+      }
+    },
+    {
+      "block": 26262539,
+      "txs": 290,
+      "gas_used": 40551829,
+      "gas_by_class": {
+        "trade": 16202165,
+        "other-call": 3714741,
+        "token-move": 18012804,
+        "eth-transfer": 1449356,
+        "bridge": 150688,
+        "reverted": 370789,
+        "blob-carrier": 363512,
+        "lend-or-pool": 287774
+      }
+    },
+    {
+      "block": 26262791,
+      "txs": 445,
+      "gas_used": 39731398,
+      "gas_by_class": {
+        "trade": 14411078,
+        "token-move": 16741139,
+        "other-call": 3987691,
+        "eth-transfer": 3718895,
+        "validator-deposit": 56466,
+        "blob-carrier": 404714,
+        "reverted": 140729,
+        "lend-or-pool": 270686
+      }
+    },
+    {
+      "block": 26263043,
+      "txs": 162,
+      "gas_used": 19183067,
+      "gas_by_class": {
+        "trade": 16253922,
+        "eth-transfer": 378110,
+        "other-call": 338147,
+        "token-move": 1899440,
+        "blob-carrier": 126000,
+        "oracle": 187448
+      }
+    },
+    {
+      "block": 26263295,
+      "txs": 306,
+      "gas_used": 34623461,
+      "gas_by_class": {
+        "trade": 15902939,
+        "token-move": 10602402,
+        "eth-transfer": 1433497,
+        "other-call": 2127166,
+        "reverted": 2366875,
+        "blob-carrier": 318341,
+        "oracle": 317801,
+        "lend-or-pool": 219255,
+        "bridge": 1335185
+      }
+    },
+    {
+      "block": 26263547,
+      "txs": 281,
+      "gas_used": 43510564,
+      "gas_by_class": {
+        "trade": 14752900,
+        "token-move": 11251430,
+        "other-call": 13966938,
+        "eth-transfer": 1434834,
+        "reverted": 524265,
+        "blob-carrier": 368598,
+        "rollup-settle": 487412,
+        "oracle": 137244,
+        "lend-or-pool": 586943
+      }
+    },
+    {
+      "block": 26263799,
+      "txs": 244,
+      "gas_used": 32610963,
+      "gas_by_class": {
+        "trade": 13866166,
+        "other-call": 4241839,
+        "eth-transfer": 1831274,
+        "token-move": 11885409,
+        "oracle": 144991,
+        "reverted": 175221,
+        "blob-carrier": 21000,
+        "lend-or-pool": 445063
+      }
+    },
+    {
+      "block": 26264051,
+      "txs": 229,
+      "gas_used": 30018242,
+      "gas_by_class": {
+        "trade": 8441044,
+        "eth-transfer": 1353064,
+        "token-move": 10191451,
+        "other-call": 8578302,
+        "lend-or-pool": 437646,
+        "blob-carrier": 557543,
+        "reverted": 459192
+      }
+    },
+    {
+      "block": 26264303,
+      "txs": 427,
+      "gas_used": 56902716,
+      "gas_by_class": {
+        "token-move": 24152405,
+        "eth-transfer": 2653148,
+        "trade": 25925082,
+        "reverted": 2058886,
+        "other-call": 1763537,
+        "lend-or-pool": 349658
+      }
+    },
+    {
+      "block": 26264555,
+      "txs": 232,
+      "gas_used": 25638083,
+      "gas_by_class": {
+        "trade": 7869673,
+        "token-move": 8312486,
+        "oracle": 145219,
+        "other-call": 1783533,
+        "eth-transfer": 1795820,
+        "blob-carrier": 42000,
+        "reverted": 408639,
+        "create": 5280713
+      }
+    },
+    {
+      "block": 26264807,
+      "txs": 286,
+      "gas_used": 33316932,
+      "gas_by_class": {
+        "trade": 8766577,
+        "token-move": 14960781,
+        "blob-carrier": 42000,
+        "other-call": 1800875,
+        "eth-transfer": 1596822,
+        "lend-or-pool": 333331,
+        "reverted": 685365,
+        "create": 5131181
+      }
+    },
+    {
+      "block": 26265059,
+      "txs": 56,
+      "gas_used": 8081878,
+      "gas_by_class": {
+        "token-move": 7626466,
+        "eth-transfer": 273973,
+        "other-call": 58190,
+        "trade": 123249
+      }
+    },
+    {
+      "block": 26265311,
+      "txs": 239,
+      "gas_used": 26521356,
+      "gas_by_class": {
+        "trade": 6894014,
+        "blob-carrier": 414199,
+        "token-move": 10747317,
+        "eth-transfer": 1828809,
+        "other-call": 2469004,
+        "reverted": 156062,
+        "create": 1704458,
+        "lend-or-pool": 2307493
+      }
+    },
+    {
+      "block": 26265563,
+      "txs": 291,
+      "gas_used": 59979553,
+      "gas_by_class": {
+        "trade": 9912809,
+        "rollup-settle": 456494,
+        "token-move": 45502162,
+        "other-call": 1903281,
+        "eth-transfer": 1743563,
+        "lend-or-pool": 312397,
+        "reverted": 148847
+      }
+    },
+    {
+      "block": 26265815,
+      "txs": 203,
+      "gas_used": 24106031,
+      "gas_by_class": {
+        "trade": 13320010,
+        "token-move": 6453323,
+        "eth-transfer": 1213044,
+        "other-call": 1885036,
+        "reverted": 903171,
+        "oracle": 144991,
+        "blob-carrier": 186456
+      }
+    },
+    {
+      "block": 26266067,
+      "txs": 149,
+      "gas_used": 6705690,
+      "gas_by_class": {
+        "token-move": 4049718,
+        "eth-transfer": 1425528,
+        "trade": 822779,
+        "other-call": 205202,
+        "reverted": 48777,
+        "rollup-settle": 153686
+      }
+    },
+    {
+      "block": 26266319,
+      "txs": 146,
+      "gas_used": 21504134,
+      "gas_by_class": {
+        "trade": 11617586,
+        "token-move": 5921302,
+        "other-call": 1350613,
+        "eth-transfer": 447834,
+        "blob-carrier": 609586,
+        "reverted": 995104,
+        "bridge": 112231,
+        "rollup-settle": 449878
+      }
+    },
+    {
+      "block": 26266571,
+      "txs": 187,
+      "gas_used": 34221948,
+      "gas_by_class": {
+        "trade": 6505472,
+        "rollup-settle": 912450,
+        "token-move": 14042556,
+        "other-call": 9875392,
+        "eth-transfer": 1048891,
+        "reverted": 1013232,
+        "blob-carrier": 507221,
+        "create": 316734
+      }
+    },
+    {
+      "block": 26266823,
+      "txs": 101,
+      "gas_used": 59989993,
+      "gas_by_class": {
+        "trade": 7352700,
+        "eth-transfer": 552834,
+        "token-move": 23151721,
+        "blob-carrier": 21000,
+        "other-call": 28182284,
+        "lend-or-pool": 702607,
+        "reverted": 26847
+      }
+    },
+    {
+      "block": 26267075,
+      "txs": 158,
+      "gas_used": 16965075,
+      "gas_by_class": {
+        "token-move": 6770440,
+        "eth-transfer": 924043,
+        "blob-carrier": 21000,
+        "trade": 5452774,
+        "lend-or-pool": 311176,
+        "other-call": 3485642
+      }
+    },
+    {
+      "block": 26267327,
+      "txs": 172,
+      "gas_used": 23096155,
+      "gas_by_class": {
+        "trade": 3180448,
+        "token-move": 15302709,
+        "eth-transfer": 1630853,
+        "create": 562999,
+        "blob-carrier": 21000,
+        "other-call": 2111768,
+        "reverted": 286378
+      }
+    },
+    {
+      "block": 26267579,
+      "txs": 159,
+      "gas_used": 17655926,
+      "gas_by_class": {
+        "trade": 8337462,
+        "token-move": 6355255,
+        "other-call": 1637343,
+        "eth-transfer": 636889,
+        "blob-carrier": 21000,
+        "reverted": 441011,
+        "rollup-settle": 226966
+      }
+    },
+    {
+      "block": 26267831,
+      "txs": 199,
+      "gas_used": 15565877,
+      "gas_by_class": {
+        "trade": 3402233,
+        "token-move": 8245050,
+        "eth-transfer": 1890274,
+        "other-call": 1493389,
+        "reverted": 270819,
+        "blob-carrier": 42000,
+        "lend-or-pool": 222112
+      }
+    },
+    {
+      "block": 26268083,
+      "txs": 189,
+      "gas_used": 16924343,
+      "gas_by_class": {
+        "trade": 8544100,
+        "eth-transfer": 1182834,
+        "token-move": 4234696,
+        "other-call": 1554571,
+        "reverted": 694622,
+        "create": 713520
+      }
+    },
+    {
+      "block": 26268335,
+      "txs": 262,
+      "gas_used": 57063699,
+      "gas_by_class": {
+        "trade": 8787916,
+        "token-move": 30686234,
+        "eth-transfer": 1344165,
+        "blob-carrier": 42000,
+        "other-call": 15148147,
+        "lend-or-pool": 514858,
+        "reverted": 88242,
+        "create": 452137
+      }
+    },
+    {
+      "block": 26268587,
+      "txs": 292,
+      "gas_used": 36212638,
+      "gas_by_class": {
+        "trade": 8479550,
+        "eth-transfer": 1674855,
+        "token-move": 18249767,
+        "other-call": 5523230,
+        "blob-carrier": 117536,
+        "oracle": 187100,
+        "reverted": 651874,
+        "lend-or-pool": 1328726
+      }
+    },
+    {
+      "block": 26268839,
+      "txs": 206,
+      "gas_used": 23090592,
+      "gas_by_class": {
+        "other-call": 2343285,
+        "trade": 8167264,
+        "token-move": 10503552,
+        "blob-carrier": 21000,
+        "lend-or-pool": 669812,
+        "eth-transfer": 1002883,
+        "validator-deposit": 62134,
+        "bridge": 159561,
+        "reverted": 161101
+      }
+    },
+    {
+      "block": 26269091,
+      "txs": 152,
+      "gas_used": 15960309,
+      "gas_by_class": {
+        "trade": 7813354,
+        "eth-transfer": 750855,
+        "token-move": 5577592,
+        "other-call": 985775,
+        "blob-carrier": 21000,
+        "reverted": 811733
+      }
+    },
+    {
+      "block": 26269343,
+      "txs": 233,
+      "gas_used": 33055693,
+      "gas_by_class": {
+        "trade": 8786829,
+        "eth-transfer": 1486039,
+        "token-move": 18160645,
+        "blob-carrier": 1119255,
+        "other-call": 1238907,
+        "reverted": 966899,
+        "lend-or-pool": 1297119
+      }
+    },
+    {
+      "block": 26269595,
+      "txs": 222,
+      "gas_used": 28345234,
+      "gas_by_class": {
+        "trade": 9172287,
+        "token-move": 13095129,
+        "rollup-settle": 1087195,
+        "other-call": 2976506,
+        "eth-transfer": 1029346,
+        "reverted": 538314,
+        "blob-carrier": 348830,
+        "lend-or-pool": 97627
+      }
+    },
+    {
+      "block": 26269847,
+      "txs": 225,
+      "gas_used": 30699573,
+      "gas_by_class": {
+        "trade": 10250760,
+        "token-move": 16114458,
+        "rollup-settle": 563219,
+        "other-call": 2161037,
+        "eth-transfer": 1078171,
+        "lend-or-pool": 234642,
+        "reverted": 297286
+      }
+    },
+    {
+      "block": 26270099,
+      "txs": 224,
+      "gas_used": 18109154,
+      "gas_by_class": {
+        "trade": 4497158,
+        "token-move": 10468348,
+        "eth-transfer": 1113100,
+        "oracle": 182493,
+        "other-call": 1503966,
+        "lend-or-pool": 222267,
+        "reverted": 121822
+      }
+    },
+    {
+      "block": 26270351,
+      "txs": 344,
+      "gas_used": 56989018,
+      "gas_by_class": {
+        "trade": 12738727,
+        "eth-transfer": 2380102,
+        "token-move": 10781262,
+        "blob-carrier": 21000,
+        "other-call": 29000866,
+        "reverted": 709311,
+        "rollup-settle": 532813,
+        "oracle": 145183,
+        "bridge": 276016,
+        "lend-or-pool": 403738
+      }
+    },
+    {
+      "block": 26270603,
+      "txs": 324,
+      "gas_used": 35886836,
+      "gas_by_class": {
+        "trade": 10639978,
+        "rollup-settle": 455962,
+        "other-call": 7185410,
+        "token-move": 13520333,
+        "eth-transfer": 2264119,
+        "blob-carrier": 595085,
+        "bridge": 696705,
+        "reverted": 529244
+      }
+    },
+    {
+      "block": 26270855,
+      "txs": 200,
+      "gas_used": 28486708,
+      "gas_by_class": {
+        "trade": 7013782,
+        "eth-transfer": 924736,
+        "token-move": 16527003,
+        "other-call": 3572019,
+        "reverted": 449168
+      }
+    },
+    {
+      "block": 26271107,
+      "txs": 219,
+      "gas_used": 32836721,
+      "gas_by_class": {
+        "trade": 7729139,
+        "token-move": 18144883,
+        "eth-transfer": 3591812,
+        "other-call": 1521760,
+        "blob-carrier": 144456,
+        "lend-or-pool": 856897,
+        "oracle": 117330,
+        "reverted": 215979,
+        "create": 360400,
+        "rollup-settle": 154065
+      }
+    },
+    {
+      "block": 26271359,
+      "txs": 251,
+      "gas_used": 29426239,
+      "gas_by_class": {
+        "trade": 13049583,
+        "token-move": 9044511,
+        "eth-transfer": 1518972,
+        "blob-carrier": 531157,
+        "reverted": 2581343,
+        "other-call": 2106278,
+        "lend-or-pool": 413508,
+        "bridge": 180887
+      }
+    },
+    {
+      "block": 26271611,
+      "txs": 129,
+      "gas_used": 7418065,
+      "gas_by_class": {
+        "token-move": 4457597,
+        "eth-transfer": 918989,
+        "trade": 960132,
+        "other-call": 433198,
+        "create": 648149
+      }
+    },
+    {
+      "block": 26271863,
+      "txs": 217,
+      "gas_used": 22495295,
+      "gas_by_class": {
+        "trade": 6153803,
+        "token-move": 13709070,
+        "other-call": 462226,
+        "eth-transfer": 1927036,
+        "lend-or-pool": 98704,
+        "blob-carrier": 144456
+      }
+    },
+    {
+      "block": 26272115,
+      "txs": 55,
+      "gas_used": 3935680,
+      "gas_by_class": {
+        "eth-transfer": 288800,
+        "token-move": 2421052,
+        "blob-carrier": 63000,
+        "other-call": 306617,
+        "trade": 856211
+      }
+    },
+    {
+      "block": 26272367,
+      "txs": 347,
+      "gas_used": 51373291,
+      "gas_by_class": {
+        "trade": 16267847,
+        "eth-transfer": 2269982,
+        "token-move": 26977427,
+        "blob-carrier": 463861,
+        "other-call": 4008818,
+        "reverted": 772731,
+        "rollup-settle": 109034,
+        "lend-or-pool": 227647,
+        "bridge": 275944
+      }
+    },
+    {
+      "block": 26272619,
+      "txs": 118,
+      "gas_used": 17961271,
+      "gas_by_class": {
+        "trade": 4477967,
+        "eth-transfer": 798062,
+        "token-move": 10714820,
+        "other-call": 1468569,
+        "reverted": 501853
+      }
+    },
+    {
+      "block": 26272871,
+      "txs": 200,
+      "gas_used": 17927842,
+      "gas_by_class": {
+        "trade": 6286231,
+        "eth-transfer": 1848043,
+        "token-move": 6881598,
+        "reverted": 138400,
+        "other-call": 2497572,
+        "blob-carrier": 275998
+      }
+    },
+    {
+      "block": 26273123,
+      "txs": 204,
+      "gas_used": 27003659,
+      "gas_by_class": {
+        "token-move": 6321849,
+        "trade": 7912996,
+        "other-call": 1837264,
+        "eth-transfer": 876940,
+        "lend-or-pool": 2049800,
+        "reverted": 1562077,
+        "bridge": 6120231,
+        "blob-carrier": 186456,
+        "oracle": 136046
+      }
+    },
+    {
+      "block": 26273375,
+      "txs": 251,
+      "gas_used": 36049148,
+      "gas_by_class": {
+        "trade": 20223789,
+        "token-move": 10795151,
+        "eth-transfer": 844019,
+        "other-call": 2220162,
+        "oracle": 368495,
+        "reverted": 890407,
+        "blob-carrier": 598656,
+        "rollup-settle": 108469
+      }
+    },
+    {
+      "block": 26273627,
+      "txs": 238,
+      "gas_used": 36967339,
+      "gas_by_class": {
+        "trade": 26999746,
+        "token-move": 6300701,
+        "other-call": 1325563,
+        "eth-transfer": 968230,
+        "rollup-settle": 102934,
+        "lend-or-pool": 274177,
+        "reverted": 409048,
+        "blob-carrier": 586940
+      }
+    },
+    {
+      "block": 26273879,
+      "txs": 151,
+      "gas_used": 21989660,
+      "gas_by_class": {
+        "trade": 6676504,
+        "token-move": 12326229,
+        "other-call": 1706459,
+        "eth-transfer": 924650,
+        "lend-or-pool": 355818
+      }
+    },
+    {
+      "block": 26274131,
+      "txs": 127,
+      "gas_used": 16202436,
+      "gas_by_class": {
+        "trade": 7644683,
+        "token-move": 5326107,
+        "eth-transfer": 945274,
+        "other-call": 1426930,
+        "rollup-settle": 118555,
+        "lend-or-pool": 102724,
+        "blob-carrier": 157922,
+        "reverted": 329575,
+        "oracle": 150666
+      }
+    },
+    {
+      "block": 26274383,
+      "txs": 205,
+      "gas_used": 23003954,
+      "gas_by_class": {
+        "trade": 10994788,
+        "other-call": 2063386,
+        "token-move": 7203108,
+        "eth-transfer": 1491153,
+        "rollup-settle": 487412,
+        "reverted": 154621,
+        "lend-or-pool": 609486
+      }
+    },
+    {
+      "block": 26274635,
+      "txs": 171,
+      "gas_used": 35190100,
+      "gas_by_class": {
+        "trade": 18123552,
+        "token-move": 7054417,
+        "other-call": 8066480,
+        "eth-transfer": 741952,
+        "lend-or-pool": 481414,
+        "blob-carrier": 229319,
+        "reverted": 492966
+      }
+    },
+    {
+      "block": 26274887,
+      "txs": 240,
+      "gas_used": 20945372,
+      "gas_by_class": {
+        "trade": 3759960,
+        "eth-transfer": 1575040,
+        "token-move": 13217568,
+        "blob-carrier": 212279,
+        "other-call": 1332200,
+        "lend-or-pool": 760021,
+        "reverted": 88304
+      }
+    },
+    {
+      "block": 26275139,
+      "txs": 226,
+      "gas_used": 51655166,
+      "gas_by_class": {
+        "trade": 30782733,
+        "token-move": 12382871,
+        "other-call": 6382774,
+        "blob-carrier": 63000,
+        "eth-transfer": 861592,
+        "reverted": 251209,
+        "lend-or-pool": 155891,
+        "create": 775096
+      }
+    },
+    {
+      "block": 26275391,
+      "txs": 281,
+      "gas_used": 46836357,
+      "gas_by_class": {
+        "trade": 13910942,
+        "token-move": 12296698,
+        "reverted": 951315,
+        "eth-transfer": 630105,
+        "other-call": 18232764,
+        "oracle": 136010,
+        "lend-or-pool": 155097,
+        "blob-carrier": 523426
+      }
+    },
+    {
+      "block": 26275643,
+      "txs": 200,
+      "gas_used": 24480557,
+      "gas_by_class": {
+        "trade": 8607411,
+        "token-move": 11097602,
+        "eth-transfer": 977694,
+        "other-call": 1124369,
+        "lend-or-pool": 666998,
+        "reverted": 532795,
+        "blob-carrier": 194885,
+        "create": 1278803
+      }
+    },
+    {
+      "block": 26275895,
+      "txs": 330,
+      "gas_used": 32285052,
+      "gas_by_class": {
+        "eth-transfer": 1485934,
+        "token-move": 21004536,
+        "blob-carrier": 394763,
+        "other-call": 4227020,
+        "trade": 3456399,
+        "lend-or-pool": 895425,
+        "reverted": 820975
+      }
+    },
+    {
+      "block": 26276147,
+      "txs": 289,
+      "gas_used": 43049846,
+      "gas_by_class": {
+        "trade": 11538755,
+        "eth-transfer": 1428380,
+        "token-move": 15794691,
+        "other-call": 12955846,
+        "bridge": 324315,
+        "lend-or-pool": 360030,
+        "reverted": 503373,
+        "blob-carrier": 144456
+      }
+    },
+    {
+      "block": 26276399,
+      "txs": 193,
+      "gas_used": 18134577,
+      "gas_by_class": {
+        "trade": 5559063,
+        "token-move": 8944927,
+        "oracle": 135686,
+        "other-call": 1599657,
+        "eth-transfer": 840067,
+        "blob-carrier": 228456,
+        "reverted": 826721
+      }
+    },
+    {
+      "block": 26276651,
+      "txs": 101,
+      "gas_used": 8941278,
+      "gas_by_class": {
+        "eth-transfer": 567000,
+        "token-move": 5782145,
+        "other-call": 129455,
+        "trade": 1480512,
+        "reverted": 54495,
+        "blob-carrier": 927671
+      }
+    },
+    {
+      "block": 26276903,
+      "txs": 184,
+      "gas_used": 14484420,
+      "gas_by_class": {
+        "trade": 4932666,
+        "token-move": 6256299,
+        "eth-transfer": 1218055,
+        "lend-or-pool": 909313,
+        "other-call": 568329,
+        "reverted": 103149,
+        "blob-carrier": 496609
+      }
+    },
+    {
+      "block": 26277155,
+      "txs": 305,
+      "gas_used": 37637813,
+      "gas_by_class": {
+        "trade": 12042796,
+        "token-move": 18559909,
+        "other-call": 4153321,
+        "oracle": 136430,
+        "eth-transfer": 1852103,
+        "blob-carrier": 356136,
+        "reverted": 537118
+      }
+    },
+    {
+      "block": 26277407,
+      "txs": 266,
+      "gas_used": 30225577,
+      "gas_by_class": {
+        "trade": 6898682,
+        "token-move": 15853826,
+        "eth-transfer": 1596743,
+        "other-call": 3866484,
+        "blob-carrier": 42000,
+        "oracle": 117342,
+        "bridge": 380771,
+        "rollup-settle": 487424,
+        "lend-or-pool": 635052,
+        "reverted": 347253
+      }
+    },
+    {
+      "block": 26277659,
+      "txs": 344,
+      "gas_used": 44359043,
+      "gas_by_class": {
+        "trade": 12601247,
+        "other-call": 9016393,
+        "token-move": 17774702,
+        "eth-transfer": 1702189,
+        "blob-carrier": 554682,
+        "reverted": 2319391,
+        "lend-or-pool": 390439
+      }
+    },
+    {
+      "block": 26277911,
+      "txs": 303,
+      "gas_used": 26637542,
+      "gas_by_class": {
+        "trade": 5499530,
+        "eth-transfer": 2131069,
+        "token-move": 12554164,
+        "blob-carrier": 777910,
+        "other-call": 3172600,
+        "reverted": 123456,
+        "oracle": 145195,
+        "lend-or-pool": 620903,
+        "bridge": 644623,
+        "create": 435993,
+        "rollup-settle": 532099
+      }
+    },
+    {
+      "block": 26278163,
+      "txs": 192,
+      "gas_used": 11082311,
+      "gas_by_class": {
+        "token-move": 6956973,
+        "eth-transfer": 2292894,
+        "blob-carrier": 629685,
+        "other-call": 838753,
+        "trade": 183220,
+        "reverted": 26733,
+        "rollup-settle": 154053
+      }
+    },
+    {
+      "block": 26278415,
+      "txs": 251,
+      "gas_used": 25290206,
+      "gas_by_class": {
+        "trade": 8709781,
+        "token-move": 11695783,
+        "eth-transfer": 1176278,
+        "other-call": 1692040,
+        "blob-carrier": 671129,
+        "bridge": 275944,
+        "rollup-settle": 487436,
+        "reverted": 581815
+      }
+    },
+    {
+      "block": 26278667,
+      "txs": 496,
+      "gas_used": 55591890,
+      "gas_by_class": {
+        "eth-transfer": 4796207,
+        "trade": 12532492,
+        "token-move": 34234318,
+        "blob-carrier": 364561,
+        "other-call": 2813405,
+        "lend-or-pool": 372481,
+        "reverted": 377392,
+        "bridge": 101034
+      }
+    },
+    {
+      "block": 26278919,
+      "txs": 241,
+      "gas_used": 21667842,
+      "gas_by_class": {
+        "trade": 10276133,
+        "other-call": 1162268,
+        "token-move": 8030678,
+        "eth-transfer": 1365110,
+        "blob-carrier": 658990,
+        "rollup-settle": 174663
+      }
+    },
+    {
+      "block": 26279171,
+      "txs": 308,
+      "gas_used": 27097353,
+      "gas_by_class": {
+        "trade": 9152633,
+        "other-call": 4404091,
+        "eth-transfer": 2340697,
+        "token-move": 10669689,
+        "blob-carrier": 282992,
+        "reverted": 72576,
+        "rollup-settle": 174675
+      }
+    },
+    {
+      "block": 26279423,
+      "txs": 372,
+      "gas_used": 33593062,
+      "gas_by_class": {
+        "token-move": 13475450,
+        "trade": 9705592,
+        "eth-transfer": 2816847,
+        "blob-carrier": 122572,
+        "other-call": 6600173,
+        "reverted": 428005,
+        "rollup-settle": 154041,
+        "lend-or-pool": 290382
+      }
+    },
+    {
+      "block": 26279675,
+      "txs": 462,
+      "gas_used": 28578847,
+      "gas_by_class": {
+        "eth-transfer": 5460067,
+        "other-call": 5204634,
+        "token-move": 11983495,
+        "trade": 5041215,
+        "oracle": 183177,
+        "lend-or-pool": 184689,
+        "create": 521570
+      }
+    },
+    {
+      "block": 26279927,
+      "txs": 239,
+      "gas_used": 57343048,
+      "gas_by_class": {
+        "trade": 5014305,
+        "reverted": 203829,
+        "token-move": 6561756,
+        "other-call": 43631725,
+        "blob-carrier": 42000,
+        "eth-transfer": 1469745,
+        "bridge": 419688
+      }
+    },
+    {
+      "block": 26280179,
+      "txs": 128,
+      "gas_used": 9911504,
+      "gas_by_class": {
+        "token-move": 4727907,
+        "eth-transfer": 1293498,
+        "other-call": 1143666,
+        "blob-carrier": 165456,
+        "trade": 1301096,
+        "reverted": 23320,
+        "bridge": 1256561
+      }
+    },
+    {
+      "block": 26280431,
+      "txs": 319,
+      "gas_used": 33527198,
+      "gas_by_class": {
+        "trade": 13140014,
+        "token-move": 9263459,
+        "eth-transfer": 1759197,
+        "other-call": 4163393,
+        "reverted": 475375,
+        "lend-or-pool": 57670,
+        "bridge": 3904711,
+        "blob-carrier": 680720,
+        "rollup-settle": 82659
+      }
+    },
+    {
+      "block": 26280683,
+      "txs": 267,
+      "gas_used": 30912184,
+      "gas_by_class": {
+        "trade": 10685417,
+        "eth-transfer": 1222975,
+        "token-move": 10810666,
+        "blob-carrier": 351797,
+        "other-call": 3520722,
+        "reverted": 490970,
+        "bridge": 1697894,
+        "lend-or-pool": 263850,
+        "create": 1867893
+      }
+    },
+    {
+      "block": 26280935,
+      "txs": 235,
+      "gas_used": 55790741,
+      "gas_by_class": {
+        "trade": 11190075,
+        "eth-transfer": 720437,
+        "token-move": 9312585,
+        "other-call": 31490392,
+        "reverted": 504118,
+        "rollup-settle": 154575,
+        "bridge": 2081621,
+        "lend-or-pool": 336938
+      }
+    },
+    {
+      "block": 26281187,
+      "txs": 250,
+      "gas_used": 52597961,
+      "gas_by_class": {
+        "trade": 23561427,
+        "other-call": 1357758,
+        "eth-transfer": 1333632,
+        "token-move": 24447229,
+        "reverted": 797822,
+        "rollup-settle": 609023,
+        "lend-or-pool": 133537,
+        "blob-carrier": 357533
+      }
+    },
+    {
+      "block": 26281439,
+      "txs": 152,
+      "gas_used": 23143895,
+      "gas_by_class": {
+        "trade": 9864658,
+        "token-move": 7703187,
+        "eth-transfer": 901800,
+        "other-call": 1910356,
+        "reverted": 544124,
+        "bridge": 1223650,
+        "lend-or-pool": 387100,
+        "blob-carrier": 609020
+      }
+    },
+    {
+      "block": 26281691,
+      "txs": 208,
+      "gas_used": 30641911,
+      "gas_by_class": {
+        "trade": 18389910,
+        "other-call": 2326128,
+        "blob-carrier": 63000,
+        "token-move": 8553162,
+        "eth-transfer": 752554,
+        "reverted": 304388,
+        "lend-or-pool": 98716,
+        "rollup-settle": 154053
+      }
+    },
+    {
+      "block": 26281943,
+      "txs": 251,
+      "gas_used": 32174233,
+      "gas_by_class": {
+        "trade": 9009141,
+        "token-move": 15805100,
+        "eth-transfer": 1428728,
+        "other-call": 2668629,
+        "create": 1647394,
+        "rollup-settle": 406741,
+        "reverted": 1208500
+      }
+    },
+    {
+      "block": 26282195,
+      "txs": 150,
+      "gas_used": 18682974,
+      "gas_by_class": {
+        "trade": 5034906,
+        "token-move": 6364248,
+        "eth-transfer": 588118,
+        "other-call": 4796082,
+        "blob-carrier": 356121,
+        "bridge": 1080764,
+        "reverted": 462735
+      }
+    },
+    {
+      "block": 26282447,
+      "txs": 299,
+      "gas_used": 43364843,
+      "gas_by_class": {
+        "trade": 16393245,
+        "other-call": 11434119,
+        "eth-transfer": 2100361,
+        "token-move": 10790967,
+        "bridge": 933507,
+        "blob-carrier": 42000,
+        "reverted": 1483511,
+        "lend-or-pool": 187133
+      }
+    },
+    {
+      "block": 26282699,
+      "txs": 181,
+      "gas_used": 21549348,
+      "gas_by_class": {
+        "trade": 7405448,
+        "eth-transfer": 1129341,
+        "token-move": 7634805,
+        "bridge": 176259,
+        "other-call": 394186,
+        "create": 4809309
+      }
+    },
+    {
+      "block": 26282951,
+      "txs": 282,
+      "gas_used": 22746050,
+      "gas_by_class": {
+        "trade": 4570134,
+        "token-move": 9261065,
+        "other-call": 5794968,
+        "eth-transfer": 2104302,
+        "reverted": 608086,
+        "blob-carrier": 203118,
+        "lend-or-pool": 204377
+      }
+    },
+    {
+      "block": 26283203,
+      "txs": 226,
+      "gas_used": 29805150,
+      "gas_by_class": {
+        "trade": 6978236,
+        "other-call": 6832034,
+        "token-move": 13631498,
+        "eth-transfer": 1197163,
+        "create": 946124,
+        "lend-or-pool": 120135,
+        "reverted": 99960
+      }
+    },
+    {
+      "block": 26283455,
+      "txs": 453,
+      "gas_used": 38340656,
+      "gas_by_class": {
+        "trade": 7508725,
+        "other-call": 19794491,
+        "token-move": 7191038,
+        "eth-transfer": 1029162,
+        "reverted": 435245,
+        "create": 2033556,
+        "blob-carrier": 348439
+      }
+    },
+    {
+      "block": 26283707,
+      "txs": 398,
+      "gas_used": 32720714,
+      "gas_by_class": {
+        "trade": 5930856,
+        "token-move": 16012964,
+        "eth-transfer": 1470463,
+        "other-call": 5516983,
+        "rollup-settle": 310320,
+        "create": 2122524,
+        "oracle": 1159380,
+        "blob-carrier": 21000,
+        "reverted": 176224
+      }
+    },
+    {
+      "block": 26283959,
+      "txs": 291,
+      "gas_used": 23300769,
+      "gas_by_class": {
+        "other-call": 2371964,
+        "token-move": 10971832,
+        "eth-transfer": 2809161,
+        "trade": 6378298,
+        "blob-carrier": 350607,
+        "create": 90587,
+        "lend-or-pool": 95357,
+        "reverted": 232963
+      }
+    },
+    {
+      "block": 26284211,
+      "txs": 291,
+      "gas_used": 34438672,
+      "gas_by_class": {
+        "trade": 12301451,
+        "token-move": 14161032,
+        "blob-carrier": 428092,
+        "lend-or-pool": 969022,
+        "eth-transfer": 1239432,
+        "other-call": 3253223,
+        "reverted": 1650366,
+        "bridge": 436054
+      }
+    },
+    {
+      "block": 26284463,
+      "txs": 245,
+      "gas_used": 33236167,
+      "gas_by_class": {
+        "trade": 9993896,
+        "token-move": 13467124,
+        "eth-transfer": 1323118,
+        "other-call": 7331282,
+        "reverted": 31582,
+        "blob-carrier": 186456,
+        "bridge": 902709
+      }
+    },
+    {
+      "block": 26284715,
+      "txs": 261,
+      "gas_used": 34310690,
+      "gas_by_class": {
+        "trade": 14914397,
+        "token-move": 9610330,
+        "reverted": 928161,
+        "eth-transfer": 1612451,
+        "oracle": 141550,
+        "other-call": 1166906,
+        "blob-carrier": 63000,
+        "rollup-settle": 699150,
+        "lend-or-pool": 361979,
+        "create": 4812766
+      }
+    },
+    {
+      "block": 26284967,
+      "txs": 164,
+      "gas_used": 14364977,
+      "gas_by_class": {
+        "reverted": 524667,
+        "trade": 5739966,
+        "token-move": 5416678,
+        "eth-transfer": 1168352,
+        "blob-carrier": 181770,
+        "other-call": 1079971,
+        "lend-or-pool": 253573
+      }
+    },
+    {
+      "block": 26285219,
+      "txs": 350,
+      "gas_used": 32851354,
+      "gas_by_class": {
+        "trade": 10194907,
+        "token-move": 15792521,
+        "other-call": 3370332,
+        "eth-transfer": 1491117,
+        "bridge": 696705,
+        "reverted": 577697,
+        "blob-carrier": 394744,
+        "lend-or-pool": 333331
+      }
+    },
+    {
+      "block": 26285471,
+      "txs": 251,
+      "gas_used": 25178379,
+      "gas_by_class": {
+        "token-move": 14518869,
+        "eth-transfer": 1098919,
+        "trade": 7552888,
+        "other-call": 1866219,
+        "blob-carrier": 42000,
+        "reverted": 99484
+      }
+    },
+    {
+      "block": 26285723,
+      "txs": 208,
+      "gas_used": 27791614,
+      "gas_by_class": {
+        "trade": 4698232,
+        "token-move": 13960591,
+        "reverted": 527496,
+        "eth-transfer": 1558945,
+        "other-call": 5840379,
+        "lend-or-pool": 442633,
+        "bridge": 742338,
+        "blob-carrier": 21000
+      }
+    },
+    {
+      "block": 26285975,
+      "txs": 137,
+      "gas_used": 59974825,
+      "gas_by_class": {
+        "trade": 856012,
+        "token-move": 6652736,
+        "reverted": 33360,
+        "eth-transfer": 672173,
+        "blob-carrier": 75536,
+        "other-call": 789954,
+        "create": 50895054
+      }
+    },
+    {
+      "block": 26286227,
+      "txs": 215,
+      "gas_used": 31970057,
+      "gas_by_class": {
+        "trade": 15580132,
+        "token-move": 11621638,
+        "eth-transfer": 1155118,
+        "lend-or-pool": 257023,
+        "oracle": 135926,
+        "other-call": 1721599,
+        "reverted": 945298,
+        "bridge": 408867,
+        "blob-carrier": 144456
+      }
+    },
+    {
+      "block": 26286479,
+      "txs": 244,
+      "gas_used": 26439919,
+      "gas_by_class": {
+        "trade": 2943484,
+        "rollup-settle": 456469,
+        "eth-transfer": 1617146,
+        "token-move": 18079941,
+        "bridge": 306704,
+        "blob-carrier": 249456,
+        "other-call": 2116247,
+        "reverted": 200412,
+        "lend-or-pool": 180132,
+        "oracle": 289928
+      }
+    },
+    {
+      "block": 26286731,
+      "txs": 490,
+      "gas_used": 54215354,
+      "gas_by_class": {
+        "trade": 19283787,
+        "reverted": 1481474,
+        "eth-transfer": 2609626,
+        "token-move": 25928993,
+        "blob-carrier": 389512,
+        "other-call": 2596313,
+        "bridge": 431254,
+        "lend-or-pool": 633554,
+        "rollup-settle": 641465,
+        "create": 219376
+      }
+    },
+    {
+      "block": 26286983,
+      "txs": 256,
+      "gas_used": 34174682,
+      "gas_by_class": {
+        "trade": 9483676,
+        "token-move": 15906122,
+        "eth-transfer": 1906032,
+        "blob-carrier": 418234,
+        "other-call": 4357489,
+        "oracle": 144991,
+        "reverted": 995123,
+        "create": 963015
+      }
+    },
+    {
+      "block": 26287235,
+      "txs": 333,
+      "gas_used": 30764677,
+      "gas_by_class": {
+        "trade": 10732033,
+        "token-move": 15517284,
+        "eth-transfer": 1512240,
+        "blob-carrier": 42000,
+        "other-call": 2018948,
+        "lend-or-pool": 313620,
+        "reverted": 517316,
+        "create": 111236
+      }
+    },
+    {
+      "block": 26287487,
+      "txs": 234,
+      "gas_used": 21348273,
+      "gas_by_class": {
+        "trade": 7661936,
+        "token-move": 9410154,
+        "eth-transfer": 2295569,
+        "blob-carrier": 42000,
+        "other-call": 1462427,
+        "lend-or-pool": 322194,
+        "rollup-settle": 153993
+      }
+    },
+    {
+      "block": 26287739,
+      "txs": 359,
+      "gas_used": 44332078,
+      "gas_by_class": {
+        "token-move": 18829553,
+        "eth-transfer": 1828667,
+        "other-call": 10101435,
+        "trade": 9603250,
+        "blob-carrier": 189861,
+        "reverted": 626373,
+        "rollup-settle": 808955,
+        "bridge": 925994,
+        "lend-or-pool": 1417990
+      }
+    },
+    {
+      "block": 26287991,
+      "txs": 266,
+      "gas_used": 45124096,
+      "gas_by_class": {
+        "trade": 20593806,
+        "token-move": 16165919,
+        "other-call": 5230797,
+        "eth-transfer": 1365219,
+        "lend-or-pool": 1513328,
+        "reverted": 192027,
+        "blob-carrier": 63000
+      }
+    },
+    {
+      "block": 26288243,
+      "txs": 67,
+      "gas_used": 4717560,
+      "gas_by_class": {
+        "eth-transfer": 603934,
+        "token-move": 1938704,
+        "blob-carrier": 361254,
+        "other-call": 901778,
+        "reverted": 586153,
+        "trade": 180066,
+        "rollup-settle": 145671
+      }
+    },
+    {
+      "block": 26288495,
+      "txs": 99,
+      "gas_used": 8290357,
+      "gas_by_class": {
+        "token-move": 4935185,
+        "other-call": 1054888,
+        "eth-transfer": 588118,
+        "blob-carrier": 361066,
+        "trade": 1204318,
+        "lend-or-pool": 146782
+      }
+    },
+    {
+      "block": 26288747,
+      "txs": 91,
+      "gas_used": 4667502,
+      "gas_by_class": {
+        "eth-transfer": 1008055,
+        "token-move": 2008039,
+        "blob-carrier": 21000,
+        "other-call": 636185,
+        "reverted": 537410,
+        "trade": 456813
+      }
+    },
+    {
+      "block": 26288999,
+      "txs": 284,
+      "gas_used": 32868676,
+      "gas_by_class": {
+        "trade": 7842951,
+        "token-move": 13266312,
+        "rollup-settle": 532813,
+        "eth-transfer": 2011381,
+        "other-call": 8488366,
+        "oracle": 280821,
+        "lend-or-pool": 103154,
+        "blob-carrier": 165456,
+        "reverted": 177422
+      }
+    },
+    {
+      "block": 26289251,
+      "txs": 86,
+      "gas_used": 6242452,
+      "gas_by_class": {
+        "token-move": 4465784,
+        "eth-transfer": 561816,
+        "blob-carrier": 42000,
+        "other-call": 738772,
+        "create": 121578,
+        "trade": 158437,
+        "rollup-settle": 154065
+      }
+    },
+    {
+      "block": 26289503,
+      "txs": 301,
+      "gas_used": 29376993,
+      "gas_by_class": {
+        "trade": 8024022,
+        "token-move": 17068345,
+        "rollup-settle": 456494,
+        "other-call": 2041165,
+        "eth-transfer": 1107843,
+        "reverted": 72899,
+        "lend-or-pool": 606225
+      }
+    },
+    {
+      "block": 26289755,
+      "txs": 188,
+      "gas_used": 25271291,
+      "gas_by_class": {
+        "trade": 7846264,
+        "token-move": 9834276,
+        "eth-transfer": 882000,
+        "lend-or-pool": 667278,
+        "other-call": 1329917,
+        "blob-carrier": 21000,
+        "create": 4690556
+      }
+    },
+    {
+      "block": 26290007,
+      "txs": 381,
+      "gas_used": 55401105,
+      "gas_by_class": {
+        "token-move": 16956840,
+        "eth-transfer": 2577938,
+        "trade": 16285996,
+        "other-call": 17461363,
+        "lend-or-pool": 791185,
+        "reverted": 742806,
+        "bridge": 97577,
+        "rollup-settle": 487400
+      }
+    },
+    {
+      "block": 26290259,
+      "txs": 334,
+      "gas_used": 59360133,
+      "gas_by_class": {
+        "token-move": 20538502,
+        "eth-transfer": 1386272,
+        "trade": 10574833,
+        "other-call": 18957511,
+        "reverted": 249371,
+        "lend-or-pool": 1118192,
+        "create": 6535452
+      }
+    },
+    {
+      "block": 26290511,
+      "txs": 358,
+      "gas_used": 29895495,
+      "gas_by_class": {
+        "trade": 10004587,
+        "token-move": 11996193,
+        "other-call": 1491939,
+        "eth-transfer": 3422927,
+        "oracle": 135830,
+        "reverted": 400136,
+        "lend-or-pool": 896397,
+        "blob-carrier": 21000,
+        "rollup-settle": 118555,
+        "bridge": 1407931
+      }
+    },
+    {
+      "block": 26290763,
+      "txs": 266,
+      "gas_used": 27485785,
+      "gas_by_class": {
+        "token-move": 17867262,
+        "eth-transfer": 2247118,
+        "trade": 4903157,
+        "other-call": 1703170,
+        "rollup-settle": 456494,
+        "blob-carrier": 254890,
+        "reverted": 53694
+      }
+    },
+    {
+      "block": 26291015,
+      "txs": 71,
+      "gas_used": 12305529,
+      "gas_by_class": {
+        "token-move": 3256746,
+        "eth-transfer": 449855,
+        "reverted": 78889,
+        "other-call": 107526,
+        "trade": 8412513
+      }
+    },
+    {
+      "block": 26291267,
+      "txs": 305,
+      "gas_used": 35035824,
+      "gas_by_class": {
+        "trade": 10178679,
+        "token-move": 14445139,
+        "eth-transfer": 1363608,
+        "other-call": 6713090,
+        "lend-or-pool": 1112275,
+        "reverted": 844204,
+        "bridge": 378829
+      }
+    },
+    {
+      "block": 26291519,
+      "txs": 240,
+      "gas_used": 49428412,
+      "gas_by_class": {
+        "eth-transfer": 1318102,
+        "trade": 9047928,
+        "token-move": 35375022,
+        "bridge": 418969,
+        "reverted": 784355,
+        "other-call": 2070496,
+        "rollup-settle": 82587,
+        "lend-or-pool": 330953
+      }
+    },
+    {
+      "block": 26291771,
+      "txs": 172,
+      "gas_used": 16877603,
+      "gas_by_class": {
+        "trade": 6600620,
+        "token-move": 7555530,
+        "eth-transfer": 840117,
+        "other-call": 1597140,
+        "lend-or-pool": 284196
+      }
+    },
+    {
+      "block": 26292023,
+      "txs": 277,
+      "gas_used": 27231320,
+      "gas_by_class": {
+        "trade": 5289884,
+        "token-move": 15873379,
+        "reverted": 1415617,
+        "other-call": 2312531,
+        "eth-transfer": 1491343,
+        "oracle": 136034,
+        "blob-carrier": 186456,
+        "rollup-settle": 367836,
+        "lend-or-pool": 158240
+      }
+    },
+    {
+      "block": 26292275,
+      "txs": 241,
+      "gas_used": 25163129,
+      "gas_by_class": {
+        "trade": 8015378,
+        "token-move": 9429072,
+        "eth-transfer": 1513943,
+        "other-call": 5342528,
+        "blob-carrier": 165456,
+        "reverted": 585516,
+        "create": 111236
+      }
+    },
+    {
+      "block": 26292527,
+      "txs": 295,
+      "gas_used": 41532058,
+      "gas_by_class": {
+        "trade": 8867380,
+        "lend-or-pool": 981905,
+        "token-move": 17534709,
+        "other-call": 11396567,
+        "eth-transfer": 1509909,
+        "blob-carrier": 252861,
+        "reverted": 731844,
+        "create": 111224,
+        "rollup-settle": 145659
+      }
+    },
+    {
+      "block": 26292779,
+      "txs": 242,
+      "gas_used": 26756478,
+      "gas_by_class": {
+        "trade": 11198905,
+        "other-call": 1606898,
+        "token-move": 11346732,
+        "eth-transfer": 939862,
+        "reverted": 897061,
+        "blob-carrier": 457521,
+        "lend-or-pool": 309499
+      }
+    },
+    {
+      "block": 26293031,
+      "txs": 234,
+      "gas_used": 34756501,
+      "gas_by_class": {
+        "trade": 6200870,
+        "token-move": 11722056,
+        "blob-carrier": 63000,
+        "other-call": 15006808,
+        "eth-transfer": 1491163,
+        "lend-or-pool": 201434,
+        "reverted": 71170
+      }
+    },
+    {
+      "block": 26293283,
+      "txs": 381,
+      "gas_used": 48943861,
+      "gas_by_class": {
+        "token-move": 21537997,
+        "blob-carrier": 380013,
+        "eth-transfer": 1821969,
+        "trade": 9399356,
+        "other-call": 12688226,
+        "lend-or-pool": 2852358,
+        "reverted": 131717,
+        "oracle": 132225
+      }
+    },
+    {
+      "block": 26293535,
+      "txs": 248,
+      "gas_used": 24159631,
+      "gas_by_class": {
+        "trade": 9349577,
+        "token-move": 10397824,
+        "eth-transfer": 1869279,
+        "reverted": 179604,
+        "blob-carrier": 21000,
+        "other-call": 1533537,
+        "oracle": 259852,
+        "lend-or-pool": 313657,
+        "create": 235301
+      }
+    },
+    {
+      "block": 26293787,
+      "txs": 260,
+      "gas_used": 20361474,
+      "gas_by_class": {
+        "other-call": 874233,
+        "token-move": 14263651,
+        "trade": 1952494,
+        "eth-transfer": 1934741,
+        "blob-carrier": 707324,
+        "lend-or-pool": 492379,
+        "reverted": 136652
+      }
+    },
+    {
+      "block": 26294039,
+      "txs": 280,
+      "gas_used": 28518814,
+      "gas_by_class": {
+        "trade": 5097634,
+        "eth-transfer": 2205440,
+        "token-move": 19188943,
+        "other-call": 1455967,
+        "lend-or-pool": 570830
+      }
+    },
+    {
+      "block": 26294291,
+      "txs": 278,
+      "gas_used": 28314849,
+      "gas_by_class": {
+        "trade": 3553178,
+        "other-call": 2133155,
+        "token-move": 19113515,
+        "validator-deposit": 50502,
+        "eth-transfer": 2178878,
+        "blob-carrier": 42000,
+        "create": 849681,
+        "bridge": 393940
+      }
+    },
+    {
+      "block": 26294543,
+      "txs": 167,
+      "gas_used": 26270799,
+      "gas_by_class": {
+        "trade": 8563890,
+        "token-move": 5943503,
+        "eth-transfer": 1191918,
+        "blob-carrier": 276844,
+        "other-call": 9978314,
+        "reverted": 316330
+      }
+    },
+    {
+      "block": 26294795,
+      "txs": 342,
+      "gas_used": 56819095,
+      "gas_by_class": {
+        "trade": 18567437,
+        "token-move": 13513621,
+        "eth-transfer": 1701681,
+        "other-call": 19625424,
+        "bridge": 212669,
+        "reverted": 1547921,
+        "rollup-settle": 494831,
+        "blob-carrier": 231861,
+        "lend-or-pool": 812402,
+        "create": 111248
+      }
+    },
+    {
+      "block": 26295047,
+      "txs": 253,
+      "gas_used": 24524178,
+      "gas_by_class": {
+        "trade": 6238539,
+        "token-move": 11905797,
+        "eth-transfer": 1008228,
+        "other-call": 3865084,
+        "reverted": 464722,
+        "lend-or-pool": 554396,
+        "rollup-settle": 487412
+      }
+    },
+    {
+      "block": 26295299,
+      "txs": 249,
+      "gas_used": 44163685,
+      "gas_by_class": {
+        "trade": 28341943,
+        "token-move": 6794050,
+        "eth-transfer": 1722113,
+        "other-call": 6760487,
+        "reverted": 461092,
+        "blob-carrier": 84000
+      }
+    },
+    {
+      "block": 26295551,
+      "txs": 178,
+      "gas_used": 19230303,
+      "gas_by_class": {
+        "trade": 8250248,
+        "token-move": 6084587,
+        "eth-transfer": 718961,
+        "bridge": 1524113,
+        "other-call": 2261797,
+        "reverted": 321166,
+        "lend-or-pool": 69431
+      }
+    },
+    {
+      "block": 26295803,
+      "txs": 157,
+      "gas_used": 23409116,
+      "gas_by_class": {
+        "trade": 7337106,
+        "other-call": 2623182,
+        "token-move": 11648766,
+        "eth-transfer": 1050000,
+        "rollup-settle": 487496,
+        "blob-carrier": 144456,
+        "reverted": 118110
+      }
+    }
+  ],
+  "exclusions": "classes by event, first match wins, in the documented order; precompile gas is a lower bound on verification gas; execution gas only, blob gas separate; storage writes not separated; one provider, one sample, a spot reading"
+}
