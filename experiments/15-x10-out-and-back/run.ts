@@ -79,11 +79,17 @@ for (const r of [X.treeRegistry, X.appendRegistry]) {
 }
 
 const LIQUIDITY_ETH = 2n * 10n ** 16n
-const LIQUIDITY_TOKEN = 10n ** 24n
+// One token (10^18 units): every swap's output then stays below 2^64, the width of a note's value
+// in the kernel. Pass d3 seeded 10^24 and its first swap's output overflowed it (README, passes).
+const LIQUIDITY_TOKEN = 10n ** 18n
 await setupTx('liquidity: the token minted to the pool, and ether', [
   X.callFrame(X.token.address, encodeFunctionData({ abi: X.tokenAbi, functionName: 'mint', args: [X.amm.address, LIQUIDITY_TOKEN] })),
   X.callFrame(X.amm.address, encodeFunctionData({ abi: X.ammAbi, functionName: 'addEther' }), LIQUIDITY_ETH),
 ])
+{
+  const q = BigInt(await chain.readContract({ address: X.amm.address, abi: X.ammAbi, functionName: 'quote', args: [4n * X.DENOMINATION] }))
+  if (q >= 1n << 64n) throw new Error(`a round's output, ${q}, would not fit a 64-bit note value`)
+}
 const FLOAT = 10n ** 16n
 await setupTx('a float for each registry', [X.callFrame(X.treeRegistry.address, '0x', FLOAT, 50_000n, 0n), X.callFrame(X.appendRegistry.address, '0x', FLOAT, 50_000n, 0n)])
 
