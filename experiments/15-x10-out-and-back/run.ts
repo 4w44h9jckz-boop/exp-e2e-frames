@@ -136,6 +136,11 @@ try {
 
   /** The registry's events in one transaction. */
   async function eventsIn(r: X.Registry, hash: Hex, blockHash: Hex) {
+    // Every transaction a registry sends logs something; wait for a node that has the block.
+    await X.settled('the transaction\'s logs', async () => {
+      const logs = await chain.getLogs({ address: r.address, blockHash } as never)
+      return (logs as unknown as { transactionHash: Hex }[]).some((l) => l.transactionHash === hash) ? true : undefined
+    })
     type Picked = { transactionHash: Hex; args: Record<string, unknown> }
     const pick = async <E extends (typeof X.EVENTS)[keyof typeof X.EVENTS]>(event: E) => ((await chain.getLogs({ address: r.address, event, blockHash } as never)) as unknown as Picked[]).filter((l) => l.transactionHash === hash)
     return {
@@ -148,14 +153,19 @@ try {
 
   /** The tree a spend proves against: every leaf (MODE 0), or the batched ones (MODE 1). */
   async function treeFor(r: X.Registry) {
-    const all = await X.leavesOf(chain, r)
-    const leaves = r.mode === X.MODE.TREE ? all : all.slice(0, Number(await X.read(chain, r, 'batchedCount')))
-    const tree = X.treeOf(leaves)
-    const onChain = await X.read(chain, r, 'root')
-    if (onChain !== tree.root) throw new Error(`root mismatch: chain ${onChain.toString(16)}, local ${tree.root.toString(16)}`)
-    const slot = await X.rootSlot(chain, r, tree.root)
-    if (slot === undefined) throw new Error('the root was never published to EIP-8272')
-    return { all, leaves, tree, slot }
+    // The logs, the counters and the root can come from nodes that lag one another: wait until
+    // they agree, with the leaf count the registry reports.
+    return X.settled(`the ${r.label} tree`, async () => {
+      const count = Number(await X.read(chain, r, 'leafCount'))
+      const all = await X.leavesOf(chain, r)
+      if (all.length !== count) return undefined
+      const leaves = r.mode === X.MODE.TREE ? all : all.slice(0, Number(await X.read(chain, r, 'batchedCount')))
+      const tree = X.treeOf(leaves)
+      if ((await X.read(chain, r, 'root')) !== tree.root) return undefined
+      const slot = await X.rootSlot(chain, r, tree.root)
+      if (slot === undefined) return undefined
+      return { all, leaves, tree, slot }
+    })
   }
   const indexOf = (leaves: bigint[], leaf: bigint) => {
     const i = leaves.indexOf(leaf)
@@ -240,7 +250,10 @@ try {
 
   // ---- the append registry: the first batch, R2, the round ----
   const batchOf = async (name: string, start: number) => {
-    const all = await X.leavesOf(chain, X.appendRegistry)
+    const all = await X.settled('the append registry\'s leaves', async () => {
+      const ls = await X.leavesOf(chain, X.appendRegistry)
+      return ls.length === Number(await X.read(chain, X.appendRegistry, 'leafCount')) ? ls : undefined
+    })
     const bw = await X.batchWords(all, start)
     proving[name] = bw.ms
     return step(name, X.batchTx({ chainId, r: X.appendRegistry, words: bw.words }), 'mined', { start, newRoot: `0x${bw.newRoot.toString(16)}` })
@@ -271,7 +284,10 @@ try {
 
     // Fill to sixteen leaves, then a batch over leaves the registry never took in, refused.
     await setupTx('three more deposits into the append registry', ['fill3', 'fill4', 'fill5'].map((l) => X.depositFrame(X.appendRegistry, X.innerOf(note(secretsOf(l))), X.DENOMINATION)))
-    const all = await X.leavesOf(chain, X.appendRegistry)
+    const all = await X.settled('sixteen leaves', async () => {
+      const ls = await X.leavesOf(chain, X.appendRegistry)
+      return ls.length === 16 ? ls : undefined
+    })
     const forged = [...all.slice(0, 8), all[9], all[8], ...all.slice(10)]
     const bad = await X.batchWords(forged, 8)
     await step('F5: a batch whose leaves are not the accumulator\'s', X.batchTx({ chainId, r: X.appendRegistry, words: bad.words }), 'refused')

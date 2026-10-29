@@ -223,8 +223,27 @@ export async function rootSlot(client: PublicClient, r: Registry, root: bigint):
   return logs.filter((l) => hexToBigInt(l.args.root as Hex) === root).at(-1)?.args.slot
 }
 
+/**
+ * The testnet's RPC sits behind a balancer whose nodes can lag one another, so a read just after
+ * a transaction can reach a node that has not seen it. Retry until `f` answers, for a while.
+ */
+export async function settled<T>(what: string, f: () => Promise<T | undefined>, ms = 120_000): Promise<T> {
+  const deadline = Date.now() + ms
+  let last: unknown
+  while (Date.now() < deadline) {
+    try {
+      const v = await f()
+      if (v !== undefined) return v
+    } catch (e) {
+      last = e
+    }
+    await new Promise((res) => setTimeout(res, 3_000))
+  }
+  throw new Error(`${what}: no settled answer after ${ms} ms${last ? `: ${(last as Error).message.split('\n')[0]}` : ''}`)
+}
+
 export async function read(client: PublicClient, r: Registry, fn: 'root' | 'leafCount' | 'batchedCount' | 'accumulator'): Promise<bigint> {
-  return BigInt(await client.readContract({ address: r.address, abi: registryAbi, functionName: fn }))
+  return settled(`${fn}()`, async () => BigInt(await client.readContract({ address: r.address, abi: registryAbi, functionName: fn })))
 }
 
 export async function isUsed(client: PublicClient, r: Registry, key: bigint): Promise<boolean> {
