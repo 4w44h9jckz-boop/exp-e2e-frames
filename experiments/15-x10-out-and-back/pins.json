@@ -1,0 +1,17 @@
+{
+  "skandha": {
+    "url": "https://github.com/4w44h9jckz-boop/skandha",
+    "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade",
+    "why": "two nodes with frame transactions on, B alone handing transactions to the chain; the commit experiments 06 to 14 ran"
+  },
+  "co-snarks": {
+    "url": "https://github.com/TaceoLabs/co-snarks",
+    "commit": "436f63fa17f2f10ece38c6650df68da99fbc0307",
+    "why": "co-circom (REP3) for the round's three-member committee, as experiment 13 ran it"
+  },
+  "exp-frames": {
+    "url": "https://github.com/4w44h9jckz-boop/exp-frames",
+    "commit": "37ac4aa36e48a7be390c9cbfedb7bbc31ac6e2b5",
+    "why": "src/exp-frames/ is copied from it (frame encoding, simulation, deployment); Groth16Verifier.yul and the hasher from its experiments 32 and 06"
+  }
+}
