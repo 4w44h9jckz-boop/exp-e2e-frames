@@ -5,14 +5,14 @@
 // expects. The record is written to results/<n>-<label>.json after a search for every secret.
 //
 // usage: X10_DEPLOYMENT=<tag> npx tsx experiments/15-x10-out-and-back/run.ts <n>-<label>
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { type Address, type Hex, concatHex, encodeFunctionData, getAddress, hexToBigInt, keccak256, toHex } from 'viem'
 import { privateKeyToAddress } from 'viem/accounts'
 import { type Node, type Pin, buildSkandha, checkout, linesNaming, loadKey, peersOf, rpcUrlOf, run, startNode, stopNode, until, writeConfig } from '../../src/e2e/index.js'
 import { sendFrames } from '../../src/exp-frames/deploy.js'
-import { type FrameTx, frameReceiptGas, frameReceiptStatus, makeClient, sendFrameTx, simulateFrameTx, waitForFrameTxReceipt } from '../../src/exp-frames/frametx/index.js'
+import { type FrameTx, frameReceiptGas, frameReceiptStatus, frameTxHash, makeClient, sendFrameTx, simulateFrameTx, waitForFrameTxReceipt } from '../../src/exp-frames/frametx/index.js'
 import { committeeProve, loopback } from './committee.js'
 import * as X from './x10.js'
 
@@ -21,6 +21,9 @@ const root = new URL('../../', import.meta.url).pathname
 const work = join(root, 'work')
 const runLabel = process.argv[2]
 if (!runLabel || !/^\d+-[a-z0-9-]+$/.test(runLabel)) throw new Error('usage: run.ts <n>-<label>')
+// The record is written at the end; make its directory now, not after the run (pass d4 lost its
+// record to a missing directory).
+mkdirSync(join(here, 'results'), { recursive: true })
 const pins = JSON.parse(readFileSync(join(here, 'pins.json'), 'utf8')) as Record<string, Pin>
 const { privateKey, address: funder } = loadKey()
 const repoCommit = (await run('git', ['rev-parse', 'HEAD'], { cwd: root })).trim()
@@ -133,7 +136,13 @@ try {
   nodeA = makeClient(rpcUrlOf(a))
   console.log(`A ${a.peerId}, B ${b.peerId}: peered`)
 
-  const logsOf = (log: string, hash: string) => linesNaming(readFileSync(log, 'utf8'), hash).map((l) => ({ msg: l.msg, ...(l.reason ? { reason: l.reason } : {}) }))
+  // A node's lines naming a transaction: what it did with it (rpc, relay, gossip, handoff) and
+  // its verdict, without the head lines' pending lists.
+  const KEEP = ['t', 'event', 'result', 'client', 'outcome', 'agrees', 'peers']
+  const logsOf = (log: string, hash: string) =>
+    linesNaming(log, hash)
+      .filter((l) => l.event !== 'head')
+      .map((l) => Object.fromEntries(KEEP.filter((k) => l[k] !== undefined).map((k) => [k, l[k]])))
 
   /** Simulate; if it says what `expect` says, send to node A; for a mined step, wait for it. */
   async function step(name: string, tx: FrameTx, expect: 'mined' | 'refused', extra: Row = {}) {
@@ -154,8 +163,14 @@ try {
         node = (e as Error).message.split('\n')[0].slice(0, 200)
       }
       if (node === 'admitted') throw new Error(`${name}: node A admitted what simulation refused`)
-      console.log(`${name}: refused (${sim.violation}); node A: ${node}`)
-      rows.push({ step: name, expect, outcome: 'refused', simulation: simRow, nodeA: node, ...extra })
+      // The RPC error is generic; node A's own log line says which check refused it.
+      const hash = frameTxHash(tx)
+      const logged = await until(`node A's line for ${hash}`, async () => {
+        const ls = logsOf(a.log, hash)
+        return ls.length > 0 ? ls : undefined
+      }, 10_000).catch(() => [])
+      console.log(`${name}: refused (${sim.violation}); node A: ${node}; logged ${JSON.stringify(logged)}`)
+      rows.push({ step: name, expect, outcome: 'refused', hash, simulation: simRow, nodeA: node, nodeALog: logged, ...extra })
       return undefined
     }
     if (!sim.valid || sim.executionStatus !== 'success') throw new Error(`${name}: simulation does not admit it: ${JSON.stringify(simRow)}`)
@@ -349,6 +364,7 @@ const record = {
   repoCommit,
   pins,
   chainId: Number(chainId),
+  client: await chain.request({ method: 'web3_clientVersion' } as never),
   contracts: Object.fromEntries(contracts.map((c) => [c.label, c.address])),
   hasher: X.HASHER,
   liquidity: { ether: LIQUIDITY_ETH.toString(), token: LIQUIDITY_TOKEN.toString() },
