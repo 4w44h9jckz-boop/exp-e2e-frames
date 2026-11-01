@@ -89,8 +89,9 @@ export async function postWords(packerKey: Hex, chainId: bigint, board: Address,
 export const postKey = (vh: Hex) => hexToBigInt(keccak256(vh))
 
 export const VERIFY_LIMIT = 100_000n
-// record() writes three fresh slots and two others: 80,000 ran out in pass d2.
-export const SENDER_GAS = { execution: 200_000n, state: 3n * STORAGE_SET_STATE_GAS }
+// record() writes up to four fresh slots: with state for three, the shortfall spilled into
+// execution and exhausted it (passes d2 and d3). With four it used 61,045 execution gas.
+export const SENDER_GAS = { execution: 100_000n, state: 4n * STORAGE_SET_STATE_GAS }
 
 /** The Board as sender and payer: VERIFY, then record(w), carrying `blobs` (normally one). */
 export function postTx(chainId: bigint, board: Address, w: bigint[], blobs: Hex[], key: bigint): FrameTx {

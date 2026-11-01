@@ -75,9 +75,10 @@ object "Board" {
                 // The blob opens at z = 1, its element 0, to the header.
                 if iszero(opens(vh, 1, header, w(2), w(3), w(4))) { revert(0, 0) }
                 key(vh)
-                // The SENDER frame can always finish: three fresh slots and the writes around them.
-                if lt(frameparam(0x01, 1), 60000) { revert(0, 0) }
-                if lt(frameparam(0x09, 1), mul(3, 97920)) { revert(0, 0) }
+                // The SENDER frame can always finish: up to four fresh slots (the count, the first
+                // time; the hash, the header and the recorded mark) and the writes around them.
+                if lt(frameparam(0x01, 1), 80000) { revert(0, 0) }
+                if lt(frameparam(0x09, 1), mul(4, 97920)) { revert(0, 0) }
                 approve(3)
             }
 
