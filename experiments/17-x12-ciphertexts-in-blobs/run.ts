@@ -60,12 +60,15 @@ const fixtures: Record<string, unknown> = {}
 async function pricesOf(url: string) {
   const call = async (method: string, params: unknown[]) => {
     const r = await fetch(url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params }) })
-    return (await r.json()).result
+    const body = await r.json()
+    if (body.error || body.result === undefined) throw new Error(`${url} ${method}: ${JSON.stringify(body.error ?? body)}`)
+    return body.result
   }
   const blk = await call('eth_getBlockByNumber', ['latest', false])
   return { url, block: Number(BigInt(blk.number)), baseFeePerGas: BigInt(blk.baseFeePerGas).toString(), blobBaseFee: BigInt(await call('eth_blobBaseFee', [])).toString() }
 }
-out.prices = { testnet: await pricesOf('https://rpc1.privacy.ethrex.xyz'), mainnet: await pricesOf('https://eth.drpc.org') }
+// drpc's free plan refuses eth_blobBaseFee, so mainnet's prices come from publicnode.
+out.prices = { testnet: await pricesOf('https://rpc1.privacy.ethrex.xyz'), mainnet: await pricesOf('https://ethereum-rpc.publicnode.com') }
 out.client = await chain.request({ method: 'web3_clientVersion' } as never)
 
 // ---- set-up, to the chain directly ----
