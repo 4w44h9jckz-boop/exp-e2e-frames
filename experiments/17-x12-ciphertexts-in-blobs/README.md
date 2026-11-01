@@ -1,8 +1,8 @@
 # Experiment 17 (X12): ciphertexts in blobs, a data-availability layer for post-quantum payments
 
-**Status: pre-registered 2026-11-01**, before any contract, runner or transaction. Predictions,
-what would show each wrong, and the deviations are fixed here; results are added below them and
-nothing above is edited after a run.
+**Status: run 2026-11-01.** Pre-registered the same day, before any contract, runner or transaction,
+and amended once before the run (Amendment 1). Predictions, what would show each wrong, and the
+deviations are fixed; results are added below them and nothing above is edited after a run.
 
 ## The question
 
@@ -161,3 +161,142 @@ The change:
 - Prediction 3's second refusal, "a blob already recorded", is now made by that storage read.
 
 If the next pass also drops a second post, the hypothesis is wrong and that is recorded.
+
+## Results, run 1
+
+`results/1-first-run.json` (deployment d6, at `379a5fb`), and arm 5's
+`results/1-first-run-scan.json`. The client is ethrex `v23.0.0-hegota-testnet-hotfix` at `64b8fc09`.
+The two posted blobs' entries and every mined Board transaction are kept in
+`test/fixtures/x12/1-first-run.json`. `test/x12.test.ts` checks four things offline:
+- it rebuilds each blob to the versioned hash the Board recorded;
+- it recovers the packer's signature on each post;
+- it checks each post's opening at `z = 1` against its header;
+- it checks archiver A's answer at its drawn point.
+
+### Predictions
+
+| # | Held? | What happened |
+|---|---|---|
+| 1 | **in part** | A log announcement cost 103,320 gas, inside 85,000 to 115,000. The 2 percent clause failed: the plain transfer's 12,000 is not the base for a contract call. Every floor-dominated call in the run cost exactly 15,000 + 64 x calldata bytes: two logs and two inclusion proofs, 1,252 to 1,412 bytes. The prediction's formula was 3.0 percent low. |
+| 2 | yes | 107 announcements or 105 notes per blob, so 1,225 and 1,248 blob gas per entry. Each carrier's execution was 12,000 gas whatever it carried. |
+| 3 | yes | Both Board posts were mined with one blob each. `VERIFY` used 59,387, inside 55,000 to 75,000. The wrong header, the recorded blob and the missing blob were each refused in `VERIFY` before inclusion. The recorded blob was refused by Amendment 1's storage read. |
+| 4 | **in part** | skandha at `ede942f` refused the blob-carrying frame transaction, but with `ErrOversizedData`, not `ErrFrameBlobs`. Its size check runs before its blob check. |
+| 5 | yes | Proofs of announcement 40 and note 50 cost 103,320 and 105,368 gas. The proof over announcement 40 with one byte changed reverted. |
+| 6 | yes | A answered both challenges at points drawn from the challenge's own block, for 107,545 gas each. A wrong `y` reverted. B, which was never given the blob, did not answer and was slashed after five blocks, its bond moved to the challenger. |
+| 7 | yes | 40 of 40 entries found in 10,000 of each kind, none missed, no false match. Announcements scanned at 256 per second per core (3.90 ms each), notes at 1,251 (0.80 ms). |
+| 8 | yes | A blob entry cost its poster 325 to 578 times less than a log, at the test network's and mainnet's prices. |
+
+### What one entry costs
+
+Gas and blob gas are from the run. The wei columns price the test network's schedule at mainnet's
+prices read during the run: base fee 34,561,475 wei and blob base fee 1,879,345 wei, at block
+26,316,661. Mainnet's own schedule differs: an intrinsic 21,000, and a 40-per-byte floor until
+EIP-7976. The scheme's measured 69,330 gas on Prague would put a log at about 388 times a blob entry
+rather than 578.
+
+| One announcement | Gas | Blob gas | Wei at mainnet prices |
+|---|---:|---:|---:|
+| as a log | 103,320 | 0 | 3,570,891,597,000 |
+| in a blob, on a plain type-3 carrier | 112 (12,000 / 107) | 1,225 | 6,178,198,204 |
+| in a blob the Board records | 4,921 (526,506 / 107) | 1,225 | |
+
+| One encrypted note | Gas | Blob gas | Wei at mainnet prices |
+|---|---:|---:|---:|
+| as a log | 95,128 | 0 | 3,287,763,993,800 |
+| in a blob, on a plain type-3 carrier | 114 (12,000 / 105) | 1,248 | 6,295,878,169 |
+| in a blob the Board records | 4,082 (428,574 / 105) | 1,248 | |
+
+Most of a Board post is state: 391,680 gas for the first post's four fresh slots and 293,760 for
+the second's three. That is L1 keeping a versioned hash, a header and a recorded mark per blob,
+plus the post count the first time. A board that kept only the hash and put the header in its
+event would keep one slot per blob.
+
+### What the other steps cost
+
+| Step | Gas |
+|---|---:|
+| a Board post, `VERIFY` (one signature, one point evaluation, one storage read) | 59,387 |
+| a Board post, `SENDER` (`record()`), execution | 59,045 |
+| an inclusion proof of one announcement / one note | 103,320 / 105,368 |
+| a challenge (first / later) | 475,102 / 377,194 |
+| an archiver's answer | 107,545 |
+| a slash | 46,629 |
+
+The inclusion proofs are floor-dominated. The 50,000-gas point evaluation and the MODEXP for the
+domain point sit under the calldata floor of the entry the proof carries. A proof that carried only
+the entry's hash would cost the evaluation, not the floor.
+
+### Scanning, and griefing
+
+On one core of an Intel Xeon at 2.10 GHz, under Node v22.22.0:
+
+| | Announcements | Encrypted notes |
+|---|---:|---:|
+| entries scanned | 10,000 | 10,000 |
+| ours found / missed / false matches | 40 / 0 / 0 | 40 / 0 / 0 |
+| scan, per entry | 3.90 ms | 0.80 ms |
+| scanned per second | 256 | 1,251 |
+| making one, per entry | 4.76 ms | 1.33 ms |
+
+An announcement costs a scanner one ECDH, one ML-KEM-768 decapsulation and SHA3 over about 2.4 KB.
+A note costs one decapsulation. At one full blob of announcements every 12-second slot, *derived*:
+- 770,400 announcements a day;
+- 900 MiB to download;
+- about 50 minutes of one core to scan.
+
+| Per scanner-millisecond, at mainnet prices | Announcement | Note |
+|---|---:|---:|
+| what a poster pays for a fake entry as a log | 914,839,135,347 wei | 4,112,275,164,228 wei |
+| the same in a blob | 1,582,814,081 wei | 7,874,769,442 wei |
+
+Moving ciphertexts to blobs makes posting 325 to 578 times cheaper, and scanning costs exactly what
+it did. So griefing a scanner gets cheaper by the same factor.
+
+### Findings
+
+- **A contract posted its own blob.** The Board was the sender and payer of a frame transaction
+  carrying a blob, and its `VERIFY` checked the blob's header with one point evaluation against
+  `BLOBHASH(0)`, inside EIP-8141's 100,000. L1 kept the versioned hash and checked the opening. The
+  ciphertexts were never calldata.
+- **The client drops a second blob-carrying post on a fresh nonce key.** With EIP-8250 keys the
+  first post was mined and every second one was accepted and lost. At the account's own nonce both
+  were mined. This is a finding about the client, recorded in Amendment 1.
+- **The open node refuses blob-carrying frame transactions on size.** `ErrOversizedData` before
+  `ErrFrameBlobs`, so the path for them is the chain's own pool.
+- **Keeping is enforceable, and withholding is attributable.** A challenge at a point nobody knew in
+  advance was answered by the archiver holding the blob and not by the one that held nothing, who
+  was slashed. Unlike a private read, the data is public and its commitment is on chain, so failing
+  to answer is evidence.
+- **Scanning, not posting, is the cost that decides.** After blobs, posting is a fraction of a
+  millisecond of a scanner's time in value, and every recipient pays every scan.
+- **The test network serves no blob data through any API found.** Arm 5 read the blobs from the
+  run's fixture and checked them against the versioned hashes on chain. A recipient on this network
+  depends on someone keeping a copy from the start, which is what the Archive is for.
+
+### Passes that stopped
+
+| Pass | Stopped at | Fixed by |
+|---|---|---|
+| before d1 | reading prices: drpc's free plan refuses `eth_blobBaseFee` | mainnet prices from publicnode |
+| d1 | the Board's deposit frame had no state gas for the fresh slot it writes | one slot's state gas |
+| d2 | the first post's `SENDER` frame failed in simulation at 80,000 gas | raised to 200,000, which also failed (d3) |
+| d3 | the same at 200,000: a simulation on d3 showed state gas for four fresh slots was needed, and the shortfall had spilled into execution | four slots' state, and the Board's floor raised to match |
+| d4 | the second post was accepted and lost | Amendment 1 |
+| d5 | the no-blob refusal hit the envelope's blob-fee rule; an archiver's answer failed the node's gas estimate | a zero blob fee; explicit gas on archivers' transactions |
+
+### Transactions
+
+| Step | Transaction | Block |
+|---|---|---:|
+| a log announcement | [`0x9ed72ed4...`](https://dora.privacy.ethrex.xyz/tx/0x9ed72ed4899908596f4452388e5f5df37d0149f9544a0b84c50bfe03bfd3e78f) | 642,082 |
+| a log note | [`0xcf72272a...`](https://dora.privacy.ethrex.xyz/tx/0xcf72272a6b09148127d22a1a7b61432cb4b7ecfb7cbaed226d453a78fb5fcecb) | 642,085 |
+| 107 announcements on a type-3 carrier | [`0xb71ea943...`](https://dora.privacy.ethrex.xyz/tx/0xb71ea943cc03be90404ac9b32cb77d567977d7e17fdf91ccccca4842007ae122) | 642,086 |
+| 105 notes on a type-3 carrier | [`0x70e84114...`](https://dora.privacy.ethrex.xyz/tx/0x70e841149fedb26216396c07df2b9aa1eae64f7e3d433527cb9eff106ad8d15c) | 642,087 |
+| the Board posts the announcements' blob | [`0x292b4f56...`](https://dora.privacy.ethrex.xyz/tx/0x292b4f56e2dc1a3143daf2b13d569aca0ec21fb572d194e4f4421c747cb2b704) | 642,091 |
+| the Board posts the notes' blob | [`0xab867eea...`](https://dora.privacy.ethrex.xyz/tx/0xab867eea8658b57d1659431e8aada383d93add47a48d85127fc384e08836fb21) | 642,092 |
+| inclusion of announcement 40 | [`0x4c782bc9...`](https://dora.privacy.ethrex.xyz/tx/0x4c782bc9546d9f02a490b0c03a2acfabd07fc75f61addf5fa5abe956705d4b7b) | 642,093 |
+| inclusion of note 50 | [`0x58a17836...`](https://dora.privacy.ethrex.xyz/tx/0x58a1783650f79cdf77d5a5f2635aa91706828034ac7f7f928e586bdc04a064bd) | 642,094 |
+| A challenged, then A answers | [`0x9c662248...`](https://dora.privacy.ethrex.xyz/tx/0x9c662248f6a6d3fda762dab3672d10cc0af0ff3e38c265aff66965da15846fc7), [`0xa2ee5345...`](https://dora.privacy.ethrex.xyz/tx/0xa2ee53454dff3ca5b429e51be16f23802d9265f82ae4f00699f2f81e39046ec9) | 642,095; 642,097 |
+| B challenged, then B slashed | [`0xa6330db8...`](https://dora.privacy.ethrex.xyz/tx/0xa6330db8edc62c3c3270dcaa1d15c8f3c3619f0cdfed52644e3714b47ea30b5e), [`0x6f8e912d...`](https://dora.privacy.ethrex.xyz/tx/0x6f8e912d8875b28aaeaaa64776e5aeb786c4d4bdf1bd809b34dc3708a2ae299b) | 642,101; 642,109 |
+
+The test network's relaunches void its hashes; the fixture keeps what each showed.
