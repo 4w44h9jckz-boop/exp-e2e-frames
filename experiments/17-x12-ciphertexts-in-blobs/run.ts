@@ -88,7 +88,8 @@ console.log(`deployment ${X.DEPLOYMENT}: board ${C.board.address}, archive ${C.a
 await setupTx('deploy the announcer, the board and the archive', privateKey, [C.announcer.deploy, C.board.deploy, C.archive.deploy])
 const DEPOSIT = 10n ** 16n
 await setupTx('the board\'s deposit, and ether for the two archivers', privateKey, [
-  senderFrame({ target: C.board.address, value: DEPOSIT, execution: 50_000n, state: 0n }),
+  // The deposit is the board's slot 1, fresh until now: one slot's state gas.
+  senderFrame({ target: C.board.address, value: DEPOSIT, execution: 50_000n, state: 97_920n }),
   senderFrame({ target: archiver.A, value: 10n ** 16n, execution: 30_000n, state: 183_600n }),
   senderFrame({ target: archiver.B, value: 10n ** 16n, execution: 30_000n, state: 183_600n }),
 ])
