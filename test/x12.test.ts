@@ -105,7 +105,7 @@ describe.runIf(runs.length > 0)('the recorded runs rebuild', () => {
         const vh = tx.blobVersionedHashes[0]
         const k = vh === fx.S.vh ? 'S' : 'N'
         expect(vh).toBe(fx[k].vh)
-        expect(tx.nonceKeys).toEqual([X.postKey(vh)])
+        expect(tx.nonceKeys).toEqual([0n])
         const w = (decodeFunctionData({ abi: X.boardAbi, data: tx.frames[1].data }).args as [bigint[]])[0]
         expect(w[0]).toBe(BigInt(fx[k].header))
         const word = (x: bigint) => numberToHex(x, { size: 32 })

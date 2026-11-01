@@ -136,3 +136,28 @@ which.
   repository's JavaScript, not the scheme's Rust.
 - **No delegated scanning, PIR or detection keys.** Scanning is the recipient's own, over every
   entry.
+
+## Amendment 1, 2026-11-01, before run 1: the Board posts at its own nonce
+
+Written after passes d1 to d4 and before the run that is reported. Nothing above is changed.
+
+Pass d4 had the Board post its first blob, the 107 announcements, in a blob-carrying frame
+transaction, and it was mined. The second post, the notes' blob, was accepted by the test
+network's `eth_sendRawTransaction`, which returned its hash, and then disappeared: not in the pool,
+never mined. A diagnostic on d4's Board then posted two small blobs in a row:
+- the first was mined;
+- the second was accepted and dropped three times over three minutes.
+
+Each post had used a fresh EIP-8250 nonce key, which leaves the Board's account nonce unchanged.
+The funder's two type-3 blob transactions, at rising account nonces, were both mined. The working
+explanation is that the client keeps blob-carrying transactions by sender and account nonce, so a
+second one at the same account nonce is dropped as stale. It is a hypothesis about the client,
+which the next pass tests.
+
+The change:
+- The Board posts at its own nonce, nonce key 0, whose sequence is the account nonce.
+- `VERIFY` refuses an already-recorded blob by reading the Board's own storage, which EIP-8141
+  allows, instead of through a nonce key.
+- Prediction 3's second refusal, "a blob already recorded", is now made by that storage read.
+
+If the next pass also drops a second post, the hypothesis is wrong and that is recorded.

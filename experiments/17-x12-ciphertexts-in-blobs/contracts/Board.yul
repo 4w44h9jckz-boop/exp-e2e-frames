@@ -3,8 +3,8 @@
 //
 //   [0] VERIFY -> board  checks: one blob; the packer's signature over (blob, header, fee); one KZG
 //                        opening of the blob's element 0 at z = 1 equal to the header, through the
-//                        point-evaluation precompile; the nonce key of this blob; the fee against
-//                        the deposit; APPROVE(EXECUTION|PAYMENT)
+//                        point-evaluation precompile; the blob not yet recorded; the board's own
+//                        nonce (key 0); the fee against the deposit; APPROVE(EXECUTION|PAYMENT)
 //   [1] SENDER -> board  record(w): stores BLOBHASH(0) and the header
 //
 // Anyone proves one entry of a recorded blob with prove(): one opening at the domain point of the
@@ -57,7 +57,6 @@ object "Board" {
                 if iszero(eq(frameparam(0x00, 1), address())) { revert(0, 0) }
                 if frameparam(0x08, 1) { revert(0, 0) }
                 if frameparam(0x03, 1) { revert(0, 0) }
-                if txparam(0x01) { revert(0, 0) }
                 if txparam(0x0b) { revert(0, 0) }
                 // Exactly one blob.
                 if iszero(eq(txparam(0x07), 1)) { revert(0, 0) }
@@ -74,7 +73,9 @@ object "Board" {
                 signedBy(postDigest(vh, header, fee), w(5), w(6), w(7))
                 // The blob opens at z = 1, its element 0, to the header.
                 if iszero(opens(vh, 1, header, w(2), w(3), w(4))) { revert(0, 0) }
-                key(vh)
+                // A blob is recorded once: refused here from the board's own storage.
+                if sload(recordedSlot(vh)) { revert(0, 0) }
+                ownNonce()
                 // The SENDER frame can always finish: up to four fresh slots (the count, the first
                 // time; the hash, the header and the recorded mark) and the writes around them.
                 if lt(frameparam(0x01, 1), 80000) { revert(0, 0) }
@@ -126,14 +127,13 @@ object "Board" {
                 if iszero(eq(signer, PACKER())) { revert(0, 0) }
             }
 
-            // The one nonce key, at sequence 0: EIP-8250's nonce_keys_hash = keccak256(1 || key),
-            // with key = keccak256(versioned hash), so a blob is recorded once.
-            function key(vh) {
-                mstore(0x100, vh)
-                let k := keccak256(0x100, 0x20)
+            // The board's own nonce orders its posts: one nonce key, key 0, whose sequence is the
+            // account nonce (EIP-8250's nonce_keys_hash = keccak256(1 || 0)). A fresh key per blob
+            // was the first design; the test network dropped every second post on one (passes d4).
+            function ownNonce() {
                 if iszero(eq(txparam(0x0e), 1)) { revert(0, 0) }
                 mstore(0x100, 1)
-                mstore(0x120, k)
+                mstore(0x120, 0)
                 if iszero(eq(keccak256(0x100, 0x40), txparam(0x0f))) { revert(0, 0) }
             }
 

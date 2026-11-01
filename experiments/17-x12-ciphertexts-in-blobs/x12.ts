@@ -85,20 +85,18 @@ export async function postWords(packerKey: Hex, chainId: bigint, board: Address,
   return [header, fee, ...kzgWords(commitment, proof).map((x) => hexToBigInt(x)), hexToBigInt(sig.r), hexToBigInt(sig.s), sig.v!]
 }
 
-/** The nonce key of a blob: keccak256(versioned hash), as the Board's key() requires. */
-export const postKey = (vh: Hex) => hexToBigInt(keccak256(vh))
 
 export const VERIFY_LIMIT = 100_000n
 // record() writes up to four fresh slots: with state for three, the shortfall spilled into
 // execution and exhausted it (passes d2 and d3). With four it used 61,045 execution gas.
 export const SENDER_GAS = { execution: 100_000n, state: 4n * STORAGE_SET_STATE_GAS }
 
-/** The Board as sender and payer: VERIFY, then record(w), carrying `blobs` (normally one). */
-export function postTx(chainId: bigint, board: Address, w: bigint[], blobs: Hex[], key: bigint): FrameTx {
+/** The Board as sender and payer, at its own nonce: VERIFY, then record(w), carrying `blobs` (normally one). */
+export function postTx(chainId: bigint, board: Address, w: bigint[], blobs: Hex[], nonce: bigint): FrameTx {
   return {
     chainId,
-    nonceKeys: [key],
-    nonceSeq: 0n,
+    nonceKeys: [0n],
+    nonceSeq: nonce,
     sender: board,
     frames: [
       verifyFrame({ scope: Approve.EXECUTION_AND_PAYMENT, target: null, execution: VERIFY_LIMIT, state: STORAGE_SET_STATE_GAS }),

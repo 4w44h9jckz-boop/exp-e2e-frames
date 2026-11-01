@@ -16,7 +16,7 @@ import { type Address, type Hex, bytesToHex, createWalletClient, decodeEventLog,
 import { privateKeyToAccount } from 'viem/accounts'
 import { type Pin, buildSkandha, checkout, linesNaming, loadKey, rpcUrlOf, run, startNode, stopNode, until, writeConfig } from '../../src/e2e/index.js'
 import { sendFrames } from '../../src/exp-frames/deploy.js'
-import { type FrameTx, frameReceiptGas, frameReceiptStatus, frameTxHash, hegotaTestnet, makeClient, senderFrame, serializeFrameTx, simulateFrameTx, waitForFrameTxReceipt } from '../../src/exp-frames/frametx/index.js'
+import { type FrameTx, frameReceiptGas, frameReceiptStatus, frameTxHash, getNonceSeq, hegotaTestnet, makeClient, senderFrame, serializeFrameTx, simulateFrameTx, waitForFrameTxReceipt } from '../../src/exp-frames/frametx/index.js'
 import * as B from './blob.js'
 import * as P from './payloads.js'
 import * as X from './x12.js'
@@ -197,10 +197,10 @@ async function postStep(step: string, tx: FrameTx, sidecar: B.Sidecar | undefine
   return row
 }
 
-async function post(p: Posted, header = p.header, key = X.postKey(p.vh)) {
+async function post(p: Posted, header = p.header) {
   const { proof } = B.openElement(p.blob, 0)
   const w = await X.postWords(packerKey, chainId, C.board.address, p.vh, header, X.POST_FEE, p.commitment, proof)
-  return X.postTx(chainId, C.board.address, w, [p.vh], key)
+  return X.postTx(chainId, C.board.address, w, [p.vh], await getNonceSeq(chain, C.board.address, [0n]))
 }
 
 // The open node's answer first: skandha at its pin, one node, the transaction sent to it alone.
