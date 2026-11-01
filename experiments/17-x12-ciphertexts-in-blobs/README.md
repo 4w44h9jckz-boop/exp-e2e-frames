@@ -223,8 +223,8 @@ event would keep one slot per blob.
 | a slash | 46,629 |
 
 The inclusion proofs are floor-dominated. The 50,000-gas point evaluation and the MODEXP for the
-domain point sit under the calldata floor of the entry the proof carries. A proof that carried only
-the entry's hash would cost the evaluation, not the floor.
+domain point do not add to the calldata floor of the entry the proof carries. A proof that carried
+only the entry's hash would cost about the evaluation's 50,000 gas.
 
 ### Scanning, and griefing
 
@@ -249,8 +249,8 @@ A note costs one decapsulation. At one full blob of announcements every 12-secon
 | what a poster pays for a fake entry as a log | 914,839,135,347 wei | 4,112,275,164,228 wei |
 | the same in a blob | 1,582,814,081 wei | 7,874,769,442 wei |
 
-Moving ciphertexts to blobs makes posting 325 to 578 times cheaper, and scanning costs exactly what
-it did. So griefing a scanner gets cheaper by the same factor.
+In blobs, posting is 325 to 578 times cheaper and scanning costs the same, so a fake entry costs an
+attacker 325 to 578 times less for the same work it gives scanners.
 
 ### Findings
 
@@ -267,8 +267,9 @@ it did. So griefing a scanner gets cheaper by the same factor.
   advance was answered by the archiver holding the blob and not by the one that held nothing, who
   was slashed. Unlike a private read, the data is public and its commitment is on chain, so failing
   to answer is evidence.
-- **Scanning, not posting, is the cost that decides.** After blobs, posting is a fraction of a
-  millisecond of a scanner's time in value, and every recipient pays every scan.
+- **Scanning costs more than posting.** In a blob, a fake entry costs its poster about 1.6 gwei
+  per millisecond of scanning it causes for an announcement and 7.9 gwei for a note, at mainnet
+  prices, and every recipient scans every entry.
 - **The test network serves no blob data through any API found.** Arm 5 read the blobs from the
   run's fixture and checked them against the versioned hashes on chain. A recipient on this network
   depends on someone keeping a copy from the start, which is what the Archive is for.
