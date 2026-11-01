@@ -41,6 +41,9 @@ const packerKey = X.keyOf(privateKey, 'packer')
 const archiverKey = { A: X.keyOf(privateKey, 'archiver/A'), B: X.keyOf(privateKey, 'archiver/B') }
 const archiver = { A: privateKeyToAccount(archiverKey.A).address, B: privateKeyToAccount(archiverKey.B).address }
 const walletOf = (key: Hex) => createWalletClient({ account: privateKeyToAccount(key), chain: hegotaTestnet, transport: http() })
+// The node's estimate assumes a large gas limit, so an archiver with little ether looks unable to pay
+// (pass d5); its transactions name their gas and fees.
+const ARCHIVER_TX = { gas: 400_000n, maxFeePerGas: 100n, maxPriorityFeePerGas: 1n }
 const wallet = walletOf(privateKey)
 
 // Every secret of the run, searched for in the record before it is written.
@@ -90,8 +93,8 @@ const DEPOSIT = 10n ** 16n
 await setupTx('the board\'s deposit, and ether for the two archivers', privateKey, [
   // The deposit is the board's slot 1, fresh until now: one slot's state gas.
   senderFrame({ target: C.board.address, value: DEPOSIT, execution: 50_000n, state: 97_920n }),
-  senderFrame({ target: archiver.A, value: 10n ** 16n, execution: 30_000n, state: 183_600n }),
-  senderFrame({ target: archiver.B, value: 10n ** 16n, execution: 30_000n, state: 183_600n }),
+  senderFrame({ target: archiver.A, value: 5n * 10n ** 16n, execution: 30_000n, state: 183_600n }),
+  senderFrame({ target: archiver.B, value: 5n * 10n ** 16n, execution: 30_000n, state: 183_600n }),
 ])
 const bondCall = senderFrame({ target: C.archive.address, data: encodeFunctionData({ abi: X.archiveAbi, functionName: 'bond' }), value: X.BOND, execution: 60_000n, state: 97_920n })
 await setupTx('archiver A bonds', archiverKey.A, [bondCall])
@@ -251,7 +254,8 @@ await postStep('refused: a header the blob does not open to', await post(S2, wro
 await postStep('refused: the same blob again', await post(S), S.sidecar, 'refused')
 {
   const tx = await post(S2)
-  await postStep('refused: no blob', { ...tx, blobVersionedHashes: [] }, undefined, 'refused')
+  // No blob, and so a blob fee of zero, as the envelope requires: only the Board's own check is left.
+  await postStep('refused: no blob', { ...tx, blobVersionedHashes: [], fees: { ...tx.fees, maxFeePerBlobGas: 0n } }, undefined, 'refused')
 }
 
 // ---- arm 3: one entry proved in a posted blob ----
@@ -306,7 +310,7 @@ const cA = await challenge('archive: archiver A challenged over the announcement
 await untilBlock(cA.block + 1n)
 {
   const { z, y, args } = await answerArgs(cA.id, S)
-  await eoaTx('archive: A answers at the point its challenge drew', await walletOf(archiverKey.A).writeContract({ address: C.archive.address, abi: X.archiveAbi, functionName: 'answer', args } as never), { id: Number(cA.id), z: `0x${z.toString(16)}`, y: bytesToHex(y) })
+  await eoaTx('archive: A answers at the point its challenge drew', await walletOf(archiverKey.A).writeContract({ address: C.archive.address, abi: X.archiveAbi, functionName: 'answer', args, ...ARCHIVER_TX } as never), { id: Number(cA.id), z: `0x${z.toString(16)}`, y: bytesToHex(y) })
   fixtures.answerA = { id: Number(cA.id), seq: Number(seqS), z: `0x${z.toString(16)}`, y: bytesToHex(y), kzg: args[2] }
 }
 
@@ -317,7 +321,7 @@ await untilBlock(cA2.block + 1n)
   const wrong = await answerArgs(cA2.id, N, true)
   let answer = 'accepted'
   try {
-    await chain.simulateContract({ address: C.archive.address, abi: X.archiveAbi, functionName: 'answer', args: wrong.args, account: archiver.A } as never)
+    await chain.simulateContract({ address: C.archive.address, abi: X.archiveAbi, functionName: 'answer', args: wrong.args, account: archiver.A, ...ARCHIVER_TX } as never)
   } catch (e) {
     answer = (e as Error).message.split('\n')[0].slice(0, 200)
   }
@@ -325,7 +329,7 @@ await untilBlock(cA2.block + 1n)
   console.log(`archive: a wrong y reverts (${answer})`)
   rows.push({ step: 'archive: A answers with a wrong y', expect: 'reverts', outcome: 'reverts', id: Number(cA2.id), simulation: answer })
   const right = await answerArgs(cA2.id, N)
-  await eoaTx('archive: A answers the notes\' challenge correctly', await walletOf(archiverKey.A).writeContract({ address: C.archive.address, abi: X.archiveAbi, functionName: 'answer', args: right.args } as never), { id: Number(cA2.id) })
+  await eoaTx('archive: A answers the notes\' challenge correctly', await walletOf(archiverKey.A).writeContract({ address: C.archive.address, abi: X.archiveAbi, functionName: 'answer', args: right.args, ...ARCHIVER_TX } as never), { id: Number(cA2.id) })
 }
 
 // B holds no copy: it is challenged, cannot answer, and is slashed after the window.
