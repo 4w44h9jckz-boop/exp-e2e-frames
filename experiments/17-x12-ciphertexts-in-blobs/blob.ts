@@ -123,7 +123,8 @@ export type Sidecar = { blobs: Uint8Array[]; commitments: Uint8Array[]; cellProo
 export function sidecarOf(blobs: Uint8Array[]): Sidecar {
   return { blobs, commitments: blobs.map(commitmentOf), cellProofs: blobs.flatMap(cellProofsOf) }
 }
-const sidecarFields = (s: Sidecar) => [s.blobs.map(bytesToHex), s.commitments.map(bytesToHex), s.cellProofs.map(bytesToHex)]
+const hexes = (xs: Uint8Array[]) => xs.map((x) => bytesToHex(x))
+const sidecarFields = (s: Sidecar) => [hexes(s.blobs), hexes(s.commitments), hexes(s.cellProofs)]
 
 /** EIP-8141: a frame transaction with blobs travels as 0x06 || rlp([payload, 1, blobs, commitments, cell_proofs]). */
 export function frameTxWithBlobs(tx: FrameTx, s: Sidecar): Hex {
