@@ -301,3 +301,105 @@ attacker 325 to 578 times less for the same work it gives scanners.
 | B challenged, then B slashed | [`0xa6330db8...`](https://dora.privacy.ethrex.xyz/tx/0xa6330db8edc62c3c3270dcaa1d15c8f3c3619f0cdfed52644e3714b47ea30b5e), [`0x6f8e912d...`](https://dora.privacy.ethrex.xyz/tx/0x6f8e912d8875b28aaeaaa64776e5aeb786c4d4bdf1bd809b34dc3708a2ae299b) | 642,101; 642,109 |
 
 The test network's relaunches void its hashes; the fixture keeps what each showed.
+
+## Run 2, pre-registered 2026-11-03: behind ERC-5564's announcer
+
+Pre-registered before any contract, runner or transaction for it. Nothing above this heading
+changes; run 2's results are added below its predictions.
+
+### The question
+
+[ERC-5564](https://eips.ethereum.org/EIPS/eip-5564) (Final) fixes one announcer per chain: "This
+MUST be a singleton contract, with one instance per chain." Run 1 used blobs on their own, which
+would give wallets a second place to watch. Run 2 asks whether blobs can be a second transport
+behind the singleton instead, so that a wallet keeps watching one contract and still finds payments
+in both.
+
+Before writing this: the singleton's address,
+`0x55649E01B5Df198D18D95b5cc5051630cfD45564`, holds 709 bytes of code on the test network, with
+the same sha256 as on mainnet (read 2026-11-03 at test network block 671,390 and mainnet block
+26,332,376). Run 2 uses it, not a copy.
+
+### Design
+
+- **The pointer.** When the board records a blob, its `SENDER` frame calls the singleton's
+  `announce` once:
+  - `schemeId` 3, the scheme of the entries inside;
+  - `stealthAddress` zero, which no derived stealth address is;
+  - `ephemeralPubKey` the blob's versioned hash and header, `vh(32) || header[1..31]`, 63 bytes;
+  - `metadata` a zero byte where a view tag would be, then the board's post count as eight
+    bytes, 9 bytes;
+  - `caller` the board, filled in by the singleton.
+
+  *Interpretation:* ERC-5564 says metadata "MUST include the view tag in the first byte". A
+  pointer has no recipient and so no view tag; the zero byte is this run's choice, and a scanner
+  recognises a pointer by `stealthAddress` zero and its 63-byte key before reading it. A separate
+  scheme ID for pointers was not chosen: scheme IDs are assigned through the ERCs, and one would
+  split a scheme's announcements across two IDs.
+- **Entries carry their metadata.** A run 2 entry `S'` is
+  `stealthAddress(20) || epk(33) || ct(1088) || len(1) || metadata(len)`, with the view tag as
+  metadata's first byte, as ERC-5564 requires of a log. Every entry in run 2 carries ERC-5564's
+  recommended 57 bytes: the view tag, a 4-byte function selector, a 20-byte token address and a
+  32-byte amount. So `S'` is 1,199 bytes, a new payload kind `3` in the header, with the blob
+  layout of run 1 unchanged.
+- **The board.** Run 1's board with one change: the `SENDER` frame calls the singleton after
+  recording. It posts at its own nonce, as Amendment 1 set.
+- **Direct announcements** go through the singleton itself, as wallets send them today, with the
+  same 57-byte metadata.
+- **One scanner.** It reads the singleton's `Announcement` events with `schemeId` 3 over the run's
+  block range, and for each one:
+  - a direct announcement it trial-decrypts, as in run 1;
+  - a pointer from a caller on its list of boards it resolves: it fetches the blob, checks that
+    the blob's commitment hashes to the pointer's versioned hash and that the header matches, and
+    scans the entries;
+  - a pointer from any other caller it ignores, without fetching anything.
+
+  Its list of boards holds one entry, run 2's board.
+
+### Arms
+
+1. Ten direct announcements through the singleton, five of them to our recipient `R`.
+2. One blob of `S'` entries, 20 of them to `R`, posted by the board, which announces the pointer.
+3. One pointer sent through the singleton by an account that is not a board, naming the same
+   versioned hash.
+4. Offline: the scanner given the blob with one byte changed; and run 1's scanner, which knows
+   nothing of pointers, given every announcement of the run.
+
+### Predictions
+
+1. **The pointer is cheap.** The board's post with the pointer is mined. Its `VERIFY` frame costs
+   within 2,000 gas of run 1's 59,387. Its `SENDER` frame's execution exceeds run 1's 59,045 by
+   between 3,000 and 15,000 gas, and its state gas equals run 1's first post, 391,680, because the
+   singleton writes no storage.
+2. **A direct announcement is the floor.** Each direct announcement with 57 bytes of metadata
+   costs exactly 105,368 gas, the test network's 15,000 plus 64 per calldata byte over 1,412
+   bytes, as run 1 found for every floor-dominated call.
+3. **More metadata, fewer entries.** 102 `S'` entries fit one blob, at 1,285 blob gas per entry,
+   and every entry's metadata reads back from the blob byte for byte.
+4. **One scanner finds both kinds.** Reading only the singleton's events, the scanner finds all
+   25 of `R`'s entries, 5 direct and 20 in the blob, with no false match. Other people's
+   scheme-3 announcements in the range, if any, are scanned and counted.
+5. **The caller filters pointers.** The pointer from arm 3 is ignored with no blob fetched. The
+   blob with a changed byte is rejected before any entry in it is scanned.
+6. **An unaware scanner skips pointers.** Run 1's scanner finds `R`'s 5 direct entries, treats the
+   pointer as a malformed scheme-3 announcement, and reports no false match.
+
+### What would show it wrong
+
+| Prediction | Shown wrong by |
+|---|---|
+| 1 | the post refused, `VERIFY` moved by more than 2,000, the `SENDER` increase outside 3,000 to 15,000, or state gas different from 391,680 |
+| 2 | a direct announcement costing anything other than 105,368 |
+| 3 | a capacity other than 102, or any metadata byte read back different |
+| 4 | a missed entry or a false match |
+| 5 | a fetch for arm 3's pointer, or a changed blob whose entries are scanned |
+| 6 | run 1's scanner throwing, or reporting a match from the pointer |
+
+### Deviations, stated before the run
+
+- **The pointer's encoding is ours** (the interpretation above). ERC-5564 does not define one.
+- **The board list is the scanner's configuration.** Who decides which boards a wallet follows
+  decides which payments its users can find; run 2 does not answer that, and post 42 names it.
+- **The blob is read from the run's own record** if the test network serves no blob data, as in
+  run 1, and checked against the versioned hash on chain.
+- **One packer key,** as in run 1.
