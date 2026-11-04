@@ -653,3 +653,58 @@ pool's balance, as version 5's does.
 - **What it says.** One-time accounts are independent at spend time. A pool that sends and pays for
   its own withdrawals makes its balance a key every withdrawal writes, and its tree a set of keys
   every deposit writes; a factory makes its nonce one every payment writes.
+
+## Run 3, pre-registered 2026-11-04, before any of its code: the shared keys removed, and measured again
+
+**Why.** The check above found three keys that two transactions of one kind both write: a
+factory's nonce (every payment), a pool's balance (every withdrawal) and a pool's tree (every
+deposit). Under rapidblocks, each sends those transactions to the slow path. Run 3 removes the
+first two and keeps the third, which pooling needs, then reruns the check. The owner's choice,
+after options; the two fixes the options first named were corrected before this pre-registration:
+any contract that deploys bumps its own nonce, so a payment with no shared nonce is a creation
+transaction from the payer, and a per-withdrawal gas payer would leave the payout's debit, so the
+pool's funds are split instead.
+
+**Two designs.**
+- **Version 1, payer-deployed (`v1d`).** A payment is two transactions from the payer: a
+  contract-creation transaction whose initcode is `Stealth`'s with version 1's words and the funding
+  as its value, and the announcement through ERC-5564's singleton. The account's address comes from
+  the payer's own nonce, and no contract deploys it. The stub and the spend are version 1's.
+- **Version 5, sharded pots (`v5p`).** `Pool6` keeps version 5's Keccak tree. Each deposit inserts
+  its leaf, publishes the new root through EIP-8272 (`source_id = keccak256(pool || salt)`), and
+  forwards the denomination to pot `leafIndex mod k`. `Pot` is $k$ accounts, each the sender and
+  payer of its own withdrawals: its `VERIFY` takes the root from EIP-8272's verifier frame, checks
+  the dependency as version 5 does, and accepts only nullifiers whose pot is itself,
+  `nf mod k = i`, so that a note cannot be withdrawn from two pots under two nonce keys. The proof
+  is version 5's program, unchanged. Here $k = 4$, and each pot starts with a float, since a note
+  is withdrawn from the pot its nullifier names and not the one its deposit funded.
+
+**Arms.** Two `v1d` payments from the payer, both spent. Four `v5p` deposits, and four withdrawals
+whose nullifiers name pots so that at least one pair shares a pot and at least one pair does not;
+the notes are drawn from `PRIVATE_KEY` and a label until they do. On the test network, EIP-8288
+modelled, through skandha as before. Then `conflicts.ts` over run 3's records, every pair of
+each kind.
+
+**Predictions.**
+
+12. **Payer-deployed payments are independent.** Two `v1d` payments, creation and announcement,
+    share no written key once their payer's own account is set aside.
+13. **Pots make withdrawals independent across pots.** Two withdrawals from different pots share no
+    written key; two from one pot share exactly that pot's balance.
+14. **Deposits still conflict.** Two deposits share the tree's storage slots.
+15. **The fixes are cheap.** A `v1d` payment, both transactions, costs at most 10% more than run 2's
+    factory payment, and a `v5p` withdrawal at most 10% more than run 2's version 5 withdrawal, its
+    EIP-8272 frame included.
+
+| Prediction | Shown wrong by |
+|---|---|
+| 12 | a written key the two payments share, their payer aside |
+| 13 | a written key shared by two withdrawals from different pots, or a key other than the pot's balance shared by two from one |
+| 14 | two deposits sharing no written key |
+| 15 | either cost more than 10% above run 2's |
+
+**What does not change.** Predictions 1 to 11 and their outcomes. The check stays a lower bound,
+since the access list gives reads per block.
+
+**If it stops.** If the test network refuses a creation transaction's state for the stub, or
+EIP-8272's verifier frame refuses the pool's root, the pass stops and is recorded with the reason.
