@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs'
 import { type Address, type Hex, bytesToHex, concatHex, encodeAbiParameters, encodeFunctionData, getContractAddress, keccak256, numberToHex, pad, parseAbi, toHex } from 'viem'
 import { compileYul } from '../../src/exp-frames/contracts.js'
 import { create2Address, deployFrame, saltOf } from '../../src/exp-frames/deploy.js'
-import { Approve, type Frame, type FrameTx, type FrameTxFees, STORAGE_SET_STATE_GAS, senderFrame, verifyFrame } from '../../src/exp-frames/frametx/index.js'
+import { Approve, type Frame, type FrameTx, type FrameTxFees, RECENT_ROOT, STORAGE_SET_STATE_GAS, senderFrame, verifyFrame } from '../../src/exp-frames/frametx/index.js'
 import { HASHER } from '../15-x10-out-and-back/x10.js'
 
 export const DIR = 'experiments/19-x14-hash-based-stealth-addresses-under-8288'
@@ -75,6 +75,8 @@ export const pool5Abi = parseAbi(['function deposit(bytes32 commitment) payable'
 export const pool4Abi = parseAbi(['function deposit(bytes32 commitment) payable', 'function withdraw(uint256[8] proof, bytes32 root, bytes32 nullifierHash, address recipient, address relayer, uint256 fee, uint256 refund)', 'event Deposit(bytes32 commitment, uint256 leafIndex)'])
 
 /** The account a payment deploys: CREATE2 from the factory, the salt, and Stealth's initcode with its words. */
+/** Initcode with its trailing words, as the factory builds it for CREATE2 and a payer sends it. */
+export const concatInitcode = (code: Hex, words: Hex[]) => concatHex([code, ...words])
 export const accountOf = (version: bigint, w: Hex, vk: Hex, salt: Hex): Address =>
   getContractAddress({ from: factory.address, opcode: 'CREATE2', salt, bytecode: concatHex([stealthCode, word(version), w, vk]) })
 
@@ -118,6 +120,32 @@ export function withdraw5Tx(chainId: bigint, nf: Hex, verifyData: Hex, root: Hex
       verifyFrame({ scope: Approve.EXECUTION_AND_PAYMENT, target: null, data: p.verify, execution: 60_000n, state: STORAGE_SET_STATE_GAS }),
       ...p.between,
       senderFrame({ target: pool5.address, data: encodeFunctionData({ abi: pool5Abi, functionName: 'withdraw', args: [root, nf, recipient, relayer, fee] }), execution: 60_000n, state: NEW_ACCOUNT_STATE }),
+    ],
+    signatures: [], fees: FEES, blobVersionedHashes: [],
+  }
+}
+
+// ---- run 3: version 5 with its funds split across four pots ----
+
+export const POTS = 4
+export const pool6 = fixed(concatHex([compileYul(`${DIR}/contracts/Pool6.yul`), word(BigInt(saltOf(tag('pool6/salt'))))]), 'pool6')
+/** EIP-8272's source id for Pool6's roots: keccak256(pool || salt), as Pool6.yul publishes them. */
+export const POOL6_SOURCE = keccak256(concatHex([pool6.address, saltOf(tag('pool6/salt'))]))
+const potCode = compileYul(`${DIR}/contracts/Pot.yul`)
+export const pots = Array.from({ length: POTS }, (_, i) => fixed(concatHex([potCode, POOL6_SOURCE, word(i), VK5]), `pot/${i}`))
+export const pool6Abi = parseAbi(['function deposit(bytes32 commitment) payable', 'function setPots(address[4] pots)', 'function republish()', 'event Deposit(bytes32 commitment, uint256 leafIndex)', 'event RecentRoot(bytes32 root, uint64 slot)'])
+export const potAbi = parseAbi(['function withdraw(bytes32 root, bytes32 nf, address recipient, address relayer, uint256 fee)'])
+/** The pot a nullifier names: its low two bits, as Pot.yul checks. */
+export const potOf = (nf: Hex) => Number(BigInt(nf) & 3n)
+/** A pot as sender and payer of a withdrawal: EIP-8272's frame with the pool's root, VERIFY with the dependency, then withdraw. */
+export function withdrawPotTx(chainId: bigint, nf: Hex, verifyData: Hex, root: Hex, slot: bigint, recipient: Address, relayer: Address, fee: bigint): FrameTx {
+  const pot = pots[potOf(nf)].address
+  return {
+    chainId, nonceKeys: [BigInt(nf)], nonceSeq: 0n, sender: pot,
+    frames: [
+      { mode: 1, flags: Approve.NONE, target: RECENT_ROOT, limits: { execution: 10_000n, state: 0n }, value: 0n, data: concatHex([POOL6_SOURCE, numberToHex(slot, { size: 8 }), root]) },
+      verifyFrame({ scope: Approve.EXECUTION_AND_PAYMENT, target: null, data: verifyData, execution: 60_000n, state: STORAGE_SET_STATE_GAS }),
+      senderFrame({ target: pot, data: encodeFunctionData({ abi: potAbi, functionName: 'withdraw', args: [root, nf, recipient, relayer, fee] }), execution: 60_000n, state: NEW_ACCOUNT_STATE }),
     ],
     signatures: [], fees: FEES, blobVersionedHashes: [],
   }

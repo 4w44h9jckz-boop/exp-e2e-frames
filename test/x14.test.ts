@@ -24,7 +24,7 @@ describe('the leanVM cell encoding', () => {
 })
 
 describe('the contracts hard-code the right constants', () => {
-  for (const f of ['Stealth', 'Factory', 'Pool5', 'Pool4']) {
+  for (const f of ['Stealth', 'Factory', 'Pool5', 'Pool4', 'Pool6', 'Pot']) {
     const yul = readFileSync(join(here, `contracts/${f}.yul`), 'utf8')
     it(`${f}: each \`case 0x........ { ... } // sig\` is the selector of sig`, () => {
       const cases = [...yul.matchAll(/case (0x[0-9a-f]{8}) \{[^}]*\}\s*\/\/ ([A-Za-z0-9]+\([^)]*\))/g)]
