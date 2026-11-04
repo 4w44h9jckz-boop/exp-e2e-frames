@@ -102,7 +102,8 @@ export function spendTx(chainId: bigint, w: bigint[]): FrameTx {
       senderFrame({ target: registry.address, data: encodeFunctionData({ abi: registryAbi, functionName: 'deliver', args: [w] }), ...SENDER_GAS }),
     ],
     signatures: [],
-    fees: FEES,
+    // No blobs, so a blob fee of zero, as the envelope requires (pass d4).
+    fees: { ...FEES, maxFeePerBlobGas: 0n },
     blobVersionedHashes: [],
   }
 }
