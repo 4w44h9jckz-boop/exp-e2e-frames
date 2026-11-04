@@ -131,10 +131,13 @@ type Note = { label: string; opening: N.Opening; delivered: Uint8Array; h: bigin
 const notes: Record<string, Note> = {}
 const nowSec = async () => Number((await chain.getBlock({ blockTag: 'latest' })).timestamp)
 
+// A deposit's insertion writes fresh slots: the first leaf writes all 20 subtree slots, the root,
+// its mark, the count and the clock (pass d1 stopped there, its state spilling into execution).
+const DEPOSIT_STATE = 24n * 97_920n
 async function deposit(label: string, delivered: Uint8Array, opening: N.Opening) {
   const h = N.hOf(delivered)
   const c = N.commitmentOf(opening, R, h)
-  const r = await setupTx(`deposit: note ${label}`, [senderFrame({ target: X.registry.address, value: N.DENOM, data: encodeFunctionData({ abi: X.registryAbi, functionName: 'deposit', args: [X.word(c)] }), execution: 1_400_000n, state: 3n * 97_920n })])
+  const r = await setupTx(`deposit: note ${label}`, [senderFrame({ target: X.registry.address, value: N.DENOM, data: encodeFunctionData({ abi: X.registryAbi, functionName: 'deposit', args: [X.word(c)] }), execution: 1_400_000n, state: DEPOSIT_STATE })])
   const receipt = await chain.getTransactionReceipt({ hash: r.hash as Hex })
   const ev = receipt.logs.map((l) => { try { return decodeEventLog({ abi: X.registryAbi, data: l.data, topics: l.topics }) as unknown as { eventName: string; args: { index: bigint; t0: bigint } } } catch { return undefined } }).find((e) => e?.eventName === 'Deposited')!
   const n: Note = { label, opening, delivered, h, c, index: Number(ev.args.index), t0: ev.args.t0, block: r.block as number }
