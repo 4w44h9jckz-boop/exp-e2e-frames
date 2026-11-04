@@ -1,0 +1,319 @@
+{
+  "experiment": 20,
+  "run": "1-local",
+  "arm": "x9",
+  "chain": "local",
+  "placement": "dep-frame",
+  "deployment": "d1",
+  "repoCommit": "b9bab94d977f070348540ddc9069d730a5e1cf36",
+  "chainId": 9,
+  "funder": "0x4417092B70a3E5f10Dc504d0947DD256B965fc62",
+  "ethrex": {
+    "commit": "64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c",
+    "patch": "experiments/19-x14-hash-based-stealth-addresses-under-8288/ethrex-8288.patch",
+    "patchSha256": "aae808488450dc05f36a15a3071a9d09ca48824a92d1c7ad1fb0a841ec591134",
+    "setting": "written",
+    "genesis": "fixtures/genesis/l1-hegota.json, base fee 7 wei",
+    "maxVerifyGas": 500000,
+    "dir": "/home/user/exp20/work/q6-local-1-local"
+  },
+  "runner": {
+    "binary": "experiment 14's x9-runner, built at f6bd932",
+    "modes": [
+      "hold",
+      "send-redemption"
+    ]
+  },
+  "vault": "0xfF2A11342C20B058301290db5ED8e269eDBCfDbb",
+  "members": [
+    "0x900298bca9cb7d13eb660070c6f795bd7126188c13663c85f2ae946b077a2b57",
+    "0xa8f7d730ed672d08b5ee99f2533dc65eb6ea2652aab13e2ec9e17f1c01e77384",
+    "0x4d4dd8a9085d923df4987db575a71b6e3009a046c41a6555cefa844e16f389a4"
+  ],
+  "quorum": 3,
+  "timeout": "10",
+  "escapeWindow": "10",
+  "float": "10000000000000000",
+  "since": "10",
+  "escapeAt": "26",
+  "after": {
+    "mode": "0",
+    "redeemed": "2"
+  },
+  "blocks": {
+    "first": 0,
+    "last": 40
+  },
+  "setup": [
+    {
+      "what": "X9: deploy experiment 01's hasher",
+      "hash": "0x2373c2377a8d35cbf4bd838a308106595b441373457018e87cbd3d5b347159a9",
+      "block": 1,
+      "gasUsed": 17796308,
+      "ok": true
+    },
+    {
+      "what": "X9: deploy experiment 01's verifier-patched",
+      "hash": "0x04896b40ef7f573e960a5c31b7d25bdcf867455d74b4bd35f358a27f5c64fe36",
+      "block": 2,
+      "gasUsed": 7068310,
+      "ok": true
+    },
+    {
+      "what": "X9: deploy the vault with its float",
+      "hash": "0x55f1ef87a309a0eecfd31af1089973ebd497220fa1bfdce6dee77c102a35a6a2",
+      "block": 4,
+      "gasUsed": 9353346,
+      "ok": true
+    },
+    {
+      "what": "X9: an intent queued, which nobody processes",
+      "hash": "0x87c0462815e240eb9c09ac787780234f754b39326fd226144a099e81578e0218",
+      "block": 10,
+      "gasUsed": 357527,
+      "ok": true
+    }
+  ],
+  "ticks": 10,
+  "rows": [
+    {
+      "step": "X9: two notes held",
+      "holds": [
+        {
+          "hash": "0xf920350aa22f30cfc59fca161bb6bae997189fd47133a6fc22463298cd6b45dc",
+          "block": "0x6",
+          "leaf": 0
+        },
+        {
+          "hash": "0x3ec258bec7362bfa7b36a9d7f174432f1fb534619c619ca9c622b574fcbc3af2",
+          "block": "0x8",
+          "leaf": 1
+        }
+      ]
+    },
+    {
+      "step": "X9: holder 0 redeems its own note",
+      "hash": "0xb75a6ac34161ee2e6aad75da281a988bf8684b428dd3b33a97336a4cef713a5c",
+      "nullifierHash": "0xd9bc62ff9bac0d57e52b6cb1ffe796691ecc7aadea1f41046af16d85b6c6d58",
+      "accepted": true,
+      "block": "0x1a",
+      "gasUsed": "0xc6563",
+      "frames": [
+        {
+          "gasUsed": "0x15cb",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x3e608",
+          "stateGasUsed": "0x17e80",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x9dad",
+          "stateGasUsed": "0x5ca30",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x2d23",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        }
+      ],
+      "modeBefore": 0,
+      "modeAfter": 1
+    },
+    {
+      "step": "X9: holder 1 redeems its own note",
+      "hash": "0x3f36a99720d897433a166a34a6cd9d6e410b25259280984111d0d5e1dd54746e",
+      "nullifierHash": "0x1b3532a66496c9601276e3e3545b643b8712aad370b7c2b7db6cf03b1308c16e",
+      "accepted": true,
+      "block": "0x1d",
+      "gasUsed": "0xac7ab",
+      "frames": [
+        {
+          "gasUsed": "0x15cb",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x3d589",
+          "stateGasUsed": "0x17e80",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x8f24",
+          "stateGasUsed": "0x44bb0",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x2d23",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        }
+      ],
+      "modeBefore": 1,
+      "modeAfter": 1
+    },
+    {
+      "step": "X9 refusal: a reconciliation with two signatures of three",
+      "outcome": "refused by the node",
+      "refusal": "below the quorum",
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted"
+      },
+      "arm": "x9",
+      "declared": 6000,
+      "signatures": 2,
+      "signMs": [
+        37.636056,
+        57.083625999999995
+      ]
+    },
+    {
+      "step": "X9 refusal: a reconciliation with member 1's signature declared twice",
+      "outcome": "refused by the node",
+      "refusal": "one member counted twice",
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted"
+      },
+      "arm": "x9",
+      "declared": 9000,
+      "signatures": 3,
+      "signMs": [
+        44.780069,
+        59.716308000000005,
+        74.949451
+      ]
+    },
+    {
+      "step": "X9 refusal: a reconciliation with a key outside the committee as the third",
+      "outcome": "refused by the node",
+      "refusal": "a key outside the committee",
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted"
+      },
+      "arm": "x9",
+      "declared": 9000,
+      "signatures": 3,
+      "signMs": [
+        38.368968,
+        53.059509,
+        49.596803
+      ]
+    },
+    {
+      "step": "X9 refusal: a reconciliation with member 2's signature on another message",
+      "outcome": "refused by the node",
+      "refusal": "a signature on another message",
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted"
+      },
+      "arm": "x9",
+      "declared": 9000,
+      "signatures": 3,
+      "signMs": [
+        37.737542999999995,
+        58.891729,
+        44.147798
+      ]
+    },
+    {
+      "step": "X9: the reconciliation signed by members 0, 1, 2",
+      "outcome": "mined",
+      "hash": "0x225caf68b7407023b18ab5ab32b8190a107cb29b76ef5d464bc7e0d5d78bf43d",
+      "block": 40,
+      "gasUsed": 160628,
+      "reportedGas": 160628,
+      "frames": [
+        {
+          "mode": 1,
+          "status": 1,
+          "execution": 10691,
+          "state": 97920
+        },
+        {
+          "mode": 4,
+          "status": 1,
+          "execution": 9000,
+          "state": 0
+        },
+        {
+          "mode": 2,
+          "status": 1,
+          "execution": 24324,
+          "state": 0
+        }
+      ],
+      "calldataBytes": 388,
+      "txBytes": 521,
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "arm": "x9",
+      "refusal": null,
+      "declared": 9000,
+      "signatures": 3,
+      "signMs": [
+        54.472004999999996,
+        67.320848,
+        55.264782
+      ]
+    }
+  ],
+  "observed": [
+    {
+      "arm": "x9",
+      "step": "X9: the reconciliation signed by members 0, 1, 2",
+      "hash": "0x225caf68b7407023b18ab5ab32b8190a107cb29b76ef5d464bc7e0d5d78bf43d",
+      "frame": 1,
+      "signers": [
+        0,
+        1,
+        2
+      ],
+      "distinctMessages": 1
+    }
+  ],
+  "offChain": [],
+  "nodeRecords": {
+    "builds": [
+      {
+        "block": 40,
+        "dependencies": 3,
+        "leanSphincs": 3,
+        "leanStark": 0,
+        "corrupt": null,
+        "aggregate": {
+          "aggregateMs": 2694.608751,
+          "claims": 3,
+          "peakRssBytes": 417165312,
+          "proofBytes": 274041
+        },
+        "ms": 2711
+      }
+    ],
+    "checks": [
+      {
+        "block": 40,
+        "hash": "0x71dd0a429d33c65791c1cda61d83d3f5721614f781a4d5d56428aa2a3d267b54",
+        "dependencies": 3,
+        "valid": true,
+        "reason": null,
+        "ms": 2460
+      }
+    ]
+  },
+  "transactions": [
+    {
+      "step": "X9: the reconciliation signed by members 0, 1, 2",
+      "hash": "0x225caf68b7407023b18ab5ab32b8190a107cb29b76ef5d464bc7e0d5d78bf43d",
+      "raw": "0x06f9020509e1a0b2179c380be5fd9150b39fd50c335297836853d2120274bd80722e52ce88c8458094ff2a11342c20b058301290db5ed8e269edbcfdbbf901c3f86f010380c8830186a083017e8080b86000000000000000000000000000000000000000000000000000000000000000020d9bc62ff9bac0d57e52b6cb1ffe796691ecc7aadea1f41046af16d85b6c6d581b3532a66496c9601276e3e3545b643b8712aad370b7c2b7db6cf03b1308c16ef9012c048080c48223288080b9012000000000000000000000000000000000000000000000000000000000000000100c93d8339d0ffbff897c66151febfd10ddc5e55ce7b185ca510d49ca9b07452d900298bca9cb7d13eb660070c6f795bd7126188c13663c85f2ae946b077a2b5700000000000000000000000000000000000000000000000000000000000000100c93d8339d0ffbff897c66151febfd10ddc5e55ce7b185ca510d49ca9b07452da8f7d730ed672d08b5ee99f2533dc65eb6ea2652aab13e2ec9e17f1c01e7738400000000000000000000000000000000000000000000000000000000000000100c93d8339d0ffbff897c66151febfd10ddc5e55ce7b185ca510d49ca9b07452d4d4dd8a9085d923df4987db575a71b6e3009a046c41a6555cefa844e16f389a4e2028094ff2a11342c20b058301290db5ed8e269edbcfdbbc482c3508080848f0d7e35c0c3016480c0"
+    }
+  ]
+}
