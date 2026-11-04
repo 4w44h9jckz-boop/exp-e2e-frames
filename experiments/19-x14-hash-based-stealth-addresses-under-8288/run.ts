@@ -93,12 +93,20 @@ async function frameStep(step: string, tx: FrameTx, extra: Record<string, unknow
     const body = await res.json()
     skandhaAnswer = body.error ? JSON.stringify(body.error).slice(0, 300) : `admitted: ${body.result}`
   } catch (e) { skandhaAnswer = `unreachable: ${(e as Error).message.slice(0, 200)}` }
-  // One node relays nothing (experiment 18), so the chain directly, at once.
-  try { await chain.request({ method: 'eth_sendRawTransaction', params: [raw] } as never) } catch (e) { if (!/known|already/i.test((e as Error).message)) throw e }
-  const r = await waitForFrameTxReceipt(chain, hash, { timeoutMs: 180_000 })
+  // One node relays nothing (experiment 18), so the chain directly, at once. The RPC's balancer can
+  // hand a transaction to a node that has not yet seen its sender's deployment, which drops it
+  // (pass d2): the same raw transaction is sent again while the chain does not know it.
+  let resends = 0
+  let r: Awaited<ReturnType<typeof waitForFrameTxReceipt>> | undefined
+  for (let attempt = 0; attempt < 4 && !r; attempt++) {
+    try { await chain.request({ method: 'eth_sendRawTransaction', params: [raw] } as never) } catch (e) { if (!/known|already/i.test((e as Error).message)) throw e }
+    if (attempt) resends++
+    r = await waitForFrameTxReceipt(chain, hash, { timeoutMs: 60_000 }).catch(() => undefined)
+  }
+  if (!r) throw new Error(`${step}: not mined after ${resends} resends`)
   const frames = r.frameReceipts.map((f) => ({ status: frameReceiptStatus(f), ...frameReceiptGas(f) }))
   const ok = frames.every((f) => f.status === 1)
-  const row = { step, outcome: ok ? 'mined' : 'mined, a frame failed', hash, block: Number(BigInt(r.blockNumber)), gasUsed: Number(BigInt(r.gasUsed)), frames: frames.map((f) => ({ status: f.status, execution: Number(f.execution), state: Number(f.state) })), skandha: skandhaAnswer, ...extra }
+  const row = { step, outcome: ok ? 'mined' : 'mined, a frame failed', hash, block: Number(BigInt(r.blockNumber)), gasUsed: Number(BigInt(r.gasUsed)), frames: frames.map((f) => ({ status: f.status, execution: Number(f.execution), state: Number(f.state) })), skandha: skandhaAnswer, resends, ...extra }
   console.log(`${step}: ${hash} block ${row.block} gasUsed ${row.gasUsed} frames ${frames.map((f) => `${f.status}:${f.execution}+${f.state}s`).join(' / ')}`)
   rows.push(row)
   txs.push({ step, hash, raw })
