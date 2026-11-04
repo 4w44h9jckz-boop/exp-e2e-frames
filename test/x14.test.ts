@@ -5,8 +5,8 @@
 // - Versions 2a and 2b carry leanVM's verifier as lift.py lifts it: every lifted function is the
 //   aggregation guest's, character for character (when work/leanVM is checked out).
 // - Every recorded run (test/fixtures/x14/): every frame transaction rebuilds to its hash, the
-//   program keys are the programs' hashes, and each spend's VERIFY data carries a dependency of
-//   its version's scheme.
+//   program keys are the programs' hashes, and each spend carries a dependency of its version's
+//   scheme, in VERIFY's data on the test network or in a dependency frame on the local chain.
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { type Hex, keccak256, toFunctionSelector, toHex } from 'viem'
@@ -77,10 +77,14 @@ describe.runIf(runs.length > 0)('the recorded runs rebuild', () => {
       it(`${f}: ${t.step}`, () => {
         const tx = parseFrameTx(t.raw)
         expect(frameTxHash(tx).toLowerCase()).toBe(t.hash.toLowerCase())
-        const data = tx.frames[0].data
         const scheme = t.step.startsWith('v3') ? X.LEANSPHINCS_SCHEME : X.LEANSTARK_SCHEME
-        const at = t.step.startsWith('v1') || t.step.startsWith('v2') ? 32 : 0
+        // On the local chain the dependency has a frame of its own (mode 4), priced at its scheme's
+        // declared gas; on the test network it follows T in VERIFY's data (versions 1, 2) or is it.
+        const dep = tx.frames[1]?.mode === X.DEP_VERIFY_FRAME_MODE
+        const data = dep ? tx.frames[1].data : tx.frames[0].data
+        const at = !dep && (t.step.startsWith('v1') || t.step.startsWith('v2')) ? 32 : 0
         expect(BigInt(`0x${data.slice(2 + 2 * at, 2 + 2 * at + 64)}`)).toBe(scheme)
+        if (dep) expect(tx.frames[1].limits.execution).toBe(BigInt(scheme === X.LEANSPHINCS_SCHEME ? X.LEANSPHINCS_VERIFICATION_GAS : X.LEANSTARK_VERIFICATION_GAS))
       })
     }
   }

@@ -62,7 +62,7 @@ genesis.baseFeePerGas = '0x7'
 const genesisFile = join(dir, 'genesis.json')
 writeFileSync(genesisFile, JSON.stringify(genesis))
 const PORT = 18545
-const node: ChildProcess = spawn(join(ethrexDir, 'target/release/ethrex'), ['--dev', '--network', genesisFile, '--datadir', join(dir, 'db'), '--http.port', String(PORT), '--authrpc.port', '18551', '--p2p.disabled', '--http.api', 'eth,net,web3,ethrex', '--log.level', 'info'], {
+const node: ChildProcess = spawn(join(ethrexDir, 'target/release/ethrex'), ['--dev', '--network', genesisFile, '--datadir', join(dir, 'db'), '--http.port', String(PORT), '--authrpc.port', '18551', '--authrpc.jwtsecret', join(dir, 'jwt.hex'), '--p2p.disabled', '--http.api', 'eth,net,web3,ethrex', '--log.level', 'info'], {
   env: { ...process.env, X14_EIP8288: setting, X14_PROVER: L.PROVER, X14_PROGRAMS: join(here, 'programs'), X14_WITNESS_DIR: witnesses },
   stdio: ['ignore', openSync(join(dir, 'node.out'), 'w'), openSync(join(dir, 'node.log'), 'w')],
 })
@@ -294,9 +294,9 @@ out.prediction5 = rows.filter((r) => typeof r.gasUsed === 'number' && modelled.h
 })
 console.log(`prediction 5: ${JSON.stringify(out.prediction5)}`)
 
+const lastBlock = Number(await chain.getBlockNumber())
 stopping = true
 node.kill('SIGTERM')
-const lastBlock = Number(await chain.getBlockNumber().catch(() => 0n))
 
 // ---- the record ----
 

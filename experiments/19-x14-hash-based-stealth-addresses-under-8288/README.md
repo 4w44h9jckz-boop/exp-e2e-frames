@@ -505,3 +505,122 @@ verifier. These are the owner's choices.
 judged on both settings. Version 2b's half of prediction 7 compares the interpreter with version 2a.
 What version 2b tests is a rule language, not arbitrary code; arbitrary code would need recursion
 over other programs, the same gap as the block proof's.
+
+## Results, run 2, part 2: the local chain
+
+After Amendment 3. Records:
+- `results/2-part2-testnet.json` and `results/2-part2-testnet-v2a.json`: every version again on the
+  test network with the contracts that read a dependency frame, the modelled figures prediction 5
+  compares with. Run at `4c92a00`, blocks 686,092 to 686,119.
+- `results/2-part2-local-written.json` and `results/2-part2-local-extended.json`: the local chain,
+  ethrex `64b8fc09` with `ethrex-8288.patch` (sha256 `aae80848...`), in dev mode on ethrex's Hegota
+  genesis with ERC-5564's singleton added at its address. Both run at `abc713c`.
+
+Fixtures are in `test/fixtures/x14/`. The local records' `blocks.last` reads 0, because the runner
+read it after stopping the node; every row carries its own block.
+
+### Predictions 5 and 6
+
+| # | Prediction | Outcome |
+|---|---|---|
+| 5 | the two chains agree | **held in both settings.** Every transaction run on both chains is within 535 gas of its modelled figure (the testnet's measured gas plus the declared gas). Spends cost 495 to 535 more on the local chain, payments 128 less, and deposits the same. As written, the comparison covers version 3's spends and every payment and deposit, since versions 1, 2a and 5 cannot spend |
+| 6 | the local chain refuses both bad blocks | **held in both settings.** As written, the block whose proof omitted its leanSPHINCS dependency was refused ("no aggregate proof for the block's leanSPHINCS dependencies"), and so was the block whose proof covered another key's signature on another message (leanVM's verifier: `Snark(GkrLayer(20))`). Extended, the same two, and two leanSTARK blocks: one whose proof omitted version 1's dependency, and one carrying a proof of another statement. Each spend was mined in the next block, built again with a good proof |
+
+### EIP-8288 as written
+
+- **Versions 1, 2a and 5 are refused at submission:** "Invalid frame transaction: Frame 1: dependency
+  0: LEANSTARK_SCHEME is reserved (EIP-8288 as written)". Their payments and deposits are mined; their
+  funds cannot move.
+- **Version 3 spends,** its block proved by leanVM's own aggregation: 263,737 to 265,401 bytes for one
+  signature, built in 2.8 to 3.0 s at 388 MiB, including leanVM compiling its guest on each call, and
+  checked in 2.5 to 2.6 s.
+
+### Extended
+
+Every version but 4 spends. A spend is three frames: `VERIFY`, the dependency frame, the spend.
+
+| Spend | gas | `VERIFY` | dependency frame | spend frame, execution + state |
+|---|---:|---:|---:|---:|
+| version 3 | 215,292 | 1,189 | 3,000 | 12,246 + 183,600 |
+| version 1 | 242,954 | 1,351 | 30,000 | 12,246 + 183,600 |
+| version 2a, one key | 243,000 | 1,373 | 30,000 | 12,246 + 183,600 |
+| version 2a, two of three | 242,988 | 1,373 | 30,000 | 12,246 + 183,600 |
+| version 5 | 344,287 | 3,373 + 97,920 state | 30,000 | 12,293 + 183,600 |
+
+A block of leanSTARK dependencies only is checked in 19 to 282 ms, one proof at a time; a block with
+a leanSPHINCS dependency in 2.5 to 2.8 s, nearly all of it the aggregate's verifier compiling its
+guest.
+
+### Passes that stopped, the local chain
+
+| Pass | Stopped at | Fixed by |
+|---|---|---|
+| w1 | the first deployment: the node does not serve `ethrex_simulateFrameTransaction` | `--http.api eth,net,web3,ethrex` |
+| w2, w3 | the first block: ethrex's dev producer sends `engine_forkchoiceUpdatedV4`, which refuses Hegota attributes, and the node shuts down after three tries | the patch gives the dev producer `forkchoiceUpdatedV5` and `newPayloadV6` from Hegota on |
+| w4 | completed, but recorded viem's generic heading instead of the node's reason for each refusal | the node's reason recorded; the whole run repeated as w5 |
+
+ethrex also wrote its engine API secret, `jwt.hex`, to the working directory; it was deleted, and
+`local.ts` now puts it in the run's own directory.
+
+### Findings, part 2
+
+- **Under EIP-8288 as written, no private version can spend.** Only the plain leanSPHINCS control,
+  version 3, whose key appears on chain at every spend, is a valid transaction.
+- **With leanSTARK admitted, the EIP's own frame and block rule work unchanged in shape,** and the
+  modelled test network predicted every spend's gas within 535.
+- **leanVM's aggregation cannot fold leanSTARK dependencies,** so the extension checks each proof
+  directly: the block's verification work grows with its leanSTARK spends, which is what the
+  recursive proof exists to prevent.
+- **The digest's order differs between the EIP and leanVM.** `get_deps_hash` puts a leanSPHINCS
+  dependency's message before its key; leanVM's aggregation hashes the key first. The client here
+  compares the proof's claim set with the block's dependencies.
+
+## Results, run 2, part 3: version 2b
+
+Deployment `r2-d3`, run at `abc713c`, blocks 686,254 to 686,261, in one pass. Records:
+`results/2-part3-testnet-v2b.json`, and `results/2-part3-bench.json` (every program again, on an idle
+machine, with the native build); fixture `test/fixtures/x14/2-part3-testnet-v2b.json`.
+
+| # | Prediction | Outcome |
+|---|---|---|
+| 11 | one outer key hides the rule across versions | **held.** The three accounts, one key with $t = 1$, three keys with $t = 2$ and version 1's preimage rule, have 753 bytes of code each, the same but for $C$, declare the same program key `VK2B`, carry 196 bytes of calldata and use 212,477 gas each: a spread of 0 |
+| 7 | proofs fit a machine one can buy, and a version 2b proof costs more than a version 2a proof | **the bounds held for every version; the comparison was shown wrong.** Every proof is under 0.11 s, 140 MiB and between 199 and 240 KiB. On the same signatures, version 2b's interpreter costs what version 2a costs: 6,778 cycles against 6,769 for one key, 11,732 against 11,737 for two of three, the same committed size, and proving times that overlap. The prediction was written for 2b by recursion (Amendment 3) |
+
+| Bench, native build | cycles | proving, ms | proof |
+|---|---:|---|---:|
+| version 1 | 32 | 54, 50, 49 | 199.6 KiB |
+| version 5 | 286 | 71, 60, 58 | 201.6 KiB |
+| version 2a, one key | 6,769 | 69, 51, 50 | 239.4 KiB |
+| version 2a, two of three | 11,737 | 70, 80, 100 | 221.6 KiB |
+| version 2b, one key | 6,778 | 65, 66, 55 | 236.5 KiB |
+| version 2b, two of three | 11,732 | 82, 80, 73 | 222.3 KiB |
+| version 2b, version 1's preimage rule | 1,939 | 64, 64, 69 | 220.2 KiB |
+
+Scanning held a third time: 40 of 40 among 10,000, no false match, 0.79 ms each.
+
+### Findings, part 3
+
+- **One interpreter puts a preimage rule and signature rules behind one key.** A chain observer cannot
+  tell a version 1 style account from a two-of-three account; under versions 1 and 2a they were two
+  program keys, two anonymity sets.
+- **Interpretation costs nothing measurable over a fixed rule set here,** because leanVM's commitment
+  floor dominates: the preimage rule's 1,939 cycles prove in the same time as the two signatures'
+  11,732.
+- **A preimage slot keeps version 1's weakness:** whoever proves holds $k$. The interpreter hides the
+  rule, and the rule still decides who can spend.
+
+## Predictions after run 2
+
+| # | Prediction | Outcome |
+|---|---|---|
+| 1 | one stub hides the rule | held (run 2, part 1) |
+| 2 | the signature keeps spending with the owner | held: version 2a's prover could not redirect; version 1's and 5's could (runs 1 and 2) |
+| 3 | the plain signature links | held (run 1) |
+| 4 | the declared price dominates the spend | in part: every spend's state (183,600 for a fresh destination) breaks the 200,000 bound; version 4 costs the most (runs 1 and 2) |
+| 5 | the two chains agree | held in both settings, within 535 (part 2) |
+| 6 | the local chain refuses both bad blocks | held in both settings (part 2) |
+| 7 | proofs fit a machine one can buy | the bounds held for every version; the 2b-costs-more comparison was shown wrong (part 3) |
+| 8 | aggregation holds fewer here than on the project's machine | held (run 1) |
+| 9 | capacity follows the declared prices | held by arithmetic; the patch does not enforce `MAX_SIGS_PER_TX`, `MAX_STARKS_PER_TX` or the inclusion list's gas, so the limits remain untested on a chain |
+| 10 | scanning finds every payment | held (runs 1 and 2) |
+| 11 | one outer key hides the rule across versions | held (part 3) |
