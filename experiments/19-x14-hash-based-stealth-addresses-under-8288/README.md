@@ -371,3 +371,83 @@ three with different code beyond $C$ or different program keys, different callda
   signature does not open at the other message; `prover/` builds each signature's witness at the
   message it signs, so the forgery reaches the circuit.
 
+
+## Results, run 2, part 1: version 2a and the proofs again
+
+Deployment `r2-d1`, run at `e3e70f9` (Amendment 2), blocks 685,927 to 685,937, in one pass. The run's
+only uncommitted file was the bench's own result. Records: `results/2-second-run.json` (the test
+network), `results/2-second-run-bench.json` (proofs and scanning, on an idle machine, `prover/` built
+with `-C target-cpu=native`); fixture `test/fixtures/x14/2-second-run.json`. EIP-8288 is modelled as
+in run 1. The local chain and version 2b are not in this part.
+
+### Predictions, as far as part 1 reaches
+
+| # | Prediction | Outcome |
+|---|---|---|
+| 1 | one stub hides the rule | **held.** The account of one key and the account of two of three keys have 693 bytes of code each, the 597-byte runtime, the version and the program key byte-identical and the 32 bytes of $C$ the only difference (Amendment 2, item 4). Both spends declare `VK2A`, carry 196 bytes of calldata and use 212,356 gas: a difference of 0 |
+| 2 | the signature keeps spending with the owner | **held for version 2a,** completing run 1's half for versions 1 and 5. The delegated prover held the rule, the keys, $r$, the owner's message and the owner's signature on it. Its proof of its own message was refused inside the circuit (`verify_sig_lean_sphincs`); the owner's proof sent with its own destination was refused in `VERIFY` ("validation prefix frame reverted"). The one spend it could send paid the owner's destination; its own balance stayed 0 |
+| 4 | the declared price dominates the spend | **in part, for version 2a as for version 1.** 212,356 measured plus 30,000 declared is 242,356, over the 200,000 bound on state: 183,600 of it is the fresh destination's account. `VERIFY` executes 1,204 gas and the spend 12,246 |
+| 7 | proofs fit a machine one can buy | **held for versions 1, 2a and 5,** on the native build (below); version 2b's comparison waits for 2b |
+| 10 | scanning finds every payment | **held again.** 40 of 40 among 10,000, no false match, 0.83 ms each; 80 passed the view tag |
+
+### What a proof costs, native build
+
+Three measured passes after a warm-up, 4 cores of a 2.10 GHz Xeon, 15.7 GiB.
+
+| | cycles | bytecode | proving, ms | proof | verifying, ms | peak RSS |
+|---|---:|---:|---|---:|---:|---:|
+| version 1 | 32 | $2^{6}$ | 53, 55, 55 | 200.3 KiB | 15.5 | 139.6 MiB |
+| version 5 | 286 | $2^{9}$ | 64, 65, 59 | 202.4 KiB | 14.0 | 139.6 MiB |
+| version 2a, one key | 6,805 | $2^{16}$ | 61, 66, 55 | 236.9 KiB | 83.8 | 139.6 MiB |
+| version 2a, two of three | 11,715 | $2^{16}$ | 77, 91, 83 | 221.4 KiB | 92.0 | 139.6 MiB |
+
+- Run 1 measured versions 1 and 5 at 4.6 to 6.3 s; the same programs take 53 to 65 ms with the flag
+  leanVM builds with, about 75 to 110 times less (the correction under run 1).
+- Every program here commits about $2^{18}$ to $2^{19}$ cells in all, leanVM's floor, so the proof
+  size barely moves with the statement: version 2a's two leanSPHINCS checks cost 11,715 cycles and
+  still prove in under 0.1 s.
+- The peak RSS is the same 139.6 MiB for every program: the prover's floor, not the statement's.
+
+### What a payment and a spend cost, version 2a
+
+| | one key | two of three keys |
+|---|---:|---:|
+| payment: an account deployed and funded, and announced | 1,363,267 | 1,363,267 |
+| spend, measured | 212,356 | 212,356 |
+| of which state | 183,600 | 183,600 |
+| declared by EIP-8288 | 30,000 | 30,000 |
+| `VERIFY` execution | 1,204 | 1,204 |
+
+The payment is 4,590 gas above run 1's, three more bytes of stub code at 1,530 a byte: version 2's
+path in `Stealth.yul`.
+
+### Findings
+
+- **An account's rule leaves no trace on chain.** One key and two of three keys give the same code
+  but for $C$, the same program key, the same calldata and the same gas. A chain observer learns
+  that a version 2 account was spent, and nothing of its rule or keys.
+- **A signature inside the proof keeps spend authority with the owner when someone else proves.**
+  Versions 1 and 5 hand the spend to whoever proves; version 2a's prover could prove and send only
+  the spend the owner signed. Until leanVM has zero knowledge, that prover still sees the rule, the
+  keys and the signatures.
+- **EIP-8288 at master reserves `LEANSTARK_SCHEME`:** "a frame that uses it is invalid until
+  `get_deps_hash` is defined for it", and `get_deps_hash` is defined for leanSPHINCS dependencies
+  only. Versions 1, 2 and 5 declare leanSTARK dependencies, so under EIP-8288 as written none of them
+  is a valid transaction. The pre-registration and run 1 modelled leanSTARK dependencies at the
+  declared 30,000 without noting this. It bears on the local chain, which is not built yet.
+- **leanVM's recursion verifies sub-proofs of its own bytecode only.** Its aggregation guest checks
+  "sub-proofs OF THIS SAME BYTECODE", its in-circuit verifier is compiled for the inner program's
+  bytecode size, "here the inner bytecode is this one", and the inner bytecode's evaluation is
+  deferred to the final verifier ("bytecode Public DEFERRED"), which holds the bytecode. A
+  block-level proof over leanSTARK dependencies, and version 2b's outer program over a committed
+  program, both need a proof of another program verified in circuit, which leanVM at `3cbac04` does
+  not do. If it did by deferral, the final verifier would need the inner program, which is the rule
+  version 2b hides.
+
+### Transactions, run 2
+
+| Step | Transaction | Block |
+|---|---|---:|
+| v2a: the owner spends, one key | [`0xf5fe165a...`](https://dora.privacy.ethrex.xyz/tx/0xf5fe165a2f218cff218d5a9779b738864a1d213a951ebb891f0bacb921361a24) | 685,934 |
+| v2a: the owner spends, two of three keys | [`0x5af13152...`](https://dora.privacy.ethrex.xyz/tx/0x5af1315227308d9a1d0a443ec77fa9b66c02e2b07218df33e48a836103bb70dc) | 685,935 |
+| v2a: the delegated prover sends the owner's spend | [`0x07c1b679...`](https://dora.privacy.ethrex.xyz/tx/0x07c1b6795240fe9077cbbc3f14948698d97229cacb237c2443dce1f8ba992215) | 685,937 |
