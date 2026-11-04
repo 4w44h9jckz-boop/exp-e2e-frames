@@ -78,7 +78,10 @@ describe('Board.yul hard-codes the right constants', () => {
 })
 
 const fixtures = new URL('./fixtures/x12/', import.meta.url).pathname
-const runs = existsSync(fixtures) ? readdirSync(fixtures).filter((f) => f.endsWith('.json')) : []
+const all = existsSync(fixtures) ? readdirSync(fixtures).filter((f) => f.endsWith('.json')) : []
+const shapeOf = (f: string) => JSON.parse(readFileSync(join(fixtures, f), 'utf8'))
+const runs = all.filter((f) => shapeOf(f).S)
+const runs2 = all.filter((f) => shapeOf(f).board2)
 
 describe.runIf(runs.length > 0)('the recorded runs rebuild', () => {
   for (const f of runs) {
@@ -122,3 +125,47 @@ describe.runIf(runs.length > 0)('the recorded runs rebuild', () => {
     })
   }
 })
+
+// Run 2: Board2 behind ERC-5564's singleton.
+describe.runIf(runs2.length > 0)('run 2 rebuilds: a blob behind the singleton', () => {
+  const yul2 = readFileSync(join(here, 'contracts/Board2.yul'), 'utf8')
+  it('Board2 calls announce(uint256,address,bytes,bytes) on the singleton', () => {
+    expect(yul2).toContain(toFunctionSelector('announce(uint256,address,bytes,bytes)').slice(2))
+    expect(yul2).toContain(X.SINGLETON.slice(2))
+  })
+  for (const f of runs2) {
+    const fx = JSON.parse(readFileSync(join(fixtures, f), 'utf8'))
+    const entries = (fx.blob.entries as Hex[]).map((e) => hexToBytes(e))
+    const blob = B.packBlob(B.KIND.S2, entries)
+    it(`${f}: the blob rebuilds to the recorded versioned hash, 102 entries of 1,199 bytes`, () => {
+      expect(entries).toHaveLength(102)
+      expect(entries.every((e) => e.length === P.S2_BYTES)).toBe(true)
+      expect(B.versionedHashOf(B.commitmentOf(blob))).toBe(fx.blob.vh)
+      expect(bytesToHex(B.element(blob, 0))).toBe(fx.blob.header)
+    })
+    it(`${f}: every entry carries 57 bytes of metadata whose first byte is its view tag`, () => {
+      for (const e of entries) {
+        const d = P.decodeS2(e)!
+        expect(d.metadata).toHaveLength(P.META_BYTES)
+        expect(Array.from(d.metadata.subarray(1, 5))).toEqual([0xa9, 0x05, 0x9c, 0xbb])
+      }
+    })
+    it(`${f}: board2's pointer is the versioned hash, the header's tail and the post count`, () => {
+      const ptr = (fx.events as { caller: Hex; stealthAddress: Hex; ephemeralPubKey: Hex; metadata: Hex; schemeId: number }[]).filter((e) => e.caller.toLowerCase() === fx.board2.toLowerCase())
+      expect(ptr).toHaveLength(1)
+      expect(ptr[0].schemeId).toBe(3)
+      expect(BigInt(ptr[0].stealthAddress)).toBe(0n)
+      expect(ptr[0].ephemeralPubKey.toLowerCase()).toBe(`${fx.blob.vh}${fx.blob.header.slice(4)}`.toLowerCase())
+      expect(ptr[0].metadata).toBe(`0x00${numberToHex(BigInt(fx.blob.seq) + 1n, { size: 8 }).slice(2)}`)
+    })
+    it(`${f}: board2's post rebuilds to its hash and carries the blob`, () => {
+      for (const t of fx.transactions as { hash: Hex; raw: Hex }[]) {
+        const tx = parseFrameTx(t.raw)
+        expect(frameTxHash(tx).toLowerCase()).toBe(t.hash.toLowerCase())
+        expect(tx.sender.toLowerCase()).toBe(fx.board2.toLowerCase())
+        expect(tx.blobVersionedHashes).toEqual([fx.blob.vh])
+      }
+    })
+  }
+})
+

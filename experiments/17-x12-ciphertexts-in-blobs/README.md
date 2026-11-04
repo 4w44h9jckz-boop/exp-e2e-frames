@@ -403,3 +403,45 @@ the same sha256 as on mainnet (read 2026-11-03 at test network block 671,390 and
 - **The blob is read from the run's own record** if the test network serves no blob data, as in
   run 1, and checked against the versioned hash on chain.
 - **One packer key,** as in run 1.
+
+## Results, run 2
+
+Deployment `r2a`, run at `7a6bb24`, blocks 684,399 to 684,412. Record
+`results/2-behind-the-announcer.json`, scan record `results/2-behind-the-announcer-scan.json`,
+fixture `test/fixtures/x12/2-behind-the-announcer.json`. Nothing stopped: the run went through on
+the first pass.
+
+Before anything was sent, the singleton held 709 bytes of code on the test network (block
+684,398) and on mainnet (block 26,339,357), with the same sha256, `97b1a2b6...52a1b17`.
+
+### Predictions
+
+| # | Prediction | Outcome |
+|---|---|---|
+| 1 | the pointer is cheap | **held.** `VERIFY` 59,402, 15 more than run 1's; `SENDER` execution 67,742, 8,697 more than run 1's 59,045; state 391,680, as run 1's first post |
+| 2 | a direct announcement is the floor | **held.** All ten cost exactly 105,368 gas, over 1,412 bytes of calldata |
+| 3 | more metadata, fewer entries | **held.** 102 entries of 1,199 bytes, 1,285 blob gas each; all 102 entries' metadata read back byte for byte |
+| 4 | one scanner finds both kinds | **held.** Reading only the singleton's twelve events, it found 25 of 25: entries 1, 3, 5, 7 and 9 of the direct ones, and the 20 in the blob. No other scheme-3 announcement appeared in the range |
+| 5 | the caller filters pointers | **held.** The spoofed pointer was ignored and nothing was fetched for it; the blob with one byte changed was rejected on its versioned hash, before any entry was scanned |
+| 6 | an unaware scanner skips pointers | **held.** Run 1's scanner, over all twelve events, found the five direct entries, threw nothing, and matched neither pointer |
+
+### What it costs
+
+- **The pointer** is 8,697 execution gas in the board's `SENDER` frame: a call to a cold account,
+  the call's 292 bytes, and a log of four topics. It writes no state.
+- **A spoofed pointer** cost its sender 33,688 gas. A scanner that follows boards by `caller`
+  spends one log read on it and fetches nothing.
+- **A direct announcement with metadata** is 105,368 gas, 2,048 more than run 1's announcement
+  with a one-byte metadata: the 32 bytes of calldata the 57-byte metadata adds over one byte, at
+  64 gas each.
+- **In the blob,** the metadata costs five entries per blob, 102 against 107.
+
+### Transactions
+
+| Step | Transaction | Block |
+|---|---|---:|
+| a direct announcement through the singleton, one of ten | [`0xf10242f7...`](https://dora.privacy.ethrex.xyz/tx/0xf10242f74e8775e0b091962d32cca46c07dcdddd4b4eafabedb321f9886f8e38) | 684,402 |
+| board2 posts the blob and announces the pointer | [`0x0d4b7fa9...`](https://dora.privacy.ethrex.xyz/tx/0x0d4b7fa928f313fa82022ec9365b22445f0a1f7d07b1e76d79f86a27b7851c8c) | 684,411 |
+| a pointer from an account that is not a board | [`0xd89e4f24...`](https://dora.privacy.ethrex.xyz/tx/0xd89e4f24d7df80ca621cfdf17fc44b67d8ebd0ccd039d3ce9936f2173f496115) | 684,412 |
+
+The test network's relaunches void its hashes; the fixture keeps the board's post and every event.
