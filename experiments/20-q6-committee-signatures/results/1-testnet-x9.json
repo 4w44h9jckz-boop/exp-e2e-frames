@@ -1,0 +1,277 @@
+{
+  "experiment": 20,
+  "run": "1-testnet",
+  "arm": "x9",
+  "chain": "testnet",
+  "placement": "modelled",
+  "deployment": "d1",
+  "repoCommit": "99c997e8dae8d9caa8af73d3fb9ca5c64c54f4b2",
+  "chainId": 8141,
+  "funder": "0x58703D6A1178F30464EF82Afd2cdA48C00479115",
+  "ethrex": null,
+  "runner": {
+    "binary": "experiment 14's x9-runner, built at f6bd932",
+    "modes": [
+      "hold",
+      "send-redemption"
+    ]
+  },
+  "vault": "0xCc216700b3648CA497759fab8ba9AaBF94344FaE",
+  "members": [
+    "0x900298bca9cb7d13eb660070c6f795bd7126188c13663c85f2ae946b077a2b57",
+    "0xa8f7d730ed672d08b5ee99f2533dc65eb6ea2652aab13e2ec9e17f1c01e77384",
+    "0x4d4dd8a9085d923df4987db575a71b6e3009a046c41a6555cefa844e16f389a4"
+  ],
+  "quorum": 3,
+  "timeout": "10",
+  "escapeWindow": "10",
+  "float": "10000000000000000",
+  "since": "688381",
+  "escapeAt": "688393",
+  "after": {
+    "mode": "0",
+    "redeemed": "2"
+  },
+  "blocks": {
+    "first": 688374,
+    "last": 688405
+  },
+  "setup": [
+    {
+      "what": "X9: deploy the vault with its float",
+      "hash": "0x899e872d65850a032ee39d6d9172f72743b7d5c6c95cbbd05c271e4eab90be6f",
+      "block": 688376,
+      "gasUsed": 9353346,
+      "ok": true
+    },
+    {
+      "what": "X9: an intent queued, which nobody processes",
+      "hash": "0x1b73be102db8e14a640304206bf614e238d2453d8acf9b3c185d4f5f18c0426e",
+      "block": 688381,
+      "gasUsed": 357527,
+      "ok": true
+    }
+  ],
+  "ticks": 0,
+  "rows": [
+    {
+      "step": "X9: two notes held",
+      "holds": [
+        {
+          "hash": "0xe180d99f76c39a5fc20323f240a00bfe65826e532c3ef66d3ecacb45571534dc",
+          "block": "0xa80f9",
+          "leaf": 0
+        },
+        {
+          "hash": "0xfc797ee6086629ab465a1fb91d41e5368f50983b473abf9a15bdc44e13a669ac",
+          "block": "0xa80fb",
+          "leaf": 1
+        }
+      ]
+    },
+    {
+      "step": "X9: holder 0 redeems its own note",
+      "hash": "0xdfd3046d4dcd4ac2ce2cb740026533ac4c61934b5a7776b4fa495368ce0a15b5",
+      "nullifierHash": "0xd242059cdd1bd53d111ecafa29b6444d856214e1bf97a134db0380cc0d0c562",
+      "accepted": true,
+      "block": "0xa8109",
+      "gasUsed": "0xc6563",
+      "frames": [
+        {
+          "gasUsed": "0x15cb",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x3e608",
+          "stateGasUsed": "0x17e80",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x9dad",
+          "stateGasUsed": "0x5ca30",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x2d23",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        }
+      ],
+      "modeBefore": 0,
+      "modeAfter": 1
+    },
+    {
+      "step": "X9: holder 1 redeems its own note",
+      "hash": "0x01ba72ffd40485744554cde99f56a99a7efc3dc5db196e3fcdafce52f351b59a",
+      "nullifierHash": "0x1feda682c0cb37c869672c4c467ae61d097f12f95d773ee4ddd5c7cdbc92e9ff",
+      "accepted": true,
+      "block": "0xa810c",
+      "gasUsed": "0xac7cf",
+      "frames": [
+        {
+          "gasUsed": "0x15cb",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x3d589",
+          "stateGasUsed": "0x17e80",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x8f24",
+          "stateGasUsed": "0x44bb0",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x2d23",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        }
+      ],
+      "modeBefore": 1,
+      "modeAfter": 1
+    },
+    {
+      "step": "X9 refusal: a reconciliation with two signatures of three",
+      "outcome": "refused by the node",
+      "refusal": "below the quorum",
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted"
+      },
+      "arm": "x9",
+      "declared": 6000,
+      "signatures": 2,
+      "signMs": [
+        51.277055000000004,
+        57.832086
+      ]
+    },
+    {
+      "step": "X9 refusal: a reconciliation with member 1's signature declared twice",
+      "outcome": "refused by the node",
+      "refusal": "one member counted twice",
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted"
+      },
+      "arm": "x9",
+      "declared": 9000,
+      "signatures": 3,
+      "signMs": [
+        59.867423,
+        61.632457,
+        61.374855
+      ]
+    },
+    {
+      "step": "X9 refusal: a reconciliation with a key outside the committee as the third",
+      "outcome": "refused by the node",
+      "refusal": "a key outside the committee",
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted"
+      },
+      "arm": "x9",
+      "declared": 9000,
+      "signatures": 3,
+      "signMs": [
+        44.40217,
+        54.414906,
+        60.132954000000005
+      ]
+    },
+    {
+      "step": "X9 refusal: a reconciliation with member 2's signature on another message",
+      "outcome": "refused by the node",
+      "refusal": "a signature on another message",
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted"
+      },
+      "arm": "x9",
+      "declared": 9000,
+      "signatures": 3,
+      "signMs": [
+        52.126892,
+        58.802848,
+        60.069069000000006
+      ]
+    },
+    {
+      "step": "X9: the reconciliation signed by members 0, 1, 2",
+      "outcome": "mined",
+      "hash": "0x261a4e1acec0f8bfb0e1acf5aee38fef6aa1404ebe22fa7a3eec8512e22045fe",
+      "block": 688404,
+      "gasUsed": 151160,
+      "reportedGas": 160160,
+      "frames": [
+        {
+          "mode": 1,
+          "status": 1,
+          "execution": 10698,
+          "state": 97920
+        },
+        {
+          "mode": 2,
+          "status": 1,
+          "execution": 24324,
+          "state": 0
+        }
+      ],
+      "calldataBytes": 388,
+      "txBytes": 510,
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "arm": "x9",
+      "refusal": null,
+      "declared": 9000,
+      "signatures": 3,
+      "signMs": [
+        49.316018,
+        57.986201,
+        63.448063
+      ]
+    }
+  ],
+  "observed": [
+    {
+      "arm": "x9",
+      "step": "X9: the reconciliation signed by members 0, 1, 2",
+      "hash": "0x261a4e1acec0f8bfb0e1acf5aee38fef6aa1404ebe22fa7a3eec8512e22045fe",
+      "frame": 0,
+      "signers": [
+        0,
+        1,
+        2
+      ],
+      "distinctMessages": 1
+    }
+  ],
+  "offChain": [
+    {
+      "arm": "x9",
+      "step": "X9: the reconciliation signed by members 0, 1, 2",
+      "hash": "0x261a4e1acec0f8bfb0e1acf5aee38fef6aa1404ebe22fa7a3eec8512e22045fe",
+      "claims": 3,
+      "proofBytes": 274969,
+      "aggregateMs": 2668.4330489999998,
+      "peakRssBytes": 416919552,
+      "verifyMs": 2385,
+      "verified": true,
+      "verifyOutput": "{\"verified\":true,\"verifyMs\":2361.792231}"
+    }
+  ],
+  "nodeRecords": null,
+  "transactions": [
+    {
+      "step": "X9: the reconciliation signed by members 0, 1, 2",
+      "hash": "0x261a4e1acec0f8bfb0e1acf5aee38fef6aa1404ebe22fa7a3eec8512e22045fe",
+      "raw": "0x06f901fa821fcde1a08affa72f85c07051db5ad103fe7f479238b78ed388d8e4e31787b14160edb8928094cc216700b3648ca497759fab8ba9aabf94344faef901b6f90190010380c8830186a083017e8080b9018000000000000000000000000000000000000000000000000000000000000000020d242059cdd1bd53d111ecafa29b6444d856214e1bf97a134db0380cc0d0c5621feda682c0cb37c869672c4c467ae61d097f12f95d773ee4ddd5c7cdbc92e9ff000000000000000000000000000000000000000000000000000000000000001020ef236b319eb0946338c43a07db7852367f3f5ec45aedc699b54f10babefd4c900298bca9cb7d13eb660070c6f795bd7126188c13663c85f2ae946b077a2b57000000000000000000000000000000000000000000000000000000000000001020ef236b319eb0946338c43a07db7852367f3f5ec45aedc699b54f10babefd4ca8f7d730ed672d08b5ee99f2533dc65eb6ea2652aab13e2ec9e17f1c01e77384000000000000000000000000000000000000000000000000000000000000001020ef236b319eb0946338c43a07db7852367f3f5ec45aedc699b54f10babefd4c4d4dd8a9085d923df4987db575a71b6e3009a046c41a6555cefa844e16f389a4e2028094cc216700b3648ca497759fab8ba9aabf94344faec482c3508080848f0d7e35c0c3016480c0"
+    }
+  ]
+}
