@@ -38,6 +38,7 @@ export const vkOf = (program: string) => keccak256(readFileSync(here(`programs/$
 export const VK1 = vkOf('v1_preimage')
 export const VK5 = vkOf('v5_tornado')
 export const VK2A = vkOf('v2a_rules')
+export const VK2B = vkOf('v2b_interpreter')
 export const triple = (scheme: bigint, dataHash: Hex, vk: Hex) => concatHex([word(scheme), dataHash, vk])
 /** EIP-8288's dependency verification frame: mode 4, no target, flags and value 0, its execution
  * limit the declared price of its triples, no state. */

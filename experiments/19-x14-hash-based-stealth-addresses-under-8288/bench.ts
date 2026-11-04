@@ -1,6 +1,6 @@
 // Experiment 19 (X14), offline, on an idle machine: prediction 7 (what a proof costs on a machine
 // one can buy) and prediction 10 (scanning).
-//   1. Versions 1, 5 and, from run 2, 2a under both its rules, proved by prover/ with three
+//   1. Versions 1, 5 and, from run 2, 2a under both its rules and 2b under three, proved by prover/ with three
 //      measured passes after a warm-up each; the leanSPHINCS signer of version 3, five times. The
 //      prover's build flags are recorded (run 2 builds it as leanVM builds itself; Amendment 2).
 //   2. 10,000 announcements of schemeId 6 (an ML-KEM-768 ciphertext and a view tag, the account's
@@ -39,10 +39,17 @@ const pks = seeds.map(L.sphincsKey)
 const m2 = rnd(32), r2 = rnd(32)
 out.v2aOneKey = L.prove('v2a_rules', L.v2a(L.RULE_ONE, [pks[0], z, z], r2, m2, [{ index: 0, signed: L.sign(seeds[0], m2) }]).input, 3)
 out.v2aTwoOfThree = L.prove('v2a_rules', L.v2a(L.RULE_TWO_OF_THREE, pks, r2, m2, [{ index: 1, signed: L.sign(seeds[1], m2) }, { index: 2, signed: L.sign(seeds[2], m2) }]).input, 3)
+// Version 2b (Amendment 3): the interpreter over the same two rules, and over version 1's.
+const E2 = { type: L.SLOT_EMPTY, value: z }
+const keySlot = (i: number) => ({ type: L.SLOT_KEY, value: pks[i] })
+const k2 = rnd(32)
+out.v2bOneKey = L.prove('v2b_interpreter', L.v2b({ t: 1, slots: [keySlot(0), E2, E2] }, r2, m2, [{ index: 0, signed: L.sign(seeds[0], m2) }]).input, 3)
+out.v2bTwoOfThree = L.prove('v2b_interpreter', L.v2b({ t: 2, slots: [keySlot(0), keySlot(1), keySlot(2)] }, r2, m2, [{ index: 1, signed: L.sign(seeds[1], m2) }, { index: 2, signed: L.sign(seeds[2], m2) }]).input, 3)
+out.v2bPreimage = L.prove('v2b_interpreter', L.v2b({ t: 1, slots: [{ type: L.SLOT_PREIMAGE, value: L.preimageKeyOf(k2) }, E2, E2] }, r2, m2, [{ index: 0, k: k2 }]).input, 3)
 const cargoConfig = join(here, 'prover/.cargo/config.toml')
 out.proverRustflags = existsSync(cargoConfig) ? (readFileSync(cargoConfig, 'utf8').match(/^rustflags = (.*)$/m)?.[1] ?? 'none') : 'none'
 out.v3 = Array.from({ length: 5 }, () => JSON.parse(execFileSync(L.PROVER, ['sphincs', bytesToHex(rnd(32)).slice(2), bytesToHex(rnd(32)).slice(2)], { encoding: 'utf8' })))
-for (const v of ['v1', 'v5', 'v2aOneKey', 'v2aTwoOfThree']) console.log(`${v} ${JSON.stringify(out[v])}`)
+for (const v of ['v1', 'v5', 'v2aOneKey', 'v2aTwoOfThree', 'v2bOneKey', 'v2bTwoOfThree', 'v2bPreimage'].filter((x) => out[x])) console.log(`${v} ${JSON.stringify(out[v])}`)
 
 // ---- 2. scanning ----
 

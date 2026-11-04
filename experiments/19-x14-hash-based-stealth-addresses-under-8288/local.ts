@@ -107,7 +107,8 @@ async function frameStep(step: string, tx: FrameTx, extra: Record<string, unknow
   const hash = frameTxHash(tx)
   const sim = await simulateFrameTx(chain, tx).catch((e) => ({ valid: false, violation: (e as Error).message.slice(0, 300), executionStatus: null }))
   let sent: string | undefined
-  try { await chain.request({ method: 'eth_sendRawTransaction', params: [raw] } as never) } catch (e) { sent = (e as Error).message.split('\n').slice(0, 3).join(' ').slice(0, 400) }
+  // The node's own reason is viem's `details`; its `message` is a generic heading.
+  try { await chain.request({ method: 'eth_sendRawTransaction', params: [raw] } as never) } catch (e) { sent = String((e as { details?: string }).details ?? (e as Error).message).slice(0, 400) }
   if (sent) {
     const row = { step, outcome: 'refused by the node', refusal: sent, simulation: { valid: sim.valid, violation: sim.violation }, ...extra }
     console.log(`${step}: refused: ${sent.slice(0, 160)}`)

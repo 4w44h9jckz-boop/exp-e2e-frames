@@ -2,8 +2,8 @@
 //
 // - The leanVM cell encoding of lean.ts matches leanVM's own known answer, H^3(5, 7).
 // - Each contract hard-codes the selectors and event topics its comments name.
-// - Version 2a's program carries leanVM's verifier as lift.py lifts it: every lifted function is
-//   the aggregation guest's, character for character (when work/leanVM is checked out).
+// - Versions 2a and 2b carry leanVM's verifier as lift.py lifts it: every lifted function is the
+//   aggregation guest's, character for character (when work/leanVM is checked out).
 // - Every recorded run (test/fixtures/x14/): every frame transaction rebuilds to its hash, the
 //   program keys are the programs' hashes, and each spend's VERIFY data carries a dependency of
 //   its version's scheme.
@@ -45,8 +45,8 @@ describe('the contracts hard-code the right constants', () => {
 })
 
 const guest = new URL('../work/leanVM/crates/rec_aggregation/guests/lean_ethereum.py', import.meta.url).pathname
-describe.runIf(existsSync(guest))('version 2a lifts leanVM\'s verifier verbatim', () => {
-  const program = readFileSync(join(here, 'programs/v2a_rules.py'), 'utf8')
+for (const name of ['v2a_rules', 'v2b_interpreter']) describe.runIf(existsSync(guest))(`${name} lifts leanVM's verifier verbatim`, () => {
+  const program = readFileSync(join(here, `programs/${name}.py`), 'utf8')
   const lifted = program.slice(program.indexOf('# ---- LIFTED: begin'), program.indexOf('# ---- LIFTED: end'))
   const source = readFileSync(guest, 'utf8')
   // A top-level def runs to the next line that starts in column 0 with something other than a
@@ -71,6 +71,7 @@ describe.runIf(runs.length > 0)('the recorded runs rebuild', () => {
       expect(fx.vk.v1).toBe(X.VK1)
       expect(fx.vk.v5).toBe(X.VK5)
       if (fx.vk.v2a) expect(fx.vk.v2a).toBe(X.VK2A)
+      if (fx.vk.v2b) expect(fx.vk.v2b).toBe(X.VK2B)
     })
     for (const t of fx.transactions as { step: string; hash: Hex; raw: Hex }[]) {
       it(`${f}: ${t.step}`, () => {
