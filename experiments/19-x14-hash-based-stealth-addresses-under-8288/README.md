@@ -191,3 +191,27 @@ Payments and spends are frame transactions sent first to a skandha node at `ede9
 experiments 01 to 18, and its answer is recorded; any it refuses go to the chain directly, and that
 is recorded too. Every step is simulated on the test network before it is sent. On the local
 chain, every transaction goes to the patched client directly.
+
+## Amendment 1, 2026-11-04, before any run: two runs, version 2 in the second
+
+**What changes.** Run 1 builds and runs versions 1, 3, 4 and 5, and arms 4 to 7 as far as they
+concern those versions: the delegated prover for versions 1 and 5, the control's linkage,
+aggregation, the local chain, and scanning. Run 2 builds and runs versions 2a and 2b, and arms 2
+and 3 as they concern version 2.
+
+**Why.** Versions 1 and 5 are short programs written here: a preimage chain, and a depth-20
+Keccak membership path. Version 2a needs leanSPHINCS verified inside a leanVM program of its own.
+leanVM verifies leanSPHINCS only inside its aggregation guest
+(`crates/rec_aggregation/guests/lean_ethereum.py`, `verify_sig_lean_sphincs`). That verifier rests
+on dozens of the guest's helpers and constants, and on witness streams the aggregation's Rust code
+builds for each signature. Lifting both out is a piece of work of its own, and version 2b sits on
+recursion besides.
+
+**What it does not change.** No prediction, threshold or falsifier is edited. Predictions 1 and
+2, and version 2's half of prediction 7, are judged in run 2. Everything else is judged in run 1.
+
+**Before the run, on the tooling.**
+- The cell encoding of `programs/` was checked against leanVM's own known answer, $H^3(5, 7)$
+  from its test programs.
+- Both of run 1's programs prove and verify at leanVM `3cbac04`, and a witness for another
+  message is refused.
