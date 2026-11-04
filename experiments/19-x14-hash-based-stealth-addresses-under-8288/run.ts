@@ -23,7 +23,7 @@ import { type Address, type Hex, bytesToHex, createWalletClient, decodeEventLog,
 import { privateKeyToAccount, privateKeyToAddress } from 'viem/accounts'
 import { type Pin, buildSkandha, checkout, loadKey, rpcUrlOf, run, startNode, stopNode, writeConfig } from '../../src/e2e/index.js'
 import { sendFrames } from '../../src/exp-frames/deploy.js'
-import { type FrameTx, frameReceiptGas, frameReceiptStatus, frameTxHash, getNonceSeq, hegotaTestnet, makeClient, senderFrame, serializeFrameTx, simulateFrameTx, waitForFrameTxReceipt } from '../../src/exp-frames/frametx/index.js'
+import { CPSB, NEW_ACCOUNT_STATE_GAS, type FrameTx, frameReceiptGas, frameReceiptStatus, frameTxHash, getNonceSeq, hegotaTestnet, makeClient, senderFrame, serializeFrameTx, simulateFrameTx, waitForFrameTxReceipt } from '../../src/exp-frames/frametx/index.js'
 import { FIELD, H as mimc, proofWords, treeOf as mimcTree } from '../15-x10-out-and-back/x10.js'
 import * as X12 from '../17-x12-ciphertexts-in-blobs/x12.js'
 import * as L from './lean.js'
@@ -135,7 +135,9 @@ const FUND = 2n * X.DENOM
 async function pay(step: string, version: bigint, w: Hex, vk: Hex, salt: Hex, ct: Uint8Array, viewTag: number) {
   const account = X.accountOf(version, w, vk, salt)
   await setupTx(step, [
-    senderFrame({ target: X.factory.address, value: FUND, data: encodeFunctionData({ abi: X.factoryAbi, functionName: 'pay', args: [version, w, vk, salt] }), execution: 400_000n, state: 4n * 97_920n + 183_600n }),
+    // The account's code is state: 1,530 a byte on this network (EIP-8037), with the new account's
+    // 183,600 (pass d1 stopped with state for an empty account, the shortfall spilling into execution).
+    senderFrame({ target: X.factory.address, value: FUND, data: encodeFunctionData({ abi: X.factoryAbi, functionName: 'pay', args: [version, w, vk, salt] }), execution: 400_000n, state: NEW_ACCOUNT_STATE_GAS + CPSB * BigInt((X.stealthCode.length - 2) / 2 + 96) }),
     senderFrame({ target: X12.SINGLETON, data: encodeFunctionData({ abi: X12.singletonAbi, functionName: 'announce', args: [6n, account, bytesToHex(ct), numberToHex(viewTag, { size: 1 })] }), execution: 60_000n, state: 0n }),
   ])
   const r = setup[setup.length - 1]
