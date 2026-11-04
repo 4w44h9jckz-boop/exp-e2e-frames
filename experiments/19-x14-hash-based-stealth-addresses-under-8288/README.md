@@ -624,3 +624,32 @@ Scanning held a third time: 40 of 40 among 10,000, no false match, 0.79 ms each.
 | 9 | capacity follows the declared prices | held by arithmetic; the patch does not enforce `MAX_SIGS_PER_TX`, `MAX_STARKS_PER_TX` or the inclusion list's gas, so the limits remain untested on a chain |
 | 10 | scanning finds every payment | held (runs 1 and 2) |
 | 11 | one outer key hides the rule across versions | held (part 3) |
+
+## After run 2, not pre-registered: the recorded transactions against rapidblocks' conflict rule
+
+An after-the-fact check, not a prediction. Rapidblocks (ethresear.ch topics 26152 and 26157, read
+2026-11-04) lets concurrent blocks commit without a reorg when they touch no common key. Keys are per
+storage slot and per account field; a balance credit that nothing reads does not count. A
+transaction that touches a key a concurrent earlier block modified waits for the slow path.
+`conflicts.ts` reads each run 2 test-network transaction's writes from the block's EIP-7928 access
+list (`eth_getBlockAccessList`) and asks, for two transactions of one kind, which keys both write,
+credits aside. Record: `results/2-conflicts.json`.
+
+| Kind | Two of them | Key both write |
+|---|---|---|
+| spend, versions 1, 2a, 2b, 3 | independent | none: each account pays from its own balance, under its own nonce key |
+| payment, every version | conflict | the factory's nonce, which every `CREATE2` increments |
+| version 5 deposit | conflict | 21 storage slots of the pool's tree |
+| version 5 withdrawal | conflict | the pool's balance, debited for the payout and for its own gas |
+
+Version 4 has one deposit and one withdrawal in the record, so no pair; its withdrawal debits the
+pool's balance, as version 5's does.
+
+- **A lower bound.** The access list gives reads per block, not per transaction, so a key one
+  transaction reads and another writes is not counted. A withdrawal's read of a recent root, for
+  instance, is not.
+- **The test network serves no historical state:** `eth_getBalance` answers the latest balance at
+  every block. A balance's direction comes from the access lists of the run's own blocks.
+- **What it says.** One-time accounts are independent at spend time. A pool that sends and pays for
+  its own withdrawals makes its balance a key every withdrawal writes, and its tree a set of keys
+  every deposit writes; a factory makes its nonce one every payment writes.
