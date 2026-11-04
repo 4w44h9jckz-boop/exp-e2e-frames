@@ -115,8 +115,11 @@ export class Wallet {
       const serial = K.serialOf(this.seed, l)
       const factor = K.factorOf(this.seed, l)
       const { blinded } = K.blind(this.store, serial, factor)
-      const answers = [0, 1, 2].map((j) => ({ issuer: j + 1, answer: K.issuerAnswer(this.issuers, j, blinded) }))
-      this.supply.push({ serial, sig: K.unblind(answers, factor) })
+      // unblind takes 0-based issuer indices (pass d2 stopped on 1-based ones).
+      const answers = [0, 1, 2].map((j) => ({ issuer: j, answer: K.issuerAnswer(this.issuers, j, blinded) }))
+      const sig = K.unblind(answers, factor)
+      if (!K.verifyTicket(K.keyHex(this.issuers), this.store, serial, sig)) throw new Error('a ticket the issuers\' key refuses')
+      this.supply.push({ serial, sig })
     }
   }
   next(): Ticket {
