@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs'
 import { type Address, type Hex, bytesToHex, concatHex, encodeAbiParameters, encodeFunctionData, getContractAddress, keccak256, numberToHex, pad, parseAbi, toHex } from 'viem'
 import { compileYul } from '../../src/exp-frames/contracts.js'
 import { create2Address, deployFrame, saltOf } from '../../src/exp-frames/deploy.js'
-import { Approve, type FrameTx, type FrameTxFees, STORAGE_SET_STATE_GAS, senderFrame, verifyFrame } from '../../src/exp-frames/frametx/index.js'
+import { Approve, type Frame, type FrameTx, type FrameTxFees, STORAGE_SET_STATE_GAS, senderFrame, verifyFrame } from '../../src/exp-frames/frametx/index.js'
 import { HASHER } from '../15-x10-out-and-back/x10.js'
 
 export const DIR = 'experiments/19-x14-hash-based-stealth-addresses-under-8288'
@@ -39,6 +39,14 @@ export const VK1 = vkOf('v1_preimage')
 export const VK5 = vkOf('v5_tornado')
 export const VK2A = vkOf('v2a_rules')
 export const triple = (scheme: bigint, dataHash: Hex, vk: Hex) => concatHex([word(scheme), dataHash, vk])
+/** EIP-8288's dependency verification frame: mode 4, no target, flags and value 0, its execution
+ * limit the declared price of its triples, no state. */
+export const DEP_VERIFY_FRAME_MODE = 4
+export function depFrame(triples: Hex): Frame {
+  let execution = 0n
+  for (let i = 2; i < triples.length; i += 192) execution += BigInt(`0x${triples.slice(i + 62, i + 64)}`) === LEANSPHINCS_SCHEME ? BigInt(LEANSPHINCS_VERIFICATION_GAS) : BigInt(LEANSTARK_VERIFICATION_GAS)
+  return { mode: DEP_VERIFY_FRAME_MODE, flags: 0, target: null, limits: { execution, state: 0n }, value: 0n, data: triples }
+}
 
 // ---- contracts ----
 
@@ -77,12 +85,23 @@ export const messageOf = (account: Address, nonce: bigint, destination: Address,
 /** A payment to a fresh address creates an account: its state gas on the test network (EIP-8037). */
 export const NEW_ACCOUNT_STATE = 183_600n
 
+/** Where the dependency goes: VERIFY's own data (EIP-8288 modelled), or a frame of its own. */
+export type Placement = 'modelled' | 'dep-frame'
+/** VERIFY's data and the frames between it and the spend, for a triple at the end of `verifyData`. */
+function placed(verifyData: Hex, placement: Placement): { verify: Hex; between: Frame[] } {
+  if (placement === 'modelled') return { verify: verifyData, between: [] }
+  const t = `0x${verifyData.slice(-192)}` as Hex
+  return { verify: verifyData.slice(0, -192) as Hex, between: [depFrame(t)] }
+}
+
 /** The account as sender and payer of its spend: VERIFY carrying the dependency, then spend(). */
-export function spendTx(chainId: bigint, account: Address, nonce: bigint, verifyData: Hex, destination: Address, amount: bigint): FrameTx {
+export function spendTx(chainId: bigint, account: Address, nonce: bigint, verifyData: Hex, destination: Address, amount: bigint, placement: Placement = 'modelled'): FrameTx {
+  const p = placed(verifyData, placement)
   return {
     chainId, nonceKeys: [0n], nonceSeq: nonce, sender: account,
     frames: [
-      verifyFrame({ scope: Approve.EXECUTION_AND_PAYMENT, target: null, data: verifyData, execution: 60_000n, state: 0n }),
+      verifyFrame({ scope: Approve.EXECUTION_AND_PAYMENT, target: null, data: p.verify, execution: 60_000n, state: 0n }),
+      ...p.between,
       senderFrame({ target: account, data: encodeFunctionData({ abi: stealthAbi, functionName: 'spend', args: [destination, amount] }), execution: 60_000n, state: NEW_ACCOUNT_STATE }),
     ],
     signatures: [], fees: FEES, blobVersionedHashes: [],
@@ -90,11 +109,13 @@ export function spendTx(chainId: bigint, account: Address, nonce: bigint, verify
 }
 
 /** The pool as sender and payer of a withdrawal: the nullifier hash its one nonce key. */
-export function withdraw5Tx(chainId: bigint, nf: Hex, verifyData: Hex, root: Hex, recipient: Address, relayer: Address, fee: bigint): FrameTx {
+export function withdraw5Tx(chainId: bigint, nf: Hex, verifyData: Hex, root: Hex, recipient: Address, relayer: Address, fee: bigint, placement: Placement = 'modelled'): FrameTx {
+  const p = placed(verifyData, placement)
   return {
     chainId, nonceKeys: [BigInt(nf)], nonceSeq: 0n, sender: pool5.address,
     frames: [
-      verifyFrame({ scope: Approve.EXECUTION_AND_PAYMENT, target: null, data: verifyData, execution: 60_000n, state: STORAGE_SET_STATE_GAS }),
+      verifyFrame({ scope: Approve.EXECUTION_AND_PAYMENT, target: null, data: p.verify, execution: 60_000n, state: STORAGE_SET_STATE_GAS }),
+      ...p.between,
       senderFrame({ target: pool5.address, data: encodeFunctionData({ abi: pool5Abi, functionName: 'withdraw', args: [root, nf, recipient, relayer, fee] }), execution: 60_000n, state: NEW_ACCOUNT_STATE }),
     ],
     signatures: [], fees: FEES, blobVersionedHashes: [],

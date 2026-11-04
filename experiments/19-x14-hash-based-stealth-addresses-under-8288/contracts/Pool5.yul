@@ -4,6 +4,9 @@
 //
 //   [0] VERIFY -> pool   data: triple (96) = 0x11 || D || VK, D = H(H(root || nf) || binding)
 //   [1] SENDER -> pool   withdraw(bytes32 root, bytes32 nf, address recipient, address relayer, uint256 fee)
+//
+// or, where EIP-8288 is enabled (the local chain): [0] VERIFY with empty data, [1] a dependency
+// frame (mode 4) holding the triple, [2] the SENDER frame.
 //   nonce key: nf, at sequence 0, so a note is withdrawn once
 //
 // binding = keccak256(recipient || relayer || fee), as Tornado binds them into its proof. The
@@ -38,20 +41,27 @@ object "Pool5" {
             function validate(me) {
                 if me { revert(0, 0) }
                 if iszero(eq(frameparam(0x06, me), 3)) { revert(0, 0) }
-                if iszero(eq(txparam(0x09), 2)) { revert(0, 0) }
-                if iszero(eq(frameparam(0x02, 1), 2)) { revert(0, 0) }
-                if iszero(eq(frameparam(0x00, 1), address())) { revert(0, 0) }
-                if frameparam(0x08, 1) { revert(0, 0) }
-                if frameparam(0x03, 1) { revert(0, 0) }
+                // dep is 1 when frame 1 is an EIP-8288 dependency frame holding the triple, and the
+                // withdrawal is then frame 2; otherwise the triple is this frame's own data.
+                let dep := eq(frameparam(0x02, 1), 4)
+                let s := add(1, dep)
+                let tf := me
+                if dep { tf := 1 }
+                if iszero(eq(txparam(0x09), add(2, dep))) { revert(0, 0) }
+                if iszero(eq(frameparam(0x02, s), 2)) { revert(0, 0) }
+                if iszero(eq(frameparam(0x00, s), address())) { revert(0, 0) }
+                if frameparam(0x08, s) { revert(0, 0) }
+                if frameparam(0x03, s) { revert(0, 0) }
                 if txparam(0x0b) { revert(0, 0) }
                 if txparam(0x07) { revert(0, 0) }
                 if txparam(0x01) { revert(0, 0) }
-                if iszero(eq(shr(224, framedataload(0, 1)), 0xa55c1853)) { revert(0, 0) }
-                if iszero(eq(frameparam(0x04, 1), 0xa4)) { revert(0, 0) }
-                if iszero(eq(frameparam(0x04, me), 96)) { revert(0, 0) }
-                let root := framedataload(0x04, 1)
-                let nf := framedataload(0x24, 1)
-                let fee := framedataload(0x84, 1)
+                if iszero(eq(shr(224, framedataload(0, s)), 0xa55c1853)) { revert(0, 0) }
+                if iszero(eq(frameparam(0x04, s), 0xa4)) { revert(0, 0) }
+                if iszero(eq(frameparam(0x04, me), mul(96, iszero(dep)))) { revert(0, 0) }
+                if iszero(eq(frameparam(0x04, tf), 96)) { revert(0, 0) }
+                let root := framedataload(0x04, s)
+                let nf := framedataload(0x24, s)
+                let fee := framedataload(0x84, s)
                 if iszero(sload(mapslot(root, 4))) { revert(0, 0) }
                 if gt(fee, DENOM()) { revert(0, 0) }
                 // The one nonce key is the nullifier hash.
@@ -60,8 +70,8 @@ object "Pool5" {
                 mstore(0x120, nf)
                 if iszero(eq(keccak256(0x100, 0x40), txparam(0x0f))) { revert(0, 0) }
                 // binding = keccak256(recipient || relayer || fee); D = H(H(root || nf) || binding)
-                mstore(0x200, framedataload(0x44, 1))
-                mstore(0x220, framedataload(0x64, 1))
+                mstore(0x200, framedataload(0x44, s))
+                mstore(0x220, framedataload(0x64, s))
                 mstore(0x240, fee)
                 let binding := keccak256(0x200, 0x60)
                 mstore(0x300, root)
@@ -69,9 +79,9 @@ object "Pool5" {
                 mstore(0x300, keccak256(0x300, 0x40))
                 mstore(0x320, binding)
                 let d := keccak256(0x300, 0x40)
-                if iszero(eq(framedataload(0, me), 0x11)) { revert(0, 0) }
-                if iszero(eq(framedataload(32, me), d)) { revert(0, 0) }
-                if iszero(eq(framedataload(64, me), VK())) { revert(0, 0) }
+                if iszero(eq(framedataload(0, tf), 0x11)) { revert(0, 0) }
+                if iszero(eq(framedataload(32, tf), d)) { revert(0, 0) }
+                if iszero(eq(framedataload(64, tf), VK())) { revert(0, 0) }
                 approve(3)
             }
 

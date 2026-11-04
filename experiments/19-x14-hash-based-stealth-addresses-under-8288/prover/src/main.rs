@@ -2,13 +2,22 @@
 //!
 //! usage: x14-prover <program.py> <input.json> [repeat]
 //!        x14-prover sphincs <seed hex> <message hex>   (a leanSPHINCS key, a signature, a verify)
+//!        x14-prover verify <program.py> <public.json> <proof.bin>
+//!        x14-prover aggregate <claims.json> <out.bin>
+//!        x14-prover verify-aggregate <proof.bin> <claims.json>
+//!
+//! The last three are what the patched client calls (Amendment 3): a leanSTARK dependency's proof
+//! checked directly, and a block's leanSPHINCS dependencies aggregated by leanVM's own aggregation
+//! and checked by its own verifier, the proof serialized without the keys, which the verifier
+//! takes from the block. Each prints one JSON line; a refusal is `{"error": ...}`, exit status 2.
 //!
 //! input.json: { "public": [[c0, c1], [c0, c1]], "witness": { name: [[[c0, c1], ...], ...] },
 //!               "sphincs": [{ "publicKey": hex, "signature": hex, "message": hex }, ...],
 //!               "logInvRate": 1 }, every limb a hex string. Each `sphincs` entry is a leanSPHINCS
 //!               signature the owner made (`x14-prover sphincs`), appended to the streams as
 //!               leanVM's own host hints it, for version 2a's program to verify in circuit; the
-//!               prover never holds a signing key. One warm-up proof, then `repeat`
+//!               prover never holds a signing key; "proofOut": a path, to keep the last proof
+//!               (bincode). One warm-up proof, then `repeat`
 //! measured ones; the last is verified. Prints one JSON line: cycles, the tables' rows, proof
 //! bytes (bincode, as leanVM's own CLI counts them), proving and verifying milliseconds, peak RSS;
 //! or, when the witness does not satisfy the program, `{"error": ...}` and exit status 2.
@@ -133,10 +142,79 @@ mod sphincs_hints {
     }
 }
 
+fn refuse(why: impl std::fmt::Debug) -> ! {
+    println!("{}", json!({ "error": format!("{why:?}") }));
+    std::process::exit(2);
+}
+fn bytes_of(v: &Value, k: &str) -> Vec<u8> {
+    let h = v[k].as_str().expect("hex").trim_start_matches("0x");
+    (0..h.len() / 2).map(|i| u8::from_str_radix(&h[2 * i..2 * i + 2], 16).expect("hex")).collect()
+}
+fn compile_program(path: &str) -> leanvm_core::cpu::Program {
+    let src = fs::read_to_string(path).expect("the program");
+    lean_compiler::compile(&lean_compiler::parse(&src).expect("the program parses"))
+}
+
+/// A leanSTARK dependency checked directly: the program, its two public cells, the proof.
+fn verify_one(program: &str, public: &str, proof: &str) {
+    let program = compile_program(program);
+    let p: Value = serde_json::from_str(&fs::read_to_string(public).expect("public")).expect("JSON");
+    let p = p.as_array().expect("two public cells");
+    let public = [cell(&p[0]), cell(&p[1])];
+    let proof: leanvm_core::cpu::Proof = bincode::deserialize(&fs::read(proof).expect("the proof")).unwrap_or_else(|e| refuse(e));
+    let t = Instant::now();
+    match verify(&program, &public, &proof) {
+        Ok(_) => println!("{}", json!({ "verified": true, "verifyMs": t.elapsed().as_secs_f64() * 1000.0 })),
+        Err(e) => refuse(e),
+    }
+}
+
+fn claims_of(path: &str, with_signatures: bool) -> Vec<(signatures::lean_sphincs::LeanSphincsPublicKey, [u8; 32], Option<signatures::lean_sphincs::LeanSphincsSignature>)> {
+    use signatures::lean_sphincs as sp;
+    let v: Value = serde_json::from_str(&fs::read_to_string(path).expect("claims")).expect("JSON");
+    v.as_array().expect("a list of claims").iter().map(|c| {
+        let pk = sp::LeanSphincsPublicKey::from_bytes(&bytes_of(c, "publicKey").try_into().expect("a 32-byte key"));
+        let msg: [u8; 32] = bytes_of(c, "message").try_into().expect("a 32-byte message");
+        let sig = with_signatures.then(|| sp::LeanSphincsSignature::from_bytes(&bytes_of(c, "signature").try_into().expect("a 7,740-byte signature")));
+        (pk, msg, sig)
+    }).collect()
+}
+
+/// A block's leanSPHINCS dependencies, aggregated by leanVM's own aggregation into one proof.
+fn aggregate(claims: &str, out: &str) {
+    let raw: Vec<_> = claims_of(claims, true).into_iter().map(|(pk, m, s)| (pk, m, s.unwrap())).collect();
+    let n = raw.len();
+    let t = Instant::now();
+    let proof = rec_aggregation::aggregate(&[], Vec::new(), raw, &[], None, 1).unwrap_or_else(|e| refuse(e));
+    let ms = t.elapsed().as_secs_f64() * 1000.0;
+    let bytes = proof.to_bytes_without_pubkeys();
+    fs::write(out, &bytes).expect("write the proof");
+    println!("{}", json!({ "claims": n, "proofBytes": bytes.len(), "aggregateMs": ms, "peakRssBytes": bench::peak_rss_bytes() }));
+}
+
+/// The block's leanSPHINCS dependencies against the block's proof, as the client checks a block.
+fn verify_aggregate(proof: &str, claims: &str) {
+    let mut set: Vec<_> = claims_of(claims, false).into_iter().map(|(pk, m, _)| (pk, m)).collect();
+    set.sort();
+    set.dedup();
+    let bytes = fs::read(proof).expect("the proof");
+    let claims = rec_aggregation::SignatureClaims { xmss: Vec::new(), lean_sphincs: set };
+    let t = Instant::now();
+    let proof = rec_aggregation::EthereumProof::from_bytes_without_pubkeys(&bytes, claims).unwrap_or_else(|e| refuse(e));
+    match proof.verify() {
+        Ok(()) => println!("{}", json!({ "verified": true, "verifyMs": t.elapsed().as_secs_f64() * 1000.0 })),
+        Err(e) => refuse(e),
+    }
+}
+
 fn main() {
     let args: Vec<String> = std::env::args().collect();
-    if args[1] == "sphincs" {
-        return sphincs(&args[2], &args[3]);
+    match args[1].as_str() {
+        "sphincs" => return sphincs(&args[2], &args[3]),
+        "verify" => return verify_one(&args[2], &args[3], &args[4]),
+        "aggregate" => return aggregate(&args[2], &args[3]),
+        "verify-aggregate" => return verify_aggregate(&args[2], &args[3]),
+        _ => {}
     }
     let src = fs::read_to_string(&args[1]).expect("the program");
     let input: Value = serde_json::from_str(&fs::read_to_string(&args[2]).expect("the input")).expect("JSON");
@@ -187,6 +265,9 @@ fn main() {
         last = Some(out);
     }
     let (proof, stats) = last.unwrap();
+    if let Some(path) = input["proofOut"].as_str() {
+        fs::write(path, bincode::serialize(&proof).expect("a proof serializes")).expect("write the proof");
+    }
     let t = Instant::now();
     let verified = verify(&program, &public, &proof).is_ok();
     let verify_ms = t.elapsed().as_secs_f64() * 1000.0;

@@ -172,6 +172,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "lean_da"
+version = "0.1.0"
+dependencies = [
+ "fiat_shamir",
+ "parallel",
+ "pcs",
+ "primitives",
+ "serde",
+ "tracing",
+]
+
+[[package]]
 name = "leanvm_core"
 version = "0.1.0"
 dependencies = [
@@ -317,6 +329,25 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "76afc826de14238e6e8c374ddcc1fa19e374fd8dd986b0d2af0d02377261d83c"
 dependencies = [
  "getrandom",
+]
+
+[[package]]
+name = "rec_aggregation"
+version = "0.1.0"
+dependencies = [
+ "bincode",
+ "keccak_gkr",
+ "lean_compiler",
+ "lean_da",
+ "leanvm_core",
+ "parallel",
+ "pcs",
+ "primitives",
+ "rand",
+ "serde",
+ "signatures",
+ "tracing",
+ "verifier",
 ]
 
 [[package]]
@@ -654,6 +685,7 @@ dependencies = [
  "lean_compiler",
  "leanvm_core",
  "primitives",
+ "rec_aggregation",
  "serde_json",
  "sha3",
  "signatures",

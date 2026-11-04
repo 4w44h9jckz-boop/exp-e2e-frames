@@ -4,6 +4,12 @@
 //   [0] VERIFY -> account  data: versions 1 and 2: T (32) || triple (96); version 3: triple (96)
 //   [1] SENDER -> account  spend(address destination, uint256 amount)
 //
+// or, where EIP-8288 is enabled (the local chain), the triple in a dependency frame of its own:
+//
+//   [0] VERIFY -> account  data: versions 1 and 2: T (32); version 3: empty
+//   [1] DEP_VERIFY (mode 4) data: triple (96)
+//   [2] SENDER -> account  spend(address destination, uint256 amount)
+//
 // A triple is scheme (32) || data_hash (32) || verification_key_hash (32), as EIP-8288 declares a
 // dependency. On the test network nothing proves the triple: EIP-8288 is modelled, and the
 // recursive proof that would make the triple true is checked off chain (the experiment's prover).
@@ -42,11 +48,16 @@ object "Stealth" {
             function validate(me) {
                 if me { revert(0, 0) }
                 if iszero(eq(frameparam(0x06, me), 3)) { revert(0, 0) }
-                if iszero(eq(txparam(0x09), 2)) { revert(0, 0) }
-                if iszero(eq(frameparam(0x02, 1), 2)) { revert(0, 0) }
-                if iszero(eq(frameparam(0x00, 1), address())) { revert(0, 0) }
-                if frameparam(0x08, 1) { revert(0, 0) }
-                if frameparam(0x03, 1) { revert(0, 0) }
+                // dep is 1 when frame 1 is an EIP-8288 dependency frame holding the triple, and the
+                // spend is then frame 2; otherwise the triple is in this frame's own data.
+                let dep := eq(frameparam(0x02, 1), 4)
+                let s := add(1, dep)
+                if iszero(eq(txparam(0x09), add(2, dep))) { revert(0, 0) }
+                if dep { if iszero(eq(frameparam(0x04, 1), 96)) { revert(0, 0) } }
+                if iszero(eq(frameparam(0x02, s), 2)) { revert(0, 0) }
+                if iszero(eq(frameparam(0x00, s), address())) { revert(0, 0) }
+                if frameparam(0x08, s) { revert(0, 0) }
+                if frameparam(0x03, s) { revert(0, 0) }
                 if txparam(0x0b) { revert(0, 0) }
                 if txparam(0x07) { revert(0, 0) }
                 // Its own nonce: one nonce key, key 0 (EIP-8250's keccak256(1 || 0)).
@@ -54,10 +65,10 @@ object "Stealth" {
                 mstore(0x100, 1)
                 mstore(0x120, 0)
                 if iszero(eq(keccak256(0x100, 0x40), txparam(0x0f))) { revert(0, 0) }
-                if iszero(eq(shr(224, framedataload(0, 1)), 0xaf7d6ca3)) { revert(0, 0) }
-                if iszero(eq(frameparam(0x04, 1), 0x44)) { revert(0, 0) }
-                let destination := framedataload(0x04, 1)
-                let amount := framedataload(0x24, 1)
+                if iszero(eq(shr(224, framedataload(0, s)), 0xaf7d6ca3)) { revert(0, 0) }
+                if iszero(eq(frameparam(0x04, s), 0x44)) { revert(0, 0) }
+                let destination := framedataload(0x04, s)
+                let amount := framedataload(0x24, s)
                 if shr(160, destination) { revert(0, 0) }
                 // m = keccak256(DOMAIN || account || nonce || destination || amount)
                 mstore(0x200, 0x0bc2bb6b03725b6aeb2f6210912c0b1480ff7c66147147ad893a4fbe0bfde91d) // keccak256("exp-e2e-frames/19/spend")
@@ -66,25 +77,29 @@ object "Stealth" {
                 mstore(0x260, destination)
                 mstore(0x280, amount)
                 let m := keccak256(0x200, 0xa0)
+                // The triple: frame 1's data from its start, or this frame's after T (versions 1, 2).
+                let tf := me
+                if dep { tf := 1 }
+                let own := mul(96, iszero(dep))
                 switch VERSION()
-                case 1 { stark(me, m) }
-                case 2 { stark(me, m) }
+                case 1 { stark(me, tf, own, m) }
+                case 2 { stark(me, tf, own, m) }
                 case 3 {
-                    if iszero(eq(frameparam(0x04, me), 96)) { revert(0, 0) }
-                    triple(me, 0, 0x10, m, WORD())
+                    if iszero(eq(frameparam(0x04, me), own)) { revert(0, 0) }
+                    triple(tf, 0, 0x10, m, WORD())
                 }
                 default { revert(0, 0) }
                 approve(3)
             }
-            function stark(me, m) {
-                if iszero(eq(frameparam(0x04, me), 128)) { revert(0, 0) }
+            function stark(me, tf, own, m) {
+                if iszero(eq(frameparam(0x04, me), add(32, own))) { revert(0, 0) }
                 let t := framedataload(0, me)
                 mstore(0x300, WORD())
                 mstore(0x320, m)
                 mstore(0x300, keccak256(0x300, 0x40))
                 mstore(0x320, t)
                 let d := keccak256(0x300, 0x40)
-                triple(me, 32, 0x11, d, VK())
+                triple(tf, mul(32, eq(tf, me)), 0x11, d, VK())
             }
             function triple(me, at, scheme, dataHash, vk) {
                 if iszero(eq(framedataload(at, me), scheme)) { revert(0, 0) }
