@@ -262,7 +262,8 @@ const record = {
   blocks: { first: firstBlock, last: lastBlock }, pins, setup, rows, ...out,
 }
 const fixture = { chainId: Number(chainId), contracts: record.contracts, vk: record.vk, transactions: txs }
-for (const [name, body] of [['record', JSON.stringify(record)], ['fixture', JSON.stringify(fixture)]] as const) {
+const big = (_: string, v: unknown) => (typeof v === 'bigint' ? v.toString() : v)
+for (const [name, body] of [['record', JSON.stringify(record, big)], ['fixture', JSON.stringify(fixture, big)]] as const) {
   for (const s of secrets) {
     const bare = s.replace(/^0x/, '').toLowerCase()
     if (bare.length >= 32 && body.toLowerCase().includes(bare)) throw new Error(`the ${name} contains a secret; not written`)
