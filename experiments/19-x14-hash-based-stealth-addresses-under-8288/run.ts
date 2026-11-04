@@ -205,11 +205,14 @@ out.v3Linkage = { keysOnChain: seen.map((s) => `0x${s}`), same: seen[0] === seen
 
 // ---- v5: Tornado's statement in a Keccak tree, under a modelled EIP-8288 ----
 
+// A first leaf writes 23 fresh slots, 97,920 state each here (pass d3 stopped at 900,000 gas).
+const DEPOSIT_GAS = 23n * 97_920n + 500_000n
+
 const notes5 = ['owner', 'delegated'].map((l) => ({ l, ns: secretBytes(`v5/${l}/ns`), s: secretBytes(`v5/${l}/s`) }))
 const leaves5: Uint8Array[] = []
 for (const n of notes5) {
   const c = L.leafOf(n.ns, n.s)
-  const { row } = await eoaStep(`v5: deposit, ${n.l}`, await wallet.writeContract({ address: X.pool5.address, abi: X.pool5Abi, functionName: 'deposit', args: [bytesToHex(c)], value: X.DENOM, gas: 900_000n, maxFeePerGas: 100n, maxPriorityFeePerGas: 1n } as never))
+  const { row } = await eoaStep(`v5: deposit, ${n.l}`, await wallet.writeContract({ address: X.pool5.address, abi: X.pool5Abi, functionName: 'deposit', args: [bytesToHex(c)], value: X.DENOM, gas: DEPOSIT_GAS, maxFeePerGas: 100n, maxPriorityFeePerGas: 1n } as never))
   void row
   leaves5.push(c)
 }
@@ -234,7 +237,7 @@ for (const [i, n] of notes5.entries()) {
   const secret = hexToBigInt(bytesToHex(secretBytes('v4/secret', 31)))
   const commitment = ph(Buffer.concat([leInt(nullifier, 31), leInt(secret, 31)]))
   const nullifierHash = ph(leInt(nullifier, 31))
-  await eoaStep('v4: deposit', await wallet.writeContract({ address: X.pool4.address, abi: X.pool4Abi, functionName: 'deposit', args: [X.word(commitment)], value: X.DENOM, gas: 1_600_000n, maxFeePerGas: 100n, maxPriorityFeePerGas: 1n } as never))
+  await eoaStep('v4: deposit', await wallet.writeContract({ address: X.pool4.address, abi: X.pool4Abi, functionName: 'deposit', args: [X.word(commitment)], value: X.DENOM, gas: DEPOSIT_GAS + 1_200_000n, maxFeePerGas: 100n, maxPriorityFeePerGas: 1n } as never))
   const tree = mimcTree([commitment])
   const p = tree.path(0)
   const recipient = fresh('v4/owner')
