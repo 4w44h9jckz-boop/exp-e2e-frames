@@ -237,3 +237,36 @@ Deposits and spends are frame transactions sent first to a skandha node at `ede9
 experiments 01 to 15, and its answer is recorded; any it refuses go to the chain directly, and
 that is recorded too. Blob carriers are type-3 transactions sent to the chain, as in experiment 17.
 Every step is simulated on the test network before it is sent.
+
+## Amendment 1, 2026-11-04, before any code ran: the time check reads the registry's own clock
+
+**What the pre-registration said.** "The registry's `VERIFY` checks the proof, that `nullifier` is
+unused, and that $t_{\mathrm{now}}$ is not later than the block's timestamp."
+
+**Why it cannot be built.** EIP-8141 (Draft, read at master on 2026-11-04) bans `TIMESTAMP`
+"during the validation prefix", except in its expiry verifier frame, which "reverts unless
+`block.timestamp <= expiry_timestamp`". That bounds time from above. A reclaim needs it bounded
+from below, $t_{\mathrm{now}} \le$ now, and nothing in validation reads the clock that way. Moving
+the check into the `SENDER` frame does not work either: the nullifier is a nonce key consumed at
+inclusion, so a spend with a future $t_{\mathrm{now}}$ would pass `VERIFY`, fail in `SENDER`, and
+burn the note.
+
+**What is built instead.** The registry keeps its own clock in storage: every deposit, every spend
+and a public `tick()` store the block's timestamp, in execution, where `TIMESTAMP` is allowed.
+`VERIFY` reads that stored time, which is the sender's own storage and so allowed, and checks
+$t_{\mathrm{now}} \le t_{\mathrm{last}}$. Since $t_{\mathrm{last}}$ is never later than the block's
+timestamp, the check is at least as strict as the one pre-registered. Since it only grows, a spend
+that passes it stays valid in the mempool. A sender who wants to reclaim when the registry has had
+no activity since $T$ calls `tick()` first.
+
+**Also changed, for the same reason of reading only the registry's own state:** known roots are
+kept in the registry's storage, and `VERIFY` checks the proof's root among them. Experiment 15's
+EIP-8272 root frame is not used.
+
+**What it changes in the predictions.** In prediction 4, "the registry refuses the future
+$t_{\mathrm{now}}$" now means a $t_{\mathrm{now}}$ later than the registry's stored time, refused
+in `VERIFY` before anything is spent. Nothing else changes.
+
+**A finding, stated before the run.** A frame transaction can say "valid until" in validation and
+cannot say "valid after". A timelock that validation must respect has to read time from state that
+execution wrote.
