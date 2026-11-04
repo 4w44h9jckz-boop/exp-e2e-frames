@@ -1180,10 +1180,50 @@
       "conflict": true
     },
     {
+      "kind": "v2a: payment",
+      "pair": [
+        "v2a: pay and announce, one key",
+        "v2a: pay and announce, delegated"
+      ],
+      "sharedWrites": [
+        "factory, nonce"
+      ],
+      "conflict": true
+    },
+    {
+      "kind": "v2a: payment",
+      "pair": [
+        "v2a: pay and announce, two of three keys",
+        "v2a: pay and announce, delegated"
+      ],
+      "sharedWrites": [
+        "factory, nonce"
+      ],
+      "conflict": true
+    },
+    {
       "kind": "v2a: spend",
       "pair": [
         "v2a: the owner spends, one key",
         "v2a: the owner spends, two of three keys (keys 2 and 0)"
+      ],
+      "sharedWrites": [],
+      "conflict": false
+    },
+    {
+      "kind": "v2a: spend",
+      "pair": [
+        "v2a: the owner spends, one key",
+        "v2a: the delegated prover sends the owner's spend, to the owner's destination"
+      ],
+      "sharedWrites": [],
+      "conflict": false
+    },
+    {
+      "kind": "v2a: spend",
+      "pair": [
+        "v2a: the owner spends, two of three keys (keys 2 and 0)",
+        "v2a: the delegated prover sends the owner's spend, to the owner's destination"
       ],
       "sharedWrites": [],
       "conflict": false
@@ -1200,10 +1240,50 @@
       "conflict": true
     },
     {
+      "kind": "v2b: payment",
+      "pair": [
+        "v2b: pay and announce, one key",
+        "v2b: pay and announce, version 1's preimage rule"
+      ],
+      "sharedWrites": [
+        "factory, nonce"
+      ],
+      "conflict": true
+    },
+    {
+      "kind": "v2b: payment",
+      "pair": [
+        "v2b: pay and announce, two of three keys",
+        "v2b: pay and announce, version 1's preimage rule"
+      ],
+      "sharedWrites": [
+        "factory, nonce"
+      ],
+      "conflict": true
+    },
+    {
       "kind": "v2b: spend",
       "pair": [
         "v2b: the owner spends, one key",
         "v2b: the owner spends, two of three keys"
+      ],
+      "sharedWrites": [],
+      "conflict": false
+    },
+    {
+      "kind": "v2b: spend",
+      "pair": [
+        "v2b: the owner spends, one key",
+        "v2b: the owner spends, version 1's preimage rule"
+      ],
+      "sharedWrites": [],
+      "conflict": false
+    },
+    {
+      "kind": "v2b: spend",
+      "pair": [
+        "v2b: the owner spends, two of three keys",
+        "v2b: the owner spends, version 1's preimage rule"
       ],
       "sharedWrites": [],
       "conflict": false

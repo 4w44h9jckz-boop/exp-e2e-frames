@@ -632,8 +632,9 @@ An after-the-fact check, not a prediction. Rapidblocks (ethresear.ch topics 2615
 storage slot and per account field; a balance credit that nothing reads does not count. A
 transaction that touches a key a concurrent earlier block modified waits for the slow path.
 `conflicts.ts` reads each run 2 test-network transaction's writes from the block's EIP-7928 access
-list (`eth_getBlockAccessList`) and asks, for two transactions of one kind, which keys both write,
-credits aside. Record: `results/2-conflicts.json`.
+list (`eth_getBlockAccessList`) and asks, for every pair of transactions of one kind, which keys
+both write, credits aside. Record: `results/2-conflicts.json` (regenerated over every pair when run
+3 was checked; the verdicts did not change).
 
 | Kind | Two of them | Key both write |
 |---|---|---|
@@ -708,3 +709,37 @@ since the access list gives reads per block.
 
 **If it stops.** If the test network refuses a creation transaction's state for the stub, or
 EIP-8272's verifier frame refuses the pool's root, the pass stops and is recorded with the reason.
+
+## Results, run 3
+
+Deployment `r3-d1`, run at `1663bc5`, blocks 686,840 to 686,856, in one pass. Records:
+`results/3-third-run.json`, `results/3-conflicts.json`; fixture `test/fixtures/x14/3-third-run.json`.
+The four notes drawn named pots 1, 1, 2 and 0.
+
+| # | Prediction | Outcome |
+|---|---|---|
+| 12 | payer-deployed payments are independent | **held.** The two creation transactions share no written key, and neither do the two announcements, the payer's own account aside. Their accounts' spends are independent too |
+| 13 | pots make withdrawals independent across pots | **held.** The two withdrawals from pot 1 share pot 1's balance and nothing else; the other five pairs, from different pots, share no written key |
+| 14 | deposits still conflict | **held.** Every pair of deposits shares 20 or 21 of the tree's storage slots; EIP-8272's storage is not among them |
+| 15 | the fixes are cheap | **held.** A payer-deployed payment is 1,371,863 for the creation and 99,224 for the announcement, 1,471,087 in all, 1.1% above run 2's factory payment on the same stub (1,455,067). A pot withdrawal is 318,917, its EIP-8272 frame 5,579 of it, 1.6% above run 2's version 5 withdrawal (313,792) |
+
+"Run 2's factory payment" is read as run 2's on the same 753-byte stub, the test-network rerun of
+part 2; the 693-byte stub of part 1 paid 1,363,267.
+
+### What else run 3 showed
+
+- **skandha refused the first withdrawal,** sent just after the last deposit: "EIP-8272
+  recent-root reference is too new: slot 727248 is not referenceable before slot 727248". The
+  chain included it a block later. A root becomes usable one slot after the deposit that
+  publishes it.
+- **The pots' liquidity is the cost the conflict table does not show.** A note is withdrawn from
+  the pot its nullifier names, not the one its deposit funded, so the pots' balances drift apart;
+  here each pot started with a float. Keeping $k$ pots solvent takes rebalancing, and a rebalance
+  debits the pot it refills from.
+- **A payer-deployed account's address comes from the payer's nonce,** so the recipient checks the
+  announced account's code for $C$ rather than recomputing a CREATE2 address. The link from payer
+  to account is the same as through the factory: the payer funds it either way.
+- **Pooling's one inherent shared key is the tree:** after the fixes, deposits still serialize
+  under rapidblocks, and withdrawals conflict only when two name one pot, $1/k$ of the time for
+  uniform nullifiers.
+

@@ -11,7 +11,7 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { type Hex, keccak256, toFunctionSelector, toHex } from 'viem'
 import { describe, expect, it } from 'vitest'
-import { frameTxHash, parseFrameTx } from '../src/exp-frames/frametx/index.js'
+import { RECENT_ROOT, frameTxHash, parseFrameTx } from '../src/exp-frames/frametx/index.js'
 import * as L from '../experiments/19-x14-hash-based-stealth-addresses-under-8288/lean.js'
 import * as X from '../experiments/19-x14-hash-based-stealth-addresses-under-8288/x14.js'
 
@@ -80,11 +80,16 @@ describe.runIf(runs.length > 0)('the recorded runs rebuild', () => {
         const scheme = t.step.startsWith('v3') ? X.LEANSPHINCS_SCHEME : X.LEANSTARK_SCHEME
         // On the local chain the dependency has a frame of its own (mode 4), priced at its scheme's
         // declared gas; on the test network it follows T in VERIFY's data (versions 1, 2) or is it.
-        const dep = tx.frames[1]?.mode === X.DEP_VERIFY_FRAME_MODE
-        const data = dep ? tx.frames[1].data : tx.frames[0].data
-        const at = !dep && (t.step.startsWith('v1') || t.step.startsWith('v2')) ? 32 : 0
+        // The dependency: a frame of its own (mode 4) on the local chain; otherwise the data of the
+        // VERIFY frame the sender runs, after T for versions 1 and 2. A pot's withdrawal puts
+        // EIP-8272's verifier frame first, so that VERIFY frame is the one with no target.
+        const depAt = tx.frames.findIndex((f) => f.mode === X.DEP_VERIFY_FRAME_MODE)
+        const own = tx.frames.findIndex((f) => f.mode === 1 && f.target === null)
+        const data = depAt >= 0 ? tx.frames[depAt].data : tx.frames[own].data
+        const at = depAt < 0 && (t.step.startsWith('v1') || t.step.startsWith('v2')) ? 32 : 0
         expect(BigInt(`0x${data.slice(2 + 2 * at, 2 + 2 * at + 64)}`)).toBe(scheme)
-        if (dep) expect(tx.frames[1].limits.execution).toBe(BigInt(scheme === X.LEANSPHINCS_SCHEME ? X.LEANSPHINCS_VERIFICATION_GAS : X.LEANSTARK_VERIFICATION_GAS))
+        if (depAt >= 0) expect(tx.frames[depAt].limits.execution).toBe(BigInt(scheme === X.LEANSPHINCS_SCHEME ? X.LEANSPHINCS_VERIFICATION_GAS : X.LEANSTARK_VERIFICATION_GAS))
+        if (tx.frames[0].target?.toLowerCase() === RECENT_ROOT.toLowerCase()) expect(tx.frames[0].data.slice(0, 66)).toBe(fx.contracts.source)
       })
     }
   }

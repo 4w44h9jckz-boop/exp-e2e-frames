@@ -12,7 +12,8 @@
 // The payer of payments and deposits (one funder here, a different one each in practice) is set
 // aside; a frame transaction's own sender, such as a pool paying for its withdrawal, is not.
 //
-// usage: npx tsx experiments/19-x14-hash-based-stealth-addresses-under-8288/conflicts.ts <n>-<label>
+// usage: npx tsx experiments/19-x14-hash-based-stealth-addresses-under-8288/conflicts.ts <n>-<label> [record ...]
+//        (records default to run 2's test-network ones; every pair of each kind is compared)
 import { readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import type { Address, Hex } from 'viem'
@@ -22,7 +23,7 @@ const here = new URL('.', import.meta.url).pathname
 const runLabel = process.argv[2]
 if (!runLabel) throw new Error('usage: conflicts.ts <n>-<label>')
 const chain = makeClient()
-const RECORDS = ['2-part2-testnet', '2-part2-testnet-v2a', '2-part3-testnet-v2b']
+const RECORDS = process.argv.length > 3 ? process.argv.slice(3) : ['2-part2-testnet', '2-part2-testnet-v2a', '2-part3-testnet-v2b']
 
 type Bal = { address: Address; balanceChanges: { index: Hex; postBalance?: Hex; value?: Hex }[]; nonceChanges: { index: Hex }[]; codeChanges: { index: Hex }[]; storageChanges: { key: Hex; changes: { index: Hex }[] }[] }
 const balCache = new Map<number, Bal[]>()
@@ -48,7 +49,11 @@ const name = (a: string) => names.get(a.toLowerCase()) ?? 'a fresh account'
 const out: Record<string, unknown>[] = []
 for (const f of RECORDS) {
   const r = JSON.parse(readFileSync(join(here, 'results', `${f}.json`), 'utf8'))
-  for (const [k, v] of Object.entries(r.contracts ?? {})) names.set(String(v).toLowerCase(), k)
+  for (const [k, v] of Object.entries(r.contracts ?? {})) {
+    if (Array.isArray(v)) v.forEach((x, i) => names.set(String(x).toLowerCase(), `${k.replace(/s$/, '')} ${i}`))
+    else names.set(String(v).toLowerCase(), k)
+  }
+  names.set('0x0000000000000000000000000000000000008272', 'EIP-8272 recent roots')
   names.set(String(r.funder).toLowerCase(), 'the funder (payer of payments and deposits)')
   funders.add(String(r.funder).toLowerCase())
   names.set('0x0000000000000000000000000000000000008250', 'EIP-8250 nonce keys')
@@ -84,7 +89,7 @@ for (const f of RECORDS) {
 // prover's, or two accounts' payments, are one kind.
 const kindOf = (s: string) => {
   const v = s.split(':')[0]
-  const what = /pay and announce/.test(s) ? 'payment' : /deposit/.test(s) ? 'deposit' : /withdraw/.test(s) ? 'withdrawal' : /spend/.test(s) ? 'spend' : s
+  const what = /pay and announce/.test(s) ? 'payment' : /: pay, /.test(s) ? 'payment (creation)' : /: announce, /.test(s) ? 'announcement' : /deposit/.test(s) ? 'deposit' : /withdraw/.test(s) ? 'withdrawal' : /spend/.test(s) ? 'spend' : s
   return `${v}: ${what}`
 }
 const kinds = new Map<string, typeof out>()
@@ -98,12 +103,15 @@ for (const t of out) {
 const touches = (t: Record<string, unknown>) => new Set((t.writes as { key: string }[]).map((w) => w.key).filter((k) => !k.endsWith(':credit') && !funders.has(k.split(':')[0])))
 const conflicts: Record<string, unknown>[] = []
 for (const [k, ts] of kinds) {
-  if (ts.length < 2) continue
-  const [x, y] = [touches(ts[0]), touches(ts[1])]
-  const shared = [...x].filter((key) => y.has(key))
-  const label = (key: string) => (ts[0].writes as { key: string; what: string }[]).find((w) => w.key === key)?.what ?? key
-  conflicts.push({ kind: k, pair: [ts[0].step, ts[1].step], sharedWrites: shared.map(label), conflict: shared.length > 0 })
-  console.log(`${k}: ${shared.length ? `conflict on ${shared.map(label).join('; ')}` : 'independent'}`)
+  for (let a = 0; a < ts.length; a++) {
+    for (let b = a + 1; b < ts.length; b++) {
+      const [x, y] = [touches(ts[a]), touches(ts[b])]
+      const shared = [...x].filter((key) => y.has(key))
+      const label = (key: string) => (ts[a].writes as { key: string; what: string }[]).find((w) => w.key === key)?.what ?? key
+      conflicts.push({ kind: k, pair: [ts[a].step, ts[b].step], sharedWrites: shared.map(label), conflict: shared.length > 0 })
+      console.log(`${k} | ${ts[a].step} | ${ts[b].step}: ${shared.length ? `conflict on ${shared.map(label).join('; ')}` : 'independent'}`)
+    }
+  }
 }
 writeFileSync(join(here, 'results', `${runLabel}.json`), JSON.stringify({ experiment: 19, run: runLabel, rule: 'rapidblocks, topics 26152 and 26157: per storage slot and account field; balance credits not counted', records: RECORDS, transactions: out, conflicts }, null, 2) + '\n')
 console.log(`recorded results/${runLabel}.json`)
