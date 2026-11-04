@@ -28,7 +28,7 @@ const out: Record<string, unknown> = { cpu: cpus()[0]?.model, cores: cpus().leng
 
 const v1 = L.v1(rnd(32), rnd(32), rnd(32))
 out.v1 = L.prove('v1_preimage', v1.input, 3)
-const leaves = Array.from({ length: 8 }, () => rnd(32))
+const leaves: Uint8Array[] = Array.from({ length: 8 }, () => rnd(32))
 const ns = rnd(32), s = rnd(32)
 leaves[5] = L.leafOf(ns, s)
 out.v5 = L.prove('v5_tornado', L.v5(ns, s, rnd(32), L.treeOf(leaves), 5).input, 3)
