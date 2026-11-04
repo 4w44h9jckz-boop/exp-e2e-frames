@@ -1,0 +1,922 @@
+{
+  "experiment": 20,
+  "run": "1-local",
+  "chain": "local",
+  "placement": "dep-frame",
+  "deployment": "d1",
+  "repoCommit": "b9bab94d977f070348540ddc9069d730a5e1cf36",
+  "chainId": 9,
+  "funder": "0x4417092B70a3E5f10Dc504d0947DD256B965fc62",
+  "ethrex": {
+    "commit": "64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c",
+    "patch": "experiments/19-x14-hash-based-stealth-addresses-under-8288/ethrex-8288.patch",
+    "patchSha256": "aae808488450dc05f36a15a3071a9d09ca48824a92d1c7ad1fb0a841ec591134",
+    "setting": "written",
+    "genesis": "fixtures/genesis/l1-hegota.json, base fee 7 wei",
+    "maxVerifyGas": 500000,
+    "dir": "/home/user/exp20/work/q6-local-1-local"
+  },
+  "blocks": {
+    "first": 0,
+    "last": 26
+  },
+  "setup": [
+    {
+      "what": "X5: deploy the result board and its float",
+      "hash": "0xf3d53b38f13c3603355d2c9ac29229c8902c277acb05faee894fe6c8f632255d",
+      "block": 1,
+      "gasUsed": 1801007,
+      "ok": true
+    },
+    {
+      "what": "X5, arm 6: a new board with member 3 replaced",
+      "hash": "0x3bc9bbe292dd295f489cf6bb21c29dad5f35b9d65745f00a48210793a1a7fc8b",
+      "block": 9,
+      "gasUsed": 1794532,
+      "ok": true
+    },
+    {
+      "what": "X5, arm 6: the new board's float",
+      "hash": "0x309d1b65603fe02d5774290d2cb106d93fd2fca7593ef18531188775c791a507",
+      "block": 11,
+      "gasUsed": 26102,
+      "ok": true
+    },
+    {
+      "what": "X11: deploy the read pool and its float",
+      "hash": "0x963a5aba88cbd619104df95587d8eecccefb3c3e1c61845204d4039c34670ae3",
+      "block": 15,
+      "gasUsed": 5943813,
+      "ok": true
+    },
+    {
+      "what": "X11: members 1 and 2 bond",
+      "hash": "0x47cd741731716711739424aa8dcca87cef38c989acfc8d16d87b63cc6c4e7ce0",
+      "block": 17,
+      "gasUsed": 256513,
+      "ok": true
+    },
+    {
+      "what": "X11: eight tickets bought",
+      "hash": "0x77be77b9c4cfca810f44310273d49410f301bcdf75b810c09e1c18e41134562a",
+      "block": 19,
+      "gasUsed": 137961,
+      "ok": true
+    }
+  ],
+  "rows": [
+    {
+      "step": "X5: a result signed by members 0, 1, 2",
+      "outcome": "mined",
+      "hash": "0xe9dec4c7713d35e96f35f937104d970373c25b6ee23bf6c930ed40b80b48a356",
+      "block": 3,
+      "gasUsed": 144561,
+      "reportedGas": 144561,
+      "frames": [
+        {
+          "mode": 1,
+          "status": 1,
+          "execution": 3469,
+          "state": 97920
+        },
+        {
+          "mode": 4,
+          "status": 1,
+          "execution": 9000,
+          "state": 0
+        },
+        {
+          "mode": 2,
+          "status": 1,
+          "execution": 1885,
+          "state": 0
+        }
+      ],
+      "calldataBytes": 484,
+      "txBytes": 619,
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "arm": "x5",
+      "refusal": null,
+      "declared": 9000,
+      "signatures": 3,
+      "signMs": [
+        60.345121,
+        53.269847,
+        67.19619
+      ]
+    },
+    {
+      "step": "X5: a result signed by members 1, 2, 3",
+      "outcome": "mined",
+      "hash": "0x7597513ce7a77b33cdb3b9e319a3a370caebfc0c0ed418a2f77d045e7ec836e4",
+      "block": 6,
+      "gasUsed": 144561,
+      "reportedGas": 144561,
+      "frames": [
+        {
+          "mode": 1,
+          "status": 1,
+          "execution": 4183,
+          "state": 97920
+        },
+        {
+          "mode": 4,
+          "status": 1,
+          "execution": 9000,
+          "state": 0
+        },
+        {
+          "mode": 2,
+          "status": 1,
+          "execution": 1885,
+          "state": 0
+        }
+      ],
+      "calldataBytes": 484,
+      "txBytes": 619,
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "arm": "x5",
+      "refusal": null,
+      "declared": 9000,
+      "signatures": 3,
+      "signMs": [
+        64.162976,
+        53.046836,
+        80.410821
+      ]
+    },
+    {
+      "step": "X5: a result signed by all four members",
+      "outcome": "mined",
+      "hash": "0x3247149455be808c92d689a53b6260da7218ca7265c4bcb151f7663da3f978d4",
+      "block": 7,
+      "gasUsed": 150705,
+      "reportedGas": 150705,
+      "frames": [
+        {
+          "mode": 1,
+          "status": 1,
+          "execution": 4663,
+          "state": 97920
+        },
+        {
+          "mode": 4,
+          "status": 1,
+          "execution": 12000,
+          "state": 0
+        },
+        {
+          "mode": 2,
+          "status": 1,
+          "execution": 1885,
+          "state": 0
+        }
+      ],
+      "calldataBytes": 580,
+      "txBytes": 715,
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "arm": "x5",
+      "refusal": null,
+      "declared": 12000,
+      "signatures": 4,
+      "signMs": [
+        58.368987999999995,
+        44.778337,
+        57.929337,
+        39.569324
+      ]
+    },
+    {
+      "step": "X5 refusal: two signatures of three",
+      "outcome": "refused by the node",
+      "refusal": "below the quorum",
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted"
+      },
+      "arm": "x5",
+      "declared": 6000,
+      "signatures": 2,
+      "signMs": [
+        50.585581999999995,
+        39.014328
+      ]
+    },
+    {
+      "step": "X5 refusal: member 1's signature declared twice",
+      "outcome": "refused by the node",
+      "refusal": "one member counted twice",
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted"
+      },
+      "arm": "x5",
+      "declared": 9000,
+      "signatures": 3,
+      "signMs": [
+        46.456058,
+        38.25142,
+        49.604337
+      ]
+    },
+    {
+      "step": "X5 refusal: a key outside the committee as the third",
+      "outcome": "refused by the node",
+      "refusal": "a key outside the committee",
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted"
+      },
+      "arm": "x5",
+      "declared": 9000,
+      "signatures": 3,
+      "signMs": [
+        50.290104,
+        50.61459,
+        65.57632100000001
+      ]
+    },
+    {
+      "step": "X5 refusal: member 2's signature on another message",
+      "outcome": "refused by the node",
+      "refusal": "a signature on another message",
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted"
+      },
+      "arm": "x5",
+      "declared": 9000,
+      "signatures": 3,
+      "signMs": [
+        37.566852999999995,
+        39.913427,
+        35.334824
+      ]
+    },
+    {
+      "step": "X5, arm 6: a result on the new board signed by members 0, 2 and the new member 3",
+      "outcome": "mined",
+      "hash": "0x41c541cbe14b733cbe25ed75f3edbdbbf719f672d5950ee06f02e8b829752f61",
+      "block": 13,
+      "gasUsed": 144561,
+      "reportedGas": 144561,
+      "frames": [
+        {
+          "mode": 1,
+          "status": 1,
+          "execution": 3945,
+          "state": 97920
+        },
+        {
+          "mode": 4,
+          "status": 1,
+          "execution": 9000,
+          "state": 0
+        },
+        {
+          "mode": 2,
+          "status": 1,
+          "execution": 1885,
+          "state": 0
+        }
+      ],
+      "calldataBytes": 484,
+      "txBytes": 619,
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "arm": "x5",
+      "refusal": null,
+      "declared": 9000,
+      "signatures": 3,
+      "signMs": [
+        52.827118,
+        51.424233,
+        71.547181
+      ]
+    },
+    {
+      "step": "X11 refusal: a settlement with two signatures of three",
+      "outcome": "refused by the node",
+      "refusal": "below the quorum",
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted"
+      },
+      "arm": "x11",
+      "declared": 6000,
+      "signatures": 2,
+      "signMs": [
+        48.826952999999996,
+        51.945272
+      ]
+    },
+    {
+      "step": "X11 refusal: a settlement with member 1's signature declared twice",
+      "outcome": "refused by the node",
+      "refusal": "one member counted twice",
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted"
+      },
+      "arm": "x11",
+      "declared": 9000,
+      "signatures": 3,
+      "signMs": [
+        50.505731,
+        49.591089,
+        52.957826
+      ]
+    },
+    {
+      "step": "X11 refusal: a settlement with a key outside the committee as the third",
+      "outcome": "refused by the node",
+      "refusal": "a key outside the committee",
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted"
+      },
+      "arm": "x11",
+      "declared": 9000,
+      "signatures": 3,
+      "signMs": [
+        55.812893,
+        42.790344,
+        74.342548
+      ]
+    },
+    {
+      "step": "X11 refusal: a settlement with member 2's signature on another batch",
+      "outcome": "refused by the node",
+      "refusal": "a signature on another message",
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted"
+      },
+      "arm": "x11",
+      "declared": 9000,
+      "signatures": 3,
+      "signMs": [
+        49.517997,
+        53.067789999999995,
+        48.044865
+      ]
+    },
+    {
+      "step": "X11: batch A (4 tickets) settled by members 0, 1, 2",
+      "outcome": "mined",
+      "hash": "0x124a7688a7c17da1e37d3334f6090f15d87870540ae072650dac3f2b20966ffc",
+      "block": 22,
+      "gasUsed": 443353,
+      "reportedGas": 443353,
+      "frames": [
+        {
+          "mode": 1,
+          "status": 1,
+          "execution": 11104,
+          "state": 97920
+        },
+        {
+          "mode": 4,
+          "status": 1,
+          "execution": 9000,
+          "state": 0
+        },
+        {
+          "mode": 2,
+          "status": 1,
+          "execution": 24676,
+          "state": 281520
+        }
+      ],
+      "calldataBytes": 516,
+      "txBytes": 654,
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "arm": "x11",
+      "refusal": null,
+      "declared": 9000,
+      "signatures": 3,
+      "signMs": [
+        42.521406,
+        42.598556,
+        55.209058999999996
+      ]
+    },
+    {
+      "step": "X11: a refund signed by members 1, 2, 3",
+      "outcome": "mined",
+      "hash": "0x2dbd28ab08af3e1cf200b9d46261ce9665836991b75f6d75bd0d92a6ce0a5431",
+      "block": 23,
+      "gasUsed": 443184,
+      "reportedGas": 443184,
+      "frames": [
+        {
+          "mode": 1,
+          "status": 1,
+          "execution": 11725,
+          "state": 97920
+        },
+        {
+          "mode": 4,
+          "status": 1,
+          "execution": 9000,
+          "state": 0
+        },
+        {
+          "mode": 2,
+          "status": 1,
+          "execution": 24154,
+          "state": 281520
+        }
+      ],
+      "calldataBytes": 452,
+      "txBytes": 589,
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "arm": "x11",
+      "refusal": null,
+      "declared": 9000,
+      "signatures": 3,
+      "signMs": [
+        37.241109,
+        53.030594,
+        43.436288000000005
+      ]
+    },
+    {
+      "step": "X11 refusal: slashing member 1 with its signature and member 2's",
+      "outcome": "refused by the node",
+      "refusal": "a second signature not the member's",
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted"
+      },
+      "arm": "x11",
+      "declared": 6000,
+      "signatures": 2,
+      "signMs": [
+        50.348048,
+        54.824022
+      ]
+    },
+    {
+      "step": "X11: member 1 slashed for one serial in two batches (kind 1)",
+      "outcome": "mined",
+      "hash": "0x14f8ed75c5a908a15df2a79db68db4a6113d30eda2a069a6816e93a74ecaa482",
+      "block": 25,
+      "gasUsed": 377313,
+      "reportedGas": 377313,
+      "frames": [
+        {
+          "mode": 1,
+          "status": 1,
+          "execution": 7825,
+          "state": 97920
+        },
+        {
+          "mode": 4,
+          "status": 1,
+          "execution": 6000,
+          "state": 0
+        },
+        {
+          "mode": 2,
+          "status": 1,
+          "execution": 24679,
+          "state": 183600
+        }
+      ],
+      "calldataBytes": 1252,
+      "txBytes": 1389,
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "arm": "x11",
+      "refusal": null,
+      "declared": 6000,
+      "signatures": 2,
+      "signMs": [
+        52.672265,
+        39.494709
+      ]
+    },
+    {
+      "step": "X11: member 2 slashed for one serial in a batch and a refund (kind 2)",
+      "outcome": "mined",
+      "hash": "0x885fb8781d301da7bd6727dc8416b6e1e42963f7c2356bbf65a36757aece79f7",
+      "block": 26,
+      "gasUsed": 169137,
+      "reportedGas": 169137,
+      "frames": [
+        {
+          "mode": 1,
+          "status": 1,
+          "execution": 6681,
+          "state": 97920
+        },
+        {
+          "mode": 4,
+          "status": 1,
+          "execution": 6000,
+          "state": 0
+        },
+        {
+          "mode": 2,
+          "status": 1,
+          "execution": 24679,
+          "state": 0
+        }
+      ],
+      "calldataBytes": 868,
+      "txBytes": 1005,
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "arm": "x11",
+      "refusal": null,
+      "declared": 6000,
+      "signatures": 2,
+      "signMs": [
+        66.037593,
+        46.220748
+      ]
+    }
+  ],
+  "observed": [
+    {
+      "arm": "x5",
+      "step": "X5: a result signed by members 0, 1, 2",
+      "hash": "0xe9dec4c7713d35e96f35f937104d970373c25b6ee23bf6c930ed40b80b48a356",
+      "frame": 1,
+      "signers": [
+        0,
+        1,
+        2
+      ],
+      "distinctMessages": 1
+    },
+    {
+      "arm": "x5",
+      "step": "X5: a result signed by members 1, 2, 3",
+      "hash": "0x7597513ce7a77b33cdb3b9e319a3a370caebfc0c0ed418a2f77d045e7ec836e4",
+      "frame": 1,
+      "signers": [
+        1,
+        2,
+        3
+      ],
+      "distinctMessages": 1
+    },
+    {
+      "arm": "x5",
+      "step": "X5: a result signed by all four members",
+      "hash": "0x3247149455be808c92d689a53b6260da7218ca7265c4bcb151f7663da3f978d4",
+      "frame": 1,
+      "signers": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "distinctMessages": 1
+    },
+    {
+      "arm": "x5",
+      "step": "X5, arm 6: a result on the new board signed by members 0, 2 and the new member 3",
+      "hash": "0x41c541cbe14b733cbe25ed75f3edbdbbf719f672d5950ee06f02e8b829752f61",
+      "frame": 1,
+      "signers": [
+        0,
+        2,
+        3
+      ],
+      "distinctMessages": 1
+    },
+    {
+      "arm": "x11",
+      "step": "X11: batch A (4 tickets) settled by members 0, 1, 2",
+      "hash": "0x124a7688a7c17da1e37d3334f6090f15d87870540ae072650dac3f2b20966ffc",
+      "frame": 1,
+      "signers": [
+        0,
+        1,
+        2
+      ],
+      "distinctMessages": 1
+    },
+    {
+      "arm": "x11",
+      "step": "X11: a refund signed by members 1, 2, 3",
+      "hash": "0x2dbd28ab08af3e1cf200b9d46261ce9665836991b75f6d75bd0d92a6ce0a5431",
+      "frame": 1,
+      "signers": [
+        1,
+        2,
+        3
+      ],
+      "distinctMessages": 1
+    },
+    {
+      "arm": "x11",
+      "step": "X11: member 1 slashed for one serial in two batches (kind 1)",
+      "hash": "0x14f8ed75c5a908a15df2a79db68db4a6113d30eda2a069a6816e93a74ecaa482",
+      "frame": 1,
+      "signers": [
+        1,
+        1
+      ],
+      "distinctMessages": 2
+    },
+    {
+      "arm": "x11",
+      "step": "X11: member 2 slashed for one serial in a batch and a refund (kind 2)",
+      "hash": "0x885fb8781d301da7bd6727dc8416b6e1e42963f7c2356bbf65a36757aece79f7",
+      "frame": 1,
+      "signers": [
+        2,
+        2
+      ],
+      "distinctMessages": 2
+    }
+  ],
+  "offChain": [],
+  "x5": {
+    "board": "0x6093e412dA44678c7771d6cEe9fd346722829750",
+    "codeBytes": 846,
+    "members": [
+      "0xbde825639eb50f07a29d097ed27bcc4cf437541dba722a5d0c0dd111ceb15f97",
+      "0xf66b9d58e58c020a1cc0975092aa5e9dc933a6c17cf491a829b0ef7de5163de4",
+      "0x9f084b22ba06cd26a6afd170eb193c152fa4cd47d48ae04950e1ee758345f337",
+      "0xa7bda4a94d7aa74628e29119923e902f6ed09bde93b7985b03e966b7ad518b87"
+    ],
+    "quorum": 3
+  },
+  "replacement": {
+    "arm": "x5",
+    "what": "member 3 replaced: a new board deployed with the new key",
+    "board": "0x2B68C16442a6DdFE41698d3Cf672ac23Af7DEBAd",
+    "deployGas": 1794532,
+    "initcodeBytes": 1038
+  },
+  "x11": {
+    "pool": "0xb014d769CB2b923eA08D2899b1Ab7121206Ea76b",
+    "members": [
+      "0xa6ee509a49553152a2748d50a508b1d4bf742e6115b55f88871b8855613608b6",
+      "0xf7696374f15305fdecfbb6545cd51a6274a7aa3e17ec1beb950be589c15c3aa7",
+      "0xcd5c6ef2fda39644ea8378f9e25121aada1895f127156e40e1beb5d8608035e9",
+      "0xb8e89e77f1100636f55535e4ae3c2fcc4adf7f1d7754650d63c49697c6bdc0b8"
+    ],
+    "quorum": 3,
+    "price": "1000000000000",
+    "slash": "1000000000000000",
+    "bond": "2000000000000000"
+  },
+  "x11State": {
+    "sold": "8",
+    "paid": "4",
+    "refunded": "1",
+    "bond1": "1000000000000000",
+    "bond2": "1000000000000000"
+  },
+  "nodeRecords": {
+    "builds": [
+      {
+        "block": 3,
+        "dependencies": 3,
+        "leanSphincs": 3,
+        "leanStark": 0,
+        "corrupt": null,
+        "aggregate": {
+          "aggregateMs": 2676.699654,
+          "claims": 3,
+          "peakRssBytes": 417116160,
+          "proofBytes": 274521
+        },
+        "ms": 2689
+      },
+      {
+        "block": 6,
+        "dependencies": 3,
+        "leanSphincs": 3,
+        "leanStark": 0,
+        "corrupt": null,
+        "aggregate": {
+          "aggregateMs": 2575.194548,
+          "claims": 3,
+          "peakRssBytes": 417009664,
+          "proofBytes": 273905
+        },
+        "ms": 2587
+      },
+      {
+        "block": 7,
+        "dependencies": 4,
+        "leanSphincs": 4,
+        "leanStark": 0,
+        "corrupt": null,
+        "aggregate": {
+          "aggregateMs": 2569.476535,
+          "claims": 4,
+          "peakRssBytes": 389103616,
+          "proofBytes": 246537
+        },
+        "ms": 2589
+      },
+      {
+        "block": 13,
+        "dependencies": 3,
+        "leanSphincs": 3,
+        "leanStark": 0,
+        "corrupt": null,
+        "aggregate": {
+          "aggregateMs": 2442.872441,
+          "claims": 3,
+          "peakRssBytes": 417464320,
+          "proofBytes": 274617
+        },
+        "ms": 2458
+      },
+      {
+        "block": 22,
+        "dependencies": 3,
+        "leanSphincs": 3,
+        "leanStark": 0,
+        "corrupt": null,
+        "aggregate": {
+          "aggregateMs": 2669.878626,
+          "claims": 3,
+          "peakRssBytes": 417374208,
+          "proofBytes": 273913
+        },
+        "ms": 2684
+      },
+      {
+        "block": 23,
+        "dependencies": 3,
+        "leanSphincs": 3,
+        "leanStark": 0,
+        "corrupt": null,
+        "aggregate": {
+          "aggregateMs": 2605.6260780000002,
+          "claims": 3,
+          "peakRssBytes": 417193984,
+          "proofBytes": 274001
+        },
+        "ms": 2620
+      },
+      {
+        "block": 25,
+        "dependencies": 2,
+        "leanSphincs": 2,
+        "leanStark": 0,
+        "corrupt": null,
+        "aggregate": {
+          "aggregateMs": 2654.0506139999998,
+          "claims": 2,
+          "peakRssBytes": 412737536,
+          "proofBytes": 268505
+        },
+        "ms": 2672
+      },
+      {
+        "block": 26,
+        "dependencies": 2,
+        "leanSphincs": 2,
+        "leanStark": 0,
+        "corrupt": null,
+        "aggregate": {
+          "aggregateMs": 2574.92367,
+          "claims": 2,
+          "peakRssBytes": 412680192,
+          "proofBytes": 269721
+        },
+        "ms": 2590
+      }
+    ],
+    "checks": [
+      {
+        "block": 3,
+        "hash": "0xe0ff3e585446e863f173cc9117c58a657c9c4d2eaedbacd9c5e82c4b4db814d5",
+        "dependencies": 3,
+        "valid": true,
+        "reason": null,
+        "ms": 2429
+      },
+      {
+        "block": 6,
+        "hash": "0xd5204d7884ed34d6d4307ce1234f1b789ead76d993f1f3227e29cc87a60330ca",
+        "dependencies": 3,
+        "valid": true,
+        "reason": null,
+        "ms": 2407
+      },
+      {
+        "block": 7,
+        "hash": "0xfc39901c60b7f277ee54207946de26864b64d1eead1bbb308d2e5cde7570c068",
+        "dependencies": 4,
+        "valid": true,
+        "reason": null,
+        "ms": 2354
+      },
+      {
+        "block": 13,
+        "hash": "0x77b2b8b955607cfcdd7fd04ee7aab3ab3a315b6d3c51f419c6500efb56d6cf83",
+        "dependencies": 3,
+        "valid": true,
+        "reason": null,
+        "ms": 2382
+      },
+      {
+        "block": 22,
+        "hash": "0x8b80a9406f48ec3643d8d1edb8286aa1df8ea7fb74318f6c910bed3e98e4eba6",
+        "dependencies": 3,
+        "valid": true,
+        "reason": null,
+        "ms": 2455
+      },
+      {
+        "block": 23,
+        "hash": "0x4c8d3d064a10486eb4e59105f5f71b8203bf6aa6a5e87b37cbb1ed0df5bb114c",
+        "dependencies": 3,
+        "valid": true,
+        "reason": null,
+        "ms": 2341
+      },
+      {
+        "block": 25,
+        "hash": "0xe5347156bb502055f333698e3ab1602c6c101e7fcf901e4105deb5f67b5bcf84",
+        "dependencies": 2,
+        "valid": true,
+        "reason": null,
+        "ms": 2513
+      },
+      {
+        "block": 26,
+        "hash": "0x7dc37df1043bea9630af401ffe32639088f4e88c01dd02621dc0fdf2539dad32",
+        "dependencies": 2,
+        "valid": true,
+        "reason": null,
+        "ms": 2345
+      }
+    ]
+  },
+  "transactions": [
+    {
+      "step": "X5: a result signed by members 0, 1, 2",
+      "hash": "0xe9dec4c7713d35e96f35f937104d970373c25b6ee23bf6c930ed40b80b48a356",
+      "raw": "0x06f9026709e1a048bec514e76aaa2269540493292268dd48627d24179a5e22df4cfd28856292b780946093e412da44678c7771d6cee9fd346722829750f90225f86f010380c8830186a083017e8080b86048bec514e76aaa2269540493292268dd48627d24179a5e22df4cfd28856292b738452fce6ad7cf9fb1ad3659f6dc392a7e76868f91b44a926803c8d4f640c463000000000000000000000000000000000000000000000000000000000000002af9012c048080c48223288080b901200000000000000000000000000000000000000000000000000000000000000010db5e20bc43424cf27cec4910be7c90b069dc6517a9a872f0683330771f919afbbde825639eb50f07a29d097ed27bcc4cf437541dba722a5d0c0dd111ceb15f970000000000000000000000000000000000000000000000000000000000000010db5e20bc43424cf27cec4910be7c90b069dc6517a9a872f0683330771f919afbf66b9d58e58c020a1cc0975092aa5e9dc933a6c17cf491a829b0ef7de5163de40000000000000000000000000000000000000000000000000000000000000010db5e20bc43424cf27cec4910be7c90b069dc6517a9a872f0683330771f919afb9f084b22ba06cd26a6afd170eb193c152fa4cd47d48ae04950e1ee758345f337f8830280946093e412da44678c7771d6cee9fd346722829750c48275308080b864f3f65e7e48bec514e76aaa2269540493292268dd48627d24179a5e22df4cfd28856292b738452fce6ad7cf9fb1ad3659f6dc392a7e76868f91b44a926803c8d4f640c463000000000000000000000000000000000000000000000000000000000000002ac0c3016480c0"
+    },
+    {
+      "step": "X5: a result signed by members 1, 2, 3",
+      "hash": "0x7597513ce7a77b33cdb3b9e319a3a370caebfc0c0ed418a2f77d045e7ec836e4",
+      "raw": "0x06f9026709e1a095063e1bffd06793d6a1d0b07130a169f4bbd69225f90f2ed87c99d038df390d80946093e412da44678c7771d6cee9fd346722829750f90225f86f010380c8830186a083017e8080b86095063e1bffd06793d6a1d0b07130a169f4bbd69225f90f2ed87c99d038df390dbe33be338f3ad95d9c3b9236afe83edf4afea23452e76f3a35744249d186bb75000000000000000000000000000000000000000000000000000000000000002af9012c048080c48223288080b901200000000000000000000000000000000000000000000000000000000000000010426d65053d8d2578833238632a2a1f8e56cc7003da8a36049cab9b6d50bfb23cf66b9d58e58c020a1cc0975092aa5e9dc933a6c17cf491a829b0ef7de5163de40000000000000000000000000000000000000000000000000000000000000010426d65053d8d2578833238632a2a1f8e56cc7003da8a36049cab9b6d50bfb23c9f084b22ba06cd26a6afd170eb193c152fa4cd47d48ae04950e1ee758345f3370000000000000000000000000000000000000000000000000000000000000010426d65053d8d2578833238632a2a1f8e56cc7003da8a36049cab9b6d50bfb23ca7bda4a94d7aa74628e29119923e902f6ed09bde93b7985b03e966b7ad518b87f8830280946093e412da44678c7771d6cee9fd346722829750c48275308080b864f3f65e7e95063e1bffd06793d6a1d0b07130a169f4bbd69225f90f2ed87c99d038df390dbe33be338f3ad95d9c3b9236afe83edf4afea23452e76f3a35744249d186bb75000000000000000000000000000000000000000000000000000000000000002ac0c3016480c0"
+    },
+    {
+      "step": "X5: a result signed by all four members",
+      "hash": "0x3247149455be808c92d689a53b6260da7218ca7265c4bcb151f7663da3f978d4",
+      "raw": "0x06f902c709e1a039b18cd78f416c38ed3c40804305fae75e0be7ebb4051a48dfa9e3874cf4f72280946093e412da44678c7771d6cee9fd346722829750f90285f86f010380c8830186a083017e8080b86039b18cd78f416c38ed3c40804305fae75e0be7ebb4051a48dfa9e3874cf4f722f37857d8b484483ab32c8a04f7e8aad8cc77e2b4a936dac0518014b98098d9d6000000000000000000000000000000000000000000000000000000000000002af9018c048080c4822ee08080b90180000000000000000000000000000000000000000000000000000000000000001037e2cb5f298c58baf9a76bf801226004b053bc2cfd8fb065c982e7ffd3f5ca4abde825639eb50f07a29d097ed27bcc4cf437541dba722a5d0c0dd111ceb15f97000000000000000000000000000000000000000000000000000000000000001037e2cb5f298c58baf9a76bf801226004b053bc2cfd8fb065c982e7ffd3f5ca4af66b9d58e58c020a1cc0975092aa5e9dc933a6c17cf491a829b0ef7de5163de4000000000000000000000000000000000000000000000000000000000000001037e2cb5f298c58baf9a76bf801226004b053bc2cfd8fb065c982e7ffd3f5ca4a9f084b22ba06cd26a6afd170eb193c152fa4cd47d48ae04950e1ee758345f337000000000000000000000000000000000000000000000000000000000000001037e2cb5f298c58baf9a76bf801226004b053bc2cfd8fb065c982e7ffd3f5ca4aa7bda4a94d7aa74628e29119923e902f6ed09bde93b7985b03e966b7ad518b87f8830280946093e412da44678c7771d6cee9fd346722829750c48275308080b864f3f65e7e39b18cd78f416c38ed3c40804305fae75e0be7ebb4051a48dfa9e3874cf4f722f37857d8b484483ab32c8a04f7e8aad8cc77e2b4a936dac0518014b98098d9d6000000000000000000000000000000000000000000000000000000000000002ac0c3016480c0"
+    },
+    {
+      "step": "X5, arm 6: a result on the new board signed by members 0, 2 and the new member 3",
+      "hash": "0x41c541cbe14b733cbe25ed75f3edbdbbf719f672d5950ee06f02e8b829752f61",
+      "raw": "0x06f9026709e1a0341a34c2fc81fd84b9516d40776a440f6587b1cbaeaf8a45df16b06ed824678d80942b68c16442a6ddfe41698d3cf672ac23af7debadf90225f86f010380c8830186a083017e8080b860341a34c2fc81fd84b9516d40776a440f6587b1cbaeaf8a45df16b06ed824678df303a73e18402d5af3337a8e658513dc3d7c1ae4fc4f16d8df4cbb5402e839f0000000000000000000000000000000000000000000000000000000000000002af9012c048080c48223288080b90120000000000000000000000000000000000000000000000000000000000000001046613a5746505a483c2b7483396a5b944e14481b435f60a7f45767ef006f1cc1bde825639eb50f07a29d097ed27bcc4cf437541dba722a5d0c0dd111ceb15f97000000000000000000000000000000000000000000000000000000000000001046613a5746505a483c2b7483396a5b944e14481b435f60a7f45767ef006f1cc19f084b22ba06cd26a6afd170eb193c152fa4cd47d48ae04950e1ee758345f337000000000000000000000000000000000000000000000000000000000000001046613a5746505a483c2b7483396a5b944e14481b435f60a7f45767ef006f1cc10ce01184bc1b433b1af758f9e29cc2a44bd2de355ee2e64e0fb6c50c57b45b3bf8830280942b68c16442a6ddfe41698d3cf672ac23af7debadc48275308080b864f3f65e7e341a34c2fc81fd84b9516d40776a440f6587b1cbaeaf8a45df16b06ed824678df303a73e18402d5af3337a8e658513dc3d7c1ae4fc4f16d8df4cbb5402e839f0000000000000000000000000000000000000000000000000000000000000002ac0c3016480c0"
+    },
+    {
+      "step": "X11: batch A (4 tickets) settled by members 0, 1, 2",
+      "hash": "0x124a7688a7c17da1e37d3334f6090f15d87870540ae072650dac3f2b20966ffc",
+      "raw": "0x06f9028a09e1a0c179ee43e1386d629e6b2c667ba46603453bbcc16a2a465ef558f735ee0b1e9c8094b014d769cb2b923ea08d2899b1ab7121206ea76bf90248ce010380c8830186a083017e808080f9012c048080c48223288080b901200000000000000000000000000000000000000000000000000000000000000010227571a45429b2d6a0e26205707ae1fc2e2409376d16ba8492b6dee5db475bd4a6ee509a49553152a2748d50a508b1d4bf742e6115b55f88871b8855613608b60000000000000000000000000000000000000000000000000000000000000010227571a45429b2d6a0e26205707ae1fc2e2409376d16ba8492b6dee5db475bd4f7696374f15305fdecfbb6545cd51a6274a7aa3e17ec1beb950be589c15c3aa70000000000000000000000000000000000000000000000000000000000000010227571a45429b2d6a0e26205707ae1fc2e2409376d16ba8492b6dee5db475bd4cd5c6ef2fda39644ea8378f9e25121aada1895f127156e40e1beb5d8608035e9f90107028094b014d769cb2b923ea08d2899b1ab7121206ea76bc88301d4c08305ca3080b8e49b2db37300000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000005000000000000000000000000f3213b182fac693a1af2e3aa4d65385ff473282200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004a2d6bec96b4466b20743e9cbbe66133dd279837748ed6975d40b59af32835dcc000000000000000000000000000000000000000000000000000000003b9aca00c0c3016480c0"
+    },
+    {
+      "step": "X11: a refund signed by members 1, 2, 3",
+      "hash": "0x2dbd28ab08af3e1cf200b9d46261ce9665836991b75f6d75bd0d92a6ce0a5431",
+      "raw": "0x06f9024909e1a0cd401d4a42e0df483339cd0fbc2824d9595b6bc85dc4ea4a0a634997becbe9b68094b014d769cb2b923ea08d2899b1ab7121206ea76bf90207ce010380c8830186a083017e808080f9012c048080c48223288080b90120000000000000000000000000000000000000000000000000000000000000001080ded1f5974f9ff99047bf8e891a6451b6224796b1e8f5c90460562a072e25b5f7696374f15305fdecfbb6545cd51a6274a7aa3e17ec1beb950be589c15c3aa7000000000000000000000000000000000000000000000000000000000000001080ded1f5974f9ff99047bf8e891a6451b6224796b1e8f5c90460562a072e25b5cd5c6ef2fda39644ea8378f9e25121aada1895f127156e40e1beb5d8608035e9000000000000000000000000000000000000000000000000000000000000001080ded1f5974f9ff99047bf8e891a6451b6224796b1e8f5c90460562a072e25b5b8e89e77f1100636f55535e4ae3c2fcc4adf7f1d7754650d63c49697c6bdc0b8f8c7028094b014d769cb2b923ea08d2899b1ab7121206ea76bc88301d4c08305ca3080b8a4aa613df50000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000398ba4f1ca9aa6ba6a52ce5cf416402fe2ac6e265c361abb07f128c5c296ef39a0000000000000000000000001131826db47901e0d28a1b711cf4716ff0ab2284000000000000000000000000000000000000000000000000000000003b9aca00c0c3016480c0"
+    },
+    {
+      "step": "X11: member 1 slashed for one serial in two batches (kind 1)",
+      "hash": "0x14f8ed75c5a908a15df2a79db68db4a6113d30eda2a069a6816e93a74ecaa482",
+      "raw": "0x06f9056909e1a0ca1e14500928a468bc65ae155555044a85b51f2544a63c439402cbf2f09778068094b014d769cb2b923ea08d2899b1ab7121206ea76bf90527ce010380c8830186a083017e808080f8cb048080c48217708080b8c00000000000000000000000000000000000000000000000000000000000000010227571a45429b2d6a0e26205707ae1fc2e2409376d16ba8492b6dee5db475bd4f7696374f15305fdecfbb6545cd51a6274a7aa3e17ec1beb950be589c15c3aa70000000000000000000000000000000000000000000000000000000000000010178429e02c7c98b083c5e40da574e8d96fbf156e0c94adcf2730e50e17e570e8f7696374f15305fdecfbb6545cd51a6274a7aa3e17ec1beb950be589c15c3aa7f90448028094b014d769cb2b923ea08d2899b1ab7121206ea76bc88301d4c08305ca3080b904244c91a9060000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001f0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000cca6399822dab255e8ec916280dd41e5a9c6eee0000000000000000000000000000000000000000000000000000000003b9aca000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000f3213b182fac693a1af2e3aa4d65385ff473282200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004a2d6bec96b4466b20743e9cbbe66133dd279837748ed6975d40b59af32835dcc00000000000000000000000004e9e7fbd85ca0dcdbdae23da61b98371b59d77d00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002726b6fadd99540b9b952218f0ad915404669cf8d393148bb640bcdbeb0a639a595180a719127df6dbd7d25d0de6f6bf348ffbc93cddb014f48da06c175d97fb300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000593484fcb868d399ff5de18fca56d3fd549e2b59925181ba7596db9ffe95a2d9ecabab26a882de603a523000ec15f2bc9808d4054ae3d7aa19bd3a29a0c1a89f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000fc372efd3b24a16d611132ddf56ba318f997e895a4db4dd24b631e54cf22a1c80000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c0c3016480c0"
+    },
+    {
+      "step": "X11: member 2 slashed for one serial in a batch and a refund (kind 2)",
+      "hash": "0x885fb8781d301da7bd6727dc8416b6e1e42963f7c2356bbf65a36757aece79f7",
+      "raw": "0x06f903e909e1a0e6d4845265514a5c7357baf1a254525dbf64334f0cf26329241dc123e209dbd88094b014d769cb2b923ea08d2899b1ab7121206ea76bf903a7ce010380c8830186a083017e808080f8cb048080c48217708080b8c00000000000000000000000000000000000000000000000000000000000000010227571a45429b2d6a0e26205707ae1fc2e2409376d16ba8492b6dee5db475bd4cd5c6ef2fda39644ea8378f9e25121aada1895f127156e40e1beb5d8608035e9000000000000000000000000000000000000000000000000000000000000001039570ca05f02c5b1de95cad8000db5a57f6416e5d82cb575fcc1229c401325e5cd5c6ef2fda39644ea8378f9e25121aada1895f127156e40e1beb5d8608035e9f902c8028094b014d769cb2b923ea08d2899b1ab7121206ea76bc88301d4c08305ca3080b902a44c91a906000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000130000000000000000000000000000000000000000000000000000000000000002000000000000000000000000cca6399822dab255e8ec916280dd41e5a9c6eee0000000000000000000000000000000000000000000000000000000003b9aca000000000000000000000000000000000000000000000000000000000000000002000000000000000000000000f3213b182fac693a1af2e3aa4d65385ff473282200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004a2d6bec96b4466b20743e9cbbe66133dd279837748ed6975d40b59af32835dcc80ef2a61052f5ba51bd6676622c624b9becff1cdd0948da6f1a752147340fb4c0000000000000000000000001131826db47901e0d28a1b711cf4716ff0ab2284000000000000000000000000000000000000000000000000000000000000000191014cb8da8974b0a428b0d2ca89c2dd582a683da79603d0615bb6aad26037daecabab26a882de603a523000ec15f2bc9808d4054ae3d7aa19bd3a29a0c1a89f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c0c3016480c0"
+    }
+  ]
+}
