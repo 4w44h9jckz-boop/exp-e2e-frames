@@ -1,0 +1,98 @@
+{
+  "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+  "cores": 4,
+  "memoryGiB": 15.7,
+  "node": "v22.22.0",
+  "v1": {
+    "cycles": 32,
+    "details": "MUL 2^3.7 (40.6%)  SET 2^3.322 (31.2%)  KECCAK 2^2.585 (18.8%)  DEREF 2^1 (6.2%)  JUMP 2^0 (3.1%)  MEMORY 2^6.768  BYTECODE 2^5  TOTAL_COMMITTED 2^18.236",
+    "logInvRate": 1,
+    "peakRssBytes": 148815872,
+    "proofBytes": 203160,
+    "proveMs": [
+      4847.890281,
+      4558.8899630000005,
+      5725.179228
+    ],
+    "verified": true,
+    "verifyMs": 19.184018000000002,
+    "warmupMs": 5313.957182
+  },
+  "v5": {
+    "cycles": 286,
+    "details": "XOR 2^7.129 (49.0%)  MUL 2^6.768 (38.1%)  KECCAK 2^4.585 (8.4%)  SET 2^3.322 (3.5%)  DEREF 2^1 (0.7%)  JUMP 2^0 (0.3%)  MEMORY 2^9.274  BYTECODE 2^8.16  TOTAL_COMMITTED 2^18.263",
+    "logInvRate": 1,
+    "peakRssBytes": 148815872,
+    "proofBytes": 204392,
+    "proveMs": [
+      6269.6235050000005,
+      5333.8826770000005,
+      4915.182943999999
+    ],
+    "verified": true,
+    "verifyMs": 15.931029999999998,
+    "warmupMs": 6357.2192669999995
+  },
+  "v3": [
+    {
+      "keygenMs": 30.978747000000002,
+      "otherMessageVerified": false,
+      "publicKey": "6305d8f12a90069e05ff4bd3eced65fdc530821ab8e9b083c28f9de13c84131b",
+      "signMs": 71.45178800000001,
+      "signatureBytes": 7740,
+      "signatureKeccak": "04e6e80b98cc18e86ccf232e937a9b8ab32726890cd5791d7d4a6864138e7f54",
+      "verified": true,
+      "verifyMs": 0.238815
+    },
+    {
+      "keygenMs": 47.775225999999996,
+      "otherMessageVerified": false,
+      "publicKey": "d96dca71648eeef11518f15a83b1e88db9da7ba64500f15c05a1a12c02cf0ce7",
+      "signMs": 142.842823,
+      "signatureBytes": 7740,
+      "signatureKeccak": "c8290734524548a30be8e5eb2852c0ecd5188552f24bc6ee196422831c0f2416",
+      "verified": true,
+      "verifyMs": 0.206396
+    },
+    {
+      "keygenMs": 36.386895,
+      "otherMessageVerified": false,
+      "publicKey": "f56c3016b45077ad4ff6a5716e12dd1d24cecfa8ea2feac1536e2c6b2340167e",
+      "signMs": 80.71840399999999,
+      "signatureBytes": 7740,
+      "signatureKeccak": "f3231b2ce0f8d86261e0dd6145a0da21d691843cdecbc488dfcf78e559ffe8b4",
+      "verified": true,
+      "verifyMs": 0.214641
+    },
+    {
+      "keygenMs": 38.415311,
+      "otherMessageVerified": false,
+      "publicKey": "1bf747cda4374e110aedeb4522b1694e25e1c5b2f43a1abfc3f320635898a61f",
+      "signMs": 105.123779,
+      "signatureBytes": 7740,
+      "signatureKeccak": "ff58ced80ade38f127fd610d9860328bc9b6d36583b378c7756b711ae4b9f9c3",
+      "verified": true,
+      "verifyMs": 0.20483
+    },
+    {
+      "keygenMs": 41.071161000000004,
+      "otherMessageVerified": false,
+      "publicKey": "0b87e742311e24aee9d9f92341a1355b69c3e52f338c60251804693f890731cc",
+      "signMs": 100.121872,
+      "signatureBytes": 7740,
+      "signatureKeccak": "441164b75f41ecd23003a170a5976fb0cc49ba5283c4a5e21c595259dda5ebb8",
+      "verified": true,
+      "verifyMs": 0.206782
+    }
+  ],
+  "scan": {
+    "announcements": 10000,
+    "ours": 40,
+    "found": 40,
+    "missed": 0,
+    "falseMatches": 0,
+    "viewTagPasses": 82,
+    "msPerAnnouncement": 0.8269,
+    "perSecond": 1209
+  }
+}

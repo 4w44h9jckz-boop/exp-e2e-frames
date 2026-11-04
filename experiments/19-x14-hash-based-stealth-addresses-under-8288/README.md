@@ -215,3 +215,94 @@ recursion besides.
   from its test programs.
 - Both of run 1's programs prove and verify at leanVM `3cbac04`, and a witness for another
   message is refused.
+
+## Results, run 1
+
+Deployment `d5`, run at `31d8619`, blocks 685,330 to 685,349, after four passes that stopped (below)
+and Amendment 1. Records: `results/1-first-run.json` (the test network),
+`results/1-first-run-bench.json` (proofs and scanning, on an idle machine),
+`results/1-first-run-aggregation.txt` (aggregation); fixture `test/fixtures/x14/1-first-run.json`.
+EIP-8288 is modelled throughout: each dependency triple travels in the `VERIFY` frame's data, its
+proof is checked off chain by `prover/`, and the declared gas is added to what the chain measured.
+
+### Predictions, as far as run 1 reaches
+
+| # | Prediction | Outcome |
+|---|---|---|
+| 1 | one stub hides the rule | **run 2** (version 2a) |
+| 2 | the signature keeps spending with the owner | **held for versions 1 and 5; version 2a in run 2.** A delegated prover given version 1's $k$ and $r$ proved its own message and spent the account to itself; one given version 5's note secrets withdrew the note to itself. Both were mined |
+| 3 | the plain signature links | **held.** Both version 3 spends declared the same key, `0x37af418d...8e8a8f95` |
+| 4 | the declared price dominates the spend | **in part.** Version 4's withdrawal, 555,548 gas, costs more than every other spend, as predicted. The 200,000 bound failed on state: version 1's spend is 212,373 measured plus 30,000 declared, 242,373, of which 183,600 is the fresh destination's account; version 5's withdrawal is 313,698 plus 30,000, 343,698, of which 183,600 is the destination and 97,920 the nullifier's nonce key. Without that state, the execution of each is 13,479 and 15,552 gas, under half the declared 30,000 |
+| 5 | the two chains agree | **run 2** (the local chain) |
+| 6 | the local chain refuses both bad blocks | **run 2** (the local chain) |
+| 7 | proofs fit a machine one can buy | **held for versions 1 and 5; version 2's comparison in run 2.** Version 1: 4.6 to 5.7 s, 198 KiB, 142 MiB peak; version 5: 4.9 to 6.3 s, 200 KiB, the same peak. Both programs are tiny (32 and 286 cycles) and pay for leanVM's smallest commitment, $2^{18}$ |
+| 8 | aggregation holds fewer here than on the project's machine | **held.** 48 leanSPHINCS signatures in 0.673 s and 64 in 1.041 s on this machine's 4 cores, 60 to 95 a second, against leanVM's 442.6 a second on its 16-core machine; at least 25 per 1,000 ms interval |
+| 9 | capacity follows the declared prices | **held by arithmetic; on a chain in run 2.** $2^{20}$ over 30,000 is 34 leanSTARK spends per inclusion list, and over 3,000 is 349 leanSPHINCS spends; `MAX_STARKS_PER_TX` = 1 leaves no transaction both a version 1 spend and a version 5 withdrawal. The modelled test network enforces none of these limits, so they are untested on a chain |
+| 10 | scanning finds every payment | **held.** 40 of 40 among 10,000 announcements, no false match, 0.83 ms each; 82 passed the view tag |
+
+### What a payment and a spend cost
+
+| | Version 1 | Version 3 | Version 4 | Version 5 |
+|---|---:|---:|---:|---:|
+| payment: an account deployed and funded, or a deposit | 1,358,677 | 1,358,677 | 3,267,666 (first leaf) | 2,580,539 (first leaf); 416,213 (second) |
+| spend or withdrawal, measured | 212,373 | 211,678 | 555,548 | 313,698 |
+| of which state | 183,600 | 183,600 | in the call | 281,520 |
+| declared by EIP-8288 | 30,000 | 3,000 | none | 30,000 |
+| `VERIFY` execution | 1,233 | 1,038 | none (a plain call) | 3,259 |
+
+- **A stealth account per payment is expensive on this network:** 1,239,300 of the payment's gas is
+  state, the new account and its code at 1,530 a byte. A minimal proxy in front of one shared
+  implementation would cut the code to a few dozen bytes; it was not built.
+- **The pool's deposit is cheaper after the first leaf** (416,213 against 2,580,539), because the
+  first writes every subtree slot fresh.
+- **Version 4's withdrawal is the Groth16 check and the nullifier,** in a plain call a relayer pays
+  for. Versions 1, 3 and 5 are sent and paid for by the account or the pool itself.
+
+### The local chain
+
+ethrex at the test network's commit, `64b8fc09`, built here in release mode in 15 minutes 17 seconds,
+with a 2.0 GB target and 2.2 GB of disk left. The patch, EIP-8288's dependency frame and the
+block-level recursive proof verified with leanVM's verifier, was not written in run 1, so
+predictions 5 and 6 are judged in run 2, with version 2.
+
+### Findings
+
+- **Delegated proving hands over the account in version 1 and the note in version 5,** on chain and
+  not only in principle: both delegated provers spent what they proved for to themselves.
+- **The plain leanSPHINCS control shows its key at every spend:** two accounts, one key, visible to
+  anyone reading the dependency.
+- **Under EIP-8288 the declared price, not execution, is the spend's verification cost:** 30,000
+  declared against 1,233 to 3,259 measured in `VERIFY`.
+- **On this network's state pricing, what a spend writes outweighs what it verifies:** the fresh
+  destination is 183,600 and a nullifier's nonce key 97,920.
+- **skandha admitted every frame transaction** and relayed none, as in experiment 18.
+
+### Passes that stopped
+
+| Pass | Stopped at | Fixed by |
+|---|---|---|
+| d1 | the first payment: the account's code is state at 1,530 a byte, and the frame had state for an empty account | state for the new account and its code |
+| d2 | version 1's second spend: accepted by the RPC and lost, sent right after its account's deployment, which a lagging node behind the balancer had not seen | the same raw transaction resent while the chain does not know it, up to three times; none was needed in d5 |
+| d3 | version 5's first deposit: out of gas at 900,000, its first leaf writing 23 fresh slots | deposit gas for a first leaf |
+| d4 | the record, after every arm had run: the secret search could not serialize a BigInt | the search serializes BigInts; the whole run repeated as d5 |
+
+### Transactions
+
+| Step | Transaction | Block |
+|---|---|---:|
+| v1: pay and announce through the singleton | see the record, `rows[0]` | 685,332 |
+| v1: the owner spends | [`0x036a9c67...`](https://dora.privacy.ethrex.xyz/tx/0x036a9c67eb997521a75f2ac0c9ca9e7fd55ef2436908e633d59052c36216969b) | 685,333 |
+| v1: the delegated prover spends to itself | [`0x97688f63...`](https://dora.privacy.ethrex.xyz/tx/0x97688f63b99eee4097cff329b9e371fce8d120dcc5a098b0849b6a4620ef8703) | 685,336 |
+| v3: two spends under one key | [`0xbcf789b8...`](https://dora.privacy.ethrex.xyz/tx/0xbcf789b88f2c19c6518af446929eec37d004fc344cc4ebdeb772957857c4aca2), [`0x9b2977c7...`](https://dora.privacy.ethrex.xyz/tx/0x9b2977c719729699c831d99636ab40dea0d7f2e43b7394680b3919ae4d6ae8bb) | 685,338; 685,340 |
+| v5: the owner withdraws | [`0xdddc429b...`](https://dora.privacy.ethrex.xyz/tx/0xdddc429bee6da2c6abb53061dd32956dc873d1bfe4901942395d1e49fc34c78c) | 685,344 |
+| v5: the delegated prover withdraws to itself | [`0x27fadf49...`](https://dora.privacy.ethrex.xyz/tx/0x27fadf49bc12a37bcf49472f901aa5268ad19faa0b102ae1d9864c56e9a0a9a6) | 685,346 |
+| v4: a relayer withdraws with a Groth16 proof | [`0x453e6819...`](https://dora.privacy.ethrex.xyz/tx/0x453e6819bae936dfeb9334ef3bcbb6718ebcd3b229ff5d9bb282c20fb48a55be) | 685,349 |
+
+The test network's relaunches void its hashes; the fixture keeps every frame transaction.
+
+### Tornado's circuit
+
+Built by `tornado.sh` from tornado-core at `1ef6a26` (GPL-3.0, not copied here), with the syntax
+port the script lists. The compiled circuit, its key and its port stay out of git; their sha256 are
+`withdraw.zkey` `355d98ad...ec1f91`, `withdraw.r1cs` `a1591fd7...af70751`,
+`withdraw_js/withdraw.wasm` `19ea5c92...a6fee2`.
