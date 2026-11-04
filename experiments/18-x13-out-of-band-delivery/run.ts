@@ -195,7 +195,9 @@ async function spend(step: string, note: Note, branch: 0n | 1n, opts: { tNow?: b
     const body = await res.json()
     skandhaAnswer = body.error ? JSON.stringify(body.error).slice(0, 300) : `admitted: ${body.result}`
   } catch (e) { skandhaAnswer = `unreachable: ${(e as Error).message.slice(0, 200)}` }
-  let r = await waitForFrameTxReceipt(chain, hash, { timeoutMs: 45_000 }).catch(() => undefined)
+  console.log(`${step}: skandha ${skandhaAnswer.slice(0, 160)}`)
+  // A refusal means skandha will not relay it: straight to the chain (pass d5 waited on every one).
+  let r = skandhaAnswer.startsWith('admitted') ? await waitForFrameTxReceipt(chain, hash, { timeoutMs: 45_000 }).catch(() => undefined) : undefined
   let via = 'skandha'
   if (!r) {
     via = 'chain'
@@ -239,11 +241,6 @@ await deposit('4-pair-2', p5, o5)
 const o6 = openingOf('5-withheld', BigInt((await nowSec()) + 150))
 const s6 = N.sealFirst(kemR.ek, o6, rnd(32))
 await deposit('5-withheld', s6.entry, o6)
-const t7 = (await nowSec()) + 420
-const o7 = openingOf('6-late', BigInt(t7))
-const s7 = N.sealFirst(kemR.ek, o7, rnd(32))
-await deposit('6-late', s7.entry, o7)
-const T1 = t7 - 150
 
 // ---- arm 1: invoice ----
 
@@ -338,6 +335,13 @@ await spend('spend: arm 4, pairwise note 2, owner branch', notes['4-pair-2'], 0n
 
 // ---- arm 6: late, then the fallback; first, a spend with tNow past the registry's clock ----
 
+// Deposited here, so that its T is counted from the arm and not from the start (pass d5 stopped
+// with T passed before the arm began).
+const t7 = (await nowSec()) + 300
+const o7 = openingOf('6-late', BigInt(t7))
+const s7 = N.sealFirst(kemR.ek, o7, rnd(32))
+await deposit('6-late', s7.entry, o7)
+const T1 = t7 - 150
 {
   const clock = await readR<bigint>('clock')
   await spend('refused: tNow later than the registry\'s clock', notes['6-late'], 0n, { tNow: clock + 3600n, expect: 'refused' })
