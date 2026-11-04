@@ -38,6 +38,7 @@ export const seedOf = (base: Hex, l: string, bytes: number): Uint8Array => {
 // ---- contracts ----
 
 const boardCode = compileYul(`${DIR}/contracts/Board.yul`)
+const board2Code = compileYul(`${DIR}/contracts/Board2.yul`)
 const announcer = compileSolidity(`${DIR}/contracts/Announcer.sol`, 'Announcer')
 const archive = compileSolidity(`${DIR}/contracts/Archive.sol`, 'Archive')
 export const announcerAbi = announcer.abi
@@ -52,8 +53,9 @@ export function contractsOf(base: Hex) {
   const packer = addressOf(base, 'packer')
   const ann = at('announcer', announcer.bytecode)
   const board = at('board', concatHex([boardCode, pad(packer), saltOf(tag('board/word'))]))
+  const board2 = at('board2', concatHex([board2Code, pad(packer), saltOf(tag('board2/word'))]))
   const arch = at('archive', concatHex([archive.bytecode, encodeAbiParameters([{ type: 'address' }, { type: 'uint256' }, { type: 'uint256' }, { type: 'uint256' }], [board.address, BOND, CHALLENGE_FEE, WINDOW])]))
-  return { packer, announcer: ann, board, archive: arch }
+  return { packer, announcer: ann, board, board2, archive: arch }
 }
 
 export const boardAbi = parseAbi([
@@ -65,6 +67,13 @@ export const boardAbi = parseAbi([
   'function packer() view returns (address)',
   'event Posted(uint256 indexed seq, bytes32 indexed versionedHash, uint256 header)',
   'event Included(uint256 indexed seq, uint256 indexed index, bytes32 entryHash)',
+])
+
+/** ERC-5564's singleton announcer, the same bytecode on the test network as on mainnet (run 2). */
+export const SINGLETON: Address = '0x55649E01B5Df198D18D95b5cc5051630cfD45564'
+export const singletonAbi = parseAbi([
+  'function announce(uint256 schemeId, address stealthAddress, bytes ephemeralPubKey, bytes metadata)',
+  'event Announcement(uint256 indexed schemeId, address indexed stealthAddress, address indexed caller, bytes ephemeralPubKey, bytes metadata)',
 ])
 
 // ---- a post ----
@@ -92,7 +101,7 @@ export const VERIFY_LIMIT = 100_000n
 export const SENDER_GAS = { execution: 100_000n, state: 4n * STORAGE_SET_STATE_GAS }
 
 /** The Board as sender and payer, at its own nonce: VERIFY, then record(w), carrying `blobs` (normally one). */
-export function postTx(chainId: bigint, board: Address, w: bigint[], blobs: Hex[], nonce: bigint): FrameTx {
+export function postTx(chainId: bigint, board: Address, w: bigint[], blobs: Hex[], nonce: bigint, senderGas = SENDER_GAS): FrameTx {
   return {
     chainId,
     nonceKeys: [0n],
@@ -100,7 +109,7 @@ export function postTx(chainId: bigint, board: Address, w: bigint[], blobs: Hex[
     sender: board,
     frames: [
       verifyFrame({ scope: Approve.EXECUTION_AND_PAYMENT, target: null, execution: VERIFY_LIMIT, state: STORAGE_SET_STATE_GAS }),
-      senderFrame({ target: board, data: encodeFunctionData({ abi: boardAbi, functionName: 'record', args: [w] }), ...SENDER_GAS }),
+      senderFrame({ target: board, data: encodeFunctionData({ abi: boardAbi, functionName: 'record', args: [w] }), ...senderGas }),
     ],
     signatures: [],
     fees: FEES,

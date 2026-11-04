@@ -115,6 +115,32 @@ export function scanS(t: Tracking, entry: Uint8Array): Uint8Array | undefined {
   return eq(a, stealthAddress) ? ss : undefined
 }
 
+// ---- S2, run 2: an announcement that carries ERC-5564's metadata ----
+
+/** ERC-5564's recommended metadata: view tag (1) || function selector (4) || token (20) || amount (32). */
+export const META_BYTES = 57
+/** stealthAddress (20) || epk (33) || ct (1088) || len (1) || metadata (len), with len = 57 in run 2. */
+export const S2_BYTES = 20 + 33 + CT_BYTES + 1 + META_BYTES
+export const metadataOf = (viewTag: number, selector: Uint8Array, token: Uint8Array, amount: Uint8Array) => {
+  if (selector.length !== 4 || token.length !== 20 || amount.length !== 32) throw new Error('selector 4, token 20, amount 32')
+  return cat(Uint8Array.of(viewTag), selector, token, amount)
+}
+export const encodeS2 = (a: { stealthAddress: Uint8Array; epk: Uint8Array; ct: Uint8Array }, metadata: Uint8Array) => {
+  if (metadata.length === 0 || metadata.length > 255) throw new Error('metadata of 1 to 255 bytes')
+  return cat(a.stealthAddress, a.epk, a.ct, Uint8Array.of(metadata.length), metadata)
+}
+export function decodeS2(entry: Uint8Array) {
+  if (entry.length < 20 + 33 + CT_BYTES + 2) return undefined
+  const len = entry[1141]
+  if (len === 0 || entry.length !== 1142 + len) return undefined
+  return { stealthAddress: entry.subarray(0, 20), epk: entry.subarray(20, 53), ct: entry.subarray(53, 1141), metadata: entry.subarray(1142) }
+}
+/** The same scan as scanS, with the view tag taken from the metadata's first byte. */
+export function scanS2(t: Tracking, entry: Uint8Array): Uint8Array | undefined {
+  const d = decodeS2(entry)
+  return d ? scanS(t, cat(d.stealthAddress, d.epk, d.ct, d.metadata.subarray(0, 1))) : undefined
+}
+
 // ---- N: an encrypted note ----
 
 const DS_NOTE_TAG = utf8('exp-e2e-frames/17/note-view-tag')

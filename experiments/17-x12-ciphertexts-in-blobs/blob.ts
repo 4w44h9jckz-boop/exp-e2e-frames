@@ -20,7 +20,8 @@ export const BYTES_PER_BLOB = 32 * FIELD_ELEMENTS
 export const BLOB_GAS = 131_072
 export const BLS_MODULUS = 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001n
 export const VERSION = 1
-export const KIND = { S: 1, N: 2 } as const
+/** S an ERC-8441 announcement; N an encrypted note; S2 (run 2) an announcement with ERC-5564's metadata. */
+export const KIND = { S: 1, N: 2, S2: 3 } as const
 export type Kind = (typeof KIND)[keyof typeof KIND]
 
 const elementsFor = (len: number) => Math.ceil(len / 31)
