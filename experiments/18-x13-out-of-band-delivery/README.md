@@ -270,3 +270,81 @@ in `VERIFY` before anything is spent. Nothing else changes.
 **A finding, stated before the run.** A frame transaction can say "valid until" in validation and
 cannot say "valid after". A timelock that validation must respect has to read time from state that
 execution wrote.
+
+## Results, run 1
+
+Deployment `d6`, run at `a210331`, blocks 684,781 to 684,895, after five passes that stopped (below)
+and Amendment 1 before any code. Records: `results/1-first-run.json` (arms 1 to 6),
+`results/1-first-run-offline.json` (arms 7 to 10), `results/1-first-run-scan.json` (prediction 6);
+fixture `test/fixtures/x13/1-first-run.json`.
+
+### Predictions
+
+| # | Prediction | Outcome |
+|---|---|---|
+| 1 | the four settings work | **held.** Every note of arms 1 to 4 was received, matched to its leaf by recomputing $c$ from the bytes received, and spent on the owner branch |
+| 2 | a spend costs what experiment 15's did | **held.** Every spend's `VERIFY` used 216,580 execution gas; the circuit has 36,716 constraints |
+| 3 | the branch is hidden | **in part.** The owner and refund spends have the same four public inputs in the same layout and the same `VERIFY` gas, 216,580. Their totals differ by 10,075, not less than 1,000: the `SENDER` frame's tree insertion costs 1,009,430, 1,019,481 or 1,029,532 depending on the new leaf's index, and the refund spend (1,441,488) costs exactly what arm 2's owner spend at the same insertion cost does |
+| 4 | the guards hold | **held.** The reclaim was mined after $T$ on the refund branch, and the recipient's spend after it was refused ("Nonce mismatch: expected 1, got 0"); arm 6's late recipient found the fallback blob and spent 60 seconds before $T$; offline, a refund before $T$ and a refund with $T$ below the floor have no witness, a swapped ciphertext finds no leaf, an altered one does not open, and the spend with $t_{\mathrm{now}}$ past the registry's clock was refused in `VERIFY` |
+| 5 | pairwise tags need no scan | **held.** Each of arm 4's notes was one `get` and no decapsulation, 152 bytes against first contact's 1,241 |
+| 6 | scanning costs what experiment 17 measured | **held.** 0.77 ms per entry, 1,299 a second, over 10,000 entries with all 40 of ours found and no false match (measured apart from the run, whose own figure included the transport's delay) |
+| 7 | FMD flags at its rate | **held.** All 50 true posts flagged at both rates. With 4 keys, 6,082 of 99,950 others flagged (6.085%, interval 5.998% to 6.502%); with 8 keys, 392 (0.392%, interval 0.326% to 0.456%) |
+| 8 | the store learns tags, sizes, times and serials | **held.** Its log's fields are `t`, `op`, `tag`, `bytes`, `serial`, `returned`, `cursor`, `keys` and `flagged`, with no address, connection or account. The issuers saw only blinded points, and the run kept none of them, so no serial in the record can be tied to an issuance; this holds by construction, not by a search |
+| 9 | timing links calls when nothing delays them | **in part.** Put to deposit with no delay: 0.93, at least 0.9 as predicted. Sessions with no delay: precision 0.73, not at least 0.9. Both measures fell as $\delta$ grew; put to deposit was 0.275 at 60 seconds (0.175 with cover); cover traffic cut session precision to 0.005 at every $\delta$ |
+| 10 | the random spend time blurs the sender's view | **held.** Simulated, an immediate spend put the sender within one block of the receipt for every one of 1,000 notes, and the random spend time gave a median error of 1,701.5 seconds against a quarter-window of 900. In the run, with a 60-second window, the sender's error was 55.6 to 134.2 seconds, median 82.8 |
+
+### Need to know, measured
+
+| Party | Needs | Learned in run 1 |
+|---|---|---|
+| sender | at $T$, whether its note was spent | the block of every spend of its notes, because it can compute the nullifier; blurred by the spend time to a median of 82.8 seconds after receipt with a 60-second window |
+| recipient | the opening, and that it matches the leaf | the opening, and nothing about the sender beyond the ciphertext |
+| store | a tag, the bytes, a ticket | 210 calls: tags, sizes, times and serials. With the FMD call, also a detection key, and with it a set of 11 posts out of 201 that held ours |
+| detector | the detection key | at 4 keys, 6,132 of 100,000 posts, 50 of them the recipient's; at 8 keys, 442 |
+| transport, per call | the next hop | the stand-in delayed 210 calls by a mean of 1.06 seconds |
+| L1 and its observers | that a spend is valid | four public inputs in one layout for both branches, one `VERIFY` cost for both, and each new leaf's index through the insertion's gas |
+
+### Findings
+
+- **A frame transaction can say "valid until" and cannot say "valid after"** (Amendment 1). A
+  reclaim's time check had to read a clock that execution wrote into the registry's storage. A
+  sender reclaiming from a quiet registry calls `tick()` first; in this run it did not need to.
+- **The branch is hidden from the proof and from validation, and the insertion's gas shows the
+  leaf's index.** That index is public anyway, in the `Spent` event, so the gas adds nothing; but a
+  design that hid the index would have to pay for insertions of equal cost.
+- **Cover traffic is what defeats grouping by time.** At this workload, delays alone left session
+  precision at 0.15 even at 60 seconds; cover at one call a minute per client took it to 0.005.
+  Delays are what defeat put-to-deposit linkage, which cover traffic on fetches does not touch.
+- **skandha admitted every spend and relayed none.** With one node and no includer, nothing took the
+  spends to the chain; each went to the chain directly after 45 seconds. Experiments 01 to 15 used
+  two nodes, one of which submits.
+- **Costs.** A deposit cost 1,135,436 to 1,155,538 gas (the first, 3,417,749, wrote 24 fresh
+  slots); a spend, 1,441,488 to 1,461,602, of which the proof's check is 216,580 and the tree
+  insertion about 1,010,000 to 1,030,000. Proving took 3.5 to 4.4 seconds per spend.
+
+### Passes that stopped
+
+| Pass | Stopped at | Fixed by |
+|---|---|---|
+| d1 | the first deposit: leaf 0 writes 24 fresh slots and the frame had state for 3, so the shortfall spilled into execution | state for 24 slots on every deposit |
+| d2 | the first `put`: the store refused the ticket, unblinded with 1-based issuer indices where the function takes 0-based ones | 0-based indices, and every ticket checked as it is bought |
+| d3 | the first proof: no witness satisfied the circuit's root constraint. The tree rebuilt from the registry's events matched the registry's root | a check of each spend's leaf against the registry's before proving; the failure did not recur on d4, and its cause was not established |
+| d4 | the first spend's simulation: a frame transaction with no blobs must carry a zero blob fee | a zero blob fee on spends |
+| d5 | arm 6: note 6's $T$, fixed at the start, passed while arms 1 to 4 ran | note 6 deposited at its arm; no wait on a spend skandha refused |
+
+### Transactions
+
+| Step | Transaction | Block |
+|---|---|---:|
+| deposit of note 1 | [`0x49705dda...`](https://dora.privacy.ethrex.xyz/tx/0x49705ddafaf9ec7592e38379fd6d1ad35365b8c23ebfb9de1e494cb44ad3c921) | 684,787 |
+| arm 1, invoice, owner branch | [`0x537b6418...`](https://dora.privacy.ethrex.xyz/tx/0x537b64187a4b85a5febade559f20e9b60cee127a23e1c2383a3f9e103e788ac2) | 684,804 |
+| arm 2, pool, owner branch | [`0xeb366850...`](https://dora.privacy.ethrex.xyz/tx/0xeb366850c81881240408ba8610f6d99409c601689a29640ac9e1da9f79d7a86e) | 684,815 |
+| arm 3, blob carrier | [`0x47c7433a...`](https://dora.privacy.ethrex.xyz/tx/0x47c7433a6194662c14474f0f81c7038ad5e0a40dc5ab45796573a7dc626f980f) | 684,816 |
+| arm 3, blob, owner branch | [`0xf590f367...`](https://dora.privacy.ethrex.xyz/tx/0xf590f367cc945f5a2fb262a6c6c7cfe5b435b95a66f3e398f7e71d3076135d2a) | 684,825 |
+| arm 4, pairwise notes 1 and 2 | [`0xbcf57ed4...`](https://dora.privacy.ethrex.xyz/tx/0xbcf57ed4e37aff4a378fa194a1c2fb32ffbc434251e2239ccdcab84b65a99877), [`0xa4dfee06...`](https://dora.privacy.ethrex.xyz/tx/0xa4dfee0639ac801921a7465f8177c84a6bccea8518cc9b9caa4624548f30dcc6) | 684,838; 684,847 |
+| arm 6, the fallback blob | [`0x6c9c1416...`](https://dora.privacy.ethrex.xyz/tx/0x6c9c1416f56cc5498c1c36eeb8ab76967589f0039ca554cbf713a1ca2bb053dd) | 684,873 |
+| arm 6, the late recipient spends | [`0x7c15221a...`](https://dora.privacy.ethrex.xyz/tx/0x7c15221af2ad6540dcf3f5aab1afa03e198be2f11dd88bf257d07d2c3aa498e6) | 684,886 |
+| arm 5, the sender reclaims, refund branch | [`0x765b35aa...`](https://dora.privacy.ethrex.xyz/tx/0x765b35aa06f07f2483f2a313d61c4c86dab904a416f2a3c6f2a218dc3fe017d9) | 684,895 |
+
+The test network's relaunches void its hashes; the fixture keeps every spend, both blobs and every
+note's delivered bytes.
