@@ -156,6 +156,12 @@ async function spend(step: string, note: Note, branch: 0n | 1n, opts: { tNow?: b
   const ls = await leaves()
   const tree = X.treeFrom(ls.map((l) => l.leaf))
   const p = tree.path(note.index!)
+  // The leaf the proof will rebuild must be the one the registry inserted.
+  const mine = ls[note.index!]
+  const cLocal = N.commitmentOf(note.opening, R, note.h)
+  if (mine.c !== note.c || cLocal !== note.c || mine.t0 !== note.t0 || N.leafOf(cLocal, note.t0!) !== mine.leaf) {
+    throw new Error(`${step}: leaf ${note.index} differs: event c ${mine.c === note.c}, recomputed c ${cLocal === note.c}, t0 ${mine.t0}/${note.t0}, leaf ${N.leafOf(cLocal, note.t0!) === mine.leaf}`)
+  }
   const tNow = opts.tNow ?? (await readR<bigint>('clock'))
   const outInner = fieldSecret(`out/${step}`)
   const outCommitment = X.H(note.opening.value, outInner)
