@@ -1,0 +1,532 @@
+diff --git a/crates/blockchain/blockchain.rs b/crates/blockchain/blockchain.rs
+index fbbe0c8e3..d548d1b70 100644
+--- a/crates/blockchain/blockchain.rs
++++ b/crates/blockchain/blockchain.rs
+@@ -43,6 +43,8 @@
+ //! ```
+ 
+ pub mod constants;
++/// Experiment 19 of exp-e2e-frames: EIP-8288's block rule, off unless X14_EIP8288 is set.
++pub mod eip8288_block;
+ pub mod error;
+ pub mod focil_eligibility;
+ pub mod focil_profile2;
+@@ -2425,6 +2427,9 @@ impl Blockchain {
+     }
+ 
+     pub fn add_block(&self, block: Block) -> Result<(), ChainError> {
++        // EIP-8288 (experiment 19): the block's proof must cover its dependencies.
++        crate::eip8288_block::check_block(&block)
++            .map_err(|e| ChainError::InvalidBlock(InvalidBlockError::RecursiveStark(e)))?;
+         let since = Instant::now();
+         let (res, updates) = self.execute_block(&block)?;
+         let executed = Instant::now();
+@@ -2674,6 +2679,9 @@ impl Blockchain {
+             self.storage.add_pending_block(block)?;
+             return Err(ChainError::ParentNotFound);
+         };
++        // EIP-8288 (experiment 19): the block's proof must cover its dependencies.
++        crate::eip8288_block::check_block(&block)
++            .map_err(|e| ChainError::InvalidBlock(InvalidBlockError::RecursiveStark(e)))?;
+ 
+         let should_store_witness = self.options.precompute_witnesses && self.is_synced();
+         let collect_witness = should_store_witness || force_witness;
+diff --git a/crates/blockchain/eip8288_block.rs b/crates/blockchain/eip8288_block.rs
+new file mode 100644
+index 000000000..0048300cb
+--- /dev/null
++++ b/crates/blockchain/eip8288_block.rs
+@@ -0,0 +1,218 @@
++//! EIP-8288's block validity rule (Draft, ethereum/EIPs master as read on 2026-11-04), patched in
++//! for experiment 19 of exp-e2e-frames; off unless `X14_EIP8288` is set.
++//!
++//! A block is valid only if a proof covers `dependencies(block)`. The block's leanSPHINCS
++//! dependencies are aggregated by leanVM's own aggregation into one proof, serialized without the
++//! keys, which the client takes from the block; under the experiment's extension each leanSTARK
++//! dependency's proof is checked directly, the program found by its keccak256. leanVM runs as the
++//! experiment's prover binary (`X14_PROVER`), since it needs a newer Rust than ethrex pins.
++//!
++//! The proof travels beside the block, under `X14_WITNESS_DIR/sidecar/<deps hash>/`, rather than
++//! in a new header field: the builder writes it when the payload is handed out, and the import
++//! path checks it. Witnesses arrive as files the experiment writes first, standing in for the
++//! EIP's mode-0 wrapper: `w-<dependency key>.json` (a leanSPHINCS signature) or `.bin` (a leanSTARK
++//! proof). A file `corrupt` holding `omit` or `other` makes the next proof cover the block's
++//! dependencies less one, or other dependencies (`other.json`, a signature by another key on
++//! another message; or `other.bin`, a proof of another statement): the experiment's bad blocks.
++use std::path::{Path, PathBuf};
++use std::process::Command;
++use std::time::Instant;
++
++use ethrex_common::types::eip8288::{self, LEANSPHINCS_SCHEME, LEANSTARK_SCHEME, Triple};
++use ethrex_common::types::{Block, Transaction};
++use tracing::{info, warn};
++
++fn hex(b: &[u8]) -> String {
++    b.iter().map(|x| format!("{x:02x}")).collect()
++}
++fn witness_dir() -> PathBuf {
++    PathBuf::from(std::env::var("X14_WITNESS_DIR").unwrap_or_else(|_| "x14-witnesses".to_string()))
++}
++fn prover() -> String {
++    std::env::var("X14_PROVER").unwrap_or_else(|_| "x14-prover".to_string())
++}
++fn record(file: &str, line: String) {
++    use std::io::Write;
++    if let Ok(mut f) = std::fs::OpenOptions::new().create(true).append(true).open(witness_dir().join(file)) {
++        let _ = writeln!(f, "{line}");
++    }
++}
++
++/// `dependencies(block)`: every frame transaction's dependencies, deduplicated and sorted.
++pub fn dependencies(block: &Block) -> Vec<Triple> {
++    let mut deps: Vec<Triple> = block
++        .body
++        .transactions
++        .iter()
++        .filter_map(|tx| match tx {
++            Transaction::FrameTransaction(f) => Some(eip8288::dependencies(f)),
++            _ => None,
++        })
++        .flatten()
++        .collect();
++    deps.sort();
++    deps.dedup();
++    deps
++}
++
++fn sidecar(deps: &[Triple]) -> PathBuf {
++    witness_dir().join("sidecar").join(hex(&eip8288::deps_hash(deps)))
++}
++fn run(args: &[&str]) -> (bool, String) {
++    match Command::new(prover()).args(args).output() {
++        Ok(o) => {
++            let out = String::from_utf8_lossy(&o.stdout).trim().to_string();
++            (o.status.success() && !out.contains("\"error\""), out)
++        }
++        Err(e) => (false, format!("{{\"error\":\"cannot run the prover: {e}\"}}")),
++    }
++}
++
++/// The builder's half: the proof for a block it hands out. Missing witnesses are logged; the
++/// block will then fail its own import.
++pub fn build_proof(block: &Block) {
++    if eip8288::setting().is_none() {
++        return;
++    }
++    let deps = dependencies(block);
++    if deps.is_empty() {
++        return;
++    }
++    let started = Instant::now();
++    let dir = sidecar(&deps);
++    let _ = std::fs::remove_dir_all(&dir);
++    if std::fs::create_dir_all(&dir).is_err() {
++        warn!("EIP-8288: cannot create {}", dir.display());
++        return;
++    }
++    let corrupt_file = witness_dir().join("corrupt");
++    let corrupt = std::fs::read_to_string(&corrupt_file).ok().map(|s| s.trim().to_string());
++    if corrupt.is_some() {
++        let _ = std::fs::remove_file(&corrupt_file);
++    }
++    let mut sphincs: Vec<&Triple> = deps.iter().filter(|t| t.0 == LEANSPHINCS_SCHEME).collect();
++    let mut starks: Vec<&Triple> = deps.iter().filter(|t| t.0 == LEANSTARK_SCHEME).collect();
++    if corrupt.as_deref() == Some("omit") {
++        if starks.is_empty() { sphincs.pop(); } else { starks.pop(); }
++    }
++    let mut claims: Vec<String> = Vec::new();
++    for t in &sphincs {
++        match std::fs::read_to_string(witness_dir().join(format!("w-{}.json", hex(&eip8288::dependency_key(t))))) {
++            Ok(w) => claims.push(w.trim().to_string()),
++            Err(_) => warn!("EIP-8288: no witness for a leanSPHINCS dependency"),
++        }
++    }
++    // `other`: the leanSPHINCS claims replaced by another key's signature on another message, or,
++    // in a block of leanSTARK dependencies only, the first proof replaced by a proof of another
++    // statement (`other.bin`).
++    let mut other_stark = false;
++    if corrupt.as_deref() == Some("other") {
++        if sphincs.is_empty() {
++            other_stark = true;
++        } else {
++            claims = std::fs::read_to_string(witness_dir().join("other.json")).map(|w| vec![w.trim().to_string()]).unwrap_or_default();
++        }
++    }
++    let mut aggregate = String::from("none");
++    if !claims.is_empty() {
++        let claims_file = dir.join("claims.json");
++        let _ = std::fs::write(&claims_file, format!("[{}]", claims.join(",")));
++        let out = dir.join("aggregate.bin");
++        let (_, o) = run(&["aggregate", &claims_file.to_string_lossy(), &out.to_string_lossy()]);
++        let _ = std::fs::remove_file(&claims_file);
++        aggregate = o;
++    }
++    for (i, t) in starks.iter().enumerate() {
++        let key = hex(&eip8288::dependency_key(t));
++        let from = if other_stark && i == 0 { witness_dir().join("other.bin") } else { witness_dir().join(format!("w-{key}.bin")) };
++        if std::fs::copy(from, dir.join(format!("stark-{key}.bin"))).is_err() {
++            warn!("EIP-8288: no witness for a leanSTARK dependency");
++        }
++    }
++    let line = format!(
++        "{{\"block\":{},\"dependencies\":{},\"leanSphincs\":{},\"leanStark\":{},\"corrupt\":{},\"aggregate\":{},\"ms\":{}}}",
++        block.header.number,
++        deps.len(),
++        sphincs.len(),
++        starks.len(),
++        corrupt.map_or("null".to_string(), |c| format!("\"{c}\"")),
++        if aggregate.starts_with('{') { aggregate } else { "null".to_string() },
++        started.elapsed().as_millis()
++    );
++    info!("EIP-8288: built a block proof {line}");
++    record("builds.jsonl", line);
++}
++
++fn find_program(vk: &[u8; 32]) -> Option<PathBuf> {
++    let dir = std::env::var("X14_PROGRAMS").ok()?;
++    std::fs::read_dir(dir).ok()?.flatten().map(|e| e.path()).find(|p| {
++        p.extension().is_some_and(|x| x == "py")
++            && std::fs::read(p).is_ok_and(|b| ethrex_common::utils::keccak(b).0 == *vk)
++    })
++}
++fn cells(d: &[u8; 32]) -> String {
++    let limb = |o: usize| format!("{:x}", u64::from_le_bytes(d[o..o + 8].try_into().expect("8 bytes")));
++    format!("[[\"{}\",\"{}\"],[\"{}\",\"{}\"]]", limb(0), limb(8), limb(16), limb(24))
++}
++fn check(deps: &[Triple], dir: &Path) -> Result<(), String> {
++    if !dir.exists() {
++        return Err("no proof for the block's dependencies".to_string());
++    }
++    let sphincs: Vec<&Triple> = deps.iter().filter(|t| t.0 == LEANSPHINCS_SCHEME).collect();
++    if !sphincs.is_empty() {
++        let proof = dir.join("aggregate.bin");
++        if !proof.exists() {
++            return Err("no aggregate proof for the block's leanSPHINCS dependencies".to_string());
++        }
++        let claims = dir.join("check-claims.json");
++        let body: Vec<String> = sphincs
++            .iter()
++            .map(|t| format!("{{\"publicKey\":\"{}\",\"message\":\"{}\"}}", hex(&t.2), hex(&t.1)))
++            .collect();
++        std::fs::write(&claims, format!("[{}]", body.join(","))).map_err(|e| e.to_string())?;
++        let (ok, out) = run(&["verify-aggregate", &proof.to_string_lossy(), &claims.to_string_lossy()]);
++        if !ok {
++            return Err(format!("the aggregate proof does not cover the block's leanSPHINCS dependencies: {out}"));
++        }
++    }
++    for t in deps.iter().filter(|t| t.0 == LEANSTARK_SCHEME) {
++        let key = hex(&eip8288::dependency_key(t));
++        let proof = dir.join(format!("stark-{key}.bin"));
++        if !proof.exists() {
++            return Err(format!("no proof for leanSTARK dependency {key}"));
++        }
++        let program = find_program(&t.2).ok_or_else(|| format!("no program whose key is {}", hex(&t.2)))?;
++        let public = dir.join(format!("public-{key}.json"));
++        std::fs::write(&public, cells(&t.1)).map_err(|e| e.to_string())?;
++        let (ok, out) = run(&["verify", &program.to_string_lossy(), &public.to_string_lossy(), &proof.to_string_lossy()]);
++        if !ok {
++            return Err(format!("leanSTARK dependency {key} does not verify: {out}"));
++        }
++    }
++    Ok(())
++}
++
++/// The client's half: a block is valid only if its proof covers `dependencies(block)`.
++pub fn check_block(block: &Block) -> Result<(), String> {
++    if eip8288::setting().is_none() {
++        return Ok(());
++    }
++    let deps = dependencies(block);
++    if deps.is_empty() {
++        return Ok(());
++    }
++    let started = Instant::now();
++    let result = check(&deps, &sidecar(&deps));
++    let line = format!(
++        "{{\"block\":{},\"hash\":\"{:#x}\",\"dependencies\":{},\"valid\":{},\"reason\":{},\"ms\":{}}}",
++        block.header.number,
++        block.hash(),
++        deps.len(),
++        result.is_ok(),
++        result.as_ref().err().map_or("null".to_string(), |e| format!("{:?}", e)),
++        started.elapsed().as_millis()
++    );
++    info!("EIP-8288: checked a block {line}");
++    record("checks.jsonl", line);
++    result
++}
+diff --git a/crates/blockchain/payload.rs b/crates/blockchain/payload.rs
+index 961ac201c..b920f5575 100644
+--- a/crates/blockchain/payload.rs
++++ b/crates/blockchain/payload.rs
+@@ -419,6 +419,11 @@ impl Blockchain {
+             .position(|(id, _)| id == &payload_id)
+             .ok_or(ChainError::UnknownPayload)?;
+         let finished_payload = (payload_id, payloads.remove(idx).1.to_payload().await?);
++        // EIP-8288 (experiment 19): the builder proves the block's dependencies as it hands the
++        // block out, once per payload.
++        if let PayloadOrTask::Payload(p) = &finished_payload.1 {
++            crate::eip8288_block::build_proof(&p.payload);
++        }
+         payloads.insert(idx, finished_payload);
+         // Return the held payload
+         match &payloads[idx].1 {
+diff --git a/crates/common/errors.rs b/crates/common/errors.rs
+index ebfdfa44a..4e12990cc 100644
+--- a/crates/common/errors.rs
++++ b/crates/common/errors.rs
+@@ -33,6 +33,9 @@ pub enum InvalidBlockError {
+     BlobGasUsedMismatch,
+     #[error("Invalid transaction: {0}")]
+     InvalidTransaction(String),
++    /// EIP-8288 (experiment 19): the block's proof does not cover its dependencies.
++    #[error("EIP-8288 recursive STARK: {0}")]
++    RecursiveStark(String),
+     #[error("Maximum block size exceeded: Maximum is {0} MiB, but block was {1} MiB")]
+     MaximumRlpSizeExceeded(u64, u64),
+     #[error("Invalid block fork")]
+diff --git a/crates/common/types/eip8288.rs b/crates/common/types/eip8288.rs
+new file mode 100644
+index 000000000..29d07fbad
+--- /dev/null
++++ b/crates/common/types/eip8288.rs
+@@ -0,0 +1,143 @@
++//! EIP-8288 (Draft, ethereum/EIPs master as read on 2026-11-04), patched in for experiment 19 of
++//! exp-e2e-frames. Off unless `X14_EIP8288` is set:
++//!
++//! - `written`: the EIP as written. A frame of mode 4 is a dependency verification frame;
++//!   `LEANSPHINCS_SCHEME` is its only valid scheme, `LEANSTARK_SCHEME` being reserved.
++//! - `extended`: the experiment's extension. `LEANSTARK_SCHEME` is valid too, and the dependency
++//!   hash puts each dependency's scheme byte first.
++//!
++//! `DEPS_HASH` is Keccak-256, the experiment's choice for a constant the EIP leaves TBD.
++use std::sync::OnceLock;
++
++use super::{Frame, FrameTransaction};
++use crate::utils::keccak;
++
++pub const DEP_VERIFY_FRAME_MODE: u8 = 4;
++pub const MAX_DEPENDENCIES_PER_FRAME: usize = 256;
++pub const LEANSPHINCS_SCHEME: u8 = 0x10;
++pub const LEANSTARK_SCHEME: u8 = 0x11;
++pub const LEANSPHINCS_VERIFICATION_GAS: u64 = 3_000;
++pub const LEANSTARK_VERIFICATION_GAS: u64 = 30_000;
++
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++pub enum Setting {
++    Written,
++    Extended,
++}
++
++/// The switch, read once from `X14_EIP8288`.
++pub fn setting() -> Option<Setting> {
++    static SETTING: OnceLock<Option<Setting>> = OnceLock::new();
++    *SETTING.get_or_init(|| match std::env::var("X14_EIP8288").as_deref() {
++        Ok("written") => Some(Setting::Written),
++        Ok("extended") => Some(Setting::Extended),
++        _ => None,
++    })
++}
++
++/// `(scheme, data_hash, verification_key_hash)`.
++pub type Triple = (u8, [u8; 32], [u8; 32]);
++
++/// `frame.data_triples`: the frame's data in 96-byte chunks, the scheme its 32nd byte.
++pub fn data_triples(data: &[u8]) -> Vec<Triple> {
++    data.chunks(96)
++        .filter(|c| c.len() == 96)
++        .map(|c| {
++            (c[31], c[32..64].try_into().expect("32 bytes"), c[64..96].try_into().expect("32 bytes"))
++        })
++        .collect()
++}
++
++/// The EIP's validity constraints on one dependency verification frame. `previous_batches` is
++/// whether the preceding frame carries the atomic batch flag.
++pub fn check_frame(i: usize, frame: &Frame, previous_batches: bool) -> Result<(), String> {
++    let setting = setting().ok_or_else(|| format!("Frame {i}: reserved execution mode 4"))?;
++    if frame.data.is_empty() || frame.data.len() % 96 != 0 {
++        return Err(format!("Frame {i}: dependency data must be 96*k bytes, got {}", frame.data.len()));
++    }
++    let triples = data_triples(&frame.data);
++    if triples.len() > MAX_DEPENDENCIES_PER_FRAME {
++        return Err(format!("Frame {i}: more than {MAX_DEPENDENCIES_PER_FRAME} dependencies"));
++    }
++    let mut execution: u64 = 0;
++    for (k, chunk) in frame.data.chunks(96).enumerate() {
++        if chunk[..31].iter().any(|&b| b != 0) {
++            return Err(format!("Frame {i}: dependency {k}: the scheme's first 31 bytes must be zero"));
++        }
++        execution = execution.saturating_add(match (chunk[31], setting) {
++            (LEANSPHINCS_SCHEME, _) => LEANSPHINCS_VERIFICATION_GAS,
++            (LEANSTARK_SCHEME, Setting::Extended) => LEANSTARK_VERIFICATION_GAS,
++            (LEANSTARK_SCHEME, Setting::Written) => {
++                return Err(format!(
++                    "Frame {i}: dependency {k}: LEANSTARK_SCHEME is reserved (EIP-8288 as written)"
++                ));
++            }
++            (other, _) => return Err(format!("Frame {i}: dependency {k}: unknown scheme {other:#04x}")),
++        });
++    }
++    if frame.target.is_some() {
++        return Err(format!("Frame {i}: a dependency frame's target must be absent"));
++    }
++    if !frame.value.is_zero() {
++        return Err(format!("Frame {i}: a dependency frame's value must be 0"));
++    }
++    if frame.flags != 0 {
++        return Err(format!("Frame {i}: a dependency frame's flags must be 0"));
++    }
++    if previous_batches {
++        return Err(format!("Frame {i}: a dependency frame must not be part of an atomic batch"));
++    }
++    if frame.gas_limit != execution {
++        return Err(format!(
++            "Frame {i}: a dependency frame's execution limit must be {execution}, got {}",
++            frame.gas_limit
++        ));
++    }
++    if frame.state_gas_limit != 0 {
++        return Err(format!("Frame {i}: a dependency frame's state limit must be 0"));
++    }
++    Ok(())
++}
++
++/// `dependencies(tx)`: every dependency frame's triples, a zero data hash standing for the
++/// transaction's signature hash, deduplicated and sorted.
++pub fn dependencies(tx: &FrameTransaction) -> Vec<Triple> {
++    if setting().is_none() {
++        return Vec::new();
++    }
++    let mut deps: Vec<Triple> = tx
++        .frames
++        .iter()
++        .filter(|f| f.mode == DEP_VERIFY_FRAME_MODE)
++        .flat_map(|f| data_triples(&f.data))
++        .map(|(s, d, v)| {
++            let d = if d == [0u8; 32] { tx.compute_sig_hash().0 } else { d };
++            (s, d, v)
++        })
++        .collect();
++    deps.sort();
++    deps.dedup();
++    deps
++}
++
++/// `get_deps_hash`: Keccak-256 over `data_hash || verification_key_hash` per dependency, as
++/// written; extended, each dependency's scheme byte goes first.
++pub fn deps_hash(deps: &[Triple]) -> [u8; 32] {
++    let mut bytes = Vec::with_capacity(deps.len() * 65);
++    for (s, d, v) in deps {
++        if setting() == Some(Setting::Extended) {
++            bytes.push(*s);
++        }
++        bytes.extend_from_slice(d);
++        bytes.extend_from_slice(v);
++    }
++    keccak(bytes).0
++}
++
++/// One dependency's own key, under which its witness is handed in: Keccak-256 of its 65 bytes.
++pub fn dependency_key(t: &Triple) -> [u8; 32] {
++    let mut bytes = vec![t.0];
++    bytes.extend_from_slice(&t.1);
++    bytes.extend_from_slice(&t.2);
++    keccak(bytes).0
++}
+diff --git a/crates/common/types/mod.rs b/crates/common/types/mod.rs
+index 297c50711..d38efc977 100644
+--- a/crates/common/types/mod.rs
++++ b/crates/common/types/mod.rs
+@@ -9,6 +9,8 @@ mod constants;
+ pub(crate) mod eip8025_cell;
+ #[cfg(feature = "eip-8025")]
+ pub mod eip8025_ssz;
++/// Experiment 19 of exp-e2e-frames: EIP-8288, off unless X14_EIP8288 is set.
++pub mod eip8288;
+ mod fork_id;
+ mod genesis;
+ pub mod inclusion_list;
+diff --git a/crates/common/types/transaction.rs b/crates/common/types/transaction.rs
+index b891c2a64..70f656dd4 100644
+--- a/crates/common/types/transaction.rs
++++ b/crates/common/types/transaction.rs
+@@ -2761,6 +2761,19 @@ impl FrameTransaction {
+         let mut expiry_frame_count: usize = 0;
+ 
+         for (i, frame) in self.frames.iter().enumerate() {
++            // EIP-8288 (experiment 19): a dependency verification frame, under the EIP's own
++            // constraints, when X14_EIP8288 is set; otherwise mode 4 stays reserved below.
++            if frame.mode == super::eip8288::DEP_VERIFY_FRAME_MODE && super::eip8288::setting().is_some() {
++                let previous_batches = i
++                    .checked_sub(1)
++                    .and_then(|prev| self.frames.get(prev))
++                    .is_some_and(|prev| prev.is_atomic_batch());
++                super::eip8288::check_frame(i, frame, previous_batches)?;
++                total_frame_gas = total_frame_gas
++                    .checked_add(frame.gas_limit as u128)
++                    .ok_or_else(|| format!("Frame {i}: cumulative frame gas overflow"))?;
++                continue;
++            }
+             // `None` means the mode byte is reserved (3 and above).
+             let Some(frame_mode) = frame.execution_mode() else {
+                 return Err(format!("Frame {i}: reserved execution mode {}", frame.mode));
+diff --git a/crates/vm/levm/src/vm.rs b/crates/vm/levm/src/vm.rs
+index 5c9bc8398..41a7c644a 100644
+--- a/crates/vm/levm/src/vm.rs
++++ b/crates/vm/levm/src/vm.rs
+@@ -2059,6 +2059,27 @@ impl<'a> VM<'a> {
+                 self.current_call_frame.call_frame_backup.clear();
+             }
+ 
++            // EIP-8288 (experiment 19): a dependency verification frame executes no code. Its
++            // receipt has status 1, execution gas equal to its limit, no state gas, no logs.
++            if frame.mode == ethrex_common::types::eip8288::DEP_VERIFY_FRAME_MODE
++                && ethrex_common::types::eip8288::setting().is_some()
++            {
++                let ctx = self.frame_tx_context.as_mut().ok_or(VMError::Internal(
++                    InternalError::Custom("missing frame tx context".to_string()),
++                ))?;
++                ctx.current_frame_index = frame_idx;
++                ctx.frame_results.push((
++                    ethrex_common::types::FRAME_RECEIPT_STATUS_SUCCESS,
++                    frame.gas_limit,
++                    0,
++                    Vec::new(),
++                ));
++                total_gas_used = total_gas_used
++                    .checked_add(frame.gas_limit)
++                    .ok_or(VMError::Internal(InternalError::Overflow))?;
++                continue;
++            }
++
+             // Start a new atomic batch if this frame has the batch flag
+             // and we're not already in one.
+             if !in_atomic_batch && frame.is_atomic_batch() {
+@@ -3245,6 +3266,26 @@ impl<'a> VM<'a> {
+             // so a later frame's failure only reverts its own effects.
+             self.current_call_frame.call_frame_backup.clear();
+ 
++            // EIP-8288 (experiment 19): a dependency frame inside the prefix runs nothing.
++            if frame.mode == ethrex_common::types::eip8288::DEP_VERIFY_FRAME_MODE
++                && ethrex_common::types::eip8288::setting().is_some()
++            {
++                let ctx = self.frame_tx_context.as_mut().ok_or(VMError::Internal(
++                    InternalError::Custom("missing frame tx context".to_string()),
++                ))?;
++                ctx.current_frame_index = frame_idx;
++                ctx.frame_results.push((
++                    ethrex_common::types::FRAME_RECEIPT_STATUS_SUCCESS,
++                    frame.gas_limit,
++                    0,
++                    Vec::new(),
++                ));
++                total_gas_used = total_gas_used
++                    .checked_add(frame.gas_limit)
++                    .ok_or(VMError::Internal(InternalError::Overflow))?;
++                continue;
++            }
++
+             let ctx =
+                 self.frame_tx_context
+                     .as_mut()

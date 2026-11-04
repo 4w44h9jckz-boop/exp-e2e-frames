@@ -1,0 +1,510 @@
+{
+  "experiment": 19,
+  "run": "2-part2-testnet",
+  "deployment": "r2-d2",
+  "repoCommit": "4c92a004b9963970e618d0184c65273a40cc48f6",
+  "chainId": 8141,
+  "funder": "0xa131d9454d87957dcC465fb37ACD9b383648B4d5",
+  "contracts": {
+    "factory": "0x4F9fCd1846B46ab3F86E5dA5d24bd5Bfa6E2b8d3",
+    "pool5": "0xeAdaa081Ba0FF2050945656F463Be8cb876dc4B2",
+    "pool4": "0x954E93671D663E81432A123B9Be27004C60f302a",
+    "verifier4": "0xf0bDcc81bC742871aCF114FeAa58B4737e84d1EF",
+    "singleton": "0x55649E01B5Df198D18D95b5cc5051630cfD45564"
+  },
+  "vk": {
+    "v1": "0xe5eb42d39069a335c123b45100ab0b1305603eee7c27556ad2f15fa2589ea7c1",
+    "v5": "0x3096ec913da5544bb27165383b34b169e9948ce5ae863c5827b97f19a9716fc4",
+    "note": "keccak256 of each program's source at leanVM 3cbac04, standing in for the compiled program's key"
+  },
+  "blocks": {
+    "first": 686092,
+    "last": 686110
+  },
+  "pins": {
+    "skandha": {
+      "url": "https://github.com/4w44h9jckz-boop/skandha",
+      "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade",
+      "why": "one node, sent every spend first to record its answer; the commit experiments 06 to 17 ran"
+    },
+    "exp-frames": {
+      "url": "https://github.com/4w44h9jckz-boop/exp-frames",
+      "commit": "37ac4aa36e48a7be390c9cbfedb7bbc31ac6e2b5",
+      "why": "src/exp-frames/ is copied from it (frame encoding, simulation, deployment)"
+    }
+  },
+  "setup": [
+    {
+      "what": "deploy the factory, the two pools and version 4's verifier",
+      "hash": "0x13cdae8a245da4083af686238046ee6c35f785d0633cd15c1b14b98a4b5bc0b9",
+      "block": 686092,
+      "gasUsed": 7877909,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "15853",
+          "state": "1474920"
+        },
+        {
+          "status": 1,
+          "execution": "12941",
+          "state": "1503990"
+        },
+        {
+          "status": 1,
+          "execution": "13323",
+          "state": "2158830"
+        },
+        {
+          "status": 1,
+          "execution": "13441",
+          "state": "2418930"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "what": "version 5's pool float",
+      "hash": "0xc186cfd27f8186cbe209056524642484449bd73f3dc821ce791c27ba0f8f9bf3",
+      "block": 686093,
+      "gasUsed": 26230,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "3040",
+          "state": "0"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "what": "v1: pay and announce, owner",
+      "hash": "0xdb3a8425f9a232fbd58ef11afb33024e657d64515776df58035fb1648f6c71a7",
+      "block": 686095,
+      "gasUsed": 1455067,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "what": "v1: pay and announce, delegated",
+      "hash": "0xfe781b7aff04d700889457ed5b20669ee8c61eddae4c0906f4864181f4f84f4d",
+      "block": 686097,
+      "gasUsed": 1455067,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "what": "v3: pay and announce, first account",
+      "hash": "0x693d6e02aed06b54c7a43eff73eba7c8cf2a735799fc20119ab1e99b28c04c5e",
+      "block": 686099,
+      "gasUsed": 1455067,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "what": "v3: pay and announce, second account",
+      "hash": "0x080867b93ab65f7b8d8ae11368740e5782ee0e8113b9936c391b9d1d1dc8cd31",
+      "block": 686101,
+      "gasUsed": 1455067,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "ok": true
+    }
+  ],
+  "rows": [
+    {
+      "step": "v1: pay and announce, owner",
+      "hash": "0xdb3a8425f9a232fbd58ef11afb33024e657d64515776df58035fb1648f6c71a7",
+      "block": 686095,
+      "gasUsed": 1455067,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "account": "0x15367DC44FC5552AF15515645729f1D802F042E8"
+    },
+    {
+      "step": "v1: the owner spends to a fresh address",
+      "outcome": "mined",
+      "hash": "0xa794737d61215a23dff0eb17ed74d801d41ac33e33573a10856ce6730c7e3c87",
+      "block": 686096,
+      "gasUsed": 212443,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 1303,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 12246,
+          "state": 183600
+        }
+      ],
+      "skandha": "admitted: 0xa794737d61215a23dff0eb17ed74d801d41ac33e33573a10856ce6730c7e3c87",
+      "resends": 0,
+      "version": 1,
+      "declaredGas": 30000,
+      "proof": {
+        "cycles": 32,
+        "proofBytes": 204288,
+        "proveMs": 71.953664,
+        "verifyMs": 11.895631999999999
+      },
+      "publicInputHash": "0x6abee9da911b0a763752d5fadb9ad3f101e05bca59d5662050925d0454078c99"
+    },
+    {
+      "step": "v1: pay and announce, delegated",
+      "hash": "0xfe781b7aff04d700889457ed5b20669ee8c61eddae4c0906f4864181f4f84f4d",
+      "block": 686097,
+      "gasUsed": 1455067,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "account": "0x8c7ce2870645485adB9D717F52BCB3A9D754EFc3"
+    },
+    {
+      "step": "v1: a delegated prover holding k and r spends to itself",
+      "outcome": "mined",
+      "hash": "0xdbe1ff01264347f4fa17d377a266580084b188a970263fa8c443b1ec5f8a25b6",
+      "block": 686098,
+      "gasUsed": 212443,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 1303,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 12246,
+          "state": 183600
+        }
+      ],
+      "skandha": "admitted: 0xdbe1ff01264347f4fa17d377a266580084b188a970263fa8c443b1ec5f8a25b6",
+      "resends": 0,
+      "version": 1,
+      "declaredGas": 30000,
+      "proof": {
+        "cycles": 32,
+        "proofBytes": 203736,
+        "proveMs": 78.053344,
+        "verifyMs": 14.577091000000001
+      },
+      "publicInputHash": "0xff50116f5845706c709bb6195985b4433be446632a947fb4151fc6a6848ac248"
+    },
+    {
+      "step": "v3: pay and announce, first account",
+      "hash": "0x693d6e02aed06b54c7a43eff73eba7c8cf2a735799fc20119ab1e99b28c04c5e",
+      "block": 686099,
+      "gasUsed": 1455067,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "account": "0x121b6cEC8b9F6cfc9bFFc95989CCfE8456E8271c"
+    },
+    {
+      "step": "v3: the first account spends, under the long-term key",
+      "outcome": "mined",
+      "hash": "0x24ff6dccf288002d63b0da0149f5133a5409de937cc385988e14b3a61134c447",
+      "block": 686100,
+      "gasUsed": 211769,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 1141,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 12246,
+          "state": 183600
+        }
+      ],
+      "skandha": "admitted: 0x24ff6dccf288002d63b0da0149f5133a5409de937cc385988e14b3a61134c447",
+      "resends": 0,
+      "version": 3,
+      "declaredGas": 3000,
+      "signature": {
+        "bytes": 7740,
+        "keccak": "1ce9ef1e1285cb3cdbb550cc97457be0f51e96125171df04e8b5782f7c42dacd",
+        "signMs": 80.66085600000001,
+        "verifyMs": 0.166718
+      }
+    },
+    {
+      "step": "v3: pay and announce, second account",
+      "hash": "0x080867b93ab65f7b8d8ae11368740e5782ee0e8113b9936c391b9d1d1dc8cd31",
+      "block": 686101,
+      "gasUsed": 1455067,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "account": "0x492f29C6ade5ed4B4e6C8dCF48A6b817884EC7e2"
+    },
+    {
+      "step": "v3: the second account spends, under the long-term key",
+      "outcome": "mined",
+      "hash": "0x94444eae654c4b05d171b99cccccb5bce67fc45a7920d6fd82951170e1645a9e",
+      "block": 686102,
+      "gasUsed": 211781,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 1141,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 12246,
+          "state": 183600
+        }
+      ],
+      "skandha": "admitted: 0x94444eae654c4b05d171b99cccccb5bce67fc45a7920d6fd82951170e1645a9e",
+      "resends": 0,
+      "version": 3,
+      "declaredGas": 3000,
+      "signature": {
+        "bytes": 7740,
+        "keccak": "c18d3dc2f3c017a893279133681e0c86a263a244e9545cdc36bb82aaaeb6a750",
+        "signMs": 61.812815,
+        "verifyMs": 0.134027
+      }
+    },
+    {
+      "step": "v5: deposit, owner",
+      "outcome": "mined",
+      "hash": "0x2a08a42c761533654294b0fe1892071128ee238b474a8877de06fba9a9b94a7e",
+      "block": 686103,
+      "gasUsed": 2580539,
+      "calldataBytes": 36
+    },
+    {
+      "step": "v5: deposit, delegated",
+      "outcome": "mined",
+      "hash": "0xc42847c90f571297410319ebd844f6a7d8d03a670dece35127016db003fc5bbd",
+      "block": 686104,
+      "gasUsed": 416213,
+      "calldataBytes": 36
+    },
+    {
+      "step": "v5: the owner withdraws to a fresh address",
+      "outcome": "mined",
+      "hash": "0x1bd5822f9d5ab497cd1fc94548422d8fdc46ac87cb3ccd79ac0624454a7f3838",
+      "block": 686105,
+      "gasUsed": 313792,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 3353,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 12293,
+          "state": 183600
+        }
+      ],
+      "skandha": "admitted: 0x1bd5822f9d5ab497cd1fc94548422d8fdc46ac87cb3ccd79ac0624454a7f3838",
+      "resends": 0,
+      "version": 5,
+      "declaredGas": 30000,
+      "proof": {
+        "cycles": 286,
+        "proofBytes": 206480,
+        "proveMs": 84.13781800000001,
+        "verifyMs": 17.470537
+      },
+      "publicInputHash": "0xa64cda4b31cdf3a1ec79dbd8479fc9e548c1d8ec48d1b02ba4ea27752d302ba3"
+    },
+    {
+      "step": "v5: a delegated prover holding the note's secrets withdraws to itself",
+      "outcome": "mined",
+      "hash": "0x0386ade6311ab04735bb14967fd2db55808b59d907d529b2418283c18cf1dc7f",
+      "block": 686106,
+      "gasUsed": 313792,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 3353,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 12293,
+          "state": 183600
+        }
+      ],
+      "skandha": "admitted: 0x0386ade6311ab04735bb14967fd2db55808b59d907d529b2418283c18cf1dc7f",
+      "resends": 0,
+      "version": 5,
+      "declaredGas": 30000,
+      "proof": {
+        "cycles": 286,
+        "proofBytes": 206768,
+        "proveMs": 80.66534,
+        "verifyMs": 13.15621
+      },
+      "publicInputHash": "0xe8857a87dc8832a22ae7332a6ad9e1bc2315056a9145d717b5ef929b9beb2f50"
+    },
+    {
+      "step": "v4: deposit",
+      "outcome": "mined",
+      "hash": "0x758ad6df7a761906516ef220515b883accb29571ba83ae61e78623e84ed1123b",
+      "block": 686107,
+      "gasUsed": 3267666,
+      "calldataBytes": 36
+    },
+    {
+      "step": "v4: a relayer withdraws to a fresh address with a Groth16 proof",
+      "outcome": "mined",
+      "hash": "0x0aeef2bdf04babf167df9f6c23c325e6e84c2395e5234a94284f1339da2febf2",
+      "block": 686110,
+      "gasUsed": 555548,
+      "calldataBytes": 452,
+      "version": 4,
+      "proveMs": 9922,
+      "mimcCheck": true
+    }
+  ],
+  "v1Delegated": {
+    "proverBalance": "1000000000000000",
+    "expected": "1000000000000000"
+  },
+  "v3Linkage": {
+    "keysOnChain": [
+      "0x3d6957a5cc0e2d6a6c79f2448b243d29fc153b8b632edded0f096bed1fb5fd09",
+      "0x3d6957a5cc0e2d6a6c79f2448b243d29fc153b8b632edded0f096bed1fb5fd09"
+    ],
+    "same": true,
+    "key": "0x3d6957a5cc0e2d6a6c79f2448b243d29fc153b8b632edded0f096bed1fb5fd09"
+  }
+}

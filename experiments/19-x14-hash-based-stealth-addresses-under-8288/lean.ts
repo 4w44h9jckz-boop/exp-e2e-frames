@@ -47,13 +47,13 @@ export function cellKnownAnswer(): boolean {
 
 const hexCell = ([c0, c1]: Cell) => [c0.toString(16), c1.toString(16)]
 export type Signed = { publicKey: string; signature: string; message: string }
-export type Input = { public: [Cell, Cell]; witness: Record<string, Cell[][]>; sphincs?: Signed[]; logInvRate?: number }
+export type Input = { public: [Cell, Cell]; witness: Record<string, Cell[][]>; sphincs?: Signed[]; logInvRate?: number; proofOut?: string }
 
 /** Prove `program` on `input` with prover/, `repeat` measured passes after a warm-up. */
 export function prove(program: string, input: Input, repeat = 1) {
   const dir = mkdtempSync(join(tmpdir(), 'x14-'))
   const file = join(dir, 'input.json')
-  writeFileSync(file, JSON.stringify({ public: input.public.map(hexCell), witness: Object.fromEntries(Object.entries(input.witness).map(([k, es]) => [k, es.map((e) => e.map(hexCell))])), sphincs: input.sphincs ?? [], logInvRate: input.logInvRate ?? 1 }))
+  writeFileSync(file, JSON.stringify({ public: input.public.map(hexCell), witness: Object.fromEntries(Object.entries(input.witness).map(([k, es]) => [k, es.map((e) => e.map(hexCell))])), sphincs: input.sphincs ?? [], logInvRate: input.logInvRate ?? 1, ...(input.proofOut ? { proofOut: input.proofOut } : {}) }))
   const out = execFileSync(PROVER, [PROGRAM(program), file, String(repeat)], { encoding: 'utf8', maxBuffer: 1 << 24 })
   return JSON.parse(out.trim().split('\n').pop()!) as Proved
 }
