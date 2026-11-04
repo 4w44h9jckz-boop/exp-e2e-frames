@@ -12,7 +12,7 @@
 //
 // usage: X14_DEPLOYMENT=<tag> npx tsx experiments/19-x14-hash-based-stealth-addresses-under-8288/local.ts <label> <written|extended>
 import { type ChildProcess, execFileSync, spawn } from 'node:child_process'
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, openSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { sha256 } from '@noble/hashes/sha2'
 import { keccak_256 } from '@noble/hashes/sha3'
@@ -64,10 +64,10 @@ writeFileSync(genesisFile, JSON.stringify(genesis))
 const PORT = 18545
 const node: ChildProcess = spawn(join(ethrexDir, 'target/release/ethrex'), ['--dev', '--network', genesisFile, '--datadir', join(dir, 'db'), '--http.port', String(PORT), '--authrpc.port', '18551', '--p2p.disabled', '--http.api', 'eth,net,web3,ethrex', '--log.level', 'info'], {
   env: { ...process.env, X14_EIP8288: setting, X14_PROVER: L.PROVER, X14_PROGRAMS: join(here, 'programs'), X14_WITNESS_DIR: witnesses },
-  stdio: ['ignore', 'ignore', 'pipe'],
+  stdio: ['ignore', openSync(join(dir, 'node.out'), 'w'), openSync(join(dir, 'node.log'), 'w')],
 })
-const nodeLog: string[] = []
-node.stderr!.on('data', (d) => { nodeLog.push(String(d)); if (nodeLog.length > 4000) nodeLog.shift() })
+node.on('exit', (code, signal) => { if (!stopping) console.log(`the node exited: ${code ?? signal}`) })
+let stopping = false
 const url = `http://127.0.0.1:${PORT}`
 const chain = makeClient(url)
 for (let i = 0; ; i++) {
@@ -293,6 +293,7 @@ out.prediction5 = rows.filter((r) => typeof r.gasUsed === 'number' && modelled.h
 })
 console.log(`prediction 5: ${JSON.stringify(out.prediction5)}`)
 
+stopping = true
 node.kill('SIGTERM')
 const lastBlock = Number(await chain.getBlockNumber().catch(() => 0n))
 
@@ -316,6 +317,5 @@ for (const [name, body] of [['record', JSON.stringify(record, big)], ['fixture',
 }
 writeFileSync(join(here, 'results', `${runLabel}.json`), JSON.stringify(record, big, 2) + '\n')
 writeFileSync(join(root, 'test/fixtures/x14', `${runLabel}.json`), JSON.stringify(fixture, null, 1) + '\n')
-writeFileSync(join(dir, 'node.log'), nodeLog.join(''))
 console.log(`recorded results/${runLabel}.json and test/fixtures/x14/${runLabel}.json`)
 process.exit(0)

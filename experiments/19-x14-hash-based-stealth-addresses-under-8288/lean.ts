@@ -153,3 +153,41 @@ export function v2a(rule: bigint, keys: Uint8Array[], r: Uint8Array, m: Uint8Arr
   }
   return { K, C, T, D, input }
 }
+
+// ---- version 2b: one interpreter over a committed rule (Amendment 3) ----
+
+export const SLOT_EMPTY = 0n
+export const SLOT_KEY = 1n
+export const SLOT_PREIMAGE = 2n
+export type Slot = { type: bigint; value: Uint8Array }
+/** A rule: a threshold and three slots, a key's value its 32 bytes, a preimage key's H(k, TAG_KEY). */
+export type Rule = { t: number; slots: [Slot, Slot, Slot] }
+export const preimageKeyOf = (k: Uint8Array) => H2(k, TAG_KEY)
+const gPow = (t: number) => literal(1n << BigInt(t))
+/** K = H(H(H(g^t, type 0, type 1, type 2), H(value 0, value 1)), value 2). */
+export function interpretedKeyOf(rule: Rule): Uint8Array {
+  const a = H(gPow(rule.t), literal(rule.slots[0].type), literal(rule.slots[1].type), literal(rule.slots[2].type))
+  return H2(H2(a, H2(rule.slots[0].value, rule.slots[1].value)), rule.slots[2].value)
+}
+/**
+ * A version 2b spend: the slots at `used` satisfied, a key's by its signature (given, on m), a
+ * preimage key's by its k; the proof publishes D = H(H(C, m), T) as versions 1 and 2a do.
+ */
+export function v2b(rule: Rule, r: Uint8Array, m: Uint8Array, used: { index: number; signed?: Signed; k?: Uint8Array }[]) {
+  const K = interpretedKeyOf(rule)
+  const C = H2(K, r)
+  const T = H2(H2(r, K), m)
+  const D = H2(H2(C, m), T)
+  const use = [0, 1, 2].map((i) => literal(used.some((u) => u.index === i) ? 1n : 0n))
+  const inOrder = [...used].sort((x, y) => x.index - y.index)
+  const input: Input = {
+    public: cellsOf(D),
+    witness: {
+      t: [[gPow(rule.t)]], types: [rule.slots.map((s) => literal(s.type))], values: [rule.slots.flatMap((s) => cellsOf(s.value))],
+      use: [use], r: [cellsOf(r)], m: [cellsOf(m)],
+      preimage: inOrder.filter((u) => u.k).map((u) => cellsOf(u.k!)),
+    },
+    sphincs: inOrder.filter((u) => u.signed).map((u) => u.signed!),
+  }
+  return { K, C, T, D, input }
+}
