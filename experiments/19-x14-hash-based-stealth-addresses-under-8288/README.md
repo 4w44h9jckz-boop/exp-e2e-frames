@@ -451,3 +451,57 @@ path in `Stealth.yul`.
 | v2a: the owner spends, one key | [`0xf5fe165a...`](https://dora.privacy.ethrex.xyz/tx/0xf5fe165a2f218cff218d5a9779b738864a1d213a951ebb891f0bacb921361a24) | 685,934 |
 | v2a: the owner spends, two of three keys | [`0x5af13152...`](https://dora.privacy.ethrex.xyz/tx/0x5af1315227308d9a1d0a443ec77fa9b66c02e2b07218df33e48a836103bb70dc) | 685,935 |
 | v2a: the delegated prover sends the owner's spend | [`0x07c1b679...`](https://dora.privacy.ethrex.xyz/tx/0x07c1b6795240fe9077cbbc3f14948698d97229cacb237c2443dce1f8ba992215) | 685,937 |
+
+## Amendment 3, 2026-11-04, after run 2's first part and before the local chain and version 2b
+
+**What changes.**
+1. **The local chain runs EIP-8288 as written, then with an extension.** ethrex at `64b8fc09` is
+   patched (`ethrex-8288.patch`, applied by `ethrex.sh` to `work/ethrex`), under one switch with two
+   settings:
+   - **as written:** a frame of mode 4 is a dependency frame under every static rule the EIP lists,
+     with `LEANSPHINCS_SCHEME` the only valid scheme, so a frame declaring `LEANSTARK_SCHEME` makes
+     its transaction invalid; it executes no code, and its receipt has status 1, execution gas equal
+     to its limit and no state gas. A block is valid only if its proof covers `dependencies(block)`:
+     the block's leanSPHINCS dependencies, aggregated by leanVM's own aggregation at `3cbac04` and
+     checked with leanVM's own verifier.
+   - **extended:** the same, and `LEANSTARK_SCHEME` is valid too. Each leanSTARK dependency's proof
+     is checked directly in the block, in the form of EIP-8288's mode-0 wrapper: the program whose
+     keccak256 is the dependency's key, proved over the dependency's data hash as its public input.
+   The two TBD constants are this experiment's, as the pre-registration says: `DEPS_HASH` is
+   Keccak-256 over `get_deps_hash`'s concatenation, extended to put each dependency's scheme byte
+   first; `AGGREGATED_VK` is leanVM's aggregation program at `3cbac04`, the bytecode its own verifier
+   pins.
+2. **Where the proof travels.** The block's proof is built by the patched node's payload builder,
+   keyed by the block's dependency hash, and checked when the node imports the block. It travels
+   beside the block, not in a new header field: the header encoding and the engine API are left as
+   they are, so the block hash does not commit to the proof. Which blocks are valid is unchanged by
+   this.
+3. **How witnesses reach the builder.** The runner hands each dependency's witness (a leanSPHINCS
+   signature, or a leanSTARK proof) to the node before the transaction, standing in for EIP-8288's
+   mode-0 wrapper. leanVM runs outside the client, as `prover/`'s binary, because it needs a newer
+   Rust than the 1.93 that ethrex pins.
+4. **Bad blocks (arm 6).** On a switch the runner sets, the builder makes the next block's proof
+   either over the block's dependencies less one, or over other dependencies; the node must refuse
+   to import each. The block is then built again with a good proof.
+5. **One bytecode on both chains.** `Stealth.yul` and `Pool5.yul` take their dependency from a
+   mode-4 frame when frame 1 is one, and otherwise from their own `VERIFY` data, as on the test
+   network. Every version is run again on the test network with this code, so that prediction 5
+   compares the same contracts.
+6. **Version 2b by interpretation, not recursion.** One fixed program, `programs/v2b_interpreter.py`,
+   reads the committed rule as data: up to three slots, each a leanSPHINCS key or a preimage key
+   $H(k, \mathit{tag})$, and a threshold $t$. $K$ is the hash of the rule; a spend proves $t$ distinct
+   slots satisfied, a key's slot by its signature on $m$ and a preimage slot by its $k$, and publishes
+   $D = H(H(C, m), T)$ as versions 1 and 2a do. Prediction 11's three accounts are one key with
+   $t = 1$, three keys with $t = 2$, and one preimage slot with $t = 1$, version 1's rule.
+
+**Why.** EIP-8288 at master reserves `LEANSTARK_SCHEME` (run 2's findings), so as written the chain
+would refuse versions 1, 2 and 5, and that refusal is itself a result; the extension is what the
+pre-registration assumed. leanVM at `3cbac04` verifies in circuit only sub-proofs of its own bytecode,
+so neither a block proof over leanSTARK dependencies nor version 2b by recursion can be built from it,
+and version 2b by recursion with the inner program deferred would show the rule to the final
+verifier. These are the owner's choices.
+
+**What it does not change.** No prediction, threshold or falsifier is edited. Predictions 5 and 6 are
+judged on both settings. Version 2b's half of prediction 7 compares the interpreter with version 2a.
+What version 2b tests is a rule language, not arbitrary code; arbitrary code would need recursion
+over other programs, the same gap as the block proof's.
