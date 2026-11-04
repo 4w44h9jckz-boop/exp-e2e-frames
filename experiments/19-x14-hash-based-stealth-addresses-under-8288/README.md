@@ -240,6 +240,15 @@ proof is checked off chain by `prover/`, and the declared gas is added to what t
 | 9 | capacity follows the declared prices | **held by arithmetic; on a chain in run 2.** $2^{20}$ over 30,000 is 34 leanSTARK spends per inclusion list, and over 3,000 is 349 leanSPHINCS spends; `MAX_STARKS_PER_TX` = 1 leaves no transaction both a version 1 spend and a version 5 withdrawal. The modelled test network enforces none of these limits, so they are untested on a chain |
 | 10 | scanning finds every payment | **held.** 40 of 40 among 10,000 announcements, no false match, 0.83 ms each; 82 passed the view tag |
 
+**Correction, 2026-11-04, after run 1.** Prediction 7's times above were measured with `prover/`
+built without `-C target-cpu=native`, the flag leanVM's own workspace builds with
+(`work/leanVM/.cargo/config.toml`); a crate outside that workspace does not inherit it. In a trial
+before run 2, one version 2a proof took 6,171 ms without the flag and 85 ms with it, at the same
+cycles and proof size. The outcome above stands, every proof being under 10 seconds either way, but
+its times are this build's and not leanVM's. Run 2 measures versions 1 and 5 again with the flag
+(Amendment 2), and prediction 7 is judged on those. Aggregation (prediction 8) ran through leanVM's
+own binary and is unaffected.
+
 ### What a payment and a spend cost
 
 | | Version 1 | Version 3 | Version 4 | Version 5 |
@@ -306,3 +315,59 @@ Built by `tornado.sh` from tornado-core at `1ef6a26` (GPL-3.0, not copied here),
 port the script lists. The compiled circuit, its key and its port stay out of git; their sha256 are
 `withdraw.zkey` `355d98ad...ec1f91`, `withdraw.r1cs` `a1591fd7...af70751`,
 `withdraw_js/withdraw.wasm` `19ea5c92...a6fee2`.
+
+## Amendment 2, 2026-11-04, after run 1 and before run 2
+
+**What changes.**
+1. **Version 2b commits three rules:** version 2a's two, one key and two of three keys, and version
+   1's preimage rule as a third inner program, so that accounts of a signature rule and of a
+   hash-preimage rule can share one program key. Prediction 11 below is added for it.
+2. **Version 2a is built as follows,** fixed here before it runs.
+   - `programs/v2a_rules.py` proves $C = H(K, r)$ with
+     $K = H(H(\mathit{rule}, \mathit{pk}_0), H(\mathit{pk}_1, \mathit{pk}_2))$, that the rule accepts
+     leanSPHINCS signatures on $m$, and publishes $D = H(H(C, m), T)$ with $T = H(H(r, K), m)$:
+     version 1's shape, so the account is version 1's stub. $T$ carries nothing the signatures do
+     not bind. Rule 1 is $\mathit{pk}_0$ alone, with $\mathit{pk}_1$ and $\mathit{pk}_2$ zero; rule 2
+     is two different keys of the three, which ones staying private.
+   - The signatures are checked by leanVM's own in-circuit verifier, `verify_sig_lean_sphincs`
+     and the 14 functions and 40 constants it reaches in leanVM's aggregation guest
+     (`crates/rec_aggregation/guests/lean_ethereum.py` at `3cbac04`, MIT or Apache-2.0), lifted
+     verbatim by `lift.py`. Its 19 placeholders are filled with the values leanVM's host computes,
+     which its CLI dumps under `DBG_PLACEHOLDERS`. The witness is built as leanVM's host builds it:
+     `prover/` ports `lean_sphincs_hints` and its helpers, and takes the owner's signatures, never a
+     signing key.
+   - `contracts/Stealth.yul` sends version 2 down version 1's path, under the program key it was
+     deployed with: `VK2A`, the keccak256 of `programs/v2a_rules.py`. The factory carries the stub,
+     so run 2 deploys a new factory.
+3. **`prover/` is built with `-C target-cpu=native`** (`prover/.cargo/config.toml`), as leanVM's own
+   workspace builds. Run 2 proves versions 1 and 5 again beside 2a, on the same idle machine, and
+   prediction 7 is judged on run 2's figures for every version (the correction above).
+4. **How prediction 1's "byte-identical code" is read.** The pre-registration has the account store
+   $C$; run 1's stub carries $C$ instead in its code's last words, after the version and the program
+   key. Two accounts' code therefore differs in exactly those 32 bytes, where storage would have
+   differed. Prediction 1 is judged on the rest: the runtime, the version and the program key must be
+   byte-identical, and the 32 bytes of $C$ the only difference.
+5. **Disk.** Clones from experiments already recorded were deleted from the gitignored `work/` for
+   the local chain's build, at the owner's instruction; each experiment's runner rebuilds its own.
+
+**Why.** Item 1 is the owner's choice. Item 2 fixes what Amendment 1 left open. Item 3 is a fault in
+run 1's tooling, found in a trial before run 2. Item 4 is a gap between the pre-registration and run
+1's construction, which prediction 1 would otherwise meet unannounced.
+
+**What it does not change.** No prediction, threshold or falsifier is edited. Prediction 11 is added.
+
+**Prediction 11.** **One outer key hides the rule across versions.** Under version 2b, three
+accounts, one of one key, one of two of three keys and one of version 1's preimage rule, are the same
+stub as prediction 1 reads it, their spends declare the same program key, their spend transactions
+have the same calldata length, and their gas differs by less than 100. **Shown wrong by** two of the
+three with different code beyond $C$ or different program keys, different calldata lengths, or gas
+100 or more apart.
+
+**Before the run, on the tooling.**
+- `programs/v2a_rules.py` proves and verifies under both rules at leanVM `3cbac04`.
+- Two forged witnesses are refused inside the circuit: the signature on $m$ given for another
+  message (`verify_sig_lean_sphincs`), and one key's signature given twice under two of three
+  (`main`'s check that the two keys differ). leanVM's host refuses the first even earlier, since the
+  signature does not open at the other message; `prover/` builds each signature's witness at the
+  message it signs, so the forgery reaches the circuit.
+

@@ -1,7 +1,7 @@
-// Experiment 19 (X14): a one-time stealth account, versions 1 and 3, spent under a modelled
+// Experiment 19 (X14): a one-time stealth account, versions 1, 2 and 3, spent under a modelled
 // EIP-8288. The account is the sender and payer of its own spend:
 //
-//   [0] VERIFY -> account  data: version 1: T (32) || triple (96); version 3: triple (96)
+//   [0] VERIFY -> account  data: versions 1 and 2: T (32) || triple (96); version 3: triple (96)
 //   [1] SENDER -> account  spend(address destination, uint256 amount)
 //
 // A triple is scheme (32) || data_hash (32) || verification_key_hash (32), as EIP-8288 declares a
@@ -10,12 +10,15 @@
 // The message both versions authorise is
 //   m = keccak256(DOMAIN || account || nonce || destination || amount),
 // and VERIFY checks:
-//   version 1 (a leanSTARK of the preimage):   scheme 0x11, data_hash = H(H(C || m) || T), vk = VK
+//   versions 1 and 2 (a leanSTARK):            scheme 0x11, data_hash = H(H(C || m) || T), vk = VK
 //   version 3 (a plain leanSPHINCS signature): scheme 0x10, data_hash = m, vk = the key itself
-// H is keccak256 over the bytes, the leanVM hash of programs/v1_preimage.py.
+// H is keccak256 over the bytes, the leanVM hash of programs/. Version 1's program proves the
+// preimage of C (programs/v1_preimage.py); version 2's, that C commits a rule and its keys and that
+// the rule accepts leanSPHINCS signatures on m (programs/v2a_rules.py). The account cannot tell
+// which: it checks the same triple under the program key it was deployed with.
 //
-// initcode = <this object> || version || word || vk, where word is C (version 1) or the
-// leanSPHINCS key (version 3), and vk is version 1's program key (zero for version 3).
+// initcode = <this object> || version || word || vk, where word is C (versions 1 and 2) or the
+// leanSPHINCS key (version 3), and vk is the version's program key (zero for version 3).
 object "Stealth" {
     code {
         let size := datasize("runtime")
@@ -64,22 +67,24 @@ object "Stealth" {
                 mstore(0x280, amount)
                 let m := keccak256(0x200, 0xa0)
                 switch VERSION()
-                case 1 {
-                    if iszero(eq(frameparam(0x04, me), 128)) { revert(0, 0) }
-                    let t := framedataload(0, me)
-                    mstore(0x300, WORD())
-                    mstore(0x320, m)
-                    mstore(0x300, keccak256(0x300, 0x40))
-                    mstore(0x320, t)
-                    let d := keccak256(0x300, 0x40)
-                    triple(me, 32, 0x11, d, VK())
-                }
+                case 1 { stark(me, m) }
+                case 2 { stark(me, m) }
                 case 3 {
                     if iszero(eq(frameparam(0x04, me), 96)) { revert(0, 0) }
                     triple(me, 0, 0x10, m, WORD())
                 }
                 default { revert(0, 0) }
                 approve(3)
+            }
+            function stark(me, m) {
+                if iszero(eq(frameparam(0x04, me), 128)) { revert(0, 0) }
+                let t := framedataload(0, me)
+                mstore(0x300, WORD())
+                mstore(0x320, m)
+                mstore(0x300, keccak256(0x300, 0x40))
+                mstore(0x320, t)
+                let d := keccak256(0x300, 0x40)
+                triple(me, 32, 0x11, d, VK())
             }
             function triple(me, at, scheme, dataHash, vk) {
                 if iszero(eq(framedataload(at, me), scheme)) { revert(0, 0) }

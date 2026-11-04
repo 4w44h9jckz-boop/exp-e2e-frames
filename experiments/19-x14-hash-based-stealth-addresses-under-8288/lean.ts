@@ -46,15 +46,27 @@ export function cellKnownAnswer(): boolean {
 }
 
 const hexCell = ([c0, c1]: Cell) => [c0.toString(16), c1.toString(16)]
-export type Input = { public: [Cell, Cell]; witness: Record<string, Cell[][]>; logInvRate?: number }
+export type Signed = { publicKey: string; signature: string; message: string }
+export type Input = { public: [Cell, Cell]; witness: Record<string, Cell[][]>; sphincs?: Signed[]; logInvRate?: number }
 
 /** Prove `program` on `input` with prover/, `repeat` measured passes after a warm-up. */
 export function prove(program: string, input: Input, repeat = 1) {
   const dir = mkdtempSync(join(tmpdir(), 'x14-'))
   const file = join(dir, 'input.json')
-  writeFileSync(file, JSON.stringify({ public: input.public.map(hexCell), witness: Object.fromEntries(Object.entries(input.witness).map(([k, es]) => [k, es.map((e) => e.map(hexCell))])), logInvRate: input.logInvRate ?? 1 }))
+  writeFileSync(file, JSON.stringify({ public: input.public.map(hexCell), witness: Object.fromEntries(Object.entries(input.witness).map(([k, es]) => [k, es.map((e) => e.map(hexCell))])), sphincs: input.sphincs ?? [], logInvRate: input.logInvRate ?? 1 }))
   const out = execFileSync(PROVER, [PROGRAM(program), file, String(repeat)], { encoding: 'utf8', maxBuffer: 1 << 24 })
-  return JSON.parse(out.trim().split('\n').pop()!) as { cycles: number; details: string; proofBytes: number; proveMs: number[]; warmupMs: number; verifyMs: number; verified: boolean; peakRssBytes: number; logInvRate: number }
+  return JSON.parse(out.trim().split('\n').pop()!) as Proved
+}
+export type Proved = { cycles: number; details: string; proofBytes: number; proveMs: number[]; warmupMs: number; verifyMs: number; verified: boolean; peakRssBytes: number; logInvRate: number; bytecodeLen: number }
+/** As prove, but a witness the program refuses comes back as `{ error }` rather than a throw. */
+export function tryProve(program: string, input: Input): Proved | { error: string } {
+  try {
+    return prove(program, input, 0)
+  } catch (e) {
+    const out = String((e as { stdout?: string }).stdout ?? '')
+    if (out.includes('"error"')) return JSON.parse(out.trim().split('\n').pop()!) as { error: string }
+    throw e
+  }
 }
 
 // ---- version 1: the preimage spend ----
@@ -104,4 +116,40 @@ export function v5(ns: Uint8Array, s: Uint8Array, binding: Uint8Array, tree: Ret
   const { sib, bits } = tree.path(index)
   const input: Input = { public: cellsOf(D), witness: { ns: [cellsOf(ns)], s: [cellsOf(s)], binding: [cellsOf(binding)], path: [sib.flatMap((x) => cellsOf(x))], bits: [bits.map((b) => literal(b))] } }
   return { root: tree.root, nf, D, input }
+}
+
+// ---- version 2a: the rule and its keys private, leanSPHINCS verified in circuit ----
+
+/** The rules programs/v2a_rules.py knows: key 0 alone, or two different keys of three. */
+export const RULE_ONE = 1n
+export const RULE_TWO_OF_THREE = 2n
+const hex = (b: Uint8Array) => `0x${Buffer.from(b).toString('hex')}`
+
+/** The owner's signer: the key from a 32-byte seed signs m. Only this call holds the seed. */
+export function sign(seed: Uint8Array, m: Uint8Array): Signed & { verified: boolean; signMs: number } {
+  const out = JSON.parse(execFileSync(PROVER, ['sphincs', hex(seed), hex(m)], { encoding: 'utf8' }).trim())
+  return { publicKey: `0x${out.publicKey}`, signature: `0x${out.signature}`, message: hex(m), verified: out.verified, signMs: out.signMs }
+}
+/** A leanSPHINCS public key (its root, then its public parameter) from a 32-byte seed. */
+export const sphincsKey = (seed: Uint8Array): Uint8Array => Buffer.from(sign(seed, new Uint8Array(32)).publicKey.slice(2), 'hex')
+/** K = H(H(rule, key 0), H(key 1, key 2)); a rule of one key leaves keys 1 and 2 zero. */
+export const ruleKeyOf = (rule: bigint, keys: Uint8Array[]) => H2(H2(tag(rule), keys[0]), H2(keys[1], keys[2]))
+/**
+ * A version 2a spend: the keys at `signers` (indices into `keys`, with their signatures, which need
+ * not be on m) sign m, and the proof publishes D = H(H(C, m), T) with C = H(K, r) and
+ * T = H(H(r, K), m).
+ */
+export function v2a(rule: bigint, keys: Uint8Array[], r: Uint8Array, m: Uint8Array, signers: { index: number; signed: Signed }[]) {
+  const K = ruleKeyOf(rule, keys)
+  const C = H2(K, r)
+  const T = H2(H2(r, K), m)
+  const D = H2(H2(C, m), T)
+  const input: Input = {
+    public: cellsOf(D),
+    witness: { rule: [[literal(rule)]], keys: [keys.flatMap((k) => cellsOf(k))], r: [cellsOf(r)], m: [cellsOf(m)], signer: signers.map((s) => [literal(1n << BigInt(s.index))]) },
+    // Each signature's witness is built at the message it signs, so a signature on another message
+    // reaches the circuit and is refused there.
+    sphincs: signers.map((s) => s.signed),
+  }
+  return { K, C, T, D, input }
 }

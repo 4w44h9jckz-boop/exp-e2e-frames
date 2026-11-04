@@ -37,6 +37,7 @@ export const LEANSTARK_VERIFICATION_GAS = 30_000
 export const vkOf = (program: string) => keccak256(readFileSync(here(`programs/${program}.py`)))
 export const VK1 = vkOf('v1_preimage')
 export const VK5 = vkOf('v5_tornado')
+export const VK2A = vkOf('v2a_rules')
 export const triple = (scheme: bigint, dataHash: Hex, vk: Hex) => concatHex([word(scheme), dataHash, vk])
 
 // ---- contracts ----

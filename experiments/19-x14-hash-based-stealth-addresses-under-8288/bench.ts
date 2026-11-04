@@ -1,14 +1,15 @@
-// Experiment 19 (X14), run 1, offline, on an idle machine: prediction 7 (what a proof costs on a
-// machine one can buy) and prediction 10 (scanning).
-//   1. Versions 1 and 5 proved by prover/ with three measured passes after a warm-up each; the
-//      leanSPHINCS signer of version 3, five times.
+// Experiment 19 (X14), offline, on an idle machine: prediction 7 (what a proof costs on a machine
+// one can buy) and prediction 10 (scanning).
+//   1. Versions 1, 5 and, from run 2, 2a under both its rules, proved by prover/ with three
+//      measured passes after a warm-up each; the leanSPHINCS signer of version 3, five times. The
+//      prover's build flags are recorded (run 2 builds it as leanVM builds itself; Amendment 2).
 //   2. 10,000 announcements of schemeId 6 (an ML-KEM-768 ciphertext and a view tag, the account's
 //      address beside it), 40 to our recipient, scanned: decapsulate, check the view tag, derive r,
 //      rebuild C and the account's CREATE2 address, compare.
 //
 // usage: X14_DEPLOYMENT=<tag> npx tsx experiments/19-x14-hash-based-stealth-addresses-under-8288/bench.ts <n>-<label>
 import { execFileSync } from 'node:child_process'
-import { writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { cpus, totalmem } from 'node:os'
 import { join } from 'node:path'
 import { sha256 } from '@noble/hashes/sha2'
@@ -32,8 +33,16 @@ const leaves: Uint8Array[] = Array.from({ length: 8 }, () => rnd(32))
 const ns = rnd(32), s = rnd(32)
 leaves[5] = L.leafOf(ns, s)
 out.v5 = L.prove('v5_tornado', L.v5(ns, s, rnd(32), L.treeOf(leaves), 5).input, 3)
+const z = new Uint8Array(32)
+const seeds = [rnd(32), rnd(32), rnd(32)]
+const pks = seeds.map(L.sphincsKey)
+const m2 = rnd(32), r2 = rnd(32)
+out.v2aOneKey = L.prove('v2a_rules', L.v2a(L.RULE_ONE, [pks[0], z, z], r2, m2, [{ index: 0, signed: L.sign(seeds[0], m2) }]).input, 3)
+out.v2aTwoOfThree = L.prove('v2a_rules', L.v2a(L.RULE_TWO_OF_THREE, pks, r2, m2, [{ index: 1, signed: L.sign(seeds[1], m2) }, { index: 2, signed: L.sign(seeds[2], m2) }]).input, 3)
+const cargoConfig = join(here, 'prover/.cargo/config.toml')
+out.proverRustflags = existsSync(cargoConfig) ? (readFileSync(cargoConfig, 'utf8').match(/^rustflags = (.*)$/m)?.[1] ?? 'none') : 'none'
 out.v3 = Array.from({ length: 5 }, () => JSON.parse(execFileSync(L.PROVER, ['sphincs', bytesToHex(rnd(32)).slice(2), bytesToHex(rnd(32)).slice(2)], { encoding: 'utf8' })))
-console.log(`v1 ${JSON.stringify(out.v1)}\nv5 ${JSON.stringify(out.v5)}`)
+for (const v of ['v1', 'v5', 'v2aOneKey', 'v2aTwoOfThree']) console.log(`${v} ${JSON.stringify(out[v])}`)
 
 // ---- 2. scanning ----
 

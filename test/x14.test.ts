@@ -2,6 +2,8 @@
 //
 // - The leanVM cell encoding of lean.ts matches leanVM's own known answer, H^3(5, 7).
 // - Each contract hard-codes the selectors and event topics its comments name.
+// - Version 2a's program carries leanVM's verifier as lift.py lifts it: every lifted function is
+//   the aggregation guest's, character for character (when work/leanVM is checked out).
 // - Every recorded run (test/fixtures/x14/): every frame transaction rebuilds to its hash, the
 //   program keys are the programs' hashes, and each spend's VERIFY data carries a dependency of
 //   its version's scheme.
@@ -42,6 +44,23 @@ describe('the contracts hard-code the right constants', () => {
   })
 })
 
+const guest = new URL('../work/leanVM/crates/rec_aggregation/guests/lean_ethereum.py', import.meta.url).pathname
+describe.runIf(existsSync(guest))('version 2a lifts leanVM\'s verifier verbatim', () => {
+  const program = readFileSync(join(here, 'programs/v2a_rules.py'), 'utf8')
+  const lifted = program.slice(program.indexOf('# ---- LIFTED: begin'), program.indexOf('# ---- LIFTED: end'))
+  const source = readFileSync(guest, 'utf8')
+  // A top-level def runs to the next line that starts in column 0 with something other than a
+  // comment, less the comment lines it ends with (the next section's heading).
+  const defs = (text: string) => new Map([...text.matchAll(/^def (\w+)\([\s\S]*?(?=^(?:[^\s#\n]|$(?![\s\S])))/gm)].map((d) => [d[1], d[0].replace(/(\n#[^\n]*|\n[ \t]*)+$/, '')]))
+  const mine = defs(lifted)
+  it('lifts the verifier and what it reaches', () => {
+    expect(mine.has('verify_sig_lean_sphincs')).toBe(true)
+    expect(mine.size).toBe(15)
+  })
+  for (const [name, body] of mine) it(`${name} is the guest's`, () => expect(body).toBe(defs(source).get(name)))
+  it('fills every placeholder', () => expect(lifted).not.toMatch(/_PLACEHOLDER\b/))
+})
+
 const fixtures = new URL('./fixtures/x14/', import.meta.url).pathname
 const runs = existsSync(fixtures) ? readdirSync(fixtures).filter((f) => f.endsWith('.json')) : []
 
@@ -51,6 +70,7 @@ describe.runIf(runs.length > 0)('the recorded runs rebuild', () => {
     it(`${f}: the program keys are the programs' hashes`, () => {
       expect(fx.vk.v1).toBe(X.VK1)
       expect(fx.vk.v5).toBe(X.VK5)
+      if (fx.vk.v2a) expect(fx.vk.v2a).toBe(X.VK2A)
     })
     for (const t of fx.transactions as { step: string; hash: Hex; raw: Hex }[]) {
       it(`${f}: ${t.step}`, () => {
@@ -58,7 +78,7 @@ describe.runIf(runs.length > 0)('the recorded runs rebuild', () => {
         expect(frameTxHash(tx).toLowerCase()).toBe(t.hash.toLowerCase())
         const data = tx.frames[0].data
         const scheme = t.step.startsWith('v3') ? X.LEANSPHINCS_SCHEME : X.LEANSTARK_SCHEME
-        const at = t.step.startsWith('v1') ? 32 : 0
+        const at = t.step.startsWith('v1') || t.step.startsWith('v2') ? 32 : 0
         expect(BigInt(`0x${data.slice(2 + 2 * at, 2 + 2 * at + 64)}`)).toBe(scheme)
       })
     }
