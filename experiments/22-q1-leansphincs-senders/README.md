@@ -494,3 +494,37 @@ the node-path pass at that pin, recorded beside `8-node-path.json`, which stays.
   cap.
 - **Prediction 3 is scored again at this pin.** It is still shown wrong as stated if node A refuses
   any rebuilt transaction, and the record says by how many and why.
+
+## Results, the node-path pass at `e9512aa` (2026-11-05)
+
+Record [`results/9-node-path-e9512aa.json`](results/9-node-path-e9512aa.json), from commit
+`f1bbf16`:
+`npx tsx experiments/22-q1-leansphincs-senders/sweep.ts 9-node-path-e9512aa --node-path --pin skandhaNodePathNonceFix`.
+skandha ran at `e9512aa`. Everything else was amendment 5's.
+
+| | at `ef266b3` (record 8) | at `e9512aa` (record 9) |
+|---|---:|---:|
+| admitted at node A | 320 | 346 |
+| refused at node A, `ErrNonceTooHigh` | 26 | 0 |
+| refused at node A, `ErrFrameUnrecognizedPrefix` | 14 | 14 |
+| refused at node A, `ErrOversizedData` | 7 | 7 |
+| refused at node A, `ErrGasLimit` | 1 | 1 |
+| mined | 354 | 354 |
+
+**The nonce fix held, as amendment 7 expected.** None of node A's refusals is `ErrNonceTooHigh`,
+and the other 22 are the same three reasons as before. Every one of the 346 that node A admitted
+was mined, and so were 8 that it refused, through the local ethrex's own pool. Node B received
+none, as amendment 5 expected.
+
+### Predictions at this pin
+
+| # | Prediction | Outcome |
+|---|---|---|
+| 3 | admitted and mined | **still shown wrong as stated,** by 22 of 368: 14 prefix shapes the profile does not take, 7 with a blob, and 1 over the cap. None is the key's or the node's own lag |
+| 4 | never mined | **held at the node,** as at `ef266b3`. The triple naming another key and the transaction with no dependency frame were refused with `ErrFramePrefixReverted`, and the signature over another hash with `ErrWrapperProof`. The head went from 529 to 558 in the 30 s after |
+| 5 | the key costs what the arithmetic says | **shown wrong as stated,** as before: 151 of 354 |
+| 6 | every block is proved in time | **shown wrong as stated.** All 105 proofs took 2,733 to 4,661 ms, median 3,045, for up to 57 signatures, against 1,000 ms. All 105 checked valid |
+| 7 | no classical signature | **held:** 173 blocks scanned, none |
+
+So skandha's node path now admits 94% of the rebuilt transactions, and each refusal it keeps is a
+rule of its profile rather than a fault.
