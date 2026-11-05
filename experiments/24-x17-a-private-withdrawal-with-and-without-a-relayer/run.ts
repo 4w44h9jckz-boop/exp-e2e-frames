@@ -91,8 +91,10 @@ for (const c of [X.verifier, X.poolA, X.poolB]) {
 }
 const firstBlock = await setupTx('deploy the verifier and both pools', [X.verifier.deploy, X.poolA.deploy, X.poolB.deploy])
 
+// Experiment 19's figure for a Tornado deposit on Hegota: 23 fresh slots of state, and the MiMC tree.
+const DEPOSIT_GAS = 23n * 97_920n + 500_000n + 1_200_000n
 async function deposit(pool: Address, l: string, n: ReturnType<typeof note>) {
-  const hash = await wallet.writeContract({ address: pool, abi: X.poolAbi, functionName: 'deposit', args: [X.word(n.commitment)], value: X.DENOM, gas: 1_500_000n, maxFeePerGas: 100n, maxPriorityFeePerGas: 1n } as never)
+  const hash = await wallet.writeContract({ address: pool, abi: X.poolAbi, functionName: 'deposit', args: [X.word(n.commitment)], value: X.DENOM, gas: DEPOSIT_GAS, maxFeePerGas: 100n, maxPriorityFeePerGas: 1n } as never)
   const r = await chain.waitForTransactionReceipt({ hash, timeout: 180_000 })
   setup.push({ what: `${l}: deposit`, hash, block: Number(r.blockNumber), gasUsed: Number(r.gasUsed), ok: r.status === 'success' })
   if (r.status !== 'success') throw new Error(`${l}: deposit reverted`)
