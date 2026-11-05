@@ -479,3 +479,18 @@ dependency.
 So skandha's node path moves prediction 3 from no admissions to 87%. It also moves prediction 4's
 stopping point from the block, where one bad witness halted the chain, to the node, where the chain
 does not notice it.
+
+## Amendment 7, 2026-11-05, before the node-path pass at `e9512aa`
+
+The mempool session fixed node A's nonce read at skandha `e9512aa`, in `packages/node` only. Each
+admission now takes the client's latest head before it reads a sender's nonce. This pass reruns
+the node-path pass at that pin, recorded beside `8-node-path.json`, which stays.
+
+- **The pass** is `sweep.ts --node-path --pin skandhaNodePathNonceFix`, the pin added to
+  `pins.json`. Everything else is amendment 5's: a fresh local chain, the same 368 transactions by
+  the same rules, both nodes under `eip-8288-master`, and arm 3's forms to node A only.
+- **Expected at this pin:** none of node A's refusals is `ErrNonceTooHigh`. The other 22 refusals
+  stay as they were: 14 for prefix frames the profile does not take, 7 with a blob, and 1 over the
+  cap.
+- **Prediction 3 is scored again at this pin.** It is still shown wrong as stated if node A refuses
+  any rebuilt transaction, and the record says by how many and why.

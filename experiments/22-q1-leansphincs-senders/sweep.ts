@@ -9,6 +9,7 @@
 // --node-path (Amendment 5): skandha at the pin `skandhaNodePath`, both nodes under the surface
 // profile eip-8288-master with the local chain id and experiment 19's prover, and each rebuilt
 // transaction sent to node A by frames_sendWrapper with its witness's signature as the proof.
+// --pin <name> (Amendment 7): the node path at another pin in pins.json, `skandhaNodePathNonceFix`.
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { type Address, type Hex, bytesToHex, concatHex, getAddress, getContractAddress, keccak256, pad } from 'viem'
@@ -30,6 +31,8 @@ if (!label || !/^\d+-[a-z0-9-]+$/.test(label)) throw new Error('usage: sweep.ts 
 const limitArg = process.argv.indexOf('--limit')
 const LIMIT = limitArg > 0 ? Number(process.argv[limitArg + 1]) : Infinity
 const NODE_PATH = process.argv.includes('--node-path')
+const pinArg = process.argv.indexOf('--pin')
+const PIN_NAME = pinArg > 0 ? process.argv[pinArg + 1] : NODE_PATH ? 'skandhaNodePath' : 'skandha'
 mkdirSync(join(here, 'results'), { recursive: true })
 const pins = JSON.parse(readFileSync(join(here, 'pins.json'), 'utf8')) as Record<string, Pin>
 const repoCommit = (await run('git', ['rev-parse', 'HEAD'], { cwd: root })).trim()
@@ -204,7 +207,8 @@ const chain = await startLocalChain({
 })
 const local = chain.client
 console.log(`local chain ${chain.chainId}, ethrex ${chain.ethrexCommit.slice(0, 8)} (${chain.setting})`)
-const skandhaPin = NODE_PATH ? pins.skandhaNodePath : pins.skandha
+const skandhaPin = pins[PIN_NAME]
+if (!skandhaPin) throw new Error(`no pin ${PIN_NAME} in pins.json`)
 const skandha = await checkout('skandha', skandhaPin, join(root, 'work'))
 const nodeArgs = NODE_PATH ? ['--frames.profile', 'eip-8288-master', '--frames.chainId', String(chain.chainId), '--frames.prover', L.PROVER] : []
 await buildSkandha(skandha)
@@ -414,7 +418,7 @@ await chain.stop()
 const mined = rows.filter((r) => r.block !== null)
 const p5 = mined.filter((r) => r.prediction5.held !== undefined)
 const record = {
-  experiment: 22, arms: [2, 3, 5], run: label, date: new Date().toISOString(), repoCommit, pins, skandha: skandhaPin, nodePath: NODE_PATH ? { profile: 'eip-8288-master', chainId: Number(chain.chainId), prover: 'experiment 19 x14-prover, verify-sphincs' } : null, inventory: `results/${INVENTORY}.json`,
+  experiment: 22, arms: [2, 3, 5], run: label, date: new Date().toISOString(), repoCommit, pins, skandhaPinName: PIN_NAME, skandha: skandhaPin, nodePath: NODE_PATH ? { profile: 'eip-8288-master', chainId: Number(chain.chainId), prover: 'experiment 19 x14-prover, verify-sphincs' } : null, inventory: `results/${INVENTORY}.json`,
   command: `npx tsx ${DIR}/sweep.ts ${label}${LIMIT < Infinity ? ` --limit ${LIMIT}` : ''}${NODE_PATH ? ' --node-path' : ''}`,
   chain: { chainId: Number(chain.chainId), ethrex: chain.ethrexCommit, patch: 'experiments/19-x14-hash-based-stealth-addresses-under-8288/ethrex-8288.patch', setting: chain.setting, producerIntervalMs: 1000 },
   accounts: [...accounts.values()].map((x) => ({ old: x.old, new: x.address, key: x.key, implementation: x.impl, implementationSource: x.implSource })),
