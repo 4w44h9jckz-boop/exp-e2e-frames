@@ -356,3 +356,56 @@ result stands. This pass asks the same question at the new pin, and changes no p
     `ErrWrapperProof`.
 
   Which of the three node A stops, and whether the chain still moves after them, is recorded.
+
+## Results, arms 2, 3 and 5 (2026-11-05)
+
+Record [`results/6-sweep.json`](results/6-sweep.json), from commit `eed8c19`:
+`npx tsx experiments/22-q1-leansphincs-senders/sweep.ts 6-sweep`. A first attempt at that commit's
+parent stopped at its first blob before writing any record (amendment 4's fixes were in place;
+`getRandomValues` fills at most 64 KiB, fixed in `eed8c19`).
+
+All 368 keyed transactions from arm 1 were rebuilt, from 122 senders, with 35 contracts copied
+to genesis. Each went to node A and then to the local ethrex's own pool, in 88 waves.
+
+| | (a) | (b) | (c) | all |
+|---|---|---|---|---|
+| rebuilt | 32 | 320 | 16 | 368 |
+| admitted at node A | 0 | 0 | 0 | 0 |
+| mined | 32 | 289 | 16 | 337 |
+| mined, every frame succeeding | | | | 193 |
+
+Of the 144 mined with a frame failing, 15 had a failing frame in their record too. The rest are
+application state the local chain does not have, as the design allows.
+
+Why 31 were not mined, each by the local ethrex's pool:
+- **17, a fault in the rebuild.** "validation prefix frame reverted". Each uses a fresh nonce key,
+  and its record pays that key's storage slot in the payer's `VERIFY`, which the rebuild replaced.
+  Amendment 4 gave the rebuilt `VERIFY` the sender's own state limit only. Amendment 6 fixes it.
+- **10, chain time.** "expiry deadline has passed". A copied expiry frame names a deadline that is
+  in the past for the local chain.
+- **3, chain history.** A copied EIP-8272 frame names a test-network slot (8,523, 96,462, 524,377)
+  that the new chain has not reached.
+- **1, the record itself.** Its own limits total 31,966,580 gas, and it used 26,745,004. The local
+  chain enforces EIP-7825's 25,000,000 and refuses it. The test network mined it at block 306,334.
+
+### Predictions
+
+| # | Prediction | Outcome |
+|---|---|---|
+| 2 | nothing else changes | **shown wrong for one transaction.** Experiment 09's contract creation has no frame form: its rebuilt form calls the CREATE2 deployer, so its target and data change. It was mined, at block 25. Every other rebuilt transaction differs from its record only by the rules amendments 3 and 4 fixed: the sender's address, in 117 places across 88 transactions, and the payer of 88. Seven carry fresh blobs, since their records keep none (amendment 3), and all seven were mined |
+| 3 | admitted and mined | **shown wrong as stated**, as amendment 2 found. Node A refused all 368: `ErrFrameMalformed` for 361, for their dependency frame, and `ErrOversizedData` for the seven sent with a blob. Node B received none. The chain mined 337 of them through its own pool. 17 of the 31 it did not mine are the rebuild's fault; amendment 6's pass reruns them |
+| 4 | never mined | **held.** The triple naming another key, and the transaction with no dependency frame, were each refused by the pool's simulation ("validation prefix frame reverted"). Node A refused the second itself (`ErrFramePrefixReverted`), since it has no dependency frame to stop node A decoding it. The signature over another transaction's hash passed simulation and was admitted. It stopped at the block proof: the import check refused block 362's proof 21 times, the builder kept rebuilding it, and the head stayed at 361. So one bad witness halts the patched chain |
+| 5 | the key costs what the arithmetic says | **shown wrong as stated:** 151 of 337 within 5,000 gas. The measure (amendment 3) holds where it is clean. Where the sender paid itself and every copied frame ran the same on both chains, 61 of 62 held, at a median of 917 gas under the arithmetic. It fails elsewhere for three reasons, the first two stated before the run. **First**, a replaced payer's `VERIFY` or a dropped deploy frame, which the arithmetic as written does not subtract; 73 mined transactions have one, and 5 of them held. **Second**, shape (a)'s frame transaction's own intrinsic cost, 13,425 gas for a transfer; no (a) transaction held. **Third**, where an application frame reverts on the local chain, the transaction's gas does not split by frame. EIP-7623's calldata floor and state-gas refunds bind on one side and not the other, so the key cost moves with the application. That is a limit of the measure, found by this run. The record keeps each term beside each score |
+| 6 | every block is proved in time | **shown wrong as stated.** All 121 block proofs took longer than the producer's 1,000 ms: 2,720 to 5,014 ms, median 3,017. That is for 1 to 56 leanSPHINCS signatures, at 247,369 to 314,577 bytes and 370 to 1,076 MiB of peak memory; the largest, 56 signatures, took 5.0 s. Checking each took 2,559 to 3,311 ms. Proving sits on the producer's critical path, so a block with dependencies came 1 to 9 s after its parent |
+| 7 | no classical signature | **held.** Arm 5 scanned all 124 blocks through the last mined rebuilt transaction: no transaction of its own type, and no secp256k1 or P-256 entry in any signature list. Nothing was mined after them |
+
+The rebuilt `VERIFY` cost 639 to 2,019 gas, with a median of 708. The dependency frame declared
+3,000. Prediction 8 is arm 4's, on the test network.
+
+## Amendment 6, 2026-11-05, after arm 2 and before the node-path pass
+
+Arm 2 found the rebuild's state limit fault above. The rebuilt `VERIFY` approves execution and
+payment both, so it now takes the largest state limit among all the approving `VERIFY` frames it
+replaces, the payer's included. Amendment 5's node-path pass runs with the fix. It is therefore
+also arm 2's second run over the same 368 transactions, and the 17 are scored there. Nothing
+else in amendment 5 changes, and no prediction changes.

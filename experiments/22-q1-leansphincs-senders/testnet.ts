@@ -99,8 +99,8 @@ for (const p of picks) {
     const prefix: Frame[] = []
     ft.frames.slice(0, last + 1).forEach((f) => {
       if (f.mode === 1 && (f.flags & 3) !== 0) {
-        if (f.target === null || lower(f.target) === lower(ft.sender)) verifyState = f.limits.state > verifyState ? f.limits.state : verifyState
-        else changes.push('payer: the account pays for itself')
+        verifyState = f.limits.state > verifyState ? f.limits.state : verifyState
+        if (f.target !== null && lower(f.target) !== lower(ft.sender)) changes.push('payer: the account pays for itself')
         return
       }
       if (f.mode === 0 && f.target && lower(f.target) === lower(CREATE2_DEPLOYER) && f.data.length >= 66) {

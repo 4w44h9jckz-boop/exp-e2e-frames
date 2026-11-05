@@ -129,10 +129,11 @@ for (const [i, r] of chosen.entries()) {
     subs += s.count
     return { ...f, target, data: s.data }
   }
-  // A fresh nonce key's slot is paid in the sender's VERIFY (amendment 4): the rebuilt VERIFY takes
-  // the state limit of the record's own.
+  // A fresh nonce key's slot is paid in a VERIFY frame the rebuild replaces: the sender's, or the
+  // payer's (amendments 4 and 6). The rebuilt VERIFY takes both roles, so it takes the largest
+  // state limit among the approving VERIFY frames it replaces.
   let verifyState = 0n
-  if (t.type === '0x6') for (const f of frameTxFromJson(t as never).frames) if (f.mode === 1 && (f.flags & 3) !== 0 && (f.target === null || lower(f.target) === lower(t.sender))) verifyState = f.limits.state > verifyState ? f.limits.state : verifyState
+  if (t.type === '0x6') for (const f of frameTxFromJson(t as never).frames) if (f.mode === 1 && (f.flags & 3) !== 0) verifyState = f.limits.state > verifyState ? f.limits.state : verifyState
   const verify = verifyFrame({ scope: Approve.EXECUTION_AND_PAYMENT, target: null, execution: 30_000n, state: verifyState })
   const dep = X14.depFrame(X14.triple(X14.LEANSPHINCS_SCHEME, ZERO32, a.key))
   let frames: Frame[]
