@@ -71,7 +71,7 @@ function precompileCalls(code: string): Set<number> {
     if (!(gasOp.op === 0x5a || gasOp.imm !== null)) return
     const v = ops[i - 2].imm
     if (v === null) return
-    if (v === 0x01n || v === 0x100n || (v >= 0x0bn && v <= 0x11n)) found.add(Number(v))
+    if (v === 0x01n || v === 0x100n || (v >= 0x05n && v <= 0x11n)) found.add(Number(v))
   })
   return found
 }
@@ -117,6 +117,10 @@ for (const exp of experiments) {
       if (classical.length > 0) shape = 'b'
       else if (Object.values(pre).some((p) => p.includes(0x01) || p.includes(0x100))) shape = 'c'
       else shape = 'd'
+      // What a (d) target checks, from the precompiles its code calls: BN254's pairing (0x08) is a
+      // Groth16 proof's, BLS12-381's (0x0b to 0x11) a ticket's or a committee's, 0x0a a blob's.
+      const all = new Set(Object.values(pre).flat())
+      entry.checks = all.has(0x08) ? 'a Groth16 proof (BN254 pairing)' : [...all].some((x) => x >= 0x0b && x <= 0x11) ? 'a BLS12-381 signature (ticket or committee)' : all.has(0x0a) ? 'a blob opening (point evaluation)' : all.size ? `precompiles ${[...all].join(', ')}` : 'no signature or proof precompile found'
       const resolved = verifyTargets.map((t) => RESOLVE[t]).find(Boolean)
       if (shape !== 'b' && resolved) {
         entry.heuristicShape = shape
