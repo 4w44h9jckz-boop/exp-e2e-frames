@@ -25,3 +25,27 @@ built with `target-cpu=native`.
   request was tested.
 - `2-second-run/`, stated before it runs: as run 1, with the runner passing `CARRIER=dependency`
   to `pq_wallet` too (`q8-local.ts`).
+- **Run 2's result** (repository commit `040db1f`, kohaku-rs `a9ca8d3`): all four of the
+  procedure's expectations held.
+  - **`FheRequest` was deployed and funded** at block 1 (1,717,177 gas). The funder is a fresh
+    leanSPHINCS account, so it deployed itself too. Its dependency was proved by leanVM's
+    aggregation in 3,283 ms and checked valid.
+  - **The proof:** 5,974,185 cycles, 358,440 bytes, 12,733 ms, verified off chain before sending.
+    The program `fhe_input_v2_d2048_k1.py` went into the run's program directory under the key
+    `0x1afd035c...484d07`.
+  - **The changed-ciphertext copy was refused** by ethrex's simulation ("validation prefix frame
+    reverted").
+  - **The request was mined** at block 16, `[VERIFY, DEP_VERIFY, SENDER]`, for 1,169,329 gas:
+    - `VERIFY` 8,007;
+    - the dependency frame its declared 30,000;
+    - `SENDER` 20,821, with 97,920 state gas.
+
+    The rest is the transaction's intrinsic cost and its calldata, the 16,400-byte ciphertext
+    among it. The block's leanSTARK proof was checked by the builder against the triple's digest
+    and key, and found valid, in 115 ms.
+  - **The same proof at the next request number was refused** by the simulation.
+
+  So the request's statement, a TFHE input's well-formedness at tfhe-rs's parameters, is checked
+  on this chain as one leanSTARK dependency. The contract never checks the proof, as
+  `docs/leanvm-program-layout.md` has it. Two conditions hold, as everywhere: leanVM has no zero
+  knowledge, and leanSTARK is valid only on a chain that extends EIP-8288.
