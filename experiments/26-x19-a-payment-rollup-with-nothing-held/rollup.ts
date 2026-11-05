@@ -102,7 +102,7 @@ export function makeTransfer(h: Head, o: { to: number; amount: bigint; fee: bigi
 
 // ---- the transactions ----
 
-export const LIMITS = { verify: 50_000n, sender: 150_000n, senderState: 300_000n }
+export const LIMITS = { verify: 50_000n, sender: 150_000n, senderState: 400_000n }
 
 const head = (sel: Hex, h: { key0: Hex; key1: Hex; recipient: Address; chan: number; which: number }) =>
   concatHex([sel, h.key0, h.key1, pad(h.recipient, { size: 32 }), word(h.chan), word(h.which)])
