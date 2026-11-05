@@ -434,3 +434,48 @@ implementation is the original sender's own code, at its address; the other two 
 senders. The modelled `VERIFY` cost 299 gas. The (a) and (b) transfers cost less than their
 records (204,600 and 210,982), because their recipients now exist and no account is created.
 That gas is not the key's, and arm 4 scores admission only.
+
+## Results, the node-path pass (2026-11-05)
+
+Record [`results/8-node-path.json`](results/8-node-path.json), from commit `d229f06`:
+`npx tsx experiments/22-q1-leansphincs-senders/sweep.ts 8-node-path --node-path`. skandha ran at
+`ef266b3`, with both nodes under `eip-8288-master` at chain id 8141 and experiment 19's prover
+checking each wrapper's signature. This is also arm 2's second run, with amendment 6's fix.
+
+| | (a) | (b) | (c) | all |
+|---|---|---|---|---|
+| rebuilt | 32 | 320 | 16 | 368 |
+| admitted at node A | | | | 320 |
+| mined | 32 | 306 | 16 | 354 |
+
+**Node A refused 48:**
+- **26, `ErrNonceTooHigh`.** Each was then admitted by the local ethrex's pool and mined, so its
+  nonce was right. Node A's view of the sender's nonce lagged the head when the next wave arrived,
+  a second or two after the last was mined.
+- **14, `ErrFrameUnrecognizedPrefix`.** Each keeps one or two scope-0 protocol frames in its prefix:
+  an EIP-8272 recent root, or an expiry check. The `eip-8288-master` profile recognizes no prefix
+  with them. 13 of the 14 are among the chain-time and chain-history refusals below.
+- **7, `ErrOversizedData`.** These are the seven sent with a blob.
+- **1, `ErrGasLimit`.** This is the record whose own limits exceed the cap.
+
+**The chain mined 354.** All 320 that node A admitted were mined, and so were 34 that node A
+refused, through the local ethrex's own pool. The 17 that arm 2 lost to the rebuild's fault were all
+mined. 14 were not mined: 10 for an expiry deadline already passed, 3 for a test-network slot the
+chain has not reached, and 1 for its own gas limit, as in arm 2.
+
+**Node B received none,** as amendment 5 expected: the node path relays no transaction with a
+dependency.
+
+### Predictions at this pin
+
+| # | Prediction | Outcome |
+|---|---|---|
+| 3 | admitted and mined | **still shown wrong as stated,** but by a different margin. At `ede942f` node A admitted none; at `ef266b3` it admitted 320 of 368, and the chain mined every one it admitted. Of the 48 it refused, 26 were the node's own lag and 14 were prefix shapes its profile does not take. The chain mined 354; the 14 it did not are chain time, chain history and one record over the cap, none the key's |
+| 4 | never mined | **held, and now at the node.** The triple naming another key and the transaction with no dependency frame were refused at node A with `ErrFramePrefixReverted`. The signature over another transaction's hash was refused with `ErrWrapperProof`, the prover's `verify-sphincs` checking it at admission. None reached the builder, and the chain kept moving: its head went from 533 to 563 in the 30 s after |
+| 5 | the key costs what the arithmetic says | **shown wrong as stated,** as in arm 2: 151 of 354 |
+| 6 | every block is proved in time | **shown wrong as stated.** All 102 proofs took 2,737 to 7,055 ms for up to 63 signatures, against 1,000 ms. All 102 checked valid |
+| 7 | no classical signature | **held:** 177 blocks scanned, none |
+
+So skandha's node path moves prediction 3 from no admissions to 87%. It also moves prediction 4's
+stopping point from the block, where one bad witness halted the chain, to the node, where the chain
+does not notice it.
