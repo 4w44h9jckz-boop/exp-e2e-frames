@@ -56,6 +56,9 @@ A live run also needs `git`, `bun` and `cargo`. It checks out and builds the pin
 | `skandha.ts` | skandha built and run as its `FRAMES.md` says: config, nodes, peers, `--frames.log` lines |
 | `kohaku.ts` | kohaku-rs examples built and run; a sender's standard error is never kept, because it prints the note's preimage |
 | `record.ts` | A run's record, written as a fixture under `test/fixtures/runs/` |
+| `localchain.ts` | A local ethrex chain with EIP-8288 patched in, and each dependency's witness handed to its builder |
+
+`docs/leanvm-program-layout.md` fixes how a client proof is laid out as a leanVM program: its key, the one digest it publishes, its triple, and how the chain receives it.
 
 ## Experiments
 

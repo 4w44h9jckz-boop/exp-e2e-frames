@@ -15,6 +15,14 @@ import { type Hex, keccak256 } from 'viem'
 import { makeClient } from '../exp-frames/frametx/index.js'
 import { run } from './sh.js'
 
+export const LEANSTARK_SCHEME = 0x11
+/** The patched builder's name for a dependency: keccak256 of the scheme's byte, the data hash and
+ * the key, 65 bytes, as bare hex (the patch's `eip8288::dependency_key`). */
+export function dependencyKey(scheme: number, dataHash: Hex, key: Hex): string {
+  if (dataHash.length !== 66 || key.length !== 66) throw new Error('a data hash and a key are 32 bytes each')
+  return keccak256(`0x${scheme.toString(16).padStart(2, '0')}${dataHash.slice(2)}${key.slice(2)}` as Hex).slice(2)
+}
+
 export type Alloc = Record<string, { balance: string; code?: Hex; nonce?: string; storage?: Record<string, Hex> }>
 export type LocalChain = {
   url: string
@@ -28,6 +36,9 @@ export type LocalChain = {
   client: ReturnType<typeof makeClient>
   /** A leanSPHINCS dependency's witness, written before its transaction is sent. */
   putSphincsWitness: (scheme: number, dataHash: Hex, key: Hex, signed: { publicKey: string; signature: string; message: string }) => string
+  /** A leanSTARK dependency's proof bytes, written before its transaction is sent, as
+   * `docs/leanvm-program-layout.md` section 5 has it. */
+  putStarkWitness: (dataHash: Hex, programKey: Hex, proof: Uint8Array) => string
   /** The builder's records: every proof it built and every check it made. */
   builds: () => Record<string, unknown>[]
   checks: () => Record<string, unknown>[]
@@ -81,8 +92,13 @@ export async function startLocalChain(o: {
   return {
     url, chainId, dir, witnesses, ethrexCommit, setting: o.setting, maxVerifyGas: o.maxVerifyGas ?? 100_000, client,
     putSphincsWitness: (scheme, dataHash, key, signed) => {
-      const k = keccak256(`0x${scheme.toString(16).padStart(2, '0')}${dataHash.slice(2)}${key.slice(2)}` as Hex).slice(2)
+      const k = dependencyKey(scheme, dataHash, key)
       writeFileSync(join(witnesses, `w-${k}.json`), JSON.stringify(signed))
+      return k
+    },
+    putStarkWitness: (dataHash, programKey, proof) => {
+      const k = dependencyKey(LEANSTARK_SCHEME, dataHash, programKey)
+      writeFileSync(join(witnesses, `w-${k}.bin`), proof)
       return k
     },
     builds: () => jsonl('builds.jsonl'),
