@@ -207,3 +207,54 @@ prediction.
   index, as experiment 18's notes have them. A recovery share is 32 bytes standing for a share of
   exp-frames experiment 49's recovery. A checkpoint is 600 bytes of document. Neither the spend nor
   the recovery is run here. Prediction 5 compares their costs against the recorded ones.
+
+## Results, run 1 (2026-11-05)
+
+Record [`results/1-first.json`](results/1-first.json), from commit `14ed3ae`:
+`npx tsx experiments/27-x20-messages-a-wallet-must-receive-with-no-operator/run.ts 1-first`.
+Sixteen transactions in 42 blocks, every block's dependencies checked valid (15 of 15), with no
+transaction signed by any key.
+
+| Step | Outcome | Gas | Envelope bytes |
+|---|---|---:|---:|
+| W1, W2 and G each write a directory entry | mined, each | 395,697 each | |
+| bad: W1's entry under W2's signature | **refused** by `VERIFY` | | |
+| W1 rotates its entry | mined | 199,857 | |
+| R1 posts G's recovery share in a blob, refusing W2's | mined | 331,148 | 2,140 |
+| R2 posts W2's note opening, two grants and a checkpoint in one blob | mined | 385,505 | 6,384 |
+| A2 redeems a recipient's voucher, four times | mined | 328,864, then 145,276 each | |
+| W2, G, then W2 twice more, each posting its own envelope in calldata | mined, each | 207,793 each | 1,052 each |
+
+A first entry writes two new slots, at 195,840 state gas. A rotation writes none. A post's or a
+redemption's first payment to a new relay or archiver account costs 183,600 state gas once.
+
+### What each recipient opened
+
+| Scan | Recipient | Opened | From |
+|---|---|---|---|
+| after arm 2 | W1 | G's recovery share, W2's note opening, its grant, checkpoint 1 | both blobs, from A2, with A1 gone |
+| after arm 2 | G | its grant, checkpoint 1 | R2's blob, from A2 |
+| after arm 3 | W1 | the second note opening, the second share, checkpoint 2 | calldata alone |
+| after arm 4 | W1 | the new key's grant, the checkpoint under it | calldata alone |
+| after arm 4 | G | checkpoint 2, under the old key; **not** the checkpoint under the new key | calldata alone |
+
+With no archiver left, arm 2's blob envelopes could no longer be read by anyone, as expected. Each
+recipient found every payload sent to it in the first scan after the block that posted it. Each
+blob fetched was paid for by the recipient's voucher, which A2 redeemed.
+
+### Predictions
+
+| # | Prediction | Outcome |
+|---|---|---|
+| 1 | the directory needs no operator | **held.** Each entry was written by its own key's dependency alone. The write under another key was refused. After W1's rotation, the directory served the new key, the new key did not open a message sealed to the old one, and the old key did |
+| 2 | one relay's refusal does not stop a message | **held.** R1 refused W2's payloads, and R2 carried all four. With both relays gone, every self-post was mined |
+| 3 | the recipient needs only its key, L1, and one archiver for blob bytes | **held.** With A1 gone, W1 and G opened every payload sent to them from A2's blobs, each checked against the board's versioned hash and its sender's signed hash. With both archivers gone, W1 opened every calldata post from L1 alone |
+| 4 | no carrier learns more than the table allows | **held, with two things it does allow stated.** Nothing a relay or archiver received held a plaintext, and no relay entry named its recipient. The one recipient key in a relay's inputs is G's own, as the sender who paid R1, which the table allows. Every archiver request named a whole blob. The table also allows two things, measured here. The size class shows first contact: 2,140 bytes against 1,052 after. And an archiver's voucher ties its recipient to a blob, though not to a payload in it |
+| 5 | a message costs less than ten times the transaction it enables | **held.** By its bytes' share of R2's post, a note's opening in a packed blob cost about 129,000 gas: 2,140 of 6,384 bytes of 385,505. One fetch of its whole blob cost 145,276 more, shared by every payload in it. Experiment 18's spend spends 216,580 in `VERIFY` alone, so the bound is 2,165,800. A recovery share posted alone cost 331,148. The recovery it serves cost 1,846,609 over nine transactions, by Q2's run 6. A message posted alone in calldata cost 207,793 |
+| 6 | revocation holds | **held.** After W2's new document key, granted to W1 alone, W1 opened the next checkpoint, and G did not, holding only the old key |
+| 7 | no classical signature | **held:** 42 blocks scanned, none |
+
+All seven predictions held. The record's limits are stated above:
+- the local chain keeps no blob, so every blob read went through an archiver;
+- archivers' possession was not challenged;
+- relays, archivers and fees are this experiment's own, set before the run.
