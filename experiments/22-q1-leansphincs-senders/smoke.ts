@@ -34,7 +34,7 @@ const key = bytesToHex(L.sphincsKey(seed)) as Hex
 if ((key.length - 2) / 2 !== 32) throw new Error(`a leanSPHINCS key is 32 bytes here, not ${(key.length - 2) / 2}`)
 const account = getAddress(`0x${keccak256(concatHex(['0x22', key])).slice(-40)}`)
 const runtime = compileYul(`${DIR}/contracts/SphincsAccount.yul`)
-const code = concatHex([runtime, key])
+const code = concatHex([runtime, `0x${"00".repeat(32)}`, key]) // no implementation (amendment 3)
 const destination = getAddress(`0x${bytesToHex(crypto.getRandomValues(new Uint8Array(20))).slice(2)}`)
 const AMOUNT = 10n ** 15n
 const accountAbi = parseAbi(['function execute(address to, uint256 value, bytes data)'])

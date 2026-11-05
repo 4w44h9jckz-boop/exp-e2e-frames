@@ -237,3 +237,67 @@ Seven more are of shape (c) but already hash-based. Arm 2 rebuilds all 368, as s
 reports the seven apart. The 60 of shape (d) are not this experiment's. Its Groth16 proofs, BLS
 signatures and the committee's ECDSA signatures are quantum-forgeable too, and move in other
 experiments of the same track.
+
+## Amendment 3, 2026-11-05, after arm 1 and before arm 2
+
+Arm 1 fixed what arm 2 rebuilds: 368 transactions from 122 senders. Reading their frames set the
+rules below before any rebuilt transaction was built or sent. No prediction changes.
+
+- **One account per sender.** Each sender gets its own leanSPHINCS account, funded at genesis with
+  10,000 ETH, and its transactions keep their order. A new sender starts at sequence 0 on every
+  nonce key. So each rebuilt transaction keeps its nonce keys and takes the chain's next sequence
+  on them. The nonce belongs to the sender, and is counted as part of the address change.
+- **The prefix.** Everything up to the last frame that approves (a `VERIFY` of scope 1 to 3) is
+  the authorization. It is replaced by the account's `VERIFY` (scope 3) and its dependency frame.
+  Two kinds of prefix frame are kept, in place:
+  - 17 `VERIFY` frames that approve nothing (scope 0);
+  - `DEFAULT` frames, except one that deploys the original sender through the CREATE2 deployer.
+    Six do; the new sender is at genesis instead.
+
+  88 transactions had a payer other than their sender. Their payer becomes the account itself,
+  since "the frames after the payer is set" are what step 2 copies. A paymaster's own secp256k1
+  signature would otherwise stay on the local chain, against prediction 7.
+- **The account keeps the sender's own code.** 67 transactions have frames that call their own
+  sender: a batch, or a function of the sender's code. `SphincsAccount` now carries a second
+  word, an implementation, before its key. A call from itself that is not `execute` runs the
+  implementation by `DELEGATECALL`:
+  - the original sender's code, copied to genesis at an address derived from the old one;
+  - for an EIP-7702 account, its delegate;
+  - nothing for a codeless sender, whose self-call runs empty code, as on the test network.
+
+  Only the key check moves.
+- **Shape (a).** A type-2 or type-3 transaction becomes `VERIFY`, the dependency frame, and one
+  `SENDER` frame with its target, value and data. One is a contract creation, and a frame has no
+  creation. Its rebuilt form calls the CREATE2 deployer that genesis holds, with a zero salt, so
+  its target and data change. Prediction 2 is scored against it.
+- **Blobs.** Seven transactions carry one blob each (four of type 3, three frame transactions).
+  Their records do not keep the blobs, which are ciphertexts under keys that were not kept. Their
+  rebuilt forms carry the same number of blobs of fresh bytes, so their versioned hashes differ.
+  That is a missing input, not a change the key needs, and it is reported apart from prediction 2.
+- **Application state.** Every contract a copied frame calls is copied to genesis, with its code
+  from the test network and empty storage. That stands in for deploying it from leanSPHINCS
+  accounts; it is amendment 1's genesis funding, applied to code. Frames that need state revert,
+  and are recorded.
+- **Sending.** Wave $k$ sends each sender's $k$-th transaction. Each goes to node A, then, as
+  amendment 2 says, to the local ethrex's own pool. The next wave starts when the wave is mined,
+  or after 180 s.
+- **Prediction 5, measured.** On each side:
+
+  $$\text{key cost} = \text{gasUsed} - \sum_{\text{copied frames}} (\text{execution} + \text{state})$$
+
+  So an application frame that reverts on the local chain moves neither side. The measured
+  difference is the rebuilt key cost less the record's. The predicted difference is prediction
+  5's arithmetic as written:
+  - plus the dependency frame's 3,000 and its 96 bytes' calldata cost, and the new `VERIFY`'s gas;
+  - minus 2,800 per secp256k1 entry and 6,700 per P-256 entry in the record's signature list;
+  - for shape (c), minus the record's own `VERIFY` frames' gas;
+  - for shape (a), minus 21,000.
+
+  The prediction holds for a transaction when the two differ by at most 5,000. The arithmetic as
+  written has no term for gas the rebuild removes besides the key, such as a replaced payer's
+  `VERIFY`. For shape (a) it also leaves out a frame transaction's own intrinsic cost: 12,000,
+  plus 475 per frame, plus 6,000 if it moves value. The record shows each such term beside the
+  score, and the score is not adjusted for them.
+- **Arm 3** runs on the first mined rebuilt transaction's sender, after arm 5's scan. The bad
+  form whose signature covers another hash goes last. The builder takes no proof that would leave
+  a transaction out, so it may stall the chain, and stalling would be the result.
