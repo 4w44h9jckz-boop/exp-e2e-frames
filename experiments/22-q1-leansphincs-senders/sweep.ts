@@ -208,7 +208,15 @@ const rows: Json[] = []
 const bad: Json[] = []
 let scan: Json = {}
 let stalled: Json | null = null
-const randomBlob = () => { const b = crypto.getRandomValues(new Uint8Array(B.BYTES_PER_BLOB)); for (let k = 0; k < b.length; k += 32) b[k] = 0; return b }
+let failure: string | null = null
+// getRandomValues fills at most 65,536 bytes at a time; each element's top byte is cleared, so it is
+// below the BLS modulus.
+const randomBlob = () => {
+  const b = new Uint8Array(B.BYTES_PER_BLOB)
+  for (let o = 0; o < b.length; o += 65_536) crypto.getRandomValues(b.subarray(o, o + 65_536))
+  for (let k = 0; k < b.length; k += 32) b[k] = 0
+  return b
+}
 const sendRaw = async (url: string, raw: Hex) => {
   const res = await fetch(url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'eth_sendRawTransaction', params: [raw] }) })
   const body = (await res.json()) as { result?: string; error?: unknown }
@@ -303,8 +311,12 @@ try {
     for (const list of bySender.values()) {
       const x = list[w]
       if (!x) continue
-      const built = await build(x)
-      sent.push({ x, b: built, ...(await submit(built, a)) })
+      try {
+        const built = await build(x)
+        sent.push({ x, b: built, ...(await submit(built, a)) })
+      } catch (e) {
+        rows.push({ index: x.i, wave: w, experiment: x.r.inv.experiment, shape: x.shape, record: x.r.tx.hash, sender: { old: x.a.old, new: x.a.address }, changes: x.changes, outcome: `not built: ${String(e).slice(0, 300)}`, block: null, prediction5: {} })
+      }
     }
     // Only what a pool admitted can be mined; a refusal is final for this wave.
     const admitted = (s: { nodeA: string; direct: string | null }) => s.nodeA.startsWith('admitted') || String(s.direct).startsWith('admitted')
@@ -368,6 +380,9 @@ try {
     stalled = { headBefore: h0, headAfter30s: h1, moving: h1 > h0 }
     console.log(`after the bad forms: head ${h0} then ${h1} 30 s later`)
   }
+} catch (e) {
+  failure = String((e as Error).stack ?? e).slice(0, 2000)
+  console.log(`the run stopped: ${failure}`)
 } finally {
   for (const n of nodes) await stopNode(n.child)
 }
@@ -392,7 +407,7 @@ const record = {
     prediction5: { scored: p5.length, held: p5.filter((r) => r.prediction5.held).length },
     byShape: Object.fromEntries(['a', 'b', 'c'].map((s) => [s, { rebuilt: rows.filter((r) => r.shape === s).length, mined: mined.filter((r) => r.shape === s).length }])),
   },
-  rows, bad, stalled, scan, builds, checks,
+  failure, rows, bad, stalled, scan, builds, checks,
 }
 let text = JSON.stringify(record, null, 2)
 for (const s of secrets) if (text.toLowerCase().includes(s.slice(2).toLowerCase())) throw new Error('a secret would be recorded')
