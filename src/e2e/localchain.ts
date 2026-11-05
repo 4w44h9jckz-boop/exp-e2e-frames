@@ -23,6 +23,8 @@ export type LocalChain = {
   witnesses: string
   ethrexCommit: string
   setting: 'written' | 'extended'
+  /** The pool's VERIFY budget, as started. */
+  maxVerifyGas: number
   client: ReturnType<typeof makeClient>
   /** A leanSPHINCS dependency's witness, written before its transaction is sent. */
   putSphincsWitness: (scheme: number, dataHash: Hex, key: Hex, signed: { publicKey: string; signature: string; message: string }) => string
@@ -44,6 +46,9 @@ export async function startLocalChain(o: {
   chainId?: number
   port?: number
   authPort?: number
+  /** `--mempool.max-verify-gas`, the pool's VERIFY budget: ethrex's default is EIP-8141's 100,000, the
+   * test network's is 500,000. Mempool policy, not consensus. */
+  maxVerifyGas?: number
 }): Promise<LocalChain> {
   const work = join(o.root, 'work')
   const ethrexDir = join(work, 'ethrex')
@@ -60,7 +65,7 @@ export async function startLocalChain(o: {
   writeFileSync(genesisFile, JSON.stringify(genesis))
   const port = o.port ?? 18545
   const authPort = o.authPort ?? 18551
-  const node: ChildProcess = spawn(join(ethrexDir, 'target/release/ethrex'), ['--dev', '--network', genesisFile, '--datadir', join(dir, 'db'), '--http.port', String(port), '--authrpc.port', String(authPort), '--authrpc.jwtsecret', join(dir, 'jwt.hex'), '--p2p.disabled', '--http.api', 'eth,net,web3,ethrex', '--log.level', 'info'], {
+  const node: ChildProcess = spawn(join(ethrexDir, 'target/release/ethrex'), ['--dev', '--network', genesisFile, '--datadir', join(dir, 'db'), '--http.port', String(port), '--authrpc.port', String(authPort), '--authrpc.jwtsecret', join(dir, 'jwt.hex'), '--p2p.disabled', '--http.api', 'eth,net,web3,ethrex', '--log.level', 'info', ...(o.maxVerifyGas ? ['--mempool.max-verify-gas', String(o.maxVerifyGas)] : [])], {
     env: { ...process.env, X14_EIP8288: o.setting, X14_PROVER: o.prover, X14_PROGRAMS: o.programs, X14_WITNESS_DIR: witnesses },
     stdio: ['ignore', openSync(join(dir, 'node.out'), 'w'), openSync(join(dir, 'node.log'), 'w')],
   })
@@ -74,7 +79,7 @@ export async function startLocalChain(o: {
   const chainId = BigInt(await client.getChainId())
   const jsonl = (f: string) => (existsSync(join(witnesses, f)) ? readFileSync(join(witnesses, f), 'utf8').trim().split('\n').filter(Boolean).map((l) => JSON.parse(l)) : [])
   return {
-    url, chainId, dir, witnesses, ethrexCommit, setting: o.setting, client,
+    url, chainId, dir, witnesses, ethrexCommit, setting: o.setting, maxVerifyGas: o.maxVerifyGas ?? 100_000, client,
     putSphincsWitness: (scheme, dataHash, key, signed) => {
       const k = keccak256(`0x${scheme.toString(16).padStart(2, '0')}${dataHash.slice(2)}${key.slice(2)}` as Hex).slice(2)
       writeFileSync(join(witnesses, `w-${k}.json`), JSON.stringify(signed))
