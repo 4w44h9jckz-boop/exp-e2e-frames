@@ -88,6 +88,13 @@ try {
   const body = (await res.json()) as { result?: string; error?: unknown }
   const answer = body.error ? `refused: ${JSON.stringify(body.error).slice(0, 400)}` : `admitted: ${body.result}`
   console.log(`node A: ${answer}`)
+  // Amendment 2: skandha cannot carry a dependency frame, so a refused transaction goes on to the
+  // local ethrex's own pool, and both answers are recorded.
+  let direct: string | null = null
+  if (!answer.startsWith('admitted')) {
+    try { await chain.client.request({ method: 'eth_sendRawTransaction', params: [raw] } as never); direct = 'admitted' } catch (e) { direct = `refused: ${String((e as { details?: string }).details ?? (e as Error).message).slice(0, 300)}` }
+    console.log(`the local ethrex's own pool: ${direct}`)
+  }
   const r = await waitForFrameTxReceipt(chain.client, hash, { timeoutMs: 180_000 }).catch(() => undefined)
   const frames = r ? r.frameReceipts.map((f) => ({ status: frameReceiptStatus(f), ...frameReceiptGas(f) })) : []
   const block = r ? await chain.client.getBlock({ blockNumber: BigInt(r.blockNumber), includeTransactions: true }) : undefined
@@ -96,7 +103,7 @@ try {
     step: 'a genesis-funded leanSPHINCS account pays a fresh address', outcome: r ? (frames.every((f) => f.status === 1) ? 'mined' : 'mined, a frame failed') : 'not mined in 180 s',
     hash, block: r ? Number(BigInt(r.blockNumber)) : null, gasUsed: r ? Number(BigInt(r.gasUsed)) : null,
     frames: frames.map((f) => ({ status: f.status, execution: Number(f.execution), state: Number(f.state) })),
-    simulation: simRow, nodeA: answer, seen: { A: linesNaming(a.log, hash).slice(0, 6), B: linesNaming(b.log, hash).slice(0, 6) },
+    simulation: simRow, nodeA: answer, direct, seen: { A: linesNaming(a.log, hash).slice(0, 6), B: linesNaming(b.log, hash).slice(0, 6) },
     witness, signMs: signed.signMs, signatureBytes: (signed.signature.length - 2) / 2, blockTransactions: signaturesInBlock,
     destinationBalance: (await chain.client.getBalance({ address: destination })).toString(),
   })

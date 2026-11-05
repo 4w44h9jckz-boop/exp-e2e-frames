@@ -169,3 +169,21 @@ dependency frame declares `(0x10, 0, its key)`, and whose `SENDER` frames call o
 `execute`. Genesis gives it its code and its balance, so no transaction funds it. A one-transfer
 smoke run on the local chain comes before the rebuild, and its record is kept beside the others.
 No prediction changes.
+
+## Amendment 2, 2026-11-05, after two smoke runs and before the rebuild
+
+Both smoke runs were refused at skandha's node A, and neither was mined:
+- [`results/2-smoke.json`](results/2-smoke.json): `ErrInvalidChainId`. skandha's surface profiles
+  fix their chain ids, 8141 for `hegota-testnet`, and ethrex's Hegota genesis fixture has 9. The
+  local chain now takes 8141.
+- [`results/3-smoke.json`](results/3-smoke.json): `ErrFrameMalformed`. skandha at `ede942f` admits
+  frame modes 0 to 2 only. A descriptor with EIP-8288's modules compiles to its older profile, whose
+  dependency frame is mode 3, never master's mode 4. A dependency left without a wrapper would also
+  stay unproven, and the node takes no wrappers.
+
+So **prediction 3 is shown wrong as stated, for skandha at `ede942f`.** The open mempool node this
+repository runs cannot carry a transaction a leanSPHINCS key authorizes, as EIP-8288 at master
+writes it. That is recorded as the result it is, not worked around. From here each rebuilt
+transaction goes to node A first, and its answer is recorded. Then it goes to the local ethrex's
+own pool, so the chain's side, the block proof and the gas, is still measured. Predictions 1, 2
+and 4 to 8 are unchanged.
