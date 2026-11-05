@@ -343,3 +343,51 @@ Record [`results/3-full.json`](results/3-full.json), from commit `25e3ca8`:
 
 The runner now gives every `SENDER` frame 600,000 of state gas, and the rollup's `VERIFY` still
 asks for at least 300,000. No prediction is scored on run 3; the full run is run 4.
+
+## Results, run 4: parts 1, 3, 4 and 5 (2026-11-05)
+
+Record [`results/4-full.json`](results/4-full.json), from commit `e0e1349`:
+`npx tsx experiments/26-x19-a-payment-rollup-with-nothing-held/run.ts 4-full`. Seventeen
+transactions in 45 blocks, every block's dependencies checked valid (12 of 12). Part 2's fold is not
+built yet, so every block carries one transfer.
+
+- **Part 1** ran as in run 2: the same outcome at every step, and each block's gas within 48 of
+  run 2's.
+- **Part 3, recovery.** Channel 0's member kept only its seed. With it alone, the member:
+  - found its two backups in the rollup's `Backup` logs, both 1,664 bytes;
+  - read the latest from its transaction's calldata and opened it, which channel 1's member's seed
+    could not;
+  - rebuilt a head identical to the deleted one;
+  - rebuilt the tree from the `Transfer` logs, with the rollup's root.
+- **Part 4, the exit as jobs.** Every step's sender was the rollup. A taker assembled and sent
+  each step, with one member's leanSPHINCS signature as its dependency:
+  - the freeze: mined, 235,182 gas;
+  - a transfer from the frozen channel: refused by `VERIFY`;
+  - the claim, from the recovered head and the rebuilt tree: mined, 646,545 gas. Its `SENDER` frame
+    took 36,509, and 465,120 state gas for the claimed flag and the two new accounts.
+- **The payout.** The recipient held 0 wei and had sent nothing before the claim. After it, the
+  recipient held 4,698,999,997,907,073,900 wei, and its nonce was still 0. That is the channel's
+  4,699,999,998,000,000,000, less the taker's 10^15 and the transaction's maximum cost of
+  92,926,100 wei, which the rollup withheld to pay the gas. The taker received its 10^15.
+- **Part 5, the scan:** 45 blocks, and no secp256k1 or P-256 signature in any.
+- **Costs.** The twelve user proofs took 8,614 cycles each, 64.4 to 96.1 ms and at most 153.7 MB.
+  The builder proved each block's leanSPHINCS dependencies in 2,806 to 3,897 ms, at most 413 MB.
+
+### Predictions
+
+| # | Prediction | Outcome |
+|---|---|---|
+| 1 | any aggregator can build a block | **held,** as in run 2 |
+| 2 | the queue bounds the delay to $k$ blocks | **held,** as in run 2: the queued leaf was mined as rollup block $q + k + 1$, and the block that omitted it there was refused |
+| 3 | no prover sees a witness | **held for the aggregators and the builder; shown wrong as stated for the claim's taker.** Nothing the aggregators received held a balance or a salt. The claim reveals the channel's final balance and salt, by amendment 1's choice, so the taker that sends it sees both. The balance is public at the exit anyway, as the payout. The salt need not be, and a proof of the opening would keep it private, at the cost of a leanSTARK dependency in the claim |
+| 4 | the fold folds | **not yet run.** The fold is not built. Every block of runs 2 to 4 carried one transfer, which is the stated fallback |
+| 5 | recovery needs only the seed and L1 | **held,** in calldata rather than blobs (amendment 3). The rebuilt head was identical, the exit with it succeeded, and both backups were 1,664 bytes |
+| 6 | the exit needs neither the recipient's ETH nor a co-signer | **held.** The freeze and the claim were each sent by a taker, signed by one member of two, and released by the rollup's own transaction. The recipient held no ETH and sent nothing |
+| 7 | every proof fits a device | **held.** Every user proof was under 0.1 s and 154 MB, and every block proof under 3.9 s and 413 MB |
+| 8 | within an order of magnitude | **held.** A user's proof took under 0.1 s, against INTMAX3's quoted 25 s. A block's transaction costs 226,714 to 508,288 gas, against INTMAX3's quoted 11.2 million for one on-chain verification. The proof's check is the dependency frame's declared 30,000, done by the block off the EVM, as EIP-8288 has it |
+| 9 | no classical signature | **held:** 45 blocks scanned, none |
+
+Against experiment 25: INTMAX3's own validity prover was killed in this container at 13.88 GiB.
+Here every proof the model needs is made in under 0.5 GB. The model proves less, though. It has
+hash commitments, not Regev ciphertexts, one transfer a block, and no receiver's proof. So the
+comparison is of where each design puts its proving, not of equal work.
