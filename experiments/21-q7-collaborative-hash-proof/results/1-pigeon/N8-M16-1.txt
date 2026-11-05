@@ -1,0 +1,37 @@
+Workers: 8
+Setup time: 1.623325
+Phase 1: 0.318339, rounds: 1, comp_time: 0.256003
+Phase 2: 0.039432, rounds: 36, comp_time: 0.015048
+Phase 3: 0.105719, rounds: 37, comp_time: 0.072023
+      Phase 4.0 (sumcheck): 0.000974
+Phase 4: 0.001035, rounds: 24, comp_time: 0.000514
+          Commit comp time: 0.126253, Com time: 0.003902
+      Phase 5.0 (Commit): 0.157584, Pt : 0.128643
+Size : 8192
+          Step 1: 0.030028, 0.011613,0.018403
+          Round 7: 0.030881, 0.018758
+          Round 6: 0.032533, 0.019581
+          Round 5: 0.036444, 0.021740
+          Round 4: 0.044832, 0.026366
+          Round 3: 0.056536, 0.030433
+          Round 2: 0.079987, 0.038647
+          Round 1: 0.151978, 0.066339
+          Round 0: 0.264220, 0.097428
+          Step 2: 0.234192, 0.151031,0.097428
+> 0.284063,0.168490
+          Final Sumcheck: 0.007953
+      Phase 5.1 (Sumcheck): 0.298269, Local time: 0.174560, Rounds: 90
+Phase 5 (Sparse Matrix Eval): 0.455878, Comp_time: 0.303203, Comm time: 0.097428
+Phase 6 (Open Plaintex): 0.345280, Rounds : 12, Comp time: 0.246972
+Phase 7 (Open Witness): 0.245154, rounds: 25
+Id : 0, Pt: 1.516320, CPU Only Pt: 0.788795, Computation only: 1.045715, Vt: 0.007361
+Id : 1, Pt: 1.516082, CPU Only Pt: 0.756427, Computation only: 1.102677
+Id : 2, Pt: 1.512403, CPU Only Pt: 0.715545, Computation only: 0.965504
+Id : 3, Pt: 1.515538, CPU Only Pt: 0.724477, Computation only: 1.216023
+Id : 4, Pt: 1.513151, CPU Only Pt: 0.751901, Computation only: 1.045514
+Id : 5, Pt: 1.514848, CPU Only Pt: 0.740070, Computation only: 1.201567
+Id : 6, Pt: 1.508422, CPU Only Pt: 0.734086, Computation only: 1.138522
+Id : 7, Pt: 1.512839, CPU Only Pt: 0.720517, Computation only: 1.140197
+Vt : 0.016022 sec, Ps: 1070.250000 KB, Com: 18.533714 MB
+Interaction Rounds: 227
+MPI World size = 8 processes

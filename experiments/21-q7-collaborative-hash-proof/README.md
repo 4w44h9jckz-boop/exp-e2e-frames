@@ -126,4 +126,88 @@ experiment stops.
 
 ## Results
 
-None yet.
+**Run 1, 2026-11-05.**
+- **Records:**
+  - `results/1-baseline.json` (plan step 3);
+  - `results/1-pigeon/` (plan step 2): every pass's whole output, and `build.txt`.
+- **Runners:** `baseline.ts` and `pigeon.sh`.
+- **The collaborative prover's build:** the authors' repository at
+  `1c50a7410fa464ad325e0014d0d5fedd196d86c5`, built unchanged with CMake (Release), g++ 13.3.0,
+  Open MPI 4.1.6. It links the prebuilt `lib/libXKCP.a` that ships in the repository, sha256
+  `30f4e676a12c1723bbd6f973cd3e2a45526fbfa0a21cdf2a86e2c7371dc4686c`.
+- **The owner approved** building and running that repository in this session, after the
+  session's automatic permission check had first refused it as external code.
+
+The two conditions hold: leanVM has no zero knowledge yet, and no proof here reaches a chain. The
+collaborative prover's own zero knowledge is not established.
+
+**Two things found when running, stated here:**
+- **The repository's scripts call a mode that does not exist.** `test_local.sh` and `bench.sh`
+  run `pigeon 10 ...`, a benchmark `main.cpp` does not have. The run used benchmark 0, circuit
+  type 1, as pre-registered.
+- **What circuit type 1 is.** It is a synthetic circuit of $2^M$ gates. A sixteenth of them are
+  inputs, and the rest are additions or multiplications, chosen at random with `srand(42)`.
+  The same circuit is proved at every pass.
+
+**The machine and the network.** One host: an Intel Xeon at 2.10 GHz, 4 cores, 15 GiB. The
+provers are MPI processes on that host, so every wall-clock figure below is a loopback figure, not
+a network's. $N = 8$ runs 8 provers on 4 cores (`--oversubscribe`).
+
+**The collaborative prover** (`pigeon 0 M 1`, three passes after a warm-up). Each prover's time is
+its whole proving time as the program prints it ("Pt"). Proof size, the provers' total
+communication ("Com") and rounds are as printed, identical in every pass. Verification is the
+in-process verifier's time.
+
+| Point | Each prover's time | Proof | Provers' communication, in all | Rounds | Verifying |
+|---|---|---|---|---|---|
+| $N = 4$, $2^{15}$ (X6's size) | 0.79 to 0.96 s | 865.9 KB | 8.80 MB | 227 | 16 to 18 ms |
+| $N = 4$, $2^{16}$ | 1.85 to 2.10 s | 1,058.0 KB | 16.50 MB | 247 | 27 to 28 ms |
+| $N = 8$, $2^{15}$, oversubscribed | 0.38 to 0.57 s | 858.9 KB | 10.53 MB | 207 | 13 to 26 ms |
+| $N = 8$, $2^{16}$, oversubscribed | 0.72 to 0.89 s | 1,070.3 KB | 18.53 MB | 227 | 16 to 23 ms |
+
+The program prints KB and MB, and its source divides by 1,024. At $N = 8$ each prover holds half
+the share it holds at $N = 4$, and its time falls even with 8 processes on 4 cores. How the
+oversubscribed processes interleave was not measured.
+
+**Beside it, the same withdrawal proved two other ways:**
+
+| | Who proves | Time | Proof | Exchanged per proof |
+|---|---|---|---|---|
+| Experiment 07, co-snarks (Groth16, BN254) | 3 members over replicated shares, loopback TCP | about 1.43 s each | Groth16's 256 bytes | 752 to 784 bytes sent by each member |
+| This run, ePrint 2026/729's prover | 4 provers, $2^{15}$ synthetic gates, loopback MPI | 0.79 to 0.96 s each | 865.9 KB | 8.80 MB in all |
+| One device, leanVM (`v5_tornado.py`) | the user alone, the whole witness | 55 to 72 ms | 205,928 bytes | none |
+
+- The leanVM proof is experiment 19's program: 286 cycles, 41.5 MB peak.
+- `x14-prover verify` accepted it against its digest $D$ and the program's key in 10 ms.
+- Its statement uses Keccak where experiment 07's circuit uses MiMC. The committee's statement is
+  a synthetic circuit of the circuit's size, not the circuit itself.
+
+**Against each prediction:**
+1. **Four provers prove a statement of X6's size, each in under 10 s: held.** 0.79 to 0.96 s at
+   $2^{15}$, and 1.85 to 2.10 s at $2^{16}$, on loopback. That is about co-snarks' time for the
+   real circuit, on a synthetic circuit of the same size.
+2. **The committee's proof is larger than one device's leanVM proof: held.** It is 865.9 KB
+   against 205,928 bytes, about 4.3 times larger. It is about 3,500 times Groth16's 256 bytes.
+3. **The provers exchange at least 1 MB per proof: held.** They exchange 8.80 MB in all at
+   $N = 4$, about 2.2 MB per prover. That is about 3,000 times what each co-snarks member sent (752 to 784 bytes).
+4. **The committee's proof is not one `x14-prover verify` accepts, so a verifier would tell it
+   from a device's: held, by construction, not by a failed check.**
+   - The committee's proof never leaves the prover's process, which writes no proof file. It is
+     over another field and another hash, and no leanVM program verifies it.
+   - There was therefore nothing to hand to `x14-prover verify`.
+   - Q7's falsifier stands: on this route, a committee's withdrawal and a device's withdrawal
+     differ in what the verifier sees.
+
+**What the full route still needs, and what each piece replaces:**
+1. **A front end** that takes X6's withdrawal statement (or `v5_tornado.py`'s) and a witness's
+   shares, in place of the synthetic generator. Without it, nothing here proves a withdrawal.
+2. **A proof the provers write out, and a verifier outside their process,** in place of the
+   in-process check. Without it, no one but the provers can check the proof.
+3. **A leanVM program that verifies that proof:** arithmetic modulo $2^{61} - 1$, Blake3, and the
+   tensor code's openings. It would replace the committee's 865.9 KB proof with one leanVM proof
+   of about 200 KB, under one program key and one digest $D$, as the program layout fixes. That
+   is the step that would make the committee's proof look like the device's. Its proving time was
+   not measured; it adds a single prover's wrap after the committee's work.
+
+**Done when: done.** The four points and the baseline are recorded, each prediction is judged,
+and what the full route needs is written. The experiment stops here.

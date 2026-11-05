@@ -1,0 +1,5 @@
+repo 1c50a7410fa464ad325e0014d0d5fedd196d86c5
+libXKCP.a 30f4e676a12c1723bbd6f973cd3e2a45526fbfa0a21cdf2a86e2c7371dc4686c
+compiler g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+mpi mpirun (Open MPI) 4.1.6
+machine Intel(R) Xeon(R) Processor @ 2.10GHz, 4 cores, 15 GiB
