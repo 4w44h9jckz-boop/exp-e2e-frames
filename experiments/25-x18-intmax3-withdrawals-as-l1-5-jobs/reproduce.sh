@@ -21,10 +21,15 @@ log="$root/work/intmax3-reproduce-$label.log"
 out="$here/results/$label.json"
 t0=$(date +%s)
 status=0
-( cd "$dir" && /usr/bin/time -v cargo test --release --locked --test partial_withdrawal_e2e \
-    partial_withdrawal_e2e_anvil -- --nocapture ) >"$log" 2>&1 || status=$?
+# Peak memory of the test and everything it starts, from the kernel's accounting of the children.
+( cd "$dir" && python3 -c '
+import resource, subprocess, sys
+r = subprocess.call(["cargo", "test", "--release", "--locked", "--test", "partial_withdrawal_e2e",
+                     "partial_withdrawal_e2e_anvil", "--", "--nocapture"])
+print("PEAK_RSS_KIB", resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss)
+sys.exit(r)' ) >"$log" 2>&1 || status=$?
 secs=$(( $(date +%s) - t0 ))
-peak=$(awk -F: '/Maximum resident set size/ {gsub(/ /,"",$2); print $2}' "$log" | tail -1)
+peak=$(awk '/^PEAK_RSS_KIB/ {print $2}' "$log" | tail -1)
 python3 - "$log" "$out" <<EOF
 import json, re, sys
 log, out = sys.argv[1], sys.argv[2]
