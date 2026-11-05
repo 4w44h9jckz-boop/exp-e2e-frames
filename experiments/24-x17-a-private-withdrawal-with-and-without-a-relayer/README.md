@@ -98,3 +98,29 @@ mapping.
 `pool/` (arm B's contract), `run.ts` (arms A and B), `railgun.ts` (arm R's receipts), and results in
 `results/`, each with its commit, command and inputs. Tornado Cash's GPL-3.0 code is built by
 experiment 19's `tornado.sh` into the ignored `build/` and is not copied here.
+
+## Amendment 1, 2026-11-05, before any code
+
+[exp-frames](https://github.com/4w44h9jckz-boop/exp-frames) experiment 30 had already priced the
+relayer against the no-relayer path, and it was not read for the pre-registration above:
+- **on mainnet,** every withdrawal from Tornado Cash's four ETH pools and Privacy Pools' ETH pool
+  over 30 days (blocks 25,972,879 to 26,188,878): 10,085 withdrawals, 85% relayed, and notes paid
+  224.51 ETH in fees where the same withdrawals with no relayer would have cost 4.65 ETH. Its
+  median fee per pool is 3.6 to 729 times the no-relayer cost;
+- **on the test network,** its `RefundPool`, a pool that sends and pays for its own withdrawal and
+  refunds the fee's surplus in a last frame: 579,661 gas, the note paying 1.023 times its gas.
+
+So this experiment takes the fee side from it rather than setting a fee, and runs only what
+experiment 30 did not.
+- **Arm A's fee** is experiment 30's measured median for each pool, cited, not configured. The
+  deviation "Relayer fees are a market" is replaced by that.
+- **Arm B** borrows `RefundPool`'s layout: the fee floor at the maximum cost, and the last frame
+  that refunds the surplus. It reads the root from the pool's own storage, not through EIP-8272,
+  so that EIP-8141's own rules judge the validation gas alone. Its frames are `[pool VERIFY,
+  pool SENDER withdraw, pool DEFAULT refund]`.
+- **Prediction 1 is unchanged.** It compares gas on the test network, arm A's relayer withdrawal
+  against arm B's.
+- **Arm R** reads Railgun's documentation itself. Experiment 30 quotes it as checking the
+  broadcaster's fee note against "a previously advertised rate * the estimated gas".
+
+No prediction or "what would show it wrong" changes.

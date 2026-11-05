@@ -53,6 +53,8 @@ export async function startNode(o: {
   handoff?: boolean
   /** `--frames.claims`: check a ticket before asking the client (FRAMES.md, "Tickets"). */
   claims?: boolean
+  /** `--frames.descriptor`: run the frame pool under a descriptor file's ruleset (FRAMES.md, "Descriptors"). */
+  descriptor?: string
 }): Promise<Node> {
   const args = [
     'node', '--configFile', o.config, '--dataDir', o.dataDir,
@@ -61,6 +63,7 @@ export async function startNode(o: {
     '--p2p.enrHost', '127.0.0.1', '--p2p.enrPort', String(o.p2pPort),
     ...(o.bootEnr ? ['--p2p.bootEnrs', o.bootEnr] : []),
     '--frames.enable', ...(o.handoff ? ['--frames.handoff'] : []), ...(o.claims ? ['--frames.claims'] : []),
+    ...(o.descriptor ? ['--frames.descriptor', o.descriptor] : []),
     '--frames.name', o.name, '--frames.log', o.log,
   ]
   const child = start('./skandha', args, { cwd: o.dir, env: { NODE_BACKEND: 'js' } })
