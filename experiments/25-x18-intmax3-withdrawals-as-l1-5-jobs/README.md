@@ -173,3 +173,60 @@ Arm 3 is recorded, not predicted.
 
 `build.sh` (INTMAX3 into `work/intmax3-979318dbf48e/`), `run.ts` (arms 0 to 5, `--chain
 local|testnet`), and results in `results/`, each with its commit, command and inputs.
+
+## Results, arm 0's build (2026-11-05)
+
+Record [`results/0-build.json`](results/0-build.json):
+`bash experiments/25-x18-intmax3-withdrawals-as-l1-5-jobs/build.sh 0-build`. INTMAX3 at its pin,
+with its submodules at their gitlinks, built with its own toolchain (`nightly-2025-03-23`). Its
+release binaries and its contracts each built with exit 0, in 1,092 s on 4 cores.
+
+## Results, arm 0's reproduction, run 1 (2026-11-05)
+
+Records [`results/1-reproduce-anvil.json`](results/1-reproduce-anvil.json), from
+`bash experiments/25-x18-intmax3-withdrawals-as-l1-5-jobs/reproduce.sh 1-reproduce-anvil`, and
+[`results/1-reproduce-anvil-chain.json`](results/1-reproduce-anvil-chain.json), read back from
+the anvil the test left running:
+`npx tsx experiments/25-x18-intmax3-withdrawals-as-l1-5-jobs/chainlog.ts http://127.0.0.1:8553 1-reproduce-anvil-chain`.
+The first record was written again by `summarize.py` from the same log, to keep the proof lines
+and the kernel's line, which the script as first committed did not.
+
+**Killed for memory.** INTMAX3's own test ran for 1,241 s, compiling its test dependencies
+included, and was stopped by the kernel's out-of-memory killer. The test process held 13,832,048
+KiB of anonymous memory, against this container's limit of 14,337,302,528 bytes. It died wrapping
+the four-block validity proof into its MLE form, the step before the first block is posted. So no
+block reached the chain, and no withdrawal was proved.
+
+What it proved before that, as its own output prints it:
+
+| Proof | Time | Size (bytes) |
+|---|---:|---:|
+| balance, receive deposit | 14.6 s | 133,600 |
+| spend, bootstrap | 1.3 s | 132,696 |
+| balance, send (bootstrap) | 16.5 s | 133,600 |
+| the burn's E-2 build and proof | 1.8 s | 242,850 |
+| spend, the burn | 1.3 s | 132,696 |
+| balance, send (the burn) | 16.5 s | 133,600 |
+| the four-block hash chain | 215.8 s | |
+| validity | 187.1 s | |
+
+The chain holds the 17 transactions sent before the kill, all succeeding:
+- eight deployments through the CREATE2 deployer, 652,108 to 5,156,934 gas;
+- six plain creations, 975,776 to 5,343,038 gas;
+- `setKzgVerifier` (47,454), `setBlockProducer` (45,709) and `registerChannel` (191,395).
+
+INTMAX3's own benchmark of its validity prover (`doc/benches/validity-prover-2026-08-20.md`, on a
+48 GiB host) measured a peak of 11.23 GiB for that prover alone. It says a prover host "should have
+at least 16 GiB available to this process, and 24 GiB is the safer floor". This container's limit
+is 13.35 GiB, and the test holds the balance, validity and withdrawal circuits in one process.
+
+**Prediction 1 is shown wrong for this container, so far:** the stack builds here, but its test
+does not prove through here at rayon's default of one thread per core.
+
+## Amendment 1, 2026-11-05, after run 1 and before run 2
+
+The deviation above says the run stops if the stack cannot prove here. One setting is tried first,
+since it changes nothing that is proved: run 2 sets `RAYON_NUM_THREADS=1`, which rayon reads at
+start, so INTMAX3's provers run on one thread. `reproduce.sh` passes it through and records it.
+Nothing in INTMAX3 changes, and no proof is mocked. If run 2 is killed for memory too, arm 0 stops
+here and the research owner decides.
