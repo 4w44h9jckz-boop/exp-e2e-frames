@@ -149,3 +149,23 @@ sender:
 
 `inventory.ts` (arm 1), `sweep.ts` (arms 2 to 4, `--chain local|testnet`), `scan.ts` (arm 5), and
 results in `results/`, each with its commit, command and inputs.
+
+## Amendment 1, 2026-11-05, before any rebuild
+
+Two facts read after the pre-registration, before any code for arm 2:
+- **skandha carries no dependency's witness.** Its node "neither takes EIP-8288 wrappers nor folds
+  them", and does not decode dependency frames beyond their bytes (skandha's `FRAMES.md`, "What it
+  does not do"). So on the local chain the two nodes admit, relay and hand off each rebuilt
+  transaction. Its leanSPHINCS signature reaches the block builder out of band, in the builder's
+  witness directory, as experiment 19's local runs did, and the block proof checks it. Prediction
+  4's "at the node" can therefore only be a refusal the client's simulation makes, since the node
+  sees no signature.
+- **The patch takes a zero `data_hash` as EIP-8288 does.** ethrex's patch puts the transaction's
+  `compute_sig_hash` in place of a zero `data_hash`, and names a witness by the substituted triple,
+  as EIP-8288 at `46976b2` defines it. So the account signs the signature hash, as designed.
+
+The account is `contracts/SphincsAccount.yul`: a contract whose `VERIFY` approves when a
+dependency frame declares `(0x10, 0, its key)`, and whose `SENDER` frames call out through
+`execute`. Genesis gives it its code and its balance, so no transaction funds it. A one-transfer
+smoke run on the local chain comes before the rebuild, and its record is kept beside the others.
+No prediction changes.

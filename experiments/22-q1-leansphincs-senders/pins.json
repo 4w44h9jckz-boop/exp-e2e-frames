@@ -1,0 +1,7 @@
+{
+  "skandha": {
+    "url": "https://github.com/4w44h9jckz-boop/skandha",
+    "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade",
+    "why": "two nodes in front of the local chain and the test network; the commit experiment 19 ran"
+  }
+}
