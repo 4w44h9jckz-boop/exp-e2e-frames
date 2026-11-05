@@ -187,3 +187,53 @@ writes it. That is recorded as the result it is, not worked around. From here ea
 transaction goes to node A first, and its answer is recorded. Then it goes to the local ethrex's
 own pool, so the chain's side, the block proof and the gas, is still measured. Predictions 1, 2
 and 4 to 8 are unchanged.
+
+## Results, arm 1 (2026-11-05)
+
+Record [`results/4-resolved.json`](results/4-resolved.json), at commit `1583498`:
+`npx tsx experiments/22-q1-leansphincs-senders/inventory.ts 4-resolved`. Records 1 to 3 are the
+same scan before its hand resolutions, and are kept. Experiments 01 and 02 write their records to
+`test/fixtures/runs/`, and records 1 to 3 missed them; record 4 reads them.
+
+| Shape | Transactions | What authorizes them |
+|---|---|---|
+| (a) | 32 | a type-2 transaction's secp256k1 signature |
+| (b) | 320 | a secp256k1 or P-256 entry in the signature list |
+| (c) | 9 | a secp256k1 or P-256 key in the account's own code |
+| (c), hash-based | 7 | a WOTS key under a Merkle root in the account's code, checked with keccak alone |
+| (d) | 60 | 43 Groth16 proofs, 1 Groth16 proof with a BLS ticket, 6 BLS signatures, 7 ECDSA signatures of a committee, and 3 by nothing |
+| fits none | 0 | |
+
+**Prediction 1 held.** All 428 transactions from experiments 01 to 18's records are of one of the
+four shapes. One reading is stated here: three transactions in experiment 03's vectors come from
+`0x40456702...`. That is an 8-byte account (`PUSH1 3 PUSH1 0 PUSH1 0 APPROVE STOP`) which
+approves any transaction. They are counted as (d), "authorized by no key", which is (d)'s
+heading, though none of its three examples (a proof, a ticket, a committee's signature) fits them.
+A reader who takes the examples as the definition would count three transactions that fit no
+shape.
+
+What the scan could not settle alone, and how each was settled, is in the record's
+`resolutions`:
+- **Pools.** Each pool calls its Groth16 verifier with computed gas, from an address held inside
+  its code. So the static scan saw no pairing. Four pools and the two sponsors in front of them
+  are resolved by hand. The sponsors check only that the last frame withdraws to them; the pool's
+  proof authorizes.
+- **WOTS accounts.** Five accounts in experiment 03's vectors are exp-frames experiment 17's
+  `WotsAccount`: one ARBITRARY signature read with `SIGDATACOPY`. Two of them are the main
+  accounts that README lists. The other two variants are identified by their signatures'
+  lengths, which are exactly $2 + n + L n + H n$: 2,498 bytes for n32-w16 and 738 for n16-w16.
+- **Experiment 16's pool** checks three of four attesters' ECDSA signatures, a committee's. It is
+  (d), as before.
+
+Shapes (a) and (b) take no judgement: they are the transaction's type and its signature list. The
+(c) and (d) split is the scan plus these resolutions, and every (c) and (d) entry lists its
+targets.
+
+So 361 transactions are authorized by a key that a quantum computer could forge:
+- 352 of shapes (a) and (b);
+- 9 of shape (c).
+
+Seven more are of shape (c) but already hash-based. Arm 2 rebuilds all 368, as step 2 says, and
+reports the seven apart. The 60 of shape (d) are not this experiment's. Its Groth16 proofs, BLS
+signatures and the committee's ECDSA signatures are quantum-forgeable too, and move in other
+experiments of the same track.
