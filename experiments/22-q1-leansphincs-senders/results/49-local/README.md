@@ -75,3 +75,19 @@ Records of `q2-local.ts`, one directory per run.
   - **What the rest is expected to do.** With copy (a) kept out of ethrex's pool, the second seed's
     copies (b) and (c) and the rest of its arm run. Every block proof checks valid, and the chain
     does not halt.
+  - **Result** (repository commit `ce4e578`, kohaku-rs `04b4a0f`): all 24 block proofs checked
+    valid, 2,784 to 3,344 ms each.
+    - Arms 2, 3 and 6 ran as before.
+    - The second seed's arm ran to its end, since copy (a) no longer held the sender's nonce:
+      - the bound-ticket spend (647,473);
+      - copies (b) and (c), refused by ethrex's simulation;
+      - the pool-paid withdrawal (698,055);
+      - the recipient's own spend (337,177).
+  - **Copy (a) was refused by the node, but not for the reason stated above.** Its answer was
+    `ErrFrameUnrecognizedPrefix`, before any proof was asked for. A bound-ticket transaction's prefix
+    is the sender's `VERIFY`, the paymaster's `VERIFY`, then the dependency frame, a payer-paid
+    prefix with a dependency. `eip-8288-master` recognizes no such prefix, and a profile that does
+    was asked about and not added for now. So this run
+    shows that a node on the node path keeps copy (a) out of every pool and the chain keeps moving.
+    It does not show the node checking the binder's signature, which needs both that prefix shape
+    and a wrapper.
