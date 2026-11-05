@@ -1,0 +1,32 @@
+{
+  "experiment": 21,
+  "step": 3,
+  "label": "1",
+  "repoCommit": "cd96779bab4b526c575b8b7d3164bdc9e5e65391",
+  "prover": "experiments/19-x14-hash-based-stealth-addresses-under-8288/prover, leanVM 3cbac04, target-cpu=native",
+  "machine": [
+    "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "4"
+  ],
+  "program": "v5_tornado.py",
+  "programKey": "0x3096ec913da5544bb27165383b34b169e9948ce5ae863c5827b97f19a9716fc4",
+  "D": "0xd8cdfd5ac75c05b939bfb6df84229a201f155f11c445b9269946a46c86bc24e9",
+  "proved": {
+    "cycles": 286,
+    "proveMs": [
+      71.617117,
+      54.556388,
+      54.513394
+    ],
+    "warmupMs": 72.144789,
+    "proofBytes": 205928,
+    "proofFileBytes": 205928,
+    "verifyMs": 9.685236,
+    "verified": true,
+    "peakRssBytes": 41541632
+  },
+  "verifyCommand": {
+    "verified": true,
+    "verifyMs": 10.471589999999999
+  }
+}
