@@ -30,3 +30,15 @@ Records of `q2-local.ts`, one directory per run.
   100,000, its default. The bound-ticket paymaster's check of a BLS ticket in `VERIFY` does not fit
   that budget, as X17's Groth16 `VERIFY` did not. The test network's pool allows 500,000. Run 4
   takes the test network's budget, `--mempool.max-verify-gas 500000`, and is recorded with it.
+- `4-fourth-run/` (repository commit `3706f39`, kohaku-rs `e6f1623`, the local pool's VERIFY budget
+  at the test network's 500,000): all 20 block proofs valid.
+  - Arms 2, 3 and 6 as in run 2.
+  - **Arms 4 and 5:** the bound-ticket spend was mined, at block 12 and 647,473 gas. A fresh
+    leanSPHINCS sender deployed itself and posted, paid by a bound ticket whose binder declared
+    its leanSPHINCS dependency.
+  - **Copies (a), (b) and (c)** were each refused: the binder's signature over another hash, the
+    binder's triple removed, and another key named.
+  - **The withdrawal failed.** The pool is its own sender, paid by a bound ticket. It was refused
+    with "validation prefix frame reverted" for its prefix of a root `VERIFY`, a pool `VERIFY`,
+    a pay `VERIFY`, then the dependency frame. Copy (a) of the second seed stopped at the same
+    step.
