@@ -367,8 +367,8 @@ built yet, so every block carries one transfer.
     took 36,509, and 465,120 state gas for the claimed flag and the two new accounts.
 - **The payout.** The recipient held 0 wei and had sent nothing before the claim. After it, the
   recipient held 4,698,999,997,907,073,900 wei, and its nonce was still 0. That is the channel's
-  4,699,999,998,000,000,000, less the taker's 10^15 and the transaction's maximum cost of
-  92,926,100 wei, which the rollup withheld to pay the gas. The taker received its 10^15.
+  4,699,999,998,000,000,000, less the taker's $10^{15}$ wei and the transaction's maximum cost of
+  92,926,100 wei, which the rollup withheld to pay the gas. The taker received its $10^{15}$ wei.
 - **Part 5, the scan:** 45 blocks, and no secp256k1 or P-256 signature in any.
 - **Costs.** The twelve user proofs took 8,614 cycles each, 64.4 to 96.1 ms and at most 153.7 MB.
   The builder proved each block's leanSPHINCS dependencies in 2,806 to 3,897 ms, at most 413 MB.
