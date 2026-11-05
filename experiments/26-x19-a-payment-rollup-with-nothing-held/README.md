@@ -391,3 +391,26 @@ Against experiment 25: INTMAX3's own validity prover was killed in this containe
 Here every proof the model needs is made in under 0.5 GB. The model proves less, though. It has
 hash commitments, not Regev ciphertexts, one transfer a block, and no receiver's proof. So the
 comparison is of where each design puts its proving, not of equal work.
+
+## The fold, read at leanVM's pin (2026-11-05, before any fold code)
+
+Prediction 4 needs one program that verifies proofs of itself. leanVM at `3cbac04` has exactly one
+such program, its aggregation guest (`crates/rec_aggregation/guests/lean_ethereum.py`). It is built
+for one statement, signature claims and a data-availability root, by three parts that work only
+together:
+- **The guest:** 4,352 lines of zkDSL, with 147 placeholders. The host fills each from the
+  structural layout of the guest's own bytecode (`aggregation.rs`, `placeholder_map`).
+- **The host:** builds the guest's witness for each child from the child's real layout and its
+  proof's summary (`gen_verify`). It batches each child's deferred bytecode claim into the node's
+  own (`aggregate_deferred_claims`).
+- **The final verifier:** the root's deferred claim is discharged only natively, by the aggregation
+  crate's `EthereumProof::verify`, not by leanVM's plain `verify`. The local chain's builder checks a
+  leanSTARK dependency with `x14-prover verify`, which calls the plain one.
+
+So a fold for this experiment's statement changes all three:
+- a guest with the transfer statement as its leaf mode;
+- a host that builds and batches its children;
+- a verifier on the chain's side that discharges the deferred claim.
+
+None of the three exists for another statement at the pin. Prediction 4 is scored when the research
+owner has chosen whether that work is done here.
