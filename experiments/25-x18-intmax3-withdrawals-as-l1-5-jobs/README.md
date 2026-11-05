@@ -240,7 +240,7 @@ read back from its anvil as in run 1.
 
 **Killed for memory again, at the same step.** The test ran for 1,574 s and was stopped by the
 kernel's out-of-memory killer, holding 13,844,096 KiB, while wrapping the validity proof. One
-thread moved the peak by 12,048 KiB and made each proof two to three times slower:
+thread moved the peak by 12,048 KiB and made all but one proof two to three times slower:
 
 | Proof | Run 1, one thread per core | Run 2, one thread |
 |---|---:|---:|
