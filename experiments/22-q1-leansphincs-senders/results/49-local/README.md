@@ -23,7 +23,7 @@ Records of `q2-local.ts`, one directory per run.
     puts the dependency frame after the first `VERIFY`. In a ticket transaction that is between
     the sender's `VERIFY` and the paymaster's, which no recognized prefix allows. Experiment 22's
     rebuilt transactions put it after the last `VERIFY`, and are recognized.
-- `3-third-run/` (repository commit `458fc16`'s tree before this note, kohaku-rs `e6f1623`, whose
+- `3-third-run/` (repository commit `cf48862`, kohaku-rs `e6f1623`, whose
   dependency frame goes after the last `VERIFY`): all 18 block proofs valid. Arms 2, 3 and 6 as
   in run 2. The ticket transaction's prefix is now recognized, and refused on its gas: "prefix gas
   budget exceeded: 240000 > 100000 (MAX_VERIFY_GAS)". The local ethrex's pool runs EIP-8141's own
