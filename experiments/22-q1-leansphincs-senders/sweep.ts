@@ -124,7 +124,11 @@ for (const [i, r] of chosen.entries()) {
     subs += s.count
     return { ...f, target, data: s.data }
   }
-  const verify = verifyFrame({ scope: Approve.EXECUTION_AND_PAYMENT, target: null, execution: 30_000n, state: 0n })
+  // A fresh nonce key's slot is paid in the sender's VERIFY (amendment 4): the rebuilt VERIFY takes
+  // the state limit of the record's own.
+  let verifyState = 0n
+  if (t.type === '0x6') for (const f of frameTxFromJson(t as never).frames) if (f.mode === 1 && (f.flags & 3) !== 0 && (f.target === null || lower(f.target) === lower(t.sender))) verifyState = f.limits.state > verifyState ? f.limits.state : verifyState
+  const verify = verifyFrame({ scope: Approve.EXECUTION_AND_PAYMENT, target: null, execution: 30_000n, state: verifyState })
   const dep = X14.depFrame(X14.triple(X14.LEANSPHINCS_SCHEME, ZERO32, a.key))
   let frames: Frame[]
   let copiedFrom: number[]
@@ -253,7 +257,8 @@ function scoreOf(x: Rebuilt, rc: Json | null): Json {
     classical += 2800 * k1 + 6700 * p256
     terms.signatureList = -(2800 * k1 + 6700 * p256)
     if (x.shape === 'c') {
-      const own = x.removed.filter((m) => m.why === "the sender's own approval").reduce((s, m) => s + Number(recFrames[m.frame]?.execution ?? 0n) + Number(recFrames[m.frame]?.state ?? 0n), 0)
+      // Its execution only: the state gas in it is the nonce's, as in the new VERIFY (amendment 4).
+      const own = x.removed.filter((m) => m.why === "the sender's own approval").reduce((s, m) => s + Number(recFrames[m.frame]?.execution ?? 0n), 0)
       classical += own
       terms.recordVerify = -own
     }
@@ -264,7 +269,10 @@ function scoreOf(x: Rebuilt, rc: Json | null): Json {
   }
   if (!rc) return { recordGasUsed: hexInt(recRc.gasUsed), recordKeyCost: recKey, terms }
   const frs = (rc.frameReceipts ?? []).map((f: Json) => frameReceiptGas(f as never))
-  const newVerify = Number(frs[x.verifyIndex]?.execution ?? 0n) + Number(frs[x.verifyIndex]?.state ?? 0n)
+  // The new VERIFY's key check is its execution gas; its state gas is the nonce's, paid on both sides
+  // and so in both key costs (amendment 4).
+  const newVerify = Number(frs[x.verifyIndex]?.execution ?? 0n)
+  terms.newVerifyState = Number(frs[x.verifyIndex]?.state ?? 0n)
   const copied = x.copiedTo.reduce((s, k) => s + Number(frs[k]?.execution ?? 0n) + Number(frs[k]?.state ?? 0n), 0)
   const key = hexInt(rc.gasUsed) - copied
   terms.newVerify = newVerify
@@ -298,7 +306,9 @@ try {
       const built = await build(x)
       sent.push({ x, b: built, ...(await submit(built, a)) })
     }
-    const pending = new Map(sent.map((s) => [s.b.hash, s]))
+    // Only what a pool admitted can be mined; a refusal is final for this wave.
+    const admitted = (s: { nodeA: string; direct: string | null }) => s.nodeA.startsWith('admitted') || String(s.direct).startsWith('admitted')
+    const pending = new Map(sent.filter(admitted).map((s) => [s.b.hash, s]))
     const got = new Map<string, Json>()
     while (pending.size && Date.now() - t0 < WAVE_TIMEOUT_MS) {
       for (const h of [...pending.keys()]) { const rc = await receiptOf(h as Hex); if (rc) { got.set(h, rc); pending.delete(h) } }

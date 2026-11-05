@@ -301,3 +301,27 @@ rules below before any rebuilt transaction was built or sent. No prediction chan
 - **Arm 3** runs on the first mined rebuilt transaction's sender, after arm 5's scan. The bad
   form whose signature covers another hash goes last. The builder takes no proof that would leave
   a transaction out, so it may stall the chain, and stalling would be the result.
+
+## Amendment 4, 2026-11-05, after a trial and before arm 2
+
+A trial of `sweep.ts` on the first 12 transactions, with arms 3 and 5, is kept as
+[`results/5-sweep-trial.json`](results/5-sweep-trial.json). It is not arm 2's result. It found one
+fault in the rebuild, one fault in the measure and one in the waiting, all fixed before arm 2.
+No prediction changes.
+
+- **The rebuilt `VERIFY` takes the record's state limit.** Three of the twelve were refused by
+  the pool's simulation ("validation prefix frame reverted"). Their records pay a fresh nonce
+  key's storage slot, 97,920 or 195,840 state gas, in the sender's own `VERIFY`. The rebuilt
+  `VERIFY` had a state limit of zero.
+- **The new `VERIFY` is counted by its execution gas.** Its state gas is the nonce's, paid on both
+  sides, so it is in both key costs. Prediction 5's "new `VERIFY`" is the key check. For the same
+  reason, shape (c)'s "record's own `VERIFY`" is its execution gas.
+- **A wave waits only for what a pool admitted.** A refusal is final for that wave.
+
+What the trial showed, and arm 2 will meet again:
+- Two transactions were refused because a copied EIP-8272 frame names a test-network slot (8,523
+  and 96,462) that the new chain has not reached. That is chain history the local chain does not
+  have, like application state, and it is recorded as such.
+- After the signature over another transaction's hash was admitted, the chain stopped. The
+  builder rebuilt block 767's proof 21 times, and each time the import check refused it. The head
+  stayed at 766.

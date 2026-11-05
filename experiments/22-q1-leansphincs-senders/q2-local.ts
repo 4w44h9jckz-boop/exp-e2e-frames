@@ -1,7 +1,7 @@
 // The wallet's Q2, arms 2 to 6, on experiment 22's local chain (exp-frames experiment 49's
 // procedure, "Running arms 2 to 6 on a chain with EIP-8288", at its commit 7421e07), run here
-// because the two sessions do not share a network. Its binary is kohaku-rs's pq_wallet at f80adbe,
-// built with target-cpu=native.
+// because the two sessions do not share a network. Its binary is kohaku-rs's pq_wallet, at the
+// commit the command names, built with target-cpu=native.
 //
 // The chain is ethrex at the test network's commit with experiment 19's EIP-8288 patch as written.
 // Its genesis holds what the procedure asks for:
@@ -12,7 +12,7 @@
 // - the CREATE2 deployer, which ethrex's Hegota genesis already holds.
 // No secp256k1 key is set or used. Each arm runs against ethrex directly, as the procedure says.
 //
-// usage: npx tsx experiments/22-q1-leansphincs-senders/q2-local.ts <pq_wallet binary> <label>
+// usage: npx tsx experiments/22-q1-leansphincs-senders/q2-local.ts <pq_wallet binary> <label> <kohaku-rs commit>
 import { execFileSync } from 'node:child_process'
 import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -24,8 +24,8 @@ import * as L from '../19-x14-hash-based-stealth-addresses-under-8288/lean.js'
 
 const here = new URL('.', import.meta.url).pathname
 const root = new URL('../../', import.meta.url).pathname
-const [bin, label] = process.argv.slice(2)
-if (!bin || !label) throw new Error('usage: q2-local.ts <pq_wallet> <label>')
+const [bin, label, walletCommit] = process.argv.slice(2)
+if (!bin || !label || !/^[0-9a-f]{7,40}$/.test(walletCommit ?? '')) throw new Error('usage: q2-local.ts <pq_wallet> <label> <kohaku-rs commit>')
 // src/e2e loads the repository's .env on import, which sets PRIVATE_KEY. The procedure runs with it
 // unset, so it is removed here and from every child's environment (wallet() below).
 delete process.env.PRIVATE_KEY
@@ -112,8 +112,8 @@ try {
   const summary = {
     experiment: 22, for: 'exp-frames experiment 49, arms 2 to 6 on the local chain', run: label, date: new Date().toISOString(), repoCommit,
     procedure: 'exp-frames exp/49-pq-keys 7421e07, experiments/49-pq-keys/README.md, "Running arms 2 to 6 on a chain with EIP-8288"',
-    binary: 'kohaku-rs f80adbe, crates/frame-pq, example pq_wallet, RUSTFLAGS="-C target-cpu=native"',
-    command: `npx tsx experiments/22-q1-leansphincs-senders/q2-local.ts <pq_wallet> ${label}`,
+    binary: `kohaku-rs ${walletCommit}, crates/frame-pq, example pq_wallet, RUSTFLAGS="-C target-cpu=native"`,
+    command: `npx tsx experiments/22-q1-leansphincs-senders/q2-local.ts <pq_wallet> ${label} ${walletCommit}`,
     chain: { chainId: Number(chain.chainId), ethrex: chain.ethrexCommit, setting: chain.setting, funders, copiedFromTestnet: Object.fromEntries(Object.entries(copied).map(([a, c]) => [a, c.codeHash])) },
     builds, checks, logs,
   }
