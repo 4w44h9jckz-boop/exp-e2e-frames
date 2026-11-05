@@ -261,3 +261,62 @@ Record [`results/1-part-1.json`](results/1-part-1.json), from commit `2467f3f`:
   with no valid witness. The runner now hands every signature over before sending.
 
 No prediction is scored on run 1.
+
+## Results, run 2: part 1 (2026-11-05)
+
+Record [`results/2-part-1.json`](results/2-part-1.json), from commit `364056f`:
+`npx tsx experiments/26-x19-a-payment-rollup-with-nothing-held/run.ts 2-part-1`. Twelve
+transactions, every block's dependencies checked valid (8 of 8), and at the end the rollup's root
+was the public tree's.
+
+| Step | Outcome | Gas | `VERIFY` | dependencies | `SENDER`, with state |
+|---|---|---:|---:|---:|---:|
+| A: channel 0 pays channel 1 | mined | 508,288 | 20,340 | 36,000 | 40,747 + 281,520 |
+| A: channel 1 pays channel 0 | mined | 226,714 | 20,331 | 36,000 | 40,738 |
+| channel 0 queues the leaf B refused | mined | 467,140 | 7,110 | 6,000 | 41,921 + 293,760 |
+| A: channel 1's transfers 1 to 4, the queued leaf 0 to 3 blocks old | mined, each | 231,262 each | 22,620 | 36,000 | 42,937 |
+| A: channel 1's transfer, omitting the queued leaf after 4 blocks | **refused** by `VERIFY` | | | | |
+| A: the queued leaf | mined | 339,494 | 24,801 | 36,000 | 51,068 + 97,920 |
+| bad: a triple naming a key that is not the channel's | **refused** by `VERIFY` | | | | |
+| bad: a nullifier already used | **refused** by the nonce ("expected 1, got 0") | | | | |
+| bad: a leaf past its expiry | **refused** by `VERIFY` | | | | |
+
+`VERIFY` also paid 97,920 state gas for each keyed nonce's first use, which every new nullifier is.
+The first block's other state gas is the rollup's first block count and the aggregator's new
+account. The queue's is its first entry.
+
+The eleven user proofs each took 8,614 cycles. They took 65.6 to 105.6 ms, at 248,688 to 253,456
+bytes and at most 146.6 MB. The builder proved each block's leanSPHINCS dependencies in 2,859 to
+3,738 ms.
+
+### Predictions, as far as part 1 tests them
+
+| # | Prediction | Outcome |
+|---|---|---|
+| 1 | any aggregator can build a block | **held.** Aggregator A's blocks were mined with no signature in the transaction, and none from any party but the channel's members, as dependencies. All three bad blocks were refused |
+| 2 | the queue bounds the delay to $k$ blocks | **held.** The leaf was queued at count 2. Four blocks omitted it, the fifth was refused for omitting it, and the queued leaf was mined as rollup block 7, which is $q + k + 1$ |
+| 3 | no prover sees a witness | **held for part 1.** None of the eleven handed transfers held either channel's balance or salt, by a scan of everything the aggregator received |
+| 7 | every proof fits a device | **so far:** every proof took under 0.11 s and under 150 MB |
+| 8 | within an order of magnitude | **for part 1:** a user's proof takes about 0.1 s, against INTMAX3's quoted 25 s. A block costs 226,714 to 508,288 gas, the user's proof's check being the dependency frame's declared 30,000, against INTMAX3's quoted 11.2 million for one on-chain verification. The proof is checked by the block, off the EVM, as EIP-8288 has it |
+
+Predictions 4, 5, 6 and 9 are for the full run.
+
+## Amendment 3, 2026-11-05, before the full run
+
+**The backup goes in calldata, not a blob.** The local chain keeps no blob once its transaction is
+mined:
+- ethrex's `engine_getBlobs` reads only its pool;
+- its store keeps no sidecar;
+- no consensus client runs here.
+
+So a member could not read back a blob from the chain, and part 3 would test nothing. The sealed
+backup goes in the backup transaction's `SENDER` data instead. It is 1,664 bytes, every backup the
+same length: ML-KEM-768's ciphertext, an IV and a tag, the padded head, then zeros. The rollup's
+`VERIFY` checks one member's leanSPHINCS signature over its hash. The rollup records the hash and
+logs it. On a chain whose consensus client keeps sidecars, the same bytes go in a blob, and its
+cost is the blob's. That cost is not measured here.
+
+The tree a recovering member rebuilds is the rollup's `Transfer` logs. Each log carries the
+channel's new leaf. So the tree is rebuildable from L1 once every channel has moved, as both
+channels have by part 3. A channel untouched since genesis would need its genesis leaf published,
+which this model's genesis does not do.

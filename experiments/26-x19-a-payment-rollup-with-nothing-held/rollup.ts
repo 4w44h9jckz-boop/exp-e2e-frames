@@ -4,8 +4,10 @@
 //
 // Every transaction's sender and payer is the rollup (amendment 1). A channel's members appear only
 // as leanSPHINCS dependencies, and a user's proof as one leanSTARK dependency.
+import { createCipheriv, createDecipheriv } from 'node:crypto'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
+import { ml_kem768 } from '@noble/post-quantum/ml-kem.js'
 import { type Address, type Hex, bytesToHex, concatHex, hexToBytes, keccak256, pad, toHex } from 'viem'
 import { compileYul } from '../../src/exp-frames/contracts.js'
 import { Approve, type Frame, type FrameTx, NEW_ACCOUNT_STATE_GAS, STORAGE_SET_STATE_GAS, senderFrame, verifyFrame } from '../../src/exp-frames/frametx/index.js'
@@ -159,12 +161,57 @@ export function claimTx(chainId: bigint, h: Head, which: number, takerTo: Addres
   return tx(chainId, tagged('x19/claim', word(h.chan)), triples, data)
 }
 
-export function backupTx(chainId: bigint, h: Head, which: number, versionedHash: Hex, blockCount: bigint): FrameTx {
+// ---- the member's state, sealed to its own key (amendment 3: in calldata, one size) ----
+
+/** Every sealed backup is this long: ML-KEM-768's 1,088-byte ciphertext, a 12-byte IV, a 16-byte
+ * tag, 512 bytes of padded head, then zeros to a whole number of words. */
+export const BACKUP_BYTES = 1664
+const PLAIN_BYTES = 512
+/** The member's ML-KEM-768 key pair, from its seed alone. */
+export function kemKeys(seed: Uint8Array) {
+  const half = (i: number) => hexToBytes(keccak256(concatHex([bytesToHex(seed), toHex(`exp-e2e-frames/26/kem/${i}`)])))
+  return ml_kem768.keygen(new Uint8Array([...half(0), ...half(1)]))
+}
+export type Opened = { chan: number; balance: bigint; salt: Hex; recipient: Address; key0: Hex; key1: Hex }
+/** The head, sealed to the member's own key and padded, so every backup is BACKUP_BYTES long. */
+export function sealBackup(seed: Uint8Array, h: Head): Hex {
+  const plain = JSON.stringify({ v: 1, chan: h.chan, balance: h.balance.toString(), salt: h.salt, recipient: h.recipient, key0: h.members[0].key, key1: h.members[1].key })
+  if (plain.length > PLAIN_BYTES) throw new Error('the head does not fit its padding')
+  const pt = Buffer.alloc(PLAIN_BYTES, 0x20)
+  pt.write(plain)
+  const { publicKey } = kemKeys(seed)
+  const { cipherText, sharedSecret } = ml_kem768.encapsulate(publicKey)
+  const iv = crypto.getRandomValues(new Uint8Array(12))
+  const c = createCipheriv('aes-256-gcm', sharedSecret, iv)
+  const ct = Buffer.concat([c.update(pt), c.final()])
+  const out = new Uint8Array(BACKUP_BYTES)
+  out.set(cipherText, 0)
+  out.set(iv, 1088)
+  out.set(c.getAuthTag(), 1100)
+  out.set(ct, 1116)
+  return bytesToHex(out)
+}
+/** A backup opened with the member's seed alone; null if it is not the member's. */
+export function openBackup(seed: Uint8Array, sealed: Hex): Opened | null {
+  const b = hexToBytes(sealed)
+  if (b.length !== BACKUP_BYTES) return null
+  const { secretKey } = kemKeys(seed)
+  try {
+    const key = ml_kem768.decapsulate(b.slice(0, 1088), secretKey)
+    const d = createDecipheriv('aes-256-gcm', key, b.slice(1088, 1100))
+    d.setAuthTag(b.slice(1100, 1116))
+    const pt = Buffer.concat([d.update(b.slice(1116, 1116 + PLAIN_BYTES)), d.final()]).toString('utf8').trim()
+    const j = JSON.parse(pt) as { chan: number; balance: string; salt: Hex; recipient: Address; key0: Hex; key1: Hex }
+    return { ...j, balance: BigInt(j.balance) }
+  } catch { return null }
+}
+export const backupMessage = (sealed: Hex): Hex => keccak256(sealed)
+export function backupTx(chainId: bigint, h: Head, which: number, sealed: Hex, blockCount: bigint): FrameTx {
   const key = h.members[which].key
-  const triples = X14.triple(X14.LEANSPHINCS_SCHEME, versionedHash, key)
-  const data = head(SEL.backup as Hex, { key0: h.members[0].key, key1: h.members[1].key, recipient: h.recipient, chan: h.chan, which })
+  const triples = X14.triple(X14.LEANSPHINCS_SCHEME, backupMessage(sealed), key)
+  const data = concatHex([head(SEL.backup as Hex, { key0: h.members[0].key, key1: h.members[1].key, recipient: h.recipient, chan: h.chan, which }), sealed])
   const nonceKey = keccak256(concatHex([tagWord('x19/backup'), word(h.chan), word(blockCount)]))
-  return tx(chainId, nonceKey, triples, data, [versionedHash])
+  return tx(chainId, nonceKey, triples, data)
 }
 
 /** The members' signatures on T, handed to the local chain's builder before any transaction that

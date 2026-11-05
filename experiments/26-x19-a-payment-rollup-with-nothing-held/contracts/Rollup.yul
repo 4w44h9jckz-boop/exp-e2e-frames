@@ -20,7 +20,9 @@
 //           nonce key: keccak256("x19/claim" || chan); C = keccak256("x19/claim" || rollup || chan
 //           || takerTo || takerFee)
 //   backup  [0] VERIFY  [1] DEP: (0x10, V, key)                                  [2] SENDER backup
-//           one blob; V its versioned hash; nonce key: keccak256("x19/backup" || chan || block)
+//           the sealed backup in the frame's data (amendment 3: the local chain keeps no blob once
+//           its transaction is mined); V = keccak256 of it; nonce key: keccak256("x19/backup" ||
+//           chan || block count)
 // where key is either member's, named by `which`. Every SENDER frame's data starts with the same
 // head, so VERIFY reads the same offsets:
 //   0x04 key0  0x24 key1  0x44 recipient  0x64 chan  0x84 which
@@ -28,13 +30,14 @@
 //   0xa4 c0  0xc4 c1  0xe4 to  0x104 amountCommit  0x124 fee  0x144 expiry  0x164 nullifier
 //   0x184 feeTo  0x1a4 path[20]  (apply only)
 // claim goes on with  0xa4 balance  0xc4 salt  0xe4 c  0x104 takerTo  0x124 takerFee  0x144 path[20]
+// backup goes on with 0xa4 the sealed backup, BACKUP_BYTES long
 //
 // k and the expiry count rollup blocks (amendment 1). The rollup refuses, in VERIFY, any block that
 // omits the oldest unincluded queued leaf once K rollup blocks have followed its queueing.
 //
 // Storage: 0 the root; 1 the rollup's block count; 2 the queue's tail; 3 its head;
 // mapslot(i, 4) the queued T; mapslot(i, 5) the block count when queued; mapslot(chan, 6) frozen;
-// mapslot(chan, 7) claimed; mapslot(chan, 8) the latest backup's versioned hash;
+// mapslot(chan, 7) claimed; mapslot(chan, 8) the latest backup's hash;
 // mapslot(chan, 9) the channel's kh, written at genesis.
 // code = <this object> || VK (32 bytes), the user's program key.
 object "Rollup" {
@@ -176,14 +179,16 @@ object "Rollup" {
             }
 
             function vBackup(s, chan, key) {
-                if iszero(eq(frameparam(0x04, s), 0xa4)) { revert(0, 0) }
-                if iszero(eq(txparam(0x07), 1)) { revert(0, 0) }     // exactly one blob
+                // Every backup has one size, so a backup says nothing by its length.
+                if iszero(eq(frameparam(0x04, s), add(0xa4, BACKUP_BYTES()))) { revert(0, 0) }
+                if txparam(0x07) { revert(0, 0) }
                 mstore(0x400, 0x7831392f6261636b7570)                // "x19/backup"
                 mstore(0x420, chan)
                 mstore(0x440, sload(1))
                 if iszero(eq(txparam(0x10), keccak256(0x400, 0x60))) { revert(0, 0) }
                 if iszero(eq(frameparam(0x04, 1), 96)) { revert(0, 0) }
-                triple(0, 0x10, blobhash(0), key)
+                framedatacopy(0x1000, 0xa4, BACKUP_BYTES(), s)
+                triple(0, 0x10, keccak256(0x1000, BACKUP_BYTES()), key)
             }
 
             // The queue's rule: once the oldest unincluded queued leaf is more than K rollup blocks
@@ -266,9 +271,11 @@ object "Rollup" {
             function doBackup() {
                 if iszero(eq(caller(), address())) { revert(0, 0) }
                 let chan := calldataload(0x64)
-                sstore(mapslot(chan, 8), blobhash(0))
-                // Backup(uint256 indexed chan, bytes32 versionedHash, uint256 atBlock)
-                mstore(0, blobhash(0))
+                calldatacopy(0x1000, 0xa4, BACKUP_BYTES())
+                let v := keccak256(0x1000, BACKUP_BYTES())
+                sstore(mapslot(chan, 8), v)
+                // Backup(uint256 indexed chan, bytes32 backupHash, uint256 atBlock)
+                mstore(0, v)
                 mstore(0x20, sload(1))
                 log2(0, 0x40, 0x81b53c490562904dc127060d5eacc6e9ac7019c1be55a1439a496fe00a9a5caf, chan)
                 stop()
@@ -348,6 +355,7 @@ object "Rollup" {
             }
 
             function K() -> v { v := 4 }
+            function BACKUP_BYTES() -> v { v := 1664 }
             function VK() -> v {
                 codecopy(0x60, sub(codesize(), 32), 32)
                 v := mload(0x60)
@@ -364,6 +372,9 @@ object "Rollup" {
             function txparam(param) -> v { v := verbatim_1i_1o(hex"b0", param) }
             function frameparam(param, frame) -> v { v := verbatim_2i_1o(hex"b3", frame, param) }
             function framedataload(offset, frame) -> v { v := verbatim_2i_1o(hex"b1", offset, frame) }
+            function framedatacopy(memOffset, dataOffset, length, frame) {
+                verbatim_4i_0o(hex"b2", memOffset, dataOffset, length, frame)
+            }
             function approve(scope) { verbatim_3i_0o(hex"aa", 0, 0, scope) }
         }
     }
