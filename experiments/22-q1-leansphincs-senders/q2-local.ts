@@ -26,7 +26,9 @@ const here = new URL('.', import.meta.url).pathname
 const root = new URL('../../', import.meta.url).pathname
 const [bin, label] = process.argv.slice(2)
 if (!bin || !label) throw new Error('usage: q2-local.ts <pq_wallet> <label>')
-if (process.env.PRIVATE_KEY) throw new Error('PRIVATE_KEY is set: the procedure runs with it unset')
+// src/e2e loads the repository's .env on import, which sets PRIVATE_KEY. The procedure runs with it
+// unset, so it is removed here and from every child's environment (wallet() below).
+delete process.env.PRIVATE_KEY
 const out = join(here, 'results', '49-local', label)
 mkdirSync(out, { recursive: true })
 const repoCommit = (await run('git', ['rev-parse', 'HEAD'], { cwd: root })).trim()

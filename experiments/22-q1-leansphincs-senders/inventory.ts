@@ -76,10 +76,40 @@ function precompileCalls(code: string): Set<number> {
   return found
 }
 
+// Contracts a target's code names: PUSH20 immediates, and the last 16 words where an address is
+// usually appended to the code (a verifier's or a hasher's). One level of them is scanned too, so a
+// pool that hands its proof to a separate verifier shows that verifier's pairing.
+function addressesIn(code: string): string[] {
+  const hex = code.replace(/^0x/, '')
+  const out = new Set<string>()
+  const b = Buffer.from(hex, 'hex')
+  for (let i = 0; i < b.length; i++) {
+    const op = b[i]
+    if (op >= 0x60 && op <= 0x7f) {
+      const n = op - 0x5f
+      if (n === 20) out.add('0x' + b.subarray(i + 1, i + 21).toString('hex'))
+      i += n
+    }
+  }
+  for (let k = 1; k <= 16 && hex.length >= 64 * k; k++) {
+    const w = hex.slice(hex.length - 64 * k, hex.length - 64 * (k - 1))
+    if (w.startsWith('0'.repeat(24)) && !w.slice(24).startsWith('0'.repeat(36))) out.add('0x' + w.slice(24))
+  }
+  return [...out]
+}
 const codeCache = new Map<string, Set<number>>()
-async function calls(addr: string): Promise<Set<number>> {
-  if (!codeCache.has(addr)) codeCache.set(addr, precompileCalls(await rpc<string>('eth_getCode', [addr, 'latest'])))
-  return codeCache.get(addr)!
+async function calls(addr: string, depth = 1): Promise<Set<number>> {
+  const key = `${addr}/${depth}`
+  if (!codeCache.has(key)) {
+    const code = await rpc<string>('eth_getCode', [addr, 'latest'])
+    const found = precompileCalls(code)
+    if (depth > 0) for (const a of addressesIn(code)) {
+      if (a === addr) continue
+      for (const p of await calls(a, depth - 1)) found.add(p)
+    }
+    codeCache.set(key, found)
+  }
+  return codeCache.get(key)!
 }
 
 // Resolved by hand, after reading each experiment's README: a key check that is a committee's,
@@ -139,7 +169,7 @@ const commit = execSync('git rev-parse HEAD', { cwd: here }).toString().trim()
 writeFileSync(join(here, 'results', `${label}.json`), JSON.stringify({
   experiment: 22, arm: 1, run: label, date: new Date().toISOString(), repoCommit: commit, rpc: RPC,
   command: `npx tsx experiments/22-q1-leansphincs-senders/inventory.ts ${label}`,
-  method: 'every 32-byte hex string in experiments 01 to 18\'s results/*.json, resolved with eth_getTransactionByHash; (c) against (d) from a static scan of each VERIFY target\'s code for a STATICCALL to 0x01 or 0x100, a heuristic, then the hand resolutions in RESOLVE',
+  method: 'every 32-byte hex string in experiments 01 to 18\'s results/*.json, resolved with eth_getTransactionByHash; (c) against (d) from a static scan of each VERIFY target\'s code, and of the contracts its code names one level down, for a STATICCALL to 0x01 or 0x100, a heuristic, then the hand resolutions in RESOLVE',
   resolutions: RESOLVE,
   summary, transactions: out,
 }, null, 2) + '\n')
