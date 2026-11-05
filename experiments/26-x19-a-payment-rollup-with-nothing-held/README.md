@@ -218,3 +218,25 @@ Working out the contract fixed six choices the design above left open. None chan
   recipient beside the keys:
 
   $$\mathit{keys} = H(\mathit{key}_0, \mathit{key}_1, \mathit{recipient})$$
+
+## Amendment 2, 2026-11-05, before the first run
+
+The contract and runner fixed five more choices. Each is stated before any transaction.
+
+- **Every transaction's sender is the rollup:** blocks, the queue, backups, the freeze and the
+  claim. So no account in the runs holds a key, and the leanSPHINCS accounts of the design above
+  are not needed. Members sign only as dependencies. Prediction 9 is unchanged.
+- **Channels are registered and funded at genesis.** The rollup stores each channel's keys hash,
+  and the root of the two channels' leaves, with 5 ETH in each. Deposits are out of scope.
+- **The forged-signature block's form.** On the patched chain, a dependency whose signature does not
+  verify halts the builder, as experiment 22 found. So the forged block names, in its triple, a key
+  that is not the channel's, with that key's own valid signature. The rollup's `VERIFY` refuses
+  it, because a triple's key must be the channel's. A wrong signature under the channel's own key
+  is not sent.
+- **The queue's boundary.** For a leaf queued at rollup block count $q$, blocks $q + 1$ to $q + k$
+  may omit it, and block $q + k + 1$ must include it. Prediction 2 is scored that way.
+- **The rollup is the escrow.** The claim's payout is released by the rollup's own transaction,
+  which pays its gas from the amount it releases. So the recipient holds no ETH and sends nothing.
+  This is the self-paying escrow of prediction 6. The claim reveals the channel's opening, so it
+  needs no proof, as amendment 1 says. A taker's fee needs one member's signature over the taker
+  and the fee.
