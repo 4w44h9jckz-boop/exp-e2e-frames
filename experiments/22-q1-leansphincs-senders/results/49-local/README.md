@@ -42,3 +42,22 @@ Records of `q2-local.ts`, one directory per run.
     with "validation prefix frame reverted" for its prefix of a root `VERIFY`, a pool `VERIFY`,
     a pay `VERIFY`, then the dependency frame. Copy (a) of the second seed stopped at the same
     step.
+- `5-fifth-run/` (repository commit `62c67ca`, kohaku-rs `8688508`, whose pool, `DependencyFramePool`,
+  admits the dependency frame; the local pool's VERIFY budget at 500,000): all 22 block proofs valid.
+  - **Arms 2, 3 and 6** as before. Arm 6's deposit, into the new pool, cost 3,426,312.
+  - **Arms 4 and 5 ran end to end:**
+    - the bound-ticket spend, at 647,461 gas;
+    - copies (a) to (c);
+    - the withdrawal with the pool as its own sender, paid by a bound ticket, at 698,067;
+    - the leanSPHINCS recipient deploying itself and sending a tenth back, paying its own gas, at
+      337,177.
+
+    So `3-tickets-local.json` was written.
+  - **Copy (a) of the second seed was sent, as `SEND_COPY_A` asks.** Its binder's signature
+    covers another hash, its simulation passed, and the local pool admitted it. It then held the
+    sender's nonce, so copies (b) and (c) and the rest of that arm were refused ("Attempted to
+    replace a pooled transaction with an underpriced transaction"). The run ended before a block
+    included it.
+  - On this chain such a transaction halts block production when it is included, since the builder
+    does not drop it (experiment 22, arm 3). A node that checks the signature first refuses it at
+    the node (the node-path pass).
