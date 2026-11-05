@@ -40,7 +40,7 @@ const AMOUNT = 10n ** 15n
 const accountAbi = parseAbi(['function execute(address to, uint256 value, bytes data)'])
 
 const chain = await startLocalChain({
-  root, label: `q1-${label}`, setting: 'written', prover: L.PROVER, programs: join(root, 'experiments/19-x14-hash-based-stealth-addresses-under-8288/programs'),
+  root, label: `q1-${label}`, setting: 'written', chainId: 8141, prover: L.PROVER, programs: join(root, 'experiments/19-x14-hash-based-stealth-addresses-under-8288/programs'),
   alloc: { [account]: { balance: '0x8ac7230489e80000', code } }, // 10 ETH
 })
 console.log(`local chain ${chain.chainId}, ethrex ${chain.ethrexCommit.slice(0, 8)} (${chain.setting}), account ${account} with ${await chain.client.getBalance({ address: account })} wei`)

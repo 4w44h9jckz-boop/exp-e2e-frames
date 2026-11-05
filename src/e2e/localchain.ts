@@ -39,6 +39,9 @@ export async function startLocalChain(o: {
   prover: string
   programs: string
   alloc?: Alloc
+  /** The genesis chain id. skandha's surface profiles fix theirs (`hegota-testnet` is 8141), so a
+   * chain that two skandha nodes front takes 8141; ethrex's own Hegota fixture has 9. */
+  chainId?: number
   port?: number
   authPort?: number
 }): Promise<LocalChain> {
@@ -52,6 +55,7 @@ export async function startLocalChain(o: {
   const genesis = JSON.parse(readFileSync(join(ethrexDir, 'fixtures/genesis/l1-hegota.json'), 'utf8'))
   for (const [a, v] of Object.entries(o.alloc ?? {})) genesis.alloc[a.toLowerCase()] = v
   genesis.baseFeePerGas = '0x7'
+  if (o.chainId !== undefined) genesis.config.chainId = o.chainId
   const genesisFile = join(dir, 'genesis.json')
   writeFileSync(genesisFile, JSON.stringify(genesis))
   const port = o.port ?? 18545
