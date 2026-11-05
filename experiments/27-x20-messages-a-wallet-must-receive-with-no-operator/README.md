@@ -171,3 +171,39 @@ as leanSPHINCS dependencies, and each pays from a deposit credited at genesis.
 - `x20.ts`: sealing, tags and vouchers.
 - `run.ts`: arms 1 to 6 on the local chain.
 - `results/`: each run's record, with its commit, command and inputs.
+
+## Amendment 1, 2026-11-05, before any code
+
+Working out the contract and the formats fixed eight choices the design left open. None changes a
+prediction.
+
+- **One contract, the board, holds the directory too.** It is the sender and payer of every
+  transaction, as experiment 26's rollup is, and it debits each transaction's maximum cost from
+  the paying party's deposit:
+  - a directory write is paid by the writer's key;
+  - a post by its senders' fees, whose sum must cover the cost, the relay keeping the rest;
+  - an archiver's redemption by the recipient's voucher.
+- **Deposits are credited at genesis,** one per leanSPHINCS key. Deposits made later are out of
+  scope.
+- **The announcement.** On first contact the envelope opens with an ML-KEM-768 ciphertext to the
+  recipient's directory key, and its announcement is marked first contact. The recipient tries to
+  decapsulate each such envelope it reads. After first contact, the pair's shared secret gives the
+  tag for each later message, $\mathit{tag}_i = H(\mathit{ss}, i)$. The recipient matches tags
+  without decrypting.
+- **One size class.** Every payload's plaintext is padded to 1,024 bytes. An envelope is 2,140 bytes
+  on first contact, with the ciphertext, an IV, a tag and the padded plaintext, and 1,052 bytes
+  after it.
+- **Blob packing.** A relay packs envelopes 31 bytes to each 32-byte field element, so every
+  element is below the BLS modulus. The board logs each announcement with:
+  - the blob's versioned hash;
+  - the envelope's offset and length;
+  - the envelope's hash, which the sender's voucher signs.
+- **Where archivers get blobs.** A relay hands each blob it posts to every archiver it knows. A
+  recipient checks the blob against the versioned hash the board logged, and the envelope against
+  the hash its sender signed.
+- **An archiver is paid** when it redeems a recipient's signed voucher, in a transaction of its own,
+  one a fetch here.
+- **The payloads stand for the real ones.** A note's opening is a value, a blinding and a leaf
+  index, as experiment 18's notes have them. A recovery share is 32 bytes standing for a share of
+  exp-frames experiment 49's recovery. A checkpoint is 600 bytes of document. Neither the spend nor
+  the recovery is run here. Prediction 5 compares their costs against the recorded ones.
