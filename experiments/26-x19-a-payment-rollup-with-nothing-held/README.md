@@ -320,3 +320,26 @@ The tree a recovering member rebuilds is the rollup's `Transfer` logs. Each log 
 channel's new leaf. So the tree is rebuildable from L1 once every channel has moved, as both
 channels have by part 3. A channel untouched since genesis would need its genesis leaf published,
 which this model's genesis does not do.
+
+## Run 3 (2026-11-05): parts 1, 3 and 4 up to the claim, which failed on the runner's limit
+
+Record [`results/3-full.json`](results/3-full.json), from commit `25e3ca8`:
+`npx tsx experiments/26-x19-a-payment-rollup-with-nothing-held/run.ts 3-full`.
+
+- **Part 1 ran as in run 2,** every step with the same outcome. Each block's gas was within 48 of
+  run 2's.
+- **Both backups were mined, each 1,664 bytes,** at 334,641 and 236,721 gas.
+- **Part 3, recovery, held.** From the seed alone, channel 0's member:
+  - found both backups in the rollup's logs;
+  - opened the latest, which another member's seed could not;
+  - rebuilt a head identical to the deleted one;
+  - rebuilt from the `Transfer` logs a tree whose root is the rollup's.
+- **Part 4 began.** A taker sent the freeze, signed by one member, and it was mined (235,218 gas).
+  A transfer from the frozen channel was then refused by `VERIFY`.
+- **The claim was mined, and its `SENDER` frame failed.** It used all of its 150,000 execution
+  gas. The claim writes one new slot, its claimed flag at 97,920 state gas. It also pays two new
+  accounts, the taker and the recipient, at 183,600 each. That is 465,120 state gas against the
+  frame's 400,000, the runner's limit.
+
+The runner now gives every `SENDER` frame 600,000 of state gas, and the rollup's `VERIFY` still
+asks for at least 300,000. No prediction is scored on run 3; the full run is run 4.
