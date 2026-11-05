@@ -414,3 +414,19 @@ So a fold for this experiment's statement changes all three:
 
 None of the three exists for another statement at the pin. Prediction 4 is scored when the research
 owner has chosen whether that work is done here.
+
+### Prediction 4, scored (2026-11-05)
+
+The research owner chose to record the fold and not to build it here.
+
+**Prediction 4 is shown wrong as stated: the fold was not written at leanVM's pin.** The reason is
+the reading above. At `3cbac04`, leanVM's recursion is one statement's guest, host and native
+verifier, built together, and a fold for another statement changes all three, the chain's verifier
+among them. The fallback was measured in runs 2 to 4: one transfer a block, at about 231,000 gas a
+transfer once the rollup's slots exist. A block of $n$ transfers would need $n$ leanSTARK
+dependencies, which one transaction does not carry (`docs/leanvm-program-layout.md`), or a fold.
+So the model's throughput is one transfer per block transaction. Whether a general same-program
+recursion makes folding cheap is left open.
+
+X19's record ends here. Seven of nine predictions held. Prediction 3 held for the aggregators and
+the builder but not for the claim's taker, and prediction 4 is not written at the pin.
