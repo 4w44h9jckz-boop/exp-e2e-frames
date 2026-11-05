@@ -409,3 +409,28 @@ payment both, so it now takes the largest state limit among all the approving `V
 replaces, the payer's included. Amendment 5's node-path pass runs with the fix. It is therefore
 also arm 2's second run over the same 368 transactions, and the 17 are scored there. Nothing
 else in amendment 5 changes, and no prediction changes.
+
+## Results, arm 4 (2026-11-05)
+
+Record [`results/7-testnet.json`](results/7-testnet.json), at commit `4d6a57d`:
+`npx tsx experiments/22-q1-leansphincs-senders/testnet.ts 7-testnet 6-sweep`. A first attempt
+stopped at the funder's gas estimate, which the client priced at its default fee cap; nothing was
+sent.
+
+One transaction of each shape was taken: the first arm 2 mined with every frame succeeding, and
+neither a blob nor a creation. Each was rebuilt by arm 2's rules, with the triple in the
+modelled account's own `VERIFY` data. The funder deployed and funded each account in one call to
+the CREATE2 deployer (617,775 to 618,015 gas), and sent nothing else.
+
+| Shape | Record | Node A | Node B | Mined | Gas | Signature, checked off chain |
+|---|---|---|---|---|---|---|
+| (a) | experiment 12, a type-2 transfer | admitted | received | block 701,216 | 25,286 | verified |
+| (b) | experiment 03, a frame transfer | admitted | received | block 701,217 | 25,286 | verified |
+| (c) | experiment 13, an account with its own key | admitted | received | block 701,218 | 158,422 | verified |
+
+**Prediction 8 held:** node A admitted each rebuilt shape with the triple in its `VERIFY` data,
+under the test network's profile, and node B received each one by gossip. The (c) account's
+implementation is the original sender's own code, at its address; the other two had codeless
+senders. The modelled `VERIFY` cost 299 gas. The (a) and (b) transfers cost less than their
+records (204,600 and 210,982), because their recipients now exist and no account is created.
+That gas is not the key's, and arm 4 scores admission only.
