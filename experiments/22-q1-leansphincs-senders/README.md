@@ -325,3 +325,34 @@ What the trial showed, and arm 2 will meet again:
 - After the signature over another transaction's hash was admitted, the chain stopped. The
   builder rebuilt block 767's proof 21 times, and each time the import check refused it. The head
   stayed at 766.
+
+## Amendment 5, 2026-11-05, before the node-path pass
+
+skandha now has a node path for EIP-8288 master's dependency frames, at `ef266b3` on its
+`claude/zealous-ptolemy-g7w9h5` branch: the surface profile `eip-8288-master` with the chain id as
+a parameter, and a JSON-RPC method, `frames_sendWrapper`, that takes a mode-0 wrapper beside its
+transaction and checks each leanSPHINCS signature with experiment 19's prover (`verify-sphincs`,
+from `3209255`). Amendment 2 recorded prediction 3 as shown wrong for skandha at `ede942f`. That
+result stands. This pass asks the same question at the new pin, and changes no prediction.
+
+- **The pass** is `sweep.ts --node-path`, pinned in `pins.json` as `skandhaNodePath`. It runs after
+  arm 2's record, on a fresh local chain, over the same 368 transactions by the same rules.
+- **Both nodes** run under `eip-8288-master`, with chain id 8141 and the prover. Each rebuilt
+  transaction goes to node A as a wrapper:
+  - its own triple, with the zero `data_hash` written as the signature hash;
+  - the witness's 7,740-byte signature as the triple's proof.
+
+  A refusal at node A still goes on to the local ethrex's pool, as amendment 2 says, so the
+  chain's side is measured either way.
+- **Prediction 3 is scored at this pin:** node A admits every rebuilt transaction, and the chain
+  mines it.
+- **Node B holds no transaction with a dependency.** The node path relays none, and a copy from a
+  peer is answered "ignore". That is scored as the expected outcome, not as a refusal.
+- **Arm 3's forms go to node A only.** The pool is not asked, so a form node A refuses never
+  reaches the builder:
+  - the triple naming another key goes as a wrapper;
+  - the transaction with no dependency frame goes by `eth_sendRawTransaction`;
+  - the signature over another hash goes as a wrapper, where the expected answer is
+    `ErrWrapperProof`.
+
+  Which of the three node A stops, and whether the chain still moves after them, is recorded.

@@ -4,7 +4,11 @@
 // signature; then three bad forms of one rebuilt transaction. No secp256k1 key is used: every
 // account is funded at genesis, and the test network is only read.
 //
-// usage: npx tsx experiments/22-q1-leansphincs-senders/sweep.ts <n>-<label> [--limit N]
+// usage: npx tsx experiments/22-q1-leansphincs-senders/sweep.ts <n>-<label> [--limit N] [--node-path]
+//
+// --node-path (Amendment 5): skandha at the pin `skandhaNodePath`, both nodes under the surface
+// profile eip-8288-master with the local chain id and experiment 19's prover, and each rebuilt
+// transaction sent to node A by frames_sendWrapper with its witness's signature as the proof.
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { type Address, type Hex, bytesToHex, concatHex, getAddress, getContractAddress, keccak256, pad } from 'viem'
@@ -25,6 +29,7 @@ const label = process.argv[2]
 if (!label || !/^\d+-[a-z0-9-]+$/.test(label)) throw new Error('usage: sweep.ts <n>-<label> [--limit N]')
 const limitArg = process.argv.indexOf('--limit')
 const LIMIT = limitArg > 0 ? Number(process.argv[limitArg + 1]) : Infinity
+const NODE_PATH = process.argv.includes('--node-path')
 mkdirSync(join(here, 'results'), { recursive: true })
 const pins = JSON.parse(readFileSync(join(here, 'pins.json'), 'utf8')) as Record<string, Pin>
 const repoCommit = (await run('git', ['rev-parse', 'HEAD'], { cwd: root })).trim()
@@ -198,7 +203,9 @@ const chain = await startLocalChain({
 })
 const local = chain.client
 console.log(`local chain ${chain.chainId}, ethrex ${chain.ethrexCommit.slice(0, 8)} (${chain.setting})`)
-const skandha = await checkout('skandha', pins.skandha, join(root, 'work'))
+const skandhaPin = NODE_PATH ? pins.skandhaNodePath : pins.skandha
+const skandha = await checkout('skandha', skandhaPin, join(root, 'work'))
+const nodeArgs = NODE_PATH ? ['--frames.profile', 'eip-8288-master', '--frames.chainId', String(chain.chainId), '--frames.prover', L.PROVER] : []
 await buildSkandha(skandha)
 const stamp = Date.now()
 const config = join(chain.dir, 'skandha.json')
@@ -222,7 +229,7 @@ const sendRaw = async (url: string, raw: Hex) => {
   const body = (await res.json()) as { result?: string; error?: unknown }
   return body.error ? `refused: ${JSON.stringify(body.error).slice(0, 300)}` : `admitted: ${body.result}`
 }
-type Built = { tx: FrameTx; raw: Hex; hash: Hex; sighash: Hex; witness: string; signMs: number; sim: Json }
+type Built = { tx: FrameTx; raw: Hex; hash: Hex; sighash: Hex; key: Hex; signature: string; witness: string; signMs: number; sim: Json }
 async function build(x: { a: Account; frames: Frame[]; nonceKeys: bigint[]; fees: FrameTx['fees']; blobs: number }, o: { sign?: Uint8Array; seedFor?: Uint8Array; message?: (h: Hex) => Hex } = {}): Promise<Built> {
   const nonceSeq = await getNonceSeq(local, x.a.address, x.nonceKeys)
   const sidecar = x.blobs ? B.sidecarOf(Array.from({ length: x.blobs }, randomBlob)) : null
@@ -236,12 +243,23 @@ async function build(x: { a: Account; frames: Frame[]; nonceKeys: bigint[]; fees
   const witness = chain.putSphincsWitness(0x10, sighash, key, { publicKey: signed.publicKey, signature: signed.signature, message: signed.message })
   const sim = (await simulateFrameTx(local, tx).catch((e) => ({ error: String(e).slice(0, 300) }))) as Json
   const raw = sidecar ? B.frameTxWithBlobs(tx, sidecar) : serializeFrameTx(tx)
-  return { tx, raw, hash: frameTxHash(tx), sighash, witness, signMs: signed.signMs, sim: { valid: sim.valid, violation: sim.violation, executionStatus: sim.executionStatus, gasUsed: sim.gasUsed, error: sim.error } }
+  return { tx, raw, hash: frameTxHash(tx), sighash, key, signature: signed.signature, witness, signMs: signed.signMs, sim: { valid: sim.valid, violation: sim.violation, executionStatus: sim.executionStatus, gasUsed: sim.gasUsed, error: sim.error } }
 }
-async function submit(b: Built, a: Node): Promise<{ nodeA: string; direct: string | null }> {
-  const nodeA = await sendRaw(rpcUrlOf(a), b.raw)
+// Under --node-path, a transaction with a dependency goes to node A as a mode-0 wrapper: its own
+// triple, the zero data_hash written as the signature hash, and the witness's signature as proof.
+async function wrapper(url: string, b: Built) {
+  const params = [{ transactions: [b.raw], mode: 0, deps: [[16, b.sighash, b.key]], proofs: [b.signature] }]
+  const res = await fetch(url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'frames_sendWrapper', params }) })
+  const body = (await res.json()) as { result?: unknown[]; error?: unknown }
+  if (body.error) return `refused: ${JSON.stringify(body.error).slice(0, 300)}`
+  const entry = String((body.result ?? [])[0] ?? '')
+  return /^0x[0-9a-fA-F]{64}$/.test(entry) ? `admitted: ${entry}` : `refused: ${entry.slice(0, 300)}`
+}
+async function submit(b: Built, a: Node, o: { direct?: boolean } = {}): Promise<{ nodeA: string; direct: string | null }> {
+  const hasDependency = b.tx.frames.some((f) => f.mode === X14.DEP_VERIFY_FRAME_MODE)
+  const nodeA = NODE_PATH && hasDependency ? await wrapper(rpcUrlOf(a), b) : await sendRaw(rpcUrlOf(a), b.raw)
   let direct: string | null = null
-  if (!nodeA.startsWith('admitted')) direct = await sendRaw(chain.url, b.raw)
+  if (!nodeA.startsWith('admitted') && o.direct !== false) direct = await sendRaw(chain.url, b.raw)
   return { nodeA, direct }
 }
 const receiptOf = (h: Hex) => local.request({ method: 'eth_getTransactionReceipt', params: [h] } as never) as Promise<Json | null>
@@ -291,9 +309,9 @@ function scoreOf(x: Rebuilt, rc: Json | null): Json {
 }
 
 try {
-  const a = await startNode({ dir: skandha, name: 'A', config, dataDir: join(chain.dir, `a-${stamp}`), apiPort: 15337, wsPort: 15437, p2pPort: 15000, log: join(chain.dir, 'a.frames.jsonl'), out: join(chain.dir, 'a.out'), handoff: true })
+  const a = await startNode({ dir: skandha, name: 'A', config, dataDir: join(chain.dir, `a-${stamp}`), apiPort: 15337, wsPort: 15437, p2pPort: 15000, log: join(chain.dir, 'a.frames.jsonl'), out: join(chain.dir, 'a.out'), handoff: true, extra: nodeArgs })
   nodes.push(a)
-  const b = await startNode({ dir: skandha, name: 'B', config, dataDir: join(chain.dir, `b-${stamp}`), apiPort: 15338, wsPort: 15438, p2pPort: 15001, log: join(chain.dir, 'b.frames.jsonl'), out: join(chain.dir, 'b.out'), bootEnr: a.enr, handoff: true })
+  const b = await startNode({ dir: skandha, name: 'B', config, dataDir: join(chain.dir, `b-${stamp}`), apiPort: 15338, wsPort: 15438, p2pPort: 15001, log: join(chain.dir, 'b.frames.jsonl'), out: join(chain.dir, 'b.out'), bootEnr: a.enr, handoff: true, extra: nodeArgs })
   nodes.push(b)
   await until('nodes A and B to peer', async () => {
     const [pa, pb] = await Promise.all([peersOf(a), peersOf(b)])
@@ -366,7 +384,7 @@ try {
     for (const f of forms) {
       const t0 = Date.now()
       const built = await build({ ...x, frames: f.frames }, f.o)
-      const sub = await submit(built, a)
+      const sub = await submit(built, a, { direct: !NODE_PATH })
       let rc: Json | null = null
       while (!rc && Date.now() - t0 < 120_000) { rc = await receiptOf(built.hash); if (!rc) await new Promise((r) => setTimeout(r, 2000)) }
       const head = Number(await local.getBlockNumber())
@@ -395,8 +413,8 @@ await chain.stop()
 const mined = rows.filter((r) => r.block !== null)
 const p5 = mined.filter((r) => r.prediction5.held !== undefined)
 const record = {
-  experiment: 22, arms: [2, 3, 5], run: label, date: new Date().toISOString(), repoCommit, pins, inventory: `results/${INVENTORY}.json`,
-  command: `npx tsx ${DIR}/sweep.ts ${label}${LIMIT < Infinity ? ` --limit ${LIMIT}` : ''}`,
+  experiment: 22, arms: [2, 3, 5], run: label, date: new Date().toISOString(), repoCommit, pins, skandha: skandhaPin, nodePath: NODE_PATH ? { profile: 'eip-8288-master', chainId: Number(chain.chainId), prover: 'experiment 19 x14-prover, verify-sphincs' } : null, inventory: `results/${INVENTORY}.json`,
+  command: `npx tsx ${DIR}/sweep.ts ${label}${LIMIT < Infinity ? ` --limit ${LIMIT}` : ''}${NODE_PATH ? ' --node-path' : ''}`,
   chain: { chainId: Number(chain.chainId), ethrex: chain.ethrexCommit, patch: 'experiments/19-x14-hash-based-stealth-addresses-under-8288/ethrex-8288.patch', setting: chain.setting, producerIntervalMs: 1000 },
   accounts: [...accounts.values()].map((x) => ({ old: x.old, new: x.address, key: x.key, implementation: x.impl, implementationSource: x.implSource })),
   copiedContracts: Object.keys(alloc).filter((k) => !accounts.has(k) && ![...accounts.values()].some((x) => lower(x.address) === k)),
