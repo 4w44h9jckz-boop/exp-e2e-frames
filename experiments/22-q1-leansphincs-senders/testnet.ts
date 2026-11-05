@@ -70,7 +70,9 @@ for (const p of picks) {
   const address = getContractAddress({ opcode: 'CREATE2', from: CREATE2_DEPLOYER, salt, bytecode: initcode })
   const a: Account = { old, address, key, seed, impl, implSource, salt, initcode }
   const value = tx.type === '0x6' ? (frameTxFromJson(tx as never).frames.reduce((s, f) => s + f.value, 0n)) : BigInt(tx.value)
-  const hash = await wallet.sendTransaction({ to: CREATE2_DEPLOYER, value: FUND + value, data: concatHex([salt, initcode]) })
+  // Explicit gas and fees, as the earlier runs' funder sends: an estimate priced at the default
+  // fee cap asks for more than the funder holds.
+  const hash = await wallet.sendTransaction({ to: CREATE2_DEPLOYER, value: FUND + value, data: concatHex([salt, initcode]), gas: 2_000_000n, maxFeePerGas: 100n, maxPriorityFeePerGas: 1n } as never)
   const rc = await testnet.waitForTransactionReceipt({ hash, timeout: 180_000 })
   const deployed = (await testnet.getCode({ address })) ?? '0x'
   setup.push({ shape: p.shape, funder, hash, status: rc.status, gasUsed: Number(rc.gasUsed), account: address, deployed: deployed !== '0x', value: (FUND + value).toString() })
