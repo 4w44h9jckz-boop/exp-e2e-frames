@@ -4,7 +4,9 @@
 #   cargo test --release --locked --test partial_withdrawal_e2e partial_withdrawal_e2e_anvil -- --nocapture
 # It deploys from INTMAX3's proof-free configs, posts four blocks to anvil as blob transactions,
 # finalizes them with a real four-block validity proof (MLE/WHIR) and settles the burn. This step
-# runs on anvil, as INTMAX3's test does; the same flow on experiment 22's local chain follows it.
+# runs on anvil, as INTMAX3's test does. With X18_CHAIN=local the same test runs against experiment
+# 22's local chain: anvil/anvil goes first on PATH, so the test's `anvil` is launcher.ts, and the
+# chain is read back with chainlog.ts once the test ends.
 # The test's output stays in work/; summarize.py writes the record from it.
 #
 # RAYON_NUM_THREADS, if set, is passed to the test and recorded. Nothing in INTMAX3 changes.
@@ -15,6 +17,12 @@ export PATH="$HOME/.foundry/bin:$PATH"
 here="$(cd "$(dirname "$0")" && pwd)"
 root="$(cd "$here/../.." && pwd)"
 label="${1:?usage: reproduce.sh <n>-<label>}"
+chain="${X18_CHAIN:-anvil}"
+case "$chain" in
+  anvil) ;;
+  local) export PATH="$here/anvil:$PATH" X18_LOCAL_LABEL="$label" ;;
+  *) echo "X18_CHAIN is anvil or local"; exit 1 ;;
+esac
 pin=979318dbf48eee360235fab9b5675b82e8cfde12
 dir="$root/work/intmax3-${pin:0:12}"
 [ "$(git -C "$dir" rev-parse HEAD)" = "$pin" ] || { echo "run build.sh first"; exit 1; }
@@ -42,6 +50,12 @@ peak=$(awk '/^PEAK_RSS_KIB/ {print $2}' "$log" | tail -1)
   { s=$0; sub(/^\[ */, "", s); split(s, a, "]"); if (a[1]+0 >= t+0) print }' \
   | grep -E 'Killed process' >"$kernel" || true
 python3 "$here/summarize.py" "$log" "$out" "$label" "$pin" "$status" "$secs" "${peak:-0}" \
-  "${RAYON_NUM_THREADS:-}" "$limit" "$kernel"
+  "${RAYON_NUM_THREADS:-}" "$limit" "$kernel" "$chain"
+if [ "$chain" = local ]; then
+  # The test's port plus 10,000 is ethrex's own, which outlives the launcher the test killed.
+  ( cd "$root" && npx tsx "$here/chainlog.ts" http://127.0.0.1:18553 "$label-chain" ) || true
+  pkill -f "$here/launcher.ts" || true
+  pkill -f "work/local-intmax3-$label/db" || true
+fi
 echo "exit $status in $secs s; recorded $out"
 exit $status

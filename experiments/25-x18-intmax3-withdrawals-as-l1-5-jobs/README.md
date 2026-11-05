@@ -230,3 +230,36 @@ since it changes nothing that is proved: run 2 sets `RAYON_NUM_THREADS=1`, which
 start, so INTMAX3's provers run on one thread. `reproduce.sh` passes it through and records it.
 Nothing in INTMAX3 changes, and no proof is mocked. If run 2 is killed for memory too, arm 0 stops
 here and the research owner decides.
+
+## Results, arm 0's reproduction, run 2 (2026-11-05)
+
+Records [`results/2-reproduce-anvil-one-thread.json`](results/2-reproduce-anvil-one-thread.json),
+from `RAYON_NUM_THREADS=1 bash experiments/25-x18-intmax3-withdrawals-as-l1-5-jobs/reproduce.sh 2-reproduce-anvil-one-thread`,
+and [`results/2-reproduce-anvil-one-thread-chain.json`](results/2-reproduce-anvil-one-thread-chain.json),
+read back from its anvil as in run 1.
+
+**Killed for memory again, at the same step.** The test ran for 1,574 s and was stopped by the
+kernel's out-of-memory killer, holding 13,844,096 KiB, while wrapping the validity proof. One
+thread moved the peak by 12,048 KiB and made each proof two to three times slower:
+
+| Proof | Run 1, one thread per core | Run 2, one thread |
+|---|---:|---:|
+| balance, receive deposit | 14.6 s | 46.4 s |
+| spend, bootstrap | 1.3 s | 3.9 s |
+| balance, send (bootstrap) | 16.5 s | 44.5 s |
+| the burn's E-2 build and proof | 1.8 s | 1.5 s |
+| spend, the burn | 1.3 s | 3.9 s |
+| balance, send (the burn) | 16.5 s | 47.5 s |
+| the four-block hash chain | 215.8 s | 468.4 s |
+| validity | 187.1 s | 497.8 s |
+
+The chain holds the same 17 transactions as run 1, at the same gas each.
+
+**Arm 0 stops here, as amendment 1 said.** The memory the test needs is in the circuits it holds,
+not in its threads. INTMAX3's withdrawal is not reproduced in this container, so no later arm
+runs on its real proofs here, and no proof is mocked in their place. **Prediction 1 is shown wrong
+for this container:** the stack builds, and its own test cannot prove through here. The research
+owner decides where arm 0 runs next.
+
+The local chain's run, prepared in `launcher.ts` and `reproduce.sh`'s `X18_CHAIN=local` mode, was
+not started. ethrex would share the same memory limit with the test.
