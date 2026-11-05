@@ -10,6 +10,8 @@
 # The test's output stays in work/; summarize.py writes the record from it.
 #
 # RAYON_NUM_THREADS, if set, is passed to the test and recorded. Nothing in INTMAX3 changes.
+# X18_TEST names another of INTMAX3's own integration tests, run whole (amendment 2's stage 1:
+# validity_prover_service); by default it is partial_withdrawal_e2e, filtered to its anvil test.
 #
 # usage: bash experiments/25-x18-intmax3-withdrawals-as-l1-5-jobs/reproduce.sh <n>-<label>
 set -euo pipefail
@@ -18,6 +20,10 @@ here="$(cd "$(dirname "$0")" && pwd)"
 root="$(cd "$here/../.." && pwd)"
 label="${1:?usage: reproduce.sh <n>-<label>}"
 chain="${X18_CHAIN:-anvil}"
+test_name="${X18_TEST:-partial_withdrawal_e2e}"
+filter=""
+[ "$test_name" = partial_withdrawal_e2e ] && filter=partial_withdrawal_e2e_anvil
+command="cargo test --release --locked --test $test_name${filter:+ $filter} -- --nocapture"
 case "$chain" in
   anvil) ;;
   local) export PATH="$here/anvil:$PATH" X18_LOCAL_LABEL="$label" ;;
@@ -39,10 +45,9 @@ status=0
 # Peak memory of the test and everything it starts, from the kernel's accounting of the children.
 ( cd "$dir" && python3 -c '
 import resource, subprocess, sys
-r = subprocess.call(["cargo", "test", "--release", "--locked", "--test", "partial_withdrawal_e2e",
-                     "partial_withdrawal_e2e_anvil", "--", "--nocapture"])
+r = subprocess.call(sys.argv[1].split())
 print("PEAK_RSS_KIB", resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss)
-sys.exit(r)' ) >"$log" 2>&1 || status=$?
+sys.exit(r)' "$command" ) >"$log" 2>&1 || status=$?
 secs=$(( $(date +%s) - t0 ))
 peak=$(awk '/^PEAK_RSS_KIB/ {print $2}' "$log" | tail -1)
 # Kernel lines, since the run began, that record a process stopped for memory.
@@ -50,7 +55,7 @@ peak=$(awk '/^PEAK_RSS_KIB/ {print $2}' "$log" | tail -1)
   { s=$0; sub(/^\[ */, "", s); split(s, a, "]"); if (a[1]+0 >= t+0) print }' \
   | grep -E 'Killed process' >"$kernel" || true
 python3 "$here/summarize.py" "$log" "$out" "$label" "$pin" "$status" "$secs" "${peak:-0}" \
-  "${RAYON_NUM_THREADS:-}" "$limit" "$kernel" "$chain"
+  "${RAYON_NUM_THREADS:-}" "$limit" "$kernel" "$chain" "$command"
 if [ "$chain" = local ]; then
   # The test's port plus 10,000 is ethrex's own, which outlives the launcher the test killed.
   ( cd "$root" && npx tsx "$here/chainlog.ts" http://127.0.0.1:18553 "$label-chain" ) || true

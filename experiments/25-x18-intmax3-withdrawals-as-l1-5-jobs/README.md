@@ -263,3 +263,30 @@ owner decides where arm 0 runs next.
 
 The local chain's run, prepared in `launcher.ts` and `reproduce.sh`'s `X18_CHAIN=local` mode, was
 not started. ethrex would share the same memory limit with the test.
+
+## Amendment 2, 2026-11-05, after arm 0 stopped and before any split run
+
+The research owner chose to split arm 0 into INTMAX3's own processes, so that no one process holds
+every circuit. INTMAX3 already runs that way outside its test:
+- `channel_member` is the member's command-line tool. It proves the member's balance and spend
+  statements and signs.
+- `block_producer_service` is a long-lived JSON-lines service. It holds the producer's state, the
+  resident validity prover and the burn's payout proof (`liveBurnPayoutArtifacts`).
+- `public_validity_publisher` posts the validity prover's envelopes to L1.
+- `api/server.js` is the relay that runs the service and the command-line tool.
+
+Nothing in INTMAX3 changes in any stage, and no proof is mocked. A split run is not INTMAX3's
+test, and its record says so; run 1's test stays the reference for what the flow does.
+
+- **Stage 1: does the validity prover alone fit here?** INTMAX3's own `validity_prover_service`
+  test, run whole and unchanged, as its benchmark ran it:
+  `X18_TEST=validity_prover_service bash experiments/25-x18-intmax3-withdrawals-as-l1-5-jobs/reproduce.sh 3-validity-prover-service`.
+  INTMAX3 measured 11.23 GiB for it on a 48 GiB host. Here the limit is 13.35 GiB.
+  - If it is killed for memory, the split stops: the resident validity prover cannot run in this
+    container, and its peak here is the finding.
+  - If it passes, its peak is recorded beside INTMAX3's, and stage 2 is written.
+- **Stage 2: the partial withdrawal through INTMAX3's processes,** against anvil at 31337. The
+  same steps as run 1's test, in its order: deploy, register, deposit, bootstrap, burn, the four
+  blocks and their validity proof, then the payout. Each is driven through the process that owns
+  it in INTMAX3's own relay. Stage 2's exact commands, and what would show the split is not the
+  test's flow, are stated here before it runs. The peak of each process is recorded apart.
