@@ -117,8 +117,8 @@ try {
 
   // B refuses channel 0's next leaf; the member queues it.
   const refused = await member(0, 1, 2n * 10n ** 17n)
+  R.putSignatures(chain, refused.handed)
   await send('channel 0 queues the leaf B refused', R.queueTx(chain.chainId, refused.handed), 'mined', { kind: 'queue', chan: 0, queuedAtBlockCount: Number(await blockCount()) })
-  R.putWitnesses(chain, refused.handed, prog.key)
   const queuedAt = await blockCount()
 
   // A keeps posting channel 1's transfers; after K blocks, a block that omits the queued leaf is refused.

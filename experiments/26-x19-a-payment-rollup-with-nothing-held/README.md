@@ -240,3 +240,24 @@ The contract and runner fixed five more choices. Each is stated before any trans
   This is the self-paying escrow of prediction 6. The claim reveals the channel's opening, so it
   needs no proof, as amendment 1 says. A taker's fee needs one member's signature over the taker
   and the fee.
+
+## Run 1 (2026-11-05): stopped on the runner's fault
+
+Record [`results/1-part-1.json`](results/1-part-1.json), from commit `2467f3f`:
+`npx tsx experiments/26-x19-a-payment-rollup-with-nothing-held/run.ts 1-part-1`.
+
+- **The first two transfers were mined,** each a block posted with no signature in the
+  transaction. The rollup was the sender, and the members' signatures and the user's proof came as
+  dependencies, which every block's check found valid.
+  - The rollup's `VERIFY` took 20,340 and 20,331 gas.
+  - The dependency frame took its declared 36,000.
+  - The `SENDER` frame took 40,747 and 40,738. The first also paid 281,520 state gas for the
+    rollup's first block count and the aggregator's new account.
+  - Each user proof took 8,614 cycles and 66 to 83 ms, at about 252 KB and under 150 MB.
+- **The run then stopped, on the runner's fault.** It sent the queue transaction before handing
+  the builder the members' signatures on the queued leaf. The builder could not prove block 6, so
+  it rebuilt that block without end ("no aggregate proof for the block's leanSPHINCS
+  dependencies"), and the chain stalled. This is the halt experiment 22 found for a dependency
+  with no valid witness. The runner now hands every signature over before sending.
+
+No prediction is scored on run 1.

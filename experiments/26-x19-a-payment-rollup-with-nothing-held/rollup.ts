@@ -167,6 +167,14 @@ export function backupTx(chainId: bigint, h: Head, which: number, versionedHash:
   return tx(chainId, nonceKey, triples, data, [versionedHash])
 }
 
+/** The members' signatures on T, handed to the local chain's builder before any transaction that
+ * carries their triples is sent: a block whose dependency has no witness cannot be proved, and the
+ * patched builder rebuilds it without end (run 1). */
+export function putSignatures(chain: { putSphincsWitness: (s: number, d: Hex, k: Hex, w: L.Signed) => string }, x: Handed) {
+  chain.putSphincsWitness(0x10, x.T, x.key0, x.signatures[0])
+  chain.putSphincsWitness(0x10, x.T, x.key1, x.signatures[1])
+}
+
 /** The witnesses a block's dependencies need, handed to the local chain's builder before sending. */
 export function putWitnesses(chain: { putSphincsWitness: (s: number, d: Hex, k: Hex, w: L.Signed) => string; putStarkWitness: (d: Hex, k: Hex, p: Uint8Array) => string }, x: Handed, vk: Hex) {
   chain.putSphincsWitness(0x10, x.T, x.key0, x.signatures[0])
