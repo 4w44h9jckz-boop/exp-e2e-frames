@@ -46,9 +46,11 @@ const exec = (bin: string, env: Record<string, string>) => {
 
 // ---- the seed and its funder, before the chain exists ----
 
-exec(walletBin, { MODE: 'new', SEED_FILE: seed })
+// The funder's address depends on its carrier, since its code does: CARRIER=dependency here, as in
+// the request itself (run 1 left it unset, and funded another address).
+exec(walletBin, { MODE: 'new', SEED_FILE: seed, CARRIER: 'dependency' })
 chmodSync(seed, 0o600)
-const addresses = exec(walletBin, { MODE: 'addresses', SEED_FILE: seed })
+const addresses = exec(walletBin, { MODE: 'addresses', SEED_FILE: seed, CARRIER: 'dependency' })
 const funder = addresses.match(/funder\W+(0x[0-9a-fA-F]{40})/)?.[1]
 if (!funder) throw new Error(`no funder address in MODE=addresses' output:\n${addresses.slice(0, 600)}`)
 

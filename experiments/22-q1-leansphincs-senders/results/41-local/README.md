@@ -18,3 +18,10 @@ built with `target-cpu=native`.
 
   The record keeps the builder's checks, so a block that holds the request shows its leanSTARK
   proof checked, or the reason it was not.
+- **Run 1's result:** stopped at the funder's first transaction, with "validation prefix frame
+  reverted". The fault was the runner's. It asked `pq_wallet` for the funder's address without
+  `CARRIER=dependency`, and the address depends on the carrier, since the account's code does. So
+  the genesis funded another address, and the request's funder could not pay. Nothing about the
+  request was tested.
+- `2-second-run/`, stated before it runs: as run 1, with the runner passing `CARRIER=dependency`
+  to `pq_wallet` too (`q8-local.ts`).
