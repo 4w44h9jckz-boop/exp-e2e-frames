@@ -1,0 +1,433 @@
+{
+  "experiment": 22,
+  "for": "exp-frames experiment 49, arms 2 to 6 on the local chain",
+  "run": "2-second-run",
+  "date": "2026-11-05T10:45:35.110Z",
+  "repoCommit": "3209255c6e9e01786425651a5c3eaf3595a23073",
+  "procedure": "exp-frames exp/49-pq-keys 7421e07, experiments/49-pq-keys/README.md, \"Running arms 2 to 6 on a chain with EIP-8288\"",
+  "binary": "kohaku-rs 1fe661e, crates/frame-pq, example pq_wallet, RUSTFLAGS=\"-C target-cpu=native\"",
+  "command": "npx tsx experiments/22-q1-leansphincs-senders/q2-local.ts <pq_wallet> 2-second-run 1fe661e",
+  "chain": {
+    "chainId": 8141,
+    "ethrex": "64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c",
+    "setting": "written",
+    "funders": [
+      "0x7a2efe81cbd5b9dfd356eda2c3628b623e12c63a",
+      "0xbd6134e487b6018b94ebd7205bb38979b476be3e"
+    ],
+    "copiedFromTestnet": {
+      "0x93dd748b72da1b1b6f1d5ec78cb91ee52f01727d": "0x20dce4f65e46fdbb73d1f3d50ec967e683b268d3d8b3494cf0b89a0d4a466f16",
+      "0x73e47a8da2c83beb802708fc473b5b7d094f3ee6": "0x33118a4dc49347abec2bc08e98477367a5abd17c7e5813969258c7de8ebec397",
+      "0x87a7c1f76b03da00de489897d436bbeddd2133b7": "0x8d863734e0dd8588815b5342e35e188e7ff0641f1c8e3c0c234c4f778f11bb75",
+      "0x38955fbe81dbf136a84a1c711619c0ab8ce7813b": "0x2769e338c9d60a078ef05dd9e03f5fa3e1df133f7da4494c5bcc83a71a9a9892"
+    }
+  },
+  "builds": [
+    {
+      "block": 1,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 3036.658991,
+        "claims": 1,
+        "peakRssBytes": 396554240,
+        "proofBytes": 264537
+      },
+      "ms": 3051
+    },
+    {
+      "block": 4,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 2783.819881,
+        "claims": 1,
+        "peakRssBytes": 406462464,
+        "proofBytes": 264569
+      },
+      "ms": 2798
+    },
+    {
+      "block": 7,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 3044.573692,
+        "claims": 1,
+        "peakRssBytes": 405348352,
+        "proofBytes": 264601
+      },
+      "ms": 3059
+    },
+    {
+      "block": 9,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 3166.764104,
+        "claims": 1,
+        "peakRssBytes": 405401600,
+        "proofBytes": 264569
+      },
+      "ms": 3199
+    },
+    {
+      "block": 12,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 3013.056393,
+        "claims": 1,
+        "peakRssBytes": 405667840,
+        "proofBytes": 263641
+      },
+      "ms": 3025
+    },
+    {
+      "block": 14,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 3052.05215,
+        "claims": 1,
+        "peakRssBytes": 404103168,
+        "proofBytes": 265753
+      },
+      "ms": 3064
+    },
+    {
+      "block": 16,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 2799.814322,
+        "claims": 1,
+        "peakRssBytes": 405569536,
+        "proofBytes": 264121
+      },
+      "ms": 2815
+    },
+    {
+      "block": 19,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 2911.862551,
+        "claims": 1,
+        "peakRssBytes": 405651456,
+        "proofBytes": 264953
+      },
+      "ms": 2925
+    },
+    {
+      "block": 21,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 2893.342553,
+        "claims": 1,
+        "peakRssBytes": 405938176,
+        "proofBytes": 265337
+      },
+      "ms": 2907
+    },
+    {
+      "block": 24,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 2819.6469669999997,
+        "claims": 1,
+        "peakRssBytes": 405569536,
+        "proofBytes": 264217
+      },
+      "ms": 2839
+    },
+    {
+      "block": 26,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 3038.589005,
+        "claims": 1,
+        "peakRssBytes": 397230080,
+        "proofBytes": 265337
+      },
+      "ms": 3051
+    },
+    {
+      "block": 143,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 2900.0501409999997,
+        "claims": 1,
+        "peakRssBytes": 405430272,
+        "proofBytes": 263865
+      },
+      "ms": 2916
+    },
+    {
+      "block": 146,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 3675.856324,
+        "claims": 1,
+        "peakRssBytes": 405577728,
+        "proofBytes": 264025
+      },
+      "ms": 3709
+    },
+    {
+      "block": 148,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 3181.507151,
+        "claims": 1,
+        "peakRssBytes": 405307392,
+        "proofBytes": 264281
+      },
+      "ms": 3196
+    },
+    {
+      "block": 150,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 3016.786626,
+        "claims": 1,
+        "peakRssBytes": 404250624,
+        "proofBytes": 264537
+      },
+      "ms": 3034
+    },
+    {
+      "block": 152,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 2993.9401009999997,
+        "claims": 1,
+        "peakRssBytes": 404709376,
+        "proofBytes": 263897
+      },
+      "ms": 3008
+    },
+    {
+      "block": 154,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 3009.340389,
+        "claims": 1,
+        "peakRssBytes": 405512192,
+        "proofBytes": 265337
+      },
+      "ms": 3023
+    },
+    {
+      "block": 157,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 2886.777338,
+        "claims": 1,
+        "peakRssBytes": 405266432,
+        "proofBytes": 264057
+      },
+      "ms": 2900
+    }
+  ],
+  "checks": [
+    {
+      "block": 1,
+      "hash": "0x75b96dc78c370aecad3a3f53cc27a6e25db7a07641d6fa17246c2cbdffa1ce5c",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2790
+    },
+    {
+      "block": 4,
+      "hash": "0xbc3e01286a0a6e25b8a4e81191ad7fd6afdfbb33f7789b862a7c560c345b82c3",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2708
+    },
+    {
+      "block": 7,
+      "hash": "0xe989c6cdd64c713efaca1f69e9946b4bb70d35f27180678b431b2cfc8ebe2a76",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2710
+    },
+    {
+      "block": 9,
+      "hash": "0x61a0010f7104589734fa73ae96b545fc535c1fadd3bd191db195695c5d522613",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2840
+    },
+    {
+      "block": 12,
+      "hash": "0x2e3d14e86443829b69197c469a8f9eb425b06c44ac885de14c781c6bf59b84c8",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2742
+    },
+    {
+      "block": 14,
+      "hash": "0x5e12723e8371eb5f78e117d3c201116c85d3029216fa8ed4ef4006f082c7690c",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2978
+    },
+    {
+      "block": 16,
+      "hash": "0x104575a8180596e4ce7a4fb947e63b81dd28b2ec32d9568fc883eaf31d756ff7",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2693
+    },
+    {
+      "block": 19,
+      "hash": "0x56563ca006447aa1595502718bbea2e3b29a108375bc7edf4831cc45af73e7ca",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2634
+    },
+    {
+      "block": 21,
+      "hash": "0x5600232ee6c8d389bfcf9b8fbbdd7a540699ccdb0a411f8c70f37e5460864aa6",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2698
+    },
+    {
+      "block": 24,
+      "hash": "0x0ffd16565614ef2397c1ea232baeac423dc3f048bab672025174bc078a1526de",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2817
+    },
+    {
+      "block": 26,
+      "hash": "0xe4e88ebfc2f6a0cc267c5277399dfb26242915994e09e9252d9c920c02bc572a",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2860
+    },
+    {
+      "block": 143,
+      "hash": "0xf2a4dbd3011eb136dd0fcfdb441eabfafca5a71a4e3e918950e04a81fd946126",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2535
+    },
+    {
+      "block": 146,
+      "hash": "0x3080eb32dd1cc91e72daaeba8e3f5d23446383e1718b7676d958237756f47060",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2732
+    },
+    {
+      "block": 148,
+      "hash": "0xed6f963a7b1e952e540ea65a2395878cfa1fc4c8e6d727966a85f41132118037",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2820
+    },
+    {
+      "block": 150,
+      "hash": "0x2cb7442158ab79ba802b61811ec79b04ebc43a0bb7ee3487ad3ef05c1dd382f4",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2637
+    },
+    {
+      "block": 152,
+      "hash": "0x48c39118c072e536aa5fc2b244e351c446728395e83059e68c8aca160eb5f5e5",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 3063
+    },
+    {
+      "block": 154,
+      "hash": "0x819f809556e31594ef7f99df71eca8788cb54af838fedc1a222ae4c7ecd9d955",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2776
+    },
+    {
+      "block": 157,
+      "hash": "0xe4f276760dde16374bfb908596c48b049583cf055ae893d69c2b39cc04715298",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2795
+    }
+  ],
+  "logs": {
+    "arm 2": "the funder deploys account 0, owner sphincs/account/0/owner/0, and funds it: 0xd5465fd8d5956427c64b1e04563b3d91c0d8a2c1b5f415ff8297ce96a1fd89a9 block 1 gasUsed 2736371\naccount 0, authorised by owner 0's leanSPHINCS triple: 0x560a5724d7325bfea4e88b6d836a196782440751299d6125054eaf51dede57c8 block 4 gasUsed 26225\naccount 0, a triple naming owner 1's key: simulation valid false, Some(\"validation prefix frame reverted\"); sent: {\"error\":\"server returned an error response: error code -32000: Invalid params: Frame transaction validation-prefix simulation failed: validation prefix frame reverted\"}\nrecord: /home/user/e2e-all/experiments/22-q1-leansphincs-senders/results/49-local/2-second-run/2-account-local.json\n",
+    "arms 4 and 5": "exit 1\nthe funder tops up account 0: 0x54779215ee6dd10d7ea306ffd629719046138c06d6e3ccaa51a395da999f7f39 block 7 gasUsed 26791\naccount 0 deploys the leanSPHINCS bound paymaster, buys 2 tickets and deposits a note: 0x0216409a1be011062a4d0163a30d2531e111df880da3a11ec1ee3443ee8b24d1 block 9 gasUsed 6095854\ntwo bound tickets issued\n\nError: the node would not admit it: frame transaction validation prefix does not match any recognized shape\n\nStack backtrace:\n   0: <anyhow::Error as core::convert::From<kohaku_frame_kit::rpc::ExecuteError>>::from\n   1: pq_wallet::common::executed::<alloy_provider::fillers::FillProvider<alloy_provider::fillers::join_fill::JoinFill<alloy_provider::builder::Identity, alloy_provider::fillers::join_fill::JoinFill<alloy_provider::fillers::gas::GasFiller, alloy_provider::fillers::join_fill::JoinFill<alloy_provider::fillers::gas::BlobGasFiller, alloy_provider::fillers::join_fill::JoinFill<alloy_provider::fillers::nonce::NonceFiller, alloy_provider::fillers::chain_id::ChainIdFiller>>>>, alloy_provider::provider::root::RootProvider>>::{closure#0}\n   2: pq_wallet::mined::<alloy_provider::fillers::FillProvider<alloy_provider::fillers::join_fill::JoinFill<alloy_provider::builder::Identity, alloy_provider::fillers::join_fill::JoinFill<alloy_provider::fillers::gas::GasFiller, alloy_provider::fillers::join_fill::JoinFill<alloy_provider::fillers::gas::BlobGasFiller, alloy_provider::fillers::join_fill::JoinFill<alloy_provider::fillers::nonce::NonceFiller, alloy_provider::fillers::chain_id::ChainIdFiller>>>>, alloy_provider::provider::root::RootProvider>>::{closure#0}\n   3: pq_wallet::tickets::<alloy_provider::fillers::FillProvider<alloy_provider::fillers::join_fill::JoinFill<alloy_provider::builder::Identity, alloy_provider::fillers::join_fill::JoinFill<alloy_provider::fillers::gas::GasFiller, alloy_provider::fillers::join_fill::JoinFill<alloy_provider::fillers::gas::BlobGasFiller, alloy_provider::fillers::join_fill::JoinFill<alloy_provider::fillers::nonce::NonceFiller, alloy_provider::fillers::chain_id::ChainIdFiller>>>>, alloy_provider::provider::root::RootProvider>>::{closure#0}\n   4: pq_wallet::main::{closure#0}\n   5: <tokio::runtime::park::CachedParkThread>::block_on::<pq_wallet::main::{closure#0}>\n   6: pq_wallet::main\n   7: std::sys::backtrace::__rust_begin_short_backtrace::<fn() -> core::result::Result<(), anyhow::Error>, core::result::Result<(), anyhow::Error>>\n   8: std::rt::lang_start::<core::result::Result<(), anyhow::Error>>::{closure#0}\n   9: std::rt::lang_start_internal\n  10: main\n  11: __libc_start_call_main\n             at ./csu/../sysdeps/nptl/libc_start_call_main.h:58:16\n  12: __libc_start_main_impl\n             at ./csu/../csu/libc-start.c:360:3\n  13: _start\n",
+    "arm 3": "the funder pays three guardians' leanSPHINCS accounts a little gas: 0x15acadd8257857a2a36d260ea7b92965b8b892194ccf19068f0f78f6d5fb433b block 12 gasUsed 596500\nowner 0 commits account 0 to R and posts the envelope: 0x0a6a65aec340de5b09ec52ebb07d40bfddf0f662fc09014ea52910924349d54d block 14 gasUsed 143116\nguardians 2 and 3, with R, start a recovery to their own key: 0xb689ea2ef4b1e9b9b0abe4b8ba4f15524066f78d1a81a3ad88a74aa8c8c89d2b block 16 gasUsed 144942\nowner 0 cancels it: 0x4cd8d6da50e71cc5cb509e0fd6d4453680bde376b498f770b926853290a2a312 block 19 gasUsed 32418\nguardian 1's own key, outside the commitment, starts a recovery: simulation valid false, Some(\"validation prefix frame reverted\"); sent: {\"error\":\"server returned an error response: error code -32000: Invalid params: Frame transaction validation-prefix simulation failed: validation prefix frame reverted\"}\nthe device is lost: the user keeps the phrase; the guardians keep their shares\nguardian 1 deploys its account and posts its share, sealed with ML-KEM-768 to the new device: 0x0b10be0b1400e825fdc88bb45c2ae2877fde8ad8f0b1b41ca64075e8a522eb63 block 21 gasUsed 404568\nguardian 3 deploys its account and posts its share, sealed with ML-KEM-768 to the new device: 0x97a0a0e0b3626081d5034c92f5ecad2641f8cb521a72516421b1dd9266568605 block 24 gasUsed 404568\nthe new device joined R, opened the envelope in 169 ms, and has the seed\nR starts a recovery to owner 1: 0xc88c0fc98230beb509697638cddaf5f86e89e9f9c69e02f45c7d5907c1dc9181 block 26 gasUsed 47022\nowner 1 finishes it, past the unlock time: 0x3b3eb22fb384754d652787bdd7efdfcd563f65fbafbcfb30536367e7b0ced264 block 143 gasUsed 45190\naccount 0, authorised by owner 1: 0xaf5ee3217fb4d29cd68876565e35e3f203731d6b17a025e9d3b28156eeac514f block 146 gasUsed 28273\nrecord: /home/user/e2e-all/experiments/22-q1-leansphincs-senders/results/49-local/2-second-run/4-recover-local.json\n",
+    "arm 6": "the funder deposits a pool note for the wallet and seals its opening to the ML-KEM-768 viewing key: 0x2d41028a28632f8e40046bd6ec04b6ef63e534ef363ca27be6f77baee9fb1c19 block 148 gasUsed 1262063\nthe fresh device opened 1 of 6 board messages in 3 ms; the note is leaf 1, spent false\nrecord: /home/user/e2e-all/experiments/22-q1-leansphincs-senders/results/49-local/2-second-run/5-seal-local.json\n",
+    "copy (a), second seed: account": "the funder deploys account 0, owner sphincs/account/0/owner/0, and funds it: 0x70bdc65546ea8b0b426c66b0c773d5eae152af427b4813a91296d6145da786d3 block 150 gasUsed 2736371\naccount 0, authorised by owner 0's leanSPHINCS triple: 0x4bba9129d71bf4463e5c5a7d7aa1c5b2068ca5691bc17c4bab7e53be802c9157 block 152 gasUsed 26225\naccount 0, a triple naming owner 1's key: simulation valid false, Some(\"validation prefix frame reverted\"); sent: {\"error\":\"server returned an error response: error code -32000: Invalid params: Frame transaction validation-prefix simulation failed: validation prefix frame reverted\"}\nrecord: /home/user/e2e-all/experiments/22-q1-leansphincs-senders/results/49-local/2-second-run/6-account-second-local.json\n",
+    "copy (a), second seed: tickets with SEND_COPY_A": "exit 1\nthe funder tops up account 0: 0x4681aa4ed57e7f303ff709aced90769d1c2532f2d46c0c8ab81d9e9653d52ab5 block 154 gasUsed 26791\naccount 0 deploys the leanSPHINCS bound paymaster, buys 2 tickets and deposits a note: 0xd34ec1b46857ea50762547ecf8fe2af511396cd6e4d34f82107be1bcda06c393 block 157 gasUsed 3931569\ntwo bound tickets issued\n\nError: the node would not admit it: frame transaction validation prefix does not match any recognized shape\n\nStack backtrace:\n   0: <anyhow::Error as core::convert::From<kohaku_frame_kit::rpc::ExecuteError>>::from\n   1: pq_wallet::common::executed::<alloy_provider::fillers::FillProvider<alloy_provider::fillers::join_fill::JoinFill<alloy_provider::builder::Identity, alloy_provider::fillers::join_fill::JoinFill<alloy_provider::fillers::gas::GasFiller, alloy_provider::fillers::join_fill::JoinFill<alloy_provider::fillers::gas::BlobGasFiller, alloy_provider::fillers::join_fill::JoinFill<alloy_provider::fillers::nonce::NonceFiller, alloy_provider::fillers::chain_id::ChainIdFiller>>>>, alloy_provider::provider::root::RootProvider>>::{closure#0}\n   2: pq_wallet::mined::<alloy_provider::fillers::FillProvider<alloy_provider::fillers::join_fill::JoinFill<alloy_provider::builder::Identity, alloy_provider::fillers::join_fill::JoinFill<alloy_provider::fillers::gas::GasFiller, alloy_provider::fillers::join_fill::JoinFill<alloy_provider::fillers::gas::BlobGasFiller, alloy_provider::fillers::join_fill::JoinFill<alloy_provider::fillers::nonce::NonceFiller, alloy_provider::fillers::chain_id::ChainIdFiller>>>>, alloy_provider::provider::root::RootProvider>>::{closure#0}\n   3: pq_wallet::tickets::<alloy_provider::fillers::FillProvider<alloy_provider::fillers::join_fill::JoinFill<alloy_provider::builder::Identity, alloy_provider::fillers::join_fill::JoinFill<alloy_provider::fillers::gas::GasFiller, alloy_provider::fillers::join_fill::JoinFill<alloy_provider::fillers::gas::BlobGasFiller, alloy_provider::fillers::join_fill::JoinFill<alloy_provider::fillers::nonce::NonceFiller, alloy_provider::fillers::chain_id::ChainIdFiller>>>>, alloy_provider::provider::root::RootProvider>>::{closure#0}\n   4: pq_wallet::main::{closure#0}\n   5: <tokio::runtime::park::CachedParkThread>::block_on::<pq_wallet::main::{closure#0}>\n   6: pq_wallet::main\n   7: std::sys::backtrace::__rust_begin_short_backtrace::<fn() -> core::result::Result<(), anyhow::Error>, core::result::Result<(), anyhow::Error>>\n   8: std::rt::lang_start::<core::result::Result<(), anyhow::Error>>::{closure#0}\n   9: std::rt::lang_start_internal\n  10: main\n  11: __libc_start_call_main\n             at ./csu/../sysdeps/nptl/libc_start_call_main.h:58:16\n  12: __libc_start_main_impl\n             at ./csu/../csu/libc-start.c:360:3\n  13: _start\n"
+  }
+}
