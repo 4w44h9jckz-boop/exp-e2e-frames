@@ -290,3 +290,24 @@ test, and its record says so; run 1's test stays the reference for what the flow
   blocks and their validity proof, then the payout. Each is driven through the process that owns
   it in INTMAX3's own relay. Stage 2's exact commands, and what would show the split is not the
   test's flow, are stated here before it runs. The peak of each process is recorded apart.
+
+## Results, amendment 2's stage 1 (2026-11-05)
+
+Record [`results/3-validity-prover-service.json`](results/3-validity-prover-service.json), from
+`X18_TEST=validity_prover_service bash experiments/25-x18-intmax3-withdrawals-as-l1-5-jobs/reproduce.sh 3-validity-prover-service`.
+
+**Killed for memory.** INTMAX3's own `validity_prover_service` test, run whole and unchanged, was
+stopped by the kernel's out-of-memory killer. That was after 468 s, a minute of it compiling the
+test. It held 13,884,864 KiB against the container's limit of 14,337,302,528 bytes. The test prints
+nothing until it ends, so the step it died in is not known. Nothing else ran in the container
+beside it.
+
+INTMAX3's benchmark of the same test (`doc/benches/validity-prover-2026-08-20.md`) recorded a peak
+of 11.23 GiB on a 48 GiB Apple host, as `/usr/bin/time -lp` reports it there. Here the same test
+did not finish under 13.35 GiB on x86_64 Linux. The two figures come from different operating
+systems' accounting, and this record does not say why they differ.
+
+**The split stops here, as amendment 2 said.** The resident validity prover, which every way of
+splitting INTMAX3's flow keeps whole, cannot run in this container. So arm 0 cannot reproduce a
+withdrawal here by either route. Its later arms, which need INTMAX3's real proofs, do not run here,
+and no proof is mocked in their place. The research owner decides what follows.
