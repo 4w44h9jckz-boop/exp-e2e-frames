@@ -12,21 +12,25 @@
 // - the CREATE2 deployer, which ethrex's Hegota genesis already holds.
 // No secp256k1 key is set or used. Each arm runs against ethrex directly, as the procedure says.
 //
-// usage: npx tsx experiments/22-q1-leansphincs-senders/q2-local.ts <pq_wallet binary> <label> <kohaku-rs commit> [max verify gas]
-// The last is the local ethrex pool's VERIFY budget: EIP-8141's 100,000 when absent, or the test
-// network's 500,000.
+// usage: npx tsx experiments/22-q1-leansphincs-senders/q2-local.ts <pq_wallet binary> <label> <kohaku-rs commit> [max verify gas] [--copy-a-node <pin>]
+// The fourth is the local ethrex pool's VERIFY budget: EIP-8141's 100,000 when absent, or the test
+// network's 500,000. --copy-a-node starts one skandha node at that pin in pins.json, under
+// eip-8288-master with the local chain id and experiment 19's prover, and sets the wallet's
+// COPY_A_RPC_URL to it for the copy (a) step only; every other step still runs against ethrex.
 import { execFileSync } from 'node:child_process'
 import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { type Hex, keccak256 } from 'viem'
-import { run, startLocalChain } from '../../src/e2e/index.js'
+import { type Node, type Pin, buildSkandha, checkout, rpcUrlOf, run, startLocalChain, startNode, stopNode, writeConfig } from '../../src/e2e/index.js'
 import { makeClient } from '../../src/exp-frames/frametx/index.js'
 import * as L from '../19-x14-hash-based-stealth-addresses-under-8288/lean.js'
 
 const here = new URL('.', import.meta.url).pathname
 const root = new URL('../../', import.meta.url).pathname
-const [bin, label, walletCommit, verifyGasArg] = process.argv.slice(2)
+const nodeArg = process.argv.indexOf('--copy-a-node')
+const COPY_A_PIN = nodeArg > 0 ? process.argv[nodeArg + 1] : null
+const [bin, label, walletCommit, verifyGasArg] = process.argv.slice(2).filter((_, i, a) => a[i] !== '--copy-a-node' && a[i - 1] !== '--copy-a-node')
 const maxVerifyGas = verifyGasArg ? Number(verifyGasArg) : undefined
 if (!bin || !label || !/^[0-9a-f]{7,40}$/.test(walletCommit ?? '')) throw new Error('usage: q2-local.ts <pq_wallet> <label> <kohaku-rs commit>')
 // src/e2e loads the repository's .env on import, which sets PRIVATE_KEY. The procedure runs with it
@@ -89,6 +93,26 @@ const chain = await startLocalChain({
 })
 console.log(`local chain ${chain.chainId}, ethrex ${chain.ethrexCommit.slice(0, 8)} (${chain.setting})`)
 
+// ---- copy (a)'s node, if asked: one skandha node on the node path, in front of the same chain ----
+
+let copyANode: { node: Node; pin: Pin; name: string } | null = null
+if (COPY_A_PIN) {
+  const pins = JSON.parse(readFileSync(join(here, 'pins.json'), 'utf8')) as Record<string, Pin>
+  const pin = pins[COPY_A_PIN]
+  if (!pin) throw new Error(`no pin ${COPY_A_PIN} in pins.json`)
+  const skandha = await checkout('skandha', pin, join(root, 'work'))
+  await buildSkandha(skandha)
+  const config = join(chain.dir, 'skandha.json')
+  writeConfig(config, chain.url)
+  const node = await startNode({
+    dir: skandha, name: 'A', config, dataDir: join(chain.dir, `a-${Date.now()}`), apiPort: 15337, wsPort: 15437, p2pPort: 15000,
+    log: join(chain.dir, 'a.frames.jsonl'), out: join(chain.dir, 'a.out'), handoff: true,
+    extra: ['--frames.profile', 'eip-8288-master', '--frames.chainId', String(chain.chainId), '--frames.prover', L.PROVER],
+  })
+  copyANode = { node, pin, name: COPY_A_PIN }
+  console.log(`copy (a)'s node: skandha ${pin.commit.slice(0, 7)} at ${rpcUrlOf(node)}`)
+}
+
 // ---- the arms, in the procedure's order ----
 
 const common = { RPC_URL: chain.url, WITNESS_DIR: chain.witnesses }
@@ -105,10 +129,12 @@ try {
   step('arm 3', 'recover', { SEED_FILE: seeds.first, STATE_DIR: stateDir }, '4-recover-local.json')
   step('arm 6', 'seal', { SEED_FILE: seeds.first }, '5-seal-local.json')
   step('copy (a), second seed: account', 'account', { SEED_FILE: seeds.second }, '6-account-second-local.json')
-  step('copy (a), second seed: tickets with SEND_COPY_A', 'tickets', { SEED_FILE: seeds.second, RUN: '0', SEND_COPY_A: '1' }, '7-tickets-copy-a-local.json')
+  step('copy (a), second seed: tickets with SEND_COPY_A', 'tickets', { SEED_FILE: seeds.second, RUN: '0', SEND_COPY_A: '1', ...(copyANode ? { COPY_A_RPC_URL: rpcUrlOf(copyANode.node) } : {}) }, '7-tickets-copy-a-local.json')
 } finally {
   const builds = chain.builds()
   const checks = chain.checks()
+  const copyANodeLog = copyANode && existsSync(join(chain.dir, 'a.frames.jsonl')) ? readFileSync(join(chain.dir, 'a.frames.jsonl'), 'utf8').trim().split('\n').filter(Boolean).map((l) => JSON.parse(l)) : null
+  if (copyANode) await stopNode(copyANode.node.child)
   await chain.stop()
   const secretsText = [readFileSync(seeds.first, 'utf8'), readFileSync(seeds.second, 'utf8')]
   const words = secretsText.flatMap((t) => t.trim().split(/\s+/)).filter((w) => w.length > 3)
@@ -116,7 +142,8 @@ try {
     experiment: 22, for: 'exp-frames experiment 49, arms 2 to 6 on the local chain', run: label, date: new Date().toISOString(), repoCommit,
     procedure: 'exp-frames exp/49-pq-keys 7421e07, experiments/49-pq-keys/README.md, "Running arms 2 to 6 on a chain with EIP-8288"',
     binary: `kohaku-rs ${walletCommit}, crates/frame-pq, example pq_wallet, RUSTFLAGS="-C target-cpu=native"`,
-    command: `npx tsx experiments/22-q1-leansphincs-senders/q2-local.ts <pq_wallet> ${label} ${walletCommit}${verifyGasArg ? ` ${verifyGasArg}` : ''}`,
+    command: `npx tsx experiments/22-q1-leansphincs-senders/q2-local.ts <pq_wallet> ${label} ${walletCommit}${verifyGasArg ? ` ${verifyGasArg}` : ''}${COPY_A_PIN ? ` --copy-a-node ${COPY_A_PIN}` : ''}`,
+    copyANode: copyANode ? { pin: copyANode.name, skandha: copyANode.pin, profile: 'eip-8288-master', prover: 'experiment 19 x14-prover, verify-sphincs', lines: copyANodeLog } : null,
     chain: { chainId: Number(chain.chainId), ethrex: chain.ethrexCommit, setting: chain.setting, maxVerifyGas: chain.maxVerifyGas, funders, copiedFromTestnet: Object.fromEntries(Object.entries(copied).map(([a, c]) => [a, c.codeHash])) },
     builds, checks, logs,
   }

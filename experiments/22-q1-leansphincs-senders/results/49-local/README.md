@@ -61,3 +61,17 @@ Records of `q2-local.ts`, one directory per run.
   - On this chain such a transaction halts block production when it is included, since the builder
     does not drop it (experiment 22, arm 3). A node that checks the signature first refuses it at
     the node (the node-path pass).
+- `6-sixth-run/`, stated before it runs: kohaku-rs `04b4a0f`, whose copy (a) goes to
+  `COPY_A_RPC_URL` when set. The local pool's `VERIFY` budget is 500,000. One skandha node runs at
+  `e9512aa` (`skandhaNodePathNonceFix`), under `eip-8288-master` with the local chain id and
+  experiment 19's prover. `COPY_A_RPC_URL` points at that node for the copy (a) step only, and
+  every other step runs against ethrex as before. Both seeds are fresh, as in every run.
+  - **What the node is expected to do.** The wallet sends copy (a) with `eth_sendRawTransaction`.
+    skandha's node path admits a transaction with a dependency only after a `frames_sendWrapper`
+    call has proved it (its `FRAMES.md`, AG-6). So copy (a) is expected to be refused for that
+    missing proof, not for its signature. A refusal for the signature would need the copy sent as
+    a wrapper, with the binder's signature as its proof. The record keeps the node's answer and its
+    log lines, whichever it is.
+  - **What the rest is expected to do.** With copy (a) kept out of ethrex's pool, the second seed's
+    copies (b) and (c) and the rest of its arm run. Every block proof checks valid, and the chain
+    does not halt.
