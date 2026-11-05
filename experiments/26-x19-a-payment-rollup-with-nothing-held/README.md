@@ -188,3 +188,33 @@ co-signers are kept: a transfer still needs all of them, and the exit needs none
 - `contracts/`: the rollup, its queue and the escrow.
 - `run.ts`: parts 1 to 5 on the local chain.
 - `results/`: each run's record, with its commit, command and inputs.
+
+## Amendment 1, 2026-11-05, before any code
+
+Working out the contract fixed six choices the design above left open. None changes a prediction.
+
+- **The rollup is its own sender.** A block transaction's sender and payer is the rollup, as
+  experiment 24's `PoolSelf` is. Its `VERIFY` approves both execution and payment, and it pays
+  the gas from its balance, which deposits fund. An aggregator therefore holds no key and signs
+  nothing. It assembles the transaction from signed leaves and proofs, and names an address for
+  its fee. Each block transaction uses its transfer's nullifier as its EIP-8250 nonce key, so two
+  aggregators' blocks never share a nonce.
+- **$k$ and the expiry count rollup blocks,** which the rollup numbers in its own storage, not L1
+  blocks. EIP-8141's validation reads no block number, as experiment 18 found, so `VERIFY` reads
+  the rollup's own counter instead.
+- **The path is checked in `VERIFY`.** `VERIFY` checks each old leaf's path against the stored
+  root, and the execution frame writes the new root. So a block built on a stale root is refused,
+  not mined and reverted.
+- **The queue's rule in `VERIFY`.** The rollup keeps its queue in order. If the oldest unincluded
+  queued leaf was queued more than $k$ rollup blocks ago, `VERIFY` refuses any block that does not
+  include it. Anyone can post a block, so the queue matters in one case: when other blocks keep
+  moving the root, a member's own block keeps going stale, and the queue makes the others include
+  its leaf.
+- **Until the fold exists, a block carries one transfer.** That is the fallback stated above, since
+  a transaction carries one leanSTARK dependency (`docs/leanvm-program-layout.md`).
+- **The exit reveals its opening.** Freezing needs one member's leanSPHINCS dependency over the
+  freeze. Claiming reveals the channel's balance, its salt and its recipient, which the rollup
+  checks against the leaf with `keccak256` alone. So the exit needs no proof. The leaf commits the
+  recipient beside the keys:
+
+  $$\mathit{keys} = H(\mathit{key}_0, \mathit{key}_1, \mathit{recipient})$$
