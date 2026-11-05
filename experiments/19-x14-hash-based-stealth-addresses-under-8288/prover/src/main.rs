@@ -5,11 +5,16 @@
 //!        x14-prover verify <program.py> <public.json> <proof.bin>
 //!        x14-prover aggregate <claims.json> <out.bin>
 //!        x14-prover verify-aggregate <proof.bin> <claims.json>
+//!        x14-prover verify-sphincs <publicKey hex> <message hex> <signature hex>
 //!
 //! The last three are what the patched client calls (Amendment 3): a leanSTARK dependency's proof
 //! checked directly, and a block's leanSPHINCS dependencies aggregated by leanVM's own aggregation
 //! and checked by its own verifier, the proof serialized without the keys, which the verifier
 //! takes from the block. Each prints one JSON line; a refusal is `{"error": ...}`, exit status 2.
+//! `verify-sphincs` checks one leanSPHINCS signature alone, as a node checks the signature a mode-0
+//! wrapper carries: `{"verified": true}` or `{"verified": false}` with exit status 0 for a key of
+//! 32 bytes, a message of 32 and a signature of 7,740 (SIG_SIZE at 3cbac04), each hex with or
+//! without 0x; any other length, or a character that is not hex, is a refusal.
 //!
 //! input.json: { "public": [[c0, c1], [c0, c1]], "witness": { name: [[[c0, c1], ...], ...] },
 //!               "sphincs": [{ "publicKey": hex, "signature": hex, "message": hex }, ...],
@@ -207,6 +212,28 @@ fn verify_aggregate(proof: &str, claims: &str) {
     }
 }
 
+/// One leanSPHINCS signature, checked alone. A malformed input is a refusal; a well-formed
+/// signature that does not verify is `{"verified": false}`.
+fn verify_sphincs(public_key: &str, message: &str, signature: &str) {
+    use signatures::lean_sphincs as sp;
+    fn parse<const N: usize>(s: &str, what: &str) -> [u8; N] {
+        let h = s.trim_start_matches("0x");
+        if h.len() != 2 * N {
+            refuse(format_args!("{what}: {N} bytes of hex expected, got {} characters", h.len()));
+        }
+        if !h.bytes().all(|c| c.is_ascii_hexdigit()) {
+            refuse(format_args!("{what}: not hex"));
+        }
+        std::array::from_fn(|i| u8::from_str_radix(&h[2 * i..2 * i + 2], 16).expect("checked hex"))
+    }
+    let pk = sp::LeanSphincsPublicKey::from_bytes(&parse::<{ sp::PUB_KEY_SIZE }>(public_key, "publicKey"));
+    let msg = parse::<32>(message, "message");
+    let sig = sp::LeanSphincsSignature::from_bytes(&parse::<{ sp::SIG_SIZE }>(signature, "signature"));
+    let t = Instant::now();
+    let verified = sp::verify(&pk, &msg, &sig).is_ok();
+    println!("{}", json!({ "verified": verified, "verifyMs": t.elapsed().as_secs_f64() * 1000.0 }));
+}
+
 fn main() {
     let args: Vec<String> = std::env::args().collect();
     match args[1].as_str() {
@@ -214,6 +241,7 @@ fn main() {
         "verify" => return verify_one(&args[2], &args[3], &args[4]),
         "aggregate" => return aggregate(&args[2], &args[3]),
         "verify-aggregate" => return verify_aggregate(&args[2], &args[3]),
+        "verify-sphincs" => return verify_sphincs(&args[2], &args[3], &args[4]),
         _ => {}
     }
     let src = fs::read_to_string(&args[1]).expect("the program");
