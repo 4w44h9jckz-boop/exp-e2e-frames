@@ -16,20 +16,24 @@ const exec = promisify(execFile)
 const root = new URL('../../', import.meta.url).pathname
 const here = new URL('.', import.meta.url).pathname
 const [label, ef, wc] = process.argv.slice(2)
-const probe = process.argv.includes('--probe') ? process.argv[process.argv.indexOf('--probe') + 1] : null
+const arg = (k: string) => (process.argv.includes(k) ? process.argv[process.argv.indexOf(k) + 1] : null)
+const probe = arg('--probe')
+const only = arg('--only')?.split('|') ?? null
+const maxVerifyGas = arg('--max-verify-gas') ? Number(arg('--max-verify-gas')) : undefined
+const expectEf = arg('--ef-commit') ?? 'a629da4'
 if (!label || !/^\d+-[a-z0-9-]+$/.test(label) || !ef || !wc) throw new Error('usage: run.ts <n>-<label> <exp-frames checkout> <write-check> [--probe <id>]')
 delete process.env.PRIVATE_KEY
 const CASES = join(ef, 'experiments/58-write-list/cases')
 const efCommit = (await run('git', ['rev-parse', 'HEAD'], { cwd: ef })).trim()
 const efDirty = (await run('git', ['status', '--porcelain', '--', 'experiments/58-write-list'], { cwd: ef })).trim()
-if (!efCommit.startsWith('a629da4') || efDirty) throw new Error(`exp-frames must be a629da4 with its cases unchanged (at ${efCommit.slice(0, 7)}, dirty: ${efDirty ? 'yes' : 'no'})`)
+if (!efCommit.startsWith(expectEf) || efDirty) throw new Error(`exp-frames must be ${expectEf} with its cases unchanged (at ${efCommit.slice(0, 7)}, dirty: ${efDirty ? 'yes' : 'no'})`)
 const repoCommit = (await run('git', ['rev-parse', 'HEAD'], { cwd: root })).trim()
 
 const cases: any[] = JSON.parse(readFileSync(join(CASES, 'cases.json'), 'utf8'))
 const keys = JSON.parse(readFileSync(join(CASES, 'keys.json'), 'utf8'))
 const alloc = JSON.parse(readFileSync(join(CASES, 'genesis-alloc.json'), 'utf8'))
 
-const chain = await startLocalChain({ root, label: `e29-${label}`, setting: 'written', chainId: 8141, prover: L.PROVER, programs: join(root, 'experiments/19-x14-hash-based-stealth-addresses-under-8288/programs'), alloc })
+const chain = await startLocalChain({ root, label: `e29-${label}`, setting: 'written', chainId: 8141, prover: L.PROVER, programs: join(root, 'experiments/19-x14-hash-based-stealth-addresses-under-8288/programs'), alloc, maxVerifyGas })
 const url = chain.url
 console.log(`local chain ${chain.chainId}, ethrex ${chain.ethrexCommit.slice(0, 9)}; exp-frames ${efCommit.slice(0, 7)}`)
 
@@ -71,7 +75,7 @@ try {
   } else {
     const rows: any[] = []
     // 1 and 2: every runnable case judged against genesis; signed passes on ControlAccounts sent
-    for (const c of cases.filter((x) => x.runnable)) {
+    for (const c of cases.filter((x) => x.runnable && (!only || only.includes(x.id)))) {
       // judged without signing first: --sign refuses anything but a pass, and would lose the verdict
       const r = await writeCheck(c.raw, c, false)
       const verdict = r.out?.verdict?.status ?? 'error'
@@ -90,7 +94,7 @@ try {
     let seq = { h1: 0, h2: 0, noise: 0 }
     let state = 0x5829
     const rand = () => { state = (state * 1103515245 + 12345) & 0x7fffffff; return state / 0x7fffffff }
-    for (const who of ['h1', 'h2'] as const) {
+    for (const who of (only ? [] : ['h1', 'h2']) as ('h1' | 'h2')[]) {
       for (const p of [0, 0.25, 0.5, 1]) for (let t = 0; t < 8; t++) {
         const spec = JSON.parse(await casesTs('honest', who, String(seq[who])))
         const r = await writeCheck(spec.raw as Hex, { template: spec.template, params: spec.params, rules: 'f3079a0' }, true)
@@ -107,7 +111,7 @@ try {
     }
     const out = join(here, 'results', `${label}.json`)
     mkdirSync(join(here, 'results'), { recursive: true })
-    writeFileSync(out, `${JSON.stringify({ label, repoCommit, efCommit, writeCheck: wc, ethrex: chain.ethrexCommit, chainId: Number(chain.chainId), cases: rows, revertShare: trials }, null, 1)}\n`)
+    writeFileSync(out, `${JSON.stringify({ label, repoCommit, efCommit, writeCheck: wc, ethrex: chain.ethrexCommit, chainId: Number(chain.chainId), maxVerifyGas: maxVerifyGas ?? 100_000, only, cases: rows, revertShare: trials }, null, 1)}\n`)
     console.log(`wrote ${out}`)
   }
 } finally {

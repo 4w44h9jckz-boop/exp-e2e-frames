@@ -55,7 +55,22 @@ transaction's. This run gives the cases a chain to be simulated on.
 
 ## Deviations
 
-None yet.
+1. **Run 2, after run 1 and before it ran.** Experiment 58's amendment 2 (`83996e9`) diagnosed run
+   1's seven mismatches:
+   - **The two E batches:** its prediction was wrong and the case is right. They are not rerun.
+   - **Four of experiment 27's vectors:** a genesis defect. Their recipient did not exist, so each
+     transfer needed state gas its frame did not have. The new genesis funds the recipient, and
+     `cases.json` is byte-identical.
+   - **`deploy-first`:** the vector was built for the test network's 500,000 `VERIFY` budget.
+
+   **What runs.** At `exp-frames` `83996e9`, with `write-check` unchanged (`b9713ec`):
+   - `with-expiry`, `keyed-nonces`, `legacy-nonce-7` and `value-and-default`, on the new genesis
+     at the local chain's default 100,000;
+   - `deploy-first` alone, on a second chain at the test network's 500,000. This is a stated
+     deviation from EIP-8141's 100,000. Under 100,000, run 1's `not simulated` stands.
+
+   No other case and no revert-share trial is rerun, and run 1's record is unchanged. The
+   predictions are experiment 58's, unedited.
 
 ## Results, run 1 (2026-11-06)
 
