@@ -207,3 +207,46 @@ $10^{18}$, so its writes never happen, and `fail` is the correct answer (experim
   harmless first use of key 0. The replay is fixtures only: it cannot be mined on this chain.
 - **The harms with no write lie outside any list of writes, as predicted:** experiment 34's
   linkable pair, and an event-only frame.
+
+## Results, run 3: the replay (2026-11-06, deviations 2 and 3)
+
+**The records,** both with `exp-frames` at `44101bb`, `write-check` at `b9713ec`, the standard
+binary for the first half, and the same tree plus `eip8250-master.patch` for the second:
+- [`results/3-replay.json`](results/3-replay.json): the in-place switch, which failed;
+- [`results/3-replay-carried.json`](results/3-replay-carried.json): the retry across a carried
+  genesis, from commit `4dc8c01`.
+
+**The in-place switch failed, and that is a finding.** The first half ran and was mined. On restart
+with the master binary, ethrex re-executed block 1 under the new rules, and refused it: "Gas used
+doesn't match value in header. Used: 97920, Expected: 38145". Under master the same transaction
+writes a fresh nonce-manager slot. So a node catches a revision switched underneath it, and a
+revision change has to be a fork at a block height.
+
+**The replay across a fork boundary.** The same bytes, transaction
+`0xf94489c3772543944a0b9e1a755a4c0a879ab2936f7bf2908828cbf88166755f`, are judged and mined under
+each revision.
+
+| | First half, EIP-8250 at `f3079a0` | Second half, at master, on the carried state |
+|---|---|---|
+| `write-check` | `pass` | `pass` |
+| The nonce write, exempt by kind | the sender's account nonce, `0 -> 1` | the nonce manager's slot for `(sender, 0)`, `0 -> 1` |
+| The template's writes, matched | the recipient `+3` wei, the sender `-3` wei | the same |
+| Mined | block 1, status 1, 38,145 gas | block 3, status 1, 136,065 gas |
+| The recipient's balance | `1 -> 4` | `4 -> 7` |
+| The sponsor | pays the fee | pays the fee again |
+
+**Prediction: held. The claim's predicted failure is confirmed on a chain.**
+- Both halves pass, and the identical transaction is mined twice.
+- The value moves twice, and the sponsor pays twice.
+- Each half's writes are exactly the template's plus the two exemptions. They name nothing else,
+  so no list of writes can tell the replay from a harmless first use of key 0.
+
+The defence is not in the list of writes. It is a bound the signature itself carries: the expiry
+frame that experiment 27's draft recommends, or a revision committed into the digest.
+
+**The claim, over all three runs:**
+- **It holds for every harm that is a write and is not a replay:** 39 of 41 cases as predicted,
+  with the two E batches correctly refused against a wrong prediction.
+- **It fails on the EIP-8250 replay,** as experiment 58 predicted.
+- **The harms with no write lie outside any list of writes, as predicted:** experiment 34's
+  linkable pair, and an event-only frame.
