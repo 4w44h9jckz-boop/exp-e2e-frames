@@ -129,3 +129,38 @@ $p$, and H2's is 0.
 - the replay pair, which is fixtures only, and is where experiment 58 predicts the claim fails;
 - experiment 34's pair, also fixtures only;
 - the EIP-7906 encoding, since this chain has no mode 3.
+
+## Results, run 2 (2026-11-06, deviation 1)
+
+**The records,** both from commit `76c314a`, with `exp-frames` at `83996e9` (cases regenerated
+unchanged) and `write-check` at `b9713ec`:
+- [`results/2-new-genesis.json`](results/2-new-genesis.json): the four vectors on experiment 58's
+  new genesis, at the default 100,000;
+- [`results/2-deploy-first-500k.json`](results/2-deploy-first-500k.json): `deploy-first` alone, at
+  the test network's 500,000.
+
+| Case | Run 1 | Run 2 | Predicted |
+|---|---|---|---|
+| `with-expiry` | `fail`, missing | `pass` | `pass` |
+| `keyed-nonces` | `fail`, missing | `pass` | `pass` |
+| `legacy-nonce-7` | `fail`, missing | `pass` | `pass` |
+| `value-and-default` | `fail`, missing | `pass` | `pass` |
+| `deploy-first` | `not simulated` at 100,000 | `pass` at 500,000 | `pass` |
+
+**The tally over both runs.** Of the 41 runnable cases, 39 got experiment 58's predicted verdict:
+- 34 in run 1;
+- 5 in run 2, after the genesis was fixed and, for `deploy-first`, under the test network's
+  budget.
+
+The other two are experiment 28's E batches. There the prediction was wrong and the verdict is
+right: E was built to fail on slippage, with a minimum out of $10^{18} + 1$ for an input of
+$10^{18}$, so its writes never happen, and `fail` is the correct answer (experiment 58, amendment
+2). No harmful case passed in either run.
+
+**Where the claim stands.**
+- **It held for every case run on a chain:** every harm that is a write was caught, and every
+  harmless transaction that does what its template says passed.
+- **It has not met its predicted failure.** That is the EIP-8250 replay, whose writes equal a
+  harmless first use of key 0. The replay is fixtures only: it cannot be mined on this chain.
+- **The harms with no write lie outside any list of writes, as predicted:** experiment 34's
+  linkable pair, and an event-only frame.
