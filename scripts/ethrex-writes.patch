@@ -14,8 +14,8 @@
      execution_error: Option<String>,
 +    /// Every account the full execution changed, with each changed field before
 +    /// and after, read against the same head the simulation ran on. `null` when
-+    /// the full execution was not run or errored. (Local-chain patch for R-AI3:
-+    /// the exact list of writes a frame transaction makes, before it is signed.)
++    /// the full execution was not run or errored. (Local-chain patch: the exact
++    /// list of writes a frame transaction makes, before it is signed.)
 +    writes: Option<Vec<AccountWrite>>,
 +}
 +

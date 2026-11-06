@@ -80,7 +80,7 @@ try {
 
   const hash = await call('eth_sendRawTransaction', [raw])
   check(hash.toLowerCase() === frameTxHash(tx).toLowerCase(), 'sent')
-  await waitForFrameTxReceipt(chain.client, hash as Hex, 60_000)
+  await waitForFrameTxReceipt(chain.client, hash as Hex, { timeoutMs: 60_000 })
   for (const n of [1n, 2n]) {
     const onChain = BigInt(await call('eth_getStorageAt', [WRITER, word(n), 'latest']))
     check(onChain === BigInt(slot(n)?.after ?? -1), `after inclusion, writer slot ${n} equals the simulated after-value`)
