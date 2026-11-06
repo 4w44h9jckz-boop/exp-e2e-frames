@@ -72,6 +72,32 @@ transaction's. This run gives the cases a chain to be simulated on.
    No other case and no revert-share trial is rerun, and run 1's record is unchanged. The
    predictions are experiment 58's, unedited.
 
+2. **Run 3, the replay on a chain, before it ran.**
+   - **Why:** experiment 58 predicts its claim fails on the EIP-8250 replay. That is one
+     transaction, nonce keys `[0]`, which spends the legacy nonce under EIP-8250 at `f3079a0` and
+     an ordinary key 0 under master (`1a086d5c`). Its writes equal a harmless first use of key 0.
+     Run 1 had it as fixtures only.
+   - **How it runs, on one chain's history:**
+     1. Start the local chain with the standard binary (the `f3079a0` rules) on experiment 58's
+        genesis at `exp-frames` `44101bb`.
+     2. Run `write-check --rpc --rules f3079a0` on `A8250/original`'s raw, then send it.
+     3. Stop the node and restart it on the same data directory with a second binary: the same tree
+        with `exp-frames` experiment 27's `eip8250-master.patch` applied, which applies cleanly
+        on top of both patches.
+     4. Run `write-check --rpc --rules master` on the identical bytes (`A8250/replay`), then send
+        them.
+   - **The deviation:** a restart on a different binary is not a fork activated at a block height.
+     The node does not re-validate its past blocks. This is stated, not hidden.
+   - **Predicted** (experiment 58's prediction, as refined in its amendment 2):
+     - both verdicts are `pass`;
+     - the first half's nonce write is the sender's account nonce, `0 -> 1`, and the second's the
+       nonce manager's slot for `(sender, 0)`, `0 -> 1`, each exempt by kind;
+     - both are mined, so the sponsor pays twice and the recipient receives the value twice.
+   - **What would show the prediction wrong:**
+     - a `fail` on either half;
+     - the second send refused;
+     - either half's writes naming anything beyond the template's and the two exemptions.
+
 ## Results, run 1 (2026-11-06)
 
 **The record:** [`results/1-first.json`](results/1-first.json), from commit `4a6a847`.
