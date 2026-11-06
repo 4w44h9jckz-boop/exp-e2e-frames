@@ -56,3 +56,61 @@ transaction's. This run gives the cases a chain to be simulated on.
 ## Deviations
 
 None yet.
+
+## Results, run 1 (2026-11-06)
+
+**The record:** [`results/1-first.json`](results/1-first.json), from commit `4a6a847`.
+- **Command:** `npx tsx experiments/29-the-exact-list-of-writes-on-the-local-chain/run.ts 1-first <exp-frames at a629da4> <write-check at kohaku-rs b9713ec>`.
+- **The cases:** `cases.ts` regenerated them byte for byte before the run.
+- **The chain:** ethrex `64b8fc09d` with both patches, chain id 8141, genesis from experiment
+  58's `genesis-alloc.json`. The local chain's `VERIFY` budget is EIP-8141's 100,000.
+
+**The verdicts, against experiment 58's predictions.** 34 of 41 runnable cases got their
+predicted verdict.
+
+| Family | Predicted | Got |
+|---|---|---|
+| Experiment 27's eight refused cases | `not simulated` | `not simulated`, all eight |
+| Experiment 27's eleven valid cases | ten `pass`, `atomic-approve-swap` `fail` | five `pass`, `atomic-approve-swap` `fail`, four more `fail`, one `not simulated` |
+| Experiment 28's twelve batches | ten `pass`, the two D `fail` (amendment 1) | eight `pass`, the two D `fail`, the two E `fail` |
+| B0 to B6, C2 to C4 | B0, C2 and C3 `pass`; the other seven `fail` | all as predicted |
+
+**The signed passes, sent.** B0, C2 and C3 were each signed with Q in the batch form and sent.
+All three were mined with status 1, so the chain's re-check at inclusion agreed with the verdict
+at signing.
+
+**The seven mismatches.** None is a harmful case passing. In each, the checker refused a
+transaction the prediction expected it to accept, and in each the refusal is correct on this
+chain:
+- **`with-expiry`, `keyed-nonces`, `legacy-nonce-7`, `value-and-default`, and experiment 28's two
+  E batches.** Simulated on this chain, the body frame fails and the transaction reverts:
+  - per-frame success for `with-expiry` is `[true, true, true, false]`;
+  - for `keyed-nonces` and both E batches, `[true, true, false]`;
+  - for `value-and-default`, `[true, true, false, false]`.
+
+  So the writes the template expects never happen, and `write-check` reports each as missing. A
+  transaction that will not do what the user asked is refused. Why the body fails on this genesis
+  is a question for the cases' construction, and goes back to the experiment that built them.
+- **`deploy-first`.** It is `not simulated`, with "prefix gas budget exceeded: 115600 > 100000
+  (MAX_VERIFY_GAS)". The vector's validation fits the test network's 500,000 but not EIP-8141's
+  100,000, which the local chain runs by default.
+
+**The revert share.** Eight trials at each $p$, the noise transfer sent before the honest one
+when the seeded draw fell under $p$.
+
+| $p$ | H1, token transfer: reverted | Noise sent | H2, ether transfer: reverted | Noise sent |
+|---|---|---|---|---|
+| 0 | 0 of 8 | 0 | 0 of 8 | 0 |
+| 0.25 | 1 of 8 | 1 | 0 of 8 | 2 |
+| 0.5 | 4 of 8 | 4 | 0 of 8 | 4 |
+| 1 | 8 of 8 | 8 | 0 of 8 | 8 |
+
+H1 reverted exactly when the noise was sent: the batch form's final check re-reads the
+recipient's token balance against its simulated value. H2 never reverted, because an ether
+balance has no getter for that check. Both are as experiment 58 predicted: H1's share follows
+$p$, and H2's is 0.
+
+**What is not tested here:**
+- the replay pair, which is fixtures only, and is where experiment 58 predicts the claim fails;
+- experiment 34's pair, also fixtures only;
+- the EIP-7906 encoding, since this chain has no mode 3.
