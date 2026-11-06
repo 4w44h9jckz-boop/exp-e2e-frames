@@ -56,6 +56,9 @@ A live run also needs `git`, `bun` and `cargo`. It checks out and builds the pin
 | `skandha.ts` | skandha built and run as its `FRAMES.md` says: config, nodes, peers, `--frames.log` lines |
 | `kohaku.ts` | kohaku-rs examples built and run; a sender's standard error is never kept, because it prints the note's preimage |
 | `record.ts` | A run's record, written as a fixture under `test/fixtures/runs/` |
+| `localchain.ts` | A local ethrex chain with EIP-8288 patched in, and each dependency's witness handed to its builder |
+
+`docs/leanvm-program-layout.md` fixes how a client proof is laid out as a leanVM program: its key, the one digest it publishes, its triple, and how the chain receives it.
 
 ## Experiments
 
@@ -70,6 +73,14 @@ never merged.
 | 02 | `exp/02-x2-inclusion-list` | [The same withdrawal, listed by a skandha includer under a budget per list](experiments/02-x2-inclusion-list/): both nodes list it in the inclusion list they would publish while it is pending, within the budget, then it is mined |
 | 03 | `exp/03-i2-one-frame-format` | [One frame format across wallets](experiments/03-i2-one-frame-format/): exp-frames' TypeScript library, kohaku-rs's frame-kit and an implementation from the EIP texts against a public vector set ([`vectors/frame-tx/`](vectors/frame-tx/)); they agreed on every encoding and disagreed on what a decoder must refuse; after both wallets tightened their decoders, they agree on everything but kohaku-rs's 64-bit chain ID |
 | 04 | `exp/04-x3-ticket-paid-spend` | [A fresh sender paid with a blind ticket](experiments/04-x3-ticket-paid-spend/): two issuer sets from Commonware's DKG, each with a ticket paymaster a skandha node finds by its code alone; the node refused two junk tickets before asking its client, and admitted four ticket-paid spends from fresh senders, two from each set, which a second node handed to the chain and each set's paymaster paid for |
+
+## Measurements
+
+Measurements of Ethereum mainnet, read from public data, with no key and no test network.
+
+| Measurement | What it shows |
+|---|---|
+| [Gas by function](measurements/gas-by-function/) | What a sample of mainnet's execution gas pays for, by the events each transaction emitted, and how much is spent inside signature and proof precompiles. Run 1, 200 blocks over a week: at most 47.7 percent moved owned value, at least 31.4 percent traded or lent against shared state, about 1.9 percent settled rollups, posted blobs, bridged or updated oracles, and at least 1.72 percent was spent inside verification precompiles |
 
 ## Rules
 

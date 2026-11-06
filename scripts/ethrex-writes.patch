@@ -1,0 +1,179 @@
+--- a/crates/networking/rpc/ethrex.rs
++++ b/crates/networking/rpc/ethrex.rs
+@@ -15,6 +15,7 @@
+     },
+ };
+ use ethrex_crypto::NativeCrypto;
++use ethrex_vm::VmDatabase;
+ use ethrex_vm::backends::{FrameValidationOutcome, levm::get_max_allowed_gas_limit};
+ use serde::Serialize;
+ use serde_json::Value;
+@@ -81,6 +82,34 @@
+     /// the frame-tx exclusion model, or the payer was underfunded). `null`
+     /// otherwise.
+     execution_error: Option<String>,
++    /// Every account the full execution changed, with each changed field before
++    /// and after, read against the same head the simulation ran on. `null` when
++    /// the full execution was not run or errored. (Local-chain patch: the exact
++    /// list of writes a frame transaction makes, before it is signed.)
++    writes: Option<Vec<AccountWrite>>,
++}
++
++/// One account the simulated transaction changed.
++#[derive(Serialize)]
++#[serde(rename_all = "camelCase")]
++struct AccountWrite {
++    address: Address,
++    /// The account was destroyed.
++    removed: bool,
++    /// `[before, after]`, present only when the value changed.
++    balance: Option<[String; 2]>,
++    nonce: Option<[String; 2]>,
++    code_hash: Option<[String; 2]>,
++    /// Storage slots whose value changed, each `{slot, before, after}`.
++    storage: Vec<SlotWrite>,
++}
++
++#[derive(Serialize)]
++#[serde(rename_all = "camelCase")]
++struct SlotWrite {
++    slot: String,
++    before: String,
++    after: String,
+ }
+ 
+ /// Per-frame execution outcome for the full-execution step.
+@@ -261,6 +290,7 @@
+                 frames: None,
+                 execution_status: None,
+                 execution_error: None,
++                writes: None,
+             });
+         }
+ 
+@@ -285,13 +315,14 @@
+                 frames: None,
+                 execution_status: None,
+                 execution_error: None,
++                writes: None,
+             });
+         }
+ 
+         // The prefix passed and gas is bounded (checked above); run a full
+         // multi-frame execution on a SEPARATE fresh state (the prefix simulation
+         // mutated its own throwaway state) for accurate total + per-frame gas.
+-        let (gas_used, frames, execution_status, execution_error) =
++        let (gas_used, frames, execution_status, execution_error, writes) =
+             self.execute_for_gas(&context, &header, frame_tx.sender);
+ 
+         to_value(SimulateFrameTransactionResult {
+@@ -304,6 +335,7 @@
+             frames,
+             execution_status,
+             execution_error,
++            writes,
+         })
+     }
+ }
+@@ -348,14 +380,15 @@
+         Option<Vec<FrameExecResult>>,
+         Option<String>,
+         Option<String>,
++        Option<Vec<AccountWrite>>,
+     ) {
+         let vm_db = match StoreVmDatabase::new(context.storage.clone(), header.clone()) {
+             Ok(db) => db,
+-            Err(error) => return (None, None, None, Some(error.to_string())),
++            Err(error) => return (None, None, None, Some(error.to_string()), None),
+         };
+         let mut vm = match context.blockchain.new_evm(vm_db) {
+             Ok(vm) => vm,
+-            Err(error) => return (None, None, None, Some(error.to_string())),
++            Err(error) => return (None, None, None, Some(error.to_string()), None),
+         };
+         let mut cumulative_gas = 0u64;
+         let prospective = context.blockchain.prospective_header(header);
+@@ -378,16 +411,74 @@
+                 } else {
+                     "reverted"
+                 };
++                let writes = collect_writes(context, header, &mut vm).ok();
+                 (
+                     Some(format!("0x{:x}", report.gas_used)),
+                     frames,
+                     Some(status.to_owned()),
+                     None,
++                    writes,
+                 )
+             }
+-            Err(error) => (None, None, None, Some(error.to_string())),
++            Err(error) => (None, None, None, Some(error.to_string()), None),
++        }
++    }
++}
++
++/// The writes the executed transaction made: the VM's state transitions, each
++/// field compared with the head the simulation ran against.
++fn collect_writes(
++    context: &RpcApiContext,
++    header: &BlockHeader,
++    vm: &mut ethrex_vm::Evm,
++) -> Result<Vec<AccountWrite>, RpcErr> {
++    let before_db = StoreVmDatabase::new(context.storage.clone(), header.clone())?;
++    let updates = vm.get_state_transitions().map_err(RpcErr::from)?;
++    let pair = |a: String, b: String| if a == b { None } else { Some([a, b]) };
++    let mut out = Vec::new();
++    for update in updates {
++        let prior = before_db
++            .get_account_state(update.address)
++            .map_err(RpcErr::from)?;
++        let (balance0, nonce0, code0) = match &prior {
++            Some(state) => (state.balance, state.nonce, state.code_hash),
++            None => (U256::zero(), 0, *ethrex_common::constants::EMPTY_KECCAK_HASH),
++        };
++        let (balance1, nonce1, code1) = match &update.info {
++            Some(info) => (info.balance, info.nonce, info.code_hash),
++            None if update.removed => (U256::zero(), 0, *ethrex_common::constants::EMPTY_KECCAK_HASH),
++            None => (balance0, nonce0, code0),
++        };
++        let mut storage = Vec::new();
++        let mut slots: Vec<_> = update.added_storage.iter().collect();
++        slots.sort_by_key(|(slot, _)| **slot);
++        for (slot, after) in slots {
++            let before = before_db
++                .get_storage_slot(update.address, *slot)
++                .map_err(RpcErr::from)?
++                .unwrap_or_default();
++            if before != *after {
++                storage.push(SlotWrite {
++                    slot: format!("{slot:#x}"),
++                    before: to_hex_u256(before),
++                    after: to_hex_u256(*after),
++                });
++            }
++        }
++        let write = AccountWrite {
++            address: update.address,
++            removed: update.removed,
++            balance: pair(to_hex_u256(balance0), to_hex_u256(balance1)),
++            nonce: pair(format!("0x{nonce0:x}"), format!("0x{nonce1:x}")),
++            code_hash: pair(format!("{code0:#x}"), format!("{code1:#x}")),
++            storage,
++        };
++        if write.removed || write.balance.is_some() || write.nonce.is_some() || write.code_hash.is_some() || !write.storage.is_empty() {
++            out.push(write);
+         }
+     }
++    out.sort_by_key(|w| w.address);
++    Ok(out)
+ }
+ 
+ /// Builds the `{valid: false, ...}` response for a structurally invalid prefix
+@@ -404,6 +495,7 @@
+         frames: None,
+         execution_status: None,
+         execution_error: None,
++        writes: None,
+     })
+ }
+ 

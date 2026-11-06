@@ -1,0 +1,109 @@
+{
+ "label": "2-deploy-first-500k",
+ "repoCommit": "76c314a136fbdc1c1d32a627503b1c40f3fe1078",
+ "efCommit": "83996e906c5e03e6da29818fa001c083f30b097b",
+ "writeCheck": "/home/user/kohaku-rs/crates/target/release/write-check",
+ "ethrex": "64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c",
+ "chainId": 8141,
+ "maxVerifyGas": 500000,
+ "only": [
+  "A27/deploy-first"
+ ],
+ "cases": [
+  {
+   "id": "A27/deploy-first",
+   "family": "A: experiment 27",
+   "template": "eth-transfer",
+   "rules": "f3079a0",
+   "predicted": "pass",
+   "verdict": "pass",
+   "matches": true,
+   "result": {
+    "feeRecipient": "0x0000000000000000000000000000000000000000",
+    "intent": {
+     "allowed": [
+      {
+       "address": "0x2700000000000000000000000000000000000013",
+       "expect": {
+        "expect": "delta",
+        "value": "1"
+       },
+       "field": {
+        "field": "balance"
+       },
+       "getter": null,
+       "what": "0x2700000000000000000000000000000000000013's ether balance rises by 1"
+      }
+     ],
+     "template": "eth-transfer",
+     "value_out": "0x1"
+    },
+    "layoutChecks": [],
+    "q": {
+     "assertNamed": "0x682c9c89",
+     "assertWrites": "0x25c8701e000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000000000000002700000000000000000000000000000000000013000000000000000000000000000000000000000000000000000000000000000200000000000000000000000027000000000000000000000000000000000000010000000000000000000000000000000000000000000000056bc75e2d630fffff00000000000000000000000087761a88398830f371282d2d3e35d227ebfb8777"
+    },
+    "sender": "0x2700000000000000000000000000000000000001",
+    "transaction": "0xbb6962fdc79d08ab939853876ea43bbabcb81faa406ddd6e31943663823f7c58",
+    "verdict": {
+     "exempt": [
+      {
+       "change": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "after": "0x33b2e3c9fd0803cea707360",
+        "before": "0x33b2e3c9fd0803ce8000000",
+        "field": "balance"
+       },
+       "kind": "fee: the fee recipient"
+      },
+      {
+       "change": {
+        "address": "0x2700000000000000000000000000000000000001",
+        "after": "0x1",
+        "before": "0x0",
+        "field": "nonce"
+       },
+       "kind": "nonce: the sender's account nonce"
+      },
+      {
+       "change": {
+        "address": "0x87761a88398830f371282d2d3e35d227ebfb8777",
+        "after": "0x3635c9adc5dc2b2d9c",
+        "before": "0x3635c9adc5dea00000",
+        "field": "balance"
+       },
+       "kind": "fee: the payer"
+      }
+     ],
+     "matched": [
+      {
+       "change": {
+        "address": "0x2700000000000000000000000000000000000013",
+        "after": "0x2",
+        "before": "0x1",
+        "field": "balance"
+       },
+       "what": "0x2700000000000000000000000000000000000013's ether balance rises by 1"
+      },
+      {
+       "change": {
+        "address": "0x2700000000000000000000000000000000000001",
+        "after": "0x56bc75e2d630fffff",
+        "before": "0x56bc75e2d63100000",
+        "field": "balance"
+       },
+       "what": "the sender sends 1"
+      }
+     ],
+     "mismatched": [],
+     "missing": [],
+     "reason": null,
+     "status": "pass",
+     "unlisted": []
+    }
+   },
+   "stderr": null
+  }
+ ],
+ "revertShare": []
+}

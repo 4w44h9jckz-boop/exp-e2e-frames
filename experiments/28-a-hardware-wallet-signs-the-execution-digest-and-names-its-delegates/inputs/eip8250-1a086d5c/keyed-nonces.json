@@ -1,0 +1,117 @@
+{
+ "name": "keyed-nonces",
+ "set": "eip8250-1a086d5c",
+ "eip8250": "1a086d5c67cdcf3a134cc571eb4bb4b9bed6fb02",
+ "executionDigest": "0x02dbd20e824983a50f66b54377a226443c28ac1f1c982bf83621171622df6e9e",
+ "typedData": {
+  "types": {
+   "EIP712Domain": [
+    {
+     "name": "name",
+     "type": "string"
+    },
+    {
+     "name": "version",
+     "type": "string"
+    },
+    {
+     "name": "chainId",
+     "type": "uint256"
+    },
+    {
+     "name": "verifyingContract",
+     "type": "address"
+    }
+   ],
+   "FrameExecution": [
+    {
+     "name": "nonceKeysHash",
+     "type": "bytes32"
+    },
+    {
+     "name": "nonceSeq",
+     "type": "uint64"
+    },
+    {
+     "name": "frames",
+     "type": "Frame[]"
+    },
+    {
+     "name": "blobVersionedHashes",
+     "type": "bytes32[]"
+    }
+   ],
+   "Frame": [
+    {
+     "name": "mode",
+     "type": "uint8"
+    },
+    {
+     "name": "flags",
+     "type": "uint8"
+    },
+    {
+     "name": "target",
+     "type": "address"
+    },
+    {
+     "name": "executionLimit",
+     "type": "uint64"
+    },
+    {
+     "name": "stateLimit",
+     "type": "uint64"
+    },
+    {
+     "name": "value",
+     "type": "uint256"
+    },
+    {
+     "name": "data",
+     "type": "bytes"
+    }
+   ]
+  },
+  "primaryType": "FrameExecution",
+  "domain": {
+   "name": "FrameExecution",
+   "version": "1",
+   "chainId": 8141,
+   "verifyingContract": "0x2700000000000000000000000000000000000001"
+  },
+  "message": {
+   "nonceKeysHash": "0x3b3f4db82eff19aca2ac5a1a02131342533d0c3f1cbe0708264245d228496da5",
+   "nonceSeq": "0",
+   "frames": [
+    {
+     "mode": 1,
+     "flags": 2,
+     "target": "0x2700000000000000000000000000000000000001",
+     "executionLimit": 30000,
+     "stateLimit": 0,
+     "value": "0",
+     "data": "0x"
+    },
+    {
+     "mode": 1,
+     "flags": 1,
+     "target": "0x0000000000000000000000000000000000000000",
+     "executionLimit": 0,
+     "stateLimit": 0,
+     "value": "0",
+     "data": "0x"
+    },
+    {
+     "mode": 2,
+     "flags": 0,
+     "target": "0x2700000000000000000000000000000000000013",
+     "executionLimit": 30000,
+     "stateLimit": 0,
+     "value": "5",
+     "data": "0x"
+    }
+   ],
+   "blobVersionedHashes": []
+  }
+ }
+}

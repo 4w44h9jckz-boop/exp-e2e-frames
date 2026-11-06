@@ -1,0 +1,38 @@
+{
+  "experiment": 25,
+  "arm": 0,
+  "step": "INTMAX3's own partial-withdrawal end-to-end test, on anvil",
+  "run": "2-reproduce-anvil-one-thread",
+  "intmax3": "979318dbf48eee360235fab9b5675b82e8cfde12",
+  "command": "cargo test --release --locked --test partial_withdrawal_e2e partial_withdrawal_e2e_anvil -- --nocapture",
+  "exit": 101,
+  "seconds": 1574,
+  "peakRssKiB": 13846268,
+  "rayonThreads": "1",
+  "memoryLimitBytes": 14337302528,
+  "oomKills": [
+    "[14867.941497] Memory cgroup out of memory: Killed process 13542 (partial_withdra) total-vm:15031800kB, anon-rss:13844096kB, file-rss:2172kB, shmem-rss:0kB, UID:0 pgtables:27328kB oom_score_adj:0"
+  ],
+  "testResult": [
+    "test partial_withdrawal_e2e_anvil has been running for over 60 seconds"
+  ],
+  "proofLines": [
+    "[PW BENCH] balance receive-deposit prove=46.399493431s proof=133600 bytes",
+    "[PW BENCH] bootstrap spend prove=3.918874024s proof=132696 bytes",
+    "[PW BENCH] bootstrap balance send-tx prove=44.493040343s proof=133600 bytes",
+    "[PW BENCH] E-2 burn build+prove=1.517408978s proof=242881 bytes",
+    "[PW BENCH] burn spend prove=3.932608671s proof=132696 bytes",
+    "[PW BENCH] burn balance send-tx prove=47.497055821s proof=133600 bytes",
+    "[PW BENCH] 4-block hash chain prove=468.3749223s",
+    "[PW BENCH] validity prove=497.826403446s"
+  ],
+  "stepLines": [
+    "[PW E2E] rollup=0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0 (no settlement manager deployed)",
+    "[PW E2E] registration block 1 mirrored",
+    "[PW E2E] genesis OK, fund=90, chain=0x7e974a032ce279d1f6fd90b535b4a4577dc0cdadfb44872f0b970149e40a91d9",
+    "[PW E2E] build_burn_send OK, post_fund=85",
+    "[PW E2E] settled_tx_chain OK"
+  ],
+  "gasLines": [],
+  "panicLines": []
+}

@@ -1,0 +1,61 @@
+{
+ "run": "results/2-delegates-experimental.json",
+ "firmware": "2.13.1",
+ "model": "T3T1",
+ "layout": "Delizia",
+ "address": "0x73d0385F4d8E00C5e6504C6030F47BF6212736A8",
+ "vectors": [],
+ "delegates": [
+  {
+   "case": "a",
+   "chain_id": 1,
+   "delegate": "0x4Cd241E8d1510e30b2076397afc7508Ae59C66c9",
+   "signed": true,
+   "refusal": null,
+   "screens": 6,
+   "auth_nonce": "1",
+   "auth_recovers": true,
+   "screen_titles": [
+    "Warning",
+    "EIP-7702 Authorization",
+    "Address\nRecipient",
+    "Summary",
+    "Sign transaction"
+   ]
+  },
+  {
+   "case": "b",
+   "chain_id": 1,
+   "delegate": "0x000000000000000000000000000000000000dEaD",
+   "signed": false,
+   "refusal": "Unknown EIP-7702 delegate address",
+   "screens": 0,
+   "screen_titles": []
+  },
+  {
+   "case": "c",
+   "chain_id": 1,
+   "delegate": "0x0000000000000000000000000000000000000000",
+   "signed": true,
+   "refusal": null,
+   "screens": 6,
+   "auth_nonce": "1",
+   "auth_recovers": true,
+   "screen_titles": [
+    "EIP-7702 Revocation",
+    "Address\nRecipient",
+    "Summary",
+    "Sign transaction"
+   ]
+  },
+  {
+   "case": "d",
+   "chain_id": 8141,
+   "delegate": "0x4Cd241E8d1510e30b2076397afc7508Ae59C66c9",
+   "signed": false,
+   "refusal": "EIP-7702: unknown network",
+   "screens": 0,
+   "screen_titles": []
+  }
+ ]
+}

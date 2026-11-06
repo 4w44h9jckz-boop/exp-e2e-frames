@@ -1,0 +1,1343 @@
+{
+  "experiment": 27,
+  "run": "1-first",
+  "date": "2026-11-05T16:19:07.801Z",
+  "repoCommit": "14ed3aeb99258820c2173a3d156d22ca42183123",
+  "command": "npx tsx experiments/27-x20-messages-a-wallet-must-receive-with-no-operator/run.ts 1-first",
+  "chain": {
+    "chainId": 8141,
+    "ethrex": "64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c",
+    "setting": "written"
+  },
+  "board": "0x0000000000000000000000000000000000020020",
+  "fees": {
+    "relayPerByte": "100000",
+    "selfPost": "300000000",
+    "archiverPerRetrieval": "1000000"
+  },
+  "sizes": {
+    "firstContact": 2140,
+    "tagged": 1052,
+    "plaintext": 1024
+  },
+  "rows": [
+    {
+      "step": "W1 writes its directory entry",
+      "expect": "mined",
+      "hash": "0x3a3a7fad04d1f1dab70f5310d3bf9bd664fe96e33ddae9c49c71924d5648da0b",
+      "outcome": "mined",
+      "block": 1,
+      "gasUsed": 395697,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 6317,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 45189,
+          "state": 195840
+        }
+      ],
+      "pool": "admitted: 0x3a3a7fad04d1f1dab70f5310d3bf9bd664fe96e33ddae9c49c71924d5648da0b",
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "signatures": 0,
+      "kind": "setKey",
+      "party": "W1",
+      "version": 0
+    },
+    {
+      "step": "W2 writes its directory entry",
+      "expect": "mined",
+      "hash": "0xfa7f002cfa8e762ad2433e8814bfb5fca3d852e81cb3d15eb991fbc7181285fb",
+      "outcome": "mined",
+      "block": 3,
+      "gasUsed": 395697,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 6317,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 45189,
+          "state": 195840
+        }
+      ],
+      "pool": "admitted: 0xfa7f002cfa8e762ad2433e8814bfb5fca3d852e81cb3d15eb991fbc7181285fb",
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "signatures": 0,
+      "kind": "setKey",
+      "party": "W2",
+      "version": 0
+    },
+    {
+      "step": "G writes its directory entry",
+      "expect": "mined",
+      "hash": "0x760f40396800169de699a829affcbc4cd2b3a9a9d0a631346f6578d0bb0e1ee4",
+      "outcome": "mined",
+      "block": 5,
+      "gasUsed": 395697,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 6317,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 45189,
+          "state": 195840
+        }
+      ],
+      "pool": "admitted: 0x760f40396800169de699a829affcbc4cd2b3a9a9d0a631346f6578d0bb0e1ee4",
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "signatures": 0,
+      "kind": "setKey",
+      "party": "G",
+      "version": 0
+    },
+    {
+      "step": "bad: W1's entry written under W2's signature",
+      "expect": "refused",
+      "hash": "0x591afc115e248f2309c9484e951389c3a8823a508e19aa60908bda268cc9e1cf",
+      "outcome": "not mined",
+      "block": null,
+      "gasUsed": null,
+      "frames": [],
+      "pool": "refused: Invalid params: Frame transaction validation-prefix simulation failed: validation prefix frame reverted",
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted"
+      },
+      "signatures": 0,
+      "kind": "setKey"
+    },
+    {
+      "step": "W1 rotates its directory entry",
+      "expect": "mined",
+      "hash": "0xe861288d3584fea87547712fe1273a47878c42a7ff82f0821d710b41f96ae235",
+      "outcome": "mined",
+      "block": 7,
+      "gasUsed": 199857,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 6317,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 45189,
+          "state": 0
+        }
+      ],
+      "pool": "admitted: 0xe861288d3584fea87547712fe1273a47878c42a7ff82f0821d710b41f96ae235",
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "signatures": 0,
+      "kind": "setKey",
+      "party": "W1",
+      "version": 1
+    },
+    {
+      "step": "R1 posts G's recovery share, refusing W2's payloads",
+      "expect": "mined",
+      "hash": "0x4a703427c819ac4d08c7b5bae43c388096b6dcf64b6f94acce29206660ac72f7",
+      "outcome": "mined",
+      "block": 8,
+      "gasUsed": 331148,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 3732,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 25527,
+          "state": 183600
+        }
+      ],
+      "pool": "admitted: 0x4a703427c819ac4d08c7b5bae43c388096b6dcf64b6f94acce29206660ac72f7",
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "signatures": 0,
+      "kind": "post",
+      "carrier": "blob",
+      "relay": "R1",
+      "entries": 1,
+      "envelopeBytes": 2140,
+      "fees": [
+        "214000000"
+      ]
+    },
+    {
+      "step": "R2 posts W2's note opening, two grants and a checkpoint",
+      "expect": "mined",
+      "hash": "0x05cae15fff10ec09e9e8e6ec3dd224b556302f2ca08683de7fb0c651292497c9",
+      "outcome": "mined",
+      "block": 10,
+      "gasUsed": 385505,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 5631,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 12000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 34965,
+          "state": 183600
+        }
+      ],
+      "pool": "admitted: 0x05cae15fff10ec09e9e8e6ec3dd224b556302f2ca08683de7fb0c651292497c9",
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "signatures": 0,
+      "kind": "post",
+      "carrier": "blob",
+      "relay": "R2",
+      "entries": 4,
+      "envelopeBytes": 6384,
+      "fees": [
+        "214000000",
+        "105200000",
+        "214000000",
+        "105200000"
+      ]
+    },
+    {
+      "step": "A2 redeems W1's voucher",
+      "expect": "mined",
+      "hash": "0xf32c0a04a6efe9c706f9d01aa6ff694384a38b0ab7ed49fa59f4269db8a9bf0f",
+      "outcome": "mined",
+      "block": 12,
+      "gasUsed": 328864,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 3394,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 24269,
+          "state": 183600
+        }
+      ],
+      "pool": "admitted: 0xf32c0a04a6efe9c706f9d01aa6ff694384a38b0ab7ed49fa59f4269db8a9bf0f",
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "signatures": 0,
+      "kind": "redeem",
+      "archiver": "A2",
+      "by": "W1"
+    },
+    {
+      "step": "A2 redeems W1's voucher",
+      "expect": "mined",
+      "hash": "0x029bcc46d0021b53b3239068b01be03a24e22147d4ceeeceb10873bf08c02f28",
+      "outcome": "mined",
+      "block": 13,
+      "gasUsed": 145276,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 3394,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 24269,
+          "state": 0
+        }
+      ],
+      "pool": "admitted: 0x029bcc46d0021b53b3239068b01be03a24e22147d4ceeeceb10873bf08c02f28",
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "signatures": 0,
+      "kind": "redeem",
+      "archiver": "A2",
+      "by": "W1"
+    },
+    {
+      "step": "A2 redeems G's voucher",
+      "expect": "mined",
+      "hash": "0xa2e65744c2186c9a8ef90eefff429737b545e49fcf51606ac339dcf29759d4cf",
+      "outcome": "mined",
+      "block": 16,
+      "gasUsed": 145276,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 3394,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 24269,
+          "state": 0
+        }
+      ],
+      "pool": "admitted: 0xa2e65744c2186c9a8ef90eefff429737b545e49fcf51606ac339dcf29759d4cf",
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "signatures": 0,
+      "kind": "redeem",
+      "archiver": "A2",
+      "by": "G"
+    },
+    {
+      "step": "A2 redeems G's voucher",
+      "expect": "mined",
+      "hash": "0x9560fe784eca8b32a25504fd30ac0e4e07bdc75c5c292c38d0b380d014dcf3bd",
+      "outcome": "mined",
+      "block": 18,
+      "gasUsed": 145276,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 3394,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 24269,
+          "state": 0
+        }
+      ],
+      "pool": "admitted: 0x9560fe784eca8b32a25504fd30ac0e4e07bdc75c5c292c38d0b380d014dcf3bd",
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "signatures": 0,
+      "kind": "redeem",
+      "archiver": "A2",
+      "by": "G"
+    },
+    {
+      "step": "W2 posts its second note opening itself",
+      "expect": "mined",
+      "hash": "0x033891081df3ccd96a30f2bd6d11e8a9c5d5b5e4e1dab0c27525eaa1f4da0e18",
+      "outcome": "mined",
+      "block": 19,
+      "gasUsed": 207793,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 4650,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 22645,
+          "state": 0
+        }
+      ],
+      "pool": "admitted: 0x033891081df3ccd96a30f2bd6d11e8a9c5d5b5e4e1dab0c27525eaa1f4da0e18",
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "signatures": 0,
+      "kind": "post",
+      "carrier": "calldata",
+      "relay": null,
+      "entries": 1,
+      "envelopeBytes": 1052,
+      "fees": [
+        "300000000"
+      ]
+    },
+    {
+      "step": "G posts its second share itself",
+      "expect": "mined",
+      "hash": "0x040546810174edb707e3e4a69a38563366cb0fb19f5837dd3358ae43db04eef1",
+      "outcome": "mined",
+      "block": 21,
+      "gasUsed": 207793,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 4650,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 22645,
+          "state": 0
+        }
+      ],
+      "pool": "admitted: 0x040546810174edb707e3e4a69a38563366cb0fb19f5837dd3358ae43db04eef1",
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "signatures": 0,
+      "kind": "post",
+      "carrier": "calldata",
+      "relay": null,
+      "entries": 1,
+      "envelopeBytes": 1052,
+      "fees": [
+        "300000000"
+      ]
+    },
+    {
+      "step": "W2 posts checkpoint 2 itself",
+      "expect": "mined",
+      "hash": "0xa49a56f3f9ee44bbe6c254f0b15ef0a901933fe264cc320f2f14c9479e46bfc7",
+      "outcome": "mined",
+      "block": 22,
+      "gasUsed": 207793,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 4650,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 22645,
+          "state": 0
+        }
+      ],
+      "pool": "admitted: 0xa49a56f3f9ee44bbe6c254f0b15ef0a901933fe264cc320f2f14c9479e46bfc7",
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "signatures": 0,
+      "kind": "post",
+      "carrier": "calldata",
+      "relay": null,
+      "entries": 1,
+      "envelopeBytes": 1052,
+      "fees": [
+        "300000000"
+      ]
+    },
+    {
+      "step": "W2 grants the new document key to W1 alone",
+      "expect": "mined",
+      "hash": "0xff62b67a89f75943ff9a8c3c23fda239c3ceb6892061fd701b8a3f1de6ff5506",
+      "outcome": "mined",
+      "block": 24,
+      "gasUsed": 207793,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 4650,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 22645,
+          "state": 0
+        }
+      ],
+      "pool": "admitted: 0xff62b67a89f75943ff9a8c3c23fda239c3ceb6892061fd701b8a3f1de6ff5506",
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "signatures": 0,
+      "kind": "post",
+      "carrier": "calldata",
+      "relay": null,
+      "entries": 1,
+      "envelopeBytes": 1052,
+      "fees": [
+        "300000000"
+      ]
+    },
+    {
+      "step": "W2 posts checkpoint 1 under the new key",
+      "expect": "mined",
+      "hash": "0xa5de962941a3d7cacd2a47f0b0323a2c194f514e8a5f653214df50378e1797a8",
+      "outcome": "mined",
+      "block": 26,
+      "gasUsed": 207793,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 4650,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 22645,
+          "state": 0
+        }
+      ],
+      "pool": "admitted: 0xa5de962941a3d7cacd2a47f0b0323a2c194f514e8a5f653214df50378e1797a8",
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "signatures": 0,
+      "kind": "post",
+      "carrier": "calldata",
+      "relay": null,
+      "entries": 1,
+      "envelopeBytes": 1052,
+      "fees": [
+        "300000000"
+      ]
+    }
+  ],
+  "checks": {
+    "rotation": {
+      "newKeyOpensOldMessage": false,
+      "oldKeyOpensOldMessage": true,
+      "directoryServesNewKey": true
+    },
+    "revocation": {
+      "docKey2": "0x871e5a665039b1502b61152148db8e2a46a6fc57ae2b384824c6ee82609bf8fb",
+      "w1KnowsNewKey": true,
+      "gKnowsNewKey": false
+    }
+  },
+  "scans": {
+    "arm2W1": [
+      {
+        "envHash": "0x33fc66b74fd8919483db9cdfb7467b0c86be5d8246da4783c75fe4a3ffa84a14",
+        "kind": 0,
+        "source": "blob from A2",
+        "block": 8,
+        "plain": {
+          "from": "G",
+          "share": "0xaaa12da204428640bb0464f026db4a33a12c63913504c8690a805e3e54de3009",
+          "of": "W1 recovery, 2 of 3"
+        }
+      },
+      {
+        "envHash": "0x0e28d276c65e5c6cc4f5eb2c2d21229f0d3bfc3e949c52457035f94c9f983777",
+        "kind": 0,
+        "source": "blob from A2",
+        "block": 10,
+        "plain": {
+          "from": "W2",
+          "note": {
+            "value": "100000000000000000",
+            "blinding": "0xda1160d8c2b111d558de92bcf9a2f2cc3566747f42e651f72ec6ccdcf46b5e87",
+            "leaf": 7
+          }
+        }
+      },
+      {
+        "envHash": "0x83e9cbce916b89d52a0f3d8e3c9e5e1405a6a21ef84f2b2f0a715e35d892fbf3",
+        "kind": 1,
+        "source": "blob, fetched before",
+        "block": 10,
+        "plain": {
+          "from": "W2",
+          "grant": {
+            "doc": "x20",
+            "key": "0x3b588ef01ebb23e40a23eeff11a504906c6bff947e93eb57af4337edafd3931e"
+          }
+        }
+      },
+      {
+        "envHash": "0xe8964a96a60f95f48c216f83e614217ee42ed18cd10eeb6a99d45bf01a9ef244",
+        "kind": 2,
+        "source": "blob, fetched before",
+        "block": 10,
+        "plain": {
+          "doc": "x20",
+          "seq": 1,
+          "text": "checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one "
+        }
+      }
+    ],
+    "arm2G": [
+      {
+        "envHash": "0x85c37c3d2a98e1a84a8707e395c9b1987b4cb84e75beb61336e11da3a81aeb4d",
+        "kind": 0,
+        "source": "blob, fetched before",
+        "block": 10,
+        "plain": {
+          "from": "W2",
+          "grant": {
+            "doc": "x20",
+            "key": "0x3b588ef01ebb23e40a23eeff11a504906c6bff947e93eb57af4337edafd3931e"
+          }
+        }
+      },
+      {
+        "envHash": "0xe8964a96a60f95f48c216f83e614217ee42ed18cd10eeb6a99d45bf01a9ef244",
+        "kind": 2,
+        "source": "blob, fetched before",
+        "block": 10,
+        "plain": {
+          "doc": "x20",
+          "seq": 1,
+          "text": "checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one checkpoint one "
+        }
+      }
+    ],
+    "arm3W1": [
+      {
+        "envHash": "0x33fc66b74fd8919483db9cdfb7467b0c86be5d8246da4783c75fe4a3ffa84a14",
+        "kind": 0,
+        "outcome": "no archiver served the blob"
+      },
+      {
+        "envHash": "0x0e28d276c65e5c6cc4f5eb2c2d21229f0d3bfc3e949c52457035f94c9f983777",
+        "kind": 0,
+        "outcome": "no archiver served the blob"
+      },
+      {
+        "envHash": "0x83e9cbce916b89d52a0f3d8e3c9e5e1405a6a21ef84f2b2f0a715e35d892fbf3",
+        "kind": 1,
+        "outcome": "no archiver served the blob"
+      },
+      {
+        "envHash": "0x85c37c3d2a98e1a84a8707e395c9b1987b4cb84e75beb61336e11da3a81aeb4d",
+        "kind": 0,
+        "outcome": "no archiver served the blob"
+      },
+      {
+        "envHash": "0xe8964a96a60f95f48c216f83e614217ee42ed18cd10eeb6a99d45bf01a9ef244",
+        "kind": 2,
+        "outcome": "no archiver served the blob"
+      },
+      {
+        "envHash": "0x1c03ce0c6289b8d4c81a476da5034b06df3b102cc14358bf31246c2e19a9e8f2",
+        "kind": 1,
+        "source": "calldata",
+        "block": 19,
+        "plain": {
+          "from": "W2",
+          "note": {
+            "value": "50000000000000000",
+            "blinding": "0x090372b43ba7057d02bbe730da7ba9b4469f2a8f46f3b7b3425c4ad70fccb3e1",
+            "leaf": 8
+          }
+        }
+      },
+      {
+        "envHash": "0x21ab57b69bec354592ecf955e26a15444bb1d0bb8117e0120129dea5e3a91ae3",
+        "kind": 1,
+        "source": "calldata",
+        "block": 21,
+        "plain": {
+          "from": "G",
+          "share": "0xa64141a416a095e79792311c4533e429de42881856b16a26bf8b551548684c5f",
+          "of": "W1 recovery, 2 of 3, rotated"
+        }
+      },
+      {
+        "envHash": "0xa4b2366ff959ffbfd7ae51177e25670e86d0d5d07592ea153c0d29ec4eb5006e",
+        "kind": 2,
+        "source": "calldata",
+        "block": 22,
+        "plain": {
+          "doc": "x20",
+          "seq": 2,
+          "text": "checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two "
+        }
+      }
+    ],
+    "arm4W1": [
+      {
+        "envHash": "0x33fc66b74fd8919483db9cdfb7467b0c86be5d8246da4783c75fe4a3ffa84a14",
+        "kind": 0,
+        "outcome": "no archiver served the blob"
+      },
+      {
+        "envHash": "0x0e28d276c65e5c6cc4f5eb2c2d21229f0d3bfc3e949c52457035f94c9f983777",
+        "kind": 0,
+        "outcome": "no archiver served the blob"
+      },
+      {
+        "envHash": "0x83e9cbce916b89d52a0f3d8e3c9e5e1405a6a21ef84f2b2f0a715e35d892fbf3",
+        "kind": 1,
+        "outcome": "no archiver served the blob"
+      },
+      {
+        "envHash": "0x85c37c3d2a98e1a84a8707e395c9b1987b4cb84e75beb61336e11da3a81aeb4d",
+        "kind": 0,
+        "outcome": "no archiver served the blob"
+      },
+      {
+        "envHash": "0xe8964a96a60f95f48c216f83e614217ee42ed18cd10eeb6a99d45bf01a9ef244",
+        "kind": 2,
+        "outcome": "no archiver served the blob"
+      },
+      {
+        "envHash": "0x1c03ce0c6289b8d4c81a476da5034b06df3b102cc14358bf31246c2e19a9e8f2",
+        "kind": 1,
+        "source": "calldata",
+        "block": 19,
+        "plain": {
+          "from": "W2",
+          "note": {
+            "value": "50000000000000000",
+            "blinding": "0x090372b43ba7057d02bbe730da7ba9b4469f2a8f46f3b7b3425c4ad70fccb3e1",
+            "leaf": 8
+          }
+        }
+      },
+      {
+        "envHash": "0x21ab57b69bec354592ecf955e26a15444bb1d0bb8117e0120129dea5e3a91ae3",
+        "kind": 1,
+        "source": "calldata",
+        "block": 21,
+        "plain": {
+          "from": "G",
+          "share": "0xa64141a416a095e79792311c4533e429de42881856b16a26bf8b551548684c5f",
+          "of": "W1 recovery, 2 of 3, rotated"
+        }
+      },
+      {
+        "envHash": "0xa4b2366ff959ffbfd7ae51177e25670e86d0d5d07592ea153c0d29ec4eb5006e",
+        "kind": 2,
+        "source": "calldata",
+        "block": 22,
+        "plain": {
+          "doc": "x20",
+          "seq": 2,
+          "text": "checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two "
+        }
+      },
+      {
+        "envHash": "0x2ce22b0886ea04a4d5382325935ac80a4e33c5f5a35ef8f57679e33e490b9c0c",
+        "kind": 1,
+        "source": "calldata",
+        "block": 24,
+        "plain": {
+          "from": "W2",
+          "grant": {
+            "doc": "x20",
+            "key": "0x871e5a665039b1502b61152148db8e2a46a6fc57ae2b384824c6ee82609bf8fb"
+          }
+        }
+      },
+      {
+        "envHash": "0x573456dcc1afe15c0bfc997ffb259d39a644cd5a5d520cd13fee3f241f90905f",
+        "kind": 2,
+        "source": "calldata",
+        "block": 26,
+        "plain": {
+          "doc": "x20",
+          "seq": 3,
+          "text": "after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation after revocation "
+        }
+      }
+    ],
+    "arm4G": [
+      {
+        "envHash": "0x33fc66b74fd8919483db9cdfb7467b0c86be5d8246da4783c75fe4a3ffa84a14",
+        "kind": 0,
+        "outcome": "no archiver served the blob"
+      },
+      {
+        "envHash": "0x0e28d276c65e5c6cc4f5eb2c2d21229f0d3bfc3e949c52457035f94c9f983777",
+        "kind": 0,
+        "outcome": "no archiver served the blob"
+      },
+      {
+        "envHash": "0x85c37c3d2a98e1a84a8707e395c9b1987b4cb84e75beb61336e11da3a81aeb4d",
+        "kind": 0,
+        "outcome": "no archiver served the blob"
+      },
+      {
+        "envHash": "0xe8964a96a60f95f48c216f83e614217ee42ed18cd10eeb6a99d45bf01a9ef244",
+        "kind": 2,
+        "outcome": "no archiver served the blob"
+      },
+      {
+        "envHash": "0xa4b2366ff959ffbfd7ae51177e25670e86d0d5d07592ea153c0d29ec4eb5006e",
+        "kind": 2,
+        "source": "calldata",
+        "block": 22,
+        "plain": {
+          "doc": "x20",
+          "seq": 2,
+          "text": "checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two checkpoint two "
+        }
+      }
+    ]
+  },
+  "relayInputs": {
+    "R1": [
+      {
+        "refused": [
+          "W2",
+          "W2",
+          "W2",
+          "W2"
+        ]
+      },
+      {
+        "senderKey": "0x793cdbeaf29ce669073f400b5d795b3e76714de7ae151a76f06715dc6b2d44aa",
+        "envHash": "0x33fc66b74fd8919483db9cdfb7467b0c86be5d8246da4783c75fe4a3ffa84a14",
+        "bytes": 2140,
+        "kind": 0,
+        "tag": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "fee": "214000000"
+      }
+    ],
+    "R2": [
+      {
+        "senderKey": "0x840a7fe1a987f25240c60dd688f1631838e855819b42de1fd97c2d77b742a823",
+        "envHash": "0x0e28d276c65e5c6cc4f5eb2c2d21229f0d3bfc3e949c52457035f94c9f983777",
+        "bytes": 2140,
+        "kind": 0,
+        "tag": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "fee": "214000000"
+      },
+      {
+        "senderKey": "0x840a7fe1a987f25240c60dd688f1631838e855819b42de1fd97c2d77b742a823",
+        "envHash": "0x83e9cbce916b89d52a0f3d8e3c9e5e1405a6a21ef84f2b2f0a715e35d892fbf3",
+        "bytes": 1052,
+        "kind": 1,
+        "tag": "0xc5e248f14b7e342321c564366715a37de6fa97594eeb851ae69801184fd527af",
+        "fee": "105200000"
+      },
+      {
+        "senderKey": "0x840a7fe1a987f25240c60dd688f1631838e855819b42de1fd97c2d77b742a823",
+        "envHash": "0x85c37c3d2a98e1a84a8707e395c9b1987b4cb84e75beb61336e11da3a81aeb4d",
+        "bytes": 2140,
+        "kind": 0,
+        "tag": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "fee": "214000000"
+      },
+      {
+        "senderKey": "0x840a7fe1a987f25240c60dd688f1631838e855819b42de1fd97c2d77b742a823",
+        "envHash": "0xe8964a96a60f95f48c216f83e614217ee42ed18cd10eeb6a99d45bf01a9ef244",
+        "bytes": 1052,
+        "kind": 2,
+        "tag": "0x133c33e0862bdac074ecbafbaa560d0a0fcabe06a3bcfa686b224f4914f01387",
+        "fee": "105200000"
+      }
+    ]
+  },
+  "archiverInputs": {
+    "A1": [
+      {
+        "from": "R1",
+        "versionedHash": "0x010b88dbf32dafc0063dfb8527adeee6ecf7e7b551be074f44fd921944064ed2",
+        "bytes": 131072
+      },
+      {
+        "from": "R2",
+        "versionedHash": "0x013c94579f8279b6f5937074db39793109cf393e90cbb6bf0cd8972e2fb1e528",
+        "bytes": 131072
+      },
+      {
+        "request": {
+          "versionedHash": "0x010b88dbf32dafc0063dfb8527adeee6ecf7e7b551be074f44fd921944064ed2"
+        },
+        "by": "W1",
+        "online": false
+      },
+      {
+        "request": {
+          "versionedHash": "0x013c94579f8279b6f5937074db39793109cf393e90cbb6bf0cd8972e2fb1e528"
+        },
+        "by": "W1",
+        "online": false
+      },
+      {
+        "request": {
+          "versionedHash": "0x010b88dbf32dafc0063dfb8527adeee6ecf7e7b551be074f44fd921944064ed2"
+        },
+        "by": "G",
+        "online": false
+      },
+      {
+        "request": {
+          "versionedHash": "0x013c94579f8279b6f5937074db39793109cf393e90cbb6bf0cd8972e2fb1e528"
+        },
+        "by": "G",
+        "online": false
+      }
+    ],
+    "A2": [
+      {
+        "from": "R1",
+        "versionedHash": "0x010b88dbf32dafc0063dfb8527adeee6ecf7e7b551be074f44fd921944064ed2",
+        "bytes": 131072
+      },
+      {
+        "from": "R2",
+        "versionedHash": "0x013c94579f8279b6f5937074db39793109cf393e90cbb6bf0cd8972e2fb1e528",
+        "bytes": 131072
+      },
+      {
+        "request": {
+          "versionedHash": "0x010b88dbf32dafc0063dfb8527adeee6ecf7e7b551be074f44fd921944064ed2"
+        },
+        "by": "W1",
+        "online": true
+      },
+      {
+        "request": {
+          "versionedHash": "0x013c94579f8279b6f5937074db39793109cf393e90cbb6bf0cd8972e2fb1e528"
+        },
+        "by": "W1",
+        "online": true
+      },
+      {
+        "request": {
+          "versionedHash": "0x010b88dbf32dafc0063dfb8527adeee6ecf7e7b551be074f44fd921944064ed2"
+        },
+        "by": "G",
+        "online": true
+      },
+      {
+        "request": {
+          "versionedHash": "0x013c94579f8279b6f5937074db39793109cf393e90cbb6bf0cd8972e2fb1e528"
+        },
+        "by": "G",
+        "online": true
+      }
+    ]
+  },
+  "leaks": {
+    "plaintextInCarrierInputs": 0,
+    "recipientKeyInRelayInputs": 1,
+    "archiverRequestsNamingAPayload": 0
+  },
+  "scan": {
+    "blocks": 42,
+    "classical": []
+  },
+  "builds": [
+    {
+      "block": 1,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 4070.167571,
+        "claims": 1,
+        "peakRssBytes": 405512192,
+        "proofBytes": 264345
+      },
+      "ms": 4153
+    },
+    {
+      "block": 3,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 3122.295466,
+        "claims": 1,
+        "peakRssBytes": 405667840,
+        "proofBytes": 262745
+      },
+      "ms": 3135
+    },
+    {
+      "block": 5,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 2971.1644440000005,
+        "claims": 1,
+        "peakRssBytes": 405377024,
+        "proofBytes": 263321
+      },
+      "ms": 3198
+    },
+    {
+      "block": 7,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 2911.961682,
+        "claims": 1,
+        "peakRssBytes": 405590016,
+        "proofBytes": 262905
+      },
+      "ms": 2927
+    },
+    {
+      "block": 8,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 2994.03326,
+        "claims": 1,
+        "peakRssBytes": 405782528,
+        "proofBytes": 264441
+      },
+      "ms": 3007
+    },
+    {
+      "block": 10,
+      "dependencies": 4,
+      "leanSphincs": 4,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 2960.236602,
+        "claims": 4,
+        "peakRssBytes": 383840256,
+        "proofBytes": 247337
+      },
+      "ms": 2972
+    },
+    {
+      "block": 12,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 2825.5152749999997,
+        "claims": 1,
+        "peakRssBytes": 405475328,
+        "proofBytes": 264441
+      },
+      "ms": 2841
+    },
+    {
+      "block": 13,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 2774.267848,
+        "claims": 1,
+        "peakRssBytes": 397094912,
+        "proofBytes": 264921
+      },
+      "ms": 2786
+    },
+    {
+      "block": 16,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 2892.678842,
+        "claims": 1,
+        "peakRssBytes": 405458944,
+        "proofBytes": 264369
+      },
+      "ms": 2906
+    },
+    {
+      "block": 18,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 2941.855767,
+        "claims": 1,
+        "peakRssBytes": 405393408,
+        "proofBytes": 263993
+      },
+      "ms": 2954
+    },
+    {
+      "block": 19,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 2763.3506890000003,
+        "claims": 1,
+        "peakRssBytes": 405458944,
+        "proofBytes": 264569
+      },
+      "ms": 2776
+    },
+    {
+      "block": 21,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 2877.2954569999997,
+        "claims": 1,
+        "peakRssBytes": 405770240,
+        "proofBytes": 263449
+      },
+      "ms": 2890
+    },
+    {
+      "block": 22,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 2909.2702130000002,
+        "claims": 1,
+        "peakRssBytes": 396853248,
+        "proofBytes": 264665
+      },
+      "ms": 2924
+    },
+    {
+      "block": 24,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 3041.197521,
+        "claims": 1,
+        "peakRssBytes": 397074432,
+        "proofBytes": 264121
+      },
+      "ms": 3065
+    },
+    {
+      "block": 26,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 2907.528842,
+        "claims": 1,
+        "peakRssBytes": 396640256,
+        "proofBytes": 263065
+      },
+      "ms": 2920
+    }
+  ],
+  "chainChecks": [
+    {
+      "block": 1,
+      "hash": "0xda0cfc51493e15a11c7a394d149dbcbcf268f09fb0d5b77e1ec132cea98de17d",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2869
+    },
+    {
+      "block": 3,
+      "hash": "0x887a8699ee9ddd380d62470defca6a31360357148716198b54517b1691db1b36",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2710
+    },
+    {
+      "block": 5,
+      "hash": "0x77361ab104a6ce8b306e203573902a2761bca0ad52d7724469a6398fe346c503",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2789
+    },
+    {
+      "block": 7,
+      "hash": "0x5c350d4b0fa04fe23cd850b6bb6756850f5dd1892600d491395591ade4dfb1e9",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2672
+    },
+    {
+      "block": 8,
+      "hash": "0xa2eb1f3a8061639873b72bc6b653a14df7e27443c259f9db55b46337818eaf36",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2573
+    },
+    {
+      "block": 10,
+      "hash": "0xc8c6f85acd95cc11b5484f9b800ecc6eee2f4087b586d9ca2aa3922cb88d4a22",
+      "dependencies": 4,
+      "valid": true,
+      "reason": null,
+      "ms": 2779
+    },
+    {
+      "block": 12,
+      "hash": "0xfa4b5a4ba0835c89ab0dd9893fa329b2a192ef9ffede143c08063a2ba9478acc",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2722
+    },
+    {
+      "block": 13,
+      "hash": "0x322ff4d2a4aeee524204c633ecd0adf9166d15b5e5c8c1d9867ebbd7c4edc827",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2554
+    },
+    {
+      "block": 16,
+      "hash": "0x9abf3b14b159902e9c1b73bf2e1aef62c175d64237bdea0432f341a92174010c",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2688
+    },
+    {
+      "block": 18,
+      "hash": "0xbb4a0de9f701ab4b6c596c9d81cf95c7ca63e373b5608dd4b10fadbb5267707b",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2584
+    },
+    {
+      "block": 19,
+      "hash": "0x97f5537ae38933b8dad91ac765e7a22d479ade8ce46fd2645e121ca842386879",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2875
+    },
+    {
+      "block": 21,
+      "hash": "0xe1adb599bc5f8e0a944077081c99f3e5ca5a30d9c3aa78d48c2e6c94a3a3537d",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2666
+    },
+    {
+      "block": 22,
+      "hash": "0x4ac9f4b26f5fde2e4a03b6782f320b09cdf3c0fdbe2bcaf4c602cc9c09661191",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2725
+    },
+    {
+      "block": 24,
+      "hash": "0xcc4a6636d9d4afd9702b1c0d31128942a8f8ed8c9c7632e9ba9e5ef43a7555bc",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2719
+    },
+    {
+      "block": 26,
+      "hash": "0xc651a25a4e0d689526ac52b37e3df78a69ffc1d0baac545786df7a520345dae3",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2707
+    }
+  ],
+  "failure": null
+}

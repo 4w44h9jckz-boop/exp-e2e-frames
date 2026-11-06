@@ -1,0 +1,1386 @@
+{
+  "experiment": 19,
+  "run": "2-part2-local-extended",
+  "setting": "extended",
+  "deployment": "local-e1",
+  "repoCommit": "abc713cc2fec73e443ec40d06ee40f614aeaaaa1",
+  "chainId": 9,
+  "funder": "0x4417092B70a3E5f10Dc504d0947DD256B965fc62",
+  "ethrex": {
+    "commit": "64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c",
+    "patch": "ethrex-8288.patch",
+    "patchSha256": "0xaae808488450dc05f36a15a3071a9d09ca48824a92d1c7ad1fb0a841ec591134",
+    "genesis": "fixtures/genesis/l1-hegota.json, with ERC-5564's singleton added at its address"
+  },
+  "contracts": {
+    "factory": "0xD43CCCcdE7535Cc21A8a2123Df33aB32b7e30B6d",
+    "pool5": "0x0b9020F486CB79F998dd9Cf6A914AF686dE99757",
+    "singleton": "0x55649E01B5Df198D18D95b5cc5051630cfD45564"
+  },
+  "vk": {
+    "v1": "0xe5eb42d39069a335c123b45100ab0b1305603eee7c27556ad2f15fa2589ea7c1",
+    "v5": "0x3096ec913da5544bb27165383b34b169e9948ce5ae863c5827b97f19a9716fc4",
+    "v2a": "0xb6f2175d45529d8c60a5d10c971684e49cd357dda465dde0be495422c5ff4858"
+  },
+  "blocks": {
+    "first": 1,
+    "last": 0
+  },
+  "setup": [
+    {
+      "what": "deploy the factory and version 5's pool",
+      "hash": "0xb7a33b103c1a40b46c1013998426277b1567d6cbf1b0844a26bb3f49433fcf40",
+      "block": 1,
+      "gasUsed": 3115711,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "15853",
+          "state": "1474920"
+        },
+        {
+          "status": 1,
+          "execution": "12941",
+          "state": "1503990"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "what": "version 5's pool float",
+      "hash": "0xab158827b01147e567a3c1cd34fa6f0e48b5ce5c683e654769656859321e744e",
+      "block": 2,
+      "gasUsed": 26102,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "3040",
+          "state": "0"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "what": "v3: pay and announce, first account",
+      "hash": "0xa2bb644ae2d9c848154f4351733a05be7263bde5d2ef59e2fd5b1947e3faedde",
+      "block": 4,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "what": "v3: pay and announce, second account",
+      "hash": "0x300ae506b9c1f8b762c35640f3741e44ea45d145f5029b1b8a69e26a21d98aa8",
+      "block": 6,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "what": "v1: pay and announce, owner",
+      "hash": "0x98ca6e721598763680aa214df482fd2c4fa378241f826e247e960b1266da0e32",
+      "block": 11,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "what": "v2a: pay and announce, one key",
+      "hash": "0x11b2c8013e4faa0c7bdd3b37a44c145c4049b986e5bf645f45452748dba67775",
+      "block": 15,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "what": "v2a: pay and announce, two of three keys",
+      "hash": "0xfb613b55bfbe7a0d77dca500d315a6f51c997fad53fc286b315465aa0fc107ec",
+      "block": 19,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "what": "v3: pay and announce, third account",
+      "hash": "0x00e8a062b6f52c52f98d05a197665a07cf5433882777600f384854fe205232ba",
+      "block": 34,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "what": "v3: pay and announce, fourth account",
+      "hash": "0x8540d0760ba59e6401b033e5ecc94ccdad1eb95b79af22fe3f0ac12b882de800",
+      "block": 36,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "what": "v1: pay and announce, bad block, omit",
+      "hash": "0x21912187998371049a0923cc653dc36995119973a017faf7cb9c7185388c9969",
+      "block": 41,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "what": "v1: pay and announce, bad block, other",
+      "hash": "0x99bfdd1a9ec269058f6ff6b12ac86d2d9a23594090e19823a8f9aeb19828df0f",
+      "block": 44,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "ok": true
+    }
+  ],
+  "rows": [
+    {
+      "step": "v3: pay and announce, first account",
+      "hash": "0xa2bb644ae2d9c848154f4351733a05be7263bde5d2ef59e2fd5b1947e3faedde",
+      "block": 4,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "account": "0xF927Dda0E52A6797186587bEa6e80f0547a7dFEd"
+    },
+    {
+      "step": "v3: pay and announce, second account",
+      "hash": "0x300ae506b9c1f8b762c35640f3741e44ea45d145f5029b1b8a69e26a21d98aa8",
+      "block": 6,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "account": "0xffDB3114DbeC9CA26b5e9Fe99d0553CFC0D48209"
+    },
+    {
+      "step": "v3: the first account spends, under the long-term key",
+      "outcome": "mined",
+      "hash": "0xe318a4a318c2d4639bd82bdd137267b8833f3602bacffb6fbdac64ab6dfcd9ba",
+      "block": 8,
+      "gasUsed": 215292,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 1189,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 12246,
+          "state": 183600
+        }
+      ],
+      "calldataBytes": 164,
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "version": 3,
+      "declaredGas": 3000
+    },
+    {
+      "step": "v3: the second account spends, under the long-term key",
+      "outcome": "mined",
+      "hash": "0x7d45bce310e7e300f3421d600185443840e09e56593f6db936f474bcda283a21",
+      "block": 10,
+      "gasUsed": 215292,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 1189,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 12246,
+          "state": 183600
+        }
+      ],
+      "calldataBytes": 164,
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "version": 3,
+      "declaredGas": 3000
+    },
+    {
+      "step": "v1: pay and announce, owner",
+      "hash": "0x98ca6e721598763680aa214df482fd2c4fa378241f826e247e960b1266da0e32",
+      "block": 11,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "account": "0x3Fb375892aBb9aEa46Be2DC4e8063fb8182f603E"
+    },
+    {
+      "step": "v1: the owner spends to a fresh address",
+      "outcome": "mined",
+      "hash": "0xa9bb8da3762b94726c390d919c3ab9ec262a4bd3309f65c60156f9b8ee089d5d",
+      "block": 13,
+      "gasUsed": 242954,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 1351,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 30000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 12246,
+          "state": 183600
+        }
+      ],
+      "calldataBytes": 196,
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "version": 1,
+      "declaredGas": 30000,
+      "proof": {
+        "cycles": 32,
+        "proofBytes": 205088
+      }
+    },
+    {
+      "step": "v2a: pay and announce, one key",
+      "hash": "0x11b2c8013e4faa0c7bdd3b37a44c145c4049b986e5bf645f45452748dba67775",
+      "block": 15,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "account": "0x0bF25Ec21168B72596eC843Cf33bE85Ca592Fc80"
+    },
+    {
+      "step": "v2a: the owner spends, one key",
+      "outcome": "mined",
+      "hash": "0x98e2b945318055ccbedf1ab45cb25c3c277f75c52865c75ed15f47cd411bd106",
+      "block": 17,
+      "gasUsed": 243000,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 1373,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 30000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 12246,
+          "state": 183600
+        }
+      ],
+      "calldataBytes": 196,
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "version": 2,
+      "declaredGas": 30000,
+      "proof": {
+        "cycles": 6810,
+        "proofBytes": 244824
+      }
+    },
+    {
+      "step": "v2a: pay and announce, two of three keys",
+      "hash": "0xfb613b55bfbe7a0d77dca500d315a6f51c997fad53fc286b315465aa0fc107ec",
+      "block": 19,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "account": "0xD24BC42774911ecddE2f6728eB7571B80BCe3C5c"
+    },
+    {
+      "step": "v2a: the owner spends, two of three keys (keys 2 and 0)",
+      "outcome": "mined",
+      "hash": "0x49acabc03997ffc255e6a4b14530041f38f080fcf6322628dd1841e22f001982",
+      "block": 22,
+      "gasUsed": 242988,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 1373,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 30000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 12246,
+          "state": 183600
+        }
+      ],
+      "calldataBytes": 196,
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "version": 2,
+      "declaredGas": 30000,
+      "proof": {
+        "cycles": 11725,
+        "proofBytes": 226856
+      }
+    },
+    {
+      "step": "v5: deposit, owner",
+      "outcome": "mined",
+      "hash": "0xe2a48a6c1a033c4f8ce26c17a98870f686b4bf1f1a408d162da697e59a21e639",
+      "block": 23,
+      "gasUsed": 2580539
+    },
+    {
+      "step": "v5: deposit, delegated",
+      "outcome": "mined",
+      "hash": "0x5258a26845778644a2aa9fce4ed80bc649b1c8392f141a7656f43ff31b0f97c9",
+      "block": 27,
+      "gasUsed": 416213
+    },
+    {
+      "step": "v5: the owner withdraws to a fresh address",
+      "outcome": "mined",
+      "hash": "0xeb034963883372b850a105dba6d19cc5f357aee811c3aee181c151db81530bee",
+      "block": 31,
+      "gasUsed": 344287,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 3373,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 30000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 12293,
+          "state": 183600
+        }
+      ],
+      "calldataBytes": 260,
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "version": 5,
+      "declaredGas": 30000,
+      "proof": {
+        "cycles": 286,
+        "proofBytes": 205480
+      }
+    },
+    {
+      "step": "v3: pay and announce, third account",
+      "hash": "0x00e8a062b6f52c52f98d05a197665a07cf5433882777600f384854fe205232ba",
+      "block": 34,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "account": "0x0E882b6E0f73D9D64273F64385a933291dfD1a1F"
+    },
+    {
+      "step": "v3: pay and announce, fourth account",
+      "hash": "0x8540d0760ba59e6401b033e5ecc94ccdad1eb95b79af22fe3f0ac12b882de800",
+      "block": 36,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "account": "0x6EAaCeD614EEf33e547278342018869E5429174E"
+    },
+    {
+      "step": "v3: the third account spends (bad block: omit)",
+      "outcome": "mined",
+      "hash": "0xcd30aec6451b4b083d73f99bcf5255136b1c9931bf0347341ab0ec7de228f517",
+      "block": 38,
+      "gasUsed": 215292,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 1189,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 12246,
+          "state": 183600
+        }
+      ],
+      "calldataBytes": 164,
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "version": 3,
+      "declaredGas": 3000
+    },
+    {
+      "step": "v3: the fourth account spends (bad block: other)",
+      "outcome": "mined",
+      "hash": "0x2895671cca8c5cd2835d94d842da50ff8e15dd826bb93732306931363e8ddb35",
+      "block": 39,
+      "gasUsed": 215292,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 1189,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 12246,
+          "state": 183600
+        }
+      ],
+      "calldataBytes": 164,
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "version": 3,
+      "declaredGas": 3000
+    },
+    {
+      "step": "v1: pay and announce, bad block, omit",
+      "hash": "0x21912187998371049a0923cc653dc36995119973a017faf7cb9c7185388c9969",
+      "block": 41,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "account": "0x9A8989f83009d14f8D53013BA7fb8d7b6Ded04Ed"
+    },
+    {
+      "step": "v1: a spend (bad block: omit)",
+      "outcome": "mined",
+      "hash": "0x9c670b60779dabdc2da09ab4e53cccb1efc080e9fdd76ef7ac7dd9b6662c137b",
+      "block": 43,
+      "gasUsed": 242966,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 1351,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 30000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 12246,
+          "state": 183600
+        }
+      ],
+      "calldataBytes": 196,
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "version": 1,
+      "declaredGas": 30000,
+      "proof": {
+        "cycles": 32,
+        "proofBytes": 204144
+      }
+    },
+    {
+      "step": "v1: pay and announce, bad block, other",
+      "hash": "0x99bfdd1a9ec269058f6ff6b12ac86d2d9a23594090e19823a8f9aeb19828df0f",
+      "block": 44,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "account": "0xbfDc13C1B3B88396a9bF1723a7C1f9C19f2Ab335"
+    },
+    {
+      "step": "v1: a spend (bad block: other)",
+      "outcome": "mined",
+      "hash": "0x82048804d9f986b75732ffaae325161193b2a80040ab376a3e68635b6af55510",
+      "block": 47,
+      "gasUsed": 242966,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 1351,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 30000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 12246,
+          "state": 183600
+        }
+      ],
+      "calldataBytes": 196,
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "version": 1,
+      "declaredGas": 30000,
+      "proof": {
+        "cycles": 32,
+        "proofBytes": 203688
+      }
+    }
+  ],
+  "arm6": [
+    {
+      "mode": "omit",
+      "step": "v3: a spend whose block proof omits its dependency",
+      "refusedBlocks": [
+        {
+          "block": 38,
+          "hash": "0x6509a761bfd2bf496bf1167fab181839654dca500b86d85b6ff8f12147686e06",
+          "dependencies": 1,
+          "valid": false,
+          "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+          "ms": 0
+        }
+      ],
+      "acceptedAfter": [
+        {
+          "block": 38,
+          "hash": "0xe65b4dca48b38e7698f92e55ef82daef6bf9edae61ba19b602014fd152e708cf",
+          "dependencies": 1,
+          "valid": true,
+          "reason": null,
+          "ms": 2525
+        }
+      ],
+      "corruptBuild": [
+        {
+          "block": 38,
+          "dependencies": 1,
+          "leanSphincs": 0,
+          "leanStark": 0,
+          "corrupt": "omit",
+          "aggregate": null,
+          "ms": 0
+        }
+      ],
+      "minedIn": 38,
+      "refused": true
+    },
+    {
+      "mode": "other",
+      "step": "v3: a spend whose block proof is for another dependency",
+      "refusedBlocks": [
+        {
+          "block": 39,
+          "hash": "0x8ad738c94145f94793a6f24303d60db7da54259497ab25b4e953ff9b30c56304",
+          "dependencies": 1,
+          "valid": false,
+          "reason": "the aggregate proof does not cover the block's leanSPHINCS dependencies: {\"error\":\"Snark(GkrLayer(20))\"}",
+          "ms": 2614
+        }
+      ],
+      "acceptedAfter": [
+        {
+          "block": 39,
+          "hash": "0x4caa2276f3208172ce3e270ff25ae2493e090cb7cfb5e5a59a79c9ab44e4277c",
+          "dependencies": 1,
+          "valid": true,
+          "reason": null,
+          "ms": 2773
+        }
+      ],
+      "corruptBuild": [
+        {
+          "block": 39,
+          "dependencies": 1,
+          "leanSphincs": 1,
+          "leanStark": 0,
+          "corrupt": "other",
+          "aggregate": {
+            "aggregateMs": 2741.025133,
+            "claims": 1,
+            "peakRssBytes": 405737472,
+            "proofBytes": 264825
+          },
+          "ms": 2842
+        }
+      ],
+      "minedIn": 39,
+      "refused": true
+    },
+    {
+      "mode": "omit",
+      "step": "v1: a spend whose block proof omits its dependency",
+      "refusedBlocks": [
+        {
+          "block": 43,
+          "hash": "0x5dfd4e465ea796e968b5da5a72d3ff77b4998f4ab1a68b47a0ec2697c0f74ac1",
+          "dependencies": 1,
+          "valid": false,
+          "reason": "no proof for leanSTARK dependency 96b932364365582032426a31917bb63a74c1ddb49e962920ff77f35c49ff8a19",
+          "ms": 0
+        }
+      ],
+      "acceptedAfter": [
+        {
+          "block": 43,
+          "hash": "0x8f4c4b6a46cd3a4fd6e465e11dce92fa6daea9d503f14a366752cb02e49a75ef",
+          "dependencies": 1,
+          "valid": true,
+          "reason": null,
+          "ms": 21
+        }
+      ],
+      "corruptBuild": [
+        {
+          "block": 43,
+          "dependencies": 1,
+          "leanSphincs": 0,
+          "leanStark": 0,
+          "corrupt": "omit",
+          "aggregate": null,
+          "ms": 46
+        }
+      ],
+      "minedIn": 43,
+      "refused": true
+    },
+    {
+      "mode": "other",
+      "step": "v1: a spend whose block proof is for another statement",
+      "refusedBlocks": [
+        {
+          "block": 47,
+          "hash": "0x08f0207bced452ab0a73a1373a079e653857230065ec3bbbd999ab6bd0aa774c",
+          "dependencies": 1,
+          "valid": false,
+          "reason": "leanSTARK dependency 015770a9124e3d8a5ac0f750b5ad73ebaca036450cccee9da61f4bd423d340f4 does not verify: {\"error\":\"Verifier(GkrLayer(16))\"}",
+          "ms": 5
+        }
+      ],
+      "acceptedAfter": [
+        {
+          "block": 47,
+          "hash": "0xad765867aba44c70360b551a0371671d09d98705736d0f9cb38a502300908f77",
+          "dependencies": 1,
+          "valid": true,
+          "reason": null,
+          "ms": 31
+        }
+      ],
+      "corruptBuild": [
+        {
+          "block": 47,
+          "dependencies": 1,
+          "leanSphincs": 0,
+          "leanStark": 1,
+          "corrupt": "other",
+          "aggregate": null,
+          "ms": 0
+        }
+      ],
+      "minedIn": 47,
+      "refused": true
+    }
+  ],
+  "prediction5": [
+    {
+      "step": "v3: pay and announce, first account",
+      "local": 1454939,
+      "modelled": 1455067,
+      "measuredThere": 1455067,
+      "declared": 0,
+      "difference": -128
+    },
+    {
+      "step": "v3: pay and announce, second account",
+      "local": 1454939,
+      "modelled": 1455067,
+      "measuredThere": 1455067,
+      "declared": 0,
+      "difference": -128
+    },
+    {
+      "step": "v3: the first account spends, under the long-term key",
+      "local": 215292,
+      "modelled": 214769,
+      "measuredThere": 211769,
+      "declared": 3000,
+      "difference": 523
+    },
+    {
+      "step": "v3: the second account spends, under the long-term key",
+      "local": 215292,
+      "modelled": 214781,
+      "measuredThere": 211781,
+      "declared": 3000,
+      "difference": 511
+    },
+    {
+      "step": "v1: pay and announce, owner",
+      "local": 1454939,
+      "modelled": 1455067,
+      "measuredThere": 1455067,
+      "declared": 0,
+      "difference": -128
+    },
+    {
+      "step": "v1: the owner spends to a fresh address",
+      "local": 242954,
+      "modelled": 242443,
+      "measuredThere": 212443,
+      "declared": 30000,
+      "difference": 511
+    },
+    {
+      "step": "v2a: pay and announce, one key",
+      "local": 1454939,
+      "modelled": 1455067,
+      "measuredThere": 1455067,
+      "declared": 0,
+      "difference": -128
+    },
+    {
+      "step": "v2a: the owner spends, one key",
+      "local": 243000,
+      "modelled": 242477,
+      "measuredThere": 212477,
+      "declared": 30000,
+      "difference": 523
+    },
+    {
+      "step": "v2a: pay and announce, two of three keys",
+      "local": 1454939,
+      "modelled": 1455067,
+      "measuredThere": 1455067,
+      "declared": 0,
+      "difference": -128
+    },
+    {
+      "step": "v2a: the owner spends, two of three keys (keys 2 and 0)",
+      "local": 242988,
+      "modelled": 242465,
+      "measuredThere": 212465,
+      "declared": 30000,
+      "difference": 523
+    },
+    {
+      "step": "v5: deposit, owner",
+      "local": 2580539,
+      "modelled": 2580539,
+      "measuredThere": 2580539,
+      "declared": 0,
+      "difference": 0
+    },
+    {
+      "step": "v5: deposit, delegated",
+      "local": 416213,
+      "modelled": 416213,
+      "measuredThere": 416213,
+      "declared": 0,
+      "difference": 0
+    },
+    {
+      "step": "v5: the owner withdraws to a fresh address",
+      "local": 344287,
+      "modelled": 343792,
+      "measuredThere": 313792,
+      "declared": 30000,
+      "difference": 495
+    }
+  ],
+  "nodeRecords": {
+    "builds": [
+      {
+        "block": 8,
+        "dependencies": 1,
+        "leanSphincs": 1,
+        "leanStark": 0,
+        "corrupt": null,
+        "aggregate": {
+          "aggregateMs": 3134.04315,
+          "claims": 1,
+          "peakRssBytes": 405630976,
+          "proofBytes": 265241
+        },
+        "ms": 3153
+      },
+      {
+        "block": 10,
+        "dependencies": 1,
+        "leanSphincs": 1,
+        "leanStark": 0,
+        "corrupt": null,
+        "aggregate": {
+          "aggregateMs": 2882.277295,
+          "claims": 1,
+          "peakRssBytes": 405487616,
+          "proofBytes": 264249
+        },
+        "ms": 2898
+      },
+      {
+        "block": 13,
+        "dependencies": 1,
+        "leanSphincs": 0,
+        "leanStark": 1,
+        "corrupt": null,
+        "aggregate": null,
+        "ms": 0
+      },
+      {
+        "block": 17,
+        "dependencies": 1,
+        "leanSphincs": 0,
+        "leanStark": 1,
+        "corrupt": null,
+        "aggregate": null,
+        "ms": 0
+      },
+      {
+        "block": 22,
+        "dependencies": 1,
+        "leanSphincs": 0,
+        "leanStark": 1,
+        "corrupt": null,
+        "aggregate": null,
+        "ms": 0
+      },
+      {
+        "block": 31,
+        "dependencies": 1,
+        "leanSphincs": 0,
+        "leanStark": 1,
+        "corrupt": null,
+        "aggregate": null,
+        "ms": 0
+      },
+      {
+        "block": 38,
+        "dependencies": 1,
+        "leanSphincs": 0,
+        "leanStark": 0,
+        "corrupt": "omit",
+        "aggregate": null,
+        "ms": 0
+      },
+      {
+        "block": 38,
+        "dependencies": 1,
+        "leanSphincs": 1,
+        "leanStark": 0,
+        "corrupt": null,
+        "aggregate": {
+          "aggregateMs": 2708.036206,
+          "claims": 1,
+          "peakRssBytes": 405176320,
+          "proofBytes": 265145
+        },
+        "ms": 2723
+      },
+      {
+        "block": 39,
+        "dependencies": 1,
+        "leanSphincs": 1,
+        "leanStark": 0,
+        "corrupt": "other",
+        "aggregate": {
+          "aggregateMs": 2741.025133,
+          "claims": 1,
+          "peakRssBytes": 405737472,
+          "proofBytes": 264825
+        },
+        "ms": 2842
+      },
+      {
+        "block": 39,
+        "dependencies": 1,
+        "leanSphincs": 1,
+        "leanStark": 0,
+        "corrupt": null,
+        "aggregate": {
+          "aggregateMs": 2900.01524,
+          "claims": 1,
+          "peakRssBytes": 405827584,
+          "proofBytes": 265081
+        },
+        "ms": 2961
+      },
+      {
+        "block": 43,
+        "dependencies": 1,
+        "leanSphincs": 0,
+        "leanStark": 0,
+        "corrupt": "omit",
+        "aggregate": null,
+        "ms": 46
+      },
+      {
+        "block": 43,
+        "dependencies": 1,
+        "leanSphincs": 0,
+        "leanStark": 1,
+        "corrupt": null,
+        "aggregate": null,
+        "ms": 97
+      },
+      {
+        "block": 47,
+        "dependencies": 1,
+        "leanSphincs": 0,
+        "leanStark": 1,
+        "corrupt": "other",
+        "aggregate": null,
+        "ms": 0
+      },
+      {
+        "block": 47,
+        "dependencies": 1,
+        "leanSphincs": 0,
+        "leanStark": 1,
+        "corrupt": null,
+        "aggregate": null,
+        "ms": 0
+      }
+    ],
+    "checks": [
+      {
+        "block": 8,
+        "hash": "0xdf3b4004f79a89082c7fc955232783d9fe9909234f8fe4836c9f7c4bbd775b8c",
+        "dependencies": 1,
+        "valid": true,
+        "reason": null,
+        "ms": 2815
+      },
+      {
+        "block": 10,
+        "hash": "0xf1f48de32c77ff367cd93caf23ad32aa18ff5f31c754f1eed6ee1f4fcf6945e1",
+        "dependencies": 1,
+        "valid": true,
+        "reason": null,
+        "ms": 2641
+      },
+      {
+        "block": 13,
+        "hash": "0x58e1cfc5fe083b191e31e2a8f5bf9408b4359880c4135595119c21054d15742d",
+        "dependencies": 1,
+        "valid": true,
+        "reason": null,
+        "ms": 21
+      },
+      {
+        "block": 17,
+        "hash": "0xe7960a5941a54c9ef2cc88bea5f96a9f6e8e6fbad2558aa791d5f30e4fd0d6b2",
+        "dependencies": 1,
+        "valid": true,
+        "reason": null,
+        "ms": 219
+      },
+      {
+        "block": 22,
+        "hash": "0x12ec63ae9362132016e64ff31dd4129e676fe9e64228ffb407a2cdaec155bc9e",
+        "dependencies": 1,
+        "valid": true,
+        "reason": null,
+        "ms": 282
+      },
+      {
+        "block": 31,
+        "hash": "0x04d3ab9d8c4db072f833d6b2207b50f06392712cf6738c3cd31c8ef80bf8bc35",
+        "dependencies": 1,
+        "valid": true,
+        "reason": null,
+        "ms": 19
+      },
+      {
+        "block": 38,
+        "hash": "0x6509a761bfd2bf496bf1167fab181839654dca500b86d85b6ff8f12147686e06",
+        "dependencies": 1,
+        "valid": false,
+        "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+        "ms": 0
+      },
+      {
+        "block": 38,
+        "hash": "0xe65b4dca48b38e7698f92e55ef82daef6bf9edae61ba19b602014fd152e708cf",
+        "dependencies": 1,
+        "valid": true,
+        "reason": null,
+        "ms": 2525
+      },
+      {
+        "block": 39,
+        "hash": "0x8ad738c94145f94793a6f24303d60db7da54259497ab25b4e953ff9b30c56304",
+        "dependencies": 1,
+        "valid": false,
+        "reason": "the aggregate proof does not cover the block's leanSPHINCS dependencies: {\"error\":\"Snark(GkrLayer(20))\"}",
+        "ms": 2614
+      },
+      {
+        "block": 39,
+        "hash": "0x4caa2276f3208172ce3e270ff25ae2493e090cb7cfb5e5a59a79c9ab44e4277c",
+        "dependencies": 1,
+        "valid": true,
+        "reason": null,
+        "ms": 2773
+      },
+      {
+        "block": 43,
+        "hash": "0x5dfd4e465ea796e968b5da5a72d3ff77b4998f4ab1a68b47a0ec2697c0f74ac1",
+        "dependencies": 1,
+        "valid": false,
+        "reason": "no proof for leanSTARK dependency 96b932364365582032426a31917bb63a74c1ddb49e962920ff77f35c49ff8a19",
+        "ms": 0
+      },
+      {
+        "block": 43,
+        "hash": "0x8f4c4b6a46cd3a4fd6e465e11dce92fa6daea9d503f14a366752cb02e49a75ef",
+        "dependencies": 1,
+        "valid": true,
+        "reason": null,
+        "ms": 21
+      },
+      {
+        "block": 47,
+        "hash": "0x08f0207bced452ab0a73a1373a079e653857230065ec3bbbd999ab6bd0aa774c",
+        "dependencies": 1,
+        "valid": false,
+        "reason": "leanSTARK dependency 015770a9124e3d8a5ac0f750b5ad73ebaca036450cccee9da61f4bd423d340f4 does not verify: {\"error\":\"Verifier(GkrLayer(16))\"}",
+        "ms": 5
+      },
+      {
+        "block": 47,
+        "hash": "0xad765867aba44c70360b551a0371671d09d98705736d0f9cb38a502300908f77",
+        "dependencies": 1,
+        "valid": true,
+        "reason": null,
+        "ms": 31
+      }
+    ]
+  }
+}

@@ -1,0 +1,409 @@
+{
+  "experiment": 17,
+  "run": "1-first-run",
+  "deployment": "d6",
+  "repoCommit": "379a5fb7b7dc1bb6352dc15217a85816a2e652fe",
+  "chainId": 8141,
+  "funder": "0xa131d9454d87957dcC465fb37ACD9b383648B4d5",
+  "contracts": {
+    "announcer": "0xEbd0A349b5E97988B813C1210C0123604df72CD4",
+    "board": "0x42ed4B9fD125Af689e67E3E1f92E3aA079F1af72",
+    "archive": "0xcb185c4f306E47BFeD2da3425E80a843889b7aa2",
+    "packer": "0xe9DD9aFC417EE70b61F10F050c0846C400001d2d"
+  },
+  "archivers": {
+    "A": "0xffE82b5ab214dD3A7E55944b47572573337c1D7c",
+    "B": "0xe540E3A2d8D29c58D936b5Ec9DA5EFc7730a3962"
+  },
+  "pins": {
+    "skandha": {
+      "url": "https://github.com/4w44h9jckz-boop/skandha",
+      "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade",
+      "why": "one node, sent the Board's blob-carrying frame transaction to record its answer; the commit experiments 06 to 16 ran"
+    },
+    "exp-frames": {
+      "url": "https://github.com/4w44h9jckz-boop/exp-frames",
+      "commit": "37ac4aa36e48a7be390c9cbfedb7bbc31ac6e2b5",
+      "why": "src/exp-frames/ is copied from it (frame encoding, simulation, deployment)"
+    }
+  },
+  "setup": [
+    {
+      "what": "deploy the announcer, the board and the archive",
+      "hash": "0xe3f0c9a19b47a1a1ed70f620fc4288e2b263dfafc8339685a03fa0da35b945db",
+      "block": 642077,
+      "gasUsed": 10944270,
+      "ok": true
+    },
+    {
+      "what": "the board's deposit, and ether for the two archivers",
+      "hash": "0x9c566fa0c715f5d8b995417c76ddf1ed9afb61c4ded8aa6bc65c85453ca2a87e",
+      "block": 642078,
+      "gasUsed": 522275,
+      "ok": true
+    },
+    {
+      "what": "archiver A bonds",
+      "hash": "0x140f55085c4093b9c33c75c6ce96722203555e62880c4a6897931089c2188237",
+      "block": 642079,
+      "gasUsed": 137894,
+      "ok": true
+    },
+    {
+      "what": "archiver B bonds",
+      "hash": "0x97f8ce0300adcbdcc158f32e59bc5a9059f8eb29a2bcb0847d90b771623cc906",
+      "block": 642080,
+      "gasUsed": 137882,
+      "ok": true
+    }
+  ],
+  "rows": [
+    {
+      "step": "intrinsic: a plain transfer of nothing to oneself",
+      "outcome": "mined",
+      "hash": "0x6bd5da15845fae6842f9836c68de80c0f77662538f2ba43f926135e374de761a",
+      "block": 642081,
+      "gasUsed": 12000,
+      "calldataBytes": 0
+    },
+    {
+      "step": "log: one ERC-8441 announcement (entry 0)",
+      "outcome": "mined",
+      "hash": "0x9ed72ed4899908596f4452388e5f5df37d0149f9544a0b84c50bfe03bfd3e78f",
+      "block": 642082,
+      "gasUsed": 103320,
+      "calldataBytes": 1380,
+      "kind": "S"
+    },
+    {
+      "step": "log: one ERC-8441 announcement (entry 1)",
+      "outcome": "mined",
+      "hash": "0xc98280bbc4e6af1a8319f7000c5bf61f67dde4316e4b420da61c63a3778b6fd4",
+      "block": 642083,
+      "gasUsed": 103320,
+      "calldataBytes": 1380,
+      "kind": "S"
+    },
+    {
+      "step": "log: one ERC-8441 announcement (entry 2)",
+      "outcome": "mined",
+      "hash": "0x2467e060630d8fc913d15186b0c2a62b25a80e2ed39c6515f997127473877df7",
+      "block": 642084,
+      "gasUsed": 103320,
+      "calldataBytes": 1380,
+      "kind": "S"
+    },
+    {
+      "step": "log: one encrypted note (entry 0)",
+      "outcome": "mined",
+      "hash": "0xcf72272a6b09148127d22a1a7b61432cb4b7ecfb7cbaed226d453a78fb5fcecb",
+      "block": 642085,
+      "gasUsed": 95128,
+      "calldataBytes": 1252,
+      "kind": "N"
+    },
+    {
+      "step": "blob: 107 announcements on a plain type-3 transaction",
+      "outcome": "mined",
+      "hash": "0xb71ea943cc03be90404ac9b32cb77d567977d7e17fdf91ccccca4842007ae122",
+      "block": 642086,
+      "gasUsed": 12000,
+      "calldataBytes": 0,
+      "blobGasUsed": 131072,
+      "blobGasPrice": "1",
+      "kind": "S",
+      "entries": 107,
+      "vh": "0x0107d24ca2b0dc6ad2170917967002e29bd6408d8d80f6745f8d454cda10f8cf",
+      "payload": "0x03f888821fcd81d0016482c35094a131d9454d87957dcc465fb37acd9b383648b4d58080c064e1a00107d24ca2b0dc6ad2170917967002e29bd6408d8d80f6745f8d454cda10f8cf80a0d9c995798fb3216903fb5652a2a0743a5be789055b193220f77294c23eccf36fa058a67d23ae2d9635ed9511e2ec407e5f7f9aa4831dd80b284d59c4a2ebbdf16d"
+    },
+    {
+      "step": "blob: 105 encrypted notes on a plain type-3 transaction",
+      "outcome": "mined",
+      "hash": "0x70e841149fedb26216396c07df2b9aa1eae64f7e3d433527cb9eff106ad8d15c",
+      "block": 642087,
+      "gasUsed": 12000,
+      "calldataBytes": 0,
+      "blobGasUsed": 131072,
+      "blobGasPrice": "1",
+      "kind": "N",
+      "entries": 105,
+      "vh": "0x017d631cf774826708e0082305a08e2f6eea85a7b8c85207684894ed696c5f82",
+      "payload": "0x03f888821fcd81d1016482c35094a131d9454d87957dcc465fb37acd9b383648b4d58080c064e1a0017d631cf774826708e0082305a08e2f6eea85a7b8c85207684894ed696c5f8201a05b339f2e7beb2a3894594c379aaaab4fb2da2680ac2c9b447b9f44ea010edf00a04840fb616452f1ca10c217b3f31330c83dff895d02b770f026aea44ff83e1e33"
+    },
+    {
+      "step": "post: the board records the blob of 107 announcements",
+      "expect": "mined",
+      "outcome": "mined",
+      "hash": "0x292b4f56e2dc1a3143daf2b13d569aca0ec21fb572d194e4f4421c747cb2b704",
+      "block": 642091,
+      "gasUsed": 526506,
+      "calldataBytes": 324,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 59387,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 59045,
+          "state": 391680
+        }
+      ],
+      "simulation": {
+        "valid": true,
+        "violation": null,
+        "executionStatus": "success",
+        "gasUsed": 526506,
+        "frames": [
+          {
+            "gasUsed": 59387,
+            "succeeded": true
+          },
+          {
+            "gasUsed": 59045,
+            "succeeded": true
+          }
+        ]
+      },
+      "kind": "S",
+      "vh": "0x0107d24ca2b0dc6ad2170917967002e29bd6408d8d80f6745f8d454cda10f8cf"
+    },
+    {
+      "step": "post: the board records the blob of 105 encrypted notes",
+      "expect": "mined",
+      "outcome": "mined",
+      "hash": "0xab867eea8658b57d1659431e8aada383d93add47a48d85127fc384e08836fb21",
+      "block": 642092,
+      "gasUsed": 428574,
+      "calldataBytes": 324,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 59387,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 59045,
+          "state": 293760
+        }
+      ],
+      "simulation": {
+        "valid": true,
+        "violation": null,
+        "executionStatus": "success",
+        "gasUsed": 428574,
+        "frames": [
+          {
+            "gasUsed": 59387,
+            "succeeded": true
+          },
+          {
+            "gasUsed": 59045,
+            "succeeded": true
+          }
+        ]
+      },
+      "kind": "N",
+      "vh": "0x017d631cf774826708e0082305a08e2f6eea85a7b8c85207684894ed696c5f82"
+    },
+    {
+      "step": "refused: a header the blob does not open to",
+      "expect": "refused",
+      "outcome": "refused",
+      "hash": "0x0720a198902873275446d031e2764ae5a29018dbbf5295d6a5166a1ac7893714",
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted",
+        "executionStatus": null,
+        "gasUsed": null
+      },
+      "rpc": "Missing or invalid parameters.",
+      "claimedCount": 9,
+      "actualCount": 10
+    },
+    {
+      "step": "refused: the same blob again",
+      "expect": "refused",
+      "outcome": "refused",
+      "hash": "0xdbd347ced7bc1efd318a6eec0213963e87162a348bb04fecaf897cda65cc7089",
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted",
+        "executionStatus": null,
+        "gasUsed": null
+      },
+      "rpc": "Missing or invalid parameters."
+    },
+    {
+      "step": "refused: no blob",
+      "expect": "refused",
+      "outcome": "refused",
+      "hash": "0x5d67411fab06576f6ed690e9cd0a2062aeff2ee04fa9c580bda3fc32a8b64dd9",
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted",
+        "executionStatus": null,
+        "gasUsed": null
+      },
+      "rpc": "Missing or invalid parameters."
+    },
+    {
+      "step": "inclusion: announcement 40 in the posted blob",
+      "outcome": "mined",
+      "hash": "0x4c782bc9546d9f02a490b0c03a2acfabd07fc75f61addf5fa5abe956705d4b7b",
+      "block": 642093,
+      "gasUsed": 103320,
+      "calldataBytes": 1380,
+      "index": 40,
+      "entryHash": "0x920dda3deef40fed1e696e3645e44eaa2f68fc72e3a905cdff5b197b3b294225"
+    },
+    {
+      "step": "inclusion: note 50 in the posted blob",
+      "outcome": "mined",
+      "hash": "0x58a1783650f79cdf77d5a5f2635aa91706828034ac7f7f928e586bdc04a064bd",
+      "block": 642094,
+      "gasUsed": 105368,
+      "calldataBytes": 1412,
+      "index": 50,
+      "entryHash": "0x9df735920fd41dd60f64202038f44a65d29ec2dabf97646b1023f8c9a62ff427"
+    },
+    {
+      "step": "inclusion: announcement 40 with one byte changed",
+      "expect": "reverts",
+      "outcome": "reverts",
+      "index": 40,
+      "simulation": "The contract function \"prove\" reverted with the following reason:"
+    },
+    {
+      "step": "archive: archiver A challenged over the announcements' blob",
+      "outcome": "mined",
+      "hash": "0x9c662248f6a6d3fda762dab3672d10cc0af0ff3e38c265aff66965da15846fc7",
+      "block": 642095,
+      "gasUsed": 475102,
+      "calldataBytes": 68,
+      "archiver": "A",
+      "seq": 0
+    },
+    {
+      "step": "archive: A answers at the point its challenge drew",
+      "outcome": "mined",
+      "hash": "0xa2ee53454dff3ca5b429e51be16f23802d9265f82ae4f00699f2f81e39046ec9",
+      "block": 642097,
+      "gasUsed": 107545,
+      "calldataBytes": 228,
+      "id": 0,
+      "z": "0x52d7fd176852e46ec3e7cfdcc3a468734d24423607d74bb92e33c58f9f0757e2",
+      "y": "0x4e5159302474af333a53c1a638507e655c26582164848143862aaef153e63397"
+    },
+    {
+      "step": "archive: archiver A challenged over the notes' blob",
+      "outcome": "mined",
+      "hash": "0x97be5719aff2f1e564bcd99a915fe60a0bfaf4dce88cc265d7c57c63276c05f7",
+      "block": 642098,
+      "gasUsed": 377194,
+      "calldataBytes": 68,
+      "archiver": "A",
+      "seq": 1
+    },
+    {
+      "step": "archive: A answers with a wrong y",
+      "expect": "reverts",
+      "outcome": "reverts",
+      "id": 1,
+      "simulation": "The contract function \"answer\" reverted with the following reason:"
+    },
+    {
+      "step": "archive: A answers the notes' challenge correctly",
+      "outcome": "mined",
+      "hash": "0x07648a8368e9402a13930ee4c419f5e2e980e88ff3df860d80a3bf16bff17b20",
+      "block": 642100,
+      "gasUsed": 107545,
+      "calldataBytes": 228,
+      "id": 1
+    },
+    {
+      "step": "archive: archiver B, which holds nothing, challenged",
+      "outcome": "mined",
+      "hash": "0xa6330db8edc62c3c3270dcaa1d15c8f3c3619f0cdfed52644e3714b47ea30b5e",
+      "block": 642101,
+      "gasUsed": 377182,
+      "calldataBytes": 68,
+      "archiver": "B",
+      "seq": 0
+    },
+    {
+      "step": "archive: B does not answer",
+      "outcome": "no answer",
+      "id": 2,
+      "note": "B was never given a copy of the blob, so it has nothing to open at the drawn point"
+    },
+    {
+      "step": "archive: B slashed after the window",
+      "outcome": "mined",
+      "hash": "0x6f8e912d8875b28aaeaaa64776e5aeb786c4d4bdf1bd809b34dc3708a2ae299b",
+      "block": 642109,
+      "gasUsed": 46629,
+      "calldataBytes": 36,
+      "id": 2
+    }
+  ],
+  "prices": {
+    "testnet": {
+      "url": "https://rpc1.privacy.ethrex.xyz",
+      "block": 642076,
+      "baseFeePerGas": "7",
+      "blobBaseFee": "1"
+    },
+    "mainnet": {
+      "url": "https://ethereum-rpc.publicnode.com",
+      "block": 26316661,
+      "baseFeePerGas": "34561475",
+      "blobBaseFee": "1879345"
+    }
+  },
+  "client": "ethrex/v23.0.0-hegota-testnet-hotfix-64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c/x86_64-unknown-linux-gnu/rustc-v1.93.1",
+  "blobs": {
+    "S": {
+      "vh": "0x0107d24ca2b0dc6ad2170917967002e29bd6408d8d80f6745f8d454cda10f8cf",
+      "entries": 107,
+      "ours": [
+        3,
+        40,
+        77,
+        106
+      ]
+    },
+    "N": {
+      "vh": "0x017d631cf774826708e0082305a08e2f6eea85a7b8c85207684894ed696c5f82",
+      "entries": 105,
+      "ours": [
+        5,
+        50,
+        99,
+        104
+      ]
+    }
+  },
+  "skandha": {
+    "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade",
+    "answer": "{\"code\":-32000,\"message\":\"ErrOversizedData\"}",
+    "logged": []
+  },
+  "posts": {
+    "S": {
+      "seq": 0,
+      "block": 642091
+    },
+    "N": {
+      "seq": 1,
+      "block": 642092
+    }
+  },
+  "archive": {
+    "bondBBefore": "1000000000000000",
+    "bondBAfter": "0",
+    "window": 5
+  }
+}

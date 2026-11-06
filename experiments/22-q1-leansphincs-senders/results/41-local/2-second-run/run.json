@@ -1,0 +1,71 @@
+{
+  "experiment": 22,
+  "for": "exp-frames experiment 41's request (Q8), on the local chain with EIP-8288 extended",
+  "run": "2-second-run",
+  "date": "2026-11-05T13:51:58.393Z",
+  "repoCommit": "040db1ff9914386ee539e50de6f53ed20d9c4347",
+  "procedure": "exp-frames exp/49-q8-fhe-input eb76c78, experiments/41-fhe-input-proof/README.md, \"Running the request on a chain with EIP-8288 extended\"",
+  "binaries": {
+    "request": "kohaku-rs a9ca8d3, crates/fhe-input-pq, example request, RUSTFLAGS=\"-C target-cpu=native\"",
+    "seedAndFunder": "kohaku-rs crates/frame-pq, example pq_wallet, MODE=new and MODE=addresses"
+  },
+  "command": "npx tsx experiments/22-q1-leansphincs-senders/q8-local.ts <request> <pq_wallet> 2-second-run a9ca8d3",
+  "chain": {
+    "chainId": 8141,
+    "ethrex": "64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c",
+    "setting": "extended",
+    "maxVerifyGas": 100000,
+    "funder": "0x0f010841717420cb538f12a01f0ce5f3d69f7fe5"
+  },
+  "programsAdded": [
+    {
+      "file": "fhe_input_v2_d2048_k1.py",
+      "key": "0x1afd035cef9447a121963b027e6018f2d7f1ab142d4f50414bfe2093bf484d07"
+    }
+  ],
+  "seconds": 25,
+  "builds": [
+    {
+      "block": 1,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 3268.303666,
+        "claims": 1,
+        "peakRssBytes": 406093824,
+        "proofBytes": 264121
+      },
+      "ms": 3283
+    },
+    {
+      "block": 16,
+      "dependencies": 1,
+      "leanSphincs": 0,
+      "leanStark": 1,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    }
+  ],
+  "checks": [
+    {
+      "block": 1,
+      "hash": "0x65041e40653021a5495a635aff9a50754c61370df3672b9f230a673b601f2147",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2946
+    },
+    {
+      "block": 16,
+      "hash": "0x519369c0ef5adc4e09698f11f0bb43ba64a699c9b6419abca42b2bd63ff67f95",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 115
+    }
+  ],
+  "log": "the funder deploys FheRequest for the key and the program, and funds it: 0x5ca0d0c222edc116f5d6587dc04701250e7a829a49bb1795aa36f2b41aa26cbd block 1 gasUsed 1717177\nproved in 12733 ms, 5974185 cycles, 358440 bytes; verified off chain\nthe request with one ciphertext coefficient changed: simulation valid false, Some(\"validation prefix frame reverted\"); sent: {\"error\":\"server returned an error response: error code -32000: Invalid params: Frame transaction validation-prefix simulation failed: validation prefix frame reverted\"}\na TFHE input requested, its well-formedness a leanSTARK dependency: 0x5550ad9c80cb5db9ae4ec285efc6896cd9cfc49b9c5cec909839c35b19a288dc block 16 gasUsed 1169329\nthe same proof at the next request number: simulation valid false, Some(\"validation prefix frame reverted\"); sent: {\"error\":\"server returned an error response: error code -32000: Invalid params: Frame transaction validation-prefix simulation failed: validation prefix frame reverted\"}\n"
+}
