@@ -430,3 +430,12 @@ recursion makes folding cheap is left open.
 
 X19's record ends here. Seven of nine predictions held. Prediction 3 held for the aggregators and
 the builder but not for the claim's taker, and prediction 4 is not written at the pin.
+
+## Correction, 2026-11-06
+
+Two places above give experiment 25's figure as "13.88 GiB": the list of comparisons before the
+predictions, and the comparison after run 4's predictions. Experiment 25 records the validity
+prover service as killed holding 13,884,864 KiB, which is 13.24 GiB. "13.88" was millions of KiB
+read as GiB. The comparison's point is unchanged: the prover was killed under the container's
+13.35 GiB limit, and every proof this model needs is made in under 0.5 GB. The text above is left
+as it was recorded.
