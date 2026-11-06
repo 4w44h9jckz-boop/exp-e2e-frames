@@ -98,6 +98,23 @@ transaction's. This run gives the cases a chain to be simulated on.
      - the second send refused;
      - either half's writes naming anything beyond the template's and the two exemptions.
 
+3. **Run 3's second half, after the switch failed, and before the retry.**
+   - **What happened:** the first attempt (`results/3-replay.json`) ran the first half as planned.
+     When the node was restarted on the master binary, it would not start: ethrex re-executes its
+     unpersisted blocks on start, under the current rules, and block 1 failed with "Gas used
+     doesn't match value in header. Used: 97920, Expected: 38145".
+   - **What that means:** under master, the same transaction writes a fresh nonce-manager slot, at
+     97,920 state gas. So an in-place switch is caught by the node itself, and a revision change
+     needs a fork at a block height.
+   - **The retry,** `results/3-replay-carried.json`, models that fork boundary:
+     1. the first half runs as before;
+     2. every account its writes touched is read back from the chain: balance, nonce, and each
+        written slot;
+     3. those values are carried into a new genesis;
+     4. a fresh chain runs the master binary on that genesis, and receives the identical bytes.
+   - **What is unchanged:** the predictions, and what would show them wrong. The recipient and the
+     sponsor are compared against the carried state.
+
 ## Results, run 1 (2026-11-06)
 
 **The record:** [`results/1-first.json`](results/1-first.json), from commit `4a6a847`.

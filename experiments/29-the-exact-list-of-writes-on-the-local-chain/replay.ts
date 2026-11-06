@@ -77,10 +77,29 @@ try {
   out.first.sent = await send(original.raw)
   out.first.after = await snapshot(sender, payer)
   console.log(`first half (f3079a0): ${v1.verdict?.status ?? v1.error}; sent ${JSON.stringify(out.first.sent)}`)
+  // deviation 3: carry the state the first half left into a new genesis (a fork boundary)
+  const genesis = JSON.parse(readFileSync(join(chain.dir, 'genesis.json'), 'utf8'))
+  const touched = [...(v1.verdict?.matched ?? []), ...(v1.verdict?.exempt ?? [])].map((m: any) => m.change)
+  const carried: Record<string, any> = {}
+  for (const ch of touched) {
+    const a = ch.address.toLowerCase()
+    const acct = genesis.alloc[a] ?? (genesis.alloc[a] = { balance: '0x0' })
+    acct.balance = await rpc('eth_getBalance', [ch.address, 'latest'])
+    const nonce = Number(await rpc('eth_getTransactionCount', [ch.address, 'latest']))
+    if (nonce) acct.nonce = `0x${nonce.toString(16)}`
+    if (ch.field === 'storage') {
+      acct.storage = acct.storage ?? {}
+      acct.storage[ch.slot] = await rpc('eth_getStorageAt', [ch.address, ch.slot, 'latest'])
+    }
+    carried[a] = { balance: acct.balance, nonce: acct.nonce ?? null, storage: acct.storage ?? null }
+  }
+  out.carried = carried
   await chain.stop()
 
-  // the switch: the same data directory, the second binary
-  const dir = join(root, 'work', `local-${chainLabel}`)
+  // the second half: a fresh chain on the second binary, from the carried state
+  const dir = join(root, 'work', `local-${chainLabel}-master`)
+  mkdirSync(join(dir, 'witnesses'), { recursive: true })
+  writeFileSync(join(dir, 'genesis.json'), JSON.stringify(genesis))
   node = spawn(second, ['--dev', '--network', join(dir, 'genesis.json'), '--datadir', join(dir, 'db'), '--http.port', '18545', '--authrpc.port', '18551', '--authrpc.jwtsecret', join(dir, 'jwt.hex'), '--p2p.disabled', '--http.api', 'eth,net,web3,ethrex', '--log.level', 'info'], {
     env: { ...process.env, X14_EIP8288: 'written', X14_PROVER: L.PROVER, X14_PROGRAMS: programs, X14_WITNESS_DIR: join(dir, 'witnesses') },
     stdio: ['ignore', openSync(join(dir, 'node2.out'), 'w'), openSync(join(dir, 'node2.log'), 'w')],
