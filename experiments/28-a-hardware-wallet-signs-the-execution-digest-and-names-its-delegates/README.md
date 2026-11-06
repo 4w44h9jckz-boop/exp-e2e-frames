@@ -113,4 +113,79 @@ compiled list and the known networks, both fixed at a firmware release.
 
 ## Deviations
 
-None yet.
+1. **Experimental features, after run 1's delegate cases.** In run 1 the device refused all four
+   delegate cases (a) to (d) before any delegate screen, with "Failed to decode message:
+   Experimental features are disabled". The firmware marks `EthereumSignTxEIP1559.auth7702` as an
+   `experimental_field` (`common/protob/messages-ethereum.proto`). It rejects that field unless
+   the device's experimental-features setting is on, which a user turns on with
+   `apply_settings(experimental_features=True)`. So the delegate cases are rerun, as run 2, with
+   that setting on. No prediction, case or vector changes. Run 1's refusals are kept as a result
+   of their own: on a device in its default setting, every EIP-7702 delegation is refused. Run 1's
+   execution-digest results stand as they are.
+
+## Results, 2026-11-06
+
+**The device.** The firmware at `8ef55098`, built as the Safe 5 emulator with
+`xtask build firmware --emulator -m t3t1 --debug-link`, reports firmware 2.13.1 and the Delizia
+layout. Its account at `m/44'/60'/0'/0/0` is `0x73d0385F4d8E00C5e6504C6030F47BF6212736A8`. The
+build needed SDL3, which Ubuntu 24.04 does not package, so SDL3 3.4.20 and SDL3_image 3.4.8 were
+built from libsdl-org's release sources into the ignored `work/`.
+
+**Commands:**
+- `npx tsx typed-data.ts <vectors.json> <label> inputs`, for each of the two sets at
+  `exp-frames` `4da238c`. It writes `inputs/`, and every one of the 21 typed-data inputs hashes
+  to its vector's own `E`.
+- `<checkout>/.venv/bin/python run.py --out results/1-first-run.json`, which is run 1.
+- `<checkout>/.venv/bin/python run.py --delegates-only --experimental --out results/2-delegates-experimental.json`, which is run 2 (deviation 1).
+- `npx tsx verify.ts <run> inputs`, which writes `results/*-scored.json`.
+
+**The execution digest, run 1.**
+
+| Vector (both sets) | Frames | Full path, screens | Short path, screens |
+|---|---|---|---|
+| `self-paying` | 2 | 29 | 6 |
+| `sponsored-transfer`, `keyed-nonces`, `legacy-nonce-7`, `key-zero` | 3 | 38 or 39 | 6 |
+| `blobs` | 3 | 42 | 6 |
+| `deploy-first`, `value-and-default` | 4 | 47 | 6 |
+| `atomic-approve-swap`, `with-expiry` | 4 | 48 | 6 |
+| `many-frames` | 12 | 136 | 6 |
+
+| # | Prediction | Outcome |
+|---|---|---|
+| 1 | All 21 vectors signed on the full path | **held.** All 21 signed, on both paths, `many-frames` included |
+| 2 | Every signature recovers to the device over the vector's own `E` | **held.** All 42 do, so the device's EIP-712 hash equals `E` for every vector. That makes a further implementation of `E`, sharing no code with the other four |
+| 3 | The domain's four fields shown in full on the full path | **held** |
+| 4 | Each frame's seven fields shown, data as full raw hex, never decoded or hashed, with the screen count growing with the data | **held.** The hex on the screens, joined across pages, equals each frame's data byte for byte, for every frame of every vector. Screens grow from 29 for two frames to 136 for twelve |
+| 5 | On the short path, a vector signs without any frame shown, in a count independent of its frames | **held.** Every vector signs in 6 screens: the signing address, the domain over two pages, the message's four field names, and the final confirmation over two pages. No target, value or data appears |
+
+**The delegate list, run 2, with the experimental-features setting on (deviation 1).**
+
+| Case | Outcome | Screens |
+|---|---|---|
+| (a) Simple7702Account, chain 1 | **signed.** The authorization recovers to the device over `keccak256(0x05 \|\| rlp([1, delegate, 1]))`, with nonce 1, the transaction's nonce plus one | a warning ("Authorize your account to a third-party contract using EIP-7702?"), then "Delegating ETH #1 To Simple7702Account Network Ethereum", then the transaction's recipient (itself), its summary and confirmation |
+| (b) an unnamed address, chain 1 | **refused,** "Unknown EIP-7702 delegate address" | none: no warning and no way to continue |
+| (c) the zero address, chain 1 | **signed,** a revocation, with an authorization that recovers to the device | "Revoke ETH #1 from smart account delegation?", then the transaction's screens |
+| (d) Simple7702Account, chain 8141 | **refused,** "EIP-7702: unknown network" | none |
+
+| # | Prediction | Outcome |
+|---|---|---|
+| 6 | (a) signs after a screen naming Simple7702Account, its authorization recovering to the device | **held** |
+| 7 | (b) refused with "Unknown EIP-7702 delegate address", no screen offering to continue | **held** |
+| 8 | (c) signs after a revocation screen | **held** |
+| 9 | (d) refused with "EIP-7702: unknown network" before any delegate screen | **held** |
+
+**Run 1's delegate cases.** With the setting off, all four were refused before any screen:
+"Failed to decode message: Experimental features are disabled". So on a device in its default
+setting, every EIP-7702 delegation, revocation included, is refused. Turning the setting on
+shows "Enable experimental features? Only for development and beta testing!"
+
+**What it means.**
+- **The execution digest can be signed today** on unchanged firmware, and the device computes it
+  correctly.
+- **The screens can show everything a frame does,** but only as raw fields. A 1,000-byte frame
+  takes dozens of pages of hex.
+- **The device also offers a path that shows no frame at all,** and that path is six screens long
+  whatever the transaction holds. A user who declines "show more" signs every frame unseen.
+- **For EIP-7702, the firmware's compiled list and its known networks are the whole gate.** No
+  warning lets a user past them. Behind both sits a setting that by default refuses delegation
+  altogether.
