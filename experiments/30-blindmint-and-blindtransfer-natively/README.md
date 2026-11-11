@@ -227,6 +227,26 @@ model rather than a discovery. The run's evidence is:
      - The schedule is unchanged.
    - **What it shows:** protocol state kept in a codeless account must keep that account
      non-empty, or EIP-161 deletes the state the first time the account's balance reaches zero.
+4. **Run 5, after run 4 and before run 5 ran.**
+   - **Run 4** (`results/4-escrow-alive.json`, kept as the record under the client's default
+     validation) came out as predicted through case (g) and the first three steps of (h). That
+     includes (d): both payouts in one block, one paid.
+   - **Where it stopped:** the prune. The node built the block and refused to import it:
+     "BAL validation failed for tx 0: account 0xd548...3848 nonce changed by execution (0) but BAL
+     has no nonce change". That account is `chi2`'s serial account.
+   - **Why.** The prune clears the serial account's nonce and its whole storage at the
+     transaction's end. A block access list (EIP-7928) records changes slot by slot and has no way
+     to say "this account's storage was wiped". So a validator that executes from the list finds
+     changes the list does not name. The same limit is why EIP-6780 keeps such a wipe to accounts
+     created in the same transaction.
+   - **The change, for the record of the semantics only:** run 5 repeats the experiment with the
+     client's parallel validation switched off (`ETHREX_NO_BAL_PARALLEL_EXEC=true`), so that
+     pruning and invariant (i) can be observed. Nothing else changes.
+   - **How it is read.** Run 4 is the result under the default validation. Run 5 is the
+     semantics under sequential validation. Pruning by dropping the account whole is not valid on
+     a chain whose blocks carry an access list. There, every pruned serial must be named, as a
+     write of zero, which makes the cost linear in the number of serials. The serials are in the
+     trie, so the protocol can find them, but each must be named.
 
 ## Results
 
