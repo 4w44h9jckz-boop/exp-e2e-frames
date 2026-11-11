@@ -154,4 +154,126 @@ to it by the blind signature, not by the claimant.
 
 ## Results
 
-Not yet run.
+All three parts ran on 2026-11-11 with no deviation.
+
+### Part A: the spend input
+
+**Files:** `SPEC-spend.md`, and `results/model.json`, which `model.py` builds from part B's
+lifetimes.
+
+| Input | Bytes per payout | Lifetime | Byte-hours | Links to |
+|---|---|---|---|---|
+| UTXO | 0.125 | forever | unbounded | its creation: source, value, recipient |
+| Keyed nonce, today | 64 | forever | unbounded | the key: denomination, epoch, issuer |
+| Ticket, one-day epochs | 64 | 6.0 h, mean | 384 | the key |
+| Ticket, one-week epochs | 64 | 73.4 h, mean | 4,697 | the key |
+| Ticket, four-week epochs | 64 | 324.7 h, mean | 20,779 | the key |
+
+**Prediction 1 held, with one correction of wording.**
+- The serial is one storage slot, which the model counts as a 32-byte key and a 32-byte value, 64
+  bytes. That is 512 times a UTXO's spent bit, and it is freed when its epoch closes.
+- The pre-registration called it "one 32-byte slot". The slot's key is the 32-byte serial.
+
+**Prediction 2 held.** The frame names the key, which is the denomination, the epoch and the issuer
+key, and nothing that names the purchase. A UTXO input names its creation by design. That is why a
+ticket's spent fact cannot be a bit at an index: an index would name the purchase.
+
+### Part B: epoch length against the timing linker
+
+**Records:** `results/sweep.json`, and the output of `sweep.py`.
+
+Linking success, single step and end to end, with the unconfined formula:
+
+| Policy | $\lambda H$ | One day | One week | Four weeks | Unbounded | Formula |
+|---|---|---|---|---|---|---|
+| memoryless | 4 | 0.212 / 0.201 | 0.203 / 0.201 | 0.201 / 0.200 | 0.199 | 0.200 |
+| memoryless | 16 | 0.057 / 0.057 | 0.060 / 0.059 | 0.059 / 0.059 | 0.060 | 0.059 |
+| memoryless | 64 | 0.014 / 0.014 | 0.016 / 0.016 | 0.016 / 0.016 | 0.016 | 0.015 |
+| uniform | 4 | 0.172 / 0.124 | 0.129 / 0.124 | 0.128 / 0.126 | 0.123 | 0.125 |
+| uniform | 16 | 0.042 / 0.030 | 0.032 / 0.031 | 0.030 / 0.030 | 0.032 | 0.031 |
+| uniform | 64 | 0.011 / 0.007 | 0.007 / 0.007 | 0.008 / 0.008 | 0.008 | 0.008 |
+
+Serial state per key per epoch, at $\lambda H$ = 4, 16 and 64:
+
+| Epoch | Serials | Mean lifetime | Holdings crossing a boundary | Trades among redemptions |
+|---|---|---|---|---|
+| one day | 8, 32 and 128 | 6 h | 64 to 75% | 50% |
+| one week | 32, 128 and 511 | 73 h | 14% | 12% |
+| four weeks | 117, 465 and 1,866 | 325 h | 3.5% | 3.5% |
+
+**Against the predictions:**
+1. **Held.** The unbounded column matches both formulas to within 0.005 in every cell.
+2. **Held except in one cell.**
+   - At $\lambda H$ = 4 with one-day epochs, the single step was 0.212 against 0.200, about 4.7
+     standard errors.
+   - In that cell nearly two holdings in three cross a boundary, so a payout's own purchase is most
+     often a trade at the epoch's start, tied with the other trades of that instant.
+   - The end-to-end figure, 0.201, is the formula's.
+   - Elsewhere, memoryless single steps are within noise of the formula.
+3. **Held.** Under uniform holding, one-day epochs raise single-step linking by about 40%: 0.172
+   against 0.125. A payout early in an epoch has fewer candidates within $2H$. One-week epochs
+   raise it slightly, and four-week epochs not at all.
+4. **Held for uniform holding,** where the gap is 0.048 at one day, 0.005 at one week and 0.002 at
+   four weeks. It widens as $L$ approaches $H$. Under memoryless holding the gap appears only at
+   $\lambda H$ = 4, and at 16 and 64 it is within noise.
+5. **Held.** Serials kept per epoch are about $\lambda L$ plus the trades.
+
+**How it reads.**
+- **End-to-end linking stays at the unconfined formula in every cell.** That is linking a payout to
+  the buyer who started it, and it is the figure that matters for privacy.
+- **Trades do not help the linker reach the buyer.** Tickets traded at the same instant are
+  interchangeable to it, so the trades leave that figure where it was.
+- **What an epoch length buys and costs:**
+  - a shorter one keeps fewer serials, for less time;
+  - it raises the single-step linking of a payout to the purchase under its own key, which is a
+    trade, not a buyer;
+  - it costs more trades: half of all redemptions at one-day epochs, against 3.5% at four weeks.
+- **Each trade is a transaction,** a pairing and a serial (part C).
+
+### Part C: the trade at epoch end
+
+**Records:** `results/1-trade.json`. The client patch with `BLINDROLL` has sha256 prefix
+`4d387b486275` and its binary `8ae723e8a80e`. The run used the client's default validation.
+
+| Case | Outcome | Receipt gas | Counts after: old, then new (minted/burned) | Escrow after |
+|---|---|---|---|---|
+| setup: buy 2 under the old key | mined | 230,340 | 0/2, 0/0 | 2D |
+| (g1) a trade of one ticket | mined | 202,442 | 1/2, 0/1 | 2D, unchanged |
+| (g1) the new ticket paid under the new key | mined | 227,242 | 1/2, 1/1 | D |
+| (g2) the old ticket again, as a payout | refused: serial spent | | unchanged | |
+| (g2) the old ticket again, as a trade | refused: serial spent | | unchanged | |
+| (g3) a trade to an earlier key | refused: "the new key's epoch is not later" | | unchanged | |
+| (g4) a claimant the one-time key did not sign | refused | | unchanged | |
+| (g5) setup: the second ticket traded | mined | 177,442 | 2/2, 1/2 | D |
+| (g5) a trade with no purchase left | refused: the count | | unchanged | |
+| (g6) the invariant | holds: the escrow is D, one unpaid purchase under the new key | | | |
+
+- **The new key's issuer** saw the claimant in the trade's log, checked the claimant's signature
+  on its request, and served one ticket. A second request from the same claimant was not served.
+- **The charges** equal the schedule: 176,950 for the first trade, which created the old key's
+  serial account, and 151,950 for the second.
+- **A trade to another denomination cannot be expressed at all.** The new key inherits the old
+  one's `D`. So that half of (g3) became a property of the encoding, not a case.
+
+**Every prediction held:**
+- the escrow's balance did not move at a trade;
+- the charges equal the schedule;
+- the new ticket's payout is a payout under the new key like any other.
+
+**What it does not show,** as pre-registered: the claimant is on chain, so the new key's issuer
+knows that this claimant traded under the old key. The blind signature, not the claimant, keeps
+the new ticket's payout unlinkable to it.
+
+### Beside the contract version
+
+The contract version's case (h), the same trade on the test network (`exp-frames` experiment 59 at
+`f051f49`), is quoted from its README and not yet rerun here:
+- one frame transaction carries the payout and the purchase;
+- 477,338 gas in all, of which 293,760 is state gas for a keyed nonce and two fresh slots;
+- the fee comes from a surplus prepaid into the account, so the new purchase is a full `D`.
+
+**Natively,** a trade's precompile charge is 151,950 once the old key's serial account exists. The
+receipt adds the transaction's own gas, 25,492 in this run (177,442 in all).
+
+**The difference is mostly state pricing again,** as in experiment 30: the native schedule prices
+a new slot at the older rates.
