@@ -1,0 +1,41 @@
+{
+ "slot_bytes": 64.0,
+ "utxo_bit_bytes": 0.125,
+ "rows": [
+  {
+   "input": "UTXO",
+   "bytes": 0.125,
+   "lifetime_hours": null,
+   "byte_hours": null,
+   "links": "its creation: source, value, recipient"
+  },
+  {
+   "input": "keyed nonce (today)",
+   "bytes": 64.0,
+   "lifetime_hours": null,
+   "byte_hours": null,
+   "links": "the key: denomination, epoch, issuer"
+  },
+  {
+   "input": "blind ticket, one day epochs",
+   "bytes": 64.0,
+   "lifetime_hours": 6.0,
+   "byte_hours": 383.9,
+   "links": "the key: denomination, epoch, issuer"
+  },
+  {
+   "input": "blind ticket, one week epochs",
+   "bytes": 64.0,
+   "lifetime_hours": 73.4,
+   "byte_hours": 4697.3,
+   "links": "the key: denomination, epoch, issuer"
+  },
+  {
+   "input": "blind ticket, four weeks epochs",
+   "bytes": 64.0,
+   "lifetime_hours": 324.7,
+   "byte_hours": 20778.9,
+   "links": "the key: denomination, epoch, issuer"
+  }
+ ]
+}
