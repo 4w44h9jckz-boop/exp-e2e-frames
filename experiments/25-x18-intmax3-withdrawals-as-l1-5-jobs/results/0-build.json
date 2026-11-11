@@ -1,0 +1,33 @@
+{
+  "experiment": 25,
+  "arm": 0,
+  "step": "build",
+  "run": "0-build",
+  "intmax3": {
+    "url": "https://github.com/InternetMaximalism/intmax3-zkp",
+    "commit": "979318dbf48eee360235fab9b5675b82e8cfde12",
+    "submodules": [
+      "contracts/lib/forgestd: f5495c9b993bfc6e79dd52adfdcb7dac0a1da918",
+      "contracts/lib/polygonplonky2: 50c707a2f65aec7ddfc5cbd924139c62ec3bd24b",
+      "contracts/lib/polygonplonky2/mle/contracts/lib/forgestd: 0844d7e1fc5e60d77b68e469bff60265f236c398"
+    ]
+  },
+  "toolchain": "rustc 1.87.0-nightly (b48576b4d 2025-03-22)",
+  "command": "bash experiments/25-x18-intmax3-withdrawals-as-l1-5-jobs/build.sh 0-build",
+  "cargoBuildRelease": {
+    "exit": 0
+  },
+  "forgeBuild": {
+    "exit": 0
+  },
+  "seconds": 1092,
+  "targetDirKiB": 729072,
+  "freeDiskKiB": {
+    "before": 5335796,
+    "after": 3969556
+  },
+  "machine": {
+    "cores": 4,
+    "memoryKiB": 16472088
+  }
+}

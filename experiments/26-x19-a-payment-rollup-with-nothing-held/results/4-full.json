@@ -1,0 +1,1181 @@
+{
+  "experiment": 26,
+  "run": "4-full",
+  "date": "2026-11-05T14:52:23.332Z",
+  "repoCommit": "e0e134907825c3a6cd4d9b86478629d8966a636f",
+  "command": "npx tsx experiments/26-x19-a-payment-rollup-with-nothing-held/run.ts 4-full",
+  "chain": {
+    "chainId": 8141,
+    "ethrex": "64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c",
+    "setting": "extended",
+    "maxVerifyGas": 100000
+  },
+  "program": {
+    "file": "x19_transfer.py",
+    "key": "0xdee182c653825e3106f435f9bd93f5e90945a6064d085e55b8b7299eebad3397"
+  },
+  "rollup": "0x0000000000000000000000000000000000019019",
+  "k": 4,
+  "fee": "1000000000",
+  "limits": {
+    "verify": 50000,
+    "sender": 150000,
+    "senderState": 600000
+  },
+  "rows": [
+    {
+      "step": "A: channel 0 pays channel 1",
+      "expect": "mined",
+      "hash": "0xbad6a0c093ffcb5d12a53c2e87dd6d14b3cd8ba3e00e31d59dc5036ff15d74c2",
+      "bytes": 1488,
+      "simulation": {
+        "valid": true,
+        "violation": null,
+        "executionStatus": "success"
+      },
+      "pool": "admitted: 0xbad6a0c093ffcb5d12a53c2e87dd6d14b3cd8ba3e00e31d59dc5036ff15d74c2",
+      "outcome": "mined",
+      "block": 1,
+      "gasUsed": 508264,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 20340,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 36000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 40747,
+          "state": 281520
+        }
+      ],
+      "signatures": 0,
+      "kind": "apply",
+      "chan": 0,
+      "maxCost": "103392000",
+      "blockCountBefore": 0
+    },
+    {
+      "step": "channel 0 backs up its head",
+      "expect": "mined",
+      "hash": "0x703994b349096968a94bf0aa37b18e939027b702b0163f4b1dfd42972c25187b",
+      "bytes": 2062,
+      "simulation": {
+        "valid": true,
+        "violation": null,
+        "executionStatus": "success"
+      },
+      "pool": "admitted: 0x703994b349096968a94bf0aa37b18e939027b702b0163f4b1dfd42972c25187b",
+      "outcome": "mined",
+      "block": 4,
+      "gasUsed": 334641,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 6596,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 15344,
+          "state": 97920
+        }
+      ],
+      "signatures": 0,
+      "kind": "backup",
+      "chan": 0
+    },
+    {
+      "step": "A: channel 1 pays channel 0",
+      "expect": "mined",
+      "hash": "0x9d75e41acd38a91eb2b76992d35aceb127675186af26df1a52138fe1f484523b",
+      "bytes": 1488,
+      "simulation": {
+        "valid": true,
+        "violation": null,
+        "executionStatus": "success"
+      },
+      "pool": "admitted: 0x9d75e41acd38a91eb2b76992d35aceb127675186af26df1a52138fe1f484523b",
+      "outcome": "mined",
+      "block": 6,
+      "gasUsed": 226738,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 20331,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 36000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 40738,
+          "state": 0
+        }
+      ],
+      "signatures": 0,
+      "kind": "apply",
+      "chan": 1,
+      "maxCost": "103392000",
+      "blockCountBefore": 1
+    },
+    {
+      "step": "channel 0 queues the leaf B refused",
+      "expect": "mined",
+      "hash": "0x070e6c928d41ac58380aa346f8a41fce2a180bf5b09a8f18712ce42bc26cc1f9",
+      "bytes": 750,
+      "simulation": {
+        "valid": true,
+        "violation": null,
+        "executionStatus": "success"
+      },
+      "pool": "admitted: 0x070e6c928d41ac58380aa346f8a41fce2a180bf5b09a8f18712ce42bc26cc1f9",
+      "outcome": "mined",
+      "block": 9,
+      "gasUsed": 467092,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 7110,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 6000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 41921,
+          "state": 293760
+        }
+      ],
+      "signatures": 0,
+      "kind": "queue",
+      "chan": 0,
+      "queuedAtBlockCount": 2
+    },
+    {
+      "step": "A: channel 1's transfer 1, queued leaf 0 blocks old",
+      "expect": "mined",
+      "hash": "0xee6d30fc8c8e8fc6f4776329a67deafa67278adb8b95076414ca3c1c4de6e8c8",
+      "bytes": 1488,
+      "simulation": {
+        "valid": true,
+        "violation": null,
+        "executionStatus": "success"
+      },
+      "pool": "admitted: 0xee6d30fc8c8e8fc6f4776329a67deafa67278adb8b95076414ca3c1c4de6e8c8",
+      "outcome": "mined",
+      "block": 11,
+      "gasUsed": 231250,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 22620,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 36000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 42937,
+          "state": 0
+        }
+      ],
+      "signatures": 0,
+      "kind": "apply",
+      "chan": 1,
+      "maxCost": "103392000",
+      "blockCountBefore": 2
+    },
+    {
+      "step": "A: channel 1's transfer 2, queued leaf 1 blocks old",
+      "expect": "mined",
+      "hash": "0x7822986cfc9467c8dfad7760642dac990428184bb6585200b4f7c42be44a4842",
+      "bytes": 1488,
+      "simulation": {
+        "valid": true,
+        "violation": null,
+        "executionStatus": "success"
+      },
+      "pool": "admitted: 0x7822986cfc9467c8dfad7760642dac990428184bb6585200b4f7c42be44a4842",
+      "outcome": "mined",
+      "block": 14,
+      "gasUsed": 231250,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 22620,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 36000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 42937,
+          "state": 0
+        }
+      ],
+      "signatures": 0,
+      "kind": "apply",
+      "chan": 1,
+      "maxCost": "103392000",
+      "blockCountBefore": 3
+    },
+    {
+      "step": "A: channel 1's transfer 3, queued leaf 2 blocks old",
+      "expect": "mined",
+      "hash": "0xc7de3c730dfb4a9e7b69c8f50a6040df0fee5150cc2e371fe560aa1762ca51ae",
+      "bytes": 1488,
+      "simulation": {
+        "valid": true,
+        "violation": null,
+        "executionStatus": "success"
+      },
+      "pool": "admitted: 0xc7de3c730dfb4a9e7b69c8f50a6040df0fee5150cc2e371fe560aa1762ca51ae",
+      "outcome": "mined",
+      "block": 16,
+      "gasUsed": 231250,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 22620,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 36000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 42937,
+          "state": 0
+        }
+      ],
+      "signatures": 0,
+      "kind": "apply",
+      "chan": 1,
+      "maxCost": "103392000",
+      "blockCountBefore": 4
+    },
+    {
+      "step": "A: channel 1's transfer 4, queued leaf 3 blocks old",
+      "expect": "mined",
+      "hash": "0xb030e9ba4db67463988cf0bc1b45644cbf15cbb66756d1bdf30c9de5443d0e38",
+      "bytes": 1488,
+      "simulation": {
+        "valid": true,
+        "violation": null,
+        "executionStatus": "success"
+      },
+      "pool": "admitted: 0xb030e9ba4db67463988cf0bc1b45644cbf15cbb66756d1bdf30c9de5443d0e38",
+      "outcome": "mined",
+      "block": 19,
+      "gasUsed": 231250,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 22620,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 36000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 42937,
+          "state": 0
+        }
+      ],
+      "signatures": 0,
+      "kind": "apply",
+      "chan": 1,
+      "maxCost": "103392000",
+      "blockCountBefore": 5
+    },
+    {
+      "step": "A: channel 1's transfer, omitting the queued leaf after 4 blocks",
+      "expect": "refused",
+      "hash": "0xc17052179464c5fe0b49c722d1dc92535b07eb867dbd14512087a988ce620f48",
+      "bytes": 1488,
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted",
+        "executionStatus": null
+      },
+      "pool": "refused: Invalid params: Frame transaction validation-prefix simulation failed: validation prefix frame reverted",
+      "outcome": "not mined",
+      "block": null,
+      "gasUsed": null,
+      "frames": [],
+      "signatures": 0,
+      "kind": "apply",
+      "chan": 1,
+      "maxCost": "103392000",
+      "blockCountBefore": 6
+    },
+    {
+      "step": "A: the queued leaf",
+      "expect": "mined",
+      "hash": "0x8e84f9da2f27bb26f7c9cebc60144955375f4529f947a457a6713ad55bcbb033",
+      "bytes": 1488,
+      "simulation": {
+        "valid": true,
+        "violation": null,
+        "executionStatus": "success"
+      },
+      "pool": "admitted: 0x8e84f9da2f27bb26f7c9cebc60144955375f4529f947a457a6713ad55bcbb033",
+      "outcome": "mined",
+      "block": 21,
+      "gasUsed": 339446,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 24801,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 36000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 51068,
+          "state": 97920
+        }
+      ],
+      "signatures": 0,
+      "kind": "apply",
+      "chan": 0,
+      "maxCost": "103392000",
+      "blockCountBefore": 6
+    },
+    {
+      "step": "channel 0 backs up its head again",
+      "expect": "mined",
+      "hash": "0xbe5e15fe66fad4c35affbeed6bcc5e1f2ef37180e9d5458df3d4414e2b13f521",
+      "bytes": 2062,
+      "simulation": {
+        "valid": true,
+        "violation": null,
+        "executionStatus": "success"
+      },
+      "pool": "admitted: 0xbe5e15fe66fad4c35affbeed6bcc5e1f2ef37180e9d5458df3d4414e2b13f521",
+      "outcome": "mined",
+      "block": 23,
+      "gasUsed": 236721,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 6596,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 15344,
+          "state": 0
+        }
+      ],
+      "signatures": 0,
+      "kind": "backup",
+      "chan": 0
+    },
+    {
+      "step": "bad: member 1's triple names a key that is not the channel's",
+      "expect": "refused",
+      "hash": "0xecc2683b27581631d380c5bc5e8ac86991d03ff5d5a8912eb1e2b9d1cb750321",
+      "bytes": 1488,
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted",
+        "executionStatus": null
+      },
+      "pool": "refused: Invalid params: Frame transaction validation-prefix simulation failed: validation prefix frame reverted",
+      "outcome": "not mined",
+      "block": null,
+      "gasUsed": null,
+      "frames": [],
+      "signatures": 0,
+      "kind": "apply",
+      "chan": 0,
+      "maxCost": "103392000",
+      "blockCountBefore": 7
+    },
+    {
+      "step": "bad: a nullifier already used",
+      "expect": "refused",
+      "hash": "0xaaf982e6213052e203bb4cf00e424450f379360d532c8a68667d55e7d933e53a",
+      "bytes": 1488,
+      "simulation": {
+        "valid": false,
+        "violation": "Invalid Transaction: Nonce mismatch: expected 1, got 0",
+        "executionStatus": null
+      },
+      "pool": "refused: Invalid params: Frame transaction validation-prefix simulation failed: Invalid Transaction: Nonce mismatch: expected 1, got 0",
+      "outcome": "not mined",
+      "block": null,
+      "gasUsed": null,
+      "frames": [],
+      "signatures": 0,
+      "kind": "apply",
+      "chan": 0,
+      "maxCost": "103392000",
+      "blockCountBefore": 7
+    },
+    {
+      "step": "bad: a leaf past its expiry",
+      "expect": "refused",
+      "hash": "0x08d81b0d2b84dc5d0db9cc766ff829f4b71e48b77f211914b3ca0cdedc8a17ad",
+      "bytes": 1488,
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted",
+        "executionStatus": null
+      },
+      "pool": "refused: Invalid params: Frame transaction validation-prefix simulation failed: validation prefix frame reverted",
+      "outcome": "not mined",
+      "block": null,
+      "gasUsed": null,
+      "frames": [],
+      "signatures": 0,
+      "kind": "apply",
+      "chan": 0,
+      "maxCost": "103392000",
+      "blockCountBefore": 7
+    },
+    {
+      "step": "taker: the freeze, signed by one member",
+      "expect": "mined",
+      "hash": "0xf101a2798ee81308769bf5d1c7c61f1df699f38b332a43ee5e93079391e63094",
+      "bytes": 396,
+      "simulation": {
+        "valid": true,
+        "violation": null,
+        "executionStatus": "success"
+      },
+      "pool": "admitted: 0xf101a2798ee81308769bf5d1c7c61f1df699f38b332a43ee5e93079391e63094",
+      "outcome": "mined",
+      "block": 25,
+      "gasUsed": 235182,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 5702,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 14031,
+          "state": 97920
+        }
+      ],
+      "signatures": 0,
+      "kind": "freeze",
+      "chan": 0
+    },
+    {
+      "step": "bad: a transfer from the frozen channel",
+      "expect": "refused",
+      "hash": "0x50957efd09374b9c276479f28404373b870533b048f05005299137750b9e6e9e",
+      "bytes": 1488,
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted",
+        "executionStatus": null
+      },
+      "pool": "refused: Invalid params: Frame transaction validation-prefix simulation failed: validation prefix frame reverted",
+      "outcome": "not mined",
+      "block": null,
+      "gasUsed": null,
+      "frames": [],
+      "signatures": 0,
+      "kind": "apply",
+      "chan": 0,
+      "maxCost": "103392000",
+      "blockCountBefore": 7
+    },
+    {
+      "step": "taker: the claim, released by the rollup's own transaction",
+      "expect": "mined",
+      "hash": "0x07017a90cce36ffb476356851f281095f205ff13c81204b2164e4ab78f03b557",
+      "bytes": 1198,
+      "simulation": {
+        "valid": true,
+        "violation": null,
+        "executionStatus": "success"
+      },
+      "pool": "admitted: 0x07017a90cce36ffb476356851f281095f205ff13c81204b2164e4ab78f03b557",
+      "outcome": "mined",
+      "block": 28,
+      "gasUsed": 646545,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 15473,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 36509,
+          "state": 465120
+        }
+      ],
+      "signatures": 0,
+      "kind": "claim",
+      "chan": 0,
+      "maxCost": "100092000"
+    }
+  ],
+  "proofs": [
+    {
+      "chan": 0,
+      "to": 1,
+      "amount": "100000000000000000",
+      "cycles": 8614,
+      "proveMs": [
+        87.406235
+      ],
+      "proofBytes": 252616,
+      "peakRssBytes": 146374656
+    },
+    {
+      "chan": 1,
+      "to": 0,
+      "amount": "30000000000000000",
+      "cycles": 8614,
+      "proveMs": [
+        86.204123
+      ],
+      "proofBytes": 252952,
+      "peakRssBytes": 153747456
+    },
+    {
+      "chan": 0,
+      "to": 1,
+      "amount": "200000000000000000",
+      "cycles": 8614,
+      "proveMs": [
+        66.00457
+      ],
+      "proofBytes": 251368,
+      "peakRssBytes": 153747456
+    },
+    {
+      "chan": 1,
+      "to": 0,
+      "amount": "1000000000000000",
+      "cycles": 8614,
+      "proveMs": [
+        96.13087200000001
+      ],
+      "proofBytes": 249944,
+      "peakRssBytes": 153747456
+    },
+    {
+      "chan": 1,
+      "to": 0,
+      "amount": "1000000000000000",
+      "cycles": 8614,
+      "proveMs": [
+        76.62239199999999
+      ],
+      "proofBytes": 249560,
+      "peakRssBytes": 153747456
+    },
+    {
+      "chan": 1,
+      "to": 0,
+      "amount": "1000000000000000",
+      "cycles": 8614,
+      "proveMs": [
+        74.714257
+      ],
+      "proofBytes": 253144,
+      "peakRssBytes": 153747456
+    },
+    {
+      "chan": 1,
+      "to": 0,
+      "amount": "1000000000000000",
+      "cycles": 8614,
+      "proveMs": [
+        84.586964
+      ],
+      "proofBytes": 252584,
+      "peakRssBytes": 153747456
+    },
+    {
+      "chan": 1,
+      "to": 0,
+      "amount": "1000000000000000",
+      "cycles": 8614,
+      "proveMs": [
+        75.702065
+      ],
+      "proofBytes": 253432,
+      "peakRssBytes": 153747456
+    },
+    {
+      "chan": 0,
+      "to": 1,
+      "amount": "1000000000000000",
+      "cycles": 8614,
+      "proveMs": [
+        72.02358100000001
+      ],
+      "proofBytes": 251760,
+      "peakRssBytes": 153747456
+    },
+    {
+      "chan": 0,
+      "to": 1,
+      "amount": "1000000000000000",
+      "cycles": 8614,
+      "proveMs": [
+        81.020839
+      ],
+      "proofBytes": 252208,
+      "peakRssBytes": 153747456
+    },
+    {
+      "chan": 0,
+      "to": 1,
+      "amount": "1000000000000000",
+      "cycles": 8614,
+      "proveMs": [
+        72.12420399999999
+      ],
+      "proofBytes": 252432,
+      "peakRssBytes": 153747456
+    },
+    {
+      "chan": 0,
+      "to": 1,
+      "amount": "1000000000000000",
+      "cycles": 8614,
+      "proveMs": [
+        64.38440800000001
+      ],
+      "proofBytes": 250976,
+      "peakRssBytes": 153747456
+    }
+  ],
+  "handed": [
+    {
+      "chan": 0,
+      "to": 1,
+      "c0": "0x71e278eab2bd4887bda57427c2b8e4423c357224d0cdf6074f5c81c6ac559880",
+      "c1": "0xa6e084bd09825b3b8986ef044adeb14da5d0f68b4277a9100e8cb3cab04719c6",
+      "amountCommit": "0xea5c582a509532bf4e147f4e16afec50b07d37e5fb5f5dff0874e206596e02a2",
+      "fee": "1000000000",
+      "expiry": "64",
+      "nullifier": "0xc02a6c28ed77f0f788a04e31399c19cefc54bc83ac2c27b8a856ec398c521158",
+      "T": "0xa786d09bb513a55d291c51d6ca9e7740817b7d5132bc3c34ceba568fd58a371a",
+      "D": "0xf6c89c58d60e861d0d89dc9adf624ac801b52106b0b1acc0aaa7ed193303cc86",
+      "proofFile": "p0.bin"
+    },
+    {
+      "chan": 1,
+      "to": 0,
+      "c0": "0x4b0b090b2678127b1554ea148e669fc54f3e22b04ed5bcf72f89c27e4dcfee60",
+      "c1": "0x2aff291adf3435552f219c76f045ecfbc8291fdddf6f93e89e8b75ad1e7d58ef",
+      "amountCommit": "0x47f3d30efc9ec8ddd903b9a998c6aae5488fa506ea0d00193e8e24640718fac6",
+      "fee": "1000000000",
+      "expiry": "65",
+      "nullifier": "0x7c5d437b14bce8d5c8deb6af83a04ea1327485fd88c12f3c42015a6236378834",
+      "T": "0xe9400d43d519ece60a4ef21489e8e0477c9d22006184482c824bb64545e96a27",
+      "D": "0x536bee2e5a73b5b5ec86353eba60f6537a5c3c3cece9335f0b1420e877a3b1c6",
+      "proofFile": "p1.bin"
+    },
+    {
+      "chan": 0,
+      "to": 1,
+      "c0": "0xa6e084bd09825b3b8986ef044adeb14da5d0f68b4277a9100e8cb3cab04719c6",
+      "c1": "0x29acab213185a98e9d90bfe3c3ee880bee1d93288e9d25c5c8d19f474ccc54c2",
+      "amountCommit": "0x542deafe683dfb704f1a6fefdf045dfdd138fa2883c06b5d0814502979cf1cf3",
+      "fee": "1000000000",
+      "expiry": "66",
+      "nullifier": "0xab754d9cd5621642d2f0ab161f8f78896aad729b4a472624d3e02e07cf2a684b",
+      "T": "0x053b4befbba3e02cec80b2cdf60681c02f48631ec712bfbd111826830f9fb5af",
+      "D": "0xc4e6913a820795722343fe6a65b5aa8802e2dc0576ba272f0769cc028b59587b",
+      "proofFile": "p2.bin"
+    },
+    {
+      "chan": 1,
+      "to": 0,
+      "c0": "0x2aff291adf3435552f219c76f045ecfbc8291fdddf6f93e89e8b75ad1e7d58ef",
+      "c1": "0xd5f500b5d955fc6bf5d518a3bf1a45fec20fb39a12fce780d5f18635311109d3",
+      "amountCommit": "0x8fccacd2542f06b872c9baa5f1855f03aba2e03e534b8f3dff1353613f5ab214",
+      "fee": "1000000000",
+      "expiry": "66",
+      "nullifier": "0x9dd224de4d8b502f242663878b83c2e69ba065c1856a0670cafec79611bf4f54",
+      "T": "0xcf589770854a4bd4b4f82c9756317fe959203cb3d533a4ea2829e3f906746bab",
+      "D": "0x3c721958536a7bb80faca4327fa1bb88cc1ef166a11bd9aa59e02cff652ea608",
+      "proofFile": "p3.bin"
+    },
+    {
+      "chan": 1,
+      "to": 0,
+      "c0": "0xd5f500b5d955fc6bf5d518a3bf1a45fec20fb39a12fce780d5f18635311109d3",
+      "c1": "0xa6ace9b4216c1cfdb99109eeab84996a7dd7b4452fd743576264224f3818dd79",
+      "amountCommit": "0x1b86dfd3d3e6b943b41d465d0ddcfd5a14284ddf6df15a31e4fc8b2571c1f6d1",
+      "fee": "1000000000",
+      "expiry": "67",
+      "nullifier": "0x1127502b59ba67e828ea9b9f153c38ead9677501cb53f17ecafeea1b9a8a07e5",
+      "T": "0xd9b747620dbe1c5e93a5c92fbf19c59a96e9ba4e27d49a1abe85def4d05c4077",
+      "D": "0x8c4f68bc3efe612a9d16fedf097ee60db50f36e7cd194aceeb4837b92e3144b8",
+      "proofFile": "p4.bin"
+    },
+    {
+      "chan": 1,
+      "to": 0,
+      "c0": "0xa6ace9b4216c1cfdb99109eeab84996a7dd7b4452fd743576264224f3818dd79",
+      "c1": "0xd5739829e7796045ec7ded6c8d05840c31891cda2e99cce66658c12100ce9198",
+      "amountCommit": "0x0e897553e5dd9d83411f98ea5c9f192a6ba45450ee4711891ed6eb053b483a04",
+      "fee": "1000000000",
+      "expiry": "68",
+      "nullifier": "0x4e26c7f04e58edfa6fcf9ed6f7618d553728ea856e587d4f14e49ec3e18f76f7",
+      "T": "0x4f15ac5d46499fc36828260e8f9eec6e885e341ebc1cdcc9240ba0d65fbc5b63",
+      "D": "0xc5c8a00fcbf31c2f575fa10d7a781315b7ecf457893f9bd05c01252080284542",
+      "proofFile": "p5.bin"
+    },
+    {
+      "chan": 1,
+      "to": 0,
+      "c0": "0xd5739829e7796045ec7ded6c8d05840c31891cda2e99cce66658c12100ce9198",
+      "c1": "0xc518670f109e76bb6b17e3184bb7e03e1e9352f9967235513d852a0cda102acc",
+      "amountCommit": "0x9f99275a405a4f18402d6ee49b88ce01ffad80ddd24552c725f5884be9efe1a4",
+      "fee": "1000000000",
+      "expiry": "69",
+      "nullifier": "0x9f0bb83ea1655960f7b5210d5e330a30dc1c1d041f05fbe6ea23b5d475cd7025",
+      "T": "0xab1148c2f04b73d202cf56cb82d5749fa3d71a749d142aa8c3c8e86135388dd5",
+      "D": "0x7ab6d684ff095caee5ba915279965d925b174d1f8b37b2725cc0f66f92a4a347",
+      "proofFile": "p6.bin"
+    },
+    {
+      "chan": 1,
+      "to": 0,
+      "c0": "0xc518670f109e76bb6b17e3184bb7e03e1e9352f9967235513d852a0cda102acc",
+      "c1": "0x39b9be24d8f3869a74bf7ec6971c48a5535cad03f1deca3cdb58520857a3e129",
+      "amountCommit": "0xdd8cfd09c76b8c947ca40335d783eb8d34c8073dca823528a88a67427b5f0f24",
+      "fee": "1000000000",
+      "expiry": "70",
+      "nullifier": "0xf2969ceb12338c5b46f2dc912cfca0d365441ed5c52d9a3949ddc5c95c9169a5",
+      "T": "0xec85434c7d62547b811be3a580479342f6aebf08ed2043e13a6f50da2299e16c",
+      "D": "0x2d9d8352f28171b5185615ec9ca99946684714115957c979ef83748f0921d8ac",
+      "proofFile": "p7.bin"
+    },
+    {
+      "chan": 0,
+      "to": 1,
+      "c0": "0x29acab213185a98e9d90bfe3c3ee880bee1d93288e9d25c5c8d19f474ccc54c2",
+      "c1": "0xa586194edf2a09741eac44d6724828d2ec6f2bc7b3fa314ccfb6770cfaddec9c",
+      "amountCommit": "0xe1d9ea6b6d535db064d7f45e93b3b78fec74ef324bc64f27212fc96514e1a461",
+      "fee": "1000000000",
+      "expiry": "71",
+      "nullifier": "0xce72325f90284b9b35522b4539f97c0a8af2a2b83d7700f24a731c19a1d3b0e4",
+      "T": "0x63fae0d4b4552fc8ba6f0a6c55c7b8a26712bb07e042e7c02a57eb84900c4336",
+      "D": "0x1dc5a502e07c96a56fc8bf651674ee1b73b14b4f6ed7c0fa52c637fc641470d9",
+      "proofFile": "p8.bin"
+    },
+    {
+      "chan": 0,
+      "to": 1,
+      "c0": "0x29acab213185a98e9d90bfe3c3ee880bee1d93288e9d25c5c8d19f474ccc54c2",
+      "c1": "0x0337313f6287e505f00b62390490d1b4550d598ad77ab2ae47786fb6e820bdbe",
+      "amountCommit": "0x548ff88a491aea7bc43731427d78b79485ffb16f31854e6da2089483bed79cca",
+      "fee": "1000000000",
+      "expiry": "71",
+      "nullifier": "0xc02a6c28ed77f0f788a04e31399c19cefc54bc83ac2c27b8a856ec398c521158",
+      "T": "0x43cbfec891cc1733eb0d2388847e3362be2adbc70f8ae606f4a2dd015a62766b",
+      "D": "0x34bc3869fa1823fdbc1ad060418d7c1424b86066628233039e937ce200577741",
+      "proofFile": "p9.bin"
+    },
+    {
+      "chan": 0,
+      "to": 1,
+      "c0": "0x29acab213185a98e9d90bfe3c3ee880bee1d93288e9d25c5c8d19f474ccc54c2",
+      "c1": "0x19fdeccbf37cf48f7de21db52b0665f39224447caf423354528788c1c8f6d772",
+      "amountCommit": "0xdb825698e94938fcc9e3d8d0e7d286d8d3d3cb5a6585e38c271bc3b392d34c41",
+      "fee": "1000000000",
+      "expiry": "6",
+      "nullifier": "0xd66cba1d48db590439b48e96eb4de5422182345f4348a5c130b204cbc24bfe9c",
+      "T": "0xe30d3c7745153e5dcbf89a313d9f7a171333e2e64b3cb7188a6a9b7d2fbfbf01",
+      "D": "0xf7bbc1405adc28789d5d920e609d560b4fe7523abaa59074ad4742d4d9513350",
+      "proofFile": "p10.bin"
+    },
+    {
+      "chan": 0,
+      "to": 1,
+      "c0": "0x29acab213185a98e9d90bfe3c3ee880bee1d93288e9d25c5c8d19f474ccc54c2",
+      "c1": "0xbcdc2885ccbb5d796df58540c241cebd5e142d37de6e56f06a5f7a30fd9a34e5",
+      "amountCommit": "0x7a672dee5c070f6705b434ec33296d2273415bc1c810e28c25fc4510679f741c",
+      "fee": "1000000000",
+      "expiry": "71",
+      "nullifier": "0xf396e8b8324a9626082d4460fc1c6f62eefaf705624b7dd96f9636922a0c4f2c",
+      "T": "0x24de450d3591760c3b73bf01fab83400f13017cb587a5e62d2fbb9b752766761",
+      "D": "0x2f39629cdde27ebae0193dbbd9a31f89e974f93bc5a9789309f94072ed43be36",
+      "proofFile": "p11.bin"
+    }
+  ],
+  "prediction3": {
+    "secretsChecked": 4,
+    "leaked": 0
+  },
+  "backups": [
+    {
+      "chan": 0,
+      "bytes": 1664,
+      "hash": "0x26009c0491b057d01ecaf8727d6ae7e995676585d584d5dae6eafaa6312bd528",
+      "block": 4
+    },
+    {
+      "chan": 0,
+      "bytes": 1664,
+      "hash": "0x1572b83a8363c2ed6b2668f05c2992f4add82f27c62b5ced9c2435041a597515",
+      "block": 23
+    }
+  ],
+  "recovery": {
+    "backupsFound": 2,
+    "backupBytes": [
+      1664,
+      1664
+    ],
+    "sameSize": true,
+    "opened": true,
+    "identical": true,
+    "anotherSeedOpensIt": false,
+    "treeFromLogsMatchesRoot": true
+  },
+  "exit": {
+    "recipient": "0x00000000000000000000000000000000000019a0",
+    "before": {
+      "recipientBalance": "0",
+      "recipientNonce": 0
+    },
+    "after": {
+      "recipientBalance": "4698999997907073900",
+      "recipientNonce": 0,
+      "takerBalance": "1000000000000000"
+    },
+    "channelBalance": "4699999998000000000",
+    "takerFee": "1000000000000000",
+    "claimBlock": 28,
+    "recipientSentNothing": true
+  },
+  "scan": {
+    "blocks": 45,
+    "classical": [],
+    "error": null
+  },
+  "rootMatchesTree": true,
+  "builds": [
+    {
+      "block": 1,
+      "dependencies": 3,
+      "leanSphincs": 2,
+      "leanStark": 1,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 3880.907347,
+        "claims": 2,
+        "peakRssBytes": 412786688,
+        "proofBytes": 268777
+      },
+      "ms": 3897
+    },
+    {
+      "block": 4,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 2842.858969,
+        "claims": 1,
+        "peakRssBytes": 405364736,
+        "proofBytes": 265625
+      },
+      "ms": 2856
+    },
+    {
+      "block": 6,
+      "dependencies": 3,
+      "leanSphincs": 2,
+      "leanStark": 1,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 3008.964718,
+        "claims": 2,
+        "peakRssBytes": 412897280,
+        "proofBytes": 267961
+      },
+      "ms": 3027
+    },
+    {
+      "block": 9,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 3040.582595,
+        "claims": 2,
+        "peakRssBytes": 412516352,
+        "proofBytes": 269465
+      },
+      "ms": 3057
+    },
+    {
+      "block": 11,
+      "dependencies": 3,
+      "leanSphincs": 2,
+      "leanStark": 1,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 3078.927315,
+        "claims": 2,
+        "peakRssBytes": 404660224,
+        "proofBytes": 268569
+      },
+      "ms": 3096
+    },
+    {
+      "block": 14,
+      "dependencies": 3,
+      "leanSphincs": 2,
+      "leanStark": 1,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 3086.243142,
+        "claims": 2,
+        "peakRssBytes": 412704768,
+        "proofBytes": 267417
+      },
+      "ms": 3109
+    },
+    {
+      "block": 16,
+      "dependencies": 3,
+      "leanSphincs": 2,
+      "leanStark": 1,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 2874.772983,
+        "claims": 2,
+        "peakRssBytes": 412446720,
+        "proofBytes": 267049
+      },
+      "ms": 2895
+    },
+    {
+      "block": 19,
+      "dependencies": 3,
+      "leanSphincs": 2,
+      "leanStark": 1,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 3182.743954,
+        "claims": 2,
+        "peakRssBytes": 404451328,
+        "proofBytes": 268249
+      },
+      "ms": 3197
+    },
+    {
+      "block": 21,
+      "dependencies": 3,
+      "leanSphincs": 2,
+      "leanStark": 1,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 3105.430775,
+        "claims": 2,
+        "peakRssBytes": 413003776,
+        "proofBytes": 269465
+      },
+      "ms": 3120
+    },
+    {
+      "block": 23,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 2792.09514,
+        "claims": 1,
+        "peakRssBytes": 405458944,
+        "proofBytes": 264377
+      },
+      "ms": 2806
+    },
+    {
+      "block": 25,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 3245.286202,
+        "claims": 1,
+        "peakRssBytes": 399204352,
+        "proofBytes": 263513
+      },
+      "ms": 3265
+    },
+    {
+      "block": 28,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 2876.705956,
+        "claims": 1,
+        "peakRssBytes": 405327872,
+        "proofBytes": 264025
+      },
+      "ms": 2890
+    }
+  ],
+  "checks": [
+    {
+      "block": 1,
+      "hash": "0xba93d20e21b11afe758de86df66c205449bfd56f28e64b63007c999d30a2b2ae",
+      "dependencies": 3,
+      "valid": true,
+      "reason": null,
+      "ms": 2864
+    },
+    {
+      "block": 4,
+      "hash": "0x48aa8814f17923e3f16b641bf83334efc2cc8db9a70aeb0ef84519aeb6542288",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2994
+    },
+    {
+      "block": 6,
+      "hash": "0x21ef21e70169ae51ac48e72e5ca57b6d94639f049fe4e636e1a080672ae5c454",
+      "dependencies": 3,
+      "valid": true,
+      "reason": null,
+      "ms": 3021
+    },
+    {
+      "block": 9,
+      "hash": "0xa3c72b9e849e0a425ba3a570a759b30a271d24bd14a65522568931587aaa853d",
+      "dependencies": 2,
+      "valid": true,
+      "reason": null,
+      "ms": 2763
+    },
+    {
+      "block": 11,
+      "hash": "0xa5da714de23079648ea83972081acb4176fc405297cdc671622ee634ebb843e9",
+      "dependencies": 3,
+      "valid": true,
+      "reason": null,
+      "ms": 2885
+    },
+    {
+      "block": 14,
+      "hash": "0x4a4aa3d9f5d00dff344a468959d3475a13fc111bb2fae157abbb4c8848832de4",
+      "dependencies": 3,
+      "valid": true,
+      "reason": null,
+      "ms": 2941
+    },
+    {
+      "block": 16,
+      "hash": "0xab544114a653eddbcd976289f0bbee7a003e3f654a593ce9307f5f281983ac48",
+      "dependencies": 3,
+      "valid": true,
+      "reason": null,
+      "ms": 2937
+    },
+    {
+      "block": 19,
+      "hash": "0xbfd5c53b594b2f56efea55878905ab48a43cabd6c5d9f115a32050cf9bc9084b",
+      "dependencies": 3,
+      "valid": true,
+      "reason": null,
+      "ms": 2856
+    },
+    {
+      "block": 21,
+      "hash": "0x63da11ef68c93c0be4022e089833b12f2425a2749a1db24df8637ed6b126f2ec",
+      "dependencies": 3,
+      "valid": true,
+      "reason": null,
+      "ms": 2681
+    },
+    {
+      "block": 23,
+      "hash": "0xb7b8541bcc20f5e235823025ba39f736164a530bed88487121ae3ce487b95e18",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2945
+    },
+    {
+      "block": 25,
+      "hash": "0x1090833054b648f4557f8535424dcd0786b3483a39804fa41e7b55d4b52bb2cf",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2763
+    },
+    {
+      "block": 28,
+      "hash": "0x9a8d4d04912af5b42e33adbb56e9991b0c59e6395d55b977c2f3c7fc6ec97abd",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 3049
+    }
+  ],
+  "failure": null
+}

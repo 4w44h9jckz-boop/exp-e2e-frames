@@ -1,0 +1,1001 @@
+{
+  "experiment": 19,
+  "run": "3-conflicts",
+  "rule": "rapidblocks, topics 26152 and 26157: per storage slot and account field; balance credits not counted",
+  "records": [
+    "3-third-run"
+  ],
+  "transactions": [
+    {
+      "record": "3-third-run",
+      "step": "v1d: pay, first: a creation transaction from the payer",
+      "hash": "0x92d1b2480d04c9efe4b01d49396805f2dfe3ef7fbceefff85dbd01edc23bb2d6",
+      "block": 686843,
+      "index": 0,
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "writes": [
+        {
+          "key": "0x7fd7af973e367a0ac3cf3675379397e05b9373b2:nonce",
+          "what": "a fresh account, nonce"
+        },
+        {
+          "key": "0x7fd7af973e367a0ac3cf3675379397e05b9373b2:code",
+          "what": "a fresh account, code"
+        },
+        {
+          "key": "0x7fd7af973e367a0ac3cf3675379397e05b9373b2:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:nonce",
+          "what": "the funder (payer of payments and deposits), nonce"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:balance:debit",
+          "what": "the funder (payer of payments and deposits), balance debit"
+        }
+      ]
+    },
+    {
+      "record": "3-third-run",
+      "step": "v1d: announce, first",
+      "hash": "0xcbda24586bc3b0e5d2450916bed76d9c3f00356ec58746dd876101911c597355",
+      "block": 686844,
+      "index": 0,
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "writes": [
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:nonce",
+          "what": "the funder (payer of payments and deposits), nonce"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:balance:debit",
+          "what": "the funder (payer of payments and deposits), balance debit"
+        }
+      ]
+    },
+    {
+      "record": "3-third-run",
+      "step": "v1d: pay, second: a creation transaction from the payer",
+      "hash": "0xc86e0e795e83d76cdf411e699aae42c8f49eec5fda64a8dd450944bf3961e59c",
+      "block": 686845,
+      "index": 0,
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "writes": [
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:nonce",
+          "what": "the funder (payer of payments and deposits), nonce"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:balance:debit",
+          "what": "the funder (payer of payments and deposits), balance debit"
+        },
+        {
+          "key": "0xd22dd30f452772474e8c940cd392e8d88d3e1791:nonce",
+          "what": "a fresh account, nonce"
+        },
+        {
+          "key": "0xd22dd30f452772474e8c940cd392e8d88d3e1791:code",
+          "what": "a fresh account, code"
+        },
+        {
+          "key": "0xd22dd30f452772474e8c940cd392e8d88d3e1791:balance:credit",
+          "what": "a fresh account, balance credit"
+        }
+      ]
+    },
+    {
+      "record": "3-third-run",
+      "step": "v1d: announce, second",
+      "hash": "0xe793bf4708ba7368e2ed3bb146ce5202cc2011be10f1c9efc821b0b426593ca7",
+      "block": 686846,
+      "index": 0,
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "writes": [
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:nonce",
+          "what": "the funder (payer of payments and deposits), nonce"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:balance:debit",
+          "what": "the funder (payer of payments and deposits), balance debit"
+        }
+      ]
+    },
+    {
+      "record": "3-third-run",
+      "step": "v1d: the first account spends",
+      "hash": "0x4c27d768e6340242b22cf98a87501cc1d2138bf410f290356a92583d3297e794",
+      "block": 686847,
+      "index": 0,
+      "sender": "0x7fd7af973e367a0ac3cf3675379397e05b9373b2",
+      "writes": [
+        {
+          "key": "0x791abaa20b421f3fbbe17224032540e423fdd4dc:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x7fd7af973e367a0ac3cf3675379397e05b9373b2:nonce",
+          "what": "a fresh account, nonce"
+        },
+        {
+          "key": "0x7fd7af973e367a0ac3cf3675379397e05b9373b2:balance:debit",
+          "what": "a fresh account, balance debit"
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        }
+      ]
+    },
+    {
+      "record": "3-third-run",
+      "step": "v1d: the second account spends",
+      "hash": "0x624c76338b60d8842821b84e429393ea1606aedb70d270e360ba160936ab36f3",
+      "block": 686848,
+      "index": 0,
+      "sender": "0xd22dd30f452772474e8c940cd392e8d88d3e1791",
+      "writes": [
+        {
+          "key": "0x6269819f25d5072f6a5194295b1e7c3dbb9f0512:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xd22dd30f452772474e8c940cd392e8d88d3e1791:nonce",
+          "what": "a fresh account, nonce"
+        },
+        {
+          "key": "0xd22dd30f452772474e8c940cd392e8d88d3e1791:balance:debit",
+          "what": "a fresh account, balance debit"
+        }
+      ]
+    },
+    {
+      "record": "3-third-run",
+      "step": "v5p: deposit 0",
+      "hash": "0x13186c0df47f66b858a57005b652fc7537cc1c4d43923878f98861980d9c0465",
+      "block": 686849,
+      "index": 0,
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "writes": [
+        {
+          "key": "0x0000000000000000000000000000000000008272:slot:0x9b27c5a9d16c654ca45291e5d8128b74bbd8ad9518c3a2f5f967c021ad2dbb3b",
+          "what": "EIP-8272 recent roots, storage 0x9b27c5a9..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000000",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000002",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000100",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000101",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000102",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000103",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000104",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000105",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000106",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000107",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000108",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000109",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x000000000000000000000000000000000000000000000000000000000000010a",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x000000000000000000000000000000000000000000000000000000000000010b",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x000000000000000000000000000000000000000000000000000000000000010c",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x000000000000000000000000000000000000000000000000000000000000010d",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x000000000000000000000000000000000000000000000000000000000000010e",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x000000000000000000000000000000000000000000000000000000000000010f",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000110",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000111",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000112",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000113",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:nonce",
+          "what": "the funder (payer of payments and deposits), nonce"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:balance:debit",
+          "what": "the funder (payer of payments and deposits), balance debit"
+        },
+        {
+          "key": "0xfce3b422607e204edf339a2ca59504fb0c1e5fb3:balance:credit",
+          "what": "pot 0, balance credit"
+        }
+      ]
+    },
+    {
+      "record": "3-third-run",
+      "step": "v5p: deposit 1",
+      "hash": "0xb3b991b737aee0d49f7d141c7ca5d287203f99ee06d9c6599355429711a18113",
+      "block": 686850,
+      "index": 0,
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "writes": [
+        {
+          "key": "0x0000000000000000000000000000000000008272:slot:0x145f9226fbda58b9de13d06e9a8ed7dc60343e6d1b9e9819f6d36268d880fb18",
+          "what": "EIP-8272 recent roots, storage 0x145f9226..."
+        },
+        {
+          "key": "0x318ae8fbc917883b37d06e2dd63a033fb0848d67:balance:credit",
+          "what": "pot 1, balance credit"
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000000",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000002",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000101",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000102",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000103",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000104",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000105",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000106",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000107",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000108",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000109",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x000000000000000000000000000000000000000000000000000000000000010a",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x000000000000000000000000000000000000000000000000000000000000010b",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x000000000000000000000000000000000000000000000000000000000000010c",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x000000000000000000000000000000000000000000000000000000000000010d",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x000000000000000000000000000000000000000000000000000000000000010e",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x000000000000000000000000000000000000000000000000000000000000010f",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000110",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000111",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000112",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000113",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:nonce",
+          "what": "the funder (payer of payments and deposits), nonce"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:balance:debit",
+          "what": "the funder (payer of payments and deposits), balance debit"
+        }
+      ]
+    },
+    {
+      "record": "3-third-run",
+      "step": "v5p: deposit 2",
+      "hash": "0x841da6ffabb7765a32670ed01687cce610dbbd26b4575c0418391926154a034d",
+      "block": 686851,
+      "index": 0,
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "writes": [
+        {
+          "key": "0x0000000000000000000000000000000000008272:slot:0x50118c3125a273e96d80a208a1f287530b44b158d1b5c7062c46bfae54bd7d40",
+          "what": "EIP-8272 recent roots, storage 0x50118c31..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000000",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000002",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000100",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000102",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000103",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000104",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000105",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000106",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000107",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000108",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000109",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x000000000000000000000000000000000000000000000000000000000000010a",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x000000000000000000000000000000000000000000000000000000000000010b",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x000000000000000000000000000000000000000000000000000000000000010c",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x000000000000000000000000000000000000000000000000000000000000010d",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x000000000000000000000000000000000000000000000000000000000000010e",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x000000000000000000000000000000000000000000000000000000000000010f",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000110",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000111",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000112",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000113",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x8ee19e69820d2a8ed1644ec78c76fd74384113ec:balance:credit",
+          "what": "pot 2, balance credit"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:nonce",
+          "what": "the funder (payer of payments and deposits), nonce"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:balance:debit",
+          "what": "the funder (payer of payments and deposits), balance debit"
+        }
+      ]
+    },
+    {
+      "record": "3-third-run",
+      "step": "v5p: deposit 3",
+      "hash": "0x6978c6f54b050cd5e17315f669155e86697395888bd365026d2d56afbda82a19",
+      "block": 686852,
+      "index": 0,
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "writes": [
+        {
+          "key": "0x0000000000000000000000000000000000008272:slot:0xd08b4780658409a904b406ec51eb47b7292d070a8b49e18d666cdcf9bda9d437",
+          "what": "EIP-8272 recent roots, storage 0xd08b4780..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000000",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000002",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000102",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000103",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000104",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000105",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000106",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000107",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000108",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000109",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x000000000000000000000000000000000000000000000000000000000000010a",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x000000000000000000000000000000000000000000000000000000000000010b",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x000000000000000000000000000000000000000000000000000000000000010c",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x000000000000000000000000000000000000000000000000000000000000010d",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x000000000000000000000000000000000000000000000000000000000000010e",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x000000000000000000000000000000000000000000000000000000000000010f",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000110",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000111",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000112",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x4d1a62d96c3b8c22e839e98fda23da28a8c9df38:slot:0x0000000000000000000000000000000000000000000000000000000000000113",
+          "what": "pool6, storage 0x00000000..."
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:nonce",
+          "what": "the funder (payer of payments and deposits), nonce"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:balance:debit",
+          "what": "the funder (payer of payments and deposits), balance debit"
+        },
+        {
+          "key": "0xa80febac3dcfa26101ea1793c07ecdf837254d34:balance:credit",
+          "what": "pot 3, balance credit"
+        }
+      ]
+    },
+    {
+      "record": "3-third-run",
+      "step": "v5p: withdraw note 0, from pot 1",
+      "hash": "0x204840b6a82bab6d4a6cd8bd0a942eaeb7f12b22eceb09099d732c93630ac742",
+      "block": 686853,
+      "index": 0,
+      "sender": "0x318ae8fbc917883b37d06e2dd63a033fb0848d67",
+      "writes": [
+        {
+          "key": "0x0000000000000000000000000000000000008250:slot:0x7146d0a64b689d5d8bb0e0edeb30e137715196bbc54cd68e72d69ee746daff0d",
+          "what": "EIP-8250 nonce keys, storage 0x7146d0a6..."
+        },
+        {
+          "key": "0x318ae8fbc917883b37d06e2dd63a033fb0848d67:balance:debit",
+          "what": "pot 1, balance debit"
+        },
+        {
+          "key": "0x6b3c225d053e09703944a33580317b39ffa6161e:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        }
+      ]
+    },
+    {
+      "record": "3-third-run",
+      "step": "v5p: withdraw note 1, from pot 1",
+      "hash": "0xe7a719edee84abb3c0f8a4ca08688061241f9cae0f4a01ca8ec6f69559e24634",
+      "block": 686854,
+      "index": 0,
+      "sender": "0x318ae8fbc917883b37d06e2dd63a033fb0848d67",
+      "writes": [
+        {
+          "key": "0x0000000000000000000000000000000000008250:slot:0x50dfd23d11814247214a5d3e41f15eae183c7447bf2c2f0dc46f679bf85f3522",
+          "what": "EIP-8250 nonce keys, storage 0x50dfd23d..."
+        },
+        {
+          "key": "0x318ae8fbc917883b37d06e2dd63a033fb0848d67:balance:debit",
+          "what": "pot 1, balance debit"
+        },
+        {
+          "key": "0x82083fa9e2375d62cdbc2b3d15215f33b097c557:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        }
+      ]
+    },
+    {
+      "record": "3-third-run",
+      "step": "v5p: withdraw note 2, from pot 2",
+      "hash": "0xf81d7fffb993711ca98b20bc48a2d2c61c4a91d00bf338e8a3fd7b10dd73ef23",
+      "block": 686855,
+      "index": 0,
+      "sender": "0x8ee19e69820d2a8ed1644ec78c76fd74384113ec",
+      "writes": [
+        {
+          "key": "0x0000000000000000000000000000000000008250:slot:0x9bee7e00b0158fcb0e9896052d51ec5031d9228d29393656c0b6392bd33f49f1",
+          "what": "EIP-8250 nonce keys, storage 0x9bee7e00..."
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x8ee19e69820d2a8ed1644ec78c76fd74384113ec:balance:debit",
+          "what": "pot 2, balance debit"
+        },
+        {
+          "key": "0x9fae6d2ce16395846e0ce6d637a02913a8f94864:balance:credit",
+          "what": "a fresh account, balance credit"
+        }
+      ]
+    },
+    {
+      "record": "3-third-run",
+      "step": "v5p: withdraw note 3, from pot 0",
+      "hash": "0x41e2f1f0925c248a25f5596f399a7950d09f261beba77e377c0411a4f9eb2523",
+      "block": 686856,
+      "index": 0,
+      "sender": "0xfce3b422607e204edf339a2ca59504fb0c1e5fb3",
+      "writes": [
+        {
+          "key": "0x0000000000000000000000000000000000008250:slot:0xd524e9115cd7a2a5c7fe948613e58099673e6f239891558a57642c62c131545e",
+          "what": "EIP-8250 nonce keys, storage 0xd524e911..."
+        },
+        {
+          "key": "0x53201449301cd7a66318c394fba199660bb75d64:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xfce3b422607e204edf339a2ca59504fb0c1e5fb3:balance:debit",
+          "what": "pot 0, balance debit"
+        }
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "kind": "v1d: payment (creation)",
+      "pair": [
+        "v1d: pay, first: a creation transaction from the payer",
+        "v1d: pay, second: a creation transaction from the payer"
+      ],
+      "sharedWrites": [],
+      "conflict": false
+    },
+    {
+      "kind": "v1d: announcement",
+      "pair": [
+        "v1d: announce, first",
+        "v1d: announce, second"
+      ],
+      "sharedWrites": [],
+      "conflict": false
+    },
+    {
+      "kind": "v1d: spend",
+      "pair": [
+        "v1d: the first account spends",
+        "v1d: the second account spends"
+      ],
+      "sharedWrites": [],
+      "conflict": false
+    },
+    {
+      "kind": "v5p: deposit",
+      "pair": [
+        "v5p: deposit 0",
+        "v5p: deposit 1"
+      ],
+      "sharedWrites": [
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000..."
+      ],
+      "conflict": true
+    },
+    {
+      "kind": "v5p: deposit",
+      "pair": [
+        "v5p: deposit 0",
+        "v5p: deposit 2"
+      ],
+      "sharedWrites": [
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000..."
+      ],
+      "conflict": true
+    },
+    {
+      "kind": "v5p: deposit",
+      "pair": [
+        "v5p: deposit 0",
+        "v5p: deposit 3"
+      ],
+      "sharedWrites": [
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000..."
+      ],
+      "conflict": true
+    },
+    {
+      "kind": "v5p: deposit",
+      "pair": [
+        "v5p: deposit 1",
+        "v5p: deposit 2"
+      ],
+      "sharedWrites": [
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000..."
+      ],
+      "conflict": true
+    },
+    {
+      "kind": "v5p: deposit",
+      "pair": [
+        "v5p: deposit 1",
+        "v5p: deposit 3"
+      ],
+      "sharedWrites": [
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000..."
+      ],
+      "conflict": true
+    },
+    {
+      "kind": "v5p: deposit",
+      "pair": [
+        "v5p: deposit 2",
+        "v5p: deposit 3"
+      ],
+      "sharedWrites": [
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000...",
+        "pool6, storage 0x00000000..."
+      ],
+      "conflict": true
+    },
+    {
+      "kind": "v5p: withdrawal",
+      "pair": [
+        "v5p: withdraw note 0, from pot 1",
+        "v5p: withdraw note 1, from pot 1"
+      ],
+      "sharedWrites": [
+        "pot 1, balance debit"
+      ],
+      "conflict": true
+    },
+    {
+      "kind": "v5p: withdrawal",
+      "pair": [
+        "v5p: withdraw note 0, from pot 1",
+        "v5p: withdraw note 2, from pot 2"
+      ],
+      "sharedWrites": [],
+      "conflict": false
+    },
+    {
+      "kind": "v5p: withdrawal",
+      "pair": [
+        "v5p: withdraw note 0, from pot 1",
+        "v5p: withdraw note 3, from pot 0"
+      ],
+      "sharedWrites": [],
+      "conflict": false
+    },
+    {
+      "kind": "v5p: withdrawal",
+      "pair": [
+        "v5p: withdraw note 1, from pot 1",
+        "v5p: withdraw note 2, from pot 2"
+      ],
+      "sharedWrites": [],
+      "conflict": false
+    },
+    {
+      "kind": "v5p: withdrawal",
+      "pair": [
+        "v5p: withdraw note 1, from pot 1",
+        "v5p: withdraw note 3, from pot 0"
+      ],
+      "sharedWrites": [],
+      "conflict": false
+    },
+    {
+      "kind": "v5p: withdrawal",
+      "pair": [
+        "v5p: withdraw note 2, from pot 2",
+        "v5p: withdraw note 3, from pot 0"
+      ],
+      "sharedWrites": [],
+      "conflict": false
+    }
+  ]
+}

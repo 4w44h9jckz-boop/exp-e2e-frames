@@ -1,0 +1,23 @@
+{
+  "experiment": 25,
+  "arm": 0,
+  "step": "INTMAX3's own test, on anvil",
+  "run": "3-validity-prover-service",
+  "intmax3": "979318dbf48eee360235fab9b5675b82e8cfde12",
+  "command": "cargo test --release --locked --test validity_prover_service -- --nocapture",
+  "exit": 101,
+  "seconds": 468,
+  "peakRssKiB": 13886992,
+  "rayonThreads": "unset (rayon's default: one per core)",
+  "memoryLimitBytes": 14337302528,
+  "oomKills": [
+    "[18226.171944] Memory cgroup out of memory: Killed process 16575 (validity_prover) total-vm:15112680kB, anon-rss:13884864kB, file-rss:2128kB, shmem-rss:0kB, UID:0 pgtables:27356kB oom_score_adj:0"
+  ],
+  "testResult": [
+    "test resident_prover_recovers_candidate_and_proves_two_independent_spans has been running for over 60 seconds"
+  ],
+  "proofLines": [],
+  "stepLines": [],
+  "gasLines": [],
+  "panicLines": []
+}

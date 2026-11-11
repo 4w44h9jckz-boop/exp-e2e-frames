@@ -1,0 +1,221 @@
+{
+  "experiment": 22,
+  "arm": 4,
+  "run": "7-testnet",
+  "date": "2026-11-05T11:26:39.205Z",
+  "repoCommit": "4d6a57da900c9149e1f793901d9899130c0e9166",
+  "pins": {
+    "skandha": {
+      "url": "https://github.com/4w44h9jckz-boop/skandha",
+      "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade",
+      "why": "two nodes in front of the local chain and the test network; the commit experiment 19 ran"
+    },
+    "skandhaNodePath": {
+      "url": "https://github.com/4w44h9jckz-boop/skandha",
+      "commit": "ef266b3d3c672b2247c2ae1036b67fbc85c0638e",
+      "why": "amendment 5: the node path for EIP-8288 master's dependency frames, surface profile eip-8288-master and frames_sendWrapper (the mempool session's branch claude/zealous-ptolemy-g7w9h5)"
+    }
+  },
+  "arm2": "results/6-sweep.json",
+  "command": "npx tsx experiments/22-q1-leansphincs-senders/testnet.ts 7-testnet 6-sweep",
+  "chain": {
+    "chainId": 8141,
+    "rpc": "https://rpc1.privacy.ethrex.xyz",
+    "eip8288": "modelled: the triple in VERIFY data, the signature checked off chain"
+  },
+  "setup": [
+    {
+      "shape": "a",
+      "funder": "0xa131d9454d87957dcC465fb37ACD9b383648B4d5",
+      "hash": "0x0e1d25bbfbb9b205d9240e30c2ed5f0ecf3c56e3eb27247ddff140e824878a61",
+      "status": "success",
+      "gasUsed": 617775,
+      "account": "0x2F2e88bd3117a5B232B89823328034aff9c467Be",
+      "deployed": true,
+      "value": "11000000000000000"
+    },
+    {
+      "shape": "b",
+      "funder": "0xa131d9454d87957dcC465fb37ACD9b383648B4d5",
+      "hash": "0x72c39221aaa62062feadb59e18c2433ada2df2ac9995716299c104ad4d59fac3",
+      "status": "success",
+      "gasUsed": 617775,
+      "account": "0xb850C276C49d1a7609304937BCbbE4ee230c0235",
+      "deployed": true,
+      "value": "10000000000000100"
+    },
+    {
+      "shape": "c",
+      "funder": "0xa131d9454d87957dcC465fb37ACD9b383648B4d5",
+      "hash": "0xc32028e1c6df11109be5ff30ac8043372c88a447c7160a1695316a11074763d9",
+      "status": "success",
+      "gasUsed": 618015,
+      "account": "0x680386A85f2B643FF40bCb6b7ecF39404eB828Be",
+      "deployed": true,
+      "value": "10000000000000000"
+    }
+  ],
+  "rows": [
+    {
+      "shape": "a",
+      "experiment": "12-x8-bound-ticket",
+      "record": "0x7cf6fcec752f1be96c653ec2c32cef28fcb34074c8e7923a2f5d915a201cc811",
+      "recordGasUsed": 204600,
+      "arm2GasUsed": 210561,
+      "sender": {
+        "old": "0xa131d9454d87957dcC465fb37ACD9b383648B4d5",
+        "new": "0x2F2e88bd3117a5B232B89823328034aff9c467Be"
+      },
+      "implementation": "none: a codeless sender",
+      "changes": [
+        "fees: today's base fee"
+      ],
+      "hash": "0x6a42f41cd3773e10aa4a679c86c4fdae7d925035165e05559e6a20e03d8609dc",
+      "bytes": 197,
+      "simulation": {
+        "valid": true,
+        "violation": null,
+        "executionStatus": "success",
+        "gasUsed": "0x62c6"
+      },
+      "signature": {
+        "bytes": 7740,
+        "signMs": 79,
+        "offChain": {
+          "verified": true,
+          "verifyMs": 0.165039
+        }
+      },
+      "nodeA": "admitted: 0x6a42f41cd3773e10aa4a679c86c4fdae7d925035165e05559e6a20e03d8609dc",
+      "seen": {
+        "A": 4,
+        "B": 3
+      },
+      "outcome": "mined",
+      "block": 701216,
+      "gasUsed": 25286,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 299,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        }
+      ],
+      "verifyGas": 299
+    },
+    {
+      "shape": "b",
+      "experiment": "03-i2-one-frame-format",
+      "record": "0x1071aec56d95978b49436ac1f6584412ec2c327faf6d612fe34f1b6dd7f9daf8",
+      "recordGasUsed": 210982,
+      "arm2GasUsed": 210561,
+      "sender": {
+        "old": "0x189Abc0BE7003Dd1238b7A404325B440C70e88e4",
+        "new": "0xb850C276C49d1a7609304937BCbbE4ee230c0235"
+      },
+      "implementation": "none: a codeless sender",
+      "changes": [],
+      "hash": "0xe31774f5ae5d6a17eaa9fa2f8a72b1ce994726229fcec44361caf69a4ff60115",
+      "bytes": 189,
+      "simulation": {
+        "valid": true,
+        "violation": null,
+        "executionStatus": "success",
+        "gasUsed": "0x62c6"
+      },
+      "signature": {
+        "bytes": 7740,
+        "signMs": 51,
+        "offChain": {
+          "verified": true,
+          "verifyMs": 0.17245
+        }
+      },
+      "nodeA": "admitted: 0xe31774f5ae5d6a17eaa9fa2f8a72b1ce994726229fcec44361caf69a4ff60115",
+      "seen": {
+        "A": 4,
+        "B": 3
+      },
+      "outcome": "mined",
+      "block": 701217,
+      "gasUsed": 25286,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 299,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        }
+      ],
+      "verifyGas": 299
+    },
+    {
+      "shape": "c",
+      "experiment": "13-g5-gradient",
+      "record": "0xe294edcc0ea04cba5846032f6b70ee4fae4b0bb572b174028b4d7a34e4ed7cc2",
+      "recordGasUsed": 152278,
+      "arm2GasUsed": 158897,
+      "sender": {
+        "old": "0x8A93f51D44199c074FC0bf0f28358F27FFD17938",
+        "new": "0x680386A85f2B643FF40bCb6b7ecF39404eB828Be"
+      },
+      "implementation": "the original sender's own code, at its address",
+      "changes": [
+        "sender's address: 1 place(s) in the copied frames"
+      ],
+      "hash": "0x5ba25dcefe216e0f7aaee7fb8c4704c1569dc3dda85598a9625ec53b26c27927",
+      "bytes": 831,
+      "simulation": {
+        "valid": true,
+        "violation": null,
+        "executionStatus": "success",
+        "gasUsed": "0x26ad6"
+      },
+      "signature": {
+        "bytes": 7740,
+        "signMs": 58,
+        "offChain": {
+          "verified": true,
+          "verifyMs": 0.171429
+        }
+      },
+      "nodeA": "admitted: 0x5ba25dcefe216e0f7aaee7fb8c4704c1569dc3dda85598a9625ec53b26c27927",
+      "seen": {
+        "A": 4,
+        "B": 3
+      },
+      "outcome": "mined",
+      "block": 701218,
+      "gasUsed": 158422,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 299,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 5951,
+          "state": 0
+        }
+      ],
+      "verifyGas": 299
+    }
+  ],
+  "summary": {
+    "shapes": 3,
+    "admittedAtNodeA": 3,
+    "receivedByB": 3,
+    "mined": 3,
+    "signaturesVerified": 3
+  }
+}

@@ -1,0 +1,117 @@
+{
+ "name": "sponsored-transfer",
+ "set": "eip8250-1a086d5c",
+ "eip8250": "1a086d5c67cdcf3a134cc571eb4bb4b9bed6fb02",
+ "executionDigest": "0x05f36eec8116106c36bf1f416841354cc4a3d56dd8553eb13a0bb5ae05f2b351",
+ "typedData": {
+  "types": {
+   "EIP712Domain": [
+    {
+     "name": "name",
+     "type": "string"
+    },
+    {
+     "name": "version",
+     "type": "string"
+    },
+    {
+     "name": "chainId",
+     "type": "uint256"
+    },
+    {
+     "name": "verifyingContract",
+     "type": "address"
+    }
+   ],
+   "FrameExecution": [
+    {
+     "name": "nonceKeysHash",
+     "type": "bytes32"
+    },
+    {
+     "name": "nonceSeq",
+     "type": "uint64"
+    },
+    {
+     "name": "frames",
+     "type": "Frame[]"
+    },
+    {
+     "name": "blobVersionedHashes",
+     "type": "bytes32[]"
+    }
+   ],
+   "Frame": [
+    {
+     "name": "mode",
+     "type": "uint8"
+    },
+    {
+     "name": "flags",
+     "type": "uint8"
+    },
+    {
+     "name": "target",
+     "type": "address"
+    },
+    {
+     "name": "executionLimit",
+     "type": "uint64"
+    },
+    {
+     "name": "stateLimit",
+     "type": "uint64"
+    },
+    {
+     "name": "value",
+     "type": "uint256"
+    },
+    {
+     "name": "data",
+     "type": "bytes"
+    }
+   ]
+  },
+  "primaryType": "FrameExecution",
+  "domain": {
+   "name": "FrameExecution",
+   "version": "1",
+   "chainId": 8141,
+   "verifyingContract": "0x2700000000000000000000000000000000000001"
+  },
+  "message": {
+   "nonceKeysHash": "0x290decd9548b62a8d60345a988386fc84ba6bc95484008f6362f93160ef3e563",
+   "nonceSeq": "0",
+   "frames": [
+    {
+     "mode": 1,
+     "flags": 2,
+     "target": "0x2700000000000000000000000000000000000001",
+     "executionLimit": 30000,
+     "stateLimit": 0,
+     "value": "0",
+     "data": "0x"
+    },
+    {
+     "mode": 1,
+     "flags": 1,
+     "target": "0x0000000000000000000000000000000000000000",
+     "executionLimit": 0,
+     "stateLimit": 0,
+     "value": "0",
+     "data": "0x"
+    },
+    {
+     "mode": 2,
+     "flags": 0,
+     "target": "0x2700000000000000000000000000000000000010",
+     "executionLimit": 60000,
+     "stateLimit": 97920,
+     "value": "0",
+     "data": "0xa9059cbb00000000000000000000000027000000000000000000000000000000000000130000000000000000000000000000000000000000000000000de0b6b3a7640000"
+    }
+   ],
+   "blobVersionedHashes": []
+  }
+ }
+}

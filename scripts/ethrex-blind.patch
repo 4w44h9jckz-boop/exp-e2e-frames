@@ -1,0 +1,461 @@
+--- a/crates/vm/levm/Cargo.toml
++++ b/crates/vm/levm/Cargo.toml
+@@ -15,6 +15,8 @@
+ derive_more = { version = "1.0.0", features = ["full"] }
+ 
+ bytes.workspace = true
++# The blind precompiles (an experiment's patch) verify BLS12-381 tickets with blst.
++blst = "0.3.16"
+ thiserror.workspace = true
+ serde = { workspace = true, features = ["derive", "rc"] }
+ 
+--- a/crates/vm/levm/src/lib.rs
++++ b/crates/vm/levm/src/lib.rs
+@@ -84,6 +84,7 @@
+ pub mod vm;
+ pub use environment::*;
+ pub mod account;
++pub mod blind;
+ pub mod execute_precompile;
+ #[cfg(feature = "perf_opcode_timings")]
+ pub mod timings;
+--- a/crates/vm/levm/src/precompiles.rs
++++ b/crates/vm/levm/src/precompiles.rs
+@@ -277,6 +277,7 @@
+         return true;
+     }
+     (matches!(vm_type, VMType::L2(_)) && *address == P256VERIFY.address)
++        || crate::blind::is_blind(address)
+         || precompiles_for_fork(fork).any(|precompile| precompile.address == *address)
+ }
+ 
+--- a/crates/vm/levm/src/opcode_handlers/system.rs
++++ b/crates/vm/levm/src/opcode_handlers/system.rs
+@@ -1206,16 +1206,27 @@
+             }
+ 
+             let mut gas_remaining = gas_limit;
+-            let ctx_result = Self::execute_precompile(
+-                code_address,
+-                &calldata,
+-                gas_limit,
+-                &mut gas_remaining,
+-                self.env.config.fork,
+-                self.db.store.precompile_cache(),
+-                self.crypto,
+-                self.stateless_validator,
+-            )?;
++            let ctx_result = if crate::blind::is_blind(&code_address) {
++                self.blind_call(
++                    code_address,
++                    &calldata,
++                    gas_limit,
++                    &mut gas_remaining,
++                    value,
++                    is_static,
++                )?
++            } else {
++                Self::execute_precompile(
++                    code_address,
++                    &calldata,
++                    gas_limit,
++                    &mut gas_remaining,
++                    self.env.config.fork,
++                    self.db.store.precompile_cache(),
++                    self.crypto,
++                    self.stateless_validator,
++                )?
++            };
+ 
+             let call_frame = &mut self.current_call_frame;
+ 
+--- a/crates/vm/levm/src/vm.rs
++++ b/crates/vm/levm/src/vm.rs
+@@ -3632,16 +3632,30 @@
+             let code_address = self.current_call_frame.code_address;
+             let precompile_gas_limit = self.current_call_frame.gas_limit;
+             let mut gas_remaining = self.current_call_frame.gas_remaining as u64;
+-            let result = Self::execute_precompile(
+-                code_address,
+-                &self.current_call_frame.calldata,
+-                precompile_gas_limit,
+-                &mut gas_remaining,
+-                self.env.config.fork,
+-                self.db.store.precompile_cache(),
+-                self.crypto,
+-                self.stateless_validator,
+-            );
++            let result = if crate::blind::is_blind(&code_address) {
++                let calldata = self.current_call_frame.calldata.clone();
++                let value = self.current_call_frame.msg_value;
++                let is_static = self.current_call_frame.is_static;
++                self.blind_call(
++                    code_address,
++                    &calldata,
++                    precompile_gas_limit,
++                    &mut gas_remaining,
++                    value,
++                    is_static,
++                )
++            } else {
++                Self::execute_precompile(
++                    code_address,
++                    &self.current_call_frame.calldata,
++                    precompile_gas_limit,
++                    &mut gas_remaining,
++                    self.env.config.fork,
++                    self.db.store.precompile_cache(),
++                    self.crypto,
++                    self.stateless_validator,
++                )
++            };
+ 
+             debug_assert_eq!(
+                 self.state_gas_used, state_gas_used_before_precompile,
+--- /dev/null
++++ b/crates/vm/levm/src/blind.rs
+@@ -0,0 +1,334 @@
++//! BLINDMINT, BLINDTRANSFER and BLINDPRUNE: a blind account's rules as precompiles with state.
++//!
++//! An experiment's patch, not a proposal for ethrex. The semantics and the gas schedule are the
++//! experiment's draft (`SPEC.md`): an escrow per key `chi`, a count of purchases (`burned`) and
++//! of payouts (`minted`), a ticket paid only while `minted < burned`, each ticket's serial spent
++//! once in an account of its own, and a closed epoch's serial account dropped whole.
++//!
++//! Every check runs before any write, so a refused call changes nothing. Writes go through the
++//! VM's journaled storage, balance and nonce paths, so a reverting caller undoes them.
++
++use bytes::Bytes;
++use ethrex_common::{Address, H160, H256, U256, utils::keccak};
++
++use crate::{
++    errors::{ContextResult, PrecompileError, VMError},
++    precompiles,
++    vm::VM,
++};
++
++/// `BLINDMINT`, and the account that holds every key's escrow and counts.
++pub const BLINDMINT: Address = H160([
++    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x0b, 0x11,
++]);
++pub const BLINDTRANSFER: Address = H160([
++    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x0b, 0x12,
++]);
++pub const BLINDPRUNE: Address = H160([
++    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x0b, 0x13,
++]);
++pub const ESCROW: Address = BLINDMINT;
++
++const DST: &[u8] = b"BLIND_V1_BLS12381G1_XMD:SHA-256_SSWU_RO_";
++const PAYOUT_TAG: &[u8] = b"BLIND_PAYOUT_V1";
++const SERIALS_TAG: &[u8] = b"BLIND_SERIALS";
++
++const PK: usize = 192;
++const SIG: usize = 96;
++const HEAD: usize = PK + 32 + 32;
++const ENTRY: usize = 32 + 20 + 20 + 65;
++
++// The schedule (SPEC.md).
++const MINT_BASE: u64 = 100 + 2_100;
++const SLOT_SET: u64 = 20_000;
++const SLOT_RESET: u64 = 2_900;
++const TRANSFER_BASE: u64 = 1_100;
++const PAIRING: u64 = 32_600 * 2 + 37_700;
++const COUNT: u64 = 5_000;
++const PER_ENTRY: u64 = 2 * 5_500 + 375 + 100 + 375 + 3_000 + 22_100 + 9_000;
++const NEW_ACCOUNT: u64 = 25_000;
++const PRUNE: u64 = 25_000;
++
++pub fn is_blind(address: &Address) -> bool {
++    *address == BLINDMINT || *address == BLINDTRANSFER || *address == BLINDPRUNE
++}
++
++fn refuse(op: &str, why: &str) -> VMError {
++    eprintln!("blind: {op} refused: {why}");
++    VMError::from(PrecompileError::ParsingInputError)
++}
++
++fn word(b: &[u8]) -> U256 {
++    U256::from_big_endian(b)
++}
++
++fn slot(chi: &H256, i: u8) -> H256 {
++    let mut b = [0u8; 64];
++    b[..32].copy_from_slice(chi.as_bytes());
++    b[63] = i;
++    keccak(b)
++}
++
++fn serials_account(chi: &H256) -> Address {
++    let mut b = SERIALS_TAG.to_vec();
++    b.extend_from_slice(chi.as_bytes());
++    Address::from_slice(&keccak(b).as_bytes()[12..])
++}
++
++/// `chi = keccak256(pk || D || end)`, and `D` and `end` read from the head.
++fn key(head: &[u8]) -> (H256, U256, u64) {
++    let chi = keccak(&head[..HEAD]);
++    let d = word(&head[PK..PK + 32]);
++    let end = word(&head[PK + 32..HEAD]);
++    let end = if end > U256::from(u64::MAX) { u64::MAX } else { end.as_u64() };
++    (chi, d, end)
++}
++
++fn charge(op: &str, cost: u64, gas_remaining: &mut u64) -> Result<(), VMError> {
++    if *gas_remaining < cost {
++        return Err(refuse(op, &format!("needs {cost} gas, has {gas_remaining}")));
++    }
++    *gas_remaining -= cost;
++    eprintln!("blind: {op} charged {cost}");
++    Ok(())
++}
++
++impl<'a> VM<'a> {
++    /// An account the operation reads, declared as a CALL or BALANCE would declare it: in the
++    /// block access list (EIP-7928), so that a validator executing the block's transactions in
++    /// parallel seeds this transaction with the account as earlier transactions left it.
++    fn blind_touch(&mut self, address: Address) -> Result<(), VMError> {
++        let _ = self.substate.add_accessed_address(address);
++        if let Some(recorder) = self.db.bal_recorder.as_mut() {
++            recorder.record_touched_address(address);
++        }
++        self.db.get_account(address)?;
++        Ok(())
++    }
++
++    /// A slot the operation reads, declared as SLOAD declares it.
++    fn blind_read(&mut self, address: Address, key: H256) -> Result<U256, VMError> {
++        self.blind_touch(address)?;
++        let _ = self.substate.add_accessed_slot(address, key);
++        self.record_storage_slot_to_bal(address, word(key.as_bytes()));
++        Ok(self.get_storage_value(address, key)?)
++    }
++
++    fn blind_write(&mut self, address: Address, key: H256, value: U256) -> Result<(), VMError> {
++        let current = self.blind_read(address, key)?;
++        self.update_account_storage(address, key, word(key.as_bytes()), value, current)?;
++        Ok(())
++    }
++
++    /// Runs one of the three operations and returns what a precompile call returns.
++    #[allow(clippy::too_many_arguments)]
++    pub fn blind_call(
++        &mut self,
++        address: Address,
++        calldata: &Bytes,
++        gas_limit: u64,
++        gas_remaining: &mut u64,
++        value: U256,
++        is_static: bool,
++    ) -> Result<ContextResult, VMError> {
++        let result = if is_static {
++            Err(refuse("call", "static"))
++        } else if address == BLINDMINT {
++            self.blind_mint(calldata, gas_remaining, value)
++        } else if address == BLINDTRANSFER {
++            self.blind_transfer(calldata, gas_remaining, value)
++        } else {
++            self.blind_prune(calldata, gas_remaining, value)
++        };
++        Self::handle_precompile_result(result, gas_limit, *gas_remaining)
++    }
++
++    fn blind_mint(&mut self, input: &Bytes, gas: &mut u64, value: U256) -> Result<Bytes, VMError> {
++        let op = "mint";
++        if input.len() != HEAD + 32 {
++            return Err(refuse(op, "length"));
++        }
++        let (chi, d, end) = key(input);
++        let k = word(&input[HEAD..HEAD + 32]);
++        if k.is_zero() || d.is_zero() {
++            return Err(refuse(op, "zero count or denomination"));
++        }
++        let (total, overflow) = k.overflowing_mul(d);
++        if overflow || value != total {
++            return Err(refuse(op, "value is not k * D"));
++        }
++        if self.env.block_number > end {
++            return Err(refuse(op, "the epoch has ended"));
++        }
++        if blst::min_sig::PublicKey::key_validate(&input[..PK]).is_err() {
++            return Err(refuse(op, "the key is not in G2's subgroup"));
++        }
++        let burned = self.blind_read(ESCROW, slot(&chi, 0))?;
++        let cost = MINT_BASE + if burned.is_zero() { SLOT_SET } else { SLOT_RESET };
++        charge(op, cost, gas)?;
++        // The escrow holds the counts in its storage. With no code, a zero nonce and an empty
++        // balance it would be empty under EIP-161 and removed with them, so its nonce is 1.
++        self.blind_touch(ESCROW)?;
++        if self.db.get_account(ESCROW)?.info.nonce == 0 {
++            self.increment_account_nonce(ESCROW)?;
++        }
++        self.blind_write(ESCROW, slot(&chi, 0), burned + k)?;
++        eprintln!("blind: mint chi={chi:#x} k={k} burned={}", burned + k);
++        Ok(Bytes::copy_from_slice(chi.as_bytes()))
++    }
++
++    #[allow(clippy::too_many_lines)]
++    fn blind_transfer(
++        &mut self,
++        input: &Bytes,
++        gas: &mut u64,
++        value: U256,
++    ) -> Result<Bytes, VMError> {
++        let op = "transfer";
++        if !value.is_zero() {
++            return Err(refuse(op, "carries value"));
++        }
++        if input.len() < HEAD + SIG + 32 {
++            return Err(refuse(op, "length"));
++        }
++        let (chi, d, end) = key(input);
++        let sigma = &input[HEAD..HEAD + SIG];
++        let n = word(&input[HEAD + SIG..HEAD + SIG + 32]);
++        let body = HEAD + SIG + 32;
++        if n.is_zero() || n > U256::from(1024) {
++            return Err(refuse(op, "batch size"));
++        }
++        let n = n.as_usize();
++        if input.len() != body + n * ENTRY {
++            return Err(refuse(op, "length"));
++        }
++        if self.env.block_number > end {
++            return Err(refuse(op, "the epoch has ended"));
++        }
++        if !self.blind_read(ESCROW, slot(&chi, 2))?.is_zero() {
++            return Err(refuse(op, "pruned"));
++        }
++        let burned = self.blind_read(ESCROW, slot(&chi, 0))?;
++        let minted = self.blind_read(ESCROW, slot(&chi, 1))?;
++        if minted + U256::from(n) > burned {
++            return Err(refuse(op, &format!("count: minted {minted} + {n} > burned {burned}")));
++        }
++        let serials = serials_account(&chi);
++        let mut seen = std::collections::BTreeSet::new();
++        let mut entries = Vec::with_capacity(n);
++        for i in 0..n {
++            let e = &input[body + i * ENTRY..body + (i + 1) * ENTRY];
++            let serial = H256::from_slice(&e[..32]);
++            let otk = Address::from_slice(&e[32..52]);
++            let recipient = Address::from_slice(&e[52..72]);
++            let sig = &e[72..137];
++            if !seen.insert(serial) {
++                return Err(refuse(op, "a serial twice in the batch"));
++            }
++            if !self.blind_read(serials, serial)?.is_zero() {
++                return Err(refuse(op, &format!("serial {serial:#x} spent")));
++            }
++            // The one-time key signs the payout's recipient.
++            let mut m = PAYOUT_TAG.to_vec();
++            m.extend_from_slice(&self.env.chain_id.to_big_endian());
++            m.extend_from_slice(chi.as_bytes());
++            m.extend_from_slice(serial.as_bytes());
++            m.extend_from_slice(recipient.as_bytes());
++            let digest = keccak(m);
++            let mut ec = Vec::with_capacity(128);
++            ec.extend_from_slice(digest.as_bytes());
++            ec.extend_from_slice(&[0u8; 31]);
++            ec.push(sig[64]);
++            ec.extend_from_slice(&sig[..64]);
++            let mut ec_gas = u64::MAX;
++            let out = precompiles::ecrecover(
++                &Bytes::from(ec),
++                &mut ec_gas,
++                self.env.config.fork,
++                self.crypto,
++            )?;
++            if out.len() != 32 || out[12..] != otk.0 {
++                return Err(refuse(op, "the one-time key did not sign this recipient"));
++            }
++            let mut msg = chi.as_bytes().to_vec();
++            msg.extend_from_slice(serial.as_bytes());
++            msg.extend_from_slice(otk.as_bytes());
++            entries.push((serial, recipient, msg));
++        }
++        // One pairing check for the batch: every ticket is under the same key.
++        let pk = blst::min_sig::PublicKey::key_validate(&input[..PK])
++            .map_err(|_| refuse(op, "the key is not in G2's subgroup"))?;
++        let sig = blst::min_sig::Signature::deserialize(sigma)
++            .map_err(|_| refuse(op, "the signature is not a G1 point"))?;
++        let msgs: Vec<&[u8]> = entries.iter().map(|(_, _, m)| m.as_slice()).collect();
++        let pks: Vec<&blst::min_sig::PublicKey> = vec![&pk; n];
++        if sig.aggregate_verify(true, &msgs, DST, &pks, false) != blst::BLST_ERROR::BLST_SUCCESS {
++            return Err(refuse(op, "the signature does not verify"));
++        }
++        let total = d * U256::from(n);
++        self.blind_touch(ESCROW)?;
++        if self.db.get_account(ESCROW)?.info.balance < total {
++            return Err(refuse(op, "the escrow is short"));
++        }
++        let mut cost = TRANSFER_BASE + PAIRING + COUNT + PER_ENTRY * n as u64;
++        self.blind_touch(serials)?;
++        let new_serials = self.db.get_account(serials)?.info.nonce == 0;
++        if new_serials {
++            cost += NEW_ACCOUNT;
++        }
++        let mut empty = 0u64;
++        for (_, r, _) in &entries {
++            self.blind_touch(*r)?;
++            if self.db.get_account(*r)?.is_empty() {
++                empty += 1;
++            }
++        }
++        cost += NEW_ACCOUNT * empty;
++        charge(op, cost, gas)?;
++
++        if new_serials {
++            self.increment_account_nonce(serials)?;
++        }
++        for (serial, _, _) in &entries {
++            self.blind_write(serials, *serial, U256::one())?;
++        }
++        self.blind_write(ESCROW, slot(&chi, 1), minted + U256::from(n))?;
++        for (_, r, _) in &entries {
++            self.transfer(ESCROW, *r, d)?;
++        }
++        eprintln!(
++            "blind: transfer chi={chi:#x} n={n} minted={} new_recipients={empty} per_payout={}",
++            minted + U256::from(n),
++            cost / n as u64
++        );
++        let mut out = [0u8; 32];
++        out[31] = 1;
++        Ok(Bytes::copy_from_slice(&out))
++    }
++
++    fn blind_prune(&mut self, input: &Bytes, gas: &mut u64, value: U256) -> Result<Bytes, VMError> {
++        let op = "prune";
++        if !value.is_zero() {
++            return Err(refuse(op, "carries value"));
++        }
++        if input.len() != HEAD {
++            return Err(refuse(op, "length"));
++        }
++        let (chi, _, end) = key(input);
++        if self.env.block_number <= end {
++            return Err(refuse(op, "the epoch has not ended"));
++        }
++        if !self.blind_read(ESCROW, slot(&chi, 2))?.is_zero() {
++            return Err(refuse(op, "already pruned"));
++        }
++        charge(op, PRUNE, gas)?;
++        self.blind_write(ESCROW, slot(&chi, 2), U256::one())?;
++        let serials = serials_account(&chi);
++        self.blind_touch(serials)?;
++        self.substate.add_selfdestruct(serials);
++        eprintln!("blind: prune chi={chi:#x} serials={serials:#x}");
++        let mut out = [0u8; 32];
++        out[31] = 1;
++        Ok(Bytes::copy_from_slice(&out))
++    }
++}
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -4163,6 +4163,7 @@ dependencies = [
+ name = "ethrex-levm"
+ version = "23.0.0"
+ dependencies = [
++ "blst",
+  "bytes",
+  "derive_more 1.0.0",
+  "ethrex-common",

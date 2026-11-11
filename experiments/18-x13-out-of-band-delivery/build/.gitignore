@@ -1,0 +1,5 @@
+# The constraint systems are rebuilt from circuits/ by circom (deterministic); round4.zkey is 78 MB,
+# over GitHub's 50 MB warning, and is kept out: its sha256 is in the README.
+*.r1cs
+round4.zkey
+*_0.zkey

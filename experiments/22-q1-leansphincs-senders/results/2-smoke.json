@@ -1,0 +1,52 @@
+{
+  "experiment": 22,
+  "run": "2-smoke",
+  "date": "2026-11-05T09:25:52.726Z",
+  "repoCommit": "7356638d330bea8a3c935c5e577852bcd78615b4",
+  "pins": {
+    "skandha": {
+      "url": "https://github.com/4w44h9jckz-boop/skandha",
+      "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade",
+      "why": "two nodes in front of the local chain and the test network; the commit experiment 19 ran"
+    }
+  },
+  "command": "npx tsx experiments/22-q1-leansphincs-senders/smoke.ts 2-smoke",
+  "chain": {
+    "chainId": 9,
+    "ethrex": "64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c",
+    "patch": "experiments/19-x14-hash-based-stealth-addresses-under-8288/ethrex-8288.patch",
+    "setting": "written"
+  },
+  "account": "0x807f7AE105302E593cdccFB54BA398d110B24964",
+  "key": "0x79a9f6cf87fe44c567ea6f7a992740ff84c8b2ca5e9e466c7f80743ea582a962",
+  "destination": "0xCcF3D27AEef550249fD96Da009FB00368B61F73a",
+  "amount": "1000000000000000",
+  "rows": [
+    {
+      "step": "a genesis-funded leanSPHINCS account pays a fresh address",
+      "outcome": "not mined in 180 s",
+      "hash": "0x07cd4174754d50bf33a3b9b4c442f996f3d015c6c1667ec421579f42aa2798d7",
+      "block": null,
+      "gasUsed": null,
+      "frames": [],
+      "simulation": {
+        "valid": true,
+        "violation": null,
+        "executionStatus": "success",
+        "gasUsed": "0x346c8"
+      },
+      "nodeA": "refused: {\"code\":-32000,\"message\":\"ErrInvalidChainId\"}",
+      "seen": {
+        "A": [],
+        "B": []
+      },
+      "witness": "85444f3301b9cfaef477ed28ef485ac2962214bcd494b51445c1efabdca91e25",
+      "signMs": 85.50959399999999,
+      "signatureBytes": 7740,
+      "blockTransactions": [],
+      "destinationBalance": "0"
+    }
+  ],
+  "builds": [],
+  "checks": []
+}

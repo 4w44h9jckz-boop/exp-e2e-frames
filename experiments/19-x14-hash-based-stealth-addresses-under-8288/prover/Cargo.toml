@@ -1,0 +1,23 @@
+[package]
+name = "x14-prover"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+# leanVM at 3cbac047160f4d1465bfe985521603b0a3418556, checked out by ../setup.sh into work/leanVM.
+[dependencies]
+lean_compiler = { path = "../../../work/leanVM/crates/lean_compiler" }
+leanvm_core = { path = "../../../work/leanVM/crates/leanvm_core" }
+primitives = { path = "../../../work/leanVM/crates/primitives" }
+bench = { path = "../../../work/leanVM/crates/bench" }
+signatures = { path = "../../../work/leanVM/crates/signatures" }
+rec_aggregation = { path = "../../../work/leanVM/crates/rec_aggregation" }
+sha3 = "0.10"
+bincode = "1"
+serde_json = "1"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+
+[workspace]
