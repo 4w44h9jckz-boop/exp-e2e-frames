@@ -114,7 +114,7 @@
                  self.state_gas_used, state_gas_used_before_precompile,
 --- /dev/null
 +++ b/crates/vm/levm/src/blind.rs
-@@ -0,0 +1,310 @@
+@@ -0,0 +1,328 @@
 +//! BLINDMINT, BLINDTRANSFER and BLINDPRUNE: a blind account's rules as precompiles with state.
 +//!
 +//! An experiment's patch, not a proposal for ethrex. The semantics and the gas schedule are the
@@ -211,8 +211,23 @@
 +}
 +
 +impl<'a> VM<'a> {
-+    fn blind_read(&mut self, address: Address, key: H256) -> Result<U256, VMError> {
++    /// An account the operation reads, declared as a CALL or BALANCE would declare it: in the
++    /// block access list (EIP-7928), so that a validator executing the block's transactions in
++    /// parallel seeds this transaction with the account as earlier transactions left it.
++    fn blind_touch(&mut self, address: Address) -> Result<(), VMError> {
++        let _ = self.substate.add_accessed_address(address);
++        if let Some(recorder) = self.db.bal_recorder.as_mut() {
++            recorder.record_touched_address(address);
++        }
 +        self.db.get_account(address)?;
++        Ok(())
++    }
++
++    /// A slot the operation reads, declared as SLOAD declares it.
++    fn blind_read(&mut self, address: Address, key: H256) -> Result<U256, VMError> {
++        self.blind_touch(address)?;
++        let _ = self.substate.add_accessed_slot(address, key);
++        self.record_storage_slot_to_bal(address, word(key.as_bytes()));
 +        Ok(self.get_storage_value(address, key)?)
 +    }
 +
@@ -362,16 +377,19 @@
 +            return Err(refuse(op, "the signature does not verify"));
 +        }
 +        let total = d * U256::from(n);
++        self.blind_touch(ESCROW)?;
 +        if self.db.get_account(ESCROW)?.info.balance < total {
 +            return Err(refuse(op, "the escrow is short"));
 +        }
 +        let mut cost = TRANSFER_BASE + PAIRING + COUNT + PER_ENTRY * n as u64;
++        self.blind_touch(serials)?;
 +        let new_serials = self.db.get_account(serials)?.info.nonce == 0;
 +        if new_serials {
 +            cost += NEW_ACCOUNT;
 +        }
 +        let mut empty = 0u64;
 +        for (_, r, _) in &entries {
++            self.blind_touch(*r)?;
 +            if self.db.get_account(*r)?.is_empty() {
 +                empty += 1;
 +            }
@@ -417,7 +435,7 @@
 +        charge(op, PRUNE, gas)?;
 +        self.blind_write(ESCROW, slot(&chi, 2), U256::one())?;
 +        let serials = serials_account(&chi);
-+        self.db.get_account(serials)?;
++        self.blind_touch(serials)?;
 +        self.substate.add_selfdestruct(serials);
 +        eprintln!("blind: prune chi={chi:#x} serials={serials:#x}");
 +        let mut out = [0u8; 32];
