@@ -114,7 +114,7 @@
                  self.state_gas_used, state_gas_used_before_precompile,
 --- /dev/null
 +++ b/crates/vm/levm/src/blind.rs
-@@ -0,0 +1,328 @@
+@@ -0,0 +1,334 @@
 +//! BLINDMINT, BLINDTRANSFER and BLINDPRUNE: a blind account's rules as precompiles with state.
 +//!
 +//! An experiment's patch, not a proposal for ethrex. The semantics and the gas schedule are the
@@ -283,6 +283,12 @@
 +        let burned = self.blind_read(ESCROW, slot(&chi, 0))?;
 +        let cost = MINT_BASE + if burned.is_zero() { SLOT_SET } else { SLOT_RESET };
 +        charge(op, cost, gas)?;
++        // The escrow holds the counts in its storage. With no code, a zero nonce and an empty
++        // balance it would be empty under EIP-161 and removed with them, so its nonce is 1.
++        self.blind_touch(ESCROW)?;
++        if self.db.get_account(ESCROW)?.info.nonce == 0 {
++            self.increment_account_nonce(ESCROW)?;
++        }
 +        self.blind_write(ESCROW, slot(&chi, 0), burned + k)?;
 +        eprintln!("blind: mint chi={chi:#x} k={k} burned={}", burned + k);
 +        Ok(Bytes::copy_from_slice(chi.as_bytes()))
