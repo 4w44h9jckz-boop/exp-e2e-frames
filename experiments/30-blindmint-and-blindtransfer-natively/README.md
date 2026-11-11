@@ -250,4 +250,133 @@ model rather than a discovery. The run's evidence is:
 
 ## Results
 
-Not yet run.
+**Five runs, 2026-11-11.** The client is ethrex `64b8fc09d` with three patches:
+`ethrex-8288.patch`, `ethrex-writes.patch`, and `ethrex-blind.patch` at its final state,
+`cde6563b376b` (sha256 prefix).
+
+| Run | Validation | Record | How far it got |
+|---|---|---|---|
+| 1 | default | none | stopped at its first purchase, for gas (deviation 1) |
+| 2 | default | `results/2-purchase-gas.json` | (a) to (f) as predicted; stopped at (d) (deviation 2) |
+| 3 | default | `results/3-access-list.json` | the same; stopped at (d) (deviation 3) |
+| 4 | default | `results/4-escrow-alive.json` | everything as predicted through (g) and the first three steps of (h); stopped at the prune (deviation 4) |
+| 5 | sequential | `results/5-sequential-validation.json` | every case, to the end |
+
+Runs 4 and 5 agree case for case, and gas for gas, up to where run 4 stopped.
+
+### Outcomes
+
+Every one was as predicted, with one exception, in (h).
+- **(a) Paid.** The count went to 1 of 4, the escrow fell by D, and the fresh recipient received D.
+- **(b) Refused,** both forms: the spent serial, and a batch naming one serial twice.
+- **(c') The forged signature was refused** by the pairing, with purchases left under the key.
+- **(e) The reverting contract was paid.** The payment runs no code at the recipient, so the
+  count equals what was paid.
+- **(f) Both copies were refused,** then the original was paid:
+  - (f1), the recipient changed with the one-time key's signature kept;
+  - (f2), the attacker's own one-time key.
+- **(d) Both payouts landed in block 36 and exactly one was paid,** on the first attempt. This
+  held under the default validation from run 4 on, once the escrow could no longer empty.
+- **(c) Refused by the count:** 4 bought, 4 paid when it was sent.
+- **(g) Every batch was paid,** with each recipient credited D.
+- **(h) Pruning:**
+  - the prune before the end was refused;
+  - after the end, the payout and the purchase were refused;
+  - the prune succeeded under sequential validation (run 5), and the second prune and the payout
+    after it were refused;
+  - `eth_getProof` for the serial account then shows it gone: nonce 0, balance 0, the empty
+    storage root, and both spent serials 0.
+  - **The exception:** `eth_getStorageAt` still returns 1 for both serials. This client's direct
+    storage reads disagree with its own trie after an account that existed before the
+    transaction is wiped whole. The prediction holds by the proof and fails by the plain read.
+  - **Under the default validation (run 4),** the prune's block was refused at import, as
+    deviation 4 records.
+- **(i) The invariant holds.** The escrow holds D, the one unpaid ticket under `chi2`. The counts
+  are 43 of 43 under `chi1` and 2 of 3 under `chi2`.
+
+### Gas
+
+The node logged the precompile's charge for every operation, and every charge equals
+`SPEC.md`'s schedule exactly. For example:
+- a purchase: 22,200 for a new key and 5,100 for an existing one;
+- the prune: 25,000;
+- (a): 204,950, which is one ticket plus the serial account's creation plus a fresh recipient.
+
+The pre-registration's table put a single payout at 155,000, where the schedule gives
+$109000 + 45950 = 154950$, a slip of 50 in the table and not in the schedule. The batches, the
+same in runs 4 and 5:
+
+| Batch | Recipients | Receipt `gasUsed` | Per payout | Precompile per payout | The transaction's own gas |
+|---|---|---|---|---|---|
+| 1 | fresh | 202,230 | 202,230 | 179,950 | 22,280 |
+| 2 | fresh | 275,360 | 137,680 | 125,450 | 24,460 |
+| 3 | fresh | 348,502 | 116,167 | 107,283 | 26,652 |
+| 4 | fresh | 421,620 | 105,405 | 98,200 | 28,820 |
+| 8 | fresh | 714,152 | 89,269 | 84,575 | 37,552 |
+| 16 | fresh | 1,299,168 | 81,198 | 77,763 | 54,968 |
+| 1 | existing | 177,242 | 177,242 | 154,950 | 22,292 |
+| 4 | existing | 321,644 | 80,411 | 73,200 | 28,844 |
+
+- **The transaction's own gas** is the receipt less the logged charge: about 20,100 plus about
+  2,180 for each ticket's 137 bytes. That is a little under the 21,000 plus calldata the
+  pre-registration assumed.
+- **Under 100,000 a payout, in the receipt:** from 8 tickets with fresh recipients (89,269) and
+  from 4 with existing ones (80,411). Four tickets to fresh recipients came to 105,405, where the
+  pre-registration said about 107,000.
+- **The precompile alone** is under 100,000 from 4 tickets with fresh recipients, as predicted.
+
+### How it reads
+
+- **The count and the spent set are enforced by the protocol.**
+  - Every case came out as the rules say.
+  - The invariant holds.
+  - A recipient cannot make the count and the payment disagree, since the payment runs no code.
+- **A payout checked in a batch under one key costs under 100,000 gas,** from 8 tickets to fresh
+  recipients or 4 to existing ones. That figure is mostly the experiment's own schedule: the client
+  charged it exactly, and what the run adds is the transaction's own gas around it.
+- **Pruning by epoch works only where a block is validated by running it in order.**
+  - On a chain whose blocks carry an access list (EIP-7928), the serial account cannot be dropped
+    whole. The list has no entry for wiping an account's storage, so each pruned serial must be
+    named as a write of zero, and pruning costs grow with the number of serials.
+  - The serials are in the trie, so the claim's own falsifier, "pruning needs state the protocol
+    does not keep", is not met.
+  - But the cheap drop of a whole epoch that motivated a native version is not available.
+
+**Three things the deviations found, each needed by any native operation with state on this
+chain:**
+- **The account that holds its state must never be empty,** or EIP-161 deletes the state with it
+  (deviation 3).
+- **It must declare every slot and account it reads to the block access list,** as `SLOAD` and
+  `BALANCE` do (deviation 2).
+- **It cannot delete storage wholesale** (deviation 4).
+
+### Beside the contract version
+
+The same account built from today's pieces is `exp-frames` experiment 59 (`exp/59-blind-account`
+at `3a9fa7f`, run on the test network on 2026-11-11). It is quoted from that README and not rerun
+here.
+
+| | Contract (experiment 59) | Native (here) |
+|---|---|---|
+| Checking one ticket | 124,677 execution in `VERIFY` | 117,750 of the schedule: the pairing, hash to G1, `ecrecover` |
+| Each extra ticket's check in a batch | about 16,100 | 14,850 |
+| Largest batch | 5, capped by state gas | 16 run, no cap met |
+| Recording a serial | 97,920 state gas (a keyed nonce's first use) | 22,100 (a slot, at pre-EIP-8037 prices) |
+| A fresh recipient | 183,600 state gas | 25,000 (pre-EIP-8037 price) |
+| One payout to a fresh address, whole | 550,385 | 202,230 |
+| A reverting recipient | credited, and claimed later | paid; no code runs |
+
+**The two checks cost about the same.** The pairing dominates both, and both check a batch with
+one pairing.
+
+**The totals are not like for like.** The contract pays this chain's EIP-8037 state gas for a
+new slot and a new account. The native schedule prices them at the older rates, as `SPEC.md`
+chose. So most of the gap between 550,385 and 202,230 is that choice of state price, not
+nativeness.
+
+**What the native version does that the contract does not:**
+- it keeps the count and the payment in one step, with no code at the recipient;
+- it batches past the contract's cap of 5;
+- it records a serial as a slot, not as a keyed nonce.
+
+The pruning it was meant to add is not available on a chain with block access lists.
