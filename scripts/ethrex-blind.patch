@@ -114,7 +114,7 @@
                  self.state_gas_used, state_gas_used_before_precompile,
 --- /dev/null
 +++ b/crates/vm/levm/src/blind.rs
-@@ -0,0 +1,334 @@
+@@ -0,0 +1,484 @@
 +//! BLINDMINT, BLINDTRANSFER and BLINDPRUNE: a blind account's rules as precompiles with state.
 +//!
 +//! An experiment's patch, not a proposal for ethrex. The semantics and the gas schedule are the
@@ -126,7 +126,7 @@
 +//! VM's journaled storage, balance and nonce paths, so a reverting caller undoes them.
 +
 +use bytes::Bytes;
-+use ethrex_common::{Address, H160, H256, U256, utils::keccak};
++use ethrex_common::{Address, H160, H256, U256, types::Log, utils::keccak};
 +
 +use crate::{
 +    errors::{ContextResult, PrecompileError, VMError},
@@ -144,11 +144,16 @@
 +pub const BLINDPRUNE: Address = H160([
 +    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x0b, 0x13,
 +]);
++/// `BLINDROLL`: tickets under a key traded, in one call, for purchases under a later key.
++pub const BLINDROLL: Address = H160([
++    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x0b, 0x14,
++]);
 +pub const ESCROW: Address = BLINDMINT;
 +
 +const DST: &[u8] = b"BLIND_V1_BLS12381G1_XMD:SHA-256_SSWU_RO_";
 +const PAYOUT_TAG: &[u8] = b"BLIND_PAYOUT_V1";
 +const SERIALS_TAG: &[u8] = b"BLIND_SERIALS";
++const ROLL_TAG: &[u8] = b"BLIND_ROLL_V1";
 +
 +const PK: usize = 192;
 +const SIG: usize = 96;
@@ -165,9 +170,15 @@
 +const PER_ENTRY: u64 = 2 * 5_500 + 375 + 100 + 375 + 3_000 + 22_100 + 9_000;
 +const NEW_ACCOUNT: u64 = 25_000;
 +const PRUNE: u64 = 25_000;
++const ROLL_PER_ENTRY: u64 = 2 * 5_500 + 375 + 100 + 375 + 3_000 + 22_100;
++const ROLL_COUNTS: u64 = 10_000;
++const ROLL_LOG: u64 = 1_000;
 +
 +pub fn is_blind(address: &Address) -> bool {
-+    *address == BLINDMINT || *address == BLINDTRANSFER || *address == BLINDPRUNE
++    *address == BLINDMINT
++        || *address == BLINDTRANSFER
++        || *address == BLINDPRUNE
++        || *address == BLINDROLL
 +}
 +
 +fn refuse(op: &str, why: &str) -> VMError {
@@ -254,6 +265,8 @@
 +            self.blind_mint(calldata, gas_remaining, value)
 +        } else if address == BLINDTRANSFER {
 +            self.blind_transfer(calldata, gas_remaining, value)
++        } else if address == BLINDROLL {
++            self.blind_roll(calldata, gas_remaining, value)
 +        } else {
 +            self.blind_prune(calldata, gas_remaining, value)
 +        };
@@ -444,6 +457,143 @@
 +        self.blind_touch(serials)?;
 +        self.substate.add_selfdestruct(serials);
 +        eprintln!("blind: prune chi={chi:#x} serials={serials:#x}");
++        let mut out = [0u8; 32];
++        out[31] = 1;
++        Ok(Bytes::copy_from_slice(&out))
++    }
++
++    /// Tickets under `chi` traded for purchases under a later key `chi'` of the same denomination:
++    /// the serials marked, `minted[chi]` and `burned[chi']` raised by the batch size. Both keys'
++    /// escrow is `ESCROW`, so no ether moves. Each one-time key signs `chi'` and a claimant, whom
++    /// `chi'`'s issuer serves once, and a log names both.
++    #[allow(clippy::too_many_lines)]
++    fn blind_roll(&mut self, input: &Bytes, gas: &mut u64, value: U256) -> Result<Bytes, VMError> {
++        let op = "roll";
++        if !value.is_zero() {
++            return Err(refuse(op, "carries value"));
++        }
++        let new_head = HEAD + PK + 32;
++        if input.len() < new_head + SIG + 32 {
++            return Err(refuse(op, "length"));
++        }
++        let (chi, d, end) = key(input);
++        let mut nh = input[HEAD..HEAD + PK].to_vec();
++        nh.extend_from_slice(&input[PK..PK + 32]);
++        nh.extend_from_slice(&input[HEAD + PK..new_head]);
++        let (chi_new, _, end_new) = key(&nh);
++        let sigma = &input[new_head..new_head + SIG];
++        let n = word(&input[new_head + SIG..new_head + SIG + 32]);
++        let body = new_head + SIG + 32;
++        if n.is_zero() || n > U256::from(1024) {
++            return Err(refuse(op, "batch size"));
++        }
++        let n = n.as_usize();
++        if input.len() != body + n * ENTRY {
++            return Err(refuse(op, "length"));
++        }
++        if self.env.block_number > end {
++            return Err(refuse(op, "the old epoch has ended"));
++        }
++        if end_new <= end {
++            return Err(refuse(op, "the new key's epoch is not later"));
++        }
++        if blst::min_sig::PublicKey::key_validate(&input[HEAD..HEAD + PK]).is_err() {
++            return Err(refuse(op, "the new key is not in G2's subgroup"));
++        }
++        if !self.blind_read(ESCROW, slot(&chi, 2))?.is_zero() {
++            return Err(refuse(op, "pruned"));
++        }
++        let burned = self.blind_read(ESCROW, slot(&chi, 0))?;
++        let minted = self.blind_read(ESCROW, slot(&chi, 1))?;
++        if minted + U256::from(n) > burned {
++            return Err(refuse(op, &format!("count: minted {minted} + {n} > burned {burned}")));
++        }
++        let burned_new = self.blind_read(ESCROW, slot(&chi_new, 0))?;
++        let serials = serials_account(&chi);
++        let mut seen = std::collections::BTreeSet::new();
++        let mut entries = Vec::with_capacity(n);
++        for i in 0..n {
++            let e = &input[body + i * ENTRY..body + (i + 1) * ENTRY];
++            let serial = H256::from_slice(&e[..32]);
++            let otk = Address::from_slice(&e[32..52]);
++            let claimant = Address::from_slice(&e[52..72]);
++            let sig = &e[72..137];
++            if !seen.insert(serial) {
++                return Err(refuse(op, "a serial twice in the batch"));
++            }
++            if !self.blind_read(serials, serial)?.is_zero() {
++                return Err(refuse(op, &format!("serial {serial:#x} spent")));
++            }
++            let mut m = ROLL_TAG.to_vec();
++            m.extend_from_slice(&self.env.chain_id.to_big_endian());
++            m.extend_from_slice(chi.as_bytes());
++            m.extend_from_slice(serial.as_bytes());
++            m.extend_from_slice(chi_new.as_bytes());
++            m.extend_from_slice(claimant.as_bytes());
++            let digest = keccak(m);
++            let mut ec = Vec::with_capacity(128);
++            ec.extend_from_slice(digest.as_bytes());
++            ec.extend_from_slice(&[0u8; 31]);
++            ec.push(sig[64]);
++            ec.extend_from_slice(&sig[..64]);
++            let mut ec_gas = u64::MAX;
++            let out = precompiles::ecrecover(
++                &Bytes::from(ec),
++                &mut ec_gas,
++                self.env.config.fork,
++                self.crypto,
++            )?;
++            if out.len() != 32 || out[12..] != otk.0 {
++                return Err(refuse(op, "the one-time key did not sign this trade"));
++            }
++            let mut msg = chi.as_bytes().to_vec();
++            msg.extend_from_slice(serial.as_bytes());
++            msg.extend_from_slice(otk.as_bytes());
++            entries.push((serial, claimant, msg));
++        }
++        let pk = blst::min_sig::PublicKey::key_validate(&input[..PK])
++            .map_err(|_| refuse(op, "the key is not in G2's subgroup"))?;
++        let sig = blst::min_sig::Signature::deserialize(sigma)
++            .map_err(|_| refuse(op, "the signature is not a G1 point"))?;
++        let msgs: Vec<&[u8]> = entries.iter().map(|(_, _, m)| m.as_slice()).collect();
++        let pks: Vec<&blst::min_sig::PublicKey> = vec![&pk; n];
++        if sig.aggregate_verify(true, &msgs, DST, &pks, false) != blst::BLST_ERROR::BLST_SUCCESS {
++            return Err(refuse(op, "the signature does not verify"));
++        }
++        self.blind_touch(serials)?;
++        let new_serials = self.db.get_account(serials)?.info.nonce == 0;
++        let cost = TRANSFER_BASE
++            + PAIRING
++            + ROLL_COUNTS
++            + ROLL_PER_ENTRY * n as u64
++            + if new_serials { NEW_ACCOUNT } else { 0 }
++            + ROLL_LOG;
++        charge(op, cost, gas)?;
++
++        if new_serials {
++            self.increment_account_nonce(serials)?;
++        }
++        for (serial, _, _) in &entries {
++            self.blind_write(serials, *serial, U256::one())?;
++        }
++        self.blind_write(ESCROW, slot(&chi, 1), minted + U256::from(n))?;
++        self.blind_write(ESCROW, slot(&chi_new, 0), burned_new + U256::from(n))?;
++        let topic = keccak(b"BlindRoll(bytes32,bytes32,address)");
++        for (_, claimant, _) in &entries {
++            let mut data = [0u8; 32];
++            data[12..].copy_from_slice(claimant.as_bytes());
++            self.substate.add_log(Log {
++                address: BLINDROLL,
++                topics: vec![topic, chi, chi_new],
++                data: Bytes::copy_from_slice(&data),
++            });
++        }
++        let _ = d;
++        eprintln!(
++            "blind: roll chi={chi:#x} chi_new={chi_new:#x} n={n} minted={} burned_new={}",
++            minted + U256::from(n),
++            burned_new + U256::from(n)
++        );
 +        let mut out = [0u8; 32];
 +        out[31] = 1;
 +        Ok(Bytes::copy_from_slice(&out))
