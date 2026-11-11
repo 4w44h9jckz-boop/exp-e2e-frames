@@ -60,6 +60,8 @@ export async function startLocalChain(o: {
   /** `--mempool.max-verify-gas`, the pool's VERIFY budget: ethrex's default is EIP-8141's 100,000, the
    * test network's is 500,000. Mempool policy, not consensus. */
   maxVerifyGas?: number
+  /** Another ethrex binary built from `work/ethrex` with a further patch; the standard one by default. */
+  binary?: string
 }): Promise<LocalChain> {
   const work = join(o.root, 'work')
   const ethrexDir = join(work, 'ethrex')
@@ -76,7 +78,7 @@ export async function startLocalChain(o: {
   writeFileSync(genesisFile, JSON.stringify(genesis))
   const port = o.port ?? 18545
   const authPort = o.authPort ?? 18551
-  const node: ChildProcess = spawn(join(ethrexDir, 'target/release/ethrex'), ['--dev', '--network', genesisFile, '--datadir', join(dir, 'db'), '--http.port', String(port), '--authrpc.port', String(authPort), '--authrpc.jwtsecret', join(dir, 'jwt.hex'), '--p2p.disabled', '--http.api', 'eth,net,web3,ethrex', '--log.level', 'info', ...(o.maxVerifyGas ? ['--mempool.max-verify-gas', String(o.maxVerifyGas)] : [])], {
+  const node: ChildProcess = spawn(o.binary ?? join(ethrexDir, 'target/release/ethrex'), ['--dev', '--network', genesisFile, '--datadir', join(dir, 'db'), '--http.port', String(port), '--authrpc.port', String(authPort), '--authrpc.jwtsecret', join(dir, 'jwt.hex'), '--p2p.disabled', '--http.api', 'eth,net,web3,ethrex', '--log.level', 'info', ...(o.maxVerifyGas ? ['--mempool.max-verify-gas', String(o.maxVerifyGas)] : [])], {
     env: { ...process.env, X14_EIP8288: o.setting, X14_PROVER: o.prover, X14_PROGRAMS: o.programs, X14_WITNESS_DIR: witnesses },
     stdio: ['ignore', openSync(join(dir, 'node.out'), 'w'), openSync(join(dir, 'node.log'), 'w')],
   })
