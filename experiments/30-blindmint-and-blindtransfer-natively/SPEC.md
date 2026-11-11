@@ -61,6 +61,10 @@ one step, and drop a closed epoch's serials.
   `S(chi) = keccak256(SERIALS_TAG || chi)[12:]`. Slot `serial` holds 1 once that serial is spent.
 - **Keeping it alive.** The account's nonce is set to 1 the first time it is written, so that
   EIP-161 never treats it as empty.
+- **Keeping `ESCROW` alive** (added 2026-11-11, after the experiment's run 3). `ESCROW`'s nonce
+  is set to 1 at the first `BLINDMINT`, for the same reason. Without it, the first time every
+  key's escrow is paid out, the account is empty, EIP-161 removes it, and every count goes with
+  it. A real version would create `ESCROW` at the fork.
 
 ### `BLINDMINT`
 

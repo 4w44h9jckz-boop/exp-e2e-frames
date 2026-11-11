@@ -205,6 +205,28 @@ model rather than a discovery. The run's evidence is:
    - **What it shows:** a native operation with state must declare everything it reads to the
      block access list, or a parallel validator replays it on stale state. A specification of
      such an operation has to say what it reads, as `SPEC.md`'s "State" now implies.
+3. **Run 4, after run 3 and a diagnostic, before run 4 ran.** Deviation 2's diagnosis was
+   incomplete.
+   - **Run 3** (`results/3-access-list.json`, kept as its record) came out as predicted to case
+     (f). It then stopped at case (d) in the same way as run 2.
+   - **The diagnostic.** A run with the client's parallel validation switched off
+     (`ETHREX_NO_BAL_PARALLEL_EXEC`; its output is not a result and is not kept) passed (d): both
+     payouts in block 36, one paid and one refused. It ran to the end, and broke invariant (i).
+   - **The fault, read from that run's counts.** Whenever the escrow's balance reached zero, its
+     counts read 0 and 0 afterwards. That happened after (d) and after the last batch.
+     - The escrow account has no code. At a zero nonce and a zero balance it is empty under
+       EIP-161, so the client removes it, and with it the storage that holds the counts.
+     - (d) is the first case to bring the escrow to zero, with its first payout in the same block
+       as the second. A sequential validator removes the account just as the builder did. A
+       parallel validator, which rebuilds state from the block's access list, cannot express the
+       removal of an account that holds storage, so its root differs.
+   - **The change.** The escrow's nonce is set to 1 at the first purchase, as `SPEC.md` already
+     does for the serial account. It can then never be empty.
+     - This is a change to the specification, recorded in `SPEC.md` with its date.
+     - Deviation 2's access-list declarations stay, since they are needed regardless.
+     - The schedule is unchanged.
+   - **What it shows:** protocol state kept in a codeless account must keep that account
+     non-empty, or EIP-161 deletes the state the first time the account's balance reaches zero.
 
 ## Results
 
