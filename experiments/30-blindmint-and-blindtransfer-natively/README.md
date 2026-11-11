@@ -186,6 +186,25 @@ model rather than a discovery. The run's evidence is:
      and it wrote no results file.
    - **What it shows:** the first purchase under the whole scheme pays to create the escrow
      account. A real version would create that account at the fork.
+2. **Run 3, after run 2 and before it ran.**
+   - **Run 2 to case (f):** cases (a) to (f) came out as predicted (`results/2-purchase-gas.json`,
+     kept as the record of run 2).
+   - **Where run 2 stopped:** at case (d), the first time two payouts under one key shared a
+     block. The node built that block and then refused to import it, block after block, with
+     "World State Root does not match". Neither payout was ever mined, and the runner timed out.
+   - **Why.** This chain's client validates a block by executing its transactions in parallel,
+     seeding each one from the block's access list (EIP-7928).
+     - The patch recorded every write it made there, but not the slots and accounts it read.
+     - So in validation, the second payout's read of `minted` was not seeded, and it saw the
+       count from before the block. It paid, where the builder had refused it, and the roots
+       differed.
+   - **The change:** each slot the operations read is now marked accessed and recorded in the
+     access list, as `SLOAD` records it, and each account they read as `BALANCE` records it. The
+     semantics and the schedule are unchanged. `ethrex-blind.patch` is regenerated, and the
+     binary rebuilt.
+   - **What it shows:** a native operation with state must declare everything it reads to the
+     block access list, or a parallel validator replays it on stale state. A specification of
+     such an operation has to say what it reads, as `SPEC.md`'s "State" now implies.
 
 ## Results
 

@@ -117,6 +117,14 @@ one step, and drop a closed epoch's serials.
 - **Output:** 32 bytes, the value 1.
 - **Gas:** 25,000.
 
+### Access (added 2026-11-11, after the experiment's run 2)
+
+Every slot and account an operation reads or writes is accessed in the sense of EIP-2929 and is
+recorded in the block access list of EIP-7928. That covers `ESCROW`'s count slots, `S(chi)` and
+its serial slots, and every recipient. Without that, a validator that executes a block's
+transactions in parallel from the access list runs a later operation on state from before an
+earlier one in the same block (the experiment's deviation 2).
+
 ### Failure
 
 A failed call behaves as a failing precompile: it uses all the gas given to it, returns nothing,
