@@ -28,6 +28,9 @@ const DST = 'BLIND_V1_BLS12381G1_XMD:SHA-256_SSWU_RO_'
 const PAYOUT_TAG = toHex('BLIND_PAYOUT_V1')
 const SERIALS_TAG = toHex('BLIND_SERIALS')
 const D = 10n ** 16n
+// A purchase's gas limit. The first purchase sends value to the escrow account before it exists,
+// which costs EIP-8037's new-account state gas, 120 * 1530 = 183,600 (deviation 1).
+const MINT_GAS = 500_000n
 const ORDER = bls.params.r
 
 // Keys and addresses from public labels: test keys, not post-quantum.
@@ -150,7 +153,7 @@ try {
   out.chi1 = { chi: chi1, end: end1.toString(), serials: serialsOf(chi1) }
 
   // chi1: four purchases for the cases
-  const m1 = await send(buyer, BLINDMINT, mintData(end1, 4), 4n * D, 200_000n)
+  const m1 = await send(buyer, BLINDMINT, mintData(end1, 4), 4n * D, MINT_GAS)
   record({ case: 'setup: mint 4 under chi1', tx: m1, counts: str(await counts(chi1)), escrow: await balance(ESCROW) })
 
   async function payout(name: string, from: string, end: bigint, chi: Hex, ts: Ticket[], rs: Address[], extra: any = {}, signedFor: (Address | undefined)[] = []) {
@@ -188,7 +191,7 @@ try {
     const cnt = await counts(chi1)
     if (cnt.burned - cnt.minted !== 1n) {
       const need = 1n - (cnt.burned - cnt.minted)
-      if (need > 0n) record({ case: `(d) setup: mint ${need} for attempt ${attempt}`, tx: await send(buyer, BLINDMINT, mintData(end1, Number(need)), need * D, 200_000n) })
+      if (need > 0n) record({ case: `(d) setup: mint ${need} for attempt ${attempt}`, tx: await send(buyer, BLINDMINT, mintData(end1, Number(need)), need * D, MINT_GAS) })
     }
     const t1 = ticket(chi1, `d${attempt}x`)
     const t2 = ticket(chi1, `d${attempt}y`)
@@ -213,7 +216,7 @@ try {
   const sizes = [1, 2, 3, 4, 8, 16]
   const plan = [...sizes.map((n) => ({ n, existingRecipients: false })), { n: 1, existingRecipients: true }, { n: 4, existingRecipients: true }]
   const total = plan.reduce((s, p) => s + p.n, 0)
-  record({ case: `(g) setup: mint ${total} under chi1`, tx: await send(buyer, BLINDMINT, mintData(end1, total), BigInt(total) * D, 200_000n) })
+  record({ case: `(g) setup: mint ${total} under chi1`, tx: await send(buyer, BLINDMINT, mintData(end1, total), BigInt(total) * D, MINT_GAS) })
   for (const p of plan) {
     const ts = Array.from({ length: p.n }, (_, i) => ticket(chi1, `g${p.n}${p.existingRecipients ? 'e' : 'f'}/${i}`))
     const rs = ts.map((_, i) => (p.existingRecipients ? existing[i] : fresh(`g${p.n}/${i}`)))
@@ -227,14 +230,14 @@ try {
   const end2 = now + 40n
   const chi2 = chiOf(end2)
   out.chi2 = { chi: chi2, end: end2.toString(), serials: serialsOf(chi2) }
-  record({ case: '(h) setup: mint 3 under chi2', tx: await send(buyer, BLINDMINT, mintData(end2, 3), 3n * D, 200_000n) })
+  record({ case: '(h) setup: mint 3 under chi2', tx: await send(buyer, BLINDMINT, mintData(end2, 3), 3n * D, MINT_GAS) })
   const h1 = ticket(chi2, 'h1'), h2 = ticket(chi2, 'h2'), h3 = ticket(chi2, 'h3')
   await payout('(h) setup: pay two tickets under chi2', 'payer1', end2, chi2, [h1, h2], [fresh('h1'), fresh('h2')])
   record({ case: '(h) a prune before the end', tx: await send('payer1', BLINDPRUNE, pruneData(end2), 0n, 200_000n) })
   const before = await Promise.all([h1, h2].map((t) => spent(chi2, t.serial).then(String)))
   while ((await c.getBlockNumber()) <= end2) await new Promise((r) => setTimeout(r, 1000))
   await payout('(h) a payout after the end', 'payer1', end2, chi2, [h3], [fresh('h3')])
-  record({ case: '(h) a purchase after the end', tx: await send(buyer, BLINDMINT, mintData(end2, 1), D, 200_000n) })
+  record({ case: '(h) a purchase after the end', tx: await send(buyer, BLINDMINT, mintData(end2, 1), D, MINT_GAS) })
   const pruneTx = await send('payer1', BLINDPRUNE, pruneData(end2), 0n, 200_000n)
   const proof = await rpc('eth_getProof', [serialsOf(chi2), [h1.serial, h2.serial], 'latest'])
   record({ case: '(h) the prune', tx: pruneTx, spentBefore: before, spentAfter: await Promise.all([h1, h2].map((t) => spent(chi2, t.serial).then(String))), serialAccount: { nonce: proof.nonce, balance: proof.balance, storageHash: proof.storageHash, codeHash: proof.codeHash, storageProof: proof.storageProof.map((p: any) => ({ key: p.key, value: p.value })) }, counts: str(await counts(chi2)) })

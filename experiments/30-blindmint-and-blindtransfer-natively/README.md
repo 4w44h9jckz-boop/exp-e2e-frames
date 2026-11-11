@@ -170,6 +170,23 @@ model rather than a discovery. The run's evidence is:
 - `../../scripts/ethrex-blind.patch` and `../../scripts/ethrex-blind.sh`: the client patch and its
   build.
 
+## Deviations
+
+1. **Run 2, after run 1 and before it ran.**
+   - **What stopped run 1:** its first purchase, `BLINDMINT` under `chi1`, failed with all 200,000
+     of its gas used. The node's log shows no `blind:` line for it, so it never reached the
+     operation.
+   - **Why:** the purchase sends value to the escrow account, which does not exist before the
+     first purchase. Under EIP-8037 that costs the new-account state gas, $120 \cdot 1530 =
+     183600$, before the precompile runs. With 21,000 intrinsic gas and the calldata, that is over
+     the runner's limit. Every later case was then refused by the count, as it should be with
+     nothing bought.
+   - **The change:** purchases get a 500,000 gas limit. A limit is the runner's choice, not the
+     specification's, and nothing else changes. Run 1 was stopped there, its node was stopped,
+     and it wrote no results file.
+   - **What it shows:** the first purchase under the whole scheme pays to create the escrow
+     account. A real version would create that account at the fork.
+
 ## Results
 
 Not yet run.
