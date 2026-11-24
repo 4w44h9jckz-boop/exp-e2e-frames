@@ -1,0 +1,106 @@
+{
+  "experiment": 22,
+  "run": "4-smoke",
+  "date": "2026-11-05T09:32:29.041Z",
+  "repoCommit": "70c8fc33b764974782a704e8f1e29fa5c224f99a",
+  "pins": {
+    "skandha": {
+      "url": "https://github.com/4w44h9jckz-boop/skandha",
+      "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade",
+      "why": "two nodes in front of the local chain and the test network; the commit experiment 19 ran"
+    }
+  },
+  "command": "npx tsx experiments/22-q1-leansphincs-senders/smoke.ts 4-smoke",
+  "chain": {
+    "chainId": 8141,
+    "ethrex": "64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c",
+    "patch": "experiments/19-x14-hash-based-stealth-addresses-under-8288/ethrex-8288.patch",
+    "setting": "written"
+  },
+  "account": "0x5e052c93723E07ED008eC2C7c759207a7EFd294b",
+  "key": "0x024e1a476b81fad88ce6b20297ef098e0dc75528aafef4d0e3165e9e955a89c9",
+  "destination": "0x61B08E0499272536cb475e75b84040F88a0004C8",
+  "amount": "1000000000000000",
+  "rows": [
+    {
+      "step": "a genesis-funded leanSPHINCS account pays a fresh address",
+      "outcome": "mined",
+      "hash": "0xed073a967fd4d6687dc29019f4f10a0a0669189716383a5d5299ad11a8ad32ae",
+      "block": 5,
+      "gasUsed": 214728,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 708,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 12279,
+          "state": 183600
+        }
+      ],
+      "simulation": {
+        "valid": true,
+        "violation": null,
+        "executionStatus": "success",
+        "gasUsed": "0x346c8"
+      },
+      "nodeA": "refused: {\"code\":-32000,\"message\":\"ErrFrameMalformed\"}",
+      "direct": "admitted",
+      "seen": {
+        "A": [
+          {
+            "t": "2026-11-05T09:32:19.508Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0xed073a967fd4d6687dc29019f4f10a0a0669189716383a5d5299ad11a8ad32ae",
+            "result": "ErrFrameMalformed",
+            "head": 3
+          }
+        ],
+        "B": []
+      },
+      "witness": "0d932b20e37f1b8156772b84c73c469409d0882636b3b2f6229b22d993bff407",
+      "signMs": 133.11065299999999,
+      "signatureBytes": 7740,
+      "blockTransactions": [
+        {
+          "signatures": 0
+        }
+      ],
+      "destinationBalance": "1000000000000000"
+    }
+  ],
+  "builds": [
+    {
+      "block": 5,
+      "dependencies": 1,
+      "leanSphincs": 1,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 4038.1193,
+        "claims": 1,
+        "peakRssBytes": 405012480,
+        "proofBytes": 265081
+      },
+      "ms": 4051
+    }
+  ],
+  "checks": [
+    {
+      "block": 5,
+      "hash": "0x5efbadfe17d71e186a353edd375d2939c69fa9bc5f2fe3bb48d3e7fd92787aa0",
+      "dependencies": 1,
+      "valid": true,
+      "reason": null,
+      "ms": 2880
+    }
+  ]
+}

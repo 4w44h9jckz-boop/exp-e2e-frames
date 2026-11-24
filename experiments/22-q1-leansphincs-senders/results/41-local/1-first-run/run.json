@@ -1,0 +1,25 @@
+{
+  "experiment": 22,
+  "for": "exp-frames experiment 41's request (Q8), on the local chain with EIP-8288 extended",
+  "run": "1-first-run",
+  "date": "2026-11-05T13:50:03.229Z",
+  "repoCommit": "022aa9e5acef056067b770671b2a4bddcf85b004",
+  "procedure": "exp-frames exp/49-q8-fhe-input eb76c78, experiments/41-fhe-input-proof/README.md, \"Running the request on a chain with EIP-8288 extended\"",
+  "binaries": {
+    "request": "kohaku-rs a9ca8d3, crates/fhe-input-pq, example request, RUSTFLAGS=\"-C target-cpu=native\"",
+    "seedAndFunder": "kohaku-rs crates/frame-pq, example pq_wallet, MODE=new and MODE=addresses"
+  },
+  "command": "npx tsx experiments/22-q1-leansphincs-senders/q8-local.ts <request> <pq_wallet> 1-first-run a9ca8d3",
+  "chain": {
+    "chainId": 8141,
+    "ethrex": "64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c",
+    "setting": "extended",
+    "maxVerifyGas": 100000,
+    "funder": "0xd6b64322ec094e20277fbc4e20ec518791158ba6"
+  },
+  "programsAdded": [],
+  "seconds": 0,
+  "builds": [],
+  "checks": [],
+  "log": "exit 1\n\nError: the node would not admit it: validation prefix frame reverted\n\nStack backtrace:\n   0: <anyhow::Error as core::convert::From<kohaku_frame_kit::rpc::ExecuteError>>::from\n   1: request::mined::<alloy_provider::fillers::FillProvider<alloy_provider::fillers::join_fill::JoinFill<alloy_provider::builder::Identity, alloy_provider::fillers::join_fill::JoinFill<alloy_provider::fillers::gas::GasFiller, alloy_provider::fillers::join_fill::JoinFill<alloy_provider::fillers::gas::BlobGasFiller, alloy_provider::fillers::join_fill::JoinFill<alloy_provider::fillers::nonce::NonceFiller, alloy_provider::fillers::chain_id::ChainIdFiller>>>>, alloy_provider::provider::root::RootProvider>>::{closure#0}\n   2: request::main::{closure#0}\n   3: <tokio::runtime::park::CachedParkThread>::block_on::<request::main::{closure#0}>\n   4: <tokio::runtime::runtime::Runtime>::block_on::<request::main::{closure#0}>\n   5: request::main\n   6: std::sys::backtrace::__rust_begin_short_backtrace::<fn() -> core::result::Result<(), anyhow::Error>, core::result::Result<(), anyhow::Error>>\n   7: std::rt::lang_start::<core::result::Result<(), anyhow::Error>>::{closure#0}\n   8: std::rt::lang_start_internal\n   9: main\n  10: __libc_start_call_main\n             at ./csu/../sysdeps/nptl/libc_start_call_main.h:58:16\n  11: __libc_start_main_impl\n             at ./csu/../csu/libc-start.c:360:3\n  12: _start\n"
+}

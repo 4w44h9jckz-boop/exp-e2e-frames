@@ -1,0 +1,21 @@
+Experiment 22 (Q1): the mempool's wrappers on the real prover, clean rerun, 2026-11-04
+
+skandha: 0a74313 (pull request #9's head), unmodified
+conformance vectors: exp-mempool-l2s ce0b916 (05-aggregation.md, AG-11, the prover's hex read either way)
+prover: experiments/19-x14-hash-based-stealth-addresses-under-8288/prover at 47f5496, leanVM 3cbac04, built with -C target-cpu=native
+machine: 4 cores, Intel(R) Xeon(R) Processor @ 2.10GHz, 15 GB
+command, in packages/framepool: bun test/run-two-folds.ts --prover <path to x14-prover>
+supersedes: 1-wrappers-real-prover.txt, which needed a local harness change; that change is now in skandha
+
+As predicted: each node folds only its own signatures, 3 and then 2 after the block; the other answers ok,
+then ErrAlreadyKnown; a fold with one byte changed is ErrWrapperProof. A prover process started for each fold
+takes 2.8 to 3.7 s, over AG-7's 1,000 ms interval.
+
+Output:
+round 1, node A: 3 listed, 3 deps, 274417 proof bytes, 3700.1 ms, 417226752 bytes at peak; the other answers ok for each of 3
+round 1, node B: 3 listed, 3 deps, 274905 proof bytes, 3470.2 ms, 417042432 bytes at peak; the other answers ok for each of 3
+round 2, node A: 3 listed, 3 deps, 274417 proof bytes, 3350.0 ms, 416763904 bytes at peak; the other answers ErrAlreadyKnown for each of 3
+round 2, node B: 3 listed, 3 deps, 274905 proof bytes, 2882.4 ms, 416997376 bytes at peak; the other answers ErrAlreadyKnown for each of 3
+round 3, node A: 2 listed, 2 deps, 268409 proof bytes, 2811.8 ms, 412946432 bytes at peak; the other answers ErrAlreadyKnown for each of 2
+round 3, node B: 2 listed, 2 deps, 268697 proof bytes, 2984.4 ms, 414380032 bytes at peak; the other answers ErrAlreadyKnown for each of 2
+round 4, node A, one byte changed: 2 listed, 2 deps, 268409 proof bytes, 2890.0 ms, 413777920 bytes at peak; the other answers ErrWrapperProof

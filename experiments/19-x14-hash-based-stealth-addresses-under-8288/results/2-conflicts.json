@@ -1,0 +1,1292 @@
+{
+  "experiment": 19,
+  "run": "2-conflicts",
+  "rule": "rapidblocks, topics 26152 and 26157: per storage slot and account field; balance credits not counted",
+  "records": [
+    "2-part2-testnet",
+    "2-part2-testnet-v2a",
+    "2-part3-testnet-v2b"
+  ],
+  "transactions": [
+    {
+      "record": "2-part2-testnet",
+      "step": "v1: pay and announce, owner",
+      "hash": "0xdb3a8425f9a232fbd58ef11afb33024e657d64515776df58035fb1648f6c71a7",
+      "block": 686095,
+      "index": 0,
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "writes": [
+        {
+          "key": "0x15367dc44fc5552af15515645729f1d802f042e8:nonce",
+          "what": "a fresh account, nonce"
+        },
+        {
+          "key": "0x15367dc44fc5552af15515645729f1d802f042e8:code",
+          "what": "a fresh account, code"
+        },
+        {
+          "key": "0x15367dc44fc5552af15515645729f1d802f042e8:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x4f9fcd1846b46ab3f86e5da5d24bd5bfa6e2b8d3:nonce",
+          "what": "factory, nonce"
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:nonce",
+          "what": "the funder (payer of payments and deposits), nonce"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:balance:debit",
+          "what": "the funder (payer of payments and deposits), balance debit"
+        }
+      ]
+    },
+    {
+      "record": "2-part2-testnet",
+      "step": "v1: the owner spends to a fresh address",
+      "hash": "0xa794737d61215a23dff0eb17ed74d801d41ac33e33573a10856ce6730c7e3c87",
+      "block": 686096,
+      "index": 0,
+      "sender": "0x15367dc44fc5552af15515645729f1d802f042e8",
+      "writes": [
+        {
+          "key": "0x15367dc44fc5552af15515645729f1d802f042e8:nonce",
+          "what": "a fresh account, nonce"
+        },
+        {
+          "key": "0x15367dc44fc5552af15515645729f1d802f042e8:balance:debit",
+          "what": "a fresh account, balance debit"
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xa90b17b5c5c57c3928d0543e4f525792c8a1e154:balance:credit",
+          "what": "a fresh account, balance credit"
+        }
+      ]
+    },
+    {
+      "record": "2-part2-testnet",
+      "step": "v1: pay and announce, delegated",
+      "hash": "0xfe781b7aff04d700889457ed5b20669ee8c61eddae4c0906f4864181f4f84f4d",
+      "block": 686097,
+      "index": 0,
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "writes": [
+        {
+          "key": "0x4f9fcd1846b46ab3f86e5da5d24bd5bfa6e2b8d3:nonce",
+          "what": "factory, nonce"
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x8c7ce2870645485adb9d717f52bcb3a9d754efc3:nonce",
+          "what": "a fresh account, nonce"
+        },
+        {
+          "key": "0x8c7ce2870645485adb9d717f52bcb3a9d754efc3:code",
+          "what": "a fresh account, code"
+        },
+        {
+          "key": "0x8c7ce2870645485adb9d717f52bcb3a9d754efc3:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:nonce",
+          "what": "the funder (payer of payments and deposits), nonce"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:balance:debit",
+          "what": "the funder (payer of payments and deposits), balance debit"
+        }
+      ]
+    },
+    {
+      "record": "2-part2-testnet",
+      "step": "v1: a delegated prover holding k and r spends to itself",
+      "hash": "0xdbe1ff01264347f4fa17d377a266580084b188a970263fa8c443b1ec5f8a25b6",
+      "block": 686098,
+      "index": 0,
+      "sender": "0x8c7ce2870645485adb9d717f52bcb3a9d754efc3",
+      "writes": [
+        {
+          "key": "0x08099f1d20597af0b73e093ac3f27cabd3381117:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x8c7ce2870645485adb9d717f52bcb3a9d754efc3:nonce",
+          "what": "a fresh account, nonce"
+        },
+        {
+          "key": "0x8c7ce2870645485adb9d717f52bcb3a9d754efc3:balance:debit",
+          "what": "a fresh account, balance debit"
+        }
+      ]
+    },
+    {
+      "record": "2-part2-testnet",
+      "step": "v3: pay and announce, first account",
+      "hash": "0x693d6e02aed06b54c7a43eff73eba7c8cf2a735799fc20119ab1e99b28c04c5e",
+      "block": 686099,
+      "index": 0,
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "writes": [
+        {
+          "key": "0x121b6cec8b9f6cfc9bffc95989ccfe8456e8271c:nonce",
+          "what": "a fresh account, nonce"
+        },
+        {
+          "key": "0x121b6cec8b9f6cfc9bffc95989ccfe8456e8271c:code",
+          "what": "a fresh account, code"
+        },
+        {
+          "key": "0x121b6cec8b9f6cfc9bffc95989ccfe8456e8271c:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x4f9fcd1846b46ab3f86e5da5d24bd5bfa6e2b8d3:nonce",
+          "what": "factory, nonce"
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:nonce",
+          "what": "the funder (payer of payments and deposits), nonce"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:balance:debit",
+          "what": "the funder (payer of payments and deposits), balance debit"
+        }
+      ]
+    },
+    {
+      "record": "2-part2-testnet",
+      "step": "v3: the first account spends, under the long-term key",
+      "hash": "0x24ff6dccf288002d63b0da0149f5133a5409de937cc385988e14b3a61134c447",
+      "block": 686100,
+      "index": 0,
+      "sender": "0x121b6cec8b9f6cfc9bffc95989ccfe8456e8271c",
+      "writes": [
+        {
+          "key": "0x121b6cec8b9f6cfc9bffc95989ccfe8456e8271c:nonce",
+          "what": "a fresh account, nonce"
+        },
+        {
+          "key": "0x121b6cec8b9f6cfc9bffc95989ccfe8456e8271c:balance:debit",
+          "what": "a fresh account, balance debit"
+        },
+        {
+          "key": "0x4caa6f2315ee2d99ac417dc418113f025d37c7b1:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        }
+      ]
+    },
+    {
+      "record": "2-part2-testnet",
+      "step": "v3: pay and announce, second account",
+      "hash": "0x080867b93ab65f7b8d8ae11368740e5782ee0e8113b9936c391b9d1d1dc8cd31",
+      "block": 686101,
+      "index": 0,
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "writes": [
+        {
+          "key": "0x492f29c6ade5ed4b4e6c8dcf48a6b817884ec7e2:nonce",
+          "what": "a fresh account, nonce"
+        },
+        {
+          "key": "0x492f29c6ade5ed4b4e6c8dcf48a6b817884ec7e2:code",
+          "what": "a fresh account, code"
+        },
+        {
+          "key": "0x492f29c6ade5ed4b4e6c8dcf48a6b817884ec7e2:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x4f9fcd1846b46ab3f86e5da5d24bd5bfa6e2b8d3:nonce",
+          "what": "factory, nonce"
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:nonce",
+          "what": "the funder (payer of payments and deposits), nonce"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:balance:debit",
+          "what": "the funder (payer of payments and deposits), balance debit"
+        }
+      ]
+    },
+    {
+      "record": "2-part2-testnet",
+      "step": "v3: the second account spends, under the long-term key",
+      "hash": "0x94444eae654c4b05d171b99cccccb5bce67fc45a7920d6fd82951170e1645a9e",
+      "block": 686102,
+      "index": 0,
+      "sender": "0x492f29c6ade5ed4b4e6c8dcf48a6b817884ec7e2",
+      "writes": [
+        {
+          "key": "0x492f29c6ade5ed4b4e6c8dcf48a6b817884ec7e2:nonce",
+          "what": "a fresh account, nonce"
+        },
+        {
+          "key": "0x492f29c6ade5ed4b4e6c8dcf48a6b817884ec7e2:balance:debit",
+          "what": "a fresh account, balance debit"
+        },
+        {
+          "key": "0x7e62a0a7c733aadf762a074d126ee54279865fb0:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        }
+      ]
+    },
+    {
+      "record": "2-part2-testnet",
+      "step": "v5: deposit, owner",
+      "hash": "0x2a08a42c761533654294b0fe1892071128ee238b474a8877de06fba9a9b94a7e",
+      "block": 686103,
+      "index": 0,
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "writes": [
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:nonce",
+          "what": "the funder (payer of payments and deposits), nonce"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:balance:debit",
+          "what": "the funder (payer of payments and deposits), balance debit"
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000000",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000002",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000100",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000101",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000102",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000103",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000104",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000105",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000106",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000107",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000108",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000109",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x000000000000000000000000000000000000000000000000000000000000010a",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x000000000000000000000000000000000000000000000000000000000000010b",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x000000000000000000000000000000000000000000000000000000000000010c",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x000000000000000000000000000000000000000000000000000000000000010d",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x000000000000000000000000000000000000000000000000000000000000010e",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x000000000000000000000000000000000000000000000000000000000000010f",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000110",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000111",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000112",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000113",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x372fbaf113c21e54ce7329faf56d9725b9a3c5f7482737dc21adb1ad20cb9af5",
+          "what": "pool5, storage 0x372fbaf1..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:balance:credit",
+          "what": "pool5, balance credit"
+        }
+      ]
+    },
+    {
+      "record": "2-part2-testnet",
+      "step": "v5: deposit, delegated",
+      "hash": "0xc42847c90f571297410319ebd844f6a7d8d03a670dece35127016db003fc5bbd",
+      "block": 686104,
+      "index": 0,
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "writes": [
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:nonce",
+          "what": "the funder (payer of payments and deposits), nonce"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:balance:debit",
+          "what": "the funder (payer of payments and deposits), balance debit"
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000000",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000002",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000101",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000102",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000103",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000104",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000105",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000106",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000107",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000108",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000109",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x000000000000000000000000000000000000000000000000000000000000010a",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x000000000000000000000000000000000000000000000000000000000000010b",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x000000000000000000000000000000000000000000000000000000000000010c",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x000000000000000000000000000000000000000000000000000000000000010d",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x000000000000000000000000000000000000000000000000000000000000010e",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x000000000000000000000000000000000000000000000000000000000000010f",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000110",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000111",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000112",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x0000000000000000000000000000000000000000000000000000000000000113",
+          "what": "pool5, storage 0x00000000..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:slot:0x365c1763de1f0eb1a93ca67c31bee4b2e5a4a8f184198f7a8bddb925140f2e86",
+          "what": "pool5, storage 0x365c1763..."
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:balance:credit",
+          "what": "pool5, balance credit"
+        }
+      ]
+    },
+    {
+      "record": "2-part2-testnet",
+      "step": "v5: the owner withdraws to a fresh address",
+      "hash": "0x1bd5822f9d5ab497cd1fc94548422d8fdc46ac87cb3ccd79ac0624454a7f3838",
+      "block": 686105,
+      "index": 0,
+      "sender": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2",
+      "writes": [
+        {
+          "key": "0x0000000000000000000000000000000000008250:slot:0x8b1fc45813d016e749a72be2032542a3ae1b571c838591cd3b376843080846a1",
+          "what": "EIP-8250 nonce keys, storage 0x8b1fc458..."
+        },
+        {
+          "key": "0x68c0eeb679dc2363ef7a03fcf59f9497e9f1e815:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:balance:debit",
+          "what": "pool5, balance debit"
+        }
+      ]
+    },
+    {
+      "record": "2-part2-testnet",
+      "step": "v5: a delegated prover holding the note's secrets withdraws to itself",
+      "hash": "0x0386ade6311ab04735bb14967fd2db55808b59d907d529b2418283c18cf1dc7f",
+      "block": 686106,
+      "index": 0,
+      "sender": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2",
+      "writes": [
+        {
+          "key": "0x0000000000000000000000000000000000008250:slot:0x8c5a4b9987e7f2539b1efa7d5e29b7d59221f7738af7f1683dbc512a41e85ea1",
+          "what": "EIP-8250 nonce keys, storage 0x8c5a4b99..."
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xb563addbfd6d9f1a5c8d9f1b1a79b06dad7b9530:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xeadaa081ba0ff2050945656f463be8cb876dc4b2:balance:debit",
+          "what": "pool5, balance debit"
+        }
+      ]
+    },
+    {
+      "record": "2-part2-testnet",
+      "step": "v4: deposit",
+      "hash": "0x758ad6df7a761906516ef220515b883accb29571ba83ae61e78623e84ed1123b",
+      "block": 686107,
+      "index": 0,
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "writes": [
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x954e93671d663e81432a123b9be27004c60f302a:slot:0x0000000000000000000000000000000000000000000000000000000000000000",
+          "what": "pool4, storage 0x00000000..."
+        },
+        {
+          "key": "0x954e93671d663e81432a123b9be27004c60f302a:slot:0x0000000000000000000000000000000000000000000000000000000000000002",
+          "what": "pool4, storage 0x00000000..."
+        },
+        {
+          "key": "0x954e93671d663e81432a123b9be27004c60f302a:slot:0x0000000000000000000000000000000000000000000000000000000000000100",
+          "what": "pool4, storage 0x00000000..."
+        },
+        {
+          "key": "0x954e93671d663e81432a123b9be27004c60f302a:slot:0x0000000000000000000000000000000000000000000000000000000000000101",
+          "what": "pool4, storage 0x00000000..."
+        },
+        {
+          "key": "0x954e93671d663e81432a123b9be27004c60f302a:slot:0x0000000000000000000000000000000000000000000000000000000000000102",
+          "what": "pool4, storage 0x00000000..."
+        },
+        {
+          "key": "0x954e93671d663e81432a123b9be27004c60f302a:slot:0x0000000000000000000000000000000000000000000000000000000000000103",
+          "what": "pool4, storage 0x00000000..."
+        },
+        {
+          "key": "0x954e93671d663e81432a123b9be27004c60f302a:slot:0x0000000000000000000000000000000000000000000000000000000000000104",
+          "what": "pool4, storage 0x00000000..."
+        },
+        {
+          "key": "0x954e93671d663e81432a123b9be27004c60f302a:slot:0x0000000000000000000000000000000000000000000000000000000000000105",
+          "what": "pool4, storage 0x00000000..."
+        },
+        {
+          "key": "0x954e93671d663e81432a123b9be27004c60f302a:slot:0x0000000000000000000000000000000000000000000000000000000000000106",
+          "what": "pool4, storage 0x00000000..."
+        },
+        {
+          "key": "0x954e93671d663e81432a123b9be27004c60f302a:slot:0x0000000000000000000000000000000000000000000000000000000000000107",
+          "what": "pool4, storage 0x00000000..."
+        },
+        {
+          "key": "0x954e93671d663e81432a123b9be27004c60f302a:slot:0x0000000000000000000000000000000000000000000000000000000000000108",
+          "what": "pool4, storage 0x00000000..."
+        },
+        {
+          "key": "0x954e93671d663e81432a123b9be27004c60f302a:slot:0x0000000000000000000000000000000000000000000000000000000000000109",
+          "what": "pool4, storage 0x00000000..."
+        },
+        {
+          "key": "0x954e93671d663e81432a123b9be27004c60f302a:slot:0x000000000000000000000000000000000000000000000000000000000000010a",
+          "what": "pool4, storage 0x00000000..."
+        },
+        {
+          "key": "0x954e93671d663e81432a123b9be27004c60f302a:slot:0x000000000000000000000000000000000000000000000000000000000000010b",
+          "what": "pool4, storage 0x00000000..."
+        },
+        {
+          "key": "0x954e93671d663e81432a123b9be27004c60f302a:slot:0x000000000000000000000000000000000000000000000000000000000000010c",
+          "what": "pool4, storage 0x00000000..."
+        },
+        {
+          "key": "0x954e93671d663e81432a123b9be27004c60f302a:slot:0x000000000000000000000000000000000000000000000000000000000000010d",
+          "what": "pool4, storage 0x00000000..."
+        },
+        {
+          "key": "0x954e93671d663e81432a123b9be27004c60f302a:slot:0x000000000000000000000000000000000000000000000000000000000000010e",
+          "what": "pool4, storage 0x00000000..."
+        },
+        {
+          "key": "0x954e93671d663e81432a123b9be27004c60f302a:slot:0x000000000000000000000000000000000000000000000000000000000000010f",
+          "what": "pool4, storage 0x00000000..."
+        },
+        {
+          "key": "0x954e93671d663e81432a123b9be27004c60f302a:slot:0x0000000000000000000000000000000000000000000000000000000000000110",
+          "what": "pool4, storage 0x00000000..."
+        },
+        {
+          "key": "0x954e93671d663e81432a123b9be27004c60f302a:slot:0x0000000000000000000000000000000000000000000000000000000000000111",
+          "what": "pool4, storage 0x00000000..."
+        },
+        {
+          "key": "0x954e93671d663e81432a123b9be27004c60f302a:slot:0x0000000000000000000000000000000000000000000000000000000000000112",
+          "what": "pool4, storage 0x00000000..."
+        },
+        {
+          "key": "0x954e93671d663e81432a123b9be27004c60f302a:slot:0x0000000000000000000000000000000000000000000000000000000000000113",
+          "what": "pool4, storage 0x00000000..."
+        },
+        {
+          "key": "0x954e93671d663e81432a123b9be27004c60f302a:slot:0xdd698b57df9ed2deeb102f0dba8c28b75e3e7f7643c9cc6ccc21be21962f6089",
+          "what": "pool4, storage 0xdd698b57..."
+        },
+        {
+          "key": "0x954e93671d663e81432a123b9be27004c60f302a:balance:credit",
+          "what": "pool4, balance credit"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:nonce",
+          "what": "the funder (payer of payments and deposits), nonce"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:balance:debit",
+          "what": "the funder (payer of payments and deposits), balance debit"
+        }
+      ]
+    },
+    {
+      "record": "2-part2-testnet",
+      "step": "v4: a relayer withdraws to a fresh address with a Groth16 proof",
+      "hash": "0x0aeef2bdf04babf167df9f6c23c325e6e84c2395e5234a94284f1339da2febf2",
+      "block": 686110,
+      "index": 0,
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "writes": [
+        {
+          "key": "0x69c288ab23c975e36cfe425b393359011700f59f:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x954e93671d663e81432a123b9be27004c60f302a:slot:0x9aef246c7e23536b5c421146ab98b3f8f01d5a9dbfbe6001f3b53fed381f9e8e",
+          "what": "pool4, storage 0x9aef246c..."
+        },
+        {
+          "key": "0x954e93671d663e81432a123b9be27004c60f302a:balance:debit",
+          "what": "pool4, balance debit"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:nonce",
+          "what": "the funder (payer of payments and deposits), nonce"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:balance:debit",
+          "what": "the funder (payer of payments and deposits), balance debit"
+        }
+      ]
+    },
+    {
+      "record": "2-part2-testnet-v2a",
+      "step": "v2a: pay and announce, one key",
+      "hash": "0xaabc457515d844dad0d702d93be5b75b0eb1093c187d1db8c02724a32a427b6e",
+      "block": 686114,
+      "index": 0,
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "writes": [
+        {
+          "key": "0x7cdcea3a127d65b0b4dcc5197cc138cdaaa85e59:nonce",
+          "what": "factory, nonce"
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:nonce",
+          "what": "the funder (payer of payments and deposits), nonce"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:balance:debit",
+          "what": "the funder (payer of payments and deposits), balance debit"
+        },
+        {
+          "key": "0xf9e30c8586e1d73d44f9fc54341750617a0cc715:nonce",
+          "what": "a fresh account, nonce"
+        },
+        {
+          "key": "0xf9e30c8586e1d73d44f9fc54341750617a0cc715:code",
+          "what": "a fresh account, code"
+        },
+        {
+          "key": "0xf9e30c8586e1d73d44f9fc54341750617a0cc715:balance:credit",
+          "what": "a fresh account, balance credit"
+        }
+      ]
+    },
+    {
+      "record": "2-part2-testnet-v2a",
+      "step": "v2a: pay and announce, two of three keys",
+      "hash": "0x023eaf28d70c1c5b44032a8a20c1c72446b0fc8e01d7e32a2ffe06cab4963c6e",
+      "block": 686115,
+      "index": 0,
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "writes": [
+        {
+          "key": "0x7cdcea3a127d65b0b4dcc5197cc138cdaaa85e59:nonce",
+          "what": "factory, nonce"
+        },
+        {
+          "key": "0x814728d57a9cd339995e4dc1126a72c0b821857c:nonce",
+          "what": "a fresh account, nonce"
+        },
+        {
+          "key": "0x814728d57a9cd339995e4dc1126a72c0b821857c:code",
+          "what": "a fresh account, code"
+        },
+        {
+          "key": "0x814728d57a9cd339995e4dc1126a72c0b821857c:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:nonce",
+          "what": "the funder (payer of payments and deposits), nonce"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:balance:debit",
+          "what": "the funder (payer of payments and deposits), balance debit"
+        }
+      ]
+    },
+    {
+      "record": "2-part2-testnet-v2a",
+      "step": "v2a: the owner spends, one key",
+      "hash": "0x4764d08e127d9ad0f2aba5edae26f94c267aa94384774f06ef29845e6b59b9b6",
+      "block": 686116,
+      "index": 0,
+      "sender": "0xf9e30c8586e1d73d44f9fc54341750617a0cc715",
+      "writes": [
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xd666696ac2b29e8e6992fc5e9bde59856555300b:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xf9e30c8586e1d73d44f9fc54341750617a0cc715:nonce",
+          "what": "a fresh account, nonce"
+        },
+        {
+          "key": "0xf9e30c8586e1d73d44f9fc54341750617a0cc715:balance:debit",
+          "what": "a fresh account, balance debit"
+        }
+      ]
+    },
+    {
+      "record": "2-part2-testnet-v2a",
+      "step": "v2a: the owner spends, two of three keys (keys 2 and 0)",
+      "hash": "0xb9d2a0cec8ad7bb53a1b0760daa5ed3aea3cf207293fc04a881c656ab4461080",
+      "block": 686117,
+      "index": 0,
+      "sender": "0x814728d57a9cd339995e4dc1126a72c0b821857c",
+      "writes": [
+        {
+          "key": "0x4c4d3af7d23f556150a51933bd9cc2aee3f1f33e:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x814728d57a9cd339995e4dc1126a72c0b821857c:nonce",
+          "what": "a fresh account, nonce"
+        },
+        {
+          "key": "0x814728d57a9cd339995e4dc1126a72c0b821857c:balance:debit",
+          "what": "a fresh account, balance debit"
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        }
+      ]
+    },
+    {
+      "record": "2-part2-testnet-v2a",
+      "step": "v2a: pay and announce, delegated",
+      "hash": "0x4a41b7bfd420f063b3f9ce25fecbc2cfbb93d59cf5b2c68c72fbaa0df4ed5605",
+      "block": 686118,
+      "index": 0,
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "writes": [
+        {
+          "key": "0x7cdcea3a127d65b0b4dcc5197cc138cdaaa85e59:nonce",
+          "what": "factory, nonce"
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:nonce",
+          "what": "the funder (payer of payments and deposits), nonce"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:balance:debit",
+          "what": "the funder (payer of payments and deposits), balance debit"
+        },
+        {
+          "key": "0xd0371c6d24f49c96ffde6a9b6b121b90697ae77a:nonce",
+          "what": "a fresh account, nonce"
+        },
+        {
+          "key": "0xd0371c6d24f49c96ffde6a9b6b121b90697ae77a:code",
+          "what": "a fresh account, code"
+        },
+        {
+          "key": "0xd0371c6d24f49c96ffde6a9b6b121b90697ae77a:balance:credit",
+          "what": "a fresh account, balance credit"
+        }
+      ]
+    },
+    {
+      "record": "2-part2-testnet-v2a",
+      "step": "v2a: the delegated prover sends the owner's spend, to the owner's destination",
+      "hash": "0x663ce422d21d88441e0991da76b339b876c1890e8cc60b9326d3aaecaae65f73",
+      "block": 686119,
+      "index": 0,
+      "sender": "0xd0371c6d24f49c96ffde6a9b6b121b90697ae77a",
+      "writes": [
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xaae7b3139f8e728caf36e5b0fc75427a29974eda:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xd0371c6d24f49c96ffde6a9b6b121b90697ae77a:nonce",
+          "what": "a fresh account, nonce"
+        },
+        {
+          "key": "0xd0371c6d24f49c96ffde6a9b6b121b90697ae77a:balance:debit",
+          "what": "a fresh account, balance debit"
+        }
+      ]
+    },
+    {
+      "record": "2-part3-testnet-v2b",
+      "step": "v2b: pay and announce, one key",
+      "hash": "0x8789cee90c8fba1f94e509c8a08b7ca9be1201756551dfe2980c9ddf73949adf",
+      "block": 686256,
+      "index": 0,
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "writes": [
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x90ef2be33efe4edf4875ac6be6d3b35683591900:nonce",
+          "what": "factory, nonce"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:nonce",
+          "what": "the funder (payer of payments and deposits), nonce"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:balance:debit",
+          "what": "the funder (payer of payments and deposits), balance debit"
+        },
+        {
+          "key": "0xb8537aed8d35856f2d481c3238d5a6ab1c0fb49a:nonce",
+          "what": "a fresh account, nonce"
+        },
+        {
+          "key": "0xb8537aed8d35856f2d481c3238d5a6ab1c0fb49a:code",
+          "what": "a fresh account, code"
+        },
+        {
+          "key": "0xb8537aed8d35856f2d481c3238d5a6ab1c0fb49a:balance:credit",
+          "what": "a fresh account, balance credit"
+        }
+      ]
+    },
+    {
+      "record": "2-part3-testnet-v2b",
+      "step": "v2b: the owner spends, one key",
+      "hash": "0xa9d51990926b9e7c2c77eb92e03f36e9e8f6502c9061d4e95e38b345d7c1489e",
+      "block": 686257,
+      "index": 0,
+      "sender": "0xb8537aed8d35856f2d481c3238d5a6ab1c0fb49a",
+      "writes": [
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xb8537aed8d35856f2d481c3238d5a6ab1c0fb49a:nonce",
+          "what": "a fresh account, nonce"
+        },
+        {
+          "key": "0xb8537aed8d35856f2d481c3238d5a6ab1c0fb49a:balance:debit",
+          "what": "a fresh account, balance debit"
+        },
+        {
+          "key": "0xc7dfb2afd2fc98d978e887af978c3d7eb90ec814:balance:credit",
+          "what": "a fresh account, balance credit"
+        }
+      ]
+    },
+    {
+      "record": "2-part3-testnet-v2b",
+      "step": "v2b: pay and announce, two of three keys",
+      "hash": "0x6824e97920b5aa38dff87e3e4b9089e5960bbc7a020dbba3b1160e0972ee88c8",
+      "block": 686258,
+      "index": 0,
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "writes": [
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x90ef2be33efe4edf4875ac6be6d3b35683591900:nonce",
+          "what": "factory, nonce"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:nonce",
+          "what": "the funder (payer of payments and deposits), nonce"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:balance:debit",
+          "what": "the funder (payer of payments and deposits), balance debit"
+        },
+        {
+          "key": "0xd0fb1fa7ff44831ba807719e70315fb117d402f9:nonce",
+          "what": "a fresh account, nonce"
+        },
+        {
+          "key": "0xd0fb1fa7ff44831ba807719e70315fb117d402f9:code",
+          "what": "a fresh account, code"
+        },
+        {
+          "key": "0xd0fb1fa7ff44831ba807719e70315fb117d402f9:balance:credit",
+          "what": "a fresh account, balance credit"
+        }
+      ]
+    },
+    {
+      "record": "2-part3-testnet-v2b",
+      "step": "v2b: the owner spends, two of three keys",
+      "hash": "0x99abc5915edb15ae6b9e393e114931194338b6f7996aeb86ae16cacb67e3cd2b",
+      "block": 686259,
+      "index": 0,
+      "sender": "0xd0fb1fa7ff44831ba807719e70315fb117d402f9",
+      "writes": [
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xaa3770fd7b0b6e86fda957a11697c84e67b38166:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0xd0fb1fa7ff44831ba807719e70315fb117d402f9:nonce",
+          "what": "a fresh account, nonce"
+        },
+        {
+          "key": "0xd0fb1fa7ff44831ba807719e70315fb117d402f9:balance:debit",
+          "what": "a fresh account, balance debit"
+        }
+      ]
+    },
+    {
+      "record": "2-part3-testnet-v2b",
+      "step": "v2b: pay and announce, version 1's preimage rule",
+      "hash": "0x869b8b3ac2bcada631b4da49ce82ba068c12c796a82ad6e10e753a5dd27490af",
+      "block": 686260,
+      "index": 0,
+      "sender": "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+      "writes": [
+        {
+          "key": "0x332bdcdd8007e20bad4810ee8a75993f7123b48b:nonce",
+          "what": "a fresh account, nonce"
+        },
+        {
+          "key": "0x332bdcdd8007e20bad4810ee8a75993f7123b48b:code",
+          "what": "a fresh account, code"
+        },
+        {
+          "key": "0x332bdcdd8007e20bad4810ee8a75993f7123b48b:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x90ef2be33efe4edf4875ac6be6d3b35683591900:nonce",
+          "what": "factory, nonce"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:nonce",
+          "what": "the funder (payer of payments and deposits), nonce"
+        },
+        {
+          "key": "0xa131d9454d87957dcc465fb37acd9b383648b4d5:balance:debit",
+          "what": "the funder (payer of payments and deposits), balance debit"
+        }
+      ]
+    },
+    {
+      "record": "2-part3-testnet-v2b",
+      "step": "v2b: the owner spends, version 1's preimage rule",
+      "hash": "0x71c2fca38b02882e13c4b9aa804f21a5600e6388c27669fdd529b9a6d7803c09",
+      "block": 686261,
+      "index": 0,
+      "sender": "0x332bdcdd8007e20bad4810ee8a75993f7123b48b",
+      "writes": [
+        {
+          "key": "0x332bdcdd8007e20bad4810ee8a75993f7123b48b:nonce",
+          "what": "a fresh account, nonce"
+        },
+        {
+          "key": "0x332bdcdd8007e20bad4810ee8a75993f7123b48b:balance:debit",
+          "what": "a fresh account, balance debit"
+        },
+        {
+          "key": "0x6286814e722f821271dadc139bbc0438b83ebe77:balance:credit",
+          "what": "a fresh account, balance credit"
+        },
+        {
+          "key": "0x8943545177806ed17b9f23f0a21ee5948ecaa776:balance:credit",
+          "what": "a fresh account, balance credit"
+        }
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "kind": "v1: payment",
+      "pair": [
+        "v1: pay and announce, owner",
+        "v1: pay and announce, delegated"
+      ],
+      "sharedWrites": [
+        "factory, nonce"
+      ],
+      "conflict": true
+    },
+    {
+      "kind": "v1: spend",
+      "pair": [
+        "v1: the owner spends to a fresh address",
+        "v1: a delegated prover holding k and r spends to itself"
+      ],
+      "sharedWrites": [],
+      "conflict": false
+    },
+    {
+      "kind": "v3: payment",
+      "pair": [
+        "v3: pay and announce, first account",
+        "v3: pay and announce, second account"
+      ],
+      "sharedWrites": [
+        "factory, nonce"
+      ],
+      "conflict": true
+    },
+    {
+      "kind": "v3: spend",
+      "pair": [
+        "v3: the first account spends, under the long-term key",
+        "v3: the second account spends, under the long-term key"
+      ],
+      "sharedWrites": [],
+      "conflict": false
+    },
+    {
+      "kind": "v5: deposit",
+      "pair": [
+        "v5: deposit, owner",
+        "v5: deposit, delegated"
+      ],
+      "sharedWrites": [
+        "pool5, storage 0x00000000...",
+        "pool5, storage 0x00000000...",
+        "pool5, storage 0x00000000...",
+        "pool5, storage 0x00000000...",
+        "pool5, storage 0x00000000...",
+        "pool5, storage 0x00000000...",
+        "pool5, storage 0x00000000...",
+        "pool5, storage 0x00000000...",
+        "pool5, storage 0x00000000...",
+        "pool5, storage 0x00000000...",
+        "pool5, storage 0x00000000...",
+        "pool5, storage 0x00000000...",
+        "pool5, storage 0x00000000...",
+        "pool5, storage 0x00000000...",
+        "pool5, storage 0x00000000...",
+        "pool5, storage 0x00000000...",
+        "pool5, storage 0x00000000...",
+        "pool5, storage 0x00000000...",
+        "pool5, storage 0x00000000...",
+        "pool5, storage 0x00000000...",
+        "pool5, storage 0x00000000..."
+      ],
+      "conflict": true
+    },
+    {
+      "kind": "v5: withdrawal",
+      "pair": [
+        "v5: the owner withdraws to a fresh address",
+        "v5: a delegated prover holding the note's secrets withdraws to itself"
+      ],
+      "sharedWrites": [
+        "pool5, balance debit"
+      ],
+      "conflict": true
+    },
+    {
+      "kind": "v2a: payment",
+      "pair": [
+        "v2a: pay and announce, one key",
+        "v2a: pay and announce, two of three keys"
+      ],
+      "sharedWrites": [
+        "factory, nonce"
+      ],
+      "conflict": true
+    },
+    {
+      "kind": "v2a: payment",
+      "pair": [
+        "v2a: pay and announce, one key",
+        "v2a: pay and announce, delegated"
+      ],
+      "sharedWrites": [
+        "factory, nonce"
+      ],
+      "conflict": true
+    },
+    {
+      "kind": "v2a: payment",
+      "pair": [
+        "v2a: pay and announce, two of three keys",
+        "v2a: pay and announce, delegated"
+      ],
+      "sharedWrites": [
+        "factory, nonce"
+      ],
+      "conflict": true
+    },
+    {
+      "kind": "v2a: spend",
+      "pair": [
+        "v2a: the owner spends, one key",
+        "v2a: the owner spends, two of three keys (keys 2 and 0)"
+      ],
+      "sharedWrites": [],
+      "conflict": false
+    },
+    {
+      "kind": "v2a: spend",
+      "pair": [
+        "v2a: the owner spends, one key",
+        "v2a: the delegated prover sends the owner's spend, to the owner's destination"
+      ],
+      "sharedWrites": [],
+      "conflict": false
+    },
+    {
+      "kind": "v2a: spend",
+      "pair": [
+        "v2a: the owner spends, two of three keys (keys 2 and 0)",
+        "v2a: the delegated prover sends the owner's spend, to the owner's destination"
+      ],
+      "sharedWrites": [],
+      "conflict": false
+    },
+    {
+      "kind": "v2b: payment",
+      "pair": [
+        "v2b: pay and announce, one key",
+        "v2b: pay and announce, two of three keys"
+      ],
+      "sharedWrites": [
+        "factory, nonce"
+      ],
+      "conflict": true
+    },
+    {
+      "kind": "v2b: payment",
+      "pair": [
+        "v2b: pay and announce, one key",
+        "v2b: pay and announce, version 1's preimage rule"
+      ],
+      "sharedWrites": [
+        "factory, nonce"
+      ],
+      "conflict": true
+    },
+    {
+      "kind": "v2b: payment",
+      "pair": [
+        "v2b: pay and announce, two of three keys",
+        "v2b: pay and announce, version 1's preimage rule"
+      ],
+      "sharedWrites": [
+        "factory, nonce"
+      ],
+      "conflict": true
+    },
+    {
+      "kind": "v2b: spend",
+      "pair": [
+        "v2b: the owner spends, one key",
+        "v2b: the owner spends, two of three keys"
+      ],
+      "sharedWrites": [],
+      "conflict": false
+    },
+    {
+      "kind": "v2b: spend",
+      "pair": [
+        "v2b: the owner spends, one key",
+        "v2b: the owner spends, version 1's preimage rule"
+      ],
+      "sharedWrites": [],
+      "conflict": false
+    },
+    {
+      "kind": "v2b: spend",
+      "pair": [
+        "v2b: the owner spends, two of three keys",
+        "v2b: the owner spends, version 1's preimage rule"
+      ],
+      "sharedWrites": [],
+      "conflict": false
+    }
+  ]
+}

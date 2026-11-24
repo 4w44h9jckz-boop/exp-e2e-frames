@@ -1,0 +1,1650 @@
+{
+ "label": "4-escrow-alive",
+ "repoCommit": "c6f2fa1b20349f99cd922c41ce99c0ae27e43d58",
+ "ethrex": "64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c",
+ "binary": {
+  "path": "work/ethrex-bins/ethrex-8288-writes-blind",
+  "sha256": "fa01d064499c78b9c7aa5a5fda923855196168413de59ef0a64e3eb709d83607"
+ },
+ "chainId": 8141,
+ "D": "10000000000000000",
+ "issuerKey": "0x110395c1d4168087d425357f30b49e018886071d8347c5d8e79063ae3db266c521c43c54ffca8fedaafa5d78f29276c70d0c565269e81f324351b893f4763ab4da9a4483507012bbdbb7c307a284b65fa5de56b0b089d05385e1f3e5dacb33b10615ebd86bcc8b8313856fa51f2a992002e1b6eb3bf63e36f2be6bd91e8765962f53f5b25a40ca7aa4cb2ad4993c909b172a01b3273625d53493867c4b2073e72a941018c55327d7031d3a45e7da0c8e22e4f4aa0c1a7d91844995f48d4ef16f",
+ "cases": [
+  {
+   "case": "setup: mint 4 under chi1",
+   "tx": {
+    "hash": "0x5690eba8ace06b2c43d1bf3b176d4147891698aeda75450e7d8a5265cea53ac1",
+    "status": 1,
+    "block": 1,
+    "gasUsed": 230364,
+    "gasLimit": 500000,
+    "intrinsicAndCalldata": 24564,
+    "precompile": 205800
+   },
+   "counts": {
+    "burned": "4",
+    "minted": "0",
+    "pruned": "0"
+   },
+   "escrow": "40000000000000000"
+  },
+  {
+   "case": "(a) honest payout",
+   "n": 1,
+   "tx": {
+    "hash": "0xd45a37dd6369ef7e0bda19a36c1135a40e669d4ae1b361f36a55806b6f76a186",
+    "status": 1,
+    "block": 4,
+    "gasUsed": 227218,
+    "gasLimit": 3000000,
+    "intrinsicAndCalldata": 28268,
+    "precompile": 198950
+   },
+   "before": {
+    "counts": {
+     "burned": "4",
+     "minted": "0",
+     "pruned": "0"
+    },
+    "escrow": "40000000000000000",
+    "recipients": [
+     "0"
+    ]
+   },
+   "after": {
+    "counts": {
+     "burned": "4",
+     "minted": "1",
+     "pruned": "0"
+    },
+    "escrow": "30000000000000000",
+    "recipients": [
+     "10000000000000000"
+    ],
+    "spent": [
+     "1"
+    ]
+   },
+   "expectedPrecompile": 204950
+  },
+  {
+   "case": "(b1) the same ticket again",
+   "n": 1,
+   "tx": {
+    "hash": "0x18d16687d51d848026a1630256d8b983bbdc0f14d6b2d21a71794f677bad4621",
+    "status": 0,
+    "block": 8,
+    "gasUsed": 3000000,
+    "gasLimit": 3000000,
+    "intrinsicAndCalldata": 28268,
+    "precompile": 2971732
+   },
+   "before": {
+    "counts": {
+     "burned": "4",
+     "minted": "1",
+     "pruned": "0"
+    },
+    "escrow": "30000000000000000",
+    "recipients": [
+     "0"
+    ]
+   },
+   "after": {
+    "counts": {
+     "burned": "4",
+     "minted": "1",
+     "pruned": "0"
+    },
+    "escrow": "30000000000000000",
+    "recipients": [
+     "0"
+    ],
+    "spent": [
+     "1"
+    ]
+   }
+  },
+  {
+   "case": "(b2) one serial twice in a batch",
+   "n": 2,
+   "tx": {
+    "hash": "0x2a16d4fde29194c3e43dd2c8974234ace7c053ea64a97f2f12dc192c5f734348",
+    "status": 0,
+    "block": 12,
+    "gasUsed": 3000000,
+    "gasLimit": 3000000,
+    "intrinsicAndCalldata": 30484,
+    "precompile": 2969516
+   },
+   "before": {
+    "counts": {
+     "burned": "4",
+     "minted": "1",
+     "pruned": "0"
+    },
+    "escrow": "30000000000000000",
+    "recipients": [
+     "0",
+     "0"
+    ]
+   },
+   "after": {
+    "counts": {
+     "burned": "4",
+     "minted": "1",
+     "pruned": "0"
+    },
+    "escrow": "30000000000000000",
+    "recipients": [
+     "0",
+     "0"
+    ],
+    "spent": [
+     "0",
+     "0"
+    ]
+   }
+  },
+  {
+   "case": "(c') a forged signature",
+   "n": 1,
+   "tx": {
+    "hash": "0xa0cb97058210def57827c024a8213bd657f02840c23c039a09691e71ee7bef06",
+    "status": 0,
+    "block": 16,
+    "gasUsed": 3000000,
+    "gasLimit": 3000000,
+    "intrinsicAndCalldata": 28256,
+    "precompile": 2971744
+   },
+   "before": {
+    "counts": {
+     "burned": "4",
+     "minted": "1",
+     "pruned": "0"
+    },
+    "escrow": "30000000000000000",
+    "recipients": [
+     "0"
+    ]
+   },
+   "after": {
+    "counts": {
+     "burned": "4",
+     "minted": "1",
+     "pruned": "0"
+    },
+    "escrow": "30000000000000000",
+    "recipients": [
+     "0"
+    ],
+    "spent": [
+     "0"
+    ]
+   }
+  },
+  {
+   "case": "(e) a recipient that reverts",
+   "n": 1,
+   "tx": {
+    "hash": "0xdd0c18f6f797bb44f1b79482ab904f68ca3ef9622675c07821827fd2f008ff34",
+    "status": 1,
+    "block": 20,
+    "gasUsed": 177014,
+    "gasLimit": 3000000,
+    "intrinsicAndCalldata": 28064,
+    "precompile": 148950
+   },
+   "before": {
+    "counts": {
+     "burned": "4",
+     "minted": "1",
+     "pruned": "0"
+    },
+    "escrow": "30000000000000000",
+    "recipients": [
+     "0"
+    ]
+   },
+   "after": {
+    "counts": {
+     "burned": "4",
+     "minted": "2",
+     "pruned": "0"
+    },
+    "escrow": "20000000000000000",
+    "recipients": [
+     "10000000000000000"
+    ],
+    "spent": [
+     "1"
+    ]
+   },
+   "expectedPrecompile": 154950
+  },
+  {
+   "case": "(f1) a copy redirected, the signature kept",
+   "n": 1,
+   "tx": {
+    "hash": "0x19ade0e09554353122e6427a8d6ed2cce45c6a5b36bd466d79f229475a9b8c32",
+    "status": 0,
+    "block": 24,
+    "gasUsed": 3000000,
+    "gasLimit": 3000000,
+    "intrinsicAndCalldata": 28292,
+    "precompile": 2971708
+   },
+   "before": {
+    "counts": {
+     "burned": "4",
+     "minted": "2",
+     "pruned": "0"
+    },
+    "escrow": "20000000000000000",
+    "recipients": [
+     "1000000000000000000000"
+    ]
+   },
+   "after": {
+    "counts": {
+     "burned": "4",
+     "minted": "2",
+     "pruned": "0"
+    },
+    "escrow": "20000000000000000",
+    "recipients": [
+     "999999996999979000000"
+    ],
+    "spent": [
+     "0"
+    ]
+   }
+  },
+  {
+   "case": "(f2) a copy under the attacker's one-time key",
+   "n": 1,
+   "tx": {
+    "hash": "0xb2a624df6a8b45ad3fca30c0e356d341330946185e731d518d06aa48120ec100",
+    "status": 0,
+    "block": 28,
+    "gasUsed": 3000000,
+    "gasLimit": 3000000,
+    "intrinsicAndCalldata": 28292,
+    "precompile": 2971708
+   },
+   "before": {
+    "counts": {
+     "burned": "4",
+     "minted": "2",
+     "pruned": "0"
+    },
+    "escrow": "20000000000000000",
+    "recipients": [
+     "999999996999979000000"
+    ]
+   },
+   "after": {
+    "counts": {
+     "burned": "4",
+     "minted": "2",
+     "pruned": "0"
+    },
+    "escrow": "20000000000000000",
+    "recipients": [
+     "999999993999958000000"
+    ],
+    "spent": [
+     "0"
+    ]
+   }
+  },
+  {
+   "case": "(f) the original, after both copies",
+   "n": 1,
+   "tx": {
+    "hash": "0x58d9ca274d3f7ff9e775638902684e76be7f02d6a19e5652dd3d41aed935246a",
+    "status": 1,
+    "block": 32,
+    "gasUsed": 202242,
+    "gasLimit": 3000000,
+    "intrinsicAndCalldata": 28292,
+    "precompile": 173950
+   },
+   "before": {
+    "counts": {
+     "burned": "4",
+     "minted": "2",
+     "pruned": "0"
+    },
+    "escrow": "20000000000000000",
+    "recipients": [
+     "0"
+    ]
+   },
+   "after": {
+    "counts": {
+     "burned": "4",
+     "minted": "3",
+     "pruned": "0"
+    },
+    "escrow": "10000000000000000",
+    "recipients": [
+     "10000000000000000"
+    ],
+    "spent": [
+     "1"
+    ]
+   },
+   "expectedPrecompile": 179950
+  },
+  {
+   "case": "(d) two payouts in one block, one purchase left",
+   "attempts": [
+    {
+     "attempt": 1,
+     "txs": [
+      {
+       "hash": "0x1e96d58b3b3648a6ae5797987534461882857cfb615046ed340682f67110df26",
+       "status": 1,
+       "block": 36,
+       "gasUsed": 202230
+      },
+      {
+       "hash": "0x706585067a522f69579dd97252d5375d0f79ea5c7da9585f3d455d55f5052829",
+       "status": 0,
+       "block": 36,
+       "gasUsed": 3000000
+      }
+     ],
+     "counts": {
+      "burned": "4",
+      "minted": "4",
+      "pruned": "0"
+     },
+     "sameBlock": true
+    }
+   ]
+  },
+  {
+   "case": "(c) a ticket signed with no purchase behind it",
+   "n": 1,
+   "tx": {
+    "hash": "0x3623e49819c6ac446e5b5cb009d0f3b58fdab47d5df5e933acdf41bd47c3249e",
+    "status": 0,
+    "block": 40,
+    "gasUsed": 3000000,
+    "gasLimit": 3000000,
+    "intrinsicAndCalldata": 28280,
+    "precompile": 2971720
+   },
+   "before": {
+    "counts": {
+     "burned": "4",
+     "minted": "4",
+     "pruned": "0"
+    },
+    "escrow": "0",
+    "recipients": [
+     "0"
+    ]
+   },
+   "after": {
+    "counts": {
+     "burned": "4",
+     "minted": "4",
+     "pruned": "0"
+    },
+    "escrow": "0",
+    "recipients": [
+     "0"
+    ],
+    "spent": [
+     "0"
+    ]
+   },
+   "countsAtSend": {
+    "burned": "4",
+    "minted": "4",
+    "pruned": "0"
+   }
+  },
+  {
+   "case": "(g) setup: mint 39 under chi1",
+   "tx": {
+    "hash": "0x4b3c28d97a442e109bf37e7b65f72d2f053aa686e310dd1147bb944a622b061b",
+    "status": 1,
+    "block": 44,
+    "gasUsed": 39432,
+    "gasLimit": 500000,
+    "intrinsicAndCalldata": 24564,
+    "precompile": 14868
+   }
+  },
+  {
+   "case": "(g) batch of 1, fresh recipients",
+   "n": 1,
+   "tx": {
+    "hash": "0x0840f7624513bd83a9d7fbb3c0ee2769c277f383b17289a28586aa3b7adbc145",
+    "status": 1,
+    "block": 48,
+    "gasUsed": 202230,
+    "gasLimit": 3000000,
+    "intrinsicAndCalldata": 28280,
+    "precompile": 173950
+   },
+   "before": {
+    "counts": {
+     "burned": "43",
+     "minted": "4",
+     "pruned": "0"
+    },
+    "escrow": "390000000000000000",
+    "recipients": [
+     "0"
+    ]
+   },
+   "after": {
+    "counts": {
+     "burned": "43",
+     "minted": "5",
+     "pruned": "0"
+    },
+    "escrow": "380000000000000000",
+    "recipients": [
+     "10000000000000000"
+    ],
+    "spent": [
+     "1"
+    ]
+   },
+   "expectedPrecompile": 179950
+  },
+  {
+   "case": "(g) batch of 2, fresh recipients",
+   "n": 2,
+   "tx": {
+    "hash": "0x62c3ed6aefea068565c49ea6bd98a04563bd76a6001e2c599fc3877e4a033738",
+    "status": 1,
+    "block": 52,
+    "gasUsed": 275360,
+    "gasLimit": 3000000,
+    "intrinsicAndCalldata": 30460,
+    "precompile": 244900
+   },
+   "before": {
+    "counts": {
+     "burned": "43",
+     "minted": "5",
+     "pruned": "0"
+    },
+    "escrow": "380000000000000000",
+    "recipients": [
+     "0",
+     "0"
+    ]
+   },
+   "after": {
+    "counts": {
+     "burned": "43",
+     "minted": "7",
+     "pruned": "0"
+    },
+    "escrow": "360000000000000000",
+    "recipients": [
+     "10000000000000000",
+     "10000000000000000"
+    ],
+    "spent": [
+     "1",
+     "1"
+    ]
+   },
+   "expectedPrecompile": 250900
+  },
+  {
+   "case": "(g) batch of 3, fresh recipients",
+   "n": 3,
+   "tx": {
+    "hash": "0x038961d3dd86c8add304967afc8573105cec71923cc9bcd0607e6d77eca1a985",
+    "status": 1,
+    "block": 56,
+    "gasUsed": 348502,
+    "gasLimit": 3000000,
+    "intrinsicAndCalldata": 32652,
+    "precompile": 315850
+   },
+   "before": {
+    "counts": {
+     "burned": "43",
+     "minted": "7",
+     "pruned": "0"
+    },
+    "escrow": "360000000000000000",
+    "recipients": [
+     "0",
+     "0",
+     "0"
+    ]
+   },
+   "after": {
+    "counts": {
+     "burned": "43",
+     "minted": "10",
+     "pruned": "0"
+    },
+    "escrow": "330000000000000000",
+    "recipients": [
+     "10000000000000000",
+     "10000000000000000",
+     "10000000000000000"
+    ],
+    "spent": [
+     "1",
+     "1",
+     "1"
+    ]
+   },
+   "expectedPrecompile": 321850
+  },
+  {
+   "case": "(g) batch of 4, fresh recipients",
+   "n": 4,
+   "tx": {
+    "hash": "0x64145f2c80206aa5b445d88cc7baee7458b509ea8020c2dcb45e25cf722d6d8c",
+    "status": 1,
+    "block": 60,
+    "gasUsed": 421620,
+    "gasLimit": 3000000,
+    "intrinsicAndCalldata": 34820,
+    "precompile": 386800
+   },
+   "before": {
+    "counts": {
+     "burned": "43",
+     "minted": "10",
+     "pruned": "0"
+    },
+    "escrow": "330000000000000000",
+    "recipients": [
+     "0",
+     "0",
+     "0",
+     "0"
+    ]
+   },
+   "after": {
+    "counts": {
+     "burned": "43",
+     "minted": "14",
+     "pruned": "0"
+    },
+    "escrow": "290000000000000000",
+    "recipients": [
+     "10000000000000000",
+     "10000000000000000",
+     "10000000000000000",
+     "10000000000000000"
+    ],
+    "spent": [
+     "1",
+     "1",
+     "1",
+     "1"
+    ]
+   },
+   "expectedPrecompile": 392800
+  },
+  {
+   "case": "(g) batch of 8, fresh recipients",
+   "n": 8,
+   "tx": {
+    "hash": "0xd9a35c1f023d1aac6bc260ac0b390a021645e1adfec3e0440a6c837d6fca4afb",
+    "status": 1,
+    "block": 65,
+    "gasUsed": 714152,
+    "gasLimit": 3000000,
+    "intrinsicAndCalldata": 43552,
+    "precompile": 670600
+   },
+   "before": {
+    "counts": {
+     "burned": "43",
+     "minted": "14",
+     "pruned": "0"
+    },
+    "escrow": "290000000000000000",
+    "recipients": [
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ]
+   },
+   "after": {
+    "counts": {
+     "burned": "43",
+     "minted": "22",
+     "pruned": "0"
+    },
+    "escrow": "210000000000000000",
+    "recipients": [
+     "10000000000000000",
+     "10000000000000000",
+     "10000000000000000",
+     "10000000000000000",
+     "10000000000000000",
+     "10000000000000000",
+     "10000000000000000",
+     "10000000000000000"
+    ],
+    "spent": [
+     "1",
+     "1",
+     "1",
+     "1",
+     "1",
+     "1",
+     "1",
+     "1"
+    ]
+   },
+   "expectedPrecompile": 676600
+  },
+  {
+   "case": "(g) batch of 16, fresh recipients",
+   "n": 16,
+   "tx": {
+    "hash": "0x6c8fdb6077c765d07b238191d592862aa2e925337a2b294f887c981d4dfa4088",
+    "status": 1,
+    "block": 70,
+    "gasUsed": 1299168,
+    "gasLimit": 3000000,
+    "intrinsicAndCalldata": 60968,
+    "precompile": 1238200
+   },
+   "before": {
+    "counts": {
+     "burned": "43",
+     "minted": "22",
+     "pruned": "0"
+    },
+    "escrow": "210000000000000000",
+    "recipients": [
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ]
+   },
+   "after": {
+    "counts": {
+     "burned": "43",
+     "minted": "38",
+     "pruned": "0"
+    },
+    "escrow": "50000000000000000",
+    "recipients": [
+     "10000000000000000",
+     "10000000000000000",
+     "10000000000000000",
+     "10000000000000000",
+     "10000000000000000",
+     "10000000000000000",
+     "10000000000000000",
+     "10000000000000000",
+     "10000000000000000",
+     "10000000000000000",
+     "10000000000000000",
+     "10000000000000000",
+     "10000000000000000",
+     "10000000000000000",
+     "10000000000000000",
+     "10000000000000000"
+    ],
+    "spent": [
+     "1",
+     "1",
+     "1",
+     "1",
+     "1",
+     "1",
+     "1",
+     "1",
+     "1",
+     "1",
+     "1",
+     "1",
+     "1",
+     "1",
+     "1",
+     "1"
+    ]
+   },
+   "expectedPrecompile": 1244200
+  },
+  {
+   "case": "(g) batch of 1, existing recipients",
+   "n": 1,
+   "tx": {
+    "hash": "0xe0f23b74ca927972f0be467a6f89d8095d848effccecb4029756c6cf764c07d1",
+    "status": 1,
+    "block": 74,
+    "gasUsed": 177242,
+    "gasLimit": 3000000,
+    "intrinsicAndCalldata": 28292,
+    "precompile": 148950
+   },
+   "before": {
+    "counts": {
+     "burned": "43",
+     "minted": "38",
+     "pruned": "0"
+    },
+    "escrow": "50000000000000000",
+    "recipients": [
+     "1"
+    ]
+   },
+   "after": {
+    "counts": {
+     "burned": "43",
+     "minted": "39",
+     "pruned": "0"
+    },
+    "escrow": "40000000000000000",
+    "recipients": [
+     "10000000000000001"
+    ],
+    "spent": [
+     "1"
+    ]
+   },
+   "expectedPrecompile": 154950
+  },
+  {
+   "case": "(g) batch of 4, existing recipients",
+   "n": 4,
+   "tx": {
+    "hash": "0x3f3378f2894302dedb507c310f10c35d6eb3ecb20f6b9d8e8e3412d6144e22dd",
+    "status": 1,
+    "block": 78,
+    "gasUsed": 321644,
+    "gasLimit": 3000000,
+    "intrinsicAndCalldata": 34844,
+    "precompile": 286800
+   },
+   "before": {
+    "counts": {
+     "burned": "43",
+     "minted": "39",
+     "pruned": "0"
+    },
+    "escrow": "40000000000000000",
+    "recipients": [
+     "10000000000000001",
+     "1",
+     "1",
+     "1"
+    ]
+   },
+   "after": {
+    "counts": {
+     "burned": "43",
+     "minted": "43",
+     "pruned": "0"
+    },
+    "escrow": "0",
+    "recipients": [
+     "20000000000000001",
+     "10000000000000001",
+     "10000000000000001",
+     "10000000000000001"
+    ],
+    "spent": [
+     "1",
+     "1",
+     "1",
+     "1"
+    ]
+   },
+   "expectedPrecompile": 292800
+  },
+  {
+   "case": "(h) setup: mint 3 under chi2",
+   "tx": {
+    "hash": "0x051722baf6aefc862fca2e17103dea7667f53febe44492a3d9d631ec472de614",
+    "status": 1,
+    "block": 82,
+    "gasUsed": 46740,
+    "gasLimit": 500000,
+    "intrinsicAndCalldata": 24540,
+    "precompile": 22200
+   }
+  },
+  {
+   "case": "(h) setup: pay two tickets under chi2",
+   "n": 2,
+   "tx": {
+    "hash": "0x786803920517a29a5e09ed6b628ab983b3c1db72b14cbde6e4c3cad206aec636",
+    "status": 1,
+    "block": 86,
+    "gasUsed": 300336,
+    "gasLimit": 3000000,
+    "intrinsicAndCalldata": 30436,
+    "precompile": 269900
+   },
+   "before": {
+    "counts": {
+     "burned": "3",
+     "minted": "0",
+     "pruned": "0"
+    },
+    "escrow": "30000000000000000",
+    "recipients": [
+     "0",
+     "0"
+    ]
+   },
+   "after": {
+    "counts": {
+     "burned": "3",
+     "minted": "2",
+     "pruned": "0"
+    },
+    "escrow": "10000000000000000",
+    "recipients": [
+     "10000000000000000",
+     "10000000000000000"
+    ],
+    "spent": [
+     "1",
+     "1"
+    ]
+   }
+  },
+  {
+   "case": "(h) a prune before the end",
+   "tx": {
+    "hash": "0xacbe327f9483d36f51b7f414da2f7657ae832d97e7fd28ffab6c2eae963a830a",
+    "status": 0,
+    "block": 90,
+    "gasUsed": 200000,
+    "gasLimit": 200000,
+    "intrinsicAndCalldata": 24400,
+    "precompile": 175600
+   }
+  },
+  {
+   "case": "(h) a payout after the end",
+   "n": 1,
+   "tx": {
+    "hash": "0x2f5d85b89125e10c9f47bb23e9a249d2946d2c89e243d9003dcb840e27397fb3",
+    "status": 0,
+    "block": 126,
+    "gasUsed": 3000000,
+    "gasLimit": 3000000,
+    "intrinsicAndCalldata": 28256,
+    "precompile": 2971744
+   },
+   "before": {
+    "counts": {
+     "burned": "3",
+     "minted": "2",
+     "pruned": "0"
+    },
+    "escrow": "10000000000000000",
+    "recipients": [
+     "0"
+    ]
+   },
+   "after": {
+    "counts": {
+     "burned": "3",
+     "minted": "2",
+     "pruned": "0"
+    },
+    "escrow": "10000000000000000",
+    "recipients": [
+     "0"
+    ],
+    "spent": [
+     "0"
+    ]
+   }
+  },
+  {
+   "case": "(h) a purchase after the end",
+   "tx": {
+    "hash": "0x98b631005a778d8b515eddea1c553a3018579e13b7934ba4aa02f90f629940b2",
+    "status": 0,
+    "block": 130,
+    "gasUsed": 500000,
+    "gasLimit": 500000,
+    "intrinsicAndCalldata": 24540,
+    "precompile": 475460
+   }
+  }
+ ],
+ "batches": [
+  {
+   "n": 1,
+   "recipients": "fresh",
+   "status": 1,
+   "gasUsed": 202230,
+   "perPayout": 202230,
+   "precompile": 173950,
+   "precompilePerPayout": 173950,
+   "expectedPrecompile": 179950,
+   "calldataBytes": 521
+  },
+  {
+   "n": 2,
+   "recipients": "fresh",
+   "status": 1,
+   "gasUsed": 275360,
+   "perPayout": 137680,
+   "precompile": 244900,
+   "precompilePerPayout": 122450,
+   "expectedPrecompile": 250900,
+   "calldataBytes": 658
+  },
+  {
+   "n": 3,
+   "recipients": "fresh",
+   "status": 1,
+   "gasUsed": 348502,
+   "perPayout": 116167.33333333333,
+   "precompile": 315850,
+   "precompilePerPayout": 105283.33333333333,
+   "expectedPrecompile": 321850,
+   "calldataBytes": 795
+  },
+  {
+   "n": 4,
+   "recipients": "fresh",
+   "status": 1,
+   "gasUsed": 421620,
+   "perPayout": 105405,
+   "precompile": 386800,
+   "precompilePerPayout": 96700,
+   "expectedPrecompile": 392800,
+   "calldataBytes": 932
+  },
+  {
+   "n": 8,
+   "recipients": "fresh",
+   "status": 1,
+   "gasUsed": 714152,
+   "perPayout": 89269,
+   "precompile": 670600,
+   "precompilePerPayout": 83825,
+   "expectedPrecompile": 676600,
+   "calldataBytes": 1480
+  },
+  {
+   "n": 16,
+   "recipients": "fresh",
+   "status": 1,
+   "gasUsed": 1299168,
+   "perPayout": 81198,
+   "precompile": 1238200,
+   "precompilePerPayout": 77387.5,
+   "expectedPrecompile": 1244200,
+   "calldataBytes": 2576
+  },
+  {
+   "n": 1,
+   "recipients": "existing",
+   "status": 1,
+   "gasUsed": 177242,
+   "perPayout": 177242,
+   "precompile": 148950,
+   "precompilePerPayout": 148950,
+   "expectedPrecompile": 154950,
+   "calldataBytes": 521
+  },
+  {
+   "n": 4,
+   "recipients": "existing",
+   "status": 1,
+   "gasUsed": 321644,
+   "perPayout": 80411,
+   "precompile": 286800,
+   "precompilePerPayout": 71700,
+   "expectedPrecompile": 292800,
+   "calldataBytes": 932
+  }
+ ],
+ "chi1": {
+  "chi": "0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab",
+  "end": "1000000",
+  "serials": "0xd7442e9eddf4cffc849ab804dcf1bbb676d0a51f"
+ },
+ "chi2": {
+  "chi": "0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0",
+  "end": "121",
+  "serials": "0xd548b42bf4b30a30650fd0be49ea8fcd26263848"
+ },
+ "nodeLog": [
+  "blind: mint charged 22200",
+  "blind: mint chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab k=4 burned=4",
+  "blind: mint charged 22200",
+  "blind: mint chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab k=4 burned=4",
+  "blind: transfer charged 204950",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=1 minted=1 new_recipients=1 per_payout=204950",
+  "blind: transfer charged 204950",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=1 minted=1 new_recipients=1 per_payout=204950",
+  "blind: transfer charged 204950",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=1 minted=1 new_recipients=1 per_payout=204950",
+  "blind: transfer refused: serial 0x29f56babd79ac7655213163bffc146cab74b6ea8ed4750bcd7d9d5c0cf237c58 spent",
+  "blind: transfer refused: serial 0x29f56babd79ac7655213163bffc146cab74b6ea8ed4750bcd7d9d5c0cf237c58 spent",
+  "blind: transfer refused: serial 0x29f56babd79ac7655213163bffc146cab74b6ea8ed4750bcd7d9d5c0cf237c58 spent",
+  "blind: transfer refused: a serial twice in the batch",
+  "blind: transfer refused: a serial twice in the batch",
+  "blind: transfer refused: a serial twice in the batch",
+  "blind: transfer refused: the signature does not verify",
+  "blind: transfer refused: the signature does not verify",
+  "blind: transfer refused: the signature does not verify",
+  "blind: transfer charged 154950",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=1 minted=2 new_recipients=0 per_payout=154950",
+  "blind: transfer charged 154950",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=1 minted=2 new_recipients=0 per_payout=154950",
+  "blind: transfer charged 154950",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=1 minted=2 new_recipients=0 per_payout=154950",
+  "blind: transfer refused: the one-time key did not sign this recipient",
+  "blind: transfer refused: the one-time key did not sign this recipient",
+  "blind: transfer refused: the one-time key did not sign this recipient",
+  "blind: transfer refused: the signature does not verify",
+  "blind: transfer refused: the signature does not verify",
+  "blind: transfer refused: the signature does not verify",
+  "blind: transfer charged 179950",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=1 minted=3 new_recipients=1 per_payout=179950",
+  "blind: transfer charged 179950",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=1 minted=3 new_recipients=1 per_payout=179950",
+  "blind: transfer charged 179950",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=1 minted=3 new_recipients=1 per_payout=179950",
+  "blind: transfer charged 179950",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=1 minted=4 new_recipients=1 per_payout=179950",
+  "blind: transfer refused: count: minted 4 + 1 > burned 4",
+  "blind: transfer charged 179950",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=1 minted=4 new_recipients=1 per_payout=179950",
+  "blind: transfer charged 179950",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=1 minted=4 new_recipients=1 per_payout=179950",
+  "blind: transfer refused: count: minted 4 + 1 > burned 4",
+  "blind: transfer charged 179950",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=1 minted=4 new_recipients=1 per_payout=179950",
+  "blind: transfer refused: count: minted 4 + 1 > burned 4",
+  "blind: transfer refused: count: minted 4 + 1 > burned 4",
+  "blind: transfer refused: count: minted 4 + 1 > burned 4",
+  "blind: mint charged 5100",
+  "blind: mint chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab k=39 burned=43",
+  "blind: mint charged 5100",
+  "blind: mint chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab k=39 burned=43",
+  "blind: mint charged 5100",
+  "blind: mint chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab k=39 burned=43",
+  "blind: transfer charged 179950",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=1 minted=5 new_recipients=1 per_payout=179950",
+  "blind: transfer charged 179950",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=1 minted=5 new_recipients=1 per_payout=179950",
+  "blind: transfer charged 179950",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=1 minted=5 new_recipients=1 per_payout=179950",
+  "blind: transfer charged 250900",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=2 minted=7 new_recipients=2 per_payout=125450",
+  "blind: transfer charged 250900",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=2 minted=7 new_recipients=2 per_payout=125450",
+  "blind: transfer charged 250900",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=2 minted=7 new_recipients=2 per_payout=125450",
+  "blind: transfer charged 321850",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=3 minted=10 new_recipients=3 per_payout=107283",
+  "blind: transfer charged 321850",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=3 minted=10 new_recipients=3 per_payout=107283",
+  "blind: transfer charged 321850",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=3 minted=10 new_recipients=3 per_payout=107283",
+  "blind: transfer charged 392800",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=4 minted=14 new_recipients=4 per_payout=98200",
+  "blind: transfer charged 392800",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=4 minted=14 new_recipients=4 per_payout=98200",
+  "blind: transfer charged 676600",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=8 minted=22 new_recipients=8 per_payout=84575",
+  "blind: transfer charged 676600",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=8 minted=22 new_recipients=8 per_payout=84575",
+  "blind: transfer charged 676600",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=8 minted=22 new_recipients=8 per_payout=84575",
+  "blind: transfer charged 1244200",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=16 minted=38 new_recipients=16 per_payout=77762",
+  "blind: transfer charged 1244200",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=16 minted=38 new_recipients=16 per_payout=77762",
+  "blind: transfer charged 1244200",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=16 minted=38 new_recipients=16 per_payout=77762",
+  "blind: transfer charged 154950",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=1 minted=39 new_recipients=0 per_payout=154950",
+  "blind: transfer charged 154950",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=1 minted=39 new_recipients=0 per_payout=154950",
+  "blind: transfer charged 154950",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=1 minted=39 new_recipients=0 per_payout=154950",
+  "blind: transfer charged 292800",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=4 minted=43 new_recipients=0 per_payout=73200",
+  "blind: transfer charged 292800",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=4 minted=43 new_recipients=0 per_payout=73200",
+  "blind: transfer charged 292800",
+  "blind: transfer chi=0xa7378e6532af8bec35ee30642228f7a8e86251e1d0faebfb6493f19a23fbfbab n=4 minted=43 new_recipients=0 per_payout=73200",
+  "blind: mint charged 22200",
+  "blind: mint chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 k=3 burned=3",
+  "blind: mint charged 22200",
+  "blind: mint chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 k=3 burned=3",
+  "blind: mint charged 22200",
+  "blind: mint chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 k=3 burned=3",
+  "blind: transfer charged 275900",
+  "blind: transfer chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 n=2 minted=2 new_recipients=2 per_payout=137950",
+  "blind: transfer charged 275900",
+  "blind: transfer chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 n=2 minted=2 new_recipients=2 per_payout=137950",
+  "blind: transfer charged 275900",
+  "blind: transfer chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 n=2 minted=2 new_recipients=2 per_payout=137950",
+  "blind: prune refused: the epoch has not ended",
+  "blind: prune refused: the epoch has not ended",
+  "blind: prune refused: the epoch has not ended",
+  "blind: transfer refused: the epoch has ended",
+  "blind: transfer refused: the epoch has ended",
+  "blind: transfer refused: the epoch has ended",
+  "blind: mint refused: the epoch has ended",
+  "blind: mint refused: the epoch has ended",
+  "blind: mint refused: the epoch has ended",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848",
+  "blind: prune charged 25000",
+  "blind: prune chi=0xe062bfb76993c66d82dda90e7cdbd5d3b361fc20098d98e78f61951ded6e01a0 serials=0xd548b42bf4b30a30650fd0be49ea8fcd26263848"
+ ]
+}

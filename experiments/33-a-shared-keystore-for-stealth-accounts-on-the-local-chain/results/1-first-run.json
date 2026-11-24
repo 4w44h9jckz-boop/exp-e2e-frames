@@ -1,0 +1,1212 @@
+{
+ "experiment": 33,
+ "label": "1-first-run",
+ "commit": "a3a1c0c4ae82500a8e63b21b5be47db48ae54c8c",
+ "date": "2026-11-24T02:08:23.030Z",
+ "programs": {
+  "spend": "0xd37202eca87b7cd65cb3aeed2d0449fcd53141918d62373cee59bfe648c708e1",
+  "register": "0xc7ee4d571e632d8bcb5c8881ea86ab86af6c43fb4b0fdde1afb3a32eb9101dcc",
+  "rotate": "0x777b68efa5ae7a05bea14e305d51c4f58d62fd3f61127d3e5c4561989966753f"
+ },
+ "main": {
+  "binary": {
+   "file": "ethrex-8288-clock",
+   "sha": "0x11730c2bc7d5"
+  },
+  "predeploy": "0xcd1cae00e1d37cf97195f9e716dfa1b9a804e36bb5d7726c4f2c50e2580275a5",
+  "patches": {
+   "clock": "0x2eac06036a64"
+  },
+  "rows": [
+   {
+    "step": "deploy the keystore",
+    "hash": "0x5aae56ad282c623f3e95dde5d4dc46eeedecce29f77218dea51f002d7311e81d",
+    "block": 3,
+    "slot": "3",
+    "status": "success",
+    "gasUsed": 3148724,
+    "contract": "0x00e29d532f1c62a923ee51ee439bfc1500b1ce4d"
+   },
+   {
+    "step": "fund the keystore",
+    "hash": "0x9ad267f1e186ee6c8c1aee5baccfc04b608c292d7cc537adfacc90f43f61f7a5",
+    "block": 7,
+    "slot": "7",
+    "status": "success",
+    "gasUsed": 21040,
+    "contract": null
+   },
+   {
+    "step": "register A (one key)",
+    "outcome": "included",
+    "hash": "0xadc50cc4590768bdedf9a24ce2a0fd86e29df85f730b2ab39b87c770aaa46fed",
+    "block": 11,
+    "slot": "11",
+    "gasUsed": 424139,
+    "frames": [
+     {
+      "status": 1,
+      "execution": 887,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 30000,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 73911,
+      "state": 293760
+     }
+    ],
+    "calldataBytes": 804,
+    "simulation": {
+     "valid": true,
+     "violation": null
+    },
+    "proof": {
+     "cycles": 1389,
+     "proofBytes": 223320
+    }
+   },
+   {
+    "step": "register B (two of three)",
+    "outcome": "included",
+    "hash": "0xfcbdf322e901bda320e3eb44f27b070367153f3d76d7f1ddad0dc77859e97a87",
+    "block": 14,
+    "slot": "14",
+    "gasUsed": 326573,
+    "frames": [
+     {
+      "status": 1,
+      "execution": 887,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 30000,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 73881,
+      "state": 195840
+     }
+    ],
+    "calldataBytes": 804,
+    "simulation": {
+     "valid": true,
+     "violation": null
+    },
+    "proof": {
+     "cycles": 1389,
+     "proofBytes": 225056
+    }
+   },
+   {
+    "step": "register F (filler)",
+    "outcome": "included",
+    "hash": "0xd4d17f1dc71dae00326750d5aafdd1444d418395bdde82090a00c0f63d241ce2",
+    "block": 16,
+    "slot": "16",
+    "gasUsed": 326189,
+    "frames": [
+     {
+      "status": 1,
+      "execution": 887,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 30000,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 73881,
+      "state": 195840
+     }
+    ],
+    "calldataBytes": 804,
+    "simulation": {
+     "valid": true,
+     "violation": null
+    },
+    "proof": {
+     "cycles": 1389,
+     "proofBytes": 223344
+    }
+   },
+   {
+    "step": "deploy A's account",
+    "hash": "0x5a035c2588f75e17e9eb3d57c00d1752109463e419581c393f4c9b7a1b435745",
+    "block": 18,
+    "slot": "18",
+    "status": "success",
+    "gasUsed": 1403549,
+    "contract": null
+   },
+   {
+    "step": "deploy A's account: fund",
+    "hash": "0x8fdc218face661094cf8a7c88b697f253f6c29845cd3f75578bd529b2db4e80e",
+    "block": 22,
+    "slot": "22",
+    "status": "success",
+    "gasUsed": 21040,
+    "contract": null
+   },
+   {
+    "step": "deploy B's account",
+    "hash": "0x1d5d79009cf56ae292cbb9cf5fdc5ead055cb3d960b18c917779b0bbf2fceff3",
+    "block": 26,
+    "slot": "26",
+    "status": "success",
+    "gasUsed": 1403573,
+    "contract": null
+   },
+   {
+    "step": "deploy B's account: fund",
+    "hash": "0x1c6a4d951c6275b49e00e139d2489a14a549873847507878a97a460a42ce88a6",
+    "block": 30,
+    "slot": "30",
+    "status": "success",
+    "gasUsed": 21040,
+    "contract": null
+   },
+   {
+    "step": "(a) spend, A, one key",
+    "outcome": "included",
+    "hash": "0x70ec65dd3f2513d3441bd67849c6591224f81c25e06dd3304438956b2ce18f55",
+    "block": 34,
+    "slot": "34",
+    "gasUsed": 249650,
+    "frames": [
+     {
+      "status": 1,
+      "execution": 5579,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 1440,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 30000,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 12243,
+      "state": 183600
+     }
+    ],
+    "calldataBytes": 236,
+    "simulation": {
+     "valid": true,
+     "violation": null
+    },
+    "nonce": 1,
+    "tupleSlot": "16",
+    "slotAtSend": "33",
+    "ageAtSend": "17",
+    "rule": "one key",
+    "version": 0,
+    "proof": {
+     "cycles": 20375,
+     "proofBytes": 246152
+    }
+   },
+   {
+    "step": "(g) spend, B, two of three",
+    "outcome": "included",
+    "hash": "0x677d979ece5e7db099ce4bdc58cd7987ce19f9017f82b2458566ced22d528a5c",
+    "block": 36,
+    "slot": "36",
+    "gasUsed": 249650,
+    "frames": [
+     {
+      "status": 1,
+      "execution": 5579,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 1440,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 30000,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 12243,
+      "state": 183600
+     }
+    ],
+    "calldataBytes": 236,
+    "simulation": {
+     "valid": true,
+     "violation": null
+    },
+    "nonce": 1,
+    "tupleSlot": "16",
+    "slotAtSend": "35",
+    "ageAtSend": "19",
+    "rule": "two of three",
+    "version": 0,
+    "proof": {
+     "cycles": 25290,
+     "proofBytes": 268520
+    }
+   },
+   {
+    "step": "(e) reading 1, A",
+    "outcome": "refused by the node",
+    "refusal": "Invalid params: Frame transaction validation prefix does not match any recognized shape",
+    "simulation": {
+     "executionError": null,
+     "executionStatus": null,
+     "frames": null,
+     "gasUsed": null,
+     "maxCost": "0x2352ad0",
+     "payer": null,
+     "prefixShape": null,
+     "valid": false,
+     "violation": "frame transaction validation prefix does not match any recognized shape"
+    },
+    "calldataBytes": 236,
+    "nonce": 2,
+    "tupleSlot": "16",
+    "slotAtSend": "38",
+    "ageAtSend": "22",
+    "rule": "one key",
+    "version": 0,
+    "proof": {
+     "cycles": 20369,
+     "proofBytes": 246568
+    }
+   },
+   {
+    "step": "(e) reading 2, A",
+    "outcome": "included",
+    "hash": "0xdb83ea6aa2751ee072d8f240c1abd3824d680045f30ae549e40e2fee67bd3c31",
+    "block": 39,
+    "slot": "39",
+    "gasUsed": 249638,
+    "frames": [
+     {
+      "status": 1,
+      "execution": 5579,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 1440,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 30000,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 12243,
+      "state": 183600
+     }
+    ],
+    "calldataBytes": 236,
+    "simulation": {
+     "valid": true,
+     "violation": null
+    },
+    "nonce": 2,
+    "tupleSlot": "16",
+    "slotAtSend": "38",
+    "ageAtSend": "22",
+    "rule": "one key",
+    "version": 0,
+    "proof": {
+     "cycles": 20381,
+     "proofBytes": 246792
+    }
+   },
+   {
+    "step": "(b) rotate A",
+    "outcome": "included",
+    "hash": "0x9e6eaa37cb5f3d538f2f84153b8e440dcd24ef506d467a6a9dccf5435505453e",
+    "block": 41,
+    "slot": "41",
+    "gasUsed": 279204,
+    "frames": [
+     {
+      "status": 1,
+      "execution": 1034,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 30000,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 103241,
+      "state": 97920
+     }
+    ],
+    "calldataBytes": 2180,
+    "simulation": {
+     "valid": true,
+     "violation": null
+    },
+    "proof": {
+     "cycles": 20396,
+     "proofBytes": 245536
+    }
+   },
+   {
+    "step": "(b) spend, A at version 1",
+    "outcome": "included",
+    "hash": "0x34e2ea30cd4d8e0a32f8629f9a01d59e553e1be0a18493e24c4e28f0449923a1",
+    "block": 43,
+    "slot": "43",
+    "gasUsed": 249638,
+    "frames": [
+     {
+      "status": 1,
+      "execution": 5579,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 1440,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 30000,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 12243,
+      "state": 183600
+     }
+    ],
+    "calldataBytes": 236,
+    "simulation": {
+     "valid": true,
+     "violation": null
+    },
+    "nonce": 3,
+    "tupleSlot": "41",
+    "slotAtSend": "42",
+    "ageAtSend": "1",
+    "rule": "one key",
+    "version": 1,
+    "proof": {
+     "cycles": 20381,
+     "proofBytes": 246216
+    }
+   },
+   {
+    "step": "(c1) revoked key, root before the rotation",
+    "outcome": "included",
+    "hash": "0x809fb093844d99474234919fe23529de80ef1730567b2abc3fe707273bca9bc4",
+    "block": 46,
+    "slot": "46",
+    "gasUsed": 249650,
+    "frames": [
+     {
+      "status": 1,
+      "execution": 5579,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 1440,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 30000,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 12243,
+      "state": 183600
+     }
+    ],
+    "calldataBytes": 236,
+    "simulation": {
+     "valid": true,
+     "violation": null
+    },
+    "nonce": 4,
+    "tupleSlot": "16",
+    "slotAtSend": "45",
+    "ageAtSend": "29",
+    "rule": "one key",
+    "version": 0,
+    "proof": {
+     "cycles": 20375,
+     "proofBytes": 247080
+    }
+   },
+   {
+    "step": "(d1) spend naming the last root",
+    "outcome": "refused by the node",
+    "refusal": "Invalid params: EIP-8272 recent-root reference expired: slot 41 is outside the usable window at slot 8240",
+    "simulation": {
+     "executionError": null,
+     "executionStatus": null,
+     "frames": null,
+     "gasUsed": null,
+     "maxCost": "0x2352620",
+     "payer": null,
+     "prefixShape": null,
+     "valid": false,
+     "violation": "EIP-8272 recent-root reference expired: slot 41 is outside the usable window at slot 8240"
+    },
+    "calldataBytes": 236,
+    "nonce": 5,
+    "tupleSlot": "41",
+    "slotAtSend": "8239",
+    "ageAtSend": "8198",
+    "rule": "one key",
+    "version": 1,
+    "proof": {
+     "cycles": 20393,
+     "proofBytes": 247624
+    }
+   },
+   {
+    "step": "(d2) refresh, by an account not the keystore's",
+    "hash": "0xe3926304bc7ec0aa0ca00d3aa6f68da5e04550e67662d99eb85377635a28111a",
+    "block": 49,
+    "slot": "8240",
+    "status": "success",
+    "gasUsed": 130728,
+    "contract": null
+   },
+   {
+    "step": "(d3) spend naming the refreshed root",
+    "outcome": "included",
+    "hash": "0x4649abf1056eb92b253e16f4afb655b602f3a474b428ea26a00145b67478af66",
+    "block": 54,
+    "slot": "8245",
+    "gasUsed": 249650,
+    "frames": [
+     {
+      "status": 1,
+      "execution": 5579,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 1440,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 30000,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 12243,
+      "state": 183600
+     }
+    ],
+    "calldataBytes": 236,
+    "simulation": {
+     "valid": true,
+     "violation": null
+    },
+    "nonce": 5,
+    "tupleSlot": "8240",
+    "slotAtSend": "8244",
+    "ageAtSend": "4",
+    "rule": "one key",
+    "version": 1,
+    "proof": {
+     "cycles": 20387,
+     "proofBytes": 248008
+    }
+   },
+   {
+    "step": "(c2) revoked key, root after the rotation, no proof",
+    "outcome": "admitted, not included; the head did not move in 60 s",
+    "hash": "0x482a57e578ca9a62b1b67e6228ad342e14d197254e6cab18b943b8fd0facd4c5",
+    "headAtSend": "54",
+    "head": "54",
+    "lastBlockCheck": {
+     "block": 55,
+     "hash": "0xf92bbcd4a5f6f719bbcbf7e60ea172d0c7a6a0c0906e0982989bc76adbfe4de6",
+     "dependencies": 1,
+     "valid": false,
+     "reason": "no proof for leanSTARK dependency b2c7c75cb09bfd2365d74323b6e3b9900059f84ebbc501edad5b9328ff118b5b",
+     "ms": 0
+    },
+    "simulation": {
+     "executionError": null,
+     "executionStatus": "success",
+     "frames": [
+      {
+       "gasUsed": "0x15cb",
+       "succeeded": true
+      },
+      {
+       "gasUsed": "0x5a0",
+       "succeeded": true
+      },
+      {
+       "gasUsed": "0x7530",
+       "succeeded": true
+      },
+      {
+       "gasUsed": "0x2fd3",
+       "succeeded": true
+      }
+     ],
+     "gasUsed": "0x3cf32",
+     "maxCost": "0x2352ad0",
+     "payer": "0x00c3ed93c7e33cfa17530a3091b6028fd4d3ab33",
+     "prefixShape": "SelfVerify",
+     "valid": true,
+     "violation": null
+    },
+    "calldataBytes": 236,
+    "nonce": 6,
+    "tupleSlot": "8240",
+    "slotAtSend": "8245",
+    "ageAtSend": "5",
+    "rule": "one key",
+    "version": 0,
+    "proof": {
+     "attempted": false
+    }
+   }
+  ],
+  "builds": 70,
+  "checks": [
+   {
+    "block": 55,
+    "hash": "0x41f044ec177a376a83bd9b7fc51107c9253c5b1746a584a362ec6d7623aa05e6",
+    "dependencies": 1,
+    "valid": false,
+    "reason": "no proof for leanSTARK dependency b2c7c75cb09bfd2365d74323b6e3b9900059f84ebbc501edad5b9328ff118b5b",
+    "ms": 0
+   },
+   {
+    "block": 55,
+    "hash": "0xcbe5aa91ba98c8a920f7a0ae6bb4be1af96a8ccf9bb4eb49007fd98114998116",
+    "dependencies": 1,
+    "valid": false,
+    "reason": "no proof for leanSTARK dependency b2c7c75cb09bfd2365d74323b6e3b9900059f84ebbc501edad5b9328ff118b5b",
+    "ms": 0
+   },
+   {
+    "block": 55,
+    "hash": "0x09a0db8791be9bf81abca32f8271c172455692694fcf91cfc155671025e181df",
+    "dependencies": 1,
+    "valid": false,
+    "reason": "no proof for leanSTARK dependency b2c7c75cb09bfd2365d74323b6e3b9900059f84ebbc501edad5b9328ff118b5b",
+    "ms": 0
+   },
+   {
+    "block": 55,
+    "hash": "0x70febf4e38ce1b08eb1ecde054c61521c5b290f5be2efd9c0006d27035089f80",
+    "dependencies": 1,
+    "valid": false,
+    "reason": "no proof for leanSTARK dependency b2c7c75cb09bfd2365d74323b6e3b9900059f84ebbc501edad5b9328ff118b5b",
+    "ms": 0
+   },
+   {
+    "block": 55,
+    "hash": "0xfcd0802c4669491fb81a7f2988757dbea82b30e5255d1bec7414878a9c924296",
+    "dependencies": 1,
+    "valid": false,
+    "reason": "no proof for leanSTARK dependency b2c7c75cb09bfd2365d74323b6e3b9900059f84ebbc501edad5b9328ff118b5b",
+    "ms": 0
+   },
+   {
+    "block": 55,
+    "hash": "0x322f8a193ede5c53d7089f9828aac26b154c3949d61ff2423eb76c1712fab44a",
+    "dependencies": 1,
+    "valid": false,
+    "reason": "no proof for leanSTARK dependency b2c7c75cb09bfd2365d74323b6e3b9900059f84ebbc501edad5b9328ff118b5b",
+    "ms": 0
+   },
+   {
+    "block": 55,
+    "hash": "0xa88322039c1d30d4909bc172af5428b05eec000f2af47de6257bab767b7413d2",
+    "dependencies": 1,
+    "valid": false,
+    "reason": "no proof for leanSTARK dependency b2c7c75cb09bfd2365d74323b6e3b9900059f84ebbc501edad5b9328ff118b5b",
+    "ms": 0
+   },
+   {
+    "block": 55,
+    "hash": "0x35ca4a22e478b5112b2ac55be9c5d13388cafeb8501c6e4f123ab422de038d7a",
+    "dependencies": 1,
+    "valid": false,
+    "reason": "no proof for leanSTARK dependency b2c7c75cb09bfd2365d74323b6e3b9900059f84ebbc501edad5b9328ff118b5b",
+    "ms": 0
+   },
+   {
+    "block": 55,
+    "hash": "0x82d1105d241d67941ccc548f2d17c8fa6a0c80c9adfe8f61f03c76df8a80e394",
+    "dependencies": 1,
+    "valid": false,
+    "reason": "no proof for leanSTARK dependency b2c7c75cb09bfd2365d74323b6e3b9900059f84ebbc501edad5b9328ff118b5b",
+    "ms": 0
+   },
+   {
+    "block": 55,
+    "hash": "0x64cbdeed560b958c18c3e9a6e53a9fa3f2df2685d46f3786a390b7b07715893b",
+    "dependencies": 1,
+    "valid": false,
+    "reason": "no proof for leanSTARK dependency b2c7c75cb09bfd2365d74323b6e3b9900059f84ebbc501edad5b9328ff118b5b",
+    "ms": 0
+   },
+   {
+    "block": 55,
+    "hash": "0x47ebe3f919cb48828694439a2389b5e63fa70521cb5bebe7db0ed51ff8c51dc3",
+    "dependencies": 1,
+    "valid": false,
+    "reason": "no proof for leanSTARK dependency b2c7c75cb09bfd2365d74323b6e3b9900059f84ebbc501edad5b9328ff118b5b",
+    "ms": 0
+   },
+   {
+    "block": 55,
+    "hash": "0x1f815f057deaf35987b574a66c69443e8d9ec9a413d05faf7cb43abad9c953c5",
+    "dependencies": 1,
+    "valid": false,
+    "reason": "no proof for leanSTARK dependency b2c7c75cb09bfd2365d74323b6e3b9900059f84ebbc501edad5b9328ff118b5b",
+    "ms": 0
+   },
+   {
+    "block": 55,
+    "hash": "0x605829b4ab4a2ddf65c0f7c237b3c9790b0777bf46d149e490b792018d65fa52",
+    "dependencies": 1,
+    "valid": false,
+    "reason": "no proof for leanSTARK dependency b2c7c75cb09bfd2365d74323b6e3b9900059f84ebbc501edad5b9328ff118b5b",
+    "ms": 0
+   },
+   {
+    "block": 55,
+    "hash": "0x9f733d6daf573cfd2231d713aa410c0a0fcf75d5f89d59787f43cd952754dac3",
+    "dependencies": 1,
+    "valid": false,
+    "reason": "no proof for leanSTARK dependency b2c7c75cb09bfd2365d74323b6e3b9900059f84ebbc501edad5b9328ff118b5b",
+    "ms": 0
+   },
+   {
+    "block": 55,
+    "hash": "0xd2f058ffcb75233f2d88a166e9c2ba83d92bf6f1d10076a2b31e52d71ae01d41",
+    "dependencies": 1,
+    "valid": false,
+    "reason": "no proof for leanSTARK dependency b2c7c75cb09bfd2365d74323b6e3b9900059f84ebbc501edad5b9328ff118b5b",
+    "ms": 0
+   },
+   {
+    "block": 55,
+    "hash": "0x535411993c1ad9a5ce05418f43b60a167c7aafdf7daf79f781fc28ef45b433d8",
+    "dependencies": 1,
+    "valid": false,
+    "reason": "no proof for leanSTARK dependency b2c7c75cb09bfd2365d74323b6e3b9900059f84ebbc501edad5b9328ff118b5b",
+    "ms": 0
+   },
+   {
+    "block": 55,
+    "hash": "0xe635cdbc6a128e2b531256ed78e047fbbdff6a67243ccd92c877b385d742b210",
+    "dependencies": 1,
+    "valid": false,
+    "reason": "no proof for leanSTARK dependency b2c7c75cb09bfd2365d74323b6e3b9900059f84ebbc501edad5b9328ff118b5b",
+    "ms": 0
+   },
+   {
+    "block": 55,
+    "hash": "0xde82a1ad0ded46e394aa961df6cdfa789cbd5cbbe73ff7c89f4227b942e98592",
+    "dependencies": 1,
+    "valid": false,
+    "reason": "no proof for leanSTARK dependency b2c7c75cb09bfd2365d74323b6e3b9900059f84ebbc501edad5b9328ff118b5b",
+    "ms": 0
+   },
+   {
+    "block": 55,
+    "hash": "0xfb7ca9a755efb181772aa9cf443d590e6fe7141a9bc047d66f2c0ee3c9d8f266",
+    "dependencies": 1,
+    "valid": false,
+    "reason": "no proof for leanSTARK dependency b2c7c75cb09bfd2365d74323b6e3b9900059f84ebbc501edad5b9328ff118b5b",
+    "ms": 0
+   },
+   {
+    "block": 55,
+    "hash": "0xf92bbcd4a5f6f719bbcbf7e60ea172d0c7a6a0c0906e0982989bc76adbfe4de6",
+    "dependencies": 1,
+    "valid": false,
+    "reason": "no proof for leanSTARK dependency b2c7c75cb09bfd2365d74323b6e3b9900059f84ebbc501edad5b9328ff118b5b",
+    "ms": 0
+   }
+  ]
+ },
+ "code": {
+  "A": "0x60aa3314610027573615610025575f3560e01c63af7d6ca314610020575f80fd5b610222565b005b600ab06001600282b31461003757005b60046009b0036101f257600281146001821417156101f2576003600682b3036101f257600481b36101f2576003036004600282b3036101f2576060600482b3036101f257600160025fb3036101f2576182725f80b3036101f25760045fb35f8160481461020f57506051146100aa575f80fd5b60015f80b160f81c036101f25760016100c161023c565b6101f6575b6100ce61024c565b5f82b1036101f25760285f9101b16002806003b3036101f257305f6003b3036101f25760086003b36101f257600380b36101f257600bb06101f2576007b06101f2576001600eb0036101f2576001610100525f61012052600fb0604061010020036101f25763af7d6ca360035fb160e01c036101f257604460046003b3036101f25760036004b160036024b1908060a01c6101f2577f7a9b131c1d86dda6461d84fbb4b42adae7a73bf7369fbea1189515c4cdd454626102005230610220526001b061024052610260526102805260a0610200206101aa61025c565b610300526103205260406103002061030052610320526040610300206011825fb1036101f257816020b1036101f2576101e161026c565b906040b1036101f25761002561027c565b5f80fd5b5f6049b160c01c61020561023c565b10156100c6575f80fd5b905061021961023c565b156100c6575f80fd5b3033036101f2575f8080806024356004355af1156101f257005b602038601f190160603960605190565b602038603f190160603960605190565b602038607f190160603960605190565b602038605f190160603960605190565b60035f80aa56a0442c0ea4e00586eac56d8ba7e672867f3689a6b888260001cc55c7c06d8812d37202eca87b7cd65cb3aeed2d0449fcd53141918d62373cee59bfe648c708e1780a29853335074702fa8d7178588fd6058948b73b6ea5d5906dac200d174e7f0000000000000000000000000000000000000000000000000000000000000000",
+  "B": "0x60aa3314610027573615610025575f3560e01c63af7d6ca314610020575f80fd5b610222565b005b600ab06001600282b31461003757005b60046009b0036101f257600281146001821417156101f2576003600682b3036101f257600481b36101f2576003036004600282b3036101f2576060600482b3036101f257600160025fb3036101f2576182725f80b3036101f25760045fb35f8160481461020f57506051146100aa575f80fd5b60015f80b160f81c036101f25760016100c161023c565b6101f6575b6100ce61024c565b5f82b1036101f25760285f9101b16002806003b3036101f257305f6003b3036101f25760086003b36101f257600380b36101f257600bb06101f2576007b06101f2576001600eb0036101f2576001610100525f61012052600fb0604061010020036101f25763af7d6ca360035fb160e01c036101f257604460046003b3036101f25760036004b160036024b1908060a01c6101f2577f7a9b131c1d86dda6461d84fbb4b42adae7a73bf7369fbea1189515c4cdd454626102005230610220526001b061024052610260526102805260a0610200206101aa61025c565b610300526103205260406103002061030052610320526040610300206011825fb1036101f257816020b1036101f2576101e161026c565b906040b1036101f25761002561027c565b5f80fd5b5f6049b160c01c61020561023c565b10156100c6575f80fd5b905061021961023c565b156100c6575f80fd5b3033036101f2575f8080806024356004355af1156101f257005b602038601f190160603960605190565b602038603f190160603960605190565b602038607f190160603960605190565b602038605f190160603960605190565b60035f80aa562a891c82f182e759b97a11c8fcb3a1d10d922f79b6b8bbaa7cf3c3d6eb1bb6a3d37202eca87b7cd65cb3aeed2d0449fcd53141918d62373cee59bfe648c708e1780a29853335074702fa8d7178588fd6058948b73b6ea5d5906dac200d174e7f0000000000000000000000000000000000000000000000000000000000000000"
+ },
+ "skip": {
+  "before": {
+   "number": "46",
+   "slot": "46"
+  },
+  "after": {
+   "number": "48",
+   "slot": "8239"
+  }
+ },
+ "fix": {
+  "binary": {
+   "file": "ethrex-8288-clock-maxage",
+   "sha": "0x4be38c93f1dc"
+  },
+  "predeploy": "0x104c076b5b4868cc113eb1ab5590a16a2cd05e422e39064b2826d0abd125f77e",
+  "predeployBytes": 555,
+  "patches": {
+   "clock": "0x2eac06036a64",
+   "maxAge": "0xe025a5724104"
+  },
+  "bound": "64",
+  "rows": [
+   {
+    "step": "deploy the keystore",
+    "hash": "0x5aae56ad282c623f3e95dde5d4dc46eeedecce29f77218dea51f002d7311e81d",
+    "block": 3,
+    "slot": "3",
+    "status": "success",
+    "gasUsed": 3148844,
+    "contract": "0x00e29d532f1c62a923ee51ee439bfc1500b1ce4d"
+   },
+   {
+    "step": "fund the keystore",
+    "hash": "0x9ad267f1e186ee6c8c1aee5baccfc04b608c292d7cc537adfacc90f43f61f7a5",
+    "block": 7,
+    "slot": "7",
+    "status": "success",
+    "gasUsed": 21040,
+    "contract": null
+   },
+   {
+    "step": "fix: register A",
+    "outcome": "included",
+    "hash": "0xadc50cc4590768bdedf9a24ce2a0fd86e29df85f730b2ab39b87c770aaa46fed",
+    "block": 11,
+    "slot": "11",
+    "gasUsed": 424259,
+    "frames": [
+     {
+      "status": 1,
+      "execution": 887,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 30000,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 74031,
+      "state": 293760
+     }
+    ],
+    "calldataBytes": 804,
+    "simulation": {
+     "valid": true,
+     "violation": null
+    },
+    "proof": {
+     "cycles": 1389,
+     "proofBytes": 223320
+    }
+   },
+   {
+    "step": "fix: deploy A's unbounded account",
+    "hash": "0x2e83b7d2e65bda42bdc27c0d9f44fd0699af1db1de149e70556fd0c30aa03ea9",
+    "block": 13,
+    "slot": "13",
+    "status": "success",
+    "gasUsed": 1403573,
+    "contract": null
+   },
+   {
+    "step": "fix: deploy A's unbounded account: fund",
+    "hash": "0xd36c596c2ce45ea0700dc092094b2f7af435fa141f02f76846d364fc6d38c6ee",
+    "block": 17,
+    "slot": "17",
+    "status": "success",
+    "gasUsed": 21040,
+    "contract": null
+   },
+   {
+    "step": "fix: deploy A's bounded account",
+    "hash": "0xb1312458cf1d850e227d7e4eded7a35d38498d453a86b694c028b1434dabb90f",
+    "block": 21,
+    "slot": "21",
+    "status": "success",
+    "gasUsed": 1403585,
+    "contract": null
+   },
+   {
+    "step": "fix: deploy A's bounded account: fund",
+    "hash": "0xcfe4149a43a8ea2b0a4272b09f262df67bd6a446771f69e81d85cca5c1ffb58a",
+    "block": 24,
+    "slot": "24",
+    "status": "success",
+    "gasUsed": 21040,
+    "contract": null
+   },
+   {
+    "step": "(f) cost: unbounded account, 72-byte form",
+    "outcome": "included",
+    "hash": "0x41ae792b5b30b039407d1bd9e2dacd7aa5e7fdd1d820f61b0e2b48a4d8b92244",
+    "block": 29,
+    "slot": "29",
+    "gasUsed": 249776,
+    "frames": [
+     {
+      "status": 1,
+      "execution": 5705,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 1440,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 30000,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 12243,
+      "state": 183600
+     }
+    ],
+    "calldataBytes": 236,
+    "simulation": {
+     "valid": true,
+     "violation": null
+    },
+    "nonce": 1,
+    "tupleSlot": "11",
+    "slotAtSend": "28",
+    "ageAtSend": "17",
+    "rule": "one key",
+    "version": 0,
+    "proof": {
+     "cycles": 20375,
+     "proofBytes": 246024
+    }
+   },
+   {
+    "step": "(f3) honest spend, bounded account, maximum-age form",
+    "outcome": "included",
+    "hash": "0xeb63708c46034a161023e7050f67479f6ffe1b94333041f690671cb9291161d6",
+    "block": 31,
+    "slot": "31",
+    "gasUsed": 250152,
+    "frames": [
+     {
+      "status": 1,
+      "execution": 5882,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 1579,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 30000,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 12243,
+      "state": 183600
+     }
+    ],
+    "calldataBytes": 245,
+    "simulation": {
+     "valid": true,
+     "violation": null
+    },
+    "nonce": 1,
+    "tupleSlot": "11",
+    "slotAtSend": "30",
+    "ageAtSend": "19",
+    "rule": "one key",
+    "version": 0,
+    "proof": {
+     "cycles": 20380,
+     "proofBytes": 245096
+    }
+   },
+   {
+    "step": "fix: rotate A",
+    "outcome": "included",
+    "hash": "0x30c59454a80be9866e8f2688201c4464818a3249b04970d542b2eb142844d867",
+    "block": 33,
+    "slot": "33",
+    "gasUsed": 279366,
+    "frames": [
+     {
+      "status": 1,
+      "execution": 1034,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 30000,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 103391,
+      "state": 97920
+     }
+    ],
+    "calldataBytes": 2180,
+    "simulation": {
+     "valid": true,
+     "violation": null
+    },
+    "proof": {
+     "cycles": 20396,
+     "proofBytes": 245544
+    }
+   },
+   {
+    "step": "(f1) revoked key, root younger than the bound",
+    "outcome": "included",
+    "hash": "0x0f19b077d88b066ff9c46962c10ba72ed178a541243755f50a86ba06c745fc21",
+    "block": 35,
+    "slot": "35",
+    "gasUsed": 250152,
+    "frames": [
+     {
+      "status": 1,
+      "execution": 5882,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 1579,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 30000,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 12243,
+      "state": 183600
+     }
+    ],
+    "calldataBytes": 245,
+    "simulation": {
+     "valid": true,
+     "violation": null
+    },
+    "nonce": 2,
+    "tupleSlot": "11",
+    "slotAtSend": "34",
+    "ageAtSend": "23",
+    "rule": "one key",
+    "version": 0,
+    "proof": {
+     "cycles": 20363,
+     "proofBytes": 242880
+    }
+   },
+   {
+    "step": "(f2a) revoked key, root older than the bound, max_age = bound",
+    "outcome": "refused by the node",
+    "refusal": "Invalid params: Frame transaction validation-prefix simulation failed: validation prefix frame reverted",
+    "simulation": {
+     "executionError": null,
+     "executionStatus": null,
+     "frames": null,
+     "gasUsed": null,
+     "maxCost": "0x2354240",
+     "payer": null,
+     "prefixShape": "SelfVerify",
+     "valid": false,
+     "violation": "validation prefix frame reverted"
+    },
+    "calldataBytes": 245,
+    "nonce": 3,
+    "tupleSlot": "11",
+    "slotAtSend": "138",
+    "ageAtSend": "127",
+    "rule": "one key",
+    "version": 0,
+    "proof": {
+     "cycles": 20363,
+     "proofBytes": 246952
+    }
+   },
+   {
+    "step": "(f2b) revoked key, root older than the bound, max_age = 8191",
+    "outcome": "refused by the node",
+    "refusal": "Invalid params: Frame transaction validation-prefix simulation failed: validation prefix frame reverted",
+    "simulation": {
+     "executionError": null,
+     "executionStatus": null,
+     "frames": null,
+     "gasUsed": null,
+     "maxCost": "0x23546f0",
+     "payer": null,
+     "prefixShape": "SelfVerify",
+     "valid": false,
+     "violation": "validation prefix frame reverted"
+    },
+    "calldataBytes": 245,
+    "nonce": 3,
+    "tupleSlot": "11",
+    "slotAtSend": "139",
+    "ageAtSend": "128",
+    "rule": "one key",
+    "version": 0,
+    "proof": {
+     "cycles": 20374,
+     "proofBytes": 247304
+    }
+   },
+   {
+    "step": "(f2c) revoked key, same root, unbounded account, 72-byte form",
+    "outcome": "included",
+    "hash": "0x3fc916aaa386b2bfc069d4b7985f63d44f8330ff02204ebd5d0a806fc84c862f",
+    "block": 40,
+    "slot": "140",
+    "gasUsed": 249776,
+    "frames": [
+     {
+      "status": 1,
+      "execution": 5705,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 1440,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 30000,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 12243,
+      "state": 183600
+     }
+    ],
+    "calldataBytes": 236,
+    "simulation": {
+     "valid": true,
+     "violation": null
+    },
+    "nonce": 2,
+    "tupleSlot": "11",
+    "slotAtSend": "139",
+    "ageAtSend": "128",
+    "rule": "one key",
+    "version": 0,
+    "proof": {
+     "cycles": 20393,
+     "proofBytes": 246056
+    }
+   },
+   {
+    "step": "fix: refresh",
+    "hash": "0xe3926304bc7ec0aa0ca00d3aa6f68da5e04550e67662d99eb85377635a28111a",
+    "block": 42,
+    "slot": "142",
+    "status": "success",
+    "gasUsed": 130848,
+    "contract": null
+   },
+   {
+    "step": "(f3b) honest spend at version 1, bounded account, refreshed root",
+    "outcome": "included",
+    "hash": "0x9d1f70984d20f94333105dceece732b8c8f8d26f6e6cb59766b940bb8d3160f0",
+    "block": 46,
+    "slot": "146",
+    "gasUsed": 250152,
+    "frames": [
+     {
+      "status": 1,
+      "execution": 5882,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 1579,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 30000,
+      "state": 0
+     },
+     {
+      "status": 1,
+      "execution": 12243,
+      "state": 183600
+     }
+    ],
+    "calldataBytes": 245,
+    "simulation": {
+     "valid": true,
+     "violation": null
+    },
+    "nonce": 3,
+    "tupleSlot": "142",
+    "slotAtSend": "145",
+    "ageAtSend": "3",
+    "rule": "one key",
+    "version": 1,
+    "proof": {
+     "cycles": 20381,
+     "proofBytes": 245504
+    }
+   }
+  ],
+  "skip": {
+   "before": {
+    "number": "36",
+    "slot": "36"
+   },
+   "after": {
+    "number": "38",
+    "slot": "138"
+   }
+  },
+  "builds": 7
+ }
+}

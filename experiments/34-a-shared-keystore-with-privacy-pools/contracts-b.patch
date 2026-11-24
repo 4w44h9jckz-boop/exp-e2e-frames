@@ -1,0 +1,112 @@
+diff -ruN a/contracts/PrivacyPool.sol b/contracts/PrivacyPool.sol
+--- a/contracts/PrivacyPool.sol
++++ b/contracts/PrivacyPool.sol
+@@ -21,6 +21,7 @@
+ import {Constants} from './lib/Constants.sol';
+ import {ProofLib} from './lib/ProofLib.sol';
+ 
++import {IEntrypoint} from 'interfaces/IEntrypoint.sol';
+ import {IPrivacyPool} from 'interfaces/IPrivacyPool.sol';
+ 
+ import {State} from './State.sol';
+@@ -71,8 +72,42 @@
+     address _entrypoint,
+     address _withdrawalVerifier,
+     address _ragequitVerifier,
+-    address _asset
+-  ) State(_asset, _entrypoint, _withdrawalVerifier, _ragequitVerifier) {}
++    address _asset,
++    address _ownerCheck
++  ) State(_asset, _entrypoint, _withdrawalVerifier, _ragequitVerifier) {
++    OWNER_CHECK = _ownerCheck;
++  }
++
++  /// @notice Experiment 34, arm B: the contract that checks a withdrawal's ownership dependency
++  address public immutable OWNER_CHECK;
++  /// @notice Experiment 34, arm B: the owner tags already withdrawn under
++  mapping(bytes32 _tag => bool _used) public usedOwnerTags;
++
++  error OwnerTagOutOfRange();
++  error OwnerTagAlreadyUsed();
++  error OwnerCheckFailed();
++
++  /**
++   * @notice Experiment 34, arm B: the owner tag T = ownerTagHi * 2^128 + ownerTagLo is used once,
++   *         and the ownership checker must accept T, the context, the recipient and the relay fee
++   */
++  function _checkOwner(Withdrawal memory _withdrawal, ProofLib.WithdrawProof memory _proof) internal {
++    uint256 _hi = _proof.pubSignals[8];
++    uint256 _lo = _proof.pubSignals[9];
++    if (_hi >= 2 ** 128 || _lo >= 2 ** 128) revert OwnerTagOutOfRange();
++    bytes32 _tag = bytes32((_hi << 128) | _lo);
++    if (usedOwnerTags[_tag]) revert OwnerTagAlreadyUsed();
++    usedOwnerTags[_tag] = true;
++    address _recipient = _withdrawal.processooor;
++    uint256 _fee;
++    if (_recipient == address(ENTRYPOINT)) {
++      IEntrypoint.RelayData memory _data = abi.decode(_withdrawal.data, (IEntrypoint.RelayData));
++      _recipient = _data.recipient;
++      _fee = _data.relayFeeBPS;
++    }
++    (bool _ok,) = OWNER_CHECK.staticcall(abi.encode(_tag, _proof.context(), _recipient, _fee));
++    if (!_ok) revert OwnerCheckFailed();
++  }
+ 
+   /*///////////////////////////////////////////////////////////////
+                              USER METHODS 
+@@ -114,6 +149,9 @@
+     // Verify proof with Groth16 verifier
+     if (!WITHDRAWAL_VERIFIER.verifyProof(_proof.pA, _proof.pB, _proof.pC, _proof.pubSignals)) revert InvalidProof();
+ 
++    // Experiment 34, arm B: the note's owner tag and the transaction's ownership dependency
++    _checkOwner(_withdrawal, _proof);
++
+     // Mark existing commitment nullifier as spent
+     _spend(_proof.existingNullifierHash());
+ 
+diff -ruN a/contracts/implementations/PrivacyPoolSimple.sol b/contracts/implementations/PrivacyPoolSimple.sol
+--- a/contracts/implementations/PrivacyPoolSimple.sol
++++ b/contracts/implementations/PrivacyPoolSimple.sol
+@@ -30,8 +30,9 @@
+   constructor(
+     address _entrypoint,
+     address _withdrawalVerifier,
+-    address _ragequitVerifier
+-  ) PrivacyPool(_entrypoint, _withdrawalVerifier, _ragequitVerifier, Constants.NATIVE_ASSET) {}
++    address _ragequitVerifier,
++    address _ownerCheck
++  ) PrivacyPool(_entrypoint, _withdrawalVerifier, _ragequitVerifier, Constants.NATIVE_ASSET, _ownerCheck) {}
+ 
+   /**
+    * @notice Handle receiving native asset asset
+diff -ruN a/contracts/lib/ProofLib.sol b/contracts/lib/ProofLib.sol
+--- a/contracts/lib/ProofLib.sol
++++ b/contracts/lib/ProofLib.sol
+@@ -26,12 +26,14 @@
+    *        - [5] ASPRoot: Current root of the Association Set Provider tree
+    *        - [6] ASPTreeDepth: Current depth of the ASP tree
+    *        - [7] context: Context value for the withdrawal operation
++   *        - [8] ownerTagHi: Experiment 34, arm B: the owner tag's high 128 bits
++   *        - [9] ownerTagLo: Experiment 34, arm B: the owner tag's low 128 bits
+    */
+   struct WithdrawProof {
+     uint256[2] pA;
+     uint256[2][2] pB;
+     uint256[2] pC;
+-    uint256[8] pubSignals;
++    uint256[10] pubSignals;
+   }
+ 
+   /**
+diff -ruN a/interfaces/IVerifier.sol b/interfaces/IVerifier.sol
+--- a/interfaces/IVerifier.sol
++++ b/interfaces/IVerifier.sol
+@@ -18,7 +18,7 @@
+     uint256[2] memory _pA,
+     uint256[2][2] memory _pB,
+     uint256[2] memory _pC,
+-    uint256[8] memory _pubSignals
++    uint256[10] memory _pubSignals
+   ) external returns (bool _valid);
+ 
+   /**

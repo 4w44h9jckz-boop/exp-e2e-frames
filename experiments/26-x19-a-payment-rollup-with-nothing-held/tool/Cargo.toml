@@ -1,0 +1,13 @@
+[package]
+name = "x19-tool"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+# leanVM at 3cbac047160f4d1465bfe985521603b0a3418556 (MIT or Apache-2.0), checked out by
+# experiment 19's setup into work/leanVM. Only its field arithmetic is used here.
+[dependencies]
+primitives = { path = "../../../work/leanVM/crates/primitives" }
+serde_json = "1"
+
+[workspace]

@@ -1,0 +1,91 @@
+{
+  "repoCommit": "7a6bb24f63844e8742eb0309655b89106f82c2c4",
+  "scanner": {
+    "events": 12,
+    "scheme3": 12,
+    "pointersFromBoards": 1,
+    "pointersIgnored": [
+      {
+        "caller": "0xa131d9454d87957dcC465fb37ACD9b383648B4d5",
+        "block": 684412,
+        "tx": "0xd89e4f24d7df80ca621cfdf17fc44b67d8ebd0ccd039d3ce9936f2173f496115"
+      }
+    ],
+    "blobsFetched": 1,
+    "foundDirect": [
+      1,
+      3,
+      5,
+      7,
+      9
+    ],
+    "foundInBlobs": {
+      "0x01c3cceb74909ca25efbb04b9aee5604cb4ab050d43c7b03143477819ceb03d3": [
+        2,
+        7,
+        12,
+        17,
+        22,
+        27,
+        32,
+        37,
+        42,
+        47,
+        52,
+        57,
+        62,
+        67,
+        72,
+        77,
+        82,
+        87,
+        92,
+        97
+      ]
+    },
+    "total": 25,
+    "missed": 0,
+    "falseMatches": 0,
+    "othersAnnouncementsInRange": 0,
+    "scanMs": 892,
+    "blobsFrom": "the run's own copy, checked against the versioned hash in the pointer and in the board's record"
+  },
+  "changedBlob": {
+    "outcome": "rejected: the copy does not match the versioned hash",
+    "scanned": 0
+  },
+  "run1Scanner": {
+    "events": 12,
+    "found": 5,
+    "threw": 0,
+    "pointerMatches": 0
+  },
+  "metadata": {
+    "entries": 102,
+    "metadataBytes": 57,
+    "differing": 0
+  },
+  "figures": {
+    "verifyExecution": 59402,
+    "verifyVsRun1": 15,
+    "senderExecution": 67742,
+    "senderOverRun1": 8697,
+    "senderState": 391680,
+    "directGas": [
+      105368
+    ],
+    "directCalldata": [
+      1412
+    ],
+    "capacity": 102,
+    "blobGasPerEntry": 1285
+  },
+  "predictions": {
+    "1": true,
+    "2": true,
+    "3": true,
+    "4": true,
+    "5": true,
+    "6": true
+  }
+}

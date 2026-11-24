@@ -1,0 +1,1177 @@
+{
+ "experiment": 34,
+ "arm": "B",
+ "label": "3-arm-b",
+ "commit": "102bc223c3e8223b9330085b83ea5e8a039f3b39",
+ "date": "2026-11-24T10:48:34.226Z",
+ "rows": [
+  {
+   "step": "deploy the keystore",
+   "hash": "0x9fab5632a56247ede005fe72cb1ecd763a229e566d3f60fb731bdf9e98bc43a0",
+   "block": 1,
+   "slot": "1",
+   "status": "success",
+   "gasUsed": 3148724,
+   "effectiveGasPrice": "8",
+   "contract": "0x00e29d532f1c62a923ee51ee439bfc1500b1ce4d",
+   "logs": 0
+  },
+  {
+   "step": "fund the keystore",
+   "hash": "0x9ad267f1e186ee6c8c1aee5baccfc04b608c292d7cc537adfacc90f43f61f7a5",
+   "block": 4,
+   "slot": "4",
+   "status": "success",
+   "gasUsed": 21040,
+   "effectiveGasPrice": "8",
+   "contract": null,
+   "logs": 1
+  },
+  {
+   "step": "pool A: deploy the withdrawal verifier",
+   "hash": "0xcdbc3a2886bba9769c4673102c17d5800a1be06f538200d0f91b507715334475",
+   "block": 8,
+   "slot": "8",
+   "status": "success",
+   "gasUsed": 3303576,
+   "effectiveGasPrice": "8",
+   "contract": "0x4bc0e900813500dc4c25ca2e994acbd915e10d3d",
+   "logs": 0
+  },
+  {
+   "step": "pool A: deploy the ragequit verifier",
+   "hash": "0xb9240cf7622dd3221245a294f609f383e55012ace94be8388a9a1cf2ae330fd7",
+   "block": 12,
+   "slot": "12",
+   "status": "success",
+   "gasUsed": 2736168,
+   "effectiveGasPrice": "8",
+   "contract": "0x24b5bff0cdd611f6e5dea6f971a8f1d4c28c7a1a",
+   "logs": 0
+  },
+  {
+   "step": "pool A: deploy the Entrypoint proxy",
+   "hash": "0x254871b5b77291c867cb309aa9078c6ebd90475d776a19abbc87efea45488de1",
+   "block": 16,
+   "slot": "16",
+   "status": "success",
+   "gasUsed": 1395097,
+   "effectiveGasPrice": "8",
+   "contract": "0xc699a1ffa6e79c35294898d3f2217578a92d3310",
+   "logs": 7
+  },
+  {
+   "step": "pool A: deploy the native-ETH pool",
+   "hash": "0x3fab958075cad7eabd397dc4662875748e3aa5d6436bde43cfc27ca90ac0f840",
+   "block": 20,
+   "slot": "20",
+   "status": "success",
+   "gasUsed": 11698089,
+   "effectiveGasPrice": "8",
+   "contract": "0x2bcd7b4e1fa891134c35413a49b07a5cac55055c",
+   "logs": 0
+  },
+  {
+   "step": "pool A: register the pool",
+   "hash": "0x94a3f0f195a250aaf2fae7895e8ea8efe7cd2dc919fe2247635ab65cfc627522",
+   "block": 24,
+   "slot": "24",
+   "status": "success",
+   "gasUsed": 477000,
+   "effectiveGasPrice": "8",
+   "contract": null,
+   "logs": 1
+  },
+  {
+   "step": "deploy the Account5 implementation",
+   "hash": "0xfb65231bab5f16990a5f8b16e77771ca7657d4a366fc50d786dc22c069a1edfe",
+   "block": 28,
+   "slot": "28",
+   "status": "success",
+   "gasUsed": 1234360,
+   "effectiveGasPrice": "8",
+   "contract": "0xc9ab3db0575c55812341fbe512da1d1f7f62de4e",
+   "logs": 0
+  },
+  {
+   "step": "deploy the ownership checker",
+   "hash": "0xc67e661685c57c67f14ddadce88705fe998416663afa4ca79e09d13ba72aff2a",
+   "block": 32,
+   "slot": "32",
+   "status": "success",
+   "gasUsed": 1223608,
+   "effectiveGasPrice": "8",
+   "contract": "0x76e332ee7bddc715fd0aa4dc62e293d500c491a7",
+   "logs": 0
+  },
+  {
+   "step": "pool B: deploy the withdrawal verifier",
+   "hash": "0xf485d85496eec3dd309b2caab0214d1e3937d825814f629e42356082e3469788",
+   "block": 36,
+   "slot": "36",
+   "status": "success",
+   "gasUsed": 3598900,
+   "effectiveGasPrice": "8",
+   "contract": "0x506436501f8821386b0c5ecaf859814ce074cdc4",
+   "logs": 0
+  },
+  {
+   "step": "pool B: deploy the ragequit verifier",
+   "hash": "0x73c6a0998f788760e6451d2666f20b6c6e555e1d7018f66e91f117c0134deb3d",
+   "block": 40,
+   "slot": "40",
+   "status": "success",
+   "gasUsed": 2737714,
+   "effectiveGasPrice": "8",
+   "contract": "0x1e0de0ccef9ea90acdbe546a07782bd9df863c63",
+   "logs": 0
+  },
+  {
+   "step": "pool B: deploy the Entrypoint proxy",
+   "hash": "0x6ddf031f2cd17f0aaaee15c055dfa5b4ac0dec5b9f47edffb1880971fca2104c",
+   "block": 44,
+   "slot": "44",
+   "status": "success",
+   "gasUsed": 1395097,
+   "effectiveGasPrice": "8",
+   "contract": "0x7d4cee2156caa0e146d46c0f46b2cc0f39c068dd",
+   "logs": 7
+  },
+  {
+   "step": "pool B: deploy the native-ETH pool",
+   "hash": "0xc78891a1f193faaa17bc56c281ecc4216c3d0afb3a40d028d5d96c57cabc6489",
+   "block": 48,
+   "slot": "48",
+   "status": "success",
+   "gasUsed": 13147534,
+   "effectiveGasPrice": "8",
+   "contract": "0x1c4e5b1a3f6f4120f51a5701b30665e3534bf92f",
+   "logs": 0
+  },
+  {
+   "step": "pool B: register the pool",
+   "hash": "0xe218ab82fe43a10b269833655048f19a3d9406b5749c26bc50adf8c61c39d7ec",
+   "block": 52,
+   "slot": "52",
+   "status": "success",
+   "gasUsed": 476978,
+   "effectiveGasPrice": "8",
+   "contract": null,
+   "logs": 1
+  },
+  {
+   "step": "deploy the open sender",
+   "hash": "0x71c49e5e478c663f43b774f09b7668690918a9e13543c1fcde9328fe8ea0bca9",
+   "block": 56,
+   "slot": "56",
+   "status": "success",
+   "gasUsed": 252590,
+   "effectiveGasPrice": "8",
+   "contract": "0x86293fd764b12b27a6ddbc06ee8b3c2749d9bf58",
+   "logs": 0
+  },
+  {
+   "step": "fund the open sender",
+   "hash": "0xdb6242df10de27d08166f4cd7d0930a7ef9c3b2151769076f6881749b4657b36",
+   "block": 60,
+   "slot": "60",
+   "status": "success",
+   "gasUsed": 21021,
+   "effectiveGasPrice": "8",
+   "contract": null,
+   "logs": 1
+  },
+  {
+   "step": "deploy the gas probe",
+   "hash": "0x51f22ccd9b57f680e2817a17fa42bcc4070ff1378229d733c11d5fb516016d3e",
+   "block": 64,
+   "slot": "64",
+   "status": "success",
+   "gasUsed": 258810,
+   "effectiveGasPrice": "8",
+   "contract": "0xd978e8efa069871e8b158acd3df23ef6c659e32d",
+   "logs": 0
+  },
+  {
+   "step": "register the identity",
+   "outcome": "included",
+   "hash": "0xa834dfeecfa6a98c3037e11af1fc3670289eb31eb5f6226c1de1fb5abefcb92a",
+   "block": 69,
+   "gasUsed": 424127,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 887,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 30000,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 73911,
+     "state": 293760,
+     "logs": 0
+    }
+   ],
+   "proof": {
+    "cycles": 6831,
+    "proofBytes": 244760,
+    "proveMs": 77.956169
+   },
+   "simulation": {
+    "executionError": null,
+    "executionStatus": "success",
+    "frames": [
+     {
+      "gasUsed": "0x377",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x7530",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x120b7",
+      "succeeded": true
+     }
+    ],
+    "gasUsed": "0x678bf",
+    "maxCost": "0xa3ee0a4",
+    "payer": "0x00e29d532f1c62a923ee51ee439bfc1500b1ce4d",
+    "prefixShape": "SelfVerify",
+    "valid": true,
+    "violation": null
+   }
+  },
+  {
+   "step": "(g0) a deposit to pool A",
+   "hash": "0x2f47dc9d2484e3c5909276a90cbc7ec807a327d603f88684a40cf7aded3dc4c6",
+   "block": 70,
+   "slot": "70",
+   "status": "success",
+   "gasUsed": 1019761,
+   "effectiveGasPrice": "8",
+   "contract": null,
+   "logs": 5
+  },
+  {
+   "step": "pool A: postman admits the deposit",
+   "hash": "0x2c43a38666dfac786fb173fa42cc4240c39867afef4effe5851ceda35c0b6eac",
+   "block": 74,
+   "slot": "74",
+   "status": "success",
+   "gasUsed": 689061,
+   "effectiveGasPrice": "8",
+   "contract": null,
+   "logs": 1
+  },
+  {
+   "step": "(g0) pool A: the indexer relays the note to itself",
+   "outcome": "included",
+   "hash": "0x2489973ddaee5ef3c10d824139ebbe6b1a31da252aadbf84d76bd888f4e316ad",
+   "block": 82,
+   "gasUsed": 1126718,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 5579,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 160,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 433910,
+     "state": 673200,
+     "logs": 5
+    }
+   ],
+   "groth16Ms": 3203,
+   "groth16Verified": true,
+   "simulation": {
+    "executionError": null,
+    "executionStatus": "success",
+    "frames": [
+     {
+      "gasUsed": "0x15cb",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0xa0",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x69ef6",
+      "succeeded": true
+     }
+    ],
+    "gasUsed": "0x11584e",
+    "maxCost": "0x18193bd4",
+    "payer": "0x86293fd764b12b27a6ddbc06ee8b3c2749d9bf58",
+    "prefixShape": "SelfVerify",
+    "valid": true,
+    "violation": null
+   },
+   "recipient": "0xc73e1d0587a19c559CE9BE24BF2aD75fb934B553",
+   "recipientBefore": "0",
+   "recipientAfter": "10000000000000000"
+  },
+  {
+   "step": "(g) a tagged deposit to pool B",
+   "hash": "0x332a6ada80cec616b7c1b524988a77fbe06b99d51bae66124e994e20e754f822",
+   "block": 84,
+   "slot": "84",
+   "status": "success",
+   "gasUsed": 1019755,
+   "effectiveGasPrice": "8",
+   "contract": null,
+   "logs": 5
+  },
+  {
+   "step": "pool B: postman admits the deposit",
+   "hash": "0x39b33f69225f042e15a8ca6af60965a6a73cee123b1cc06ee6ec99cc917ef02c",
+   "block": 88,
+   "slot": "88",
+   "status": "success",
+   "gasUsed": 689061,
+   "effectiveGasPrice": "8",
+   "contract": null,
+   "logs": 1
+  },
+  {
+   "step": "(g1) pool B: to itself, with no dependency",
+   "outcome": "included, a frame failed",
+   "hash": "0x420248a56e888b73e281f861007f23c8357fc4145bcff87713eacfc90c39a2b4",
+   "block": 94,
+   "gasUsed": 355578,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 5579,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 160,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 7600,
+     "state": 0,
+     "logs": 1
+    },
+    {
+     "status": 0,
+     "execution": 315391,
+     "state": 0,
+     "logs": 0
+    }
+   ],
+   "groth16Ms": 2580,
+   "simulation": {
+    "executionError": null,
+    "executionStatus": "reverted",
+    "frames": [
+     {
+      "gasUsed": "0x15cb",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0xa0",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x1db0",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x4cfff",
+      "succeeded": false
+     }
+    ],
+    "gasUsed": "0x56cfa",
+    "maxCost": "0x194ef480",
+    "payer": "0x86293fd764b12b27a6ddbc06ee8b3c2749d9bf58",
+    "prefixShape": "SelfVerify",
+    "valid": true,
+    "violation": null
+   },
+   "checker": {
+    "gas": 3638,
+    "ok": false
+   },
+   "recipient": "0xc73e1d0587a19c559CE9BE24BF2aD75fb934B553",
+   "recipientBefore": "10000000000000000",
+   "recipientAfter": "10000000000000000"
+  },
+  {
+   "step": "(g2) pool B: to itself, with an own_scoped proof",
+   "outcome": "included, a frame failed",
+   "hash": "0xac0f87b882c985f020100b5b41a8dfde13566778c6931f9d25db4f028200178b",
+   "block": 99,
+   "gasUsed": 393973,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 5579,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 160,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 30000,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 10978,
+     "state": 0,
+     "logs": 1
+    },
+    {
+     "status": 0,
+     "execution": 318769,
+     "state": 0,
+     "logs": 0
+    }
+   ],
+   "proof": {
+    "cycles": 20382,
+    "proofBytes": 246504,
+    "proveMs": 99.64355499999999
+   },
+   "simulation": {
+    "executionError": null,
+    "executionStatus": "reverted",
+    "frames": [
+     {
+      "gasUsed": "0x15cb",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0xa0",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x7530",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x2ae2",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x4dd31",
+      "succeeded": false
+     }
+    ],
+    "gasUsed": "0x602f5",
+    "maxCost": "0x197f3b7c",
+    "payer": "0x86293fd764b12b27a6ddbc06ee8b3c2749d9bf58",
+    "prefixShape": "SelfVerify",
+    "valid": true,
+    "violation": null
+   },
+   "checker": {
+    "gas": 7016,
+    "ok": false
+   },
+   "recipient": "0xc73e1d0587a19c559CE9BE24BF2aD75fb934B553",
+   "recipientBefore": "10000000000000000",
+   "recipientAfter": "10000000000000000"
+  },
+  {
+   "step": "(g3) pool B: own_main signed with the indexer's key",
+   "outcome": "refused by the prover",
+   "error": "Execution(ExecError { pc: 45942, site: \"verify_sig_lean_sphincs (line 411)\", fault: NotInK { what: \"JUMP target\", value: F192 { c0: 5232222984230078563, c1: 0, c2: 11610197697543329792 } } })"
+  },
+  {
+   "step": "(h) a tagged deposit to pool B",
+   "hash": "0x8bfb4902b2946c93edc642604947c2b93fd8a88f870734eb8579a938d00be671",
+   "block": 104,
+   "slot": "104",
+   "status": "success",
+   "gasUsed": 858019,
+   "effectiveGasPrice": "8",
+   "contract": null,
+   "logs": 5
+  },
+  {
+   "step": "pool B: postman admits the deposit",
+   "hash": "0x9a6e3cabb86489525409237d77512c763ce573ff0b2268d4c2b0b1fde9a766e3",
+   "block": 108,
+   "slot": "108",
+   "status": "success",
+   "gasUsed": 591141,
+   "effectiveGasPrice": "8",
+   "contract": null,
+   "logs": 1
+  },
+  {
+   "step": "(h) pool B: to a fresh account of the identity, with own_scoped",
+   "outcome": "included",
+   "hash": "0x0093fbaf4b6c57f1d001e69fd0ce70ff740c156d19b1be590998919d91afd400",
+   "block": 115,
+   "gasUsed": 1446935,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 5579,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 160,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 30000,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 15230,
+     "state": 399330,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 9005,
+     "state": 0,
+     "logs": 1
+    },
+    {
+     "status": 1,
+     "execution": 476165,
+     "state": 489600,
+     "logs": 5
+    }
+   ],
+   "proof": {
+    "cycles": 20371,
+    "proofBytes": 248296,
+    "proveMs": 88.282794
+   },
+   "groth16Ms": 2786,
+   "simulation": {
+    "executionError": null,
+    "executionStatus": "success",
+    "frames": [
+     {
+      "gasUsed": "0x15cb",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0xa0",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x7530",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x3b7e",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x232d",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x74405",
+      "succeeded": true
+     }
+    ],
+    "gasUsed": "0x163b27",
+    "maxCost": "0x1cea23a8",
+    "payer": "0x86293fd764b12b27a6ddbc06ee8b3c2749d9bf58",
+    "prefixShape": "SelfVerify",
+    "valid": true,
+    "violation": null
+   },
+   "checker": {
+    "gas": 5043,
+    "ok": true
+   },
+   "recipient": "0x2f897229E1871e7a181f677520Af9fa8fd76Cf36",
+   "recipientBefore": "0",
+   "recipientAfter": "10000000000000000"
+  },
+  {
+   "step": "(i) a tagged deposit to pool B",
+   "hash": "0x223a887a02d4c293f4aaf7cd4ac9f7bb1fa8bb3509a1aad594c09223d2960509",
+   "block": 117,
+   "slot": "117",
+   "status": "success",
+   "gasUsed": 673335,
+   "effectiveGasPrice": "8",
+   "contract": null,
+   "logs": 5
+  },
+  {
+   "step": "pool B: postman admits the deposit",
+   "hash": "0x6939cde437be51b7c4b036a5cd3b7fde75db1be35689bccfd9e7312ca82d51a4",
+   "block": 121,
+   "slot": "121",
+   "status": "success",
+   "gasUsed": 591141,
+   "effectiveGasPrice": "8",
+   "contract": null,
+   "logs": 1
+  },
+  {
+   "step": "(i) pool B: the owner's main rule, to an outside address",
+   "outcome": "included",
+   "hash": "0xf345b7dd80f7b3450a1283ce39bca76c84e19b5ae8742675645cc9c19d89d790",
+   "block": 128,
+   "gasUsed": 1222488,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 5579,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 160,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 30000,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 8029,
+     "state": 0,
+     "logs": 1
+    },
+    {
+     "status": 1,
+     "execution": 487057,
+     "state": 673200,
+     "logs": 5
+    }
+   ],
+   "proof": {
+    "cycles": 20368,
+    "proofBytes": 246856,
+    "proveMs": 110.37125
+   },
+   "groth16Ms": 2697,
+   "simulation": {
+    "executionError": null,
+    "executionStatus": "success",
+    "frames": [
+     {
+      "gasUsed": "0x15cb",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0xa0",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x7530",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x1f5d",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x76e91",
+      "succeeded": true
+     }
+    ],
+    "gasUsed": "0x12ce68",
+    "maxCost": "0x197f321c",
+    "payer": "0x86293fd764b12b27a6ddbc06ee8b3c2749d9bf58",
+    "prefixShape": "SelfVerify",
+    "valid": true,
+    "violation": null
+   },
+   "checker": {
+    "gas": 4067,
+    "ok": true
+   },
+   "recipient": "0xA5047984Fc0dA4B4F80304b13629b3f2B3662205",
+   "recipientBefore": "0",
+   "recipientAfter": "10000000000000000"
+  },
+  {
+   "step": "(j) pool A: a payment to the account",
+   "hash": "0x13b30d797faf39a1d6679f8a6f41d55ced0517929529092053815ccdc330ad23",
+   "block": 130,
+   "slot": "130",
+   "status": "success",
+   "gasUsed": 204600,
+   "effectiveGasPrice": "8",
+   "contract": null,
+   "logs": 1
+  },
+  {
+   "step": "(j) pool A: the account deposits through execute",
+   "outcome": "included",
+   "hash": "0x9ef37b1ffe85b75f683a1a0573dc4928c9dbc3e2c868c0193d48678eebe9a7a5",
+   "block": 134,
+   "gasUsed": 1057125,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 5579,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 15230,
+     "state": 215730,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 6034,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 30000,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 283781,
+     "state": 489600,
+     "logs": 5
+    }
+   ],
+   "account": "0x3F14Dfb37c3E32a13a390245aB3Bb6bAa73338Ed",
+   "deployFirst": true,
+   "proof": {
+    "cycles": 20381,
+    "proofBytes": 245856,
+    "proveMs": 96.194085
+   },
+   "simulation": {
+    "executionError": null,
+    "executionStatus": "success",
+    "frames": [
+     {
+      "gasUsed": "0x15cb",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x3b7e",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x1792",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x7530",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x45485",
+      "succeeded": true
+     }
+    ],
+    "gasUsed": "0x104875",
+    "maxCost": "0x1b2e92ec",
+    "payer": "0x3f14dfb37c3e32a13a390245ab3bb6baa73338ed",
+    "prefixShape": "DeploySelfVerify",
+    "valid": true,
+    "violation": null
+   }
+  },
+  {
+   "step": "pool A: postman admits the deposit",
+   "hash": "0x70863c52c0fa343f1d1a7c9dbf6c932115ee8e925e1e0975f80412879d2ab550",
+   "block": 136,
+   "slot": "136",
+   "status": "success",
+   "gasUsed": 591141,
+   "effectiveGasPrice": "8",
+   "contract": null,
+   "logs": 1
+  },
+  {
+   "step": "(j) pool A: the account ragequits through execute",
+   "outcome": "included",
+   "hash": "0xc5ef5b9677a1ace5c07cac8762f46acee4a40e4367c00b59d4e6afa65b2134a2",
+   "block": 140,
+   "gasUsed": 412825,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 5579,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 6915,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 30000,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 249443,
+     "state": 97920,
+     "logs": 2
+    }
+   ],
+   "account": "0x3F14Dfb37c3E32a13a390245aB3Bb6bAa73338Ed",
+   "deployFirst": false,
+   "proof": {
+    "cycles": 20381,
+    "proofBytes": 246336,
+    "proveMs": 89.69946900000001
+   },
+   "simulation": {
+    "executionError": null,
+    "executionStatus": "success",
+    "frames": [
+     {
+      "gasUsed": "0x15cb",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x1b03",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x7530",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x3ce63",
+      "succeeded": true
+     }
+    ],
+    "gasUsed": "0x64c99",
+    "maxCost": "0x1882aba0",
+    "payer": "0x3f14dfb37c3e32a13a390245ab3bb6baa73338ed",
+    "prefixShape": "SelfVerify",
+    "valid": true,
+    "violation": null
+   },
+   "groth16Ms": 240,
+   "accountBefore": "9999999991543000",
+   "accountAfter": "19999999988240400"
+  },
+  {
+   "step": "(j) pool B: a payment to the account",
+   "hash": "0xd3e505fc5be21fe7400e247a51a4cd863e4baca273b8466e4190b8ac60f6ca56",
+   "block": 142,
+   "slot": "142",
+   "status": "success",
+   "gasUsed": 204600,
+   "effectiveGasPrice": "8",
+   "contract": null,
+   "logs": 1
+  },
+  {
+   "step": "(j) pool B: the account deposits through execute",
+   "outcome": "included",
+   "hash": "0xec49fecfacf34f2b10d57dd3f03c5f1e4bf07d00577d4a43ee5094f83f9bd70d",
+   "block": 147,
+   "gasUsed": 970267,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 5579,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 15230,
+     "state": 215730,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 6034,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 30000,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 294843,
+     "state": 391680,
+     "logs": 5
+    }
+   ],
+   "account": "0xDdD99397381e60C8C0C209788161673A8f27C104",
+   "deployFirst": true,
+   "proof": {
+    "cycles": 20392,
+    "proofBytes": 244808,
+    "proveMs": 111.131213
+   },
+   "simulation": {
+    "executionError": null,
+    "executionStatus": "success",
+    "frames": [
+     {
+      "gasUsed": "0x15cb",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x3b7e",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x1792",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x7530",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x47fbb",
+      "succeeded": true
+     }
+    ],
+    "gasUsed": "0xef52b",
+    "maxCost": "0x1b2e92ec",
+    "payer": "0xddd99397381e60c8c0c209788161673a8f27c104",
+    "prefixShape": "DeploySelfVerify",
+    "valid": true,
+    "violation": null
+   }
+  },
+  {
+   "step": "pool B: postman admits the deposit",
+   "hash": "0xa11b8695311f2da4daff3132c8a2dff9cc50875017cd6a94e339180166dac40b",
+   "block": 148,
+   "slot": "148",
+   "status": "success",
+   "gasUsed": 591141,
+   "effectiveGasPrice": "8",
+   "contract": null,
+   "logs": 1
+  },
+  {
+   "step": "(j) pool B: the account ragequits through execute",
+   "outcome": "included",
+   "hash": "0x9eafbbe73ed048c8b6569f342c3d7d677db79171ecf1bf27bea3156925adc7df",
+   "block": 153,
+   "gasUsed": 412872,
+   "frames": [
+    {
+     "status": 1,
+     "execution": 5579,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 6915,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 30000,
+     "state": 0,
+     "logs": 0
+    },
+    {
+     "status": 1,
+     "execution": 249466,
+     "state": 97920,
+     "logs": 2
+    }
+   ],
+   "account": "0xDdD99397381e60C8C0C209788161673A8f27C104",
+   "deployFirst": false,
+   "proof": {
+    "cycles": 20393,
+    "proofBytes": 246408,
+    "proveMs": 94.227506
+   },
+   "simulation": {
+    "executionError": null,
+    "executionStatus": "success",
+    "frames": [
+     {
+      "gasUsed": "0x15cb",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x1b03",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x7530",
+      "succeeded": true
+     },
+     {
+      "gasUsed": "0x3ce7a",
+      "succeeded": true
+     }
+    ],
+    "gasUsed": "0x64cc8",
+    "maxCost": "0x1882b500",
+    "payer": "0xddd99397381e60c8c0c209788161673a8f27c104",
+    "prefixShape": "SelfVerify",
+    "valid": true,
+    "violation": null
+   },
+   "groth16Ms": 233,
+   "accountBefore": "9999999992237864",
+   "accountAfter": "19999999988934888"
+  }
+ ],
+ "programs": {
+  "register4": "0x70a56d6e1bb8686bb1ee42ec9ac67359f062b4dafb73e843de31c8f574455ad7",
+  "main4": "0x2a716659bcde7f1e29ccb5e85f12260a5a3523571fb00e69f8954735625fda80",
+  "own_main": "0xfb2d9102636a05169a51a26401cae8c8c7c0d529d0bb6e19421c1bd9c30c0932",
+  "own_scoped": "0x71b92a8baf0310aa9d349aa01860671559b7bad2b17bd1fbd4a547bac4d49de2"
+ },
+ "circuits": {
+  "withdrawA": 36832,
+  "withdrawB": 37350
+ },
+ "chain": {
+  "ethrex": "64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c",
+  "binary": "ethrex-8288-clock",
+  "maxVerifyGas": 500000,
+  "predeploy": "0xcd1cae00e1d3"
+ },
+ "pools": {
+  "A": {
+   "entrypoint": "0xc699a1ffa6e79c35294898d3f2217578a92d3310",
+   "pool": "0x2bcd7b4e1fa891134c35413a49b07a5cac55055c",
+   "scope": "5674381775768355013433443262551138994830985628138213666450519229604285895870"
+  },
+  "B": {
+   "entrypoint": "0x7d4cee2156caa0e146d46c0f46b2cc0f39c068dd",
+   "pool": "0x1c4e5b1a3f6f4120f51a5701b30665e3534bf92f",
+   "scope": "16940439610773808182170347791656452852565779352370110365969135880205450538818"
+  }
+ },
+ "contracts": {
+  "account5": {
+   "address": "0xc9ab3db0575c55812341fbe512da1d1f7f62de4e",
+   "code": "0x757ed5ed2862"
+  },
+  "ownerCheck": {
+   "address": "0x76e332ee7bddc715fd0aa4dc62e293d500c491a7",
+   "code": "0x3c6077914583"
+  },
+  "openSender": "0x86293fd764b12b27a6ddbc06ee8b3c2749d9bf58",
+  "gasProbe": "0xd978e8efa069871e8b158acd3df23ef6c659e32d",
+  "entrypointImplementations": {
+   "A": "0x00000000000000000000000000000000000340e1",
+   "B": "0x00000000000000000000000000000000000340e2"
+  }
+ },
+ "cases": {
+  "g0": {
+   "outcome": "included",
+   "paid": "10000000000000000"
+  },
+  "g1": {
+   "outcome": "included, a frame failed",
+   "checker": {
+    "gas": 3638,
+    "ok": false
+   },
+   "paid": "0"
+  },
+  "g2": {
+   "outcome": "included, a frame failed",
+   "checker": {
+    "gas": 7016,
+    "ok": false
+   },
+   "paid": "0"
+  },
+  "g3": {
+   "outcome": "refused by the prover"
+  },
+  "h": {
+   "outcome": "included",
+   "account": "0x2f897229E1871e7a181f677520Af9fa8fd76Cf36",
+   "checker": {
+    "gas": 5043,
+    "ok": true
+   },
+   "paid": "10000000000000000"
+  },
+  "i": {
+   "outcome": "included",
+   "checker": {
+    "gas": 4067,
+    "ok": true
+   },
+   "paid": "10000000000000000"
+  },
+  "j": {
+   "A": {
+    "deposit": "included",
+    "ragequit": "included",
+    "value": "10000000000000000",
+    "accountBefore": "9999999991543000",
+    "accountAfter": "19999999988240400"
+   },
+   "B": {
+    "deposit": "included",
+    "ragequit": "included",
+    "value": "10000000000000000",
+    "accountBefore": "9999999992237864",
+    "accountAfter": "19999999988934888"
+   }
+  }
+ },
+ "builds": 8,
+ "finished": "2026-11-24T10:51:20.837Z"
+}

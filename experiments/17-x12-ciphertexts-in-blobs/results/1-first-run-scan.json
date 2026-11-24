@@ -1,0 +1,101 @@
+{
+  "repoCommit": "379a5fb7b7dc1bb6352dc15217a85816a2e652fe",
+  "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+  "node": "v22.22.0",
+  "postedS": {
+    "vh": "0x0107d24ca2b0dc6ad2170917967002e29bd6408d8d80f6745f8d454cda10f8cf",
+    "seq": 0,
+    "entries": 107,
+    "found": [
+      3,
+      40,
+      77,
+      106
+    ],
+    "from": "the run's fixture, checked against the versioned hash on chain; the test network served no blob data through any API found"
+  },
+  "postedN": {
+    "vh": "0x017d631cf774826708e0082305a08e2f6eea85a7b8c85207684894ed696c5f82",
+    "seq": 1,
+    "entries": 105,
+    "found": [
+      5,
+      50,
+      99,
+      104
+    ],
+    "from": "the run's fixture, checked against the versioned hash on chain; the test network served no blob data through any API found"
+  },
+  "throughput": {
+    "S": {
+      "entries": 10000,
+      "ours": 40,
+      "found": 40,
+      "missed": 0,
+      "falseMatches": 0,
+      "makeMsPerEntry": 4.7563,
+      "scanMsPerEntry": 3.9033,
+      "scannedPerSecond": 256
+    },
+    "N": {
+      "entries": 10000,
+      "ours": 40,
+      "found": 40,
+      "missed": 0,
+      "falseMatches": 0,
+      "makeMsPerEntry": 1.3312,
+      "scanMsPerEntry": 0.7995,
+      "scannedPerSecond": 1251
+    }
+  },
+  "griefing": {
+    "testnet": {
+      "prices": {
+        "url": "https://rpc1.privacy.ethrex.xyz",
+        "block": 642076,
+        "baseFeePerGas": "7",
+        "blobBaseFee": "1"
+      },
+      "S": {
+        "logWei": "723240",
+        "blobWei": "2010",
+        "logOverBlob": 359.82089552238807,
+        "scanMsPerEntry": 3.9033,
+        "logWeiPerScanMs": 185289.37053262623,
+        "blobWeiPerScanMs": 514.9488894012758
+      },
+      "N": {
+        "logWei": "665896",
+        "blobWei": "2048",
+        "logOverBlob": 325.14453125,
+        "scanMsPerEntry": 0.7995,
+        "logWeiPerScanMs": 832890.5565978737,
+        "blobWeiPerScanMs": 2561.601000625391
+      }
+    },
+    "mainnet": {
+      "prices": {
+        "url": "https://ethereum-rpc.publicnode.com",
+        "block": 26316661,
+        "baseFeePerGas": "34561475",
+        "blobBaseFee": "1879345"
+      },
+      "S": {
+        "logWei": "3570891597000",
+        "blobWei": "6178198204",
+        "logOverBlob": 577.9826867140762,
+        "scanMsPerEntry": 3.9033,
+        "logWeiPerScanMs": 914839135347.014,
+        "blobWeiPerScanMs": 1582814081.418287
+      },
+      "N": {
+        "logWei": "3287763993800",
+        "blobWei": "6295878169",
+        "logOverBlob": 522.2089604574113,
+        "scanMsPerEntry": 0.7995,
+        "logWeiPerScanMs": 4112275164227.6426,
+        "blobWeiPerScanMs": 7874769442.151344
+      }
+    }
+  }
+}

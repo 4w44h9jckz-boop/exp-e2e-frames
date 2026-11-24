@@ -1,0 +1,18 @@
+Experiment 34, arm B: the constraints of one two-input Poseidon from circomlib, alone, under the
+compiler and options circuits.sh uses (npx circom2 with its defaults, --r1cs, -l node_modules).
+Measured 2026-11-24 at commit 102bc22, beside run 3, to read the withdrawal
+circuit's growth from 36,832 to 37,350 constraints.
+
+circuit (work/x34-poseidon-count/p2.circom):
+pragma circom 2.2.0;
+include "circomlib/circuits/poseidon.circom";
+template P2() { signal input a; signal input b; signal output o; component p = Poseidon(2); p.inputs[0] <== a; p.inputs[1] <== b; o <== p.out; }
+component main = P2();
+
+command:
+npx circom2 work/x34-poseidon-count/p2.circom --r1cs -o work/x34-poseidon-count -l node_modules
+npx snarkjs r1cs info work/x34-poseidon-count/p2.r1cs
+
+compiler: circom compiler 2.2.3
+circomlib: 2.0.5
+result: [INFO]  snarkJS: # of Constraints: 517

@@ -1,0 +1,277 @@
+{
+  "experiment": 17,
+  "run": "2-behind-the-announcer",
+  "deployment": "r2a",
+  "repoCommit": "7a6bb24f63844e8742eb0309655b89106f82c2c4",
+  "chainId": 8141,
+  "funder": "0xa131d9454d87957dcC465fb37ACD9b383648B4d5",
+  "contracts": {
+    "board2": "0xEeaC81ec87317cAC782261080FDfb82baC3af9a6",
+    "singleton": "0x55649E01B5Df198D18D95b5cc5051630cfD45564",
+    "packer": "0x844875AdB324804726EaDF389ce6C62A34892258"
+  },
+  "blocks": {
+    "first": 684399,
+    "last": 684412
+  },
+  "pins": {
+    "skandha": {
+      "url": "https://github.com/4w44h9jckz-boop/skandha",
+      "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade",
+      "why": "one node, sent the Board's blob-carrying frame transaction to record its answer; the commit experiments 06 to 16 ran"
+    },
+    "exp-frames": {
+      "url": "https://github.com/4w44h9jckz-boop/exp-frames",
+      "commit": "37ac4aa36e48a7be390c9cbfedb7bbc31ac6e2b5",
+      "why": "src/exp-frames/ is copied from it (frame encoding, simulation, deployment)"
+    }
+  },
+  "setup": [
+    {
+      "what": "deploy board2",
+      "hash": "0xa267613e9a7460d0bdfe4a021d534867cd92f16c95e86cd6d909161294e41556",
+      "block": 684399,
+      "gasUsed": 2848544,
+      "ok": true
+    },
+    {
+      "what": "board2's deposit",
+      "hash": "0xc9a0479f5e471b8255881b37abfe2d3a7ab6e22cf70193cef78790bc5fa7fe96",
+      "block": 684400,
+      "gasUsed": 136125,
+      "ok": true
+    }
+  ],
+  "rows": [
+    {
+      "step": "direct: announcement 0 through the singleton",
+      "outcome": "mined",
+      "hash": "0xbdb002a9e3a3727f824110bdc4887dfd1b7702f7431040ce6b34bafc61072372",
+      "block": 684401,
+      "gasUsed": 105368,
+      "calldataBytes": 1412,
+      "index": 0,
+      "ours": false
+    },
+    {
+      "step": "direct: announcement 1 through the singleton",
+      "outcome": "mined",
+      "hash": "0xf10242f74e8775e0b091962d32cca46c07dcdddd4b4eafabedb321f9886f8e38",
+      "block": 684402,
+      "gasUsed": 105368,
+      "calldataBytes": 1412,
+      "index": 1,
+      "ours": true
+    },
+    {
+      "step": "direct: announcement 2 through the singleton",
+      "outcome": "mined",
+      "hash": "0x789418750557fcc31fb92f3d392bcdf70ceb3f9641e15bfb35ce7584ceb06e96",
+      "block": 684403,
+      "gasUsed": 105368,
+      "calldataBytes": 1412,
+      "index": 2,
+      "ours": false
+    },
+    {
+      "step": "direct: announcement 3 through the singleton",
+      "outcome": "mined",
+      "hash": "0x1ed3a57f3877c5d465cc0885b9d4a364452d1c10bedf2dda2cb296c241824f9b",
+      "block": 684404,
+      "gasUsed": 105368,
+      "calldataBytes": 1412,
+      "index": 3,
+      "ours": true
+    },
+    {
+      "step": "direct: announcement 4 through the singleton",
+      "outcome": "mined",
+      "hash": "0x9b52c4138eea1653e560a25c7408d55eedb5edb52f99283c7d4754f835846f8a",
+      "block": 684405,
+      "gasUsed": 105368,
+      "calldataBytes": 1412,
+      "index": 4,
+      "ours": false
+    },
+    {
+      "step": "direct: announcement 5 through the singleton",
+      "outcome": "mined",
+      "hash": "0x573a1eb32c958b9056f8b991ab3e6a8f6e7bb3d8959f52d63d623a23192a9bc1",
+      "block": 684406,
+      "gasUsed": 105368,
+      "calldataBytes": 1412,
+      "index": 5,
+      "ours": true
+    },
+    {
+      "step": "direct: announcement 6 through the singleton",
+      "outcome": "mined",
+      "hash": "0xfb81166a99a2a69237cdd54028911cfb73595d36f2f10bbb42f96339353936d1",
+      "block": 684407,
+      "gasUsed": 105368,
+      "calldataBytes": 1412,
+      "index": 6,
+      "ours": false
+    },
+    {
+      "step": "direct: announcement 7 through the singleton",
+      "outcome": "mined",
+      "hash": "0xa15136137a6b1029dcf98c768af456cd1f6ef0199e5a833d62f14eddecda183b",
+      "block": 684408,
+      "gasUsed": 105368,
+      "calldataBytes": 1412,
+      "index": 7,
+      "ours": true
+    },
+    {
+      "step": "direct: announcement 8 through the singleton",
+      "outcome": "mined",
+      "hash": "0x27cc8263509e2656fe7897f01cf9aa8a6e10b5b3ebf06880fb1fe4550278f285",
+      "block": 684409,
+      "gasUsed": 105368,
+      "calldataBytes": 1412,
+      "index": 8,
+      "ours": false
+    },
+    {
+      "step": "direct: announcement 9 through the singleton",
+      "outcome": "mined",
+      "hash": "0x89e28f8edaf3a0e0a3d8840bb9d700f609e012fd5f9f6310ad9d98d9b955fa1d",
+      "block": 684410,
+      "gasUsed": 105368,
+      "calldataBytes": 1412,
+      "index": 9,
+      "ours": true
+    },
+    {
+      "step": "post: board2 records the blob of 102 announcements and announces a pointer",
+      "outcome": "mined",
+      "hash": "0x0d4b7fa928f313fa82022ec9365b22445f0a1f7d07b1e76d79f86a27b7851c8c",
+      "block": 684411,
+      "gasUsed": 535218,
+      "calldataBytes": 324,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 59402,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 67742,
+          "state": 391680
+        }
+      ],
+      "simulation": {
+        "valid": true,
+        "violation": null,
+        "executionStatus": "success",
+        "gasUsed": 535218,
+        "frames": [
+          {
+            "gasUsed": 59402,
+            "succeeded": true
+          },
+          {
+            "gasUsed": 67742,
+            "succeeded": true
+          }
+        ]
+      }
+    },
+    {
+      "step": "spoof: a pointer through the singleton from an account that is not a board",
+      "outcome": "mined",
+      "hash": "0xd89e4f24d7df80ca621cfdf17fc44b67d8ebd0ccd039d3ce9936f2173f496115",
+      "block": 684412,
+      "gasUsed": 33688,
+      "calldataBytes": 292
+    }
+  ],
+  "prices": {
+    "testnet": {
+      "url": "https://rpc1.privacy.ethrex.xyz",
+      "block": 684398,
+      "baseFeePerGas": "7",
+      "blobBaseFee": "1"
+    },
+    "mainnet": {
+      "url": "https://ethereum-rpc.publicnode.com",
+      "block": 26339357,
+      "baseFeePerGas": "28973912",
+      "blobBaseFee": "1685282"
+    }
+  },
+  "client": "ethrex/v23.0.0-hegota-testnet-hotfix-64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c/x86_64-unknown-linux-gnu/rustc-v1.93.1",
+  "singleton": {
+    "address": "0x55649E01B5Df198D18D95b5cc5051630cfD45564",
+    "testnet": {
+      "block": 684398,
+      "bytes": 709,
+      "sha256": "97b1a2b6e83d4d2d1184c28bfafe24df2463fcaec94e655b2b56ba5fc52a1b17"
+    },
+    "mainnet": {
+      "block": 26339357,
+      "bytes": 709,
+      "sha256": "97b1a2b6e83d4d2d1184c28bfafe24df2463fcaec94e655b2b56ba5fc52a1b17"
+    },
+    "identical": true
+  },
+  "blob": {
+    "vh": "0x01c3cceb74909ca25efbb04b9aee5604cb4ab050d43c7b03143477819ceb03d3",
+    "entries": 102,
+    "entryBytes": 1199,
+    "ours": [
+      2,
+      7,
+      12,
+      17,
+      22,
+      27,
+      32,
+      37,
+      42,
+      47,
+      52,
+      57,
+      62,
+      67,
+      72,
+      77,
+      82,
+      87,
+      92,
+      97
+    ],
+    "header": "0x000103006604af00000000000000000000000000000000000000000000000000"
+  },
+  "pointer": {
+    "fromBoard": {
+      "block": 684411,
+      "tx": "0x0d4b7fa928f313fa82022ec9365b22445f0a1f7d07b1e76d79f86a27b7851c8c",
+      "schemeId": 3,
+      "stealthAddress": "0x0000000000000000000000000000000000000000",
+      "caller": "0xEeaC81ec87317cAC782261080FDfb82baC3af9a6",
+      "ephemeralPubKey": "0x01c3cceb74909ca25efbb04b9aee5604cb4ab050d43c7b03143477819ceb03d30103006604af00000000000000000000000000000000000000000000000000",
+      "metadata": "0x000000000000000001"
+    },
+    "expected": {
+      "ephemeralPubKey": "0x01c3cceb74909ca25efbb04b9aee5604cb4ab050d43c7b03143477819ceb03d30103006604af00000000000000000000000000000000000000000000000000",
+      "metadata": "0x000000000000000001"
+    },
+    "postCount": 1
+  },
+  "post": {
+    "verify": {
+      "status": 1,
+      "execution": 59402,
+      "state": 0
+    },
+    "sender": {
+      "status": 1,
+      "execution": 67742,
+      "state": 391680
+    },
+    "gasUsed": 535218
+  }
+}

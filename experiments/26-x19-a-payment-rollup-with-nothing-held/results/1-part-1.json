@@ -1,0 +1,2529 @@
+{
+  "experiment": 26,
+  "run": "1-part-1",
+  "date": "2026-11-05T14:42:26.409Z",
+  "repoCommit": "2467f3f0fa1d8c7143ea96537ec804a33b4d5ddd",
+  "command": "npx tsx experiments/26-x19-a-payment-rollup-with-nothing-held/run.ts 1-part-1",
+  "chain": {
+    "chainId": 8141,
+    "ethrex": "64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c",
+    "setting": "extended",
+    "maxVerifyGas": 100000
+  },
+  "program": {
+    "file": "x19_transfer.py",
+    "key": "0xdee182c653825e3106f435f9bd93f5e90945a6064d085e55b8b7299eebad3397"
+  },
+  "rollup": "0x0000000000000000000000000000000000019019",
+  "k": 4,
+  "fee": "1000000000",
+  "limits": {
+    "verify": 50000,
+    "sender": 150000,
+    "senderState": 300000
+  },
+  "rows": [
+    {
+      "step": "A: channel 0 pays channel 1",
+      "expect": "mined",
+      "hash": "0xd18dc411faa5f2a60616edf0d7f09ebd41038629b075ce19c23e8d8b4c23da36",
+      "bytes": 1488,
+      "simulation": {
+        "valid": true,
+        "violation": null,
+        "executionStatus": "success"
+      },
+      "pool": "admitted: 0xd18dc411faa5f2a60616edf0d7f09ebd41038629b075ce19c23e8d8b4c23da36",
+      "outcome": "mined",
+      "block": 1,
+      "gasUsed": 508264,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 20340,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 36000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 40747,
+          "state": 281520
+        }
+      ],
+      "signatures": 0,
+      "kind": "apply",
+      "chan": 0,
+      "maxCost": "73392000",
+      "blockCountBefore": 0
+    },
+    {
+      "step": "A: channel 1 pays channel 0",
+      "expect": "mined",
+      "hash": "0xb122b6212fc4073db1a09c636f53a1f2e549fb3caa93aaac2765873a59640e1e",
+      "bytes": 1488,
+      "simulation": {
+        "valid": true,
+        "violation": null,
+        "executionStatus": "success"
+      },
+      "pool": "admitted: 0xb122b6212fc4073db1a09c636f53a1f2e549fb3caa93aaac2765873a59640e1e",
+      "outcome": "mined",
+      "block": 3,
+      "gasUsed": 226774,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 20331,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 36000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 40738,
+          "state": 0
+        }
+      ],
+      "signatures": 0,
+      "kind": "apply",
+      "chan": 1,
+      "maxCost": "73392000",
+      "blockCountBefore": 1
+    },
+    {
+      "step": "channel 0 queues the leaf B refused",
+      "expect": "mined",
+      "hash": "0xdb5b878931549d82433f00f925aa652b2bd806d988541b2531c75389a5bf0b38",
+      "bytes": 750,
+      "simulation": {
+        "valid": true,
+        "violation": null,
+        "executionStatus": "success"
+      },
+      "pool": "admitted: 0xdb5b878931549d82433f00f925aa652b2bd806d988541b2531c75389a5bf0b38",
+      "outcome": "not mined",
+      "block": null,
+      "gasUsed": null,
+      "frames": [],
+      "signatures": 0,
+      "kind": "queue",
+      "chan": 0,
+      "queuedAtBlockCount": 2
+    }
+  ],
+  "proofs": [
+    {
+      "chan": 0,
+      "to": 1,
+      "amount": "100000000000000000",
+      "cycles": 8614,
+      "proveMs": [
+        83.392575
+      ],
+      "proofBytes": 252176,
+      "peakRssBytes": 145850368
+    },
+    {
+      "chan": 1,
+      "to": 0,
+      "amount": "30000000000000000",
+      "cycles": 8614,
+      "proveMs": [
+        70.54264500000001
+      ],
+      "proofBytes": 250880,
+      "peakRssBytes": 147210240
+    },
+    {
+      "chan": 0,
+      "to": 1,
+      "amount": "200000000000000000",
+      "cycles": 8614,
+      "proveMs": [
+        66.267696
+      ],
+      "proofBytes": 253008,
+      "peakRssBytes": 147210240
+    }
+  ],
+  "handed": [
+    {
+      "chan": 0,
+      "to": 1,
+      "c0": "0xb11e1e2e0ab23ffbd3af712cff17d8bb1f2e06769fad7c0dff606e7c8c92bd1a",
+      "c1": "0x35a494845c96c05cd58a3964be630428d6e3df1b6052f4f90b9fbffcbe37931f",
+      "amountCommit": "0xd1db535a3c87c2da2d9d0ee7b040b577f3a773f3f46fceb4ae53aa977a67ff11",
+      "fee": "1000000000",
+      "expiry": "64",
+      "nullifier": "0xbb3dd9c2da9ab8414d5957e44126decb7d533b9cd2b969a1086657d75d9b1d82",
+      "T": "0xc77bc4f24eaddd6a7b3376fe4d7631e71937f4031ec1faaee168f603dd7f0ff0",
+      "D": "0x70abb4ce45c31d335e19b18656161a53f4d87330d26f4b4cf8fec5e4bedf98b7",
+      "proofFile": "p0.bin"
+    },
+    {
+      "chan": 1,
+      "to": 0,
+      "c0": "0x9276ef38a50461c4c33814806079ee51558ba27245c20da370369c478b862b3b",
+      "c1": "0x73ad36399bf6fe61765e593242f32c63b8e7e913636cb58143726a47e1ee0792",
+      "amountCommit": "0x8c4cfbbaf3f63fa463337a496d8b0d21050d055fa0f844a5223814082713280a",
+      "fee": "1000000000",
+      "expiry": "65",
+      "nullifier": "0x6971a6144b3990dcad378b47154caf81d00c78bb8fc4da27c4dc062264ce08dc",
+      "T": "0x723cb20e9cc518390fe09c41b93c545282ff58cc66c3f311211b0a117af5b8f8",
+      "D": "0x9a02897a8d3784ba3bb3914f4e4fcc905a297e59d0e516218edc4bc0ff9dbc97",
+      "proofFile": "p1.bin"
+    },
+    {
+      "chan": 0,
+      "to": 1,
+      "c0": "0x35a494845c96c05cd58a3964be630428d6e3df1b6052f4f90b9fbffcbe37931f",
+      "c1": "0x4c825c53cbbd0bd04b5a4bf65dc9bf24ab74d2e15f3cfe9b3c5cf29a77a78e5b",
+      "amountCommit": "0xd399fda172021adc4758076b1f458c7a2133b67b1c3eab59a2a280640907fa44",
+      "fee": "1000000000",
+      "expiry": "66",
+      "nullifier": "0x6967e0db8f665138f9b294f4e9e3a5b459cc2c6c59894007ac90c869f83e1909",
+      "T": "0xe52eb766d4d777e2ac2676fd9781d7e894d1d3e5c698847a1b289fdfe4b7c1f3",
+      "D": "0x6d4e637b0f1233fba5fc66088704d1070cdb4456862915bde0c42f7f903d669f",
+      "proofFile": "p2.bin"
+    }
+  ],
+  "prediction3": {
+    "secretsChecked": 4,
+    "leaked": 0
+  },
+  "rootMatchesTree": true,
+  "builds": [
+    {
+      "block": 1,
+      "dependencies": 3,
+      "leanSphincs": 2,
+      "leanStark": 1,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 4416.207437,
+        "claims": 2,
+        "peakRssBytes": 412721152,
+        "proofBytes": 268569
+      },
+      "ms": 4427
+    },
+    {
+      "block": 3,
+      "dependencies": 3,
+      "leanSphincs": 2,
+      "leanStark": 1,
+      "corrupt": null,
+      "aggregate": {
+        "aggregateMs": 3201.9613640000002,
+        "claims": 2,
+        "peakRssBytes": 412487680,
+        "proofBytes": 268985
+      },
+      "ms": 3220
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 1
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 2
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 93
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 1
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 49
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 1
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 45
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 108
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 1
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 2
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 1
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 1
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 2
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 1
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 2
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 1
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 2
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 1
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 2
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "dependencies": 2,
+      "leanSphincs": 2,
+      "leanStark": 0,
+      "corrupt": null,
+      "aggregate": null,
+      "ms": 0
+    }
+  ],
+  "checks": [
+    {
+      "block": 1,
+      "hash": "0xd3b97aa75f0e5920e6000721f17a87b3f488dedc51a0c66614857f5db3affc11",
+      "dependencies": 3,
+      "valid": true,
+      "reason": null,
+      "ms": 2846
+    },
+    {
+      "block": 3,
+      "hash": "0x72c882334ae0befdbaf949fdb155dd7f064015727813c389d5a30958af692272",
+      "dependencies": 3,
+      "valid": true,
+      "reason": null,
+      "ms": 2978
+    },
+    {
+      "block": 6,
+      "hash": "0xa06e43dafd8b1d54692cd8c69787eb1f86b739d51d60f0660d70b0f0cae9c033",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x1dd0b997d41470f0c7ae04e84e52a65e1595a4f13f36c20f0a80f6cc0764fe71",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x9013be8b4a52a51fef3a49c019372fa9b4b24ed47345c2692853816b4802ee94",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x942ce90f057925936672d3c403c2da71f24522dfe336785c475fc145e86ddeec",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xcf6d30996307f820dbd168bee40510da152894641f31ea974358d77ffde4be43",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x58712f4711f3142b559ee34a7c3f9756fb5800bf87d144bc72d628f417d250f9",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xdad58845974b9eca60e3d257114678936c77aab518edbb2a0940820ae9688dec",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xba97e13b2c3cacf8dd50ffea40b0f7dce89da670a9c3c3715bf84b323d367d8a",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x463235c7e98318629f088694539c1f4f04ab0afea095cb306b170c9060d9620a",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x19d0dc830e8a83ed018d260feb445d6e5ca20fadf79829c043422b05cc6e6f1f",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x2629801d89256c42fba443915cf591a58e47b9b965a941cc9658f9d15f60d2de",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x320111e1a4a3fd08c07a49178b4f508414cbab6651f7e6a45d96b4a0569bd6c2",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x584786018cc6338b276cada1cc8cc66d9d35bbc2c86aa06c3be56e3cdf9b068a",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x17fdc696cc7801a2b9d5beb64762aa0cfb154c121b082c11dec61fd0fc7537ea",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x43242c0fb04e8a416338b2ad808c25b0cfdd06828ed079a22b70eb58433b01b3",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x54f270657eb8d093adade1df229032f4ef03999b1cedfe4778e1fe2ee7675c18",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xe78cab63c1a16a67ae1915c97ab9ce6c88adc516969c0bb9aa9b97334ec52e23",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 2
+    },
+    {
+      "block": 6,
+      "hash": "0xb73aa5f97dc35b5f7e61de9dcc05d604671ff368971f89b372d03cdafc22da18",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x4fad78063a3cda86350b33094844e4a73ec41e8597c8c42b844e10b0ac7aefbf",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x77f7b367bdfc46591e8f4fd34a21bb4e6d48ce11dc2382d39c5d7a4cb31c45ce",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x3934818cfebf6fa963f1ffa7cf2a0852431060ced3813582381253d27ad55971",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xd4638b1b6967f06bdd7d14a15747286b77d90272eb0baa703a1730f24f0dbeee",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xafa642d4631dea58e1923ffdfcd367956dad8604580d4575f74046d717a7f823",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x875a915534ffc211cf2f0e745522a5ad189d344b39686197e0c55c4f4e5a7473",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x7620a9367f0a640cec2fed5532602f70492d01c9a6c8633db6104fd3592bb2e7",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xa5d2b1eda4cdfcfcb7e01ab993f54af872b58a0bf567385467240b5125c5f540",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xa1ea8cba948904de170bd6b0eaff7b0cb6eda7148f61b0b3e266fac3cf010633",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x1e3f4511f5eeea4738b023ba75594f6bda22852fb121c69ada4eff6eee40dc48",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xfcf4b2c8cae258f88fc323ef77554d3307c20b8b1638e706369029dbccfff9eb",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x94691826e56c5b585b8ba489fea519bc6151e1be1a9d273d2fbb37a304f6ee3c",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x5bf07818d06bc022756ed44b599a8f60e546b038d2ab1dbbf56c16e4fe759764",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x6d72fc1a81eea7330f814ba633842b16dea4870b87e0b9f5fe57f203c838d404",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xe35a35fef8a566ea690eeeecfb563df86e92e7210983b0d6196040a734526e19",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x2f6c4f1812843c4a6e583a5f051e8f91e1dfa352b6c69af174b91e8ed91bf819",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x049d5a61f22ef7287ef5891e9fe3eb648d162ecb0717b5725fde98d4e18730a8",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x87a9a4402c8941679feb7a097b6c9fb782bf56fc67902252daced3cd705f0571",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x8f6a56f5a59d277ac0351ce5d22402d4a684d2b6ebc8105842609e78eb30f721",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xd30c91a09a9fc76866795a17cacbbf440b923c3fa6d225d0ac668cf391c028e4",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xff514d1b955ccb2781d3ecefdb8147a3ac4b056f1462e6b4d14f52682d990bd5",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x54da193a3e46b12113b8ae1074364cfca62a5ed7899acc49321402ada0f8b2e0",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x9f6c61fdaedfac4a11563bd75286484f095d05e046083498628e86c1c6ac2ad3",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x4c53a0d514c50c6574a24441cb6f6eae39d58ca2a4d206be61492483997dbd0f",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xa54af2619174bad7cae0f86ac120e062d77fad392d0c0648dd0f348da8040baf",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xdb1ce63abbb91b163d333182aa2780e82d3718a42031310208798939347df455",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x9155e73010914be452171d484c55e75427d932fef8e31ef542fab6ada4187396",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x8b343e6b32e28ce649e3cad627f196ab0966b5a4e36ead58a0780d0cacdd5193",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x7314e1f14af36cf0305c55a6512f004bfa656c2fe5e6f056e34f792acd700515",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x795e5c6f9febc12d26a047255a282a5f2bc0c43e9954a100da31491ca3ffa648",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xdda794fe4177b99b67ddc436003d6f631994965d131e2e07f66372a3cf8f9273",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x84b25dc4d8280f5089c5ecce6ec9ca8fc95dad6613f6c2326782fe8c37265104",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x7ab01cbc47d561dc58e5b4c442c75a39fbee8d05b8ecf02e0679aea19abe5f15",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x9ba7d85be99fe19738b135a025ace8997c8a265dccec94a41943ac6775ff5583",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x4917632d047f8ba518acb58ee1524796275e3ca1c67f9b51730d1faf1c33f41c",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x7818f69d8ccaecbb2797e4d174c00c9c1d7207f727bac3e2dbc0d96c2c3a05e1",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x379f7e5b3cb381a55df2d923b07fb49244dc5f7e8b9e98f9b5978c7379c3d5b5",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x6a2acaa63a2c9ce5b118de57f052ec4f28690d65027c742a516937b504fe0d0c",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xe96ee4feea1ec522039a39d35138f90430e4ece6101cf6272d30a6af22fad716",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xd705ecd3fe52cb4bd3aca1e5998499e14a9dd0157d7d81008590131d36be143e",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x0a9aa2631cf5280fefed81dd06e5b4e9aef095c6e4f2914f82a98a6fabe3d81a",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xf1a6cca5e9d92619c0e0828e6422cd719ed6c692e7bf6677a3813523905877c0",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x1c064854cee36743558b1f4814ed92e52d7acfab22f78fdff1429344d973ae36",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x06d589b088b3fb343ae78e10238dd4f055392d5dbd4bf3465f0ec3d3dba5c98c",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x7e418a8434b6cf4c8e2f03f96e6a53991f6dc1f5261f56ea2e823d4175b3172c",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x1f10debbe96985c491e914c89fc4c3fd1fee2cf6306b8276a7fb60d07d0b593f",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x0be5d9fc5fae118025febef3b0fe970bad9ec6a565a016683b6d420199d54c80",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x580100592828010f459b7dfae54f5cd1fbe12cf80f08590f1f91f02fdb125b3b",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x716d68ae8b433492048447681667e58a94d785dc421498af19638d61c689be4a",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xd78164a7545acf8022b33963cb4f8ac3c039da31b0109e068f9929e68d055b7b",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x3ec18f19110137f91e68b4cee9f02b40b4eb52980a3f8dacd08e4c1ac5e7f4de",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x70b3b4727e266b625163193b39142880ac23f9eededea504e0399865dd5fea00",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x935aa5a4700b247a169d6b37a3ecad77295b2a8bb20a2240800af4a2a52876b7",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xe2aed8ec2b085f28c00b1fc5dd60d5f333ac73856007ee09cf629217d160b640",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x386f6b49ecdd917f407b5b1495cdc8d2ab1141f976655412c3268449715ddc55",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x1f9b8592325463501ab631bd25783f20afe9b1a82d3d4061d72f1c5eceadbf61",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x6369d3e043af631d84d88bc5639855b18468a64b6b4988ebb16ce3cbd2cb2c94",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xe422c749daea773b1743e45af6dea6c6b7c797f7c08aa40bdc95fea798856b17",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xc548179d1af8d8a26f1e99710ba739da0a1c88b466b95e1a0d30502283806ef7",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xd8586b65152b000d0bc21d078b596506ff9ab7838c9be65de36b139b79006309",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x553101d5bcfdf90e9d535780d3337bf430b659fec28a7ed19f33628d16a3741d",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x7dfab6f18837a558d04851bfe624b822ab7d0f408a90995676dd9b2d62e24a96",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x561dd864d9f0d787428935967d16cbb9cb82fcf9abae939e864af501a89f3504",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x247eff956390f8c7a0484c9b243e668de98bac2dc23341d236f93bc0755fcc6a",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x0ca6a4c61ea81c64b643a2bbc1e0638f8f9536f883cdcea420c600d3637d9a9b",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xe303f9e1969ec5627f46880e4075031087eff5c16b5031aa849fee86f413d8bb",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xf941dd539641f34f0358ccd4a16af58df4daa64090fef497cc1ec5c131815425",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x1ad4c0d50a6ec02a4f7fb30fba7480157c52e7ace2f98a59ff3e3906eff793be",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x23aee4c854c65e71a77f175c3555e6f6b11e244424d9ea4c615d1a1df3de7225",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xd6fe44bbc8b67efcfc1e521da8ac5d9c7ddc80557f5c3189fb51a14c442452dd",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xd8190b2153c3ac545ddb3da37176c13eb8709e0ec9c6f83f5a753925939c9f72",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x67f2b2cc620e6956d5097a1a122e019e83dfd355650e3ada499b50bd161d6d5f",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x20cb820cf14854d725401dfc722e943c2c4f70c0c96a6e61f8603d609a9463c5",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xbd6d60673a17639c8e64900ed08d74fd2c75c50a09728475a58bff7db522acdd",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x498246eb701b69513578291b27df8bf5a2f51c860ac993eff4ff795092584b33",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xb0887d2ba9fb6da0df8480015e9a69f5313df1aed227caa195b7afae00bca327",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x97e98de708f103ccde3451d50f547b6d5f8c5305c9d92fdfc9cfd04b4f9bbd65",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x9f1d08bd3e5441372da624dfbe616bda9d558c53c1afad485dec5bd03810d2c1",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x7ba797e0c9abc02b3909d84226f0b10bf3c30f78832c89ff0014fb0395078a32",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x23469a7bd95ec2667d9c3118829f250dcbf6540c7db05b96b32e7b474f50fe52",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x56c2d8910c6d4ac8e5fa8f9d508f793d10c186064699a7f746acb43c8b9c5dcd",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xd39d13d8a212fa484f7f890b275b6923d067b6823db139d2b3a727915b7c8ac9",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xb309abcb609976a72c6f027991562174a8baf4667fe7ba40d6600bbe327fd16b",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x83fb30ec50351509f208400dec046d57915fcb6c113059ff7507fef6ff89975b",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x55a0cb051483499eb57468e62a05121a8f18ed213947a1aace9ddebdf5634013",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x085ced6d0c9688e31530dc922a488ca2bc3dee7611d41cc385c1dda4fc438e0c",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xc7ef255947ca168cb37310b6b924d9b9c1b711f8cf478e2e05dc07e7d5af0dc7",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x4ebedf8b4885aa4878dd59fe03dbefa593754ffa3b694717ad4f0f6433787fcd",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x13b61656c053c14632e078f565ec5ffaf8864111b8991b139d8fbf9287cc9d36",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x60035514ecd785e2bc57ceb6274131dcc321306ce99341884098a9e978e04c87",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xe26d10e061da1a50d05c3b119639b6dffff6b03d491cd8df5774c537405d0077",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xf2844dfe8a3b97644b3dcf93174ae5dc1e2b4cf448f6e381c522982cb76f97b8",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x424b5e0ab920d87fbd1fddd32fb449aebc7e58c1b9b687f5491bccf96fbe88d1",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x35e4f3def5aef941b8583467b137019397d26a06fa2afc7dcf93dcfd76543d64",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x8f8d39d094727e5296830984f3068db157b06a9a2f10acc7ddabd1f2711b18df",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x3c95e18334b26a28b9dd58830d25a217aad816f902d1ac889a9fb87f789f4f7c",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x8b936344f0c31339d771a84387cc15a7bd29d6d156bdf3d44c03552093267d15",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x55d26e8f5136c1f131c177c3fd009c25bfd962e6d0a4442fefa6165c28ad8852",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xd1054d74a058a032ba54f88b367990f4a512f2c433395e1060632c187c939a8f",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xaa7ee5dcd0e9e8d631ca2544a303fcb70c85c366f807d5e0d2ff2270cc9e3895",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x0ce977fb764841eeaf06cffdb4d219c9398296f38694ed9a742c1295b8aa50c7",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xef8731be275c686514bc6e6ca095198c5998447a24c8c3dfef0f8ab0aed39dcf",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xfc59e6b082dc8273c44d319181ce1035f650cdf0ed76f81e408ccae09ff6fba5",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xb42ed52cadc8d07cc9b2e31d7c4eb13e9b2c556d2a6c1a53540cfd9e1a2b3aa6",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xa238c1032e207940afde4516587faaa184c1b7b0ec3ef039345f4d97522088ca",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x22fbb525d9f401f2c2cce9b2fca4cf16cd14c61d2896186de9c825b8139cab63",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x40808540c12c0f2dca2b2e2137d4c6f646231571edd68125b2c31f60d3274d31",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xb8a041e1a0bdedaa53fe26990f8f3493faf563f2f14a530f99487cd8833e5101",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x491c643de19dd8e071b68a273899f8965548ed977f034fa160f111cb1e7c2a55",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xc06cdce9b956452c507aa948e72b395cb53ecefd23b4285f1568d2be2fecada6",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xa449cd0e7accedd05fdc3c25fae681cca1f148c0a7dbe74bd07b2585ee367ab2",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x66c7df2221371b40fb8eaae44db30246fb81f6b6abe3a08da55bbf8f72afa338",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x1e85bdc4c4e074c82db738aacd21d601a812e250a35bddca580824803b5f435e",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0xe6e8fe3567b98f1a738b7dd8f5619a23951c7122069922e98a0297982f4ed980",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x1f78e7bed7a80623bcb02eb42b5af10e7e64187a7eb8f22a3e1ff320c4c273dc",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    },
+    {
+      "block": 6,
+      "hash": "0x7868c61c0de57d05c693f3f945a172c39e008ba110744ac715b3eeb4d4211df8",
+      "dependencies": 2,
+      "valid": false,
+      "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+      "ms": 0
+    }
+  ],
+  "failure": "channel 0 queues the leaf B refused: expected mined, got not mined: admitted: 0xdb5b878931549d82433f00f925aa652b2bd806d988541b2531c75389a5bf0b38 {\"valid\":true,\"violation\":null,\"executionStatus\":\"success\"}"
+}

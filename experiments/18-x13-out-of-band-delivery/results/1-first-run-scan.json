@@ -1,0 +1,25 @@
+{
+  "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+  "node": "v22.22.0",
+  "arm3": {
+    "entries": 97,
+    "found": [
+      40
+    ]
+  },
+  "arm6": {
+    "entries": 31,
+    "found": [
+      20
+    ]
+  },
+  "throughput": {
+    "entries": 10000,
+    "ours": 40,
+    "found": 40,
+    "missed": 0,
+    "falseMatches": 0,
+    "msPerEntry": 0.7698,
+    "perSecond": 1299
+  }
+}

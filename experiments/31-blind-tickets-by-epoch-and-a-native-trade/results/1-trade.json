@@ -1,0 +1,304 @@
+{
+ "label": "1-trade",
+ "repoCommit": "0c287e497554d203ed1a2613cd2367a0c6ddbcbf",
+ "ethrex": "64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c",
+ "binary": {
+  "path": "work/ethrex-bins/ethrex-8288-writes-blind",
+  "sha256": "8ae723e8a80e26077b4097d9c6cb7479b88e326d7e1aeb52c296132bc0f90f9c"
+ },
+ "chainId": 8141,
+ "D": "10000000000000000",
+ "cases": [
+  {
+   "case": "setup: buy 2 under the old key",
+   "tx": {
+    "hash": "0xf18ad31d2d995585a62c2d52cb68824b032d758068ccf08ec293f4fb98605705",
+    "status": 1,
+    "block": 1,
+    "gasUsed": 230340,
+    "logs": [
+     {
+      "address": "0xfffffffffffffffffffffffffffffffffffffffe",
+      "topics": [
+       "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+       "0x000000000000000000000000b023e0b90c7906144a9d070a0be145e9b00ea00d",
+       "0x0000000000000000000000000000000000000000000000000000000000000b11"
+      ],
+      "data": "0x00000000000000000000000000000000000000000000000000470de4df820000"
+     }
+    ]
+   },
+   "after": {
+    "old": {
+     "burned": "2",
+     "minted": "0"
+    },
+    "new": {
+     "burned": "0",
+     "minted": "0"
+    },
+    "escrow": "20000000000000000"
+   }
+  },
+  {
+   "case": "(g1) a trade of one ticket",
+   "tx": {
+    "hash": "0xe3837eba18c68fc19cb143e8a07eaad03154b6a6f3b21a8809fdddd38398517e",
+    "status": 1,
+    "block": 4,
+    "gasUsed": 202442,
+    "logs": [
+     {
+      "address": "0x0000000000000000000000000000000000000b14",
+      "topics": [
+       "0x2af679a33c099ca8dfa9c6afc498f8778cff88ded7279c01c0113e20db813939",
+       "0xa7b1a087918fa04f631a7d085d92a4c0add1878b913c6a4d59eb3e7707b5fcde",
+       "0x17c1ca44db4620191ba406f21e57ad241afed174d0f4e8ac4fd3fb1669a99e8d"
+      ],
+      "data": "0x00000000000000000000000015fa851e3b38cde490d9bfb7f995b98b98e63c50"
+     }
+    ]
+   },
+   "after": {
+    "old": {
+     "burned": "2",
+     "minted": "1"
+    },
+    "new": {
+     "burned": "1",
+     "minted": "0"
+    },
+    "escrow": "20000000000000000"
+   },
+   "expectedPrecompile": 176950
+  },
+  {
+   "case": "(g1) the new ticket paid out under the new key",
+   "tx": {
+    "hash": "0x36edab325d7186928b9a377dd8c286a4c67ea09cf3c416a8317868be8f2cc30f",
+    "status": 1,
+    "block": 8,
+    "gasUsed": 227242,
+    "logs": []
+   },
+   "after": {
+    "old": {
+     "burned": "2",
+     "minted": "1"
+    },
+    "new": {
+     "burned": "1",
+     "minted": "1"
+    },
+    "escrow": "10000000000000000"
+   },
+   "recipientBalance": "0"
+  },
+  {
+   "case": "(g2) the old ticket again, as a payout",
+   "tx": {
+    "hash": "0x154a14745b28c1aa3a0a4e3110925f1c211977c3190a93257516dbbe703cfc50",
+    "status": 0,
+    "block": 12,
+    "gasUsed": 3000000,
+    "logs": []
+   },
+   "after": {
+    "old": {
+     "burned": "2",
+     "minted": "1"
+    },
+    "new": {
+     "burned": "1",
+     "minted": "1"
+    },
+    "escrow": "10000000000000000"
+   }
+  },
+  {
+   "case": "(g2) the old ticket again, as a trade",
+   "tx": {
+    "hash": "0x9f2c8659ff5dde7424b026a7bf5b82dde73dc9d96f6d3b53236c9cc2bc19a8e8",
+    "status": 0,
+    "block": 16,
+    "gasUsed": 3000000,
+    "logs": []
+   },
+   "after": {
+    "old": {
+     "burned": "2",
+     "minted": "1"
+    },
+    "new": {
+     "burned": "1",
+     "minted": "1"
+    },
+    "escrow": "10000000000000000"
+   }
+  },
+  {
+   "case": "(g3) a trade to an earlier key",
+   "tx": {
+    "hash": "0x7146ad5815a88432e7782b71c93079ffea7672da7e60cc282df36b4fa62ef5f6",
+    "status": 0,
+    "block": 20,
+    "gasUsed": 3000000,
+    "logs": []
+   },
+   "after": {
+    "old": {
+     "burned": "2",
+     "minted": "1"
+    },
+    "new": {
+     "burned": "1",
+     "minted": "1"
+    },
+    "escrow": "10000000000000000"
+   }
+  },
+  {
+   "case": "(g4) a trade naming a claimant the one-time key did not sign",
+   "tx": {
+    "hash": "0xaf7968ebf7eb79ce99f3dd867e580de9bb47e36f0a39b7a52ef33aa29f1917bf",
+    "status": 0,
+    "block": 24,
+    "gasUsed": 3000000,
+    "logs": []
+   },
+   "after": {
+    "old": {
+     "burned": "2",
+     "minted": "1"
+    },
+    "new": {
+     "burned": "1",
+     "minted": "1"
+    },
+    "escrow": "10000000000000000"
+   }
+  },
+  {
+   "case": "(g5) setup: the second ticket traded",
+   "tx": {
+    "hash": "0xd3250ebd4e382afd29a10c14b056ddf61f7928a2e0f6a85d0548921d04efd583",
+    "status": 1,
+    "block": 28,
+    "gasUsed": 177442,
+    "logs": [
+     {
+      "address": "0x0000000000000000000000000000000000000b14",
+      "topics": [
+       "0x2af679a33c099ca8dfa9c6afc498f8778cff88ded7279c01c0113e20db813939",
+       "0xa7b1a087918fa04f631a7d085d92a4c0add1878b913c6a4d59eb3e7707b5fcde",
+       "0x17c1ca44db4620191ba406f21e57ad241afed174d0f4e8ac4fd3fb1669a99e8d"
+      ],
+      "data": "0x0000000000000000000000001210b0c2b57a720b839959b3b59a517b2e4d10fe"
+     }
+    ]
+   },
+   "after": {
+    "old": {
+     "burned": "2",
+     "minted": "2"
+    },
+    "new": {
+     "burned": "2",
+     "minted": "1"
+    },
+    "escrow": "10000000000000000"
+   },
+   "expectedPrecompile": 151950
+  },
+  {
+   "case": "(g5) a trade with no purchase left",
+   "tx": {
+    "hash": "0xa2e239d79b5bc7d4f89a01fb4722b57e94fad54eab0b97bde542f8643ef650ff",
+    "status": 0,
+    "block": 32,
+    "gasUsed": 3000000,
+    "logs": []
+   },
+   "after": {
+    "old": {
+     "burned": "2",
+     "minted": "2"
+    },
+    "new": {
+     "burned": "2",
+     "minted": "1"
+    },
+    "escrow": "10000000000000000"
+   }
+  }
+ ],
+ "keys": {
+  "old": {
+   "chi": "0xa7b1a087918fa04f631a7d085d92a4c0add1878b913c6a4d59eb3e7707b5fcde",
+   "end": "1000000"
+  },
+  "new": {
+   "chi": "0x17c1ca44db4620191ba406f21e57ad241afed174d0f4e8ac4fd3fb1669a99e8d",
+   "end": "2000000"
+  }
+ },
+ "claim": {
+  "logSeen": true,
+  "signer": "0x15fA851e3B38cdE490D9bfb7F995B98b98e63c50",
+  "served": true,
+  "servedTwice": false
+ },
+ "recipientAfter": "10000000000000000",
+ "invariant": {
+  "escrow": "10000000000000000",
+  "expected": "10000000000000000",
+  "holds": true,
+  "old": {
+   "burned": "2",
+   "minted": "2"
+  },
+  "new": {
+   "burned": "2",
+   "minted": "1"
+  }
+ },
+ "nodeLog": [
+  "blind: mint charged 22200",
+  "blind: mint chi=0xa7b1a087918fa04f631a7d085d92a4c0add1878b913c6a4d59eb3e7707b5fcde k=2 burned=2",
+  "blind: mint charged 22200",
+  "blind: mint chi=0xa7b1a087918fa04f631a7d085d92a4c0add1878b913c6a4d59eb3e7707b5fcde k=2 burned=2",
+  "blind: roll charged 176950",
+  "blind: roll chi=0xa7b1a087918fa04f631a7d085d92a4c0add1878b913c6a4d59eb3e7707b5fcde chi_new=0x17c1ca44db4620191ba406f21e57ad241afed174d0f4e8ac4fd3fb1669a99e8d n=1 minted=1 burned_new=1",
+  "blind: roll charged 176950",
+  "blind: roll chi=0xa7b1a087918fa04f631a7d085d92a4c0add1878b913c6a4d59eb3e7707b5fcde chi_new=0x17c1ca44db4620191ba406f21e57ad241afed174d0f4e8ac4fd3fb1669a99e8d n=1 minted=1 burned_new=1",
+  "blind: roll charged 176950",
+  "blind: roll chi=0xa7b1a087918fa04f631a7d085d92a4c0add1878b913c6a4d59eb3e7707b5fcde chi_new=0x17c1ca44db4620191ba406f21e57ad241afed174d0f4e8ac4fd3fb1669a99e8d n=1 minted=1 burned_new=1",
+  "blind: transfer charged 204950",
+  "blind: transfer chi=0x17c1ca44db4620191ba406f21e57ad241afed174d0f4e8ac4fd3fb1669a99e8d n=1 minted=1 new_recipients=1 per_payout=204950",
+  "blind: transfer charged 204950",
+  "blind: transfer chi=0x17c1ca44db4620191ba406f21e57ad241afed174d0f4e8ac4fd3fb1669a99e8d n=1 minted=1 new_recipients=1 per_payout=204950",
+  "blind: transfer charged 204950",
+  "blind: transfer chi=0x17c1ca44db4620191ba406f21e57ad241afed174d0f4e8ac4fd3fb1669a99e8d n=1 minted=1 new_recipients=1 per_payout=204950",
+  "blind: transfer refused: serial 0x567c92d0eed42759e8e46b6d1f6c239f62bf14f6d33ab836661f22748ba7227d spent",
+  "blind: transfer refused: serial 0x567c92d0eed42759e8e46b6d1f6c239f62bf14f6d33ab836661f22748ba7227d spent",
+  "blind: transfer refused: serial 0x567c92d0eed42759e8e46b6d1f6c239f62bf14f6d33ab836661f22748ba7227d spent",
+  "blind: roll refused: serial 0x567c92d0eed42759e8e46b6d1f6c239f62bf14f6d33ab836661f22748ba7227d spent",
+  "blind: roll refused: serial 0x567c92d0eed42759e8e46b6d1f6c239f62bf14f6d33ab836661f22748ba7227d spent",
+  "blind: roll refused: serial 0x567c92d0eed42759e8e46b6d1f6c239f62bf14f6d33ab836661f22748ba7227d spent",
+  "blind: roll refused: the new key's epoch is not later",
+  "blind: roll refused: the new key's epoch is not later",
+  "blind: roll refused: the new key's epoch is not later",
+  "blind: roll refused: the one-time key did not sign this trade",
+  "blind: roll refused: the one-time key did not sign this trade",
+  "blind: roll refused: the one-time key did not sign this trade",
+  "blind: roll charged 151950",
+  "blind: roll chi=0xa7b1a087918fa04f631a7d085d92a4c0add1878b913c6a4d59eb3e7707b5fcde chi_new=0x17c1ca44db4620191ba406f21e57ad241afed174d0f4e8ac4fd3fb1669a99e8d n=1 minted=2 burned_new=2",
+  "blind: roll charged 151950",
+  "blind: roll chi=0xa7b1a087918fa04f631a7d085d92a4c0add1878b913c6a4d59eb3e7707b5fcde chi_new=0x17c1ca44db4620191ba406f21e57ad241afed174d0f4e8ac4fd3fb1669a99e8d n=1 minted=2 burned_new=2",
+  "blind: roll charged 151950",
+  "blind: roll chi=0xa7b1a087918fa04f631a7d085d92a4c0add1878b913c6a4d59eb3e7707b5fcde chi_new=0x17c1ca44db4620191ba406f21e57ad241afed174d0f4e8ac4fd3fb1669a99e8d n=1 minted=2 burned_new=2",
+  "blind: roll refused: count: minted 2 + 1 > burned 2",
+  "blind: roll refused: count: minted 2 + 1 > burned 2",
+  "blind: roll refused: count: minted 2 + 1 > burned 2"
+ ]
+}

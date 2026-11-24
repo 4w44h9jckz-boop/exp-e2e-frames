@@ -1,0 +1,185 @@
+{
+ "firmware": "2.13.1",
+ "model": "T3T1",
+ "layout": "Delizia",
+ "path": "m/44h/60h/0h/0/0",
+ "address": "0x73d0385F4d8E00C5e6504C6030F47BF6212736A8",
+ "vectors": [],
+ "delegates": [
+  {
+   "chain_id": 1,
+   "delegate": "0x4Cd241E8d1510e30b2076397afc7508Ae59C66c9",
+   "tx_nonce": 0,
+   "signed": true,
+   "tx_signature": {
+    "v": 1,
+    "r": "89ee1cbe688a47133dbc119336b7f8fd8f183f795c7d2d2d1dc5f04e92d36118",
+    "s": "71921bdf1df0105ce7bc4f4e0cfe9805fe6d5e830b33ca2bbf8348b493866312"
+   },
+   "auth_tuples": [
+    [
+     "01",
+     "4cd241e8d1510e30b2076397afc7508ae59c66c9",
+     "01",
+     "",
+     "7e299c7d1f3790eddb5f8ebedaabc35e206c0f045db67b4c94029c7e4b543d42",
+     "2493d77e371f9ca5dc5c5e03934e762da3b9f80e6f8d874f5ddfca2b66321a04"
+    ]
+   ],
+   "screens": [
+    {
+     "prompt": "ethereum/auth7702/warn",
+     "page": 1,
+     "pages": 1,
+     "title": "Warning",
+     "text": "Authorize your account to a third-party contract using EIP-7702?"
+    },
+    {
+     "prompt": "ethereum/auth7702/details",
+     "page": 1,
+     "pages": 2,
+     "title": "EIP-7702 Authorization",
+     "text": "Delegating ETH #1 To Simple7702Account Network Ethereum"
+    },
+    {
+     "prompt": "ethereum/auth7702/details",
+     "page": 2,
+     "pages": 2,
+     "title": "EIP-7702 Authorization",
+     "text": "EIP-7702 Authorization"
+    },
+    {
+     "prompt": "confirm_output",
+     "page": 1,
+     "pages": 1,
+     "title": "Address\nRecipient",
+     "text": "0x73d0385F4d8E00C5 e6504C6030F47BF621 2736A8"
+    },
+    {
+     "prompt": "confirm_total",
+     "page": 1,
+     "pages": 2,
+     "title": "Summary",
+     "text": "Amount 0 Wei ETH   Maximum fee 0.0002 ETH"
+    },
+    {
+     "prompt": "confirm_total",
+     "page": 2,
+     "pages": 2,
+     "title": "Sign transaction",
+     "text": "Sign transaction"
+    }
+   ],
+   "screen_count": 6,
+   "case": "a"
+  },
+  {
+   "chain_id": 1,
+   "delegate": "0x000000000000000000000000000000000000dEaD",
+   "tx_nonce": 0,
+   "signed": false,
+   "refusal": "Unknown EIP-7702 delegate address",
+   "code": "3",
+   "screens": [],
+   "screen_count": 0,
+   "case": "b"
+  },
+  {
+   "chain_id": 1,
+   "delegate": "0x0000000000000000000000000000000000000000",
+   "tx_nonce": 0,
+   "signed": true,
+   "tx_signature": {
+    "v": 0,
+    "r": "0a12a9d3441cff3bcc665cb41237f3d1cbb500631b28a0738d5e46913e640af1",
+    "s": "7a24e03d3abc7a156d97b138f0e5a10bbdc3b253218a1b4f481d7ec9c3e1b02b"
+   },
+   "auth_tuples": [
+    [
+     "01",
+     "0000000000000000000000000000000000000000",
+     "01",
+     "",
+     "a318edbe30837491d79dccef866c750afff87849ff45a80b3e1b75ddcb1c218f",
+     "3cdfabf211a6df35fdbb3ee4951fbc5d6a7db566850ba2d7588a27d2bc7fccd3"
+    ]
+   ],
+   "screens": [
+    {
+     "prompt": "ethereum/revoke7702/intro",
+     "page": 1,
+     "pages": 1,
+     "title": "EIP-7702 Revocation",
+     "text": "Revoke ETH #1 from smart account delegation?"
+    },
+    {
+     "prompt": "ethereum/revoke7702/details",
+     "page": 1,
+     "pages": 2,
+     "title": "EIP-7702 Revocation",
+     "text": "Revoke from ETH #1 Network Ethereum"
+    },
+    {
+     "prompt": "ethereum/revoke7702/details",
+     "page": 2,
+     "pages": 2,
+     "title": "EIP-7702 Revocation",
+     "text": "EIP-7702 Revocation"
+    },
+    {
+     "prompt": "confirm_output",
+     "page": 1,
+     "pages": 1,
+     "title": "Address\nRecipient",
+     "text": "0x73d0385F4d8E00C5 e6504C6030F47BF621 2736A8"
+    },
+    {
+     "prompt": "confirm_total",
+     "page": 1,
+     "pages": 2,
+     "title": "Summary",
+     "text": "Amount 0 Wei ETH   Maximum fee 0.0002 ETH"
+    },
+    {
+     "prompt": "confirm_total",
+     "page": 2,
+     "pages": 2,
+     "title": "Sign transaction",
+     "text": "Sign transaction"
+    }
+   ],
+   "screen_count": 6,
+   "case": "c"
+  },
+  {
+   "chain_id": 8141,
+   "delegate": "0x4Cd241E8d1510e30b2076397afc7508Ae59C66c9",
+   "tx_nonce": 0,
+   "signed": false,
+   "refusal": "EIP-7702: unknown network",
+   "code": "3",
+   "screens": [],
+   "screen_count": 0,
+   "case": "d"
+  }
+ ],
+ "experimental_features": {
+  "enabled": true,
+  "screens": [
+   {
+    "prompt": "set_experimental_features",
+    "page": 1,
+    "pages": 2,
+    "title": "Experimental mode",
+    "text": "Enable experimental features? Only for development and beta testing!"
+   },
+   {
+    "prompt": "set_experimental_features",
+    "page": 2,
+    "pages": 2,
+    "title": "Experimental mode",
+    "text": "Experimental mode"
+   }
+  ]
+ }
+}

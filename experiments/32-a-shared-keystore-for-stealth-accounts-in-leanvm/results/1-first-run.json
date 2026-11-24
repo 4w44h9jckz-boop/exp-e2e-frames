@@ -1,0 +1,844 @@
+{
+ "experiment": 32,
+ "label": "1-first-run",
+ "commit": "26e807ba951e0a9a38da552ef06fd83a9cab42b6",
+ "date": "2026-11-24T01:35:03.485Z",
+ "machine": {
+  "cores": 4,
+  "memKiB": 16473316
+ },
+ "leanVM": "3cbac047160f4d1465bfe985521603b0a3418556",
+ "tableChecks": {
+  "gTo256IsNotOne": true,
+  "hgen2to120Agree": true,
+  "hgen2to64Agree": true
+ },
+ "programs": {
+  "spend": {
+   "key": "0xd37202eca87b7cd65cb3aeed2d0449fcd53141918d62373cee59bfe648c708e1",
+   "bytes": 299109
+  },
+  "register": {
+   "key": "0xc7ee4d571e632d8bcb5c8881ea86ab86af6c43fb4b0fdde1afb3a32eb9101dcc",
+   "bytes": 298132
+  },
+  "rotate": {
+   "key": "0x777b68efa5ae7a05bea14e305d51c4f58d62fd3f61127d3e5c4561989966753f",
+   "bytes": 299987
+  }
+ },
+ "hashesOutsideVerifier": {
+  "spend": 55,
+  "rotate": 58,
+  "recover": 61,
+  "register": 9
+ },
+ "cases": {
+  "register/A": {
+   "proved": true,
+   "m": {
+    "bytecodeLen": 65536,
+    "cycles": 1389,
+    "details": "SET 2^10.407 (97.8%)  MUL 2^4.248 (1.4%)  KECCAK 2^3.17 (0.6%)  DEREF 2^1 (0.1%)  JUMP 2^0 (0.1%)  MEMORY 2^10.559  BYTECODE 2^15.098  TOTAL_COMMITTED 2^18.576",
+    "logInvRate": 1,
+    "peakRssBytes": 65159168,
+    "proofBytes": 223840,
+    "proveMs": [
+     52.345403999999995,
+     42.876215,
+     38.788734999999996
+    ],
+    "verified": true,
+    "verifyMs": 76.131548,
+    "warmupMs": 49.897535
+   },
+   "keystore": {
+    "accepted": true
+   },
+   "leaf": "0xe05b0d4237153809794262b68c4774560588b2fa2ccddfed67a51d78a8c2b0b2",
+   "q": "0xcc7d24cee74563cbc336d0385fd0228e76e9b1f32d3d374a1477ee06ca514843"
+  },
+  "register/B": {
+   "proved": true,
+   "m": {
+    "bytecodeLen": 65536,
+    "cycles": 1389,
+    "details": "SET 2^10.407 (97.8%)  MUL 2^4.248 (1.4%)  KECCAK 2^3.17 (0.6%)  DEREF 2^1 (0.1%)  JUMP 2^0 (0.1%)  MEMORY 2^10.559  BYTECODE 2^15.098  TOTAL_COMMITTED 2^18.576",
+    "logInvRate": 1,
+    "peakRssBytes": 65019904,
+    "proofBytes": 224704,
+    "proveMs": [
+     55.849525,
+     48.158266,
+     49.826069000000004
+    ],
+    "verified": true,
+    "verifyMs": 75.530518,
+    "warmupMs": 52.747408
+   },
+   "keystore": {
+    "accepted": true
+   },
+   "leaf": "0xa6025795c338791d7d274dd143fa70a3caddbb6f751dfe222727f2ae130c1932",
+   "q": "0x59cfd360ec9e5e5b1050d7c99083bc2c46cb30d0b3078b8af0c026cf932677d1"
+  },
+  "register/P": {
+   "proved": true,
+   "m": {
+    "bytecodeLen": 65536,
+    "cycles": 1389,
+    "details": "SET 2^10.407 (97.8%)  MUL 2^4.248 (1.4%)  KECCAK 2^3.17 (0.6%)  DEREF 2^1 (0.1%)  JUMP 2^0 (0.1%)  MEMORY 2^10.559  BYTECODE 2^15.098  TOTAL_COMMITTED 2^18.576",
+    "logInvRate": 1,
+    "peakRssBytes": 50900992,
+    "proofBytes": 223360,
+    "proveMs": [],
+    "verified": true,
+    "verifyMs": 81.14842,
+    "warmupMs": 50.995236
+   },
+   "keystore": {
+    "accepted": true
+   },
+   "leaf": "0x953a231a122b092610341fe0eac509f95c6f64b8a96082d76c779d616981591d",
+   "q": "0x8661c5204be53b4a866c09bcd9b0c7b1a785f65df61923f605ff1e163da6717e"
+  },
+  "register/H1": {
+   "proved": true,
+   "m": {
+    "bytecodeLen": 65536,
+    "cycles": 1389,
+    "details": "SET 2^10.407 (97.8%)  MUL 2^4.248 (1.4%)  KECCAK 2^3.17 (0.6%)  DEREF 2^1 (0.1%)  JUMP 2^0 (0.1%)  MEMORY 2^10.559  BYTECODE 2^15.098  TOTAL_COMMITTED 2^18.576",
+    "logInvRate": 1,
+    "peakRssBytes": 50917376,
+    "proofBytes": 223192,
+    "proveMs": [],
+    "verified": true,
+    "verifyMs": 95.937904,
+    "warmupMs": 49.771781000000004
+   },
+   "keystore": {
+    "accepted": true
+   },
+   "leaf": "0x371f429db55f4f519252cb08e48724651b04227d8a0dd28beb6879d23f318a96",
+   "q": "0x754f2566fc72e9f9fde03deb1a3af11eb2374fd17871f08a80e5f96f7c4ef8ba"
+  },
+  "register/H2": {
+   "proved": true,
+   "m": {
+    "bytecodeLen": 65536,
+    "cycles": 1389,
+    "details": "SET 2^10.407 (97.8%)  MUL 2^4.248 (1.4%)  KECCAK 2^3.17 (0.6%)  DEREF 2^1 (0.1%)  JUMP 2^0 (0.1%)  MEMORY 2^10.559  BYTECODE 2^15.098  TOTAL_COMMITTED 2^18.576",
+    "logInvRate": 1,
+    "peakRssBytes": 51257344,
+    "proofBytes": 222296,
+    "proveMs": [],
+    "verified": true,
+    "verifyMs": 84.752007,
+    "warmupMs": 50.845245999999996
+   },
+   "keystore": {
+    "accepted": true
+   },
+   "leaf": "0x94e662e9d8a520c329796496d83c6cbd17e09b501d4c0dbefaf4c01a12d75059",
+   "q": "0x66b221b77062fcabfe75ad51413ae0e34583e59c875c03d5c0439cd735785312"
+  },
+  "register/F0": {
+   "proved": true,
+   "m": {
+    "bytecodeLen": 65536,
+    "cycles": 1389,
+    "details": "SET 2^10.407 (97.8%)  MUL 2^4.248 (1.4%)  KECCAK 2^3.17 (0.6%)  DEREF 2^1 (0.1%)  JUMP 2^0 (0.1%)  MEMORY 2^10.559  BYTECODE 2^15.098  TOTAL_COMMITTED 2^18.576",
+    "logInvRate": 1,
+    "peakRssBytes": 51007488,
+    "proofBytes": 222400,
+    "proveMs": [],
+    "verified": true,
+    "verifyMs": 89.011912,
+    "warmupMs": 52.94178
+   },
+   "keystore": {
+    "accepted": true
+   },
+   "leaf": "0xd30797c0014d55fb2051f51dde5a55fd57ecbabfebac8d7e3860a382fe646032",
+   "q": "0xbab921f6b108155fa6489c52fc5aaa795ab37c40cf6698e1c80d8805dc084a8c"
+  },
+  "register/F1": {
+   "proved": true,
+   "m": {
+    "bytecodeLen": 65536,
+    "cycles": 1389,
+    "details": "SET 2^10.407 (97.8%)  MUL 2^4.248 (1.4%)  KECCAK 2^3.17 (0.6%)  DEREF 2^1 (0.1%)  JUMP 2^0 (0.1%)  MEMORY 2^10.559  BYTECODE 2^15.098  TOTAL_COMMITTED 2^18.576",
+    "logInvRate": 1,
+    "peakRssBytes": 51113984,
+    "proofBytes": 223776,
+    "proveMs": [],
+    "verified": true,
+    "verifyMs": 85.113154,
+    "warmupMs": 56.242272
+   },
+   "keystore": {
+    "accepted": true
+   },
+   "leaf": "0xb3d4a7f470542ca01bcde1a053c0949bc6f43df07ab906ba7dc99e326677d4d8",
+   "q": "0x340ab46dec6239b8a83db840bbcfe11f2b4aa66335fd3f46f732a66d9fa02f3c"
+  },
+  "register/F2": {
+   "proved": true,
+   "m": {
+    "bytecodeLen": 65536,
+    "cycles": 1389,
+    "details": "SET 2^10.407 (97.8%)  MUL 2^4.248 (1.4%)  KECCAK 2^3.17 (0.6%)  DEREF 2^1 (0.1%)  JUMP 2^0 (0.1%)  MEMORY 2^10.559  BYTECODE 2^15.098  TOTAL_COMMITTED 2^18.576",
+    "logInvRate": 1,
+    "peakRssBytes": 51011584,
+    "proofBytes": 223832,
+    "proveMs": [],
+    "verified": true,
+    "verifyMs": 79.76069600000001,
+    "warmupMs": 50.111577
+   },
+   "keystore": {
+    "accepted": true
+   },
+   "leaf": "0x23599be2b761e0d6fa55472acbe8569b7d6882759c0deeaf52bf5745a5f30778",
+   "q": "0x7b2cba504f627c0043fd945da509f1df86a41ef5da676ba705e00f33f62a5055"
+  },
+  "register/F3": {
+   "proved": true,
+   "m": {
+    "bytecodeLen": 65536,
+    "cycles": 1389,
+    "details": "SET 2^10.407 (97.8%)  MUL 2^4.248 (1.4%)  KECCAK 2^3.17 (0.6%)  DEREF 2^1 (0.1%)  JUMP 2^0 (0.1%)  MEMORY 2^10.559  BYTECODE 2^15.098  TOTAL_COMMITTED 2^18.576",
+    "logInvRate": 1,
+    "peakRssBytes": 51392512,
+    "proofBytes": 223128,
+    "proveMs": [],
+    "verified": true,
+    "verifyMs": 84.717951,
+    "warmupMs": 59.536119
+   },
+   "keystore": {
+    "accepted": true
+   },
+   "leaf": "0xa617302d4fbd2f0ea7f10b80f6e34c1f80007d18bd25f63f723d35b5c40ad405",
+   "q": "0x846139ad78163c5f95bd1e7cef60b87ed9dddb61eec1310dd3f5bc2416dbb1fb"
+  },
+  "register/F4": {
+   "proved": true,
+   "m": {
+    "bytecodeLen": 65536,
+    "cycles": 1389,
+    "details": "SET 2^10.407 (97.8%)  MUL 2^4.248 (1.4%)  KECCAK 2^3.17 (0.6%)  DEREF 2^1 (0.1%)  JUMP 2^0 (0.1%)  MEMORY 2^10.559  BYTECODE 2^15.098  TOTAL_COMMITTED 2^18.576",
+    "logInvRate": 1,
+    "peakRssBytes": 50962432,
+    "proofBytes": 223912,
+    "proveMs": [],
+    "verified": true,
+    "verifyMs": 87.515916,
+    "warmupMs": 81.163173
+   },
+   "keystore": {
+    "accepted": true
+   },
+   "leaf": "0xd99503cd5ed9a222e139cba42aeb007780d642399ec1aba0ef987a189e6cc55b",
+   "q": "0xd54bbf50f370db285126e8ee96be461af3c9b307440c4634191cf9c8cbbb53ea"
+  },
+  "a/one-key": {
+   "proved": true,
+   "m": {
+    "bytecodeLen": 65536,
+    "cycles": 20380,
+    "details": "SET 2^13.041 (41.3%)  DEREF 2^12.794 (34.8%)  XOR 2^11.163 (11.3%)  MUL 2^10.844 (9.0%)  KECCAK 2^9.095 (2.7%)  JUMP 2^7.451 (0.9%)  MEMORY 2^15.06  BYTECODE 2^15.558  TOTAL_COMMITTED 2^19.554",
+    "logInvRate": 1,
+    "peakRssBytes": 84017152,
+    "proofBytes": 247624,
+    "proveMs": [
+     74.737213,
+     64.072783,
+     77.69953699999999
+    ],
+    "verified": true,
+    "verifyMs": 98.329373,
+    "warmupMs": 81.482173
+   },
+   "C": "0x8bbd247c0a97b9ff995dd312fdcb4375df641b6d71eac117e5078b8304121b4e",
+   "D": "0xc4030269b8dc97f429aeee2f3df249e475a9315ed9cb6b6ce47fc5d77bd93745",
+   "rho": "0x26e95dd71698c78cf00bdfae962b81228df9c7805fbdce6060dde99bc57d0bed"
+  },
+  "a/two-of-three": {
+   "proved": true,
+   "m": {
+    "bytecodeLen": 65536,
+    "cycles": 25307,
+    "details": "SET 2^13.176 (36.6%)  DEREF 2^12.854 (29.3%)  XOR 2^12.029 (16.5%)  MUL 2^11.607 (12.3%)  KECCAK 2^10.021 (4.1%)  JUMP 2^8.295 (1.2%)  MEMORY 2^15.667  BYTECODE 2^15.558  TOTAL_COMMITTED 2^19.869",
+    "logInvRate": 1,
+    "peakRssBytes": 100167680,
+    "proofBytes": 267496,
+    "proveMs": [
+     90.476628,
+     89.243339,
+     96.50247200000001
+    ],
+    "verified": true,
+    "verifyMs": 121.367299,
+    "warmupMs": 133.30982999999998
+   },
+   "D": "0xfafb38fd80b33319a6a3af2c3d681cf6c9e0c6bc7cb21b18c0f815e362161af1"
+  },
+  "a/padded-one-key": {
+   "proved": true,
+   "m": {
+    "bytecodeLen": 65536,
+    "cycles": 25291,
+    "details": "SET 2^13.174 (36.5%)  DEREF 2^12.854 (29.3%)  XOR 2^12.029 (16.5%)  MUL 2^11.606 (12.3%)  KECCAK 2^10.021 (4.1%)  JUMP 2^8.281 (1.2%)  MEMORY 2^15.667  BYTECODE 2^15.558  TOTAL_COMMITTED 2^19.869",
+    "logInvRate": 1,
+    "peakRssBytes": 99069952,
+    "proofBytes": 267208,
+    "proveMs": [
+     87.222988,
+     91.13955999999999,
+     74.451646
+    ],
+    "verified": true,
+    "verifyMs": 95.15579000000001,
+    "warmupMs": 88.139961
+   },
+   "D": "0xdd026e3cf8f6b715f0b973027bd264fe6c9d703c47aa2a21069e596de091c2ef"
+  },
+  "b/rotate": {
+   "proved": true,
+   "m": {
+    "bytecodeLen": 65536,
+    "cycles": 20395,
+    "details": "SET 2^13.041 (41.3%)  DEREF 2^12.794 (34.8%)  XOR 2^11.164 (11.2%)  MUL 2^10.85 (9.1%)  KECCAK 2^9.103 (2.7%)  JUMP 2^7.459 (0.9%)  MEMORY 2^15.065  BYTECODE 2^15.56  TOTAL_COMMITTED 2^19.554",
+    "logInvRate": 1,
+    "peakRssBytes": 85352448,
+    "proofBytes": 247072,
+    "proveMs": [
+     67.462614,
+     76.549693,
+     87.64751299999999
+    ],
+    "verified": true,
+    "verifyMs": 135.480073,
+    "warmupMs": 70.822205
+   },
+   "D": "0x7aac40d0e7bf7dded314f1809efad782fc26cf7f7dd1cdbae5d0feddcebc23cd",
+   "n": "0x06bc8e627520b69a0bf75ba4b5682e0a703e324d1b34170ef6f6df87807cabbf",
+   "nextLeaf": "0xda4ae8efe929e0b14cf9569a8d0cae3275a735b84e812a76c8ef260a52fc33bf"
+  },
+  "b/keystore": {
+   "accepted": true
+  },
+  "b/spend-next-version": {
+   "proved": true,
+   "m": {
+    "bytecodeLen": 65536,
+    "cycles": 20362,
+    "details": "SET 2^13.038 (41.3%)  DEREF 2^12.794 (34.9%)  XOR 2^11.163 (11.3%)  MUL 2^10.844 (9.0%)  KECCAK 2^9.095 (2.7%)  JUMP 2^7.426 (0.8%)  MEMORY 2^15.06  BYTECODE 2^15.558  TOTAL_COMMITTED 2^19.554",
+    "logInvRate": 1,
+    "peakRssBytes": 74194944,
+    "proofBytes": 243456,
+    "proveMs": [],
+    "verified": true,
+    "verifyMs": 153.39105,
+    "warmupMs": 103.292266
+   },
+   "rho": "0x16e9d4d2dc57e4f49412d87d1c5585d97ef013acb5456ab64d0acdc471b4332a"
+  },
+  "b/rotate-two-of-three": {
+   "proved": true,
+   "m": {
+    "bytecodeLen": 65536,
+    "cycles": 25318,
+    "details": "SET 2^13.175 (36.5%)  DEREF 2^12.854 (29.2%)  XOR 2^12.03 (16.5%)  MUL 2^11.61 (12.3%)  KECCAK 2^10.025 (4.1%)  JUMP 2^8.295 (1.2%)  MEMORY 2^15.67  BYTECODE 2^15.56  TOTAL_COMMITTED 2^19.869",
+    "logInvRate": 1,
+    "peakRssBytes": 99278848,
+    "proofBytes": 267944,
+    "proveMs": [
+     94.373314,
+     99.024368,
+     91.665702
+    ],
+    "verified": true,
+    "verifyMs": 92.97731900000001,
+    "warmupMs": 112.51902799999999
+   }
+  },
+  "c/revoked-check": {
+   "revokedInKeystore": true,
+   "kappa": "a2e68b5a45bf70b9ab62075628ebc06"
+  },
+  "c1/own-entry": {
+   "proved": false,
+   "error": "Execution(ExecError { pc: 14552, site: \"main (line 550)\", fault: Conflict { cell: 3, had: F192 { c0: 0, c1: 0, c2: 0 }, new: F192 { c0: 2961796850180924517, c1: 1126089014011993614, c2: 5409722444553593264 }, hint: None } })",
+   "entry": [
+    "a2e68b5a45bf70b9ab62075628ebc06",
+    "ffffffffffffffffffffffffffffffff"
+   ]
+  },
+  "c2/entry-below": {
+   "proved": false,
+   "error": "Execution(ExecError { pc: 14552, site: \"main (line 550)\", fault: Conflict { cell: 3, had: F192 { c0: 0, c1: 0, c2: 0 }, new: F192 { c0: 12313923376479804183, c1: 4804734169745273899, c2: 1939458650327957445 }, hint: None } })",
+   "entry": [
+    "0",
+    "a2e68b5a45bf70b9ab62075628ebc06"
+   ]
+  },
+  "c3/old-bracket-old-path": {
+   "proved": false,
+   "error": "Execution(ExecError { pc: 14565, site: \"main (line 577)\", fault: Conflict { cell: 7530, had: F192 { c0: 7321889197250842042, c1: 10267881833372025861, c2: 0 }, new: F192 { c0: 17260288569100745639, c1: 14700741244467345363, c2: 0 }, hint: None } })",
+   "entry": [
+    "0",
+    "ffffffffffffffffffffffffffffffff"
+   ]
+  },
+  "d/old-root": {
+   "proved": true,
+   "m": {
+    "bytecodeLen": 65536,
+    "cycles": 20399,
+    "details": "SET 2^13.043 (41.4%)  DEREF 2^12.794 (34.8%)  XOR 2^11.164 (11.2%)  MUL 2^10.843 (9.0%)  KECCAK 2^9.095 (2.7%)  JUMP 2^7.476 (0.9%)  MEMORY 2^15.06  BYTECODE 2^15.558  TOTAL_COMMITTED 2^19.554",
+    "logInvRate": 1,
+    "peakRssBytes": 74309632,
+    "proofBytes": 246504,
+    "proveMs": [],
+    "verified": true,
+    "verifyMs": 95.289814,
+    "warmupMs": 76.599265
+   },
+   "rho": "0x26e95dd71698c78cf00bdfae962b81228df9c7805fbdce6060dde99bc57d0bed",
+   "rhoNow": "0x16e9d4d2dc57e4f49412d87d1c5585d97ef013acb5456ab64d0acdc471b4332a"
+  },
+  "e1/attacker-keys-in-leaf": {
+   "proved": false,
+   "error": "Execution(ExecError { pc: 13953, site: \"main (line 521)\", fault: Conflict { cell: 3, had: F192 { c0: 0, c1: 0, c2: 0 }, new: F192 { c0: 7750814786479172564, c1: 18199181766781712317, c2: 0 }, hint: None } })",
+   "leafInTree": false
+  },
+  "e2/attacker-signature": {
+   "proved": false,
+   "error": "Execution(ExecError { pc: 45943, site: \"verify_sig_lean_sphincs (line 389)\", fault: NotInK { what: \"JUMP target\", value: F192 { c0: 13181546867604585151, c1: 0, c2: 10054613491989982208 } } })"
+  },
+  "f1/second-registration": {
+   "proved": true,
+   "m": {
+    "bytecodeLen": 65536,
+    "cycles": 1389,
+    "details": "SET 2^10.407 (97.8%)  MUL 2^4.248 (1.4%)  KECCAK 2^3.17 (0.6%)  DEREF 2^1 (0.1%)  JUMP 2^0 (0.1%)  MEMORY 2^10.559  BYTECODE 2^15.098  TOTAL_COMMITTED 2^18.576",
+    "logInvRate": 1,
+    "peakRssBytes": 50753536,
+    "proofBytes": 222720,
+    "proveMs": [],
+    "verified": true,
+    "verifyMs": 79.627876,
+    "warmupMs": 47.158162000000004
+   },
+   "keystore": {
+    "accepted": false,
+    "refused": "registration tag already used"
+   }
+  },
+  "f2/rotation-by-another-key": {
+   "proved": false,
+   "error": "Execution(ExecError { pc: 46007, site: \"verify_sig_lean_sphincs (line 393)\", fault: NotInK { what: \"JUMP target\", value: F192 { c0: 10315034591255398785, c1: 0, c2: 18276154673213426688 } } })"
+  },
+  "f3/registration-tag-of-another-secret": {
+   "proved": false,
+   "error": "Execution(ExecError { pc: 1383, site: \"main (line 574)\", fault: Conflict { cell: 143, had: F192 { c0: 13909649332650916279, c1: 12614768918511918785, c2: 0 }, new: F192 { c0: 12880345195426953912, c1: 8732896236546653083, c2: 0 }, hint: None } })"
+  },
+  "g/control": {
+   "verified": true,
+   "verifyMs": 110.648255
+  },
+  "g/other-account": {
+   "verified": false,
+   "error": "{\"error\":\"Verifier(GkrLayer(18))\"}"
+  },
+  "g/other-message": {
+   "verified": false,
+   "error": "{\"error\":\"Verifier(GkrLayer(18))\"}"
+  },
+  "h1/recover": {
+   "proved": true,
+   "m": {
+    "bytecodeLen": 65536,
+    "cycles": 20427,
+    "details": "SET 2^13.044 (41.3%)  DEREF 2^12.794 (34.8%)  XOR 2^11.166 (11.2%)  MUL 2^10.854 (9.1%)  KECCAK 2^9.111 (2.7%)  JUMP 2^7.492 (0.9%)  MEMORY 2^15.065  BYTECODE 2^15.56  TOTAL_COMMITTED 2^19.554",
+    "logInvRate": 1,
+    "peakRssBytes": 87412736,
+    "proofBytes": 246272,
+    "proveMs": [
+     73.565754,
+     92.103446,
+     72.119323
+    ],
+    "verified": true,
+    "verifyMs": 93.278467,
+    "warmupMs": 79.79862999999999
+   },
+   "keystore": {
+    "accepted": true
+   },
+   "clock": 0
+  },
+  "h1/cancel": {
+   "proved": true,
+   "m": {
+    "bytecodeLen": 65536,
+    "cycles": 20407,
+    "details": "SET 2^13.042 (41.3%)  DEREF 2^12.794 (34.8%)  XOR 2^11.164 (11.2%)  MUL 2^10.85 (9.0%)  KECCAK 2^9.103 (2.7%)  JUMP 2^7.476 (0.9%)  MEMORY 2^15.065  BYTECODE 2^15.56  TOTAL_COMMITTED 2^19.554",
+    "logInvRate": 1,
+    "peakRssBytes": 73793536,
+    "proofBytes": 245480,
+    "proveMs": [],
+    "verified": true,
+    "verifyMs": 97.314166,
+    "warmupMs": 81.90828
+   },
+   "keystore": {
+    "accepted": true
+   },
+   "clock": 5
+  },
+  "h1/execute-after-cancel": {
+   "accepted": false,
+   "refused": "no such queued recovery",
+   "clock": 15
+  },
+  "h2/recover": {
+   "proved": true,
+   "m": {
+    "bytecodeLen": 65536,
+    "cycles": 20409,
+    "details": "SET 2^13.041 (41.3%)  DEREF 2^12.794 (34.8%)  XOR 2^11.166 (11.3%)  MUL 2^10.854 (9.1%)  KECCAK 2^9.111 (2.7%)  JUMP 2^7.468 (0.9%)  MEMORY 2^15.065  BYTECODE 2^15.56  TOTAL_COMMITTED 2^19.554",
+    "logInvRate": 1,
+    "peakRssBytes": 74321920,
+    "proofBytes": 247016,
+    "proveMs": [],
+    "verified": true,
+    "verifyMs": 97.901601,
+    "warmupMs": 76.754486
+   },
+   "keystore": {
+    "accepted": true
+   },
+   "clock": 15
+  },
+  "h2/execute-one-tick-early": {
+   "accepted": false,
+   "refused": "the recovery delay has not passed",
+   "clock": 24
+  },
+  "h2/execute": {
+   "accepted": true,
+   "clock": 25
+  },
+  "h2/spend-new-version": {
+   "proved": true,
+   "m": {
+    "bytecodeLen": 65536,
+    "cycles": 20375,
+    "details": "SET 2^13.04 (41.3%)  DEREF 2^12.794 (34.9%)  XOR 2^11.164 (11.3%)  MUL 2^10.843 (9.0%)  KECCAK 2^9.095 (2.7%)  JUMP 2^7.443 (0.9%)  MEMORY 2^15.06  BYTECODE 2^15.558  TOTAL_COMMITTED 2^19.554",
+    "logInvRate": 1,
+    "peakRssBytes": 73961472,
+    "proofBytes": 246600,
+    "proveMs": [],
+    "verified": true,
+    "verifyMs": 96.831723,
+    "warmupMs": 106.64918
+   }
+  },
+  "h2/spend-old-version": {
+   "proved": false,
+   "error": "Execution(ExecError { pc: 14552, site: \"main (line 550)\", fault: Conflict { cell: 3, had: F192 { c0: 0, c1: 0, c2: 0 }, new: F192 { c0: 574360542970069, c1: 16455569228745340678, c2: 3104808021541997027 }, hint: None } })"
+  },
+  "i/one-key": {
+   "proved": true,
+   "runs": [
+    {
+     "proved": true,
+     "proofBytes": 244928,
+     "verifyMs": 93.000165,
+     "cycles": 20385,
+     "rows": {
+      "SET": 13.041,
+      "DEREF": 12.794,
+      "XOR": 11.162,
+      "MUL": 10.845,
+      "KECCAK": 9.095,
+      "JUMP": 7.459,
+      "MEMORY": 15.06,
+      "BYTECODE": 15.558,
+      "TOTAL_COMMITTED": 19.554
+     },
+     "publicCells": 2
+    },
+    {
+     "proved": true,
+     "proofBytes": 247528,
+     "verifyMs": 99.439961,
+     "cycles": 20399,
+     "rows": {
+      "SET": 13.043,
+      "DEREF": 12.794,
+      "XOR": 11.164,
+      "MUL": 10.843,
+      "KECCAK": 9.095,
+      "JUMP": 7.476,
+      "MEMORY": 15.06,
+      "BYTECODE": 15.558,
+      "TOTAL_COMMITTED": 19.554
+     },
+     "publicCells": 2
+    },
+    {
+     "proved": true,
+     "proofBytes": 246120,
+     "verifyMs": 99.776925,
+     "cycles": 20387,
+     "rows": {
+      "SET": 13.042,
+      "DEREF": 12.794,
+      "XOR": 11.164,
+      "MUL": 10.843,
+      "KECCAK": 9.095,
+      "JUMP": 7.459,
+      "MEMORY": 15.06,
+      "BYTECODE": 15.558,
+      "TOTAL_COMMITTED": 19.554
+     },
+     "publicCells": 2
+    },
+    {
+     "proved": true,
+     "proofBytes": 247240,
+     "verifyMs": 100.980569,
+     "cycles": 20381,
+     "rows": {
+      "SET": 13.041,
+      "DEREF": 12.794,
+      "XOR": 11.164,
+      "MUL": 10.843,
+      "KECCAK": 9.095,
+      "JUMP": 7.451,
+      "MEMORY": 15.06,
+      "BYTECODE": 15.558,
+      "TOTAL_COMMITTED": 19.554
+     },
+     "publicCells": 2
+    },
+    {
+     "proved": true,
+     "proofBytes": 245960,
+     "verifyMs": 98.758134,
+     "cycles": 20393,
+     "rows": {
+      "SET": 13.043,
+      "DEREF": 12.794,
+      "XOR": 11.164,
+      "MUL": 10.843,
+      "KECCAK": 9.095,
+      "JUMP": 7.468,
+      "MEMORY": 15.06,
+      "BYTECODE": 15.558,
+      "TOTAL_COMMITTED": 19.554
+     },
+     "publicCells": 2
+    }
+   ],
+   "program": "0xd37202eca87b7cd65cb3aeed2d0449fcd53141918d62373cee59bfe648c708e1"
+  },
+  "i/two-of-three": {
+   "proved": true,
+   "runs": [
+    {
+     "proved": true,
+     "proofBytes": 269192,
+     "verifyMs": 94.773639,
+     "cycles": 25279,
+     "rows": {
+      "SET": 13.172,
+      "DEREF": 12.854,
+      "XOR": 12.029,
+      "MUL": 11.606,
+      "KECCAK": 10.021,
+      "JUMP": 8.271,
+      "MEMORY": 15.667,
+      "BYTECODE": 15.558,
+      "TOTAL_COMMITTED": 19.869
+     },
+     "publicCells": 2
+    },
+    {
+     "proved": true,
+     "proofBytes": 267464,
+     "verifyMs": 96.47649899999999,
+     "cycles": 25308,
+     "rows": {
+      "SET": 13.176,
+      "DEREF": 12.854,
+      "XOR": 12.029,
+      "MUL": 11.607,
+      "KECCAK": 10.021,
+      "JUMP": 8.295,
+      "MEMORY": 15.667,
+      "BYTECODE": 15.558,
+      "TOTAL_COMMITTED": 19.869
+     },
+     "publicCells": 2
+    },
+    {
+     "proved": true,
+     "proofBytes": 268872,
+     "verifyMs": 94.85333,
+     "cycles": 25307,
+     "rows": {
+      "SET": 13.176,
+      "DEREF": 12.854,
+      "XOR": 12.029,
+      "MUL": 11.607,
+      "KECCAK": 10.021,
+      "JUMP": 8.295,
+      "MEMORY": 15.667,
+      "BYTECODE": 15.558,
+      "TOTAL_COMMITTED": 19.869
+     },
+     "publicCells": 2
+    },
+    {
+     "proved": true,
+     "proofBytes": 268520,
+     "verifyMs": 97.860742,
+     "cycles": 25301,
+     "rows": {
+      "SET": 13.175,
+      "DEREF": 12.854,
+      "XOR": 12.029,
+      "MUL": 11.607,
+      "KECCAK": 10.021,
+      "JUMP": 8.29,
+      "MEMORY": 15.667,
+      "BYTECODE": 15.558,
+      "TOTAL_COMMITTED": 19.869
+     },
+     "publicCells": 2
+    },
+    {
+     "proved": true,
+     "proofBytes": 268840,
+     "verifyMs": 103.013916,
+     "cycles": 25279,
+     "rows": {
+      "SET": 13.172,
+      "DEREF": 12.854,
+      "XOR": 12.029,
+      "MUL": 11.606,
+      "KECCAK": 10.021,
+      "JUMP": 8.271,
+      "MEMORY": 15.667,
+      "BYTECODE": 15.558,
+      "TOTAL_COMMITTED": 19.869
+     },
+     "publicCells": 2
+    }
+   ],
+   "program": "0xd37202eca87b7cd65cb3aeed2d0449fcd53141918d62373cee59bfe648c708e1"
+  },
+  "i/padded-one-key": {
+   "proved": true,
+   "runs": [
+    {
+     "proved": true,
+     "proofBytes": 268744,
+     "verifyMs": 94.859671,
+     "cycles": 25255,
+     "rows": {
+      "SET": 13.169,
+      "DEREF": 12.854,
+      "XOR": 12.029,
+      "MUL": 11.606,
+      "KECCAK": 10.021,
+      "JUMP": 8.253,
+      "MEMORY": 15.667,
+      "BYTECODE": 15.558,
+      "TOTAL_COMMITTED": 19.869
+     },
+     "publicCells": 2
+    },
+    {
+     "proved": true,
+     "proofBytes": 269224,
+     "verifyMs": 97.318649,
+     "cycles": 25311,
+     "rows": {
+      "SET": 13.176,
+      "DEREF": 12.854,
+      "XOR": 12.028,
+      "MUL": 11.608,
+      "KECCAK": 10.021,
+      "JUMP": 8.299,
+      "MEMORY": 15.667,
+      "BYTECODE": 15.558,
+      "TOTAL_COMMITTED": 19.869
+     },
+     "publicCells": 2
+    },
+    {
+     "proved": true,
+     "proofBytes": 269192,
+     "verifyMs": 95.537017,
+     "cycles": 25267,
+     "rows": {
+      "SET": 13.171,
+      "DEREF": 12.854,
+      "XOR": 12.029,
+      "MUL": 11.606,
+      "KECCAK": 10.021,
+      "JUMP": 8.262,
+      "MEMORY": 15.667,
+      "BYTECODE": 15.558,
+      "TOTAL_COMMITTED": 19.869
+     },
+     "publicCells": 2
+    },
+    {
+     "proved": true,
+     "proofBytes": 268360,
+     "verifyMs": 95.948085,
+     "cycles": 25303,
+     "rows": {
+      "SET": 13.175,
+      "DEREF": 12.854,
+      "XOR": 12.029,
+      "MUL": 11.606,
+      "KECCAK": 10.021,
+      "JUMP": 8.29,
+      "MEMORY": 15.667,
+      "BYTECODE": 15.558,
+      "TOTAL_COMMITTED": 19.869
+     },
+     "publicCells": 2
+    },
+    {
+     "proved": true,
+     "proofBytes": 268000,
+     "verifyMs": 93.545,
+     "cycles": 25267,
+     "rows": {
+      "SET": 13.171,
+      "DEREF": 12.854,
+      "XOR": 12.029,
+      "MUL": 11.606,
+      "KECCAK": 10.021,
+      "JUMP": 8.262,
+      "MEMORY": 15.667,
+      "BYTECODE": 15.558,
+      "TOTAL_COMMITTED": 19.869
+     },
+     "publicCells": 2
+    }
+   ],
+   "program": "0xd37202eca87b7cd65cb3aeed2d0449fcd53141918d62373cee59bfe648c708e1"
+  }
+ },
+ "finished": "2026-11-24T01:35:24.222Z"
+}

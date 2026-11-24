@@ -1,0 +1,17 @@
+{
+  "skandha": {
+    "url": "https://github.com/4w44h9jckz-boop/skandha",
+    "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade",
+    "why": "two nodes in front of the local chain and the test network; the commit experiment 19 ran"
+  },
+  "skandhaNodePath": {
+    "url": "https://github.com/4w44h9jckz-boop/skandha",
+    "commit": "ef266b3d3c672b2247c2ae1036b67fbc85c0638e",
+    "why": "amendment 5: the node path for EIP-8288 master's dependency frames, surface profile eip-8288-master and frames_sendWrapper (the mempool session's branch claude/zealous-ptolemy-g7w9h5)"
+  },
+  "skandhaNodePathNonceFix": {
+    "url": "https://github.com/4w44h9jckz-boop/skandha",
+    "commit": "e9512aa88800cf4fdfaba1344a0d43323723b136",
+    "why": "amendment 7: the node path with node A's nonce read fixed (packages/node only): each admission takes the client's latest head first"
+  }
+}

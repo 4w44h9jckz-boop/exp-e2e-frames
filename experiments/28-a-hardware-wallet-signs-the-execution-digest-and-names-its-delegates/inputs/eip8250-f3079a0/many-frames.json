@@ -1,0 +1,198 @@
+{
+ "name": "many-frames",
+ "set": "eip8250-f3079a0",
+ "eip8250": "f3079a09e8c606afcb0e5e1a309ff228b88dc067",
+ "executionDigest": "0x8fd3d6366bb7e085a778476d906bd2f6c835b48ce65fdb608ff5724f24015233",
+ "typedData": {
+  "types": {
+   "EIP712Domain": [
+    {
+     "name": "name",
+     "type": "string"
+    },
+    {
+     "name": "version",
+     "type": "string"
+    },
+    {
+     "name": "chainId",
+     "type": "uint256"
+    },
+    {
+     "name": "verifyingContract",
+     "type": "address"
+    }
+   ],
+   "FrameExecution": [
+    {
+     "name": "nonceKeysHash",
+     "type": "bytes32"
+    },
+    {
+     "name": "nonceSeq",
+     "type": "uint64"
+    },
+    {
+     "name": "frames",
+     "type": "Frame[]"
+    },
+    {
+     "name": "blobVersionedHashes",
+     "type": "bytes32[]"
+    }
+   ],
+   "Frame": [
+    {
+     "name": "mode",
+     "type": "uint8"
+    },
+    {
+     "name": "flags",
+     "type": "uint8"
+    },
+    {
+     "name": "target",
+     "type": "address"
+    },
+    {
+     "name": "executionLimit",
+     "type": "uint64"
+    },
+    {
+     "name": "stateLimit",
+     "type": "uint64"
+    },
+    {
+     "name": "value",
+     "type": "uint256"
+    },
+    {
+     "name": "data",
+     "type": "bytes"
+    }
+   ]
+  },
+  "primaryType": "FrameExecution",
+  "domain": {
+   "name": "FrameExecution",
+   "version": "1",
+   "chainId": 8141,
+   "verifyingContract": "0x2700000000000000000000000000000000000001"
+  },
+  "message": {
+   "nonceKeysHash": "0xada5013122d395ba3c54772283fb069b10426056ef8ca54750cb9bb552a59e7d",
+   "nonceSeq": "0",
+   "frames": [
+    {
+     "mode": 1,
+     "flags": 2,
+     "target": "0x2700000000000000000000000000000000000001",
+     "executionLimit": 30000,
+     "stateLimit": 0,
+     "value": "0",
+     "data": "0x"
+    },
+    {
+     "mode": 1,
+     "flags": 1,
+     "target": "0x0000000000000000000000000000000000000000",
+     "executionLimit": 0,
+     "stateLimit": 0,
+     "value": "0",
+     "data": "0x"
+    },
+    {
+     "mode": 2,
+     "flags": 0,
+     "target": "0x2700000000000000000000000000000000000020",
+     "executionLimit": 20000,
+     "stateLimit": 0,
+     "value": "0",
+     "data": "0x"
+    },
+    {
+     "mode": 0,
+     "flags": 0,
+     "target": "0x2700000000000000000000000000000000000021",
+     "executionLimit": 20001,
+     "stateLimit": 0,
+     "value": "0",
+     "data": "0x5a"
+    },
+    {
+     "mode": 2,
+     "flags": 0,
+     "target": "0x2700000000000000000000000000000000000022",
+     "executionLimit": 20002,
+     "stateLimit": 0,
+     "value": "0",
+     "data": "0x5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a"
+    },
+    {
+     "mode": 0,
+     "flags": 0,
+     "target": "0x2700000000000000000000000000000000000023",
+     "executionLimit": 20003,
+     "stateLimit": 0,
+     "value": "0",
+     "data": "0x5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a"
+    },
+    {
+     "mode": 2,
+     "flags": 0,
+     "target": "0x2700000000000000000000000000000000000024",
+     "executionLimit": 20004,
+     "stateLimit": 0,
+     "value": "0",
+     "data": "0x5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a"
+    },
+    {
+     "mode": 0,
+     "flags": 0,
+     "target": "0x2700000000000000000000000000000000000025",
+     "executionLimit": 20005,
+     "stateLimit": 0,
+     "value": "0",
+     "data": "0x5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a"
+    },
+    {
+     "mode": 2,
+     "flags": 0,
+     "target": "0x2700000000000000000000000000000000000026",
+     "executionLimit": 20006,
+     "stateLimit": 0,
+     "value": "0",
+     "data": "0x"
+    },
+    {
+     "mode": 0,
+     "flags": 0,
+     "target": "0x2700000000000000000000000000000000000027",
+     "executionLimit": 20007,
+     "stateLimit": 0,
+     "value": "0",
+     "data": "0x5a"
+    },
+    {
+     "mode": 2,
+     "flags": 0,
+     "target": "0x2700000000000000000000000000000000000028",
+     "executionLimit": 20008,
+     "stateLimit": 0,
+     "value": "0",
+     "data": "0x5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a"
+    },
+    {
+     "mode": 0,
+     "flags": 0,
+     "target": "0x2700000000000000000000000000000000000029",
+     "executionLimit": 20009,
+     "stateLimit": 0,
+     "value": "0",
+     "data": "0x5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a"
+    }
+   ],
+   "blobVersionedHashes": []
+  }
+ }
+}

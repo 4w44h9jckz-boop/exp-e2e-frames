@@ -1,0 +1,337 @@
+{
+  "experiment": 24,
+  "run": "1-first-run",
+  "date": "2026-11-05T09:09:39.037Z",
+  "repoCommit": "02d4b9f0629068d89a9ab22781ed2772afb2dd77",
+  "pins": {
+    "skandha": {
+      "url": "https://github.com/4w44h9jckz-boop/skandha",
+      "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade",
+      "why": "two nodes under the test network's profile and one under skandha's eip-8141.json; the commit experiment 19 ran, which loads descriptors with --frames.descriptor"
+    }
+  },
+  "chainId": 8141,
+  "command": "npx tsx experiments/24-x17-a-private-withdrawal-with-and-without-a-relayer/run.ts 1-first-run",
+  "deployment": "d2",
+  "contracts": {
+    "verifier": "0x0251d355FA4536B96fB98100C7A22F19C8F88a2d",
+    "poolA": "0xa06Bb5EB8a2c8e5B42eE19AbDf5D2ef2E7C70B85",
+    "poolB": "0xdBB7F1b1f5F5aCC0553a4B3F925d4A7B33a9b861"
+  },
+  "fees": {
+    "armA": {
+      "wei": "20800000000000",
+      "bps": 208,
+      "source": "exp-frames experiment 30, the median relayed fee on Tornado Cash's 0.1 ETH pool, 0.002080 ETH"
+    },
+    "armB": {
+      "wei": "200000000",
+      "rule": "at least the transaction's maximum cost, refunded above the charge"
+    }
+  },
+  "nodes": {
+    "A": "the test network's profile, hands off",
+    "B": "the test network's profile, booted from A, hands off",
+    "C": "EIP-8141's own rules, skandha's eip-8141.json, alone"
+  },
+  "blocks": {
+    "first": 699887,
+    "beforeNodes": 699890,
+    "last": 699903
+  },
+  "setup": [
+    {
+      "what": "deploy the verifier and both pools",
+      "hash": "0xef32322bfd2edc39aa17406bf1dde5f07b4badca490e2be8dbee644aad3af242",
+      "block": 699887,
+      "gasUsed": 8198864,
+      "ok": true
+    },
+    {
+      "what": "A: deposit",
+      "hash": "0x6274fc70da349f955fceb28003c0bd18064f3b485cf2577c72ee0279995634d2",
+      "block": 699888,
+      "gasUsed": 3267666,
+      "ok": true
+    },
+    {
+      "what": "B, note 1: deposit",
+      "hash": "0xc3859d1a8474803bf26b84a05ddfa1ad43d40fbb54db912c69d32b47559a4acf",
+      "block": 699898,
+      "gasUsed": 3267699,
+      "ok": true
+    },
+    {
+      "what": "B, note 2: deposit",
+      "hash": "0x5f0ae447b67d4de67b03e54c5d13be93e0c4d8a606df5a5f1b569580fcc88f8a",
+      "block": 699899,
+      "gasUsed": 1103378,
+      "ok": true
+    }
+  ],
+  "rows": [
+    {
+      "arm": "A",
+      "step": "the recipient sends its own withdrawal, holding no ETH",
+      "recipient": "0xC307De38616389F29B3605a31D999C141eD7Ac18",
+      "recipientBalance": "0",
+      "answer": "Invalid params: Account does not have enough balance to cover the tx cost"
+    },
+    {
+      "arm": "A",
+      "step": "a relayer sends the withdrawal",
+      "outcome": "mined",
+      "hash": "0x59bb0fed84292a4f7ed62355097dd5dca6c6065b4cae920362e08bfac94a729a",
+      "block": 699890,
+      "gasUsed": 564729,
+      "type": "eip1559",
+      "fee": "20800000000000",
+      "feeBps": 208,
+      "recipientGot": "979200000000000",
+      "proveMs": 6847,
+      "names": [
+        "0xa131d9454d87957dcc465fb37acd9b383648b4d5",
+        "0xa06bb5eb8a2c8e5b42ee19abdf5d2ef2e7c70b85",
+        "0xc307de38616389f29b3605a31d999c141ed7ac18"
+      ],
+      "relayer": "0xa131d9454d87957dcC465fb37ACD9b383648B4d5",
+      "admission": "the execution client's own pool, over the test network's RPC: skandha takes frame transactions only"
+    },
+    {
+      "arm": "B",
+      "step": "B, withdrawal 1: node C (EIP-8141's own rules), then node A with B up",
+      "outcome": "mined",
+      "hash": "0x345f9a82e88b8b60fd94acdd9ad6549a2cb8f48b85f44a2368819d5c06656868",
+      "block": 699901,
+      "gasUsed": 554614,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 227356,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 14137,
+          "state": 183600
+        },
+        {
+          "status": 1,
+          "execution": 11428,
+          "state": 0
+        }
+      ],
+      "simulation": {
+        "valid": true,
+        "violation": null,
+        "executionStatus": "success",
+        "gasUsed": "0x87676"
+      },
+      "answers": {
+        "C": "refused: {\"code\":-32000,\"message\":\"ErrFrameVerifyGas\",\"data\":{\"rule\":\"FP-6\",\"descriptor\":\"bafkreic7kyifykopewlbznmhicjvfrmbxhmfwaaxglrdcgrttm2qw5blb4\"}}",
+        "A": "admitted: 0x345f9a82e88b8b60fd94acdd9ad6549a2cb8f48b85f44a2368819d5c06656868"
+      },
+      "seen": {
+        "A": [
+          {
+            "t": "2026-11-05T09:09:19.470Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0x345f9a82e88b8b60fd94acdd9ad6549a2cb8f48b85f44a2368819d5c06656868",
+            "result": "ok",
+            "client": "valid",
+            "head": 699899
+          },
+          {
+            "t": "2026-11-05T09:09:19.475Z",
+            "node": "A",
+            "event": "relay",
+            "hash": "0x345f9a82e88b8b60fd94acdd9ad6549a2cb8f48b85f44a2368819d5c06656868",
+            "peers": 1
+          },
+          {
+            "t": "2026-11-05T09:09:19.637Z",
+            "node": "A",
+            "event": "handoff",
+            "hash": "0x345f9a82e88b8b60fd94acdd9ad6549a2cb8f48b85f44a2368819d5c06656868",
+            "agrees": true
+          },
+          {
+            "t": "2026-11-05T09:09:20.739Z",
+            "node": "A",
+            "event": "head",
+            "head": 699900,
+            "asked": [
+              "0x345f9a82e88b8b60fd94acdd9ad6549a2cb8f48b85f44a2368819d5c06656868"
+            ],
+            "verdicts": {
+              "0x345f9a82e88b8b60fd94acdd9ad6549a2cb8f48b85f44a2368819d5c06656868": "ok"
+            },
+            "resimulated": [],
+            "removed": [],
+            "pending": [
+              "0x345f9a82e88b8b60fd94acdd9ad6549a2cb8f48b85f44a2368819d5c06656868"
+            ]
+          }
+        ],
+        "B": [
+          {
+            "t": "2026-11-05T09:09:19.940Z",
+            "node": "B",
+            "event": "gossip",
+            "from": "16Uiu2HAmTLxQKT9Jh95hXrLqNoof8iQaSXatswqpyAtzNNSUKvKA",
+            "hash": "0x345f9a82e88b8b60fd94acdd9ad6549a2cb8f48b85f44a2368819d5c06656868",
+            "result": "ok",
+            "client": "valid",
+            "outcome": "accept",
+            "head": 699899
+          },
+          {
+            "t": "2026-11-05T09:09:20.098Z",
+            "node": "B",
+            "event": "handoff",
+            "hash": "0x345f9a82e88b8b60fd94acdd9ad6549a2cb8f48b85f44a2368819d5c06656868",
+            "agrees": true
+          },
+          {
+            "t": "2026-11-05T09:09:20.790Z",
+            "node": "B",
+            "event": "head",
+            "head": 699900,
+            "asked": [
+              "0x345f9a82e88b8b60fd94acdd9ad6549a2cb8f48b85f44a2368819d5c06656868"
+            ],
+            "verdicts": {
+              "0x345f9a82e88b8b60fd94acdd9ad6549a2cb8f48b85f44a2368819d5c06656868": "ok"
+            },
+            "resimulated": [],
+            "removed": [],
+            "pending": [
+              "0x345f9a82e88b8b60fd94acdd9ad6549a2cb8f48b85f44a2368819d5c06656868"
+            ]
+          }
+        ],
+        "C": [
+          {
+            "t": "2026-11-05T09:09:19.028Z",
+            "node": "C",
+            "event": "rpc",
+            "hash": "0x345f9a82e88b8b60fd94acdd9ad6549a2cb8f48b85f44a2368819d5c06656868",
+            "result": "ErrFrameVerifyGas",
+            "rule": "FP-6",
+            "descriptor": "bafkreic7kyifykopewlbznmhicjvfrmbxhmfwaaxglrdcgrttm2qw5blb4",
+            "head": 699899
+          }
+        ]
+      },
+      "names": [
+        "0xdbb7f1b1f5f5acc0553a4b3f925d4a7b33a9b861",
+        "0x4569849febbdf68a7f3effba9c27379dbedf690c"
+      ],
+      "fee": "200000000"
+    },
+    {
+      "arm": "B",
+      "step": "B, withdrawal 2: node B alone, A stopped",
+      "outcome": "mined",
+      "hash": "0xb59ca4f262b669a1b70f6d47f0025aa41be50988ae38a7da7757a04b8cf0a056",
+      "block": 699903,
+      "gasUsed": 552956,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 227356,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 14137,
+          "state": 183600
+        },
+        {
+          "status": 1,
+          "execution": 9758,
+          "state": 0
+        }
+      ],
+      "simulation": {
+        "valid": true,
+        "violation": null,
+        "executionStatus": "success",
+        "gasUsed": "0x86ffc"
+      },
+      "answers": {
+        "B": "admitted: 0xb59ca4f262b669a1b70f6d47f0025aa41be50988ae38a7da7757a04b8cf0a056"
+      },
+      "seen": {
+        "B": [
+          {
+            "t": "2026-11-05T09:09:30.447Z",
+            "node": "B",
+            "event": "rpc",
+            "hash": "0xb59ca4f262b669a1b70f6d47f0025aa41be50988ae38a7da7757a04b8cf0a056",
+            "result": "ok",
+            "client": "valid",
+            "head": 699901
+          },
+          {
+            "t": "2026-11-05T09:09:30.450Z",
+            "node": "B",
+            "event": "relay",
+            "hash": "0xb59ca4f262b669a1b70f6d47f0025aa41be50988ae38a7da7757a04b8cf0a056",
+            "error": "PublishError.InsufficientPeers"
+          },
+          {
+            "t": "2026-11-05T09:09:30.450Z",
+            "node": "B",
+            "event": "relay",
+            "hash": "0xb59ca4f262b669a1b70f6d47f0025aa41be50988ae38a7da7757a04b8cf0a056",
+            "peers": 0
+          },
+          {
+            "t": "2026-11-05T09:09:30.618Z",
+            "node": "B",
+            "event": "handoff",
+            "hash": "0xb59ca4f262b669a1b70f6d47f0025aa41be50988ae38a7da7757a04b8cf0a056",
+            "agrees": true
+          },
+          {
+            "t": "2026-11-05T09:09:32.306Z",
+            "node": "B",
+            "event": "head",
+            "head": 699902,
+            "asked": [
+              "0xb59ca4f262b669a1b70f6d47f0025aa41be50988ae38a7da7757a04b8cf0a056"
+            ],
+            "verdicts": {
+              "0xb59ca4f262b669a1b70f6d47f0025aa41be50988ae38a7da7757a04b8cf0a056": "ok"
+            },
+            "resimulated": [],
+            "removed": [],
+            "pending": [
+              "0xb59ca4f262b669a1b70f6d47f0025aa41be50988ae38a7da7757a04b8cf0a056"
+            ]
+          },
+          {
+            "t": "2026-11-05T09:09:38.146Z",
+            "node": "B",
+            "event": "head",
+            "head": 699903,
+            "asked": [],
+            "verdicts": {},
+            "resimulated": [],
+            "removed": [
+              "0xb59ca4f262b669a1b70f6d47f0025aa41be50988ae38a7da7757a04b8cf0a056"
+            ],
+            "pending": []
+          }
+        ]
+      },
+      "names": [
+        "0xdbb7f1b1f5f5acc0553a4b3f925d4a7b33a9b861",
+        "0x28b645260cc5e0e2f71d5ff581e073928af9faf8"
+      ],
+      "fee": "200000000"
+    }
+  ]
+}

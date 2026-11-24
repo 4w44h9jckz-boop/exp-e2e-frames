@@ -1,0 +1,438 @@
+{
+ "label": "2-new-genesis",
+ "repoCommit": "76c314a136fbdc1c1d32a627503b1c40f3fe1078",
+ "efCommit": "83996e906c5e03e6da29818fa001c083f30b097b",
+ "writeCheck": "/home/user/kohaku-rs/crates/target/release/write-check",
+ "ethrex": "64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c",
+ "chainId": 8141,
+ "maxVerifyGas": 100000,
+ "only": [
+  "A27/with-expiry",
+  "A27/keyed-nonces",
+  "A27/legacy-nonce-7",
+  "A27/value-and-default"
+ ],
+ "cases": [
+  {
+   "id": "A27/with-expiry",
+   "family": "A: experiment 27",
+   "template": "erc20-transfer",
+   "rules": "f3079a0",
+   "predicted": "pass",
+   "verdict": "pass",
+   "matches": true,
+   "result": {
+    "feeRecipient": "0x0000000000000000000000000000000000000000",
+    "intent": {
+     "allowed": [
+      {
+       "address": "0x2700000000000000000000000000000000000010",
+       "expect": {
+        "expect": "delta",
+        "value": "-1"
+       },
+       "field": {
+        "field": "storage",
+        "slot": "0x8f7ea4c270b9412ee2572cb39941903fcf5e559d6f7b5593bb056da40b3000a7"
+       },
+       "getter": [
+        "0x2700000000000000000000000000000000000010",
+        "0x70a082310000000000000000000000002700000000000000000000000000000000000001"
+       ],
+       "what": "0x2700000000000000000000000000000000000010: the sender's balance falls by 1"
+      },
+      {
+       "address": "0x2700000000000000000000000000000000000010",
+       "expect": {
+        "expect": "delta",
+        "value": "1"
+       },
+       "field": {
+        "field": "storage",
+        "slot": "0x801bdaead39b9fe33b44d515257a33357326b9c3b877981b25e24a0b4a421d83"
+       },
+       "getter": [
+        "0x2700000000000000000000000000000000000010",
+        "0x70a082310000000000000000000000002700000000000000000000000000000000000013"
+       ],
+       "what": "0x2700000000000000000000000000000000000010: 0x2700000000000000000000000000000000000013's balance rises by 1"
+      }
+     ],
+     "template": "erc20-transfer",
+     "value_out": "0x0"
+    },
+    "layoutChecks": [
+     {
+      "address": "0x2700000000000000000000000000000000000010",
+      "slot": "0x8f7ea4c270b9412ee2572cb39941903fcf5e559d6f7b5593bb056da40b3000a7",
+      "value": "0x3635c9adc5dea00000"
+     },
+     {
+      "address": "0x2700000000000000000000000000000000000010",
+      "slot": "0x801bdaead39b9fe33b44d515257a33357326b9c3b877981b25e24a0b4a421d83",
+      "value": "0x1"
+     }
+    ],
+    "q": {
+     "assertNamed": "0x682c9c8900000000000000000000000027000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000002470a08231000000000000000000000000270000000000000000000000000000000000001300000000000000000000000000000000000000000000000000000000000000000000000000000000270000000000000000000000000000000000001000000000000000000000000000000000000000000000003635c9adc5de9fffff000000000000000000000000000000000000000000000000000000000000002470a08231000000000000000000000000270000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000",
+     "assertWrites": "0x25c8701e00000000000000000000000000000000000000000000000000000000000000020000000000000000000000002700000000000000000000000000000000000010801bdaead39b9fe33b44d515257a33357326b9c3b877981b25e24a0b4a421d83000000000000000000000000000000000000000000000000000000000000000200000000000000000000000027000000000000000000000000000000000000108f7ea4c270b9412ee2572cb39941903fcf5e559d6f7b5593bb056da40b3000a700000000000000000000000000000000000000000000003635c9adc5de9fffff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000087761a88398830f371282d2d3e35d227ebfb8777"
+    },
+    "sender": "0x2700000000000000000000000000000000000001",
+    "transaction": "0x14967d0ab21cb71963862098effc203253c97934961f91533e94cdd58d5267ef",
+    "verdict": {
+     "exempt": [
+      {
+       "change": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "after": "0x33b2e3c9fd0803cebb15bb8",
+        "before": "0x33b2e3c9fd0803ce8000000",
+        "field": "balance"
+       },
+       "kind": "fee: the fee recipient"
+      },
+      {
+       "change": {
+        "address": "0x2700000000000000000000000000000000000001",
+        "after": "0x1",
+        "before": "0x0",
+        "field": "nonce"
+       },
+       "kind": "nonce: the sender's account nonce"
+      },
+      {
+       "change": {
+        "address": "0x87761a88398830f371282d2d3e35d227ebfb8777",
+        "after": "0x3635c9adc5dae80633",
+        "before": "0x3635c9adc5dea00000",
+        "field": "balance"
+       },
+       "kind": "fee: the payer"
+      }
+     ],
+     "matched": [
+      {
+       "change": {
+        "address": "0x2700000000000000000000000000000000000010",
+        "after": "0x2",
+        "before": "0x1",
+        "field": "storage",
+        "slot": "0x801bdaead39b9fe33b44d515257a33357326b9c3b877981b25e24a0b4a421d83"
+       },
+       "what": "0x2700000000000000000000000000000000000010: 0x2700000000000000000000000000000000000013's balance rises by 1"
+      },
+      {
+       "change": {
+        "address": "0x2700000000000000000000000000000000000010",
+        "after": "0x3635c9adc5de9fffff",
+        "before": "0x3635c9adc5dea00000",
+        "field": "storage",
+        "slot": "0x8f7ea4c270b9412ee2572cb39941903fcf5e559d6f7b5593bb056da40b3000a7"
+       },
+       "what": "0x2700000000000000000000000000000000000010: the sender's balance falls by 1"
+      }
+     ],
+     "mismatched": [],
+     "missing": [],
+     "reason": null,
+     "status": "pass",
+     "unlisted": []
+    }
+   },
+   "stderr": null
+  },
+  {
+   "id": "A27/keyed-nonces",
+   "family": "A: experiment 27",
+   "template": "eth-transfer",
+   "rules": "f3079a0",
+   "predicted": "pass",
+   "verdict": "pass",
+   "matches": true,
+   "result": {
+    "feeRecipient": "0x0000000000000000000000000000000000000000",
+    "intent": {
+     "allowed": [
+      {
+       "address": "0x2700000000000000000000000000000000000013",
+       "expect": {
+        "expect": "delta",
+        "value": "5"
+       },
+       "field": {
+        "field": "balance"
+       },
+       "getter": null,
+       "what": "0x2700000000000000000000000000000000000013's ether balance rises by 5"
+      }
+     ],
+     "template": "eth-transfer",
+     "value_out": "0x5"
+    },
+    "layoutChecks": [],
+    "q": {
+     "assertNamed": "0x682c9c89",
+     "assertWrites": "0x25c8701e000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000082508f7ea4c270b9412ee2572cb39941903fcf5e559d6f7b5593bb056da40b3000a700000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000008250df7a5fd80bf00e7a3e7dc3b0fce23247019bfe0669af179afd76e4b0dbc32167000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000020000000000000000000000002700000000000000000000000000000000000013000000000000000000000000000000000000000000000000000000000000000600000000000000000000000027000000000000000000000000000000000000010000000000000000000000000000000000000000000000056bc75e2d630ffffb00000000000000000000000087761a88398830f371282d2d3e35d227ebfb8777"
+    },
+    "sender": "0x2700000000000000000000000000000000000001",
+    "transaction": "0xea9b851571dbd68a8a47f119504ac7d27a7f3794986e18948e9ce3b669b24481",
+    "verdict": {
+     "exempt": [
+      {
+       "change": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "after": "0x33b2e3c9fd0803cf5f34de8",
+        "before": "0x33b2e3c9fd0803ce8000000",
+        "field": "balance"
+       },
+       "kind": "fee: the fee recipient"
+      },
+      {
+       "change": {
+        "address": "0x0000000000000000000000000000000000008250",
+        "after": "0x1",
+        "before": "0x0",
+        "field": "storage",
+        "slot": "0x8f7ea4c270b9412ee2572cb39941903fcf5e559d6f7b5593bb056da40b3000a7"
+       },
+       "kind": "nonce: the nonce manager's record"
+      },
+      {
+       "change": {
+        "address": "0x0000000000000000000000000000000000008250",
+        "after": "0x1",
+        "before": "0x0",
+        "field": "storage",
+        "slot": "0xdf7a5fd80bf00e7a3e7dc3b0fce23247019bfe0669af179afd76e4b0dbc32167"
+       },
+       "kind": "nonce: the nonce manager's record"
+      },
+      {
+       "change": {
+        "address": "0x87761a88398830f371282d2d3e35d227ebfb8777",
+        "after": "0x3635c9adc5d093b251",
+        "before": "0x3635c9adc5dea00000",
+        "field": "balance"
+       },
+       "kind": "fee: the payer"
+      }
+     ],
+     "matched": [
+      {
+       "change": {
+        "address": "0x2700000000000000000000000000000000000013",
+        "after": "0x6",
+        "before": "0x1",
+        "field": "balance"
+       },
+       "what": "0x2700000000000000000000000000000000000013's ether balance rises by 5"
+      },
+      {
+       "change": {
+        "address": "0x2700000000000000000000000000000000000001",
+        "after": "0x56bc75e2d630ffffb",
+        "before": "0x56bc75e2d63100000",
+        "field": "balance"
+       },
+       "what": "the sender sends 5"
+      }
+     ],
+     "mismatched": [],
+     "missing": [],
+     "reason": null,
+     "status": "pass",
+     "unlisted": []
+    }
+   },
+   "stderr": null
+  },
+  {
+   "id": "A27/legacy-nonce-7",
+   "family": "A: experiment 27",
+   "template": "eth-transfer",
+   "rules": "f3079a0",
+   "predicted": "pass",
+   "verdict": "pass",
+   "matches": true,
+   "result": {
+    "feeRecipient": "0x0000000000000000000000000000000000000000",
+    "intent": {
+     "allowed": [
+      {
+       "address": "0x2700000000000000000000000000000000000013",
+       "expect": {
+        "expect": "delta",
+        "value": "5"
+       },
+       "field": {
+        "field": "balance"
+       },
+       "getter": null,
+       "what": "0x2700000000000000000000000000000000000013's ether balance rises by 5"
+      }
+     ],
+     "template": "eth-transfer",
+     "value_out": "0x5"
+    },
+    "layoutChecks": [],
+    "q": {
+     "assertNamed": "0x682c9c89",
+     "assertWrites": "0x25c8701e000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000000000000002700000000000000000000000000000000000013000000000000000000000000000000000000000000000000000000000000000600000000000000000000000027000000000000000000000000000000000000030000000000000000000000000000000000000000000000056bc75e2d630ffffb00000000000000000000000087761a88398830f371282d2d3e35d227ebfb8777"
+    },
+    "sender": "0x2700000000000000000000000000000000000003",
+    "transaction": "0x0da146b6f6b0425130a5c6b016ad2a4ee894e617f575c00acbbac3be59f12f40",
+    "verdict": {
+     "exempt": [
+      {
+       "change": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "after": "0x33b2e3c9fd0803cea460be8",
+        "before": "0x33b2e3c9fd0803ce8000000",
+        "field": "balance"
+       },
+       "kind": "fee: the fee recipient"
+      },
+      {
+       "change": {
+        "address": "0x2700000000000000000000000000000000000003",
+        "after": "0x8",
+        "before": "0x7",
+        "field": "nonce"
+       },
+       "kind": "nonce: the sender's account nonce"
+      },
+      {
+       "change": {
+        "address": "0x87761a88398830f371282d2d3e35d227ebfb8777",
+        "after": "0x3635c9adc5dc55e111",
+        "before": "0x3635c9adc5dea00000",
+        "field": "balance"
+       },
+       "kind": "fee: the payer"
+      }
+     ],
+     "matched": [
+      {
+       "change": {
+        "address": "0x2700000000000000000000000000000000000013",
+        "after": "0x6",
+        "before": "0x1",
+        "field": "balance"
+       },
+       "what": "0x2700000000000000000000000000000000000013's ether balance rises by 5"
+      },
+      {
+       "change": {
+        "address": "0x2700000000000000000000000000000000000003",
+        "after": "0x56bc75e2d630ffffb",
+        "before": "0x56bc75e2d63100000",
+        "field": "balance"
+       },
+       "what": "the sender sends 5"
+      }
+     ],
+     "mismatched": [],
+     "missing": [],
+     "reason": null,
+     "status": "pass",
+     "unlisted": []
+    }
+   },
+   "stderr": null
+  },
+  {
+   "id": "A27/value-and-default",
+   "family": "A: experiment 27",
+   "template": "eth-transfer",
+   "rules": "f3079a0",
+   "predicted": "pass",
+   "verdict": "pass",
+   "matches": true,
+   "result": {
+    "feeRecipient": "0x0000000000000000000000000000000000000000",
+    "intent": {
+     "allowed": [
+      {
+       "address": "0x2700000000000000000000000000000000000013",
+       "expect": {
+        "expect": "delta",
+        "value": "100000000000000000"
+       },
+       "field": {
+        "field": "balance"
+       },
+       "getter": null,
+       "what": "0x2700000000000000000000000000000000000013's ether balance rises by 100000000000000000"
+      }
+     ],
+     "template": "eth-transfer",
+     "value_out": "0x16345785d8a0000"
+    },
+    "layoutChecks": [],
+    "q": {
+     "assertNamed": "0x682c9c89",
+     "assertWrites": "0x25c8701e000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000000000000002700000000000000000000000000000000000013000000000000000000000000000000000000000000000000016345785d8a000100000000000000000000000027000000000000000000000000000000000000010000000000000000000000000000000000000000000000056a6418b50586000000000000000000000000000087761a88398830f371282d2d3e35d227ebfb8777"
+    },
+    "sender": "0x2700000000000000000000000000000000000001",
+    "transaction": "0x82b9db1ee199690d89759fe19e8f04185511901a17d7f2538cbd32676a7098f7",
+    "verdict": {
+     "exempt": [
+      {
+       "change": {
+        "address": "0x0000000000000000000000000000000000000000",
+        "after": "0x33b2e3c9fd0803cea64d2d0",
+        "before": "0x33b2e3c9fd0803ce8000000",
+        "field": "balance"
+       },
+       "kind": "fee: the fee recipient"
+      },
+      {
+       "change": {
+        "address": "0x2700000000000000000000000000000000000001",
+        "after": "0x1",
+        "before": "0x0",
+        "field": "nonce"
+       },
+       "kind": "nonce: the sender's account nonce"
+      },
+      {
+       "change": {
+        "address": "0x87761a88398830f371282d2d3e35d227ebfb8777",
+        "after": "0x3635c9adc5dc36e302",
+        "before": "0x3635c9adc5dea00000",
+        "field": "balance"
+       },
+       "kind": "fee: the payer"
+      }
+     ],
+     "matched": [
+      {
+       "change": {
+        "address": "0x2700000000000000000000000000000000000013",
+        "after": "0x16345785d8a0001",
+        "before": "0x1",
+        "field": "balance"
+       },
+       "what": "0x2700000000000000000000000000000000000013's ether balance rises by 100000000000000000"
+      },
+      {
+       "change": {
+        "address": "0x2700000000000000000000000000000000000001",
+        "after": "0x56a6418b505860000",
+        "before": "0x56bc75e2d63100000",
+        "field": "balance"
+       },
+       "what": "the sender sends 100000000000000000"
+      }
+     ],
+     "mismatched": [],
+     "missing": [],
+     "reason": null,
+     "status": "pass",
+     "unlisted": []
+    }
+   },
+   "stderr": null
+  }
+ ],
+ "revertShare": []
+}

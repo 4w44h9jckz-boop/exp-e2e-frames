@@ -1,0 +1,421 @@
+{
+ "seed": 20261111,
+ "H_hours": 24.0,
+ "lambda_H": [
+  4,
+  16,
+  64
+ ],
+ "epochs_hours": {
+  "one day": 24.0,
+  "one week": 168.0,
+  "four weeks": 672.0,
+  "unbounded": null
+ },
+ "min_payouts": 20000,
+ "warm_epochs": 10,
+ "cells": [
+  {
+   "policy": "memoryless",
+   "lambda_H": 4,
+   "epoch_hours": 24.0,
+   "payouts": 25882,
+   "single_step": 0.2117,
+   "end_to_end": 0.2005,
+   "crossed_share": 0.6352,
+   "unconfined_formula": 0.2,
+   "serials": {
+    "per_key_per_epoch": 7.99,
+    "bytes_per_key_per_epoch": 255.8,
+    "mean_lifetime_hours": 6.01,
+    "trades_share_of_redemptions": 0.5015
+   },
+   "epoch": "one day"
+  },
+  {
+   "policy": "memoryless",
+   "lambda_H": 4,
+   "epoch_hours": 168.0,
+   "payouts": 25869,
+   "single_step": 0.2028,
+   "end_to_end": 0.2007,
+   "crossed_share": 0.1417,
+   "unconfined_formula": 0.2,
+   "serials": {
+    "per_key_per_epoch": 31.84,
+    "bytes_per_key_per_epoch": 1018.8,
+    "mean_lifetime_hours": 73.52,
+    "trades_share_of_redemptions": 0.1243
+   },
+   "epoch": "one week"
+  },
+  {
+   "policy": "memoryless",
+   "lambda_H": 4,
+   "epoch_hours": 672.0,
+   "payouts": 26264,
+   "single_step": 0.2006,
+   "end_to_end": 0.2002,
+   "crossed_share": 0.0358,
+   "unconfined_formula": 0.2,
+   "serials": {
+    "per_key_per_epoch": 117.3,
+    "bytes_per_key_per_epoch": 3753.5,
+    "mean_lifetime_hours": 324.61,
+    "trades_share_of_redemptions": 0.0348
+   },
+   "epoch": "four weeks"
+  },
+  {
+   "policy": "memoryless",
+   "lambda_H": 4,
+   "epoch_hours": null,
+   "payouts": 24154,
+   "single_step": 0.1986,
+   "end_to_end": 0.1986,
+   "crossed_share": 0.0,
+   "unconfined_formula": 0.2,
+   "serials": {
+    "per_key_per_epoch": null,
+    "mean_lifetime_hours": null,
+    "note": "one key forever: the set only grows, at lam per hour"
+   },
+   "epoch": "unbounded"
+  },
+  {
+   "policy": "memoryless",
+   "lambda_H": 16,
+   "epoch_hours": 24.0,
+   "payouts": 25960,
+   "single_step": 0.0573,
+   "end_to_end": 0.0571,
+   "crossed_share": 0.6376,
+   "unconfined_formula": 0.0588,
+   "serials": {
+    "per_key_per_epoch": 32.13,
+    "bytes_per_key_per_epoch": 1028.1,
+    "mean_lifetime_hours": 6.0,
+    "trades_share_of_redemptions": 0.5021
+   },
+   "epoch": "one day"
+  },
+  {
+   "policy": "memoryless",
+   "lambda_H": 16,
+   "epoch_hours": 168.0,
+   "payouts": 25886,
+   "single_step": 0.0597,
+   "end_to_end": 0.0594,
+   "crossed_share": 0.1446,
+   "unconfined_formula": 0.0588,
+   "serials": {
+    "per_key_per_epoch": 127.91,
+    "bytes_per_key_per_epoch": 4093.0,
+    "mean_lifetime_hours": 72.98,
+    "trades_share_of_redemptions": 0.127
+   },
+   "epoch": "one week"
+  },
+  {
+   "policy": "memoryless",
+   "lambda_H": 16,
+   "epoch_hours": 672.0,
+   "payouts": 26008,
+   "single_step": 0.0588,
+   "end_to_end": 0.0589,
+   "crossed_share": 0.036,
+   "unconfined_formula": 0.0588,
+   "serials": {
+    "per_key_per_epoch": 465.09,
+    "bytes_per_key_per_epoch": 14882.8,
+    "mean_lifetime_hours": 322.43,
+    "trades_share_of_redemptions": 0.0353
+   },
+   "epoch": "four weeks"
+  },
+  {
+   "policy": "memoryless",
+   "lambda_H": 16,
+   "epoch_hours": null,
+   "payouts": 24381,
+   "single_step": 0.0596,
+   "end_to_end": 0.0596,
+   "crossed_share": 0.0,
+   "unconfined_formula": 0.0588,
+   "serials": {
+    "per_key_per_epoch": null,
+    "mean_lifetime_hours": null,
+    "note": "one key forever: the set only grows, at lam per hour"
+   },
+   "epoch": "unbounded"
+  },
+  {
+   "policy": "memoryless",
+   "lambda_H": 64,
+   "epoch_hours": 24.0,
+   "payouts": 25885,
+   "single_step": 0.0144,
+   "end_to_end": 0.0143,
+   "crossed_share": 0.631,
+   "unconfined_formula": 0.0154,
+   "serials": {
+    "per_key_per_epoch": 127.95,
+    "bytes_per_key_per_epoch": 4094.4,
+    "mean_lifetime_hours": 6.0,
+    "trades_share_of_redemptions": 0.5008
+   },
+   "epoch": "one day"
+  },
+  {
+   "policy": "memoryless",
+   "lambda_H": 64,
+   "epoch_hours": 168.0,
+   "payouts": 25943,
+   "single_step": 0.0159,
+   "end_to_end": 0.016,
+   "crossed_share": 0.1385,
+   "unconfined_formula": 0.0154,
+   "serials": {
+    "per_key_per_epoch": 511.5,
+    "bytes_per_key_per_epoch": 16368.0,
+    "mean_lifetime_hours": 73.23,
+    "trades_share_of_redemptions": 0.1233
+   },
+   "epoch": "one week"
+  },
+  {
+   "policy": "memoryless",
+   "lambda_H": 64,
+   "epoch_hours": 672.0,
+   "payouts": 88141,
+   "single_step": 0.0156,
+   "end_to_end": 0.0156,
+   "crossed_share": 0.036,
+   "unconfined_formula": 0.0154,
+   "serials": {
+    "per_key_per_epoch": 1866.24,
+    "bytes_per_key_per_epoch": 59719.8,
+    "mean_lifetime_hours": 325.25,
+    "trades_share_of_redemptions": 0.0354
+   },
+   "epoch": "four weeks"
+  },
+  {
+   "policy": "memoryless",
+   "lambda_H": 64,
+   "epoch_hours": null,
+   "payouts": 25327,
+   "single_step": 0.016,
+   "end_to_end": 0.016,
+   "crossed_share": 0.0,
+   "unconfined_formula": 0.0154,
+   "serials": {
+    "per_key_per_epoch": null,
+    "mean_lifetime_hours": null,
+    "note": "one key forever: the set only grows, at lam per hour"
+   },
+   "epoch": "unbounded"
+  },
+  {
+   "policy": "uniform",
+   "lambda_H": 4,
+   "epoch_hours": 24.0,
+   "payouts": 26169,
+   "single_step": 0.1719,
+   "end_to_end": 0.1242,
+   "crossed_share": 0.7486,
+   "unconfined_formula": 0.125,
+   "serials": {
+    "per_key_per_epoch": 8.06,
+    "bytes_per_key_per_epoch": 257.8,
+    "mean_lifetime_hours": 6.01,
+    "trades_share_of_redemptions": 0.4998
+   },
+   "epoch": "one day"
+  },
+  {
+   "policy": "uniform",
+   "lambda_H": 4,
+   "epoch_hours": 168.0,
+   "payouts": 25869,
+   "single_step": 0.1289,
+   "end_to_end": 0.1239,
+   "crossed_share": 0.1426,
+   "unconfined_formula": 0.125,
+   "serials": {
+    "per_key_per_epoch": 31.86,
+    "bytes_per_key_per_epoch": 1019.5,
+    "mean_lifetime_hours": 73.68,
+    "trades_share_of_redemptions": 0.1248
+   },
+   "epoch": "one week"
+  },
+  {
+   "policy": "uniform",
+   "lambda_H": 4,
+   "epoch_hours": 672.0,
+   "payouts": 25953,
+   "single_step": 0.1281,
+   "end_to_end": 0.1264,
+   "crossed_share": 0.0352,
+   "unconfined_formula": 0.125,
+   "serials": {
+    "per_key_per_epoch": 115.82,
+    "bytes_per_key_per_epoch": 3706.2,
+    "mean_lifetime_hours": 324.75,
+    "trades_share_of_redemptions": 0.0341
+   },
+   "epoch": "four weeks"
+  },
+  {
+   "policy": "uniform",
+   "lambda_H": 4,
+   "epoch_hours": null,
+   "payouts": 24140,
+   "single_step": 0.1232,
+   "end_to_end": 0.1232,
+   "crossed_share": 0.0,
+   "unconfined_formula": 0.125,
+   "serials": {
+    "per_key_per_epoch": null,
+    "mean_lifetime_hours": null,
+    "note": "one key forever: the set only grows, at lam per hour"
+   },
+   "epoch": "unbounded"
+  },
+  {
+   "policy": "uniform",
+   "lambda_H": 16,
+   "epoch_hours": 24.0,
+   "payouts": 26308,
+   "single_step": 0.042,
+   "end_to_end": 0.0303,
+   "crossed_share": 0.75,
+   "unconfined_formula": 0.0312,
+   "serials": {
+    "per_key_per_epoch": 32.39,
+    "bytes_per_key_per_epoch": 1036.4,
+    "mean_lifetime_hours": 6.02,
+    "trades_share_of_redemptions": 0.4996
+   },
+   "epoch": "one day"
+  },
+  {
+   "policy": "uniform",
+   "lambda_H": 16,
+   "epoch_hours": 168.0,
+   "payouts": 26131,
+   "single_step": 0.0323,
+   "end_to_end": 0.031,
+   "crossed_share": 0.147,
+   "unconfined_formula": 0.0312,
+   "serials": {
+    "per_key_per_epoch": 129.33,
+    "bytes_per_key_per_epoch": 4138.5,
+    "mean_lifetime_hours": 73.23,
+    "trades_share_of_redemptions": 0.1287
+   },
+   "epoch": "one week"
+  },
+  {
+   "policy": "uniform",
+   "lambda_H": 16,
+   "epoch_hours": 672.0,
+   "payouts": 25962,
+   "single_step": 0.0299,
+   "end_to_end": 0.0298,
+   "crossed_share": 0.0352,
+   "unconfined_formula": 0.0312,
+   "serials": {
+    "per_key_per_epoch": 463.86,
+    "bytes_per_key_per_epoch": 14843.6,
+    "mean_lifetime_hours": 326.04,
+    "trades_share_of_redemptions": 0.0347
+   },
+   "epoch": "four weeks"
+  },
+  {
+   "policy": "uniform",
+   "lambda_H": 16,
+   "epoch_hours": null,
+   "payouts": 24146,
+   "single_step": 0.0321,
+   "end_to_end": 0.0321,
+   "crossed_share": 0.0,
+   "unconfined_formula": 0.0312,
+   "serials": {
+    "per_key_per_epoch": null,
+    "mean_lifetime_hours": null,
+    "note": "one key forever: the set only grows, at lam per hour"
+   },
+   "epoch": "unbounded"
+  },
+  {
+   "policy": "uniform",
+   "lambda_H": 64,
+   "epoch_hours": 24.0,
+   "payouts": 25802,
+   "single_step": 0.011,
+   "end_to_end": 0.0074,
+   "crossed_share": 0.7531,
+   "unconfined_formula": 0.0078,
+   "serials": {
+    "per_key_per_epoch": 128.02,
+    "bytes_per_key_per_epoch": 4096.6,
+    "mean_lifetime_hours": 5.95,
+    "trades_share_of_redemptions": 0.5024
+   },
+   "epoch": "one day"
+  },
+  {
+   "policy": "uniform",
+   "lambda_H": 64,
+   "epoch_hours": 168.0,
+   "payouts": 25936,
+   "single_step": 0.0073,
+   "end_to_end": 0.0069,
+   "crossed_share": 0.1386,
+   "unconfined_formula": 0.0078,
+   "serials": {
+    "per_key_per_epoch": 511.38,
+    "bytes_per_key_per_epoch": 16364.1,
+    "mean_lifetime_hours": 73.73,
+    "trades_share_of_redemptions": 0.1235
+   },
+   "epoch": "one week"
+  },
+  {
+   "policy": "uniform",
+   "lambda_H": 64,
+   "epoch_hours": 672.0,
+   "payouts": 87425,
+   "single_step": 0.008,
+   "end_to_end": 0.008,
+   "crossed_share": 0.0345,
+   "unconfined_formula": 0.0078,
+   "serials": {
+    "per_key_per_epoch": 1848.2,
+    "bytes_per_key_per_epoch": 59142.5,
+    "mean_lifetime_hours": 324.94,
+    "trades_share_of_redemptions": 0.0341
+   },
+   "epoch": "four weeks"
+  },
+  {
+   "policy": "uniform",
+   "lambda_H": 64,
+   "epoch_hours": null,
+   "payouts": 25072,
+   "single_step": 0.0077,
+   "end_to_end": 0.0077,
+   "crossed_share": 0.0,
+   "unconfined_formula": 0.0078,
+   "serials": {
+    "per_key_per_epoch": null,
+    "mean_lifetime_hours": null,
+    "note": "one key forever: the set only grows, at lam per hour"
+   },
+   "epoch": "unbounded"
+  }
+ ]
+}

@@ -1,0 +1,106 @@
+{
+  "carrier": "Dependency",
+  "chainId": 8141,
+  "ciphertextBytes": 16400,
+  "contract": "0xc61a7218df4fb46bdd3be55a1becfcdefb218524",
+  "d": 2048,
+  "digest": "0xdad7703ad13b54a9533f2efd04b2995663c97448140e1542e63adff691f1ca74",
+  "k": 1,
+  "mu": "0x8ffc3d9108a24d765096466bd488ede2c6d20fb4fb8a12b901958fdee5473f98",
+  "pkKeccak": "0xad4093b3f26c7da7fbb70504504179c534e3488ad4aa1b6d4e05c6a28c6818ce",
+  "programKey": "0x1afd035cef9447a121963b027e6018f2d7f1ab142d4f50414bfe2093bf484d07",
+  "refused": [
+    {
+      "hash": "0x0523e42c783ef9d20f37358ca39d9c4170eac1449f7e5287f47cd3bdb722a16e",
+      "sent": {
+        "error": "server returned an error response: error code -32000: Invalid params: Frame transaction validation-prefix simulation failed: validation prefix frame reverted"
+      },
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted"
+      },
+      "what": "the request with one ciphertext coefficient changed"
+    },
+    {
+      "hash": "0x26e791fadb54c8fce0247ac0c12de797bedb46ab1d516c3432bad27db169c552",
+      "sent": {
+        "error": "server returned an error response: error code -32000: Invalid params: Frame transaction validation-prefix simulation failed: validation prefix frame reverted"
+      },
+      "simulation": {
+        "valid": false,
+        "violation": "validation prefix frame reverted"
+      },
+      "what": "the same proof at the next request number"
+    }
+  ],
+  "requestNumber": 1,
+  "requester": "0x0f010841717420cb538f12a01f0ce5f3d69f7fe5",
+  "seed": 1,
+  "steps": [
+    {
+      "block": "0x1",
+      "frames": [
+        {
+          "gasUsed": "0x3bc0",
+          "stateGasUsed": "0x46f8c",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x243",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0xbb8",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x323f",
+          "stateGasUsed": "0x145596",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x8d",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        }
+      ],
+      "gasUsed": "0x1a33b9",
+      "hash": "0x5ca0d0c222edc116f5d6587dc04701250e7a829a49bb1795aa36f2b41aa26cbd",
+      "payer": "0x0f010841717420cb538f12a01f0ce5f3d69f7fe5",
+      "what": "the funder deploys FheRequest for the key and the program, and funds it"
+    },
+    {
+      "block": "0x10",
+      "frames": [
+        {
+          "gasUsed": "0x1f47",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x7530",
+          "stateGasUsed": "0x0",
+          "status": "0x1"
+        },
+        {
+          "gasUsed": "0x5155",
+          "stateGasUsed": "0x17e80",
+          "status": "0x1"
+        }
+      ],
+      "gasUsed": "0x11d7b1",
+      "hash": "0x5550ad9c80cb5db9ae4ec285efc6896cd9cfc49b9c5cec909839c35b19a288dc",
+      "payer": "0xc61a7218df4fb46bdd3be55a1becfcdefb218524",
+      "proof": {
+        "bytes": 358440,
+        "cycles": 5974185,
+        "keccak": "0x11148df94f7b877f70a4c52c7cdfbfe94bf6a3379f43e523568ae4d34e8b94b1",
+        "proveMs": 12733.417857999999,
+        "verifiedOffChain": true
+      },
+      "what": "a TFHE input requested, its well-formedness a leanSTARK dependency"
+    }
+  ]
+}

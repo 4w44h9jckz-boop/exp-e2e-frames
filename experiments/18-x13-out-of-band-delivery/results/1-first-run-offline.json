@@ -1,0 +1,146 @@
+{
+  "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+  "cores": 4,
+  "node": "v22.22.0",
+  "arm7": {
+    "refundAtT": "proved",
+    "refundBeforeT": "no witness: Assert Failed. Error in template Deliver_14 line: 91",
+    "refundBelowFloor": "no witness: Assert Failed. Error in template Deliver_14 line: 92",
+    "swappedFindsLeaf": false,
+    "alteredOpens": false,
+    "futureTNowOnChain": "validation prefix frame reverted"
+  },
+  "arm8": {
+    "posts": 100000,
+    "ours": 50,
+    "workers": 4,
+    "wallSeconds": 609,
+    "flagMsPerPost": 19.721,
+    "testMsPerPost": 3.805,
+    "n4": {
+      "truePositive": 50,
+      "of": 50,
+      "falsePositive": 6082,
+      "others": 99950,
+      "share": 0.06085,
+      "expected": 0.0625,
+      "interval999": [
+        0.059981,
+        0.065019
+      ],
+      "inside": true,
+      "flaggedSet": 6132
+    },
+    "n8": {
+      "truePositive": 50,
+      "of": 50,
+      "falsePositive": 392,
+      "others": 99950,
+      "share": 0.003922,
+      "expected": 0.00390625,
+      "interval999": [
+        0.003257,
+        0.004555
+      ],
+      "inside": true,
+      "flaggedSet": 442
+    }
+  },
+  "arm9": [
+    {
+      "delta": 0,
+      "mu": 0,
+      "putToDeposit": 0.93,
+      "sessionPrecision": 0.7338,
+      "groupedPairs": 308
+    },
+    {
+      "delta": 0,
+      "mu": 1,
+      "putToDeposit": 0.96,
+      "sessionPrecision": 0.0049,
+      "groupedPairs": 73308003
+    },
+    {
+      "delta": 1,
+      "mu": 0,
+      "putToDeposit": 0.87,
+      "sessionPrecision": 0.6301,
+      "groupedPairs": 319
+    },
+    {
+      "delta": 1,
+      "mu": 1,
+      "putToDeposit": 0.855,
+      "sessionPrecision": 0.0049,
+      "groupedPairs": 75712725
+    },
+    {
+      "delta": 10,
+      "mu": 0,
+      "putToDeposit": 0.57,
+      "sessionPrecision": 0.443,
+      "groupedPairs": 237
+    },
+    {
+      "delta": 10,
+      "mu": 1,
+      "putToDeposit": 0.595,
+      "sessionPrecision": 0.0049,
+      "groupedPairs": 73065963
+    },
+    {
+      "delta": 60,
+      "mu": 0,
+      "putToDeposit": 0.275,
+      "sessionPrecision": 0.1549,
+      "groupedPairs": 142
+    },
+    {
+      "delta": 60,
+      "mu": 1,
+      "putToDeposit": 0.175,
+      "sessionPrecision": 0.0049,
+      "groupedPairs": 73999726
+    }
+  ],
+  "arm10": {
+    "run": {
+      "window": 60,
+      "spends": [
+        {
+          "step": "spend: arm 1, invoice, owner branch",
+          "errorSeconds": 82.8
+        },
+        {
+          "step": "spend: arm 2, pool, owner branch",
+          "errorSeconds": 61.4
+        },
+        {
+          "step": "spend: arm 3, blob, owner branch",
+          "errorSeconds": 65.8
+        },
+        {
+          "step": "spend: arm 4, pairwise note 1, owner branch",
+          "errorSeconds": 83
+        },
+        {
+          "step": "spend: arm 4, pairwise note 2, owner branch",
+          "errorSeconds": 134.2
+        },
+        {
+          "step": "spend: arm 6, the late recipient from the fallback, owner branch",
+          "errorSeconds": 55.6
+        }
+      ],
+      "medianErrorSeconds": 82.8
+    },
+    "simulated": {
+      "notes": 1000,
+      "windowSeconds": 3600,
+      "immediateWithinOneBlock": 1,
+      "randomMedianError": 1701.5,
+      "quarterWindow": 900
+    }
+  }
+}

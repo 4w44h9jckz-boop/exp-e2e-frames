@@ -1,0 +1,898 @@
+{
+  "experiment": 19,
+  "run": "2-part2-local-written",
+  "setting": "written",
+  "deployment": "local-w5",
+  "repoCommit": "abc713cc2fec73e443ec40d06ee40f614aeaaaa1",
+  "chainId": 9,
+  "funder": "0x4417092B70a3E5f10Dc504d0947DD256B965fc62",
+  "ethrex": {
+    "commit": "64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c",
+    "patch": "ethrex-8288.patch",
+    "patchSha256": "0xaae808488450dc05f36a15a3071a9d09ca48824a92d1c7ad1fb0a841ec591134",
+    "genesis": "fixtures/genesis/l1-hegota.json, with ERC-5564's singleton added at its address"
+  },
+  "contracts": {
+    "factory": "0x4791BC9CC9bf49fb5A7Ec777Ca2BfA342eE5FcA3",
+    "pool5": "0x673435cDB4873f1535b12d8aD0B26e0c42c8E178",
+    "singleton": "0x55649E01B5Df198D18D95b5cc5051630cfD45564"
+  },
+  "vk": {
+    "v1": "0xe5eb42d39069a335c123b45100ab0b1305603eee7c27556ad2f15fa2589ea7c1",
+    "v5": "0x3096ec913da5544bb27165383b34b169e9948ce5ae863c5827b97f19a9716fc4",
+    "v2a": "0xb6f2175d45529d8c60a5d10c971684e49cd357dda465dde0be495422c5ff4858"
+  },
+  "blocks": {
+    "first": 1,
+    "last": 0
+  },
+  "setup": [
+    {
+      "what": "deploy the factory and version 5's pool",
+      "hash": "0xd9813d86bc8e77e5af1921c45cf98b0a526c5f68bc02c2f86c088827418a6b94",
+      "block": 1,
+      "gasUsed": 3115711,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "15853",
+          "state": "1474920"
+        },
+        {
+          "status": 1,
+          "execution": "12941",
+          "state": "1503990"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "what": "version 5's pool float",
+      "hash": "0xfd730cdf350d46c1d1445b5d585ed975675e6b08d56821b4220ca07a81fc9271",
+      "block": 2,
+      "gasUsed": 26102,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "3040",
+          "state": "0"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "what": "v3: pay and announce, first account",
+      "hash": "0x695491f5b00245880d1f79a592637ec74fd869df83a2aab488cfe468ac4d4cee",
+      "block": 4,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "what": "v3: pay and announce, second account",
+      "hash": "0x55e1f9776fb519e6ad97de45825bf1747909ced94ab9cced9d93382f746d517e",
+      "block": 6,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "what": "v1: pay and announce, owner",
+      "hash": "0x0415fd7e7007c249326830157de5aed9d88b55d94b4fb2ae4b606deb016c704b",
+      "block": 11,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "what": "v2a: pay and announce, one key",
+      "hash": "0x7e2466ed273edeb0e5c19f7ea6b67338a50e3931c5f4433cb41b9a91b3c5557d",
+      "block": 13,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "what": "v2a: pay and announce, two of three keys",
+      "hash": "0x213283c421ff3d2f336a3ad4a77684b271a6425ff86c0b44d6be67d27ee49b93",
+      "block": 16,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "what": "v3: pay and announce, third account",
+      "hash": "0x899737003a8cb5bb350bd51436bca0cb96df06c7e691a12058335432983cf148",
+      "block": 27,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "what": "v3: pay and announce, fourth account",
+      "hash": "0x733c01a9f95d447d7ca246ef06c394f26a5f6c3792457587e9e9146eb9c290b4",
+      "block": 29,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "ok": true
+    }
+  ],
+  "rows": [
+    {
+      "step": "v3: pay and announce, first account",
+      "hash": "0x695491f5b00245880d1f79a592637ec74fd869df83a2aab488cfe468ac4d4cee",
+      "block": 4,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "account": "0x081A2F1b2029fFCaC871F514554Bb6c53049D8CF"
+    },
+    {
+      "step": "v3: pay and announce, second account",
+      "hash": "0x55e1f9776fb519e6ad97de45825bf1747909ced94ab9cced9d93382f746d517e",
+      "block": 6,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "account": "0x5745f34e5F8C6f58f30fB92Ec0c4555e3B1dC50C"
+    },
+    {
+      "step": "v3: the first account spends, under the long-term key",
+      "outcome": "mined",
+      "hash": "0xfbbaffff168dd713862779ab60f419ab99c8bbf2230fd5121f9cf6b9fde09cef",
+      "block": 8,
+      "gasUsed": 215304,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 1189,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 12246,
+          "state": 183600
+        }
+      ],
+      "calldataBytes": 164,
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "version": 3,
+      "declaredGas": 3000
+    },
+    {
+      "step": "v3: the second account spends, under the long-term key",
+      "outcome": "mined",
+      "hash": "0x842cca2e3dfd102c70edc0d5fdb94fd02ab34da550fc9788de3f5b2c51ee2dd6",
+      "block": 9,
+      "gasUsed": 215304,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 1189,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 12246,
+          "state": 183600
+        }
+      ],
+      "calldataBytes": 164,
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "version": 3,
+      "declaredGas": 3000
+    },
+    {
+      "step": "v1: pay and announce, owner",
+      "hash": "0x0415fd7e7007c249326830157de5aed9d88b55d94b4fb2ae4b606deb016c704b",
+      "block": 11,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "account": "0xc0D182771Cd77c18220717Ea6F1FE5B8A74E3a3a"
+    },
+    {
+      "step": "v1: the owner spends to a fresh address",
+      "outcome": "refused by the node",
+      "refusal": "Invalid params: Invalid frame transaction: Frame 1: dependency 0: LEANSTARK_SCHEME is reserved (EIP-8288 as written)",
+      "simulation": {
+        "valid": false,
+        "violation": "Frame 1: dependency 0: LEANSTARK_SCHEME is reserved (EIP-8288 as written)"
+      },
+      "version": 1,
+      "declaredGas": 30000,
+      "proof": {
+        "cycles": 32,
+        "proofBytes": 204536
+      }
+    },
+    {
+      "step": "v2a: pay and announce, one key",
+      "hash": "0x7e2466ed273edeb0e5c19f7ea6b67338a50e3931c5f4433cb41b9a91b3c5557d",
+      "block": 13,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "account": "0x27DA5Ead5994F7114826824d9E1e6482AC4ab9da"
+    },
+    {
+      "step": "v2a: the owner spends, one key",
+      "outcome": "refused by the node",
+      "refusal": "Invalid params: Invalid frame transaction: Frame 1: dependency 0: LEANSTARK_SCHEME is reserved (EIP-8288 as written)",
+      "simulation": {
+        "valid": false,
+        "violation": "Frame 1: dependency 0: LEANSTARK_SCHEME is reserved (EIP-8288 as written)"
+      },
+      "version": 2,
+      "declaredGas": 30000,
+      "proof": {
+        "cycles": 6811,
+        "proofBytes": 244328
+      }
+    },
+    {
+      "step": "v2a: pay and announce, two of three keys",
+      "hash": "0x213283c421ff3d2f336a3ad4a77684b271a6425ff86c0b44d6be67d27ee49b93",
+      "block": 16,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "account": "0x4B6A2fa326371c9e619F772C8A1F59f6B7EEcb41"
+    },
+    {
+      "step": "v2a: the owner spends, two of three keys (keys 2 and 0)",
+      "outcome": "refused by the node",
+      "refusal": "Invalid params: Invalid frame transaction: Frame 1: dependency 0: LEANSTARK_SCHEME is reserved (EIP-8288 as written)",
+      "simulation": {
+        "valid": false,
+        "violation": "Frame 1: dependency 0: LEANSTARK_SCHEME is reserved (EIP-8288 as written)"
+      },
+      "version": 2,
+      "declaredGas": 30000,
+      "proof": {
+        "cycles": 11727,
+        "proofBytes": 227304
+      }
+    },
+    {
+      "step": "v5: deposit, owner",
+      "outcome": "mined",
+      "hash": "0xcfc129c7d50aa08eab5971493dbc914d4b441ccbb291770f2ef8e29174ed570d",
+      "block": 18,
+      "gasUsed": 2580539
+    },
+    {
+      "step": "v5: deposit, delegated",
+      "outcome": "mined",
+      "hash": "0xf030afbc488acd4fc3432001a037908387f812dd1ce5e9e58d9be8b9415e23a2",
+      "block": 22,
+      "gasUsed": 416213
+    },
+    {
+      "step": "v5: the owner withdraws to a fresh address",
+      "outcome": "refused by the node",
+      "refusal": "Invalid params: Invalid frame transaction: Frame 1: dependency 0: LEANSTARK_SCHEME is reserved (EIP-8288 as written)",
+      "simulation": {
+        "valid": false,
+        "violation": "Frame 1: dependency 0: LEANSTARK_SCHEME is reserved (EIP-8288 as written)"
+      },
+      "version": 5,
+      "declaredGas": 30000,
+      "proof": {
+        "cycles": 286,
+        "proofBytes": 206192
+      }
+    },
+    {
+      "step": "v3: pay and announce, third account",
+      "hash": "0x899737003a8cb5bb350bd51436bca0cb96df06c7e691a12058335432983cf148",
+      "block": 27,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "account": "0x4C5D847415361d8b07F379dC2697115cd75196f3"
+    },
+    {
+      "step": "v3: pay and announce, fourth account",
+      "hash": "0x733c01a9f95d447d7ca246ef06c394f26a5f6c3792457587e9e9146eb9c290b4",
+      "block": 29,
+      "gasUsed": 1454939,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "16899",
+          "state": "1335690"
+        },
+        {
+          "status": 1,
+          "execution": "19409",
+          "state": "0"
+        }
+      ],
+      "account": "0x2B86476c6FFD698454Fc5469983B671FA73E88B4"
+    },
+    {
+      "step": "v3: the third account spends (bad block: omit)",
+      "outcome": "mined",
+      "hash": "0x775d60febec328135e0910e12ff66f6e6c3a650eafa7089f6226c44d6e2b219f",
+      "block": 31,
+      "gasUsed": 215304,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 1189,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 12246,
+          "state": 183600
+        }
+      ],
+      "calldataBytes": 164,
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "version": 3,
+      "declaredGas": 3000
+    },
+    {
+      "step": "v3: the fourth account spends (bad block: other)",
+      "outcome": "mined",
+      "hash": "0x9d1f6424d2946eee4da08bf533cd151fe0b2483b05b962f3f7ac39cf2207f437",
+      "block": 32,
+      "gasUsed": 215304,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 1189,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 3000,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 12246,
+          "state": 183600
+        }
+      ],
+      "calldataBytes": 164,
+      "simulation": {
+        "valid": true,
+        "violation": null
+      },
+      "version": 3,
+      "declaredGas": 3000
+    }
+  ],
+  "arm6": [
+    {
+      "mode": "omit",
+      "step": "v3: a spend whose block proof omits its dependency",
+      "refusedBlocks": [
+        {
+          "block": 31,
+          "hash": "0x2ee0078b445e59424e6dc8ea3a8d88855e4f692f9385cdd8617fe1cdc88b1194",
+          "dependencies": 1,
+          "valid": false,
+          "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+          "ms": 0
+        }
+      ],
+      "acceptedAfter": [
+        {
+          "block": 31,
+          "hash": "0x7ce6f55275f9a5fa6d98d18aa803e79d1a2e8abf9cfb629813fc84ca33796614",
+          "dependencies": 1,
+          "valid": true,
+          "reason": null,
+          "ms": 2618
+        }
+      ],
+      "corruptBuild": [
+        {
+          "block": 31,
+          "dependencies": 1,
+          "leanSphincs": 0,
+          "leanStark": 0,
+          "corrupt": "omit",
+          "aggregate": null,
+          "ms": 0
+        }
+      ],
+      "minedIn": 31,
+      "refused": true
+    },
+    {
+      "mode": "other",
+      "step": "v3: a spend whose block proof is for another dependency",
+      "refusedBlocks": [
+        {
+          "block": 32,
+          "hash": "0x46d21fbe92c7b8a8096009febd02a362a10a163e8507352b25312fe5ab2e34c9",
+          "dependencies": 1,
+          "valid": false,
+          "reason": "the aggregate proof does not cover the block's leanSPHINCS dependencies: {\"error\":\"Snark(GkrLayer(20))\"}",
+          "ms": 2768
+        }
+      ],
+      "acceptedAfter": [
+        {
+          "block": 32,
+          "hash": "0x415ec1eba30ee5f62c7efbecfed7c255702bbbcfe7b1f829b6d30e5728d0c1e6",
+          "dependencies": 1,
+          "valid": true,
+          "reason": null,
+          "ms": 2489
+        }
+      ],
+      "corruptBuild": [
+        {
+          "block": 32,
+          "dependencies": 1,
+          "leanSphincs": 1,
+          "leanStark": 0,
+          "corrupt": "other",
+          "aggregate": {
+            "aggregateMs": 3008.137937,
+            "claims": 1,
+            "peakRssBytes": 397053952,
+            "proofBytes": 264537
+          },
+          "ms": 3021
+        }
+      ],
+      "minedIn": 32,
+      "refused": true
+    }
+  ],
+  "prediction5": [
+    {
+      "step": "v3: pay and announce, first account",
+      "local": 1454939,
+      "modelled": 1455067,
+      "measuredThere": 1455067,
+      "declared": 0,
+      "difference": -128
+    },
+    {
+      "step": "v3: pay and announce, second account",
+      "local": 1454939,
+      "modelled": 1455067,
+      "measuredThere": 1455067,
+      "declared": 0,
+      "difference": -128
+    },
+    {
+      "step": "v3: the first account spends, under the long-term key",
+      "local": 215304,
+      "modelled": 214769,
+      "measuredThere": 211769,
+      "declared": 3000,
+      "difference": 535
+    },
+    {
+      "step": "v3: the second account spends, under the long-term key",
+      "local": 215304,
+      "modelled": 214781,
+      "measuredThere": 211781,
+      "declared": 3000,
+      "difference": 523
+    },
+    {
+      "step": "v1: pay and announce, owner",
+      "local": 1454939,
+      "modelled": 1455067,
+      "measuredThere": 1455067,
+      "declared": 0,
+      "difference": -128
+    },
+    {
+      "step": "v2a: pay and announce, one key",
+      "local": 1454939,
+      "modelled": 1455067,
+      "measuredThere": 1455067,
+      "declared": 0,
+      "difference": -128
+    },
+    {
+      "step": "v2a: pay and announce, two of three keys",
+      "local": 1454939,
+      "modelled": 1455067,
+      "measuredThere": 1455067,
+      "declared": 0,
+      "difference": -128
+    },
+    {
+      "step": "v5: deposit, owner",
+      "local": 2580539,
+      "modelled": 2580539,
+      "measuredThere": 2580539,
+      "declared": 0,
+      "difference": 0
+    },
+    {
+      "step": "v5: deposit, delegated",
+      "local": 416213,
+      "modelled": 416213,
+      "measuredThere": 416213,
+      "declared": 0,
+      "difference": 0
+    }
+  ],
+  "nodeRecords": {
+    "builds": [
+      {
+        "block": 8,
+        "dependencies": 1,
+        "leanSphincs": 1,
+        "leanStark": 0,
+        "corrupt": null,
+        "aggregate": {
+          "aggregateMs": 2811.827562,
+          "claims": 1,
+          "peakRssBytes": 397443072,
+          "proofBytes": 265049
+        },
+        "ms": 2827
+      },
+      {
+        "block": 9,
+        "dependencies": 1,
+        "leanSphincs": 1,
+        "leanStark": 0,
+        "corrupt": null,
+        "aggregate": {
+          "aggregateMs": 2821.57875,
+          "claims": 1,
+          "peakRssBytes": 406339584,
+          "proofBytes": 263737
+        },
+        "ms": 2879
+      },
+      {
+        "block": 31,
+        "dependencies": 1,
+        "leanSphincs": 0,
+        "leanStark": 0,
+        "corrupt": "omit",
+        "aggregate": null,
+        "ms": 0
+      },
+      {
+        "block": 31,
+        "dependencies": 1,
+        "leanSphincs": 1,
+        "leanStark": 0,
+        "corrupt": null,
+        "aggregate": {
+          "aggregateMs": 2938.276928,
+          "claims": 1,
+          "peakRssBytes": 405524480,
+          "proofBytes": 265401
+        },
+        "ms": 2955
+      },
+      {
+        "block": 32,
+        "dependencies": 1,
+        "leanSphincs": 1,
+        "leanStark": 0,
+        "corrupt": "other",
+        "aggregate": {
+          "aggregateMs": 3008.137937,
+          "claims": 1,
+          "peakRssBytes": 397053952,
+          "proofBytes": 264537
+        },
+        "ms": 3021
+      },
+      {
+        "block": 32,
+        "dependencies": 1,
+        "leanSphincs": 1,
+        "leanStark": 0,
+        "corrupt": null,
+        "aggregate": {
+          "aggregateMs": 2796.550511,
+          "claims": 1,
+          "peakRssBytes": 405815296,
+          "proofBytes": 264313
+        },
+        "ms": 2811
+      }
+    ],
+    "checks": [
+      {
+        "block": 8,
+        "hash": "0x2d1e8c1ca9d6116854a223d466126b5c8a8c01ca4b7e206fb60f7aa8ec32e506",
+        "dependencies": 1,
+        "valid": true,
+        "reason": null,
+        "ms": 2584
+      },
+      {
+        "block": 9,
+        "hash": "0x23bcecd92b519cc122fa1284ad1029948004343db94718070a6e3361c62d971d",
+        "dependencies": 1,
+        "valid": true,
+        "reason": null,
+        "ms": 2587
+      },
+      {
+        "block": 31,
+        "hash": "0x2ee0078b445e59424e6dc8ea3a8d88855e4f692f9385cdd8617fe1cdc88b1194",
+        "dependencies": 1,
+        "valid": false,
+        "reason": "no aggregate proof for the block's leanSPHINCS dependencies",
+        "ms": 0
+      },
+      {
+        "block": 31,
+        "hash": "0x7ce6f55275f9a5fa6d98d18aa803e79d1a2e8abf9cfb629813fc84ca33796614",
+        "dependencies": 1,
+        "valid": true,
+        "reason": null,
+        "ms": 2618
+      },
+      {
+        "block": 32,
+        "hash": "0x46d21fbe92c7b8a8096009febd02a362a10a163e8507352b25312fe5ab2e34c9",
+        "dependencies": 1,
+        "valid": false,
+        "reason": "the aggregate proof does not cover the block's leanSPHINCS dependencies: {\"error\":\"Snark(GkrLayer(20))\"}",
+        "ms": 2768
+      },
+      {
+        "block": 32,
+        "hash": "0x415ec1eba30ee5f62c7efbecfed7c255702bbbcfe7b1f829b6d30e5728d0c1e6",
+        "dependencies": 1,
+        "valid": true,
+        "reason": null,
+        "ms": 2489
+      }
+    ]
+  }
+}

@@ -1,0 +1,393 @@
+{
+  "experiment": 19,
+  "run": "3-third-run",
+  "deployment": "r3-d1",
+  "repoCommit": "1663bc5704cd6b7d10b4f9934ed835b1683842c9",
+  "chainId": 8141,
+  "funder": "0xa131d9454d87957dcC465fb37ACD9b383648B4d5",
+  "contracts": {
+    "pool6": "0x4d1A62D96C3b8c22E839E98Fda23dA28a8c9df38",
+    "pots": [
+      "0xfcE3B422607E204edF339A2Ca59504fB0C1e5FB3",
+      "0x318AE8FBc917883b37d06e2Dd63A033FB0848D67",
+      "0x8EE19E69820d2A8ed1644eC78C76fd74384113Ec",
+      "0xa80FeBAc3dcfA26101Ea1793C07ecdf837254D34"
+    ],
+    "singleton": "0x55649E01B5Df198D18D95b5cc5051630cfD45564",
+    "source": "0x47c5b90f18659a88d9989f76bcd676ef63db2c178a105949c8da0498df4c2433"
+  },
+  "vk": {
+    "v1": "0xe5eb42d39069a335c123b45100ab0b1305603eee7c27556ad2f15fa2589ea7c1",
+    "v5": "0x3096ec913da5544bb27165383b34b169e9948ce5ae863c5827b97f19a9716fc4",
+    "note": "keccak256 of each program's source at leanVM 3cbac04, standing in for the compiled program's key"
+  },
+  "blocks": {
+    "first": 686840,
+    "last": 686856
+  },
+  "pins": {
+    "skandha": {
+      "url": "https://github.com/4w44h9jckz-boop/skandha",
+      "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade",
+      "why": "one node, sent every spend first to record its answer; the commit experiments 06 to 17 ran"
+    },
+    "exp-frames": {
+      "url": "https://github.com/4w44h9jckz-boop/exp-frames",
+      "commit": "37ac4aa36e48a7be390c9cbfedb7bbc31ac6e2b5",
+      "why": "src/exp-frames/ is copied from it (frame encoding, simulation, deployment)"
+    },
+    "ethrex": {
+      "url": "https://github.com/lambdaclass/ethrex",
+      "commit": "64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c",
+      "why": "the test network's client commit; the local chain patches EIP-8288 into it (ethrex.sh, ethrex-8288.patch)"
+    }
+  },
+  "setup": [
+    {
+      "what": "deploy Pool6 and its four pots, and set them",
+      "hash": "0x5388b6074989a612707434b46467296331885108b21831488bcd8ae4821663e7",
+      "block": 686840,
+      "gasUsed": 6377839,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "15605",
+          "state": "1054170"
+        },
+        {
+          "status": 1,
+          "execution": "12769",
+          "state": "1170450"
+        },
+        {
+          "status": 1,
+          "execution": "12769",
+          "state": "1170450"
+        },
+        {
+          "status": 1,
+          "execution": "12769",
+          "state": "1170450"
+        },
+        {
+          "status": 1,
+          "execution": "12769",
+          "state": "1170450"
+        },
+        {
+          "status": 1,
+          "execution": "49081",
+          "state": "391680"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "what": "a float in each pot",
+      "hash": "0xffa529167429ddf31de4ea82f8d5e6916f09d11ffeb546ef2b46ce2e09fd9013",
+      "block": 686841,
+      "gasUsed": 54543,
+      "frames": [
+        {
+          "status": 1,
+          "execution": "100",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "3040",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "3040",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "3040",
+          "state": "0"
+        },
+        {
+          "status": 1,
+          "execution": "3040",
+          "state": "0"
+        }
+      ],
+      "ok": true
+    }
+  ],
+  "rows": [
+    {
+      "step": "v1d: pay, first: a creation transaction from the payer",
+      "outcome": "mined",
+      "hash": "0x92d1b2480d04c9efe4b01d49396805f2dfe3ef7fbceefff85dbd01edc23bb2d6",
+      "block": 686843,
+      "gasUsed": 1371863,
+      "account": "0x7Fd7af973e367a0ac3cF3675379397E05b9373B2"
+    },
+    {
+      "step": "v1d: announce, first",
+      "outcome": "mined",
+      "hash": "0xcbda24586bc3b0e5d2450916bed76d9c3f00356ec58746dd876101911c597355",
+      "block": 686844,
+      "gasUsed": 99224,
+      "account": "0x7Fd7af973e367a0ac3cF3675379397E05b9373B2"
+    },
+    {
+      "step": "v1d: pay, second: a creation transaction from the payer",
+      "outcome": "mined",
+      "hash": "0xc86e0e795e83d76cdf411e699aae42c8f49eec5fda64a8dd450944bf3961e59c",
+      "block": 686845,
+      "gasUsed": 1371851,
+      "account": "0xD22dd30f452772474e8C940cD392e8d88d3e1791"
+    },
+    {
+      "step": "v1d: announce, second",
+      "outcome": "mined",
+      "hash": "0xe793bf4708ba7368e2ed3bb146ce5202cc2011be10f1c9efc821b0b426593ca7",
+      "block": 686846,
+      "gasUsed": 99224,
+      "account": "0xD22dd30f452772474e8C940cD392e8d88d3e1791"
+    },
+    {
+      "step": "v1d: the first account spends",
+      "outcome": "mined",
+      "hash": "0x4c27d768e6340242b22cf98a87501cc1d2138bf410f290356a92583d3297e794",
+      "block": 686847,
+      "gasUsed": 212443,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 1303,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 12246,
+          "state": 183600
+        }
+      ],
+      "calldataBytes": 196,
+      "skandha": "admitted: 0x4c27d768e6340242b22cf98a87501cc1d2138bf410f290356a92583d3297e794",
+      "resends": 0,
+      "version": 1,
+      "declaredGas": 30000,
+      "proof": {
+        "cycles": 32,
+        "proofBytes": 205440
+      }
+    },
+    {
+      "step": "v1d: the second account spends",
+      "outcome": "mined",
+      "hash": "0x624c76338b60d8842821b84e429393ea1606aedb70d270e360ba160936ab36f3",
+      "block": 686848,
+      "gasUsed": 212443,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 1303,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 12246,
+          "state": 183600
+        }
+      ],
+      "calldataBytes": 196,
+      "skandha": "admitted: 0x624c76338b60d8842821b84e429393ea1606aedb70d270e360ba160936ab36f3",
+      "resends": 0,
+      "version": 1,
+      "declaredGas": 30000,
+      "proof": {
+        "cycles": 32,
+        "proofBytes": 204296
+      }
+    },
+    {
+      "step": "v5p: deposit 0",
+      "outcome": "mined",
+      "hash": "0x13186c0df47f66b858a57005b652fc7537cc1c4d43923878f98861980d9c0465",
+      "block": 686849,
+      "gasUsed": 2599430,
+      "pot": 0
+    },
+    {
+      "step": "v5p: deposit 1",
+      "outcome": "mined",
+      "hash": "0xb3b991b737aee0d49f7d141c7ca5d287203f99ee06d9c6599355429711a18113",
+      "block": 686850,
+      "gasUsed": 437104,
+      "pot": 1
+    },
+    {
+      "step": "v5p: deposit 2",
+      "outcome": "mined",
+      "hash": "0x841da6ffabb7765a32670ed01687cce610dbbd26b4575c0418391926154a034d",
+      "block": 686851,
+      "gasUsed": 436990,
+      "pot": 2
+    },
+    {
+      "step": "v5p: deposit 3",
+      "outcome": "mined",
+      "hash": "0x6978c6f54b050cd5e17315f669155e86697395888bd365026d2d56afbda82a19",
+      "block": 686852,
+      "gasUsed": 426904,
+      "pot": 3
+    },
+    {
+      "step": "v5p: withdraw note 0, from pot 1",
+      "outcome": "mined",
+      "hash": "0x204840b6a82bab6d4a6cd8bd0a942eaeb7f12b22eceb09099d732c93630ac742",
+      "block": 686853,
+      "gasUsed": 318917,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 5579,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 1357,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 12268,
+          "state": 183600
+        }
+      ],
+      "calldataBytes": 332,
+      "skandha": "{\"code\":-32000,\"message\":\"ErrFrameClientRefused: EIP-8272 recent-root reference is too new: slot 727248 is not referenceable before slot 727248\"}",
+      "resends": 0,
+      "version": 5,
+      "pot": 1,
+      "declaredGas": 30000,
+      "proof": {
+        "cycles": 286,
+        "proofBytes": 206960
+      }
+    },
+    {
+      "step": "v5p: withdraw note 1, from pot 1",
+      "outcome": "mined",
+      "hash": "0xe7a719edee84abb3c0f8a4ca08688061241f9cae0f4a01ca8ec6f69559e24634",
+      "block": 686854,
+      "gasUsed": 318917,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 5579,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 1357,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 12268,
+          "state": 183600
+        }
+      ],
+      "calldataBytes": 332,
+      "skandha": "admitted: 0xe7a719edee84abb3c0f8a4ca08688061241f9cae0f4a01ca8ec6f69559e24634",
+      "resends": 0,
+      "version": 5,
+      "pot": 1,
+      "declaredGas": 30000,
+      "proof": {
+        "cycles": 286,
+        "proofBytes": 207344
+      }
+    },
+    {
+      "step": "v5p: withdraw note 2, from pot 2",
+      "outcome": "mined",
+      "hash": "0xf81d7fffb993711ca98b20bc48a2d2c61c4a91d00bf338e8a3fd7b10dd73ef23",
+      "block": 686855,
+      "gasUsed": 318917,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 5579,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 1357,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 12268,
+          "state": 183600
+        }
+      ],
+      "calldataBytes": 332,
+      "skandha": "admitted: 0xf81d7fffb993711ca98b20bc48a2d2c61c4a91d00bf338e8a3fd7b10dd73ef23",
+      "resends": 0,
+      "version": 5,
+      "pot": 2,
+      "declaredGas": 30000,
+      "proof": {
+        "cycles": 286,
+        "proofBytes": 205520
+      }
+    },
+    {
+      "step": "v5p: withdraw note 3, from pot 0",
+      "outcome": "mined",
+      "hash": "0x41e2f1f0925c248a25f5596f399a7950d09f261beba77e377c0411a4f9eb2523",
+      "block": 686856,
+      "gasUsed": 318917,
+      "frames": [
+        {
+          "status": 1,
+          "execution": 5579,
+          "state": 0
+        },
+        {
+          "status": 1,
+          "execution": 1357,
+          "state": 97920
+        },
+        {
+          "status": 1,
+          "execution": 12268,
+          "state": 183600
+        }
+      ],
+      "calldataBytes": 332,
+      "skandha": "admitted: 0x41e2f1f0925c248a25f5596f399a7950d09f261beba77e377c0411a4f9eb2523",
+      "resends": 0,
+      "version": 5,
+      "pot": 0,
+      "declaredGas": 30000,
+      "proof": {
+        "cycles": 286,
+        "proofBytes": 205360
+      }
+    }
+  ],
+  "v1dPaymentGas": [
+    1471087,
+    1471075
+  ],
+  "notePots": [
+    1,
+    1,
+    2,
+    0
+  ]
+}

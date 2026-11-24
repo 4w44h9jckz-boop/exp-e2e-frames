@@ -1,0 +1,5 @@
+# leanVM's own workspace builds with this flag (work/leanVM/.cargo/config.toml at 3cbac04); a crate
+# outside its workspace does not inherit it, and without it leanVM's binary-field arithmetic runs
+# without the CPU's carry-less multiply.
+[target.'cfg(all())']
+rustflags = ["-C", "target-cpu=native"]

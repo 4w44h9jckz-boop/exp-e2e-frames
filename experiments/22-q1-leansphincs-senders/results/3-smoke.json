@@ -1,0 +1,61 @@
+{
+  "experiment": 22,
+  "run": "3-smoke",
+  "date": "2026-11-05T09:29:43.406Z",
+  "repoCommit": "c39af8e2ba7a8d255999a70fc017417b5559b8ef",
+  "pins": {
+    "skandha": {
+      "url": "https://github.com/4w44h9jckz-boop/skandha",
+      "commit": "ede942fda9f23dec4c5ebf32bd0b0190cfd61ade",
+      "why": "two nodes in front of the local chain and the test network; the commit experiment 19 ran"
+    }
+  },
+  "command": "npx tsx experiments/22-q1-leansphincs-senders/smoke.ts 3-smoke",
+  "chain": {
+    "chainId": 8141,
+    "ethrex": "64b8fc09d47d7787eb1a4e3f082aa9e831dc5f8c",
+    "patch": "experiments/19-x14-hash-based-stealth-addresses-under-8288/ethrex-8288.patch",
+    "setting": "written"
+  },
+  "account": "0x0d28780374318dFF3E08d1C37f07E92021F586d6",
+  "key": "0xa969c9c9047e1997065db22433a578de31f66de5ce0111e99fb7e17ebb1e1d6d",
+  "destination": "0xcD0718F0b747814C61Bbbeb09c0a51b97Fa200Af",
+  "amount": "1000000000000000",
+  "rows": [
+    {
+      "step": "a genesis-funded leanSPHINCS account pays a fresh address",
+      "outcome": "not mined in 180 s",
+      "hash": "0x24515f01c8ebb7541fefdd9f2ff601d92f7199e35f438357d67130dffabcf4de",
+      "block": null,
+      "gasUsed": null,
+      "frames": [],
+      "simulation": {
+        "valid": true,
+        "violation": null,
+        "executionStatus": "success",
+        "gasUsed": "0x346c8"
+      },
+      "nodeA": "refused: {\"code\":-32000,\"message\":\"ErrFrameMalformed\"}",
+      "seen": {
+        "A": [
+          {
+            "t": "2026-11-05T09:26:41.623Z",
+            "node": "A",
+            "event": "rpc",
+            "hash": "0x24515f01c8ebb7541fefdd9f2ff601d92f7199e35f438357d67130dffabcf4de",
+            "result": "ErrFrameMalformed",
+            "head": 5
+          }
+        ],
+        "B": []
+      },
+      "witness": "77faa71a38d42c96bf15fdf4e07b463192b1e20433e0d672178a855afbeb3d72",
+      "signMs": 91.2328,
+      "signatureBytes": 7740,
+      "blockTransactions": [],
+      "destinationBalance": "0"
+    }
+  ],
+  "builds": [],
+  "checks": []
+}

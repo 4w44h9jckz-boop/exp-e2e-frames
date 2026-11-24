@@ -19,8 +19,12 @@
     "viem": "^2.57.3"
   },
   "devDependencies": {
+    "@noble/ciphers": "2.4.0",
     "@noble/curves": "1.9.1",
+    "@noble/hashes": "1.8.0",
+    "@noble/post-quantum": "0.7.1",
     "@types/node": "^26.6.4",
+    "c-kzg": "4.1.0",
     "circom2": "^0.2.23",
     "circomlib": "^2.0.5",
     "circomlibjs": "^0.1.7",

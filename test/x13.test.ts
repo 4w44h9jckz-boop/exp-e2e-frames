@@ -1,151 +1,113 @@
-// Experiment 13 (G5), every recorded run checked offline. The predicted cells this run can
-// measure are written as checks before the first run; a cell the run cannot measure is not
-// checked here, and the README says which.
-import { existsSync, readdirSync, readFileSync } from 'node:fs'
+// Experiment 18 (X13), checked offline.
+//
+// - Registry18.yul hard-codes the right selectors and event topics.
+// - FMD2 detects its own flags and refuses others' at about its rate, on a small sample.
+// - The note's encodings: first contact and pairwise sealing open to the opening they sealed, and
+//   a changed byte opens to nothing.
+// - Every recorded run (test/fixtures/x13/): every spend rebuilds to its hash, is sent by the
+//   registry with the nullifier as its one nonce key at sequence 0, and carries a proof the
+//   verification key accepts; and both blobs the run posted rebuild to their versioned hashes.
+import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
-import { bls12_381 as bls } from '@noble/curves/bls12-381'
-import { type Hex, concatHex, hexToBigInt, hexToBytes, numberToHex, slice, stringToHex } from 'viem'
+import * as snarkjs from 'snarkjs'
+import { type Hex, decodeFunctionData, hexToBytes, keccak256, toFunctionSelector, toHex } from 'viem'
 import { describe, expect, it } from 'vitest'
+import { Mode, frameTxHash, parseFrameTx } from '../src/exp-frames/frametx/index.js'
+import * as B from '../experiments/17-x12-ciphertexts-in-blobs/blob.js'
+import * as F from '../experiments/18-x13-out-of-band-delivery/fmd.js'
+import * as N from '../experiments/18-x13-out-of-band-delivery/notes.js'
+import * as X from '../experiments/18-x13-out-of-band-delivery/x13.js'
 
-const here = new URL('../experiments/13-g5-gradient/', import.meta.url).pathname
-/** experiment 52's README, "The proving key". */
-const ZKEY_SHA256 = 'd12e609f8fda977e1000ea59b1362ae26b3bc4a28a3de9c9df9517b75190fd3f'
-const NAMESPACE = 'FRAME_FHE_RESULT_V1'
-const DST = 'BLS_SIG_BLS12381G1_XMD:SHA-256_SSWU_RO_POP_'
+const here = new URL('../experiments/18-x13-out-of-band-delivery/', import.meta.url).pathname
+const yul = readFileSync(join(here, 'contracts/Registry18.yul'), 'utf8')
+const rnd = () => crypto.getRandomValues(new Uint8Array(32))
 
-const word = (n: bigint | number) => numberToHex(BigInt(n), { size: 32 })
-const point = (m: Hex) => {
-  const ns = hexToBytes(stringToHex(NAMESPACE))
-  return bls.G1.hashToCurve(new Uint8Array([ns.length, ...ns, ...hexToBytes(m)]), { DST })
-}
-const g1 = (e: Hex) => bls.G1.ProjectivePoint.fromAffine({ x: hexToBigInt(slice(e, 0, 64)), y: hexToBigInt(slice(e, 64, 128)) })
-const g2 = (e: Hex) => {
-  const c = [0, 1, 2, 3].map((i) => hexToBigInt(slice(e, 64 * i, 64 * (i + 1))))
-  return bls.G2.ProjectivePoint.fromAffine({ x: bls.fields.Fp2.fromBigTuple([c[0], c[1]]), y: bls.fields.Fp2.fromBigTuple([c[2], c[3]]) })
-}
-/** The committee's message, chain ID || request || handle || value, checked with noble. */
-const verifies = (chainId: number, s: { request: Hex; handle: Hex; value: number; signatureEip2537: Hex }, key: Hex) =>
-  bls.fields.Fp12.eql(
-    bls.pairing(g1(s.signatureEip2537), bls.G2.ProjectivePoint.BASE),
-    bls.pairing(point(concatHex([word(chainId), s.request, s.handle, word(s.value)])) as never, g2(key)),
-  )
-
-describe('experiment 13, the pieces', () => {
-  it('pins every piece at a full commit', () => {
-    const pins = JSON.parse(readFileSync(join(here, 'pins.json'), 'utf8')) as Record<string, { commit: string }>
-    for (const p of Object.values(pins)) expect(p.commit).toMatch(/^[0-9a-f]{40}$/)
+describe('Registry18.yul hard-codes the right constants', () => {
+  it('each `case 0x........ { ... } // sig` is the selector of sig', () => {
+    const cases = [...yul.matchAll(/case (0x[0-9a-f]{8}) \{[^}]*\}\s*\/\/ ([A-Za-z]+\([^)]*\))/g)]
+    expect(cases.length).toBe(7)
+    for (const [, sel, sig] of cases) expect(sel, sig).toBe(toFunctionSelector(sig))
+  })
+  it('each event topic is the keccak of the event its comment names', () => {
+    const logs = [...yul.matchAll(/log\d\([^\n]*?(0x[0-9a-f]{64})[^\n]*?\)\s*\/\/ ([A-Za-z]+)\(([^)]*)\)/g)]
+    expect(logs.length).toBe(2)
+    for (const [, topic, name, params] of logs) {
+      const types = params.split(',').map((p) => p.trim().split(' ')[0]).join(',')
+      expect(topic, name).toBe(keccak256(toHex(`${name}(${types})`)))
+    }
+  })
+  it('VERIFY expects deliver(uint256[]) and twelve words', () => {
+    expect(yul).toContain(`eq(shr(224, framedataload(0, 1)), ${toFunctionSelector('deliver(uint256[])')})`)
+    expect(yul).toContain('eq(framedataload(0x24, 1), 12)')
   })
 })
 
-const dir = join(here, 'results')
-const runs = existsSync(dir)
-  ? readdirSync(dir).filter((f) => f.endsWith('.json')).map((file) => ({ file, r: JSON.parse(readFileSync(join(dir, file), 'utf8')) }))
-  : []
+describe('FMD2', () => {
+  it('flags its own messages, and others\' at about the rate', () => {
+    const me = F.keygen(rnd)
+    const other = F.keygen(rnd)
+    const d = F.extract(me.sk, 2)
+    for (let i = 0; i < 5; i++) expect(F.test(d, F.flagFrom(F.flagBytes(F.flag(me.pk, rnd))))).toBe(true)
+    const hits = Array.from({ length: 200 }, () => F.test(d, F.flag(other.pk, rnd))).filter(Boolean).length
+    expect(hits).toBeGreaterThan(20)
+    expect(hits).toBeLessThan(85)
+  }, 120_000)
+})
 
-for (const { file, r } of runs)
-  describe(`experiment 13, ${file}`, () => {
-    const [a, b] = r.nodes
-    const lines = (node: { lines: Record<string, { event: string }[]> }, hash: string, e: string) =>
-      (node.lines[hash.toLowerCase()] ?? []).filter((l) => l.event === e)
-    const chain = (h: string) => r.chain[h.toLowerCase()]
-    const viaA = (h: string) => {
-      expect(lines(a, h, 'rpc').length).toBeGreaterThan(0)
-      expect(lines(b, h, 'gossip').length).toBeGreaterThan(0)
-      expect(lines(a, h, 'handoff')).toHaveLength(0)
-      expect(lines(b, h, 'handoff').length).toBeGreaterThan(0)
-    }
-    const refusedAtA = (s: { hash: string; answer: { result?: string; error?: string } }) => {
-      expect(s.answer.result).toBeUndefined()
-      expect(s.answer.error).toBeTruthy()
-      expect(lines(b, s.hash, 'gossip')).toHaveLength(0)
-      expect(chain(s.hash).mined).toBe(false)
-    }
-    const m = r.mpc
-    const last = m.attempts[m.attempts.length - 1]
-
-    it('pins every piece at a full commit, peered the two nodes with each other alone, and used experiment 52\'s key', () => {
-      for (const pin of Object.values(r.pins) as { commit: string }[]) expect(pin.commit).toMatch(/^[0-9a-f]{40}$/)
-      expect(a.peers).toEqual([b.peerId])
-      expect(b.peers).toEqual([a.peerId])
-      expect(m.zkey.sha256).toBe(ZKEY_SHA256)
-    })
-
-    it('the MPC committee: a wrong guess of the bit stops the witness at the circuit\'s check, which opens one bit', () => {
-      expect(m.attempts[0].guess).toBe(0)
-      if (m.out === 1) {
-        expect(m.attempts[0].witness.every((w: { ok: boolean }) => !w.ok)).toBe(true)
-        for (const w of m.attempts[0].witness) expect(w.tail.join('\n')).toMatch(/Assertion failed .* line 73/)
-      }
-      expect(last.witness.every((w: { ok: boolean }) => w.ok)).toBe(true)
-    })
-
-    it('the MPC committee: three members agree on one proof of experiment 52\'s statement, and it verifies', () => {
-      expect(last.membersAgree).toBe(true)
-      expect(last.verify.ok).toBe(true)
-      expect(last.publicSignals).toEqual([r.function.Ca, r.function.Cb, r.function.session, String(m.out)])
-    })
-
-    it('who sees the plaintext, MPC: any two consecutive members\' input shares rebuild both bids', () => {
-      expect(last.rebuilt).toHaveLength(6)
-      for (const x of last.rebuilt) expect(x.rebuilds).toBe(true)
-    })
-
-    it('who must be online, MPC: two members without the third make no witness', () => {
-      expect(m.twoMembers).toHaveLength(2)
-      for (const w of m.twoMembers) expect(w.ok).toBe(false)
-    })
-
-    it('the MPC settlement: sent to node A, gossiped, handed on by B alone, mined with SealedPair as sender and payer; the bit flipped is refused', () => {
-      viaA(m.settle.hash)
-      const c = chain(m.settle.hash)
-      expect(c.mined).toBe(true)
-      expect(c.status).toBe('0x1')
-      expect(c.sender.toLowerCase()).toBe(r.function.sealedPair.toLowerCase())
-      expect(c.payer.toLowerCase()).toBe(r.function.sealedPair.toLowerCase())
-      expect(c.signatures).toBe(0)
-      refusedAtA(m.flipped)
-    })
-
-    it('the FHE committee: both proofs checked, the comparison decrypted by all four members, the same bit as the MPC committee', () => {
-      expect(r.fhe.steps.every((s: { ok: boolean }) => s.ok)).toBe(true)
-      expect(r.fhe.decryption.value).toBe(m.out)
-      expect(r.fhe.decryption.members).toHaveLength(4)
-      for (const x of r.fhe.decryption.members) expect(x.bytesSent).toBeGreaterThan(0)
-    })
-
-    it('the FHE committee: a quorum\'s signature verifies with noble, two members\' does not, and the committee would not sign the other bit', () => {
-      const s = r.fhe.result
-      expect(verifies(s.chainId, s.results.quorum, s.key)).toBe(true)
-      expect(verifies(s.chainId, s.results.below, s.key)).toBe(false)
-      expect(r.fhe.second.refusals.length).toBeGreaterThan(0)
-    })
-
-    it('the FHE result: sent to node A, gossiped, handed on by B alone, mined; the variants refused', () => {
-      const s = r.fhe.result
-      const by = (what: string) => s.sent.find((t: { what: string }) => t.what.startsWith(what))
-      const x = by('the result the quorum signed')
-      viaA(x.hash)
-      expect(chain(x.hash).mined).toBe(true)
-      expect(chain(x.hash).status).toBe('0x1')
-      for (const v of ['below the quorum', 'the quorum\'s signature presented for another request', 'a second result for the same request']) refusedAtA(by(v))
-      expect(by('the same result again, once mined').answer.result).toBeUndefined()
-    })
-
-    it('the carried steps read back from the chain as their records say', () => {
-      const c = r.carried
-      const s1 = c['direct coordination: experiment 52, S1, the joint proof settled']
-      expect([s1.mined, s1.status, s1.block, s1.gasUsed]).toEqual([true, '0x1', 491469, 493099])
-      expect(s1.frames[1].gasUsed).toBe(220481)
-      const att = c['enclave: experiment 51, A, the output on its attestation']
-      expect([att.status, att.gasUsed, att.frames[0].gasUsed]).toEqual(['0x1', 152278, 9696])
-      const prf = c['enclave: experiment 51, B, the output on its proof']
-      expect([prf.status, prf.gasUsed, prf.frames[0].gasUsed]).toEqual(['0x1', 368405, 245699])
-    })
-
-    it('records no key, randomness, share or bid secret', () => {
-      const all = JSON.stringify(r)
-      expect(all).not.toMatch(/PRIVATE_KEY|"ra"|"rb"|note 0x/)
-    })
+describe('the note\'s encodings', () => {
+  const o: N.Opening = { value: N.DENOM, n: 5n, s: 6n, T: 1_800_000_000n, refund: 7n }
+  it('first contact seals 1,241 bytes that open to the opening', () => {
+    const k = N.kemKeygen(new Uint8Array(64).fill(3))
+    const { entry, ss } = N.sealFirst(k.ek, o, new Uint8Array(32).fill(4))
+    expect(entry).toHaveLength(N.ENTRY_BYTES)
+    const opened = N.openFirst(k.dk, entry)!
+    expect(opened.opening).toEqual(o)
+    expect(Buffer.from(opened.ss).equals(Buffer.from(ss))).toBe(true)
+    const changed = entry.slice()
+    changed[1100] ^= 1
+    expect(N.openFirst(k.dk, changed)).toBeUndefined()
   })
+  it('a pairwise note is 152 bytes under its own tag', () => {
+    const ss = new Uint8Array(32).fill(9)
+    const sealed = N.sealPair(ss, 1, o)
+    expect(sealed).toHaveLength(152)
+    expect(N.openPair(ss, 1, sealed)).toEqual(o)
+    expect(N.openPair(ss, 2, sealed)).toBeUndefined()
+    expect(Buffer.from(N.pairTag(ss, 1)).equals(Buffer.from(N.pairTag(ss, 2)))).toBe(false)
+  })
+})
 
-if (runs.length === 0) it.skip('experiment 13 has no recorded run yet', () => {})
+const fixtures = new URL('./fixtures/x13/', import.meta.url).pathname
+const runs = existsSync(fixtures) ? readdirSync(fixtures).filter((f) => f.endsWith('.json')) : []
+
+describe.runIf(runs.length > 0)('the recorded runs rebuild', () => {
+  for (const f of runs) {
+    const fx = JSON.parse(readFileSync(join(fixtures, f), 'utf8'))
+    for (const t of fx.transactions as { step: string; hash: Hex; raw: Hex }[]) {
+      it(`${f}: ${t.step}`, async () => {
+        const tx = parseFrameTx(t.raw)
+        expect(frameTxHash(tx).toLowerCase()).toBe(t.hash.toLowerCase())
+        expect(tx.sender.toLowerCase()).toBe(fx.registry.toLowerCase())
+        expect(tx.frames.map((fr) => fr.mode)).toEqual([Mode.VERIFY, Mode.SENDER])
+        const w = (decodeFunctionData({ abi: X.registryAbi, data: tx.frames[1].data }).args as [bigint[]])[0]
+        expect(w).toHaveLength(12)
+        expect(tx.nonceKeys).toEqual([w[1]])
+        expect(tx.nonceSeq).toBe(0n)
+        const p = w.slice(4).map(String)
+        const proof = { protocol: 'groth16', curve: 'bn128', pi_a: [p[0], p[1], '1'], pi_b: [[p[3], p[2]], [p[5], p[4]], ['1', '0']], pi_c: [p[6], p[7], '1'] }
+        expect(await snarkjs.groth16.verify(X.VKEY, w.slice(0, 4).map(String), proof)).toBe(true)
+      }, 60_000)
+    }
+    it(`${f}: both blobs rebuild to their versioned hashes, each holding its note`, () => {
+      for (const [k, label] of [['arm3', '3-blob'], ['arm6', '6-late']] as const) {
+        const entries = (fx.blobs[k].entries as Hex[]).map((e) => hexToBytes(e))
+        expect(B.versionedHashOf(B.commitmentOf(B.packBlob(B.KIND.N, entries)))).toBe(fx.blobs[k].vh)
+        const note = fx.notes.find((n: { label: string }) => n.label === label)
+        expect(entries.some((e) => Buffer.from(e).equals(Buffer.from(hexToBytes(note.delivered))))).toBe(true)
+      }
+    })
+    it(`${f}: every note's h is the hash of the bytes delivered for it`, () => {
+      for (const n of fx.notes as { h: Hex; delivered: Hex }[]) expect(BigInt(n.h)).toBe(N.hOf(hexToBytes(n.delivered)))
+    })
+  }
+})

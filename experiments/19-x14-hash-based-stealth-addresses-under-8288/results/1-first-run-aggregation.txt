@@ -1,0 +1,44 @@
+leanVM 3cbac047160f4d1465bfe985521603b0a3418556
+machine Intel(R) Xeon(R) Processor @ 2.10GHz, 4 cores, 15 GiB
+== 16
+  cycles (VM steps)           : 84,261 = 2^16.363
+  proof size                  : 261.1 KiB
+  proving time                : 0.264 s ± 26.9%      peak memory 0.595 GiB
+  per signature               : 60.506 signatures/s
+  verifying                   : 17.636 ms
+== 32
+  cycles (VM steps)           : 163,175 = 2^17.316
+  proof size                  : 278.2 KiB
+  proving time                : 0.505 s ± 5.5%      peak memory 0.874 GiB
+  per signature               : 63.339 signatures/s
+  verifying                   : 18.004 ms
+== 48
+  cycles (VM steps)           : 242,106 = 2^17.885
+  proof size                  : 296.8 KiB
+  proving time                : 0.673 s ± 22.6%      peak memory 1.115 GiB
+  per signature               : 71.372 signatures/s
+  verifying                   : 19.354 ms
+== 64
+  cycles (VM steps)           : 320,980 = 2^18.292
+  proof size                  : 289.8 KiB
+  proving time                : 1.041 s ± 31.5%      peak memory 1.417 GiB
+  per signature               : 61.457 signatures/s
+  verifying                   : 34.959 ms
+== 80
+  cycles (VM steps)           : 399,838 = 2^18.609
+  proof size                  : 308.9 KiB
+  proving time                : 1.06 s ± 19.9%      peak memory 1.847 GiB
+  per signature               : 75.478 signatures/s
+  verifying                   : 20.228 ms
+== 96
+  cycles (VM steps)           : 478,685 = 2^18.869
+  proof size                  : 307.5 KiB
+  proving time                : 1.206 s ± 20.2%      peak memory 1.897 GiB
+  per signature               : 79.634 signatures/s
+  verifying                   : 18.576 ms
+== 128
+  cycles (VM steps)           : 636,460 = 2^19.28
+  proof size                  : 346.1 KiB
+  proving time                : 1.345 s ± 38.9%      peak memory 2.482 GiB
+  per signature               : 95.186 signatures/s
+  verifying                   : 17.99 ms

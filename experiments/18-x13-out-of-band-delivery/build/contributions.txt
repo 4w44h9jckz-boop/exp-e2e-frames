@@ -1,0 +1,5 @@
+deliver: [32;22m[INFO]  [39;1msnarkJS[0m: Contribution Hash: 
+deliver: 		47e9925b 68614585 6010df14 d7de4cf2
+deliver: 		752a7eb2 a9dfc8ec 5bbdc262 863e116f
+deliver: 		66398119 54e6ea57 08db2eee ea1acd66
+deliver: 		7aa745ba cb8495a1 ca59dea1 249278f6

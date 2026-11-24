@@ -1,0 +1,36 @@
+Experiment 22 (Q1): the mempool's wrappers on the real prover, first run, 2026-11-04
+
+skandha: be3cb1d (pull request #9's head), with the one-line harness change below, made locally and not pushed
+conformance vectors: exp-mempool-l2s f050c1e (05-aggregation.md version 5, AG-11)
+prover: experiments/19-x14-hash-based-stealth-addresses-under-8288/prover at 47f5496, leanVM 3cbac04, built with -C target-cpu=native
+machine: 4 cores, Intel(R) Xeon(R) Processor @ 2.10GHz, 15 GB
+command, in packages/framepool: bun test/run-two-folds.ts --prover <path to x14-prover>
+
+Why the change: the prover's sphincs mode prints its key and signature as bare hex. The stub prints
+them with 0x, and AG-11 item 1 reads a triple's key as 0x plus 64 hex digits, so on the real binary no
+key was foldable and round 1 stopped with "a node's prover made no fold". The prover's aggregate
+mode takes either form. The harness change prefixes 0x where the test reads the sphincs answer:
+
+diff --git a/packages/framepool/test/two-folds.ts b/packages/framepool/test/two-folds.ts
+index 8c52533..4f71b10 100644
+--- a/packages/framepool/test/two-folds.ts
++++ b/packages/framepool/test/two-folds.ts
+@@ -202,7 +202,8 @@ function sphincs(
+     answer.verified !== true
+   )
+     throw new Error(`no signature from ${prover}: ${out.stdout}${out.stderr}`);
+-  return [answer.publicKey, answer.signature];
++  const ox = (h: string): string => (h.startsWith("0x") ? h : "0x" + h);
++  return [ox(answer.publicKey), ox(answer.signature)];
+ }
+ 
+ const hex32 = (tag: string, i: number): string =>
+
+Output:
+round 1, node A: 3 listed, 3 deps, 274417 proof bytes, 3399.2 ms, 417206272 bytes at peak; the other answers ok for each of 3
+round 1, node B: 3 listed, 3 deps, 274905 proof bytes, 3111.0 ms, 417013760 bytes at peak; the other answers ok for each of 3
+round 2, node A: 3 listed, 3 deps, 274417 proof bytes, 3163.3 ms, 417107968 bytes at peak; the other answers ErrAlreadyKnown for each of 3
+round 2, node B: 3 listed, 3 deps, 274905 proof bytes, 2826.4 ms, 417406976 bytes at peak; the other answers ErrAlreadyKnown for each of 3
+round 3, node A: 2 listed, 2 deps, 268409 proof bytes, 2811.6 ms, 412516352 bytes at peak; the other answers ErrAlreadyKnown for each of 2
+round 3, node B: 2 listed, 2 deps, 268697 proof bytes, 2746.8 ms, 412655616 bytes at peak; the other answers ErrAlreadyKnown for each of 2
+round 4, node A, one byte changed: 2 listed, 2 deps, 268409 proof bytes, 2822.8 ms, 412966912 bytes at peak; the other answers ErrWrapperProof
