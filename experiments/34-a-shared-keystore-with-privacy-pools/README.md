@@ -392,3 +392,47 @@ implementation is unchanged.
 - (f2) refused, or less than half of $B$ taken as fee, in which case the fee path is narrower than
   argued above;
 - (f3b) included, in which case the cap does not close it.
+
+## Arm A: results, run 2 (2026-11-24)
+
+Run as `npx tsx experiments/34-a-shared-keystore-with-privacy-pools/run.ts 2-fees fees` at commit
+`e0feada`, on a fresh chain with the same setup. The record is `results/2-fees.json`. A smoke run
+before it, whose record is not kept, gave the same figures. The dev chain's block producer pays its
+fees to the zero address, so that address stands for the builder here, and each case's block held
+only its transaction.
+
+| Case | Predicted | Observed |
+| --- | --- | --- |
+| (f2) | Included; about $2 \cdot 10^{12}$ wei deposited; more than half of $B$ to the fee recipient | Included. The relayer's fee was 5,481,735,316 wei per gas over $L$ = 1,823,875. 2,000,000,530,500 wei was deposited, 7,415,400,994,043,823 wei (74.2% of $B$) went to the fee recipient, and 2,582,598,995,956,448 wei (25.8%) was refunded to the account |
+| (f3a) | Included; deposits as (a) did | Included, depositing 9,999,999,628,029,700 wei, as (a) did |
+| (f3b) | Refused at the node, in `VERIFY`; its control valid | Refused at the node ("validation prefix frame reverted"). The same transaction at run 1's fees simulates valid |
+| The cap's gas | Under 30 | 24: the capped `VERIFY` used 5,675 gas, the uncapped 5,651 |
+
+Every prediction held.
+
+### What it means
+
+- **The fee is a path to the funds, and run 1's cases did not test it.**
+  - The scoped key and the relayer cannot choose where the deposit goes. The relayer can choose
+    how much of the balance reaches the pool, because it sets the fee and the account pays it.
+  - In (f2), a single honest-looking transaction, with a valid proof for a listed precommitment,
+    moved 74% of the payment to the block's fee recipient.
+  - The rest was refunded only because the deployment frame's limits are loose. A relayer that also
+    fits those limits to their use takes more.
+  - A relayer that is the builder, or is paid by it, keeps that share. So arm A's claim holds only
+    with the fee bound.
+- **The account can bind it, at almost no cost.** One comparison in `VERIFY`, the maximum fee per
+  gas against a constant, closed the path in (f3b) and cost 24 gas. An honest deposit is unaffected,
+  (f3a).
+- **What a scoped module must check, then, is three things,** not one:
+  - the call, which (e1) to (e3) test;
+  - the precommitment, which (c) tests;
+  - the fee, which (f2) and (f3b) test.
+
+  A cap fixed in the account's code is the simplest of the fee checks. It trades the account's
+  ability to pay a high fee in a busy block for the bound. A cap the owner signs with the list would
+  keep both, at the cost of a field in the leaf.
+- **The cap does not cover the gas itself.** The relayer still chooses the frames' limits, which
+  decide how much is reserved and refunded but not what is charged. And repeating (d), a used entry
+  on a new nonce, still costs the account its gas each time at up to the capped fee. A cap bounds
+  each repetition's cost; it does not bound how many there are.
