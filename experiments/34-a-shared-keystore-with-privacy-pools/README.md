@@ -544,3 +544,71 @@ They changed the plan in two ways.
 
 The withdrawal circuit's constraint count was measured when the circuits were built, before any
 run. It is reported with run 3's results.
+
+## Arm B: results, run 3 (2026-11-24)
+
+Run as `npx tsx experiments/34-a-shared-keystore-with-privacy-pools/run-b.ts 3-arm-b` from the
+repository root at commit `102bc22`, on a fresh chain holding both pools. The record is
+`results/3-arm-b.json`. Two smoke runs before it, whose records are not kept, gave the same
+outcomes.
+
+| Case | Predicted | Observed |
+| --- | --- | --- |
+| (g0), pool A | Succeeds | Included. The indexer was paid the whole note, $10^{16}$ wei |
+| (g1), pool B, no dependency | Fails in the checker | Included with the relay's frame failed; nothing paid. The probe: the checker refused, in 3,638 gas |
+| (g2), pool B, `own_scoped` to itself | Fails in the checker | Included with the relay's frame failed; nothing paid. The probe: the checker refused, in 7,016 gas, since the indexer's address does not hold the account's code |
+| (g3), pool B, `own_main` with the indexer's key | Fails in the prover | Refused in the prover, in the signature's verification |
+| (h), to a fresh account of the identity | Included | Included. The account, deployed by a frame of the same transaction, was paid $10^{16}$ wei. The probe: the checker accepted, in 5,043 gas |
+| (i), the owner's main rule, to an outside address | Included | Included, paying $10^{16}$ wei. The probe: the checker accepted, in 4,067 gas |
+| (j), pool A | Included | The account deposited and ragequit through `execute`, and got back the note less the ragequit's gas: 9,999,999,996,697,400 wei |
+| (j), pool B | Included | The same: 9,999,999,996,697,024 wei |
+| The circuit | Grows by one two-input Poseidon, about 240 constraints | 36,832 to 37,350, 518 more |
+| The checker | Under 20,000 gas | 4,067 and 5,043 accepting, 3,638 and 7,016 refusing, each with its call |
+
+### Measures
+
+- **The circuit.** One two-input Poseidon, measured alone under the same compiler, costs 517
+  constraints here (`results/3-poseidon2-constraints.txt`). The 518 are that Poseidon and the one
+  constraint that makes the secret a computed signal. The prediction's form held, and its figure
+  was wrong by more than half: 240 was not measured.
+- **The withdrawal's frame.** The relay frame of (i), on pool B, used 487,057 gas of execution,
+  against 433,910 for (g0) on pool A: 53,147 more. That is:
+  - the verifier's two extra public inputs;
+  - the tag's record;
+  - the checker's call, 4,067 of it.
+
+  The state gas, 673,200 in each, includes a new account for the recipient.
+- **The pool's cost to deploy.** Pool B's verifier cost 3,598,900 gas against 3,303,576, and its
+  pool 13,147,534 against 11,698,089.
+- **The proofs.** `own_scoped` 20,371 and 20,382 cycles, `own_main` 20,368, and `main4` 20,381 to
+  20,393. Each is 244,808 to 248,296 bytes.
+- **Groth16, with snarkjs in this container.** Withdrawal proofs took 2,580 to 3,203 ms, and
+  ragequit proofs 233 and 240 ms.
+
+### What it means
+
+- **Arm B's claim holds as far as it was tested.**
+  - On the modified pool, an indexer holding a note's $n$, $T$ and $\sigma$, the identity's $s$
+    and its own scoped key withdrew only to a fresh account of the identity, (h).
+  - To its own address it was refused with no proof, (g1), and with a scoped proof, (g2). It could
+    not prove under the main rule, (g3).
+  - On the unmodified pool, the same indexer took the note, (g0).
+  - So the owner tag moves what decides a note's destination from the note's secrets, which a
+    withdrawer must hold, to the identity's keys, which it need not.
+- **What makes (h) safe is the recipient's code.** The checker accepts a scoped withdrawal only to
+  an address whose code is exactly an `Account5` clone for an account of the identity:
+  - the implementation, the account's program key and the keystore are fixed in the checker;
+  - only $C'$ is the identity's, and the proof binds it.
+
+  Funds there move only under the identity's main rule. That is experiment 32's and 33's property,
+  not retested here.
+- **The owner can always leave.** The ragequit circuit is unchanged, and it is gated on the
+  depositor alone, so a note's depositor exits from either pool the same way, (j). The owner tag
+  traps nothing.
+- **The tag costs one Poseidon in the circuit,** two public inputs, one storage slot and one call
+  of a few thousand gas a withdrawal.
+- **Limits, not tested:**
+  - a partial withdrawal would leave an untagged change note;
+  - the relay fee is held at 0 only on the scoped path;
+  - the template fixes a single account implementation, so a new wallet version needs a new
+    checker or a list of templates.
