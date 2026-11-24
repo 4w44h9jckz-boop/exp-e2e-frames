@@ -242,3 +242,108 @@ The machine is the session's: 4 cores, about 15 GiB.
 
 - If leanVM cannot express a part of a statement, that part stops, and the record says why.
 - If a proof exceeds 8 GiB of memory, the run stops for that statement, and the record says so.
+
+## Results, run 1 (2026-11-24)
+
+**The record:** `results/1-first-run.json`, from commit `26e807b`.
+- **Command:** `npx tsx experiments/32-a-shared-keystore-for-stealth-accounts-in-leanvm/run.ts 1-first-run`.
+- **Builds:** leanVM at `3cbac04`, experiment 19's prover, and `tool/`, whose own checks agree.
+- **Program keys,** keccak256 of each assembled file:
+  - `spend`, `0xd37202eca8...`;
+  - `register`, `0xc7ee4d571e...`;
+  - `rotate`, `0x777b68efa5...`.
+- **The machine:** 4 cores, about 15 GiB.
+
+**The keystore** held ten registered identities before the cases. Each was proved with `register`
+and accepted. Identity A has one key, B two of three, and P one key padded. H1 and H2 are the
+recovery cases, and five more are fillers.
+
+### Every case, against the predictions
+
+| Case | Predicted | Got |
+|---|---|---|
+| (a) honest spend at version 0: one key, two of three, padded | proves and verifies | **as predicted**, all three |
+| (b) rotation under the current rule, then a spend at version 1 against the new root | both prove | **as predicted**; a two-of-three rotation proves too |
+| (c1) revoked key, its own entry $(\kappa, b)$ | refused in the prover | **as predicted**, at $h^{\kappa} = h^{a} \cdot h \cdot h^{d_1}$ |
+| (c2) revoked key, the entry below, $(a, \kappa)$ | refused in the prover | **as predicted**, at the same comparison |
+| (c3) the entry that bracketed $\kappa$ before the rotation, with its old path | refused in the prover | **as predicted**: its path leads to the old revocation root, so the digest is not the one asked for |
+| (d) the same spend against the root before the rotation | proves | **as predicted**: this is the window experiment 33 measures |
+| (e1) $s$ and $r$, the leaf rebuilt with the attacker's key | refused in the prover | **as predicted**, at the first level of the leaf's path |
+| (e2) $s$ and $r$, the leaf's keys, the attacker's signature | refused in the prover | **as predicted**, inside the leanSPHINCS verifier |
+| (f1) a second registration of the same $s$ | refused by the keystore | **as predicted**: the proof verifies, and the keystore refuses its tag |
+| (f2) a rotation signed by a key that is not the leaf's | refused in the prover | **as predicted**, inside the verifier |
+| (f3) a registration tag from another secret | refused in the prover | **as predicted**, at the published digest |
+| (g) the proof of (a) against $(C', m)$ and $(C, m')$ | fails verification both ways | **as predicted**, both `Verifier(GkrLayer(18))`; the control verifies |
+| (h) run 1: recovery queued, cancelled at tick 5, executed at tick 15 | the execution refused | **as predicted**: "no such queued recovery" |
+| (h) run 2: recovery queued, executed at tick 9, then at tick 10 | refused, then executed | **as predicted**; then version 1 spends, and version 0 is refused at the comparison |
+
+In (c1) and (c2), no 128-bit gap can make both comparisons hold, since one would have to be $-1$.
+The runner hints 0 for both, and the first comparison refuses it.
+
+### Cost, three measured proofs after a warm-up
+
+| Statement | Rule | Cycles | Proving, ms | Proof | Verifying, ms | Peak RSS |
+|---|---|---:|---|---:|---:|---:|
+| `register` | one key | 1,389 | 52, 43, 39 | 218.6 KiB | 76.1 | 62.1 MiB |
+| `register` | two of three | 1,389 | 56, 48, 50 | 219.4 KiB | 75.5 | 62.0 MiB |
+| `spend` | one key | 20,380 | 75, 64, 78 | 241.8 KiB | 98.3 | 80.1 MiB |
+| `spend` | two of three | 25,307 | 90, 89, 97 | 261.2 KiB | 121.4 | 95.5 MiB |
+| `spend` | one key, padded | 25,291 | 87, 91, 74 | 260.9 KiB | 95.2 | 94.5 MiB |
+| `rotate` | one key | 20,395 | 67, 77, 88 | 241.3 KiB | 135.5 | 81.4 MiB |
+| `rotate` | two of three | 25,318 | 94, 99, 92 | 261.7 KiB | 93.0 | 94.7 MiB |
+| `rotate`, recovery | one key | 20,427 | 74, 92, 72 | 240.5 KiB | 93.3 | 83.4 MiB |
+
+**Keccak calls.** The table rows count every `KECCAK` instruction:
+
+| Statement | Rows | Outside the verifier, counted from the program | So the verifier, per signature |
+|---|---:|---:|---:|
+| `register` | 9 | 9 | none |
+| `spend`, one key | 547 | 55 | 492 |
+| `spend`, two of three | 1,039 | 55 | 492, twice |
+| `rotate`, one key | 550 | 58 | 492 |
+| `rotate`, recovery | 553 | 61 | 492 |
+
+The rows are printed as powers of two to three decimals, so each is that count to within one.
+
+### Case (i): what a verifier sees
+
+Five spends each, all proved and verified. The public values are two cells for every spend, and the
+program key is the same by construction.
+
+| | Proof, bytes | Verifying, ms | Cycles | `KECCAK` rows | Committed in all |
+|---|---|---|---|---|---|
+| one key | 244,928 to 247,528 | 93.0 to 101.0 | 20,381 to 20,399 | $2^{9.095}$ | $2^{19.554}$ |
+| two of three | 267,464 to 269,192 | 94.8 to 103.0 | 25,279 to 25,308 | $2^{10.021}$ | $2^{19.869}$ |
+| one key, padded | 268,000 to 269,224 | 93.5 to 97.3 | 25,255 to 25,311 | $2^{10.021}$ | $2^{19.869}$ |
+
+- **Unpadded,** the one-key and two-of-three proofs do not overlap in size or in any table's
+  height. A verifier can tell which rule spent from the proof's size alone.
+- **Padded,** every measured range overlaps the two-of-three one: size, verification time,
+  cycles and every table's rows.
+
+### Against the predictions
+
+| # | Prediction | Outcome |
+|---|---|---|
+| 1 | the outcomes above | **held**, every case |
+| 2 | 55, 58, 61 and 9 Keccak calls outside the verifier, and a spend's cycles under 2,000 above version 2a's | **held for the Keccak calls,** which the table rows confirm exactly. **Wrong for the cycles:** a spend takes 20,380 against version 2a's 6,805 for one key, and 25,307 against 11,715 for two of three, about 13,600 more. The difference is the comparison tables: every proof writes their 6,144 cells and leanSPHINCS's 256 before it starts, and the `SET` and `DEREF` rows (about 8,400 and 7,100) carry them. The keystore's own hashes are the 55 calls |
+| 3 | every proof under 0.5 s, 512 MiB, and between 150 and 400 KiB | **held:** at most 133 ms, 95.5 MiB, and 218.6 to 262.9 KiB |
+| 4 | case (i) differs unpadded and does not when padded | **held** |
+
+### What it means
+
+- **The claim holds.** A revoked key is refused against every root written after its revocation,
+  and the identity and payment secrets without the current key neither spend nor add a key.
+  - Every refusal is in the statement, not in a check outside it.
+  - The one exception is (f1), the repeated registration, which is the keystore's job by design.
+- **Revocation is bounded by the roots a spend may name, not by the statement.** Case (d) proves
+  against the root before the rotation, so how long a revoked key keeps spending is however long
+  the chain accepts that root. That is experiment 33's question.
+- **The rules hide only when padded.** As built, a verifier tells a one-key spend from a
+  two-of-three spend by the proof's size. Padding makes them indistinguishable on every measure
+  here. Its price is one more leanSPHINCS verification for one-key users: 4,900 cycles, 492 Keccak
+  calls, about 20 KiB of proof, and 10 to 20 ms of proving.
+- **The keystore's statement is cheap beside its signature.** A spend is under 0.1 s and 100 MiB,
+  and the 55 hashes of the keystore cost less than the tables that compare 128-bit keys.
+- **This is all conditional on zero knowledge.** leanVM has none at `3cbac04`, so a proof may still
+  reveal its witness: $s$, the version and the keys.
