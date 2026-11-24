@@ -227,3 +227,113 @@ before the recorded run. They changed the plan in four ways.
    - The patched predeploy is written in Yul (`contracts/RecentRootMaxAge.yul`) rather than the
      client's geas, so its gas differs from the client's own code. The field's cost is therefore
      measured between the two forms on the same patched code.
+
+## Results, run 1 (2026-11-24)
+
+**The record:** `results/1-first-run.json`, from commit `a3a1c0c`.
+- **Command:** `npx tsx experiments/33-a-shared-keystore-for-stealth-accounts-on-the-local-chain/run.ts 1-first-run both`.
+- **The main chain:** ethrex `64b8fc09d` with `ethrex-8288.patch` (extended) and `ethrex-clock.patch`,
+  chain id 8141, and the client's own `RECENT_ROOT_CODE` at `0x8272`.
+- **The maximum-age chain:** the same, plus `ethrex-maxage.patch`. Its predeploy is
+  `contracts/RecentRootMaxAge.yul`, 555 bytes.
+- **The programs** are experiment 32's: `spend` `0xd37202eca8...`, `register` `0xc7ee4d571e...` and
+  `rotate` `0x777b68efa5...`. Each leanSTARK proof was checked in its block by experiment 19's prover.
+- **The keystore's root agreed with the reference** after every write, on both chains.
+
+### Every case, against the predictions
+
+| Case | Predicted | Got |
+|---|---|---|
+| (a) spend, one key, reading 2 | included | **included**, at block 34 |
+| (b) rotation, then a spend at version 1 against the new root | both included | **both included**. The same account spends after the rotation, since it commits to the identity, not a key |
+| (c1) the revoked key, naming the root written at slot 16, before the rotation at slot 41 | included | **included** at slot 46: a revoked key spends 5 slots after its rotation, inside the window |
+| (c2) the revoked key, naming the root after the rotation, no proof | not included | **not included,** and the chain stopped: the head did not move in 60 seconds. The builder put the transaction in every block it made, and its block check refused each one: "no proof for leanSTARK dependency" |
+| (d1) after a skip of 8,191 slots, a spend naming the last root | refused at the node | **refused:** "EIP-8272 recent-root reference expired: slot 41 is outside the usable window at slot 8240" |
+| (d2) a refresh by an account that is not the keystore's | included | **included,** at slot 8,240 |
+| (d3) the spend again, naming the refreshed root | included | **included** |
+| (e) reading 1, the dependency before the approving `VERIFY` | refused at admission | **refused:** "Frame transaction validation prefix does not match any recognized shape" |
+| (e) reading 2, the dependency after it | admitted and included | **included** |
+| (f1) bounded account, revoked key, root 23 slots old, `max_age` 64 | included | **included** |
+| (f2a) the same with the root 127 slots old | refused at the node | **refused:** "validation prefix frame reverted", in the predeploy's age check |
+| (f2b) the same, the tuple claiming `max_age` 8,191 | refused (deviation 4) | **refused:** the same error, from the stub's bound |
+| (f2c) unbounded account, the same revoked key and old root, 72-byte form | included (deviation 4) | **included,** at slot 140, 107 slots after the rotation: where the field is not used, the revoked key spends |
+| (f3) honest spends on the bounded account, before and after a refresh | included | **both included** |
+| (g) one key against two of three | equal but for $C$ | **equal:** see below |
+
+### Gas
+
+**A spend, by frame,** on the main chain. Every spend, one key or two of three, revoked or not, cost
+249,638 or 249,650, the difference being the nonce's calldata byte.
+
+| Frame | Execution gas | State gas |
+|---|---:|---:|
+| EIP-8272 recent-root verifier, one tuple | 5,579 | 0 |
+| the stub's `VERIFY` | 1,440 | 0 |
+| the leanSTARK dependency, as declared | 30,000 | 0 |
+| the spend to a fresh address | 12,243 | 183,600 |
+
+- **The recent-root check is 5,579,** 679 above the 4,900 estimated for it before any measurement.
+- **The validation prefix, all three leading frames, is 37,019,** well under EIP-8141's 100,000.
+
+**The keystore and the accounts.** Receipts:
+
+| Transaction | Receipt gas | Of which |
+|---|---:|---|
+| deploying the keystore | 3,148,724 | its constructor builds both empty trees and writes its first root |
+| the first registration | 424,139 | 887 `VERIFY`, 30,000 dependency, 73,911 execution, 293,760 state for three new slots |
+| a later registration | 326,573 | the same, with 195,840 state for two new slots |
+| a rotation | 279,204 | 1,034 `VERIFY`, 30,000 dependency, 103,241 execution, 97,920 state |
+| a refresh, from any account | 130,728 | a plain transaction; its state is one new ring slot in the predeploy |
+| deploying an account through CREATE2 | 1,403,549 | a plain transaction, state gas included: a new account with 771 bytes of code |
+
+**(f)'s field,** on the maximum-age chain, between the two forms on the same patched predeploy:
+
+| Frame | 72-byte form | Maximum-age form | Difference |
+|---|---:|---:|---:|
+| recent-root verifier | 5,705 | 5,882 | 177 |
+| the stub's `VERIFY` | 1,440 | 1,579 | 139 |
+
+So the field costs 316 gas a spend. The patched predeploy's 72-byte form costs 126 more than the
+client's own code, which is written in geas.
+
+### Case (g)
+
+- **The two accounts' code** is 771 bytes each and differs in exactly 32 bytes, $C$.
+- **Their transactions** carry 236 bytes of calldata each.
+- **Every frame's gas is identical.**
+- **The proofs differ:** 246,152 bytes for one key against 268,520 for two of three, as in experiment
+  32. On this chain they travel beside the block, so the chain does not show them. The block's
+  builder does see them.
+
+### Against the predictions
+
+| # | Prediction | Outcome |
+|---|---|---|
+| 1 | the outcomes | **held,** every case. (c2) also stopped the chain, which the prediction did not say |
+| 2 | (e): reading 2 admitted, reading 1 refused | **held** |
+| 3 | the recent-root frame within 2,000 of 4,900; the dependency at 30,000; the prefix under 100,000 | **held:** 5,579, 30,000 and 37,019 |
+| 4 | (g): code equal but for $C$, equal calldata, every frame within 100 | **held,** exactly |
+| 5 | (f)'s field under 500 gas | **held:** 316 |
+
+### What it means
+
+- **The claim holds.** A keystore spend is a valid frame transaction on this client.
+  - It costs its declared 30,000 for the proof, plus 5,579 for the recent-root check and 1,440 for
+    the stub.
+  - A revoked key spends for as long as the chain accepts a root written before the revocation:
+    8,191 slots with EIP-8272 as written.
+  - A maximum-age field bounds that to the account's choice, at 316 gas a spend.
+- **Two checks refuse a stale root, and either is enough.**
+  - With the field, the predeploy refuses a root older than the tuple's `max_age`.
+  - The stub refuses a tuple whose `max_age` exceeds its own bound.
+  - Without the stub's bound, a spender could set `max_age` to 8,191. Without the predeploy's check,
+    the stub could not learn the age at all, since EIP-8272 lets only the predeploy read the slot.
+- **The window is real on today's rules.** (c1) and (f2c) show a revoked key spending 5 and 107
+  slots after its rotation. Nothing in the account or the statement can stop it.
+- **Reading 1 of the validation prefix is not admitted by this client.** Only reading 2 lets a
+  keystore spend reach the mempool, which puts the dependency where EIP-8141 says frames are
+  outside public validation.
+- **One proofless dependency halts the patched builder.** This is experiment 22's finding again, now
+  with a leanSTARK dependency, and it is a client's builder policy: it includes what it cannot prove.
+- **The refresh is open.** Anyone may pay about 130,000 gas to keep the keystore's root usable, so no
+  single party holds that gate. But someone has to, at least once every 8,191 slots.
