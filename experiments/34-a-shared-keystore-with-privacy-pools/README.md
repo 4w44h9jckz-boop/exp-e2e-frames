@@ -1,11 +1,12 @@
 # Experiment 34: a shared keystore with Privacy Pools
 
-**Status: done 2026-11-24.** Arm A ran twice, run 2 under an addendum written after run 1; arm B
-ran once, under an addendum written before its code. Every run's results are below. **Pre-registered
-2026-11-24,** before any code: the pool's deployment, the programs, the account and the runner. Arm A is pre-registered in full here. Arm B is pre-registered below in its
-design, cases and predictions, with a dated addendum for its circuit and program before any of its
-code. Results are added below. Nothing above them is edited after a run; a change of plan before
-the run is recorded as a deviation.
+**Status: done 2026-11-24.** Arm A ran twice, run 2 under an addendum written after run 1; arm B ran
+once, under an addendum written before its code. Every run's results are below. **Pre-registered
+2026-11-24,** before any code: the pool's deployment, the programs, the account and the runner. Arm
+A is pre-registered in full here. Arm B is pre-registered below in its design, cases and
+predictions, with a dated addendum for its circuit and program before any of its code. Results are
+added below. Nothing above them is edited after a run; a change of plan before the run is recorded
+as a deviation.
 
 ## The question
 
