@@ -436,3 +436,94 @@ Every prediction held.
   decide how much is reserved and refunded but not what is charged. And repeating (d), a used entry
   on a new nonce, still costs the account its gas each time at up to the capped fee. A cap bounds
   each repetition's cost; it does not bound how many there are.
+
+## Arm B: addendum, written before any of its code (2026-11-24)
+
+This fixes how arm B is built. Three points differ from the design above, and each is said where it
+falls: the tag enters the circuit as two halves, the pool's check is a contract it calls, and the
+account gains a mode. The cases, the measures and the predictions above stand. The additions below
+are marked.
+
+**The owner tag.** $T = H([\tau_{\mathrm{tag}}, i], s)$, the keystore's Keccak over the identity
+secret $s$ and the note's index $i$: 32 bytes.
+- A BN254 element holds less, so the circuit takes $T$ as two public halves of 128 bits,
+  $T_{\mathrm{hi}}$ and $T_{\mathrm{lo}}$. The note's secret is
+  $t = \mathrm{Poseidon}(T_{\mathrm{hi}} \cdot 2^{128} + T_{\mathrm{lo}}, \sigma)$.
+- The sum costs no constraint, so the predicted growth of one two-input Poseidon stands. A
+  withdrawal reveals $T$ as these two inputs.
+
+**The circuit patch,** `circuit-b.patch`, against the pin's `withdraw.circom`:
+- `existingSecret` is computed as above from two new public inputs, `ownerTagHi` and `ownerTagLo`,
+  and a private `ownerSalt`;
+- the change note's secret is not tagged. Every withdrawal here takes the whole note, so each change
+  note is worth 0, and a partial withdrawal would leave an untagged note. That limit is recorded,
+  not tested.
+
+`circuits.sh` builds it into `work/x34-circuits-b`, with the two halves last among the public
+inputs, under a local Groth16 setup of its own.
+
+**The contract patch,** `contracts-b.patch`, against the pin's Solidity:
+- the withdrawal proof carries 10 public signals, the halves last, and its verifier takes 10;
+- after the proof, `withdraw` requires each half to be below $2^{128}$, records $T$ as used and
+  refuses a used one, and calls an ownership checker with $T$, the context, the recipient and the
+  relay fee;
+- the recipient is the processooor, or, when the processooor is the Entrypoint, the relay data's
+  recipient;
+- the pool's constructor takes the checker's address.
+
+The Entrypoint is compiled from the patched sources too, since `relay` takes the proof's struct. So
+the modified pool has its own Entrypoint, with its implementation in the genesis as in arm A.
+
+**The ownership checker,** `contracts/OwnerCheck.yul`. Solidity cannot read frames, so the pool calls
+a Yul contract. It:
+- requires frame 0 to be the recent-root verifier with the keystore's source, and takes its root
+  $\rho$;
+- finds a dependency frame whose program key is `own_main`'s or `own_scoped`'s, and takes its
+  digest;
+- computes $m = H(\mathrm{DOMAIN}_B, \mathrm{context})$ and $X$:
+  - under `own_main`, $X = 0$;
+  - under `own_scoped`, $X = C'$, read from the recipient's code. The recipient's code must be
+    exactly the account template below with $C'$ in it, and the relay fee must be 0;
+- requires the digest to be $D = H(H(T, m), H(\rho, X))$.
+
+**The programs,** on experiment 32's library and arm A's. Each takes $s$ as a witness, as
+experiment 32's `spend` does. Authority to spend is in the leaf's keys.
+- `own_main`: a leaf of the identity, unrevoked under $\rho$, whose main rule signed $m$, and
+  $T = H([\tau_{\mathrm{tag}}, i], s)$. It publishes $D$ with $X = 0$.
+- `own_scoped`: the same, with the leaf's scoped key in place of the main rule, and
+  $X = C' = H(H([\tau_{\mathrm{pay}}, 0], H([\tau_{\mathrm{id}}, 0], s)), r')$ for a witness $r'$.
+- `main4`, the account's program: a leaf with two rules whose main rule signed $m$. It publishes
+  $H(H(C, m), H(\rho, 0))$ for the account's commitment $C$.
+
+**The account,** `contracts/Account5.yul`, a clone implementation as in arm A, with three words:
+$C$, `main4`'s key and the keystore's source.
+- Its one mode, under `main4`, is a call, `execute(target, value, data)`, with
+  $m = H(\mathrm{DOMAIN}_5, \mathrm{account}, \mathrm{nonce}, \mathrm{target}, \mathrm{value}, H(\mathrm{data}))$.
+- It has arm A's fee cap.
+- It is (h)'s recipient template and (j)'s depositor.
+
+**The sender.** Each transaction with an ownership dependency is sent by an account whose `VERIFY`
+approves anything and pays (`contracts/OpenSender.yul`), funded by the dev account. Who sends is
+not what arm B tests; the pool's check is. The notes for (g), (h) and (i) are deposited by the dev
+account.
+
+**The cases, as built.** The indexer holds the note's $n$, $T$ and $\sigma$, the identity's $s$,
+and its own scoped key.
+- (g) The indexer relays a withdrawal to its own address:
+  - (g0) on the unmodified pool, the control;
+  - (g1) on the modified pool, with no dependency;
+  - (g2) on the modified pool, with an `own_scoped` proof for a fresh $r'$;
+  - (g3) on the modified pool, through `own_main` with its own key.
+- (h) The indexer relays to a fresh account of the identity, deployed by a frame of the same
+  transaction, with `own_scoped`.
+- (i) The owner's main rule signs, and a withdrawal under `own_main` is relayed to an address
+  outside the identity.
+- (j) An `Account5` account deposits into each pool through `execute`, then ragequits through
+  `execute`. The ragequit circuit is unchanged.
+
+**Measures added:** the checker's gas, and the `withdraw` frame's gas with and without the check.
+
+**Predictions added:**
+- (g1) and (g2) are refused in the checker, so the relay's frame fails; (g3) is refused in the
+  prover. That is the pre-registered (g), "in the proof or in the dependency".
+- The checker costs under 20,000 gas.
