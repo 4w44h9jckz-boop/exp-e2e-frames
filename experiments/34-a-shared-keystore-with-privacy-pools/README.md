@@ -200,3 +200,49 @@ identity's own accounts.
   deployment by a separate transaction. The relayer then pays that one transaction, and the record
   says so.
 - If a case cannot be built as stated, it stops, and the record says what was tried.
+
+## Arm A: deviations, written before run 1
+
+Smoke runs on 2026-11-24, whose records are not kept, tested the runner on the chain before the
+recorded run. They changed the plan in five ways.
+
+1. **The pool's two Poseidon libraries and the Entrypoint's implementation are in the genesis.**
+   - EIP-8037 charges 1,530 gas of state per byte of deployed code. `PoseidonT3` is 23,576 bytes,
+     about 36.1 million gas of state, and its deployment reverted with all of the 15,000,000 gas the
+     first smoke run gave it.
+   - The three are placed at fixed addresses as the code a creation there would leave: each
+     library's own address, which its code checks, and the implementation's address in the UUPS
+     immutable. The proxy, the pool and the verifiers are deployed by transactions as planned.
+   - The implementation's own storage is empty, so its initialisers are not disabled as its
+     constructor would have done. Nothing in the run calls the implementation except through the
+     proxy.
+2. **The account is a clone of a shared implementation.**
+   - The frames of a validation prefix may declare at most 500,000 gas of state between them
+     (EIP-8141's `MAX_VERIFY_STATE_GAS`, a constant in the client). The planned account carries
+     its code itself: 575 bytes and its four words, 703 bytes, about 1.08 million gas of state. Its
+     deployment cannot sit in the prefix.
+   - Each account is now an EIP-1167 clone of `contracts/Account4.yul` with its four words
+     appended: 173 bytes, 264,690 gas of state. The implementation, 582 bytes, is deployed once by
+     the dev account and reads the words from the account's code. `APPROVE` under the clone's
+     delegatecall passes the client's check, which is that the executing account is the frame's
+     target.
+   - So the deployment stays in the prefix, and the fallback under Stops is not used. The deploy
+     frame's limits are 150,000 gas of execution and 460,000 of state.
+   - The bound, for any account deployed in its own prefix: with the account already created by a
+     payment, at most $\lfloor 500000 / 1530 \rfloor = 326$ bytes of code. With the account also
+     created by the deployment, at most $\lfloor (500000 - 183600) / 1530 \rfloor = 206$ bytes,
+     183,600 being a new account's state gas.
+3. **The setup's own transactions get more gas,** for EIP-8037's state gas: a payment to a fresh
+   address 500,000, the postman's root 3,000,000 and a withdrawal 6,000,000. The withdrawers are
+   funded with $10^{17}$ wei rather than $10^{16}$, enough for that limit. These limits are the
+   harness's, not the cases'.
+4. **Two measures are added,** so that each refusal is attributed.
+   - (e1) to (e3): the same transaction with `depositAll(P)` as its call, simulated by the node.
+     If it is valid, the refusal is the call shape's alone, and not the deployment's, the proof's
+     or the tuple's.
+   - (d): the Entrypoint's `usedPrecommitments(P)`, and the account's deposit replayed from an
+     externally owned account with the account's balance, for the revert reason. The client refuses
+     a replay from the account itself, since its sender has code (EIP-3607).
+5. **The runner's mirror of the state tree** also inserts each withdrawal's change note, which the
+   pool inserts and the first mirror did not. And the runner now stops the node on a failed step:
+   a node left by a failed smoke run had kept the port, and two later smoke runs talked to it.
