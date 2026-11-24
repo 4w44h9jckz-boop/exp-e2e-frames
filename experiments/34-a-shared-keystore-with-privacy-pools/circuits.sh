@@ -29,7 +29,9 @@ for f in commitment merkleTree withdraw; do
 done
 if [ -n "$PATCH" ]; then (cd "$B/src" && patch -s -p1 < "$OLDPWD/$PATCH"); fi
 sha256sum "$SRC"/packages/circuits/circuits/*.circom > "$B/sources.txt"
-printf 'pragma circom 2.2.0;\ninclude "withdraw.circom";\ncomponent main {public [withdrawnValue, stateRoot, stateTreeDepth, ASPRoot, ASPTreeDepth, context]} = Withdraw(32);\n' > "$B/src/withdraw_main.circom"
+# Arm B's patch adds the owner tag's two halves, last among the public inputs.
+PUB="withdrawnValue, stateRoot, stateTreeDepth, ASPRoot, ASPTreeDepth, context${PATCH:+, ownerTagHi, ownerTagLo}"
+printf 'pragma circom 2.2.0;\ninclude "withdraw.circom";\ncomponent main {public [%s]} = Withdraw(32);\n' "$PUB" > "$B/src/withdraw_main.circom"
 printf 'pragma circom 2.2.0;\ninclude "commitment.circom";\ncomponent main {public [value, label]} = CommitmentHasher();\n' > "$B/src/commitment_main.circom"
 for c in withdraw commitment; do
   npx circom2 "$B/src/${c}_main.circom" --r1cs --wasm -o "$B" -l node_modules -l "$B/src" > "$B/$c.compile.txt"

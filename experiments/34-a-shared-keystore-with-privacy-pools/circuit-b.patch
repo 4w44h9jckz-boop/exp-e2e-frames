@@ -1,0 +1,34 @@
+--- a/withdraw.circom
++++ b/withdraw.circom
+@@ -22,6 +22,8 @@
+   signal input ASPRoot;                          // Latest ASP root
+   signal input ASPTreeDepth;                     // Current ASP tree depth
+   signal input context;                          // keccak256(IPrivacyPool.Withdrawal, scope) % SNARK_SCALAR_FIELD
++  signal input ownerTagHi;                       // Experiment 34, arm B: the owner tag's high 128 bits
++  signal input ownerTagLo;                       // Experiment 34, arm B: the owner tag's low 128 bits
+ 
+   //////////////////// END OF PUBLIC SIGNALS ////////////////////
+ 
+@@ -32,7 +34,8 @@
+   signal input label;                            // keccak256(scope, nonce) % SNARK_SCALAR_FIELD
+   signal input existingValue;                    // Value of the existing commitment
+   signal input existingNullifier;                // Nullifier of the existing commitment
+-  signal input existingSecret;                   // Secret of the existing commitment
++  signal input ownerSalt;                        // Experiment 34, arm B: the salt under the owner tag
++  signal existingSecret;                         // Experiment 34, arm B: Poseidon(T, ownerSalt), computed below
+   signal input newNullifier;                     // Nullifier for the new commitment
+   signal input newSecret;                        // Secret for the new commitment
+ 
+@@ -53,6 +56,12 @@
+   /////////////////// END OF OUTPUT SIGNALS ///////////////////
+ 
+   // 1. Compute existing commitment
++  // Experiment 34, arm B: the note's secret is Poseidon(T, ownerSalt), T = ownerTagHi * 2^128 + ownerTagLo.
++  component ownerSecret = Poseidon(2);
++  ownerSecret.inputs[0] <== ownerTagHi * 340282366920938463463374607431768211456 + ownerTagLo;
++  ownerSecret.inputs[1] <== ownerSalt;
++  existingSecret <== ownerSecret.out;
++
+   component existingCommitmentHasher = CommitmentHasher();
+   existingCommitmentHasher.value <== existingValue;
+   existingCommitmentHasher.label <== label;

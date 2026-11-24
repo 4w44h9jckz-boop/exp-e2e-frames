@@ -1,7 +1,8 @@
 // Experiment 34: the host side. The leanVM programs of arm A, assembled from experiment 32's library
 // and this experiment's lib4.py; their witnesses; the pool's trees, compiled contracts and Groth16
 // withdrawals.
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { execFileSync } from 'node:child_process'
+import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { join } from 'node:path'
 import { keccak_256 } from '@noble/hashes/sha3'
@@ -21,7 +22,8 @@ export const WORK = join(root, 'work')
 
 // ---- the programs ----
 
-export type Program4 = 'register4' | 'scoped' | 'scoped_open'
+export type Program4 = 'register4' | 'scoped' | 'scoped_open' | 'main4' | 'own_main' | 'own_scoped'
+const ARM_B: Program4[] = ['main4', 'own_main', 'own_scoped']
 const lit = (c: [string, string, string]) => `f192(${c[0]},${c[1]},${c[2]})`
 const split = (src: string) => { const i = src.search(/^(@inline|def )/m); return [src.slice(0, i), src.slice(i)] }
 
@@ -31,10 +33,11 @@ export function assemble(name: Program4) {
   const lifted = liftedFromV2a()
   const [c32, f32] = split(readFileSync(join(X32, 'programs/lib.py'), 'utf8').replace('HPOW_PLACEHOLDER', `[${t.hpow.map(lit).join(', ')}]`))
   const [c4, f4] = split(readFileSync(join(here, 'programs/lib4.py'), 'utf8'))
+  const [c5, f5] = ARM_B.includes(name) ? split(readFileSync(join(here, 'programs/lib5.py'), 'utf8')) : ['', '']
   const entry = readFileSync(join(here, `programs/${name}.py`), 'utf8')
   const head = entry.split('\n').filter((l) => l.startsWith('#')).join('\n')
   const body = entry.split('\n').filter((l) => !l.startsWith('#')).join('\n')
-  const file = `${head}\n#\n# Assembled by experiment 34's x34.ts: experiment 32's programs/lib.py and this experiment's\n# programs/lib4.py, with experiment 19's lifted leanSPHINCS verifier and verify_one, and this entry point.\nfrom snark_lib import *\n\n${c32}\n${c4}\n${lifted}\n${f32}\n${f4}\n${body}`
+  const file = `${head}\n#\n# Assembled by experiment 34's x34.ts: experiment 32's programs/lib.py and this experiment's\n# programs/lib4.py${c5 ? ' and lib5.py' : ''}, with experiment 19's lifted leanSPHINCS verifier and verify_one, and this entry point.\nfrom snark_lib import *\n\n${c32}\n${c4}\n${c5 ? `${c5}\n` : ''}${lifted}\n${f32}\n${f4}\n${f5 ? `${f5}\n` : ''}${body}`
   if (!existsSync(BUILD)) mkdirSync(BUILD)
   const path = join(BUILD, `${name}.py`)
   writeFileSync(path, file)
@@ -142,6 +145,76 @@ export function scopedInput(ks: Keystore, id: Identity4, r: Uint8Array, m: Uint8
   return { input, C, D, rho, leaf, inList: li >= 0 }
 }
 
+// ---- arm B: the owner tag and the programs over a leaf with two rules ----
+
+export const TAU_TAG = 1263730954n
+/** The owner tag T = H([TAU_TAG, i], s) of the identity's note i, and its two 128-bit halves. */
+export const ownerTagOf = (s: Uint8Array, i: number) => H(pair([TAU_TAG, 0n], [BigInt(i), 0n]), s)
+export const halvesOf = (t: Uint8Array) => { const x = BigInt(`0x${Buffer.from(t).toString('hex')}`); return { hi: x >> 128n, lo: x & ((1n << 128n) - 1n), int: x } }
+const ZERO32 = new Uint8Array(32)
+
+/** The leaf's common streams: its path in the leaf tree, and the revocation tree's absence proof. */
+function leafStreams(ks: Keystore, id: Identity4) {
+  const gv = gCell(tables().gpow, id.version)
+  const leaf = leafOf4(id)
+  const index = ks.leaves.find(leaf)
+  const tpath = ks.leaves.path(index < 0 ? 0 : index)
+  const n = revTagOf(gv, id.s)
+  const abs = absence(ks, n) ?? absence(ks, n, { ...ks.entries[0] })!
+  const tp = pathStreams(tpath)
+  const np = pathStreams(abs.path)
+  return { gv, leaf, inTree: index >= 0, streams: { path: [...tp.path, ...np.path], bits: [...tp.bits, ...np.bits], entry: [abs.entry], gaps: [abs.gaps], bytes: abs.bytes } }
+}
+
+/**
+ * main4's (mode 0) or own_main's (mode 1) input: the main rule signs m. Mode 0 binds the account
+ * (s, r); mode 1 the owner tag of note `index`. D = H(H(A, m), H(rho, 0)).
+ */
+export function mainRuleInput(mode: 0 | 1, ks: Keystore, id: Identity4, m: Uint8Array, o: { r?: Uint8Array; index?: number; signers?: Uint8Array[] } = {}) {
+  const l = leafStreams(ks, id)
+  const r = o.r ?? ZERO32
+  const A = mode === 0 ? accountOf(id.s, r) : ownerTagOf(id.s, o.index ?? 0)
+  const rho = ks.root()
+  const D = H(H(A, m), H(rho, ZERO32))
+  const rule = o.signers ? { ...id.main, seeds: o.signers } : id.main
+  const ss = sigStreams(mainSigs(rule, m))
+  const input: Input = {
+    public: cellsOf(D),
+    witness: {
+      w: [cellsOf(id.s), cellsOf(r), cellsOf(m), cellsOf(id.rec), cellsOf(id.salt), cellsOf(scopeDigest(sphincsKey(id.scopeSeed), lambdaOf(id)))],
+      version: [[l.gv]],
+      index: [[[BigInt(o.index ?? 0), 0n]]],
+      rule: [[[id.main.rule, 0n]]],
+      keys: [keysOf(id.main).flatMap((k) => cellsOf(k))],
+      signer: ss.signer,
+      ...l.streams,
+    },
+    sphincs: ss.sphincs,
+  }
+  return { input, A, D, rho, inTree: l.inTree }
+}
+
+/** own_scoped's input: the scoped key signs m, and the recipient is the account (s, rp). D = H(H(T, m), H(rho, C')). */
+export function ownScopedInput(ks: Keystore, id: Identity4, rp: Uint8Array, index: number, m: Uint8Array) {
+  const l = leafStreams(ks, id)
+  const T = ownerTagOf(id.s, index)
+  const Cp = accountOf(id.s, rp)
+  const rho = ks.root()
+  const D = H(H(T, m), H(rho, Cp))
+  const input: Input = {
+    public: cellsOf(D),
+    witness: {
+      w: [cellsOf(id.s), cellsOf(rp), cellsOf(m), cellsOf(id.rec), cellsOf(id.salt), cellsOf(rmainOf(id)), cellsOf(lambdaOf(id))],
+      version: [[l.gv]],
+      index: [[[BigInt(index), 0n]]],
+      keys: [[...cellsOf(sphincsKey(id.scopeSeed)), [0n, 0n], [0n, 0n], [0n, 0n], [0n, 0n]]],
+      ...l.streams,
+    },
+    sphincs: [sign(id.scopeSeed, m)],
+  }
+  return { input, T, Cp, D, rho, inTree: l.inTree }
+}
+
 // ---- Poseidon over BN254 and the pool's LeanIMT ----
 
 export const P = 21888242871839275222246405745257275088548364400416034343698204186575808495617n
@@ -200,7 +273,7 @@ const CIRC = join(WORK, 'x34-circuits')
 type Compiled = { abi: Abi; bytecode: string; linkReferences: Record<string, Record<string, { start: number; length: number }[]>>; deployed: string; immutables: Record<string, { start: number; length: number }[]> }
 
 /** Compile the pool with solc 0.8.28 and the repository's remappings, its verifiers from this experiment's setup. */
-export function compilePool(circuits = CIRC): Record<string, Compiled> {
+export function compilePool(circuits = CIRC, pp = PP): Record<string, Compiled> {
   const solc = createRequire(import.meta.url)(join(DEPS, 'solc'))
   const remap: [string, string][] = [
     ['@oz/', join(DEPS, '@openzeppelin/contracts/')],
@@ -209,14 +282,14 @@ export function compilePool(circuits = CIRC): Record<string, Compiled> {
     ['lean-imt/', join(DEPS, '@zk-kit/lean-imt.sol/')],
     ['poseidon/', join(DEPS, 'poseidon-solidity/')],
     ['poseidon-solidity/', join(DEPS, 'poseidon-solidity/')],
-    ['contracts/', join(PP, 'contracts/')],
-    ['interfaces/', join(PP, 'interfaces/')],
+    ['contracts/', join(pp, 'contracts/')],
+    ['interfaces/', join(pp, 'interfaces/')],
   ]
   const resolve = (p: string) => { for (const [a, b] of remap) if (p.startsWith(a)) return b + p.slice(a.length); return p }
   const verifier = (file: string, name: string) => readFileSync(join(circuits, file), 'utf8').replace('contract Groth16Verifier', `contract ${name}`)
   const sources: Record<string, { content: string }> = {
-    'contracts/Entrypoint.sol': { content: readFileSync(join(PP, 'contracts/Entrypoint.sol'), 'utf8') },
-    'contracts/implementations/PrivacyPoolSimple.sol': { content: readFileSync(join(PP, 'contracts/implementations/PrivacyPoolSimple.sol'), 'utf8') },
+    'contracts/Entrypoint.sol': { content: readFileSync(join(pp, 'contracts/Entrypoint.sol'), 'utf8') },
+    'contracts/implementations/PrivacyPoolSimple.sol': { content: readFileSync(join(pp, 'contracts/implementations/PrivacyPoolSimple.sol'), 'utf8') },
     '@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol': { content: readFileSync(join(DEPS, '@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol'), 'utf8') },
     'poseidon-solidity/PoseidonT3.sol': { content: readFileSync(join(DEPS, 'poseidon-solidity/PoseidonT3.sol'), 'utf8') },
     'poseidon-solidity/PoseidonT4.sol': { content: readFileSync(join(DEPS, 'poseidon-solidity/PoseidonT4.sol'), 'utf8') },
@@ -241,6 +314,19 @@ export function compilePool(circuits = CIRC): Record<string, Compiled> {
     WithdrawalVerifier: pick('x34/WithdrawalVerifier.sol', 'WithdrawalVerifier'),
     CommitmentVerifier: pick('x34/CommitmentVerifier.sol', 'CommitmentVerifier'),
   }
+}
+
+/**
+ * Arm B: the pool's Solidity at the pin, copied into work/pp-b/src and patched with
+ * contracts-b.patch, then compiled against arm B's circuits. Nothing of it is committed but the patch.
+ */
+export function compilePoolB(): Record<string, Compiled> {
+  const dir = join(WORK, 'pp-b/src')
+  rmSync(join(WORK, 'pp-b'), { recursive: true, force: true })
+  mkdirSync(dir, { recursive: true })
+  cpSync(PP, dir, { recursive: true })
+  execFileSync('patch', ['-s', '-p1', '-i', join(here, 'contracts-b.patch')], { cwd: dir })
+  return compilePool(join(WORK, 'x34-circuits-b'), dir)
 }
 
 /** Fill a compiled bytecode's library placeholders. */

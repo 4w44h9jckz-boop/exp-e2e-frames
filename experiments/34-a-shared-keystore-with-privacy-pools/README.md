@@ -527,3 +527,20 @@ and its own scoped key.
 - (g1) and (g2) are refused in the checker, so the relay's frame fails; (g3) is refused in the
   prover. That is the pre-registered (g), "in the proof or in the dependency".
 - The checker costs under 20,000 gas.
+
+## Arm B: deviations, written before run 3
+
+Two smoke runs on 2026-11-24, whose records are not kept, ran every case as the addendum predicts.
+They changed the plan in two ways.
+
+1. **A probe attributes each refusal.** The node's simulation of (g1) and (g2) shows only that the
+   relay's frame reverted.
+   - So a `SENDER` frame before the relay calls `contracts/GasProbe.yul`, which calls the checker
+     with the arguments the pool passes and logs its gas and its outcome.
+   - The probe runs in (g1), (g2), (h) and (i). It also gives the checker's gas, which the addendum
+     names as a measure.
+2. **(g0) is sent as the pool-B cases are,** from the open sender with the recent-root frame and no
+   dependency, so that the relay frames compare.
+
+The withdrawal circuit's constraint count was measured when the circuits were built, before any
+run. It is reported with run 3's results.
