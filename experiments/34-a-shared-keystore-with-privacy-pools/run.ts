@@ -27,7 +27,9 @@ import { PROVER, assemble as assemble32, fromLabel, prove } from '../32-a-shared
 import { type Identity4, LeanIMT, P, assemble, compilePool, contextOf, genesisCode, groth16, hx, link, poseidon, register4Input, scopedInput, word32 } from './x34.js'
 
 const label = process.argv[2]
-if (!label) throw new Error('usage: run.ts <label>')
+// 'cases' runs cases (a) to (e), as run 1 did; 'fees' runs the addendum's (f2), (f3a) and (f3b).
+const mode = process.argv[3] ?? 'cases'
+if (!label || !['cases', 'fees'].includes(mode)) throw new Error('usage: run.ts <label> [cases|fees]')
 const here = new URL('.', import.meta.url).pathname
 const root = join(here, '../..')
 const work = join(root, 'work')
@@ -36,7 +38,7 @@ const proofs = join(work, `x34-proofs-${label}`)
 mkdirSync(proofs, { recursive: true })
 mkdirSync(join(here, 'results'), { recursive: true })
 const commit = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: here, encoding: 'utf8' }).trim()
-const record: Record<string, unknown> = { experiment: 34, arm: 'A', label, commit, date: new Date().toISOString() }
+const record: Record<string, unknown> = { experiment: 34, arm: 'A', label, mode, commit, date: new Date().toISOString() }
 const rows: Record<string, unknown>[] = []
 record.rows = rows
 const save = () => writeFileSync(out, `${JSON.stringify(record, (_, v) => (typeof v === 'bigint' ? v.toString() : v), 1)}\n`)
@@ -48,6 +50,14 @@ const rotate32 = assemble32('rotate')
 record.programs = Object.fromEntries(Object.entries(programs).map(([k, v]) => [k, v.key]))
 const KEYSTORE_CODE = compileYul(join(here, '../33-a-shared-keystore-for-stealth-accounts-on-the-local-chain/contracts/Keystore.yul'))
 const ACCOUNT_CODE = compileYul(join(here, 'contracts/Account4.yul'))
+// The addendum's capped implementation: Account4.yul with one check inserted at the start of
+// validate, refusing a maximum fee per gas (TXPARAM 0x04) over 1,000 wei.
+const VALIDATE = '            function validate(me) {\n'
+const accountSource = readFileSync(join(here, 'contracts/Account4.yul'), 'utf8')
+if (accountSource.split(VALIDATE).length !== 2) throw new Error('Account4.yul: validate not found once')
+const cappedPath = join(work, 'x34-Account4Capped.yul')
+writeFileSync(cappedPath, accountSource.replace(VALIDATE, `${VALIDATE}                if gt(txparam(0x04), 1000) { revert(0, 0) }\n`))
+const ACCOUNT_CODE_CAPPED = compileYul(cappedPath)
 const RECENT_ROOT_CODE = `0x${readFileSync(join(work, 'ethrex/scripts/hegota-testnet/recent_root/main.hex'), 'utf8').trim()}` as Hex
 const DOMAIN = keccak256(toHex('exp-e2e-frames/34/deposit'))
 const FEES = { maxPriorityFeePerGas: 1n, maxFeePerGas: 100n, maxFeePerBlobGas: 0n }
@@ -199,6 +209,8 @@ const POOL = await deploy('deploy the native-ETH pool', pool.PrivacyPoolSimple.a
 await eoa('register the pool', devKey, { to: EP, data: encodeFunctionData({ abi: pool.Entrypoint.abi, functionName: 'registerPool', args: [NATIVE, POOL, 10n ** 12n, 0n, 100n] } as never), gas: 1_000_000n })
 // The account implementation every scoped account clones, deployed once.
 const ACCOUNT_IMPL = (await eoa('deploy the account implementation', devKey, { data: ACCOUNT_CODE, gas: 3_000_000n })).contract as Address
+const ACCOUNT_IMPL_CAPPED = mode === 'fees' ? (await eoa('deploy the capped account implementation', devKey, { data: ACCOUNT_CODE_CAPPED, gas: 3_000_000n })).contract as Address : undefined
+record.accountImplementations = { plain: { address: ACCOUNT_IMPL, code: sha(ACCOUNT_CODE) }, capped: ACCOUNT_IMPL_CAPPED && { address: ACCOUNT_IMPL_CAPPED, code: sha(ACCOUNT_CODE_CAPPED) } }
 const SCOPE = (await call(POOL, pool.PrivacyPoolSimple.abi, 'SCOPE')) as bigint
 record.pool = { entrypoint: EP, implementation: EP_IMPL, pool: POOL, scope: SCOPE, poseidonT3: T3, poseidonT4: T4, inGenesis: ['PoseidonT3', 'PoseidonT4', 'Entrypoint implementation'], withdrawalVerifier: WV, ragequitVerifier: CV, minimumDeposit: 10n ** 12n, vettingFeeBPS: 0, maxRelayFeeBPS: 100 }
 save()
@@ -280,17 +292,17 @@ function cloneInitcode(impl: Address, words: Hex[]): Hex {
   if (n > 0xff) throw new Error('clone runtime over 255 bytes')
   return concatHex([`0x3d60${n.toString(16).padStart(2, '0')}80600a3d3981f3`, runtime])
 }
-function accountFor(id: Identity4, rl: string, program: 'scoped' | 'scoped_open'): Acct {
+function accountFor(id: Identity4, rl: string, program: 'scoped' | 'scoped_open', impl: Address = ACCOUNT_IMPL): Acct {
   const r = seed(rl)
   const C = hx(accountOf(id.s, r))
   const vk = programs[program].key
-  const initcode = cloneInitcode(ACCOUNT_IMPL, [C, vk, sourceId, pad(EP, { size: 32 })])
+  const initcode = cloneInitcode(impl, [C, vk, sourceId, pad(EP, { size: 32 })])
   return { id, r, C, address: create2Address(initcode, C), vk, initcode, program }
 }
 const relayer = privateKeyToAddress(keyOf('relayer'))
 
 const depositAllData = (pc: bigint): Hex => encodeFunctionData({ abi: accountAbi, functionName: 'depositAll', args: [pc] })
-const depositAllFrame = (account: Address, pc: bigint): Frame => senderFrame({ target: account, data: depositAllData(pc), execution: 2_000_000n, state: 10n * STORAGE_SET_STATE_GAS })
+const depositAllFrame = (account: Address, pc: bigint, lim = { execution: 2_000_000n, state: 10n * STORAGE_SET_STATE_GAS }): Frame => senderFrame({ target: account, data: depositAllData(pc), ...lim })
 /** eth_call from `from` to `to`, returning the revert data and the pool's or Entrypoint's error name. */
 async function revertOf(from: Address, to: Address, data: Hex, value = 0n) {
   const res = await fetch(chain.url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'eth_call', params: [{ from, to, data, value: toHex(value), gas: '0x' + (2_000_000).toString(16) }, 'latest'] }) })
@@ -303,7 +315,8 @@ async function revertOf(from: Address, to: Address, data: Hex, value = 0n) {
   return { data: rd, name: undefined }
 }
 /** The scoped transaction, deploying the account first if it has no code. */
-async function scopedTx(step: string, a: Acct, pc: bigint, o: { call?: Frame; refusable?: boolean; noDeploy?: boolean } = {}) {
+type ScopedOpts = { call?: Frame; refusable?: boolean; noDeploy?: boolean; sender?: { execution: bigint; state: bigint }; relayerFee?: { leave: bigint } }
+async function scopedTx(step: string, a: Acct, pc: bigint, o: ScopedOpts = {}) {
   const code = await client.getCode({ address: a.address })
   const deployFirst = !o.noDeploy && (!code || code === '0x')
   const nonce = await getNonceSeq(client, a.address, [0n])
@@ -328,11 +341,23 @@ async function scopedTx(step: string, a: Acct, pc: bigint, o: { call?: Frame; re
       ...(deployFirst ? [deployFrame] : []),
       verifyFrame({ scope: Approve.EXECUTION_AND_PAYMENT, target: null, data: '0x', execution: 60_000n, state: 0n }),
       depFrame(tripleOf(hx(sin.D), a.vk)),
-      o.call ?? depositAllFrame(a.address, pc),
+      o.call ?? depositAllFrame(a.address, pc, o.sender),
     ],
     signatures: [], fees: FEES, blobVersionedHashes: [],
   }
   const balanceBefore = await client.getBalance({ address: a.address })
+  // The relayer's fee (addendum): the transaction's total gas limit L from the node's reserved cost
+  // at run 1's fees, then a maximum and priority fee f = floor((B - leave) / L).
+  let feeChoice: Record<string, bigint> | undefined
+  if (o.relayerFee) {
+    const sim0 = await simulateFrameTx(client, tx)
+    const maxCost = BigInt(sim0.maxCost)
+    if (maxCost % FEES.maxFeePerGas !== 0n) throw new Error(`${step}: reserved cost ${maxCost} is not a multiple of the fee`)
+    const L = maxCost / FEES.maxFeePerGas
+    const f = (balanceBefore - o.relayerFee.leave) / L
+    tx.fees = { maxPriorityFeePerGas: f, maxFeePerGas: f, maxFeePerBlobGas: 0n }
+    feeChoice = { L, f, reserved: L * f, leftToDeposit: balanceBefore - L * f }
+  }
   const relayerBefore = await client.getBalance({ address: relayer })
   const row = await frames(step, tx, { account: a.address, program: a.program, deployFirst, inList: sin.inList, proof: { cycles: p.cycles, proofBytes: p.proofBytes, proveMs: p.warmupMs } }, o.refusable ?? false)
   const at = rows.length - 1
@@ -340,9 +365,20 @@ async function scopedTx(step: string, a: Acct, pc: bigint, o: { call?: Frame; re
   const relayerAfter = await client.getBalance({ address: relayer })
   // A refused call shape: the same transaction with depositAll(P) as its call, simulated, shows the
   // refusal is the call's and not the deployment's, the proof's or the tuple's.
-  const control = o.call && !('receiptLogs' in row)
-    ? await simulateFrameTx(client, { ...tx, frames: [...tx.frames.slice(0, -1), depositAllFrame(a.address, pc)] }).then((r) => ({ valid: r.valid, violation: r.violation ?? null }), (e) => ({ valid: false, violation: (e as Error).message.slice(0, 200) }))
+  // A refused fee (addendum): the same transaction at run 1's fees, simulated.
+  const control = (o.call || o.relayerFee) && !('receiptLogs' in row)
+    ? await simulateFrameTx(client, { ...tx, frames: o.call ? [...tx.frames.slice(0, -1), depositAllFrame(a.address, pc)] : tx.frames, fees: FEES }).then((r) => ({ valid: r.valid, violation: r.violation ?? null }), (e) => ({ valid: false, violation: (e as Error).message.slice(0, 200) }))
     : undefined
+  // The block's fee recipient: the priority fee paid, and its balance across the block.
+  let feeRecipient: Record<string, unknown> | undefined
+  if (mode === 'fees' && 'block' in row) {
+    const blk = await client.getBlock({ blockNumber: BigInt(row.block as number) })
+    const base = blk.baseFeePerGas ?? 0n
+    const perGas = tx.fees.maxPriorityFeePerGas < tx.fees.maxFeePerGas - base ? tx.fees.maxPriorityFeePerGas : tx.fees.maxFeePerGas - base
+    const before = await client.getBalance({ address: blk.miner, blockNumber: blk.number - 1n })
+    const after = await client.getBalance({ address: blk.miner, blockNumber: blk.number })
+    feeRecipient = { address: blk.miner, baseFee: base, priorityPerGas: perGas, priorityPaid: BigInt(row.gasUsed as number) * perGas, before, after, delta: after - before, transactionsInBlock: blk.transactions.length }
+  }
   // A failed SENDER frame: the Entrypoint's record of P, and the account's deposit replayed from an
   // EOA with the account's balance, for the revert reason. An eth_call from the account itself is
   // refused, its sender having code (EIP-3607).
@@ -351,49 +387,70 @@ async function scopedTx(step: string, a: Acct, pc: bigint, o: { call?: Frame; re
     ? { usedPrecommitment: (await call(EP, pool.Entrypoint.abi, 'usedPrecommitments', [pc])) as boolean, ...(await revertOf(privateKeyToAccount(devKey).address, EP, encodeFunctionData({ abi: pool.Entrypoint.abi, functionName: 'deposit', args: [pc] } as never), balanceAfter)) }
     : undefined
   const dep = 'receiptLogs' in row ? await observeDeposit(row.receiptLogs as never) : undefined
-  rows[at] = { ...rows[at], accountBefore: balanceBefore, accountAfter: balanceAfter, relayerBefore, relayerAfter, deposited: dep?._value, control, replay }
-  if (control) console.log(`  control, the same transaction calling depositAll(P): ${control.valid ? 'valid' : `invalid: ${control.violation}`}`)
+  rows[at] = { ...rows[at], accountBefore: balanceBefore, accountAfter: balanceAfter, relayerBefore, relayerAfter, deposited: dep?._value, control, replay, fees: tx.fees, feeChoice, feeRecipient }
+  if (control) console.log(`  control, the same transaction ${o.call ? 'calling depositAll(P)' : 'at run 1\'s fees'}: ${control.valid ? 'valid' : `invalid: ${control.violation}`}`)
+  if (feeChoice) console.log(`  relayer's fee: L ${feeChoice.L}, f ${feeChoice.f}, left to deposit ${feeChoice.leftToDeposit}`)
+  if (feeRecipient) console.log(`  fee recipient: priority paid ${feeRecipient.priorityPaid}, balance change ${feeRecipient.delta}, account ${balanceBefore} -> ${balanceAfter}, deposited ${dep?._value}`)
   if (replay) console.log(`  usedPrecommitments(P) ${replay.usedPrecommitment}; deposit(P) replayed from an EOA: ${replay.name ?? replay.data}`)
   return { ...row, deposited: dep?._value }
 }
 
-// (a) Honest: a payment, then the relayer deploys and deposits the first listed precommitment; the
-// owner's device withdraws with its own secrets.
-const A1 = accountFor(Ibound, 'bound/r/1', 'scoped')
-await eoa('(a) a payment to the bound account', devKey, { to: A1.address, value: PAYMENT, gas: 500_000n })
-const a = await scopedTx('(a) deploy and deposit, the first listed precommitment', A1, deviceNotes[0].pc)
-const device = keyOf('device')
-await eoa('fund the device for its withdrawal', devKey, { to: privateKeyToAddress(device), value: 10n ** 17n, gas: 500_000n })
-const wa = await withdraw('(a) the owner\'s device withdraws', device, deviceNotes[0])
-record.a = { deposited: (a as { deposited?: bigint }).deposited, paid: wa.paid }
+if (mode === 'cases') {
+  // (a) Honest: a payment, then the relayer deploys and deposits the first listed precommitment; the
+  // owner's device withdraws with its own secrets.
+  const A1 = accountFor(Ibound, 'bound/r/1', 'scoped')
+  await eoa('(a) a payment to the bound account', devKey, { to: A1.address, value: PAYMENT, gas: 500_000n })
+  const a = await scopedTx('(a) deploy and deposit, the first listed precommitment', A1, deviceNotes[0].pc)
+  const device = keyOf('device')
+  await eoa('fund the device for its withdrawal', devKey, { to: privateKeyToAddress(device), value: 10n ** 17n, gas: 500_000n })
+  const wa = await withdraw('(a) the owner\'s device withdraws', device, deviceNotes[0])
+  record.a = { deposited: (a as { deposited?: bigint }).deposited, paid: wa.paid }
 
-// (b) Control: the scope fixes the pool only; the indexer deposits its own precommitment and withdraws.
-const A2 = accountFor(Iopen, 'open/r/1', 'scoped_open')
-const indexerNote = noteOf('indexer/0')
-await eoa('(b) a payment to the open account', devKey, { to: A2.address, value: PAYMENT, gas: 500_000n })
-const b = await scopedTx('(b) deploy and deposit, the indexer\'s own precommitment', A2, indexerNote.pc)
-const indexer = keyOf('indexer')
-await eoa('fund the indexer for its withdrawal', devKey, { to: privateKeyToAddress(indexer), value: 10n ** 17n, gas: 500_000n })
-const wb = await withdraw('(b) the indexer withdraws to itself', indexer, indexerNote)
-record.b = { deposited: (b as { deposited?: bigint }).deposited, paid: wb.paid }
+  // (b) Control: the scope fixes the pool only; the indexer deposits its own precommitment and withdraws.
+  const A2 = accountFor(Iopen, 'open/r/1', 'scoped_open')
+  const indexerNote = noteOf('indexer/0')
+  await eoa('(b) a payment to the open account', devKey, { to: A2.address, value: PAYMENT, gas: 500_000n })
+  const b = await scopedTx('(b) deploy and deposit, the indexer\'s own precommitment', A2, indexerNote.pc)
+  const indexer = keyOf('indexer')
+  await eoa('fund the indexer for its withdrawal', devKey, { to: privateKeyToAddress(indexer), value: 10n ** 17n, gas: 500_000n })
+  const wb = await withdraw('(b) the indexer withdraws to itself', indexer, indexerNote)
+  record.b = { deposited: (b as { deposited?: bigint }).deposited, paid: wb.paid }
 
-// (c) The substitution with the list.
-const A3 = accountFor(Ibound, 'bound/r/3', 'scoped')
-await eoa('(c) a payment to a second bound account', devKey, { to: A3.address, value: PAYMENT, gas: 500_000n })
-await scopedTx('(c) the indexer\'s own precommitment, under the list', A3, noteOf('indexer/1').pc, { refusable: true })
+  // (c) The substitution with the list.
+  const A3 = accountFor(Ibound, 'bound/r/3', 'scoped')
+  await eoa('(c) a payment to a second bound account', devKey, { to: A3.address, value: PAYMENT, gas: 500_000n })
+  await scopedTx('(c) the indexer\'s own precommitment, under the list', A3, noteOf('indexer/1').pc, { refusable: true })
 
-// (d) A list entry used twice: another account of the same identity deposits (a)'s precommitment.
-const A4 = accountFor(Ibound, 'bound/r/4', 'scoped')
-await eoa('(d) a payment to a third bound account', devKey, { to: A4.address, value: PAYMENT, gas: 500_000n })
-await scopedTx('(d) the precommitment (a) used, again', A4, deviceNotes[0].pc, { refusable: true })
+  // (d) A list entry used twice: another account of the same identity deposits (a)'s precommitment.
+  const A4 = accountFor(Ibound, 'bound/r/4', 'scoped')
+  await eoa('(d) a payment to a third bound account', devKey, { to: A4.address, value: PAYMENT, gas: 500_000n })
+  await scopedTx('(d) the precommitment (a) used, again', A4, deviceNotes[0].pc, { refusable: true })
 
-// (e) Other calls under the scoped key, on the undeployed second account, deploying it first.
-const e1 = senderFrame({ target: A3.address, data: encodeFunctionData({ abi: accountAbi, functionName: 'spend', args: [privateKeyToAddress(keyOf('elsewhere')), PAYMENT / 2n] }), execution: 200_000n, state: 0n })
-await scopedTx('(e1) a transfer', A3, deviceNotes[1].pc, { call: e1, refusable: true })
-const e2 = senderFrame({ target: privateKeyToAddress(keyOf('another-entrypoint')), data: encodeFunctionData({ abi: pool.Entrypoint.abi, functionName: 'deposit', args: [deviceNotes[1].pc] } as never), value: 0n, execution: 200_000n, state: 0n })
-await scopedTx('(e2) a deposit to another Entrypoint, sent directly', A3, deviceNotes[1].pc, { call: e2, refusable: true })
-const e3 = senderFrame({ target: POOL, data: '0x', execution: 200_000n, state: 0n })
-await scopedTx('(e3) a call to the pool, sent directly', A3, deviceNotes[1].pc, { call: e3, refusable: true })
+  // (e) Other calls under the scoped key, on the undeployed second account, deploying it first.
+  const e1 = senderFrame({ target: A3.address, data: encodeFunctionData({ abi: accountAbi, functionName: 'spend', args: [privateKeyToAddress(keyOf('elsewhere')), PAYMENT / 2n] }), execution: 200_000n, state: 0n })
+  await scopedTx('(e1) a transfer', A3, deviceNotes[1].pc, { call: e1, refusable: true })
+  const e2 = senderFrame({ target: privateKeyToAddress(keyOf('another-entrypoint')), data: encodeFunctionData({ abi: pool.Entrypoint.abi, functionName: 'deposit', args: [deviceNotes[1].pc] } as never), value: 0n, execution: 200_000n, state: 0n })
+  await scopedTx('(e2) a deposit to another Entrypoint, sent directly', A3, deviceNotes[1].pc, { call: e2, refusable: true })
+  const e3 = senderFrame({ target: POOL, data: '0x', execution: 200_000n, state: 0n })
+  await scopedTx('(e3) a call to the pool, sent directly', A3, deviceNotes[1].pc, { call: e3, refusable: true })
+}
+
+if (mode === 'fees') {
+  // (f2) The fee, chosen by the relayer: the SENDER frame's limits close to its use, and a fee that
+  // leaves about twice the pool's minimum deposit after the reserved cost.
+  const relayerChoice = { sender: { execution: 300_000n, state: 783_360n }, relayerFee: { leave: 2n * 10n ** 12n }, refusable: true }
+  const F2 = accountFor(Ibound, 'bound/r/f2', 'scoped')
+  await eoa('(f2) a payment to a fresh bound account', devKey, { to: F2.address, value: PAYMENT, gas: 500_000n })
+  record.f2 = await scopedTx('(f2) deploy and deposit, at the relayer\'s fee', F2, deviceNotes[0].pc, relayerChoice)
+  // (f3a) The honest transaction on a capped account.
+  const F3a = accountFor(Ibound, 'bound/r/f3a', 'scoped', ACCOUNT_IMPL_CAPPED)
+  await eoa('(f3a) a payment to a fresh capped account', devKey, { to: F3a.address, value: PAYMENT, gas: 500_000n })
+  record.f3a = await scopedTx('(f3a) deploy and deposit, capped, at run 1\'s fees', F3a, deviceNotes[1].pc, { refusable: true })
+  // (f3b) The relayer's fee on a capped account.
+  const F3b = accountFor(Ibound, 'bound/r/f3b', 'scoped', ACCOUNT_IMPL_CAPPED)
+  await eoa('(f3b) a payment to another fresh capped account', devKey, { to: F3b.address, value: PAYMENT, gas: 500_000n })
+  record.f3b = await scopedTx('(f3b) deploy and deposit, capped, at the relayer\'s fee', F3b, deviceNotes[2].pc, relayerChoice)
+}
 
 record.relayer = { address: relayer, balance: await client.getBalance({ address: relayer }) }
 record.builds = chain.builds().length
