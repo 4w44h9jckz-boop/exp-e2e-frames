@@ -1,0 +1,21 @@
+--- a/crates/blockchain/dev/block_producer.rs
++++ b/crates/blockchain/dev/block_producer.rs
+@@ -60,6 +60,18 @@
+ 
+         let timestamp = SystemTime::now().duration_since(UNIX_EPOCH)?.as_secs();
+         slot_number += 1;
++        // Experiment 33 (exp-e2e-frames): a slot skip. When X33_SLOT_SKIP_FILE names a file holding
++        // n > 0, the next block's slot moves n further on and the file is set back to 0, so a local
++        // chain can pass EIP-8272's 8,191-slot window without waiting for it.
++        if let Ok(path) = std::env::var("X33_SLOT_SKIP_FILE") {
++            if let Some(n) = std::fs::read_to_string(&path).ok().and_then(|s| s.trim().parse::<u64>().ok()) {
++                if n > 0 {
++                    slot_number += n;
++                    let _ = std::fs::write(&path, "0");
++                    tracing::info!("Experiment 33: slot skip of {n}, next slot {slot_number}");
++                }
++            }
++        }
+ 
+         // Amsterdam+ payload attributes carry `slotNumber` and `targetGasLimit`
+         // and MUST use forkchoiceUpdatedV4; V3 attributes are rejected for an

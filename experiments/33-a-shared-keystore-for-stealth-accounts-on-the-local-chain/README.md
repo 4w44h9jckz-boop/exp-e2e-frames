@@ -198,3 +198,32 @@ contract, and the runner checks after every write that the two hold the same roo
 
 - If the client cannot be made to produce a slot 8,191 ahead, (d) stops, and the record says why.
 - If a case cannot be built as stated, it stops, and the record says what was tried.
+
+## Deviations, written before run 1
+
+Two smoke runs on 2026-11-24, under labels that are not recorded, tested the runner on the chain
+before the recorded run. They changed the plan in four ways.
+
+1. **The slot comes from the dev producer, not from timestamps.**
+   - In dev mode, ethrex's block producer supplies each block's EIP-7843 slot, one more per block,
+     and the client uses it as given. So the genesis needs no derived-slot setting.
+   - `ethrex-clock.patch` moves the producer's slot counter instead of its timestamps. A file holding
+     $n > 0$ adds $n$ to the next block's slot and is set back to 0.
+   - The genesis keeps only the predeploy.
+2. **Case (c2) runs last.**
+   - Sent without a proof, its transaction is admitted. The patched builder then includes it in every
+     block it makes, and its own block check refuses each one ("no proof for leanSTARK dependency").
+   - So the head stops, and nothing can follow it on that chain. Experiment 22 found the same halt for
+     a signature over another transaction's hash.
+   - (c2) is now the main chain's last step. Its wait is bounded at 8 blocks or 60 seconds, and the
+     record says whether the head moved.
+3. **The keystore accepts a plain transfer,** so the runner can fund it. The first smoke run's funding
+   reverted.
+4. **Case (f) gains two arms,** so each check that could refuse is seen alone.
+   - (f2b): the bounded account, with a tuple claiming a `max_age` of 8,191. The stub refuses it,
+     since 8,191 exceeds its bound, though the predeploy would accept the age.
+   - (f2c): the unbounded account, with the 72-byte form, on the same chain and the same old root. It
+     shows that the revoked key still spends where the field is not used.
+   - The patched predeploy is written in Yul (`contracts/RecentRootMaxAge.yul`) rather than the
+     client's geas, so its gas differs from the client's own code. The field's cost is therefore
+     measured between the two forms on the same patched code.
