@@ -246,3 +246,149 @@ recorded run. They changed the plan in five ways.
 5. **The runner's mirror of the state tree** also inserts each withdrawal's change note, which the
    pool inserts and the first mirror did not. And the runner now stops the node on a failed step:
    a node left by a failed smoke run had kept the port, and two later smoke runs talked to it.
+
+## Arm A: results, run 1 (2026-11-24)
+
+Run as `npx tsx experiments/34-a-shared-keystore-with-privacy-pools/run.ts 1-first-run` from the
+repository root at commit `74f22c7`, on the chain above. The record is `results/1-first-run.json`.
+Gas is execution plus state, as the frame receipts give it, and fees are 7 wei of base fee and 1 of
+priority fee per gas.
+
+### Every case, against the predictions
+
+| Case | Predicted | Observed |
+| --- | --- | --- |
+| (a) | Included; the owner's withdrawal pays the owner | Included. The device's withdrawal paid it 9,999,999,628,029,700 wei, the whole deposit |
+| (b) | Included; the indexer's withdrawal pays the indexer | Included. The indexer's withdrawal paid it 9,999,999,628,030,900 wei, the whole deposit |
+| (c) | Refused in the prover | Refused in the prover: the list's root, recomputed from the indexer's precommitment, conflicts with $\lambda$ |
+| (d) | Included, the `SENDER` frame failing on `PrecommitmentAlreadyUsed`; the account pays; nothing deposited | Included with its `SENDER` frame failed. `usedPrecommitments(P)` is true, and the replayed deposit reverts with `PrecommitmentAlreadyUsed`. The account paid 3,066,016 wei; nothing was deposited |
+| (e1) to (e3) | Refused at the node, in the account's `VERIFY` | Refused at the node ("validation prefix frame reverted"). The same transaction calling `depositAll(P)` simulates valid in each |
+| (f) | The relayer's balance unchanged; the deposit is what the account received less the transaction's cost | The relayer's balance was 0 throughout. The deposit is what the account received less the transaction's reserved maximum cost, and the refund stays in the account |
+
+### Gas
+
+The deploy-and-deposit transactions, by frame:
+
+| Frame | (a) | (b) | (d) |
+| --- | --- | --- | --- |
+| Recent-root verifier | 5,579 | 5,579 | 5,579 |
+| Deployment of the 173-byte clone | 15,256 + 264,690 | 15,256 + 264,690 | 15,256 + 264,690 |
+| The account's `VERIFY` | 5,651 | 5,651 | 5,651 |
+| Dependency | 30,000 | 30,000 | 30,000 |
+| `SENDER`, `depositAll(P)` | 237,696 + 783,360 | 284,162 + 489,600 | 41,561, failed |
+| Transaction | 1,352,735 | 1,105,429 | 383,252 |
+
+- **The validation prefix** used 56,486 gas of execution and 264,690 of state, each within its
+  500,000.
+- **The deposit's state gas** is new storage at 97,920 a slot: eight slots for the pool's first
+  deposit in (a), five in (b).
+- **The other transactions:**
+  - a payment to a fresh address, 204,600, of which 183,600 is the new account;
+  - registering the bound identity, 424,139, and the open one, 326,573;
+  - the withdrawals, 898,478 in (a) and 713,785 in (b);
+  - the postman's roots, 689,061 and 591,141.
+- **The pool's setup:** the pool 11,698,089, the proxy 1,395,097, the verifiers 3,303,576 and
+  2,736,168, and the account implementation 1,107,606.
+
+### Proofs
+
+| Program | Case | Cycles | Proof, bytes |
+| --- | --- | --- | --- |
+| `register4` | The bound identity | 6,855 | 244,568 |
+| `register4` | The open identity | 6,843 | 243,864 |
+| `scoped` | (a) | 20,453 | 247,336 |
+| `scoped` | (d) | 20,430 | 244,384 |
+| `scoped` | (e1) to (e3) | 20,448 | 246,728 |
+| `scoped_open` | (b) | 20,368 | 246,600 |
+
+- **Each scoped proof** costs between 62 and 85 cycles more than the `scoped_open` proof. They sign
+  different messages, and a signature's verification varies by a few dozen cycles with its message.
+- **snarkjs proved the two withdrawals** in 3,053 and 2,852 ms, in this container.
+
+### Against the predictions
+
+1. **Outcomes.** Every prediction held but half of (f).
+   - The deposit is the account's balance less the transaction's *reserved* cost, its gas limits at
+     the maximum fee: 3,719,703 gas at 100 wei, 371,970,300 wei.
+   - The transaction was charged 10,821,880 wei, and the rest, 361,148,420 wei, was refunded to the
+     account after the call.
+   - That residue is below the pool's minimum deposit of $10^{12}$ wei, so the scoped key can never
+     move it. Only the owner's main rule can.
+2. **The list proof costs under 500 cycles.** Held: 62 to 85.
+3. **Gas.**
+   - The prefix fits its 500,000. Held.
+   - The deposit's `SENDER` frame under 1,000,000. Held for execution, missed for (a) with its
+     state gas: 1,021,056.
+   - A withdrawal under 600,000. Wrong: 898,478 and 713,785.
+   - The gas predictions were written without EIP-8037's state gas, which a new slot costs 97,920
+     of. An ordinary transaction's receipt does not split the two, so the withdrawals' split is not
+     measured.
+
+### What it means
+
+- **Arm A's claim holds as far as it was tested.**
+  - With $P$ bound by the list, a relayer with no keys, triggered by anyone, moved a stealth
+    account's balance into the pool. The scoped key could not take it: (c) was refused in the
+    prover and (e1) to (e3) at the node.
+  - Without the binding it can: in (b), the indexer deposits its own precommitment and withdraws to
+    itself.
+  - So the condition matters for this pool. A scoped deposit must bind the precommitment, and a
+    list the owner signs binds it for under a hundred cycles.
+- **A used entry costs the account its gas and nothing else,** since the Entrypoint's own
+  `usedPrecommitments` refuses it. Nothing in the account or the proof stops a scoped key from
+  repeating (d) on a new nonce, or on any other account bound to the same list, until the balance
+  cannot pay the reserved cost. That was not run.
+- **Not run: the fee fields.**
+  - Neither the account's `VERIFY` nor the message $m$ covers the transaction's fees. So whoever
+    builds the scoped transaction chooses them.
+  - (d) shows the account pays whatever its transaction is charged. A relayer with a high priority
+    fee would move the balance to the block's fee recipient, and the deposit would be what was left.
+  - If the relayer is, or pays, the builder, that is a way to take the funds the cases do not test.
+    The claim "cannot take them" holds only for the paths tested.
+  - An addendum below pre-registers the case before it runs.
+
+## Arm A: addendum, written after run 1 and before run 2 (2026-11-24)
+
+Run 1 left one path to the funds untested: the transaction's fees, which the relayer chooses and
+neither the account's `VERIFY` nor the message $m$ covers. Run 2 tests it on a fresh chain with the
+same setup. It runs these cases only; cases (a) to (e) are not repeated.
+
+**The capped account.** A second implementation, made by the runner from `contracts/Account4.yul`
+by inserting one check at the start of `validate`:
+`if gt(txparam(0x04), 1000) { revert(0, 0) }`. Its `VERIFY` refuses a transaction whose maximum fee
+per gas, `TXPARAM` 0x04, is over 1,000 wei. Its clones are built as before, and the first
+implementation is unchanged.
+
+**Cases.**
+- **(f2) The fee, chosen by the relayer.** A payment of $B = 10^{16}$ wei arrives at a fresh account
+  bound to the list. The relayer builds (a)'s transaction with the next unused list entry, but:
+  - it sets the `SENDER` frame's limits close to its use, 300,000 of execution and 783,360 of
+    state;
+  - it sets a maximum fee per gas $f = \lfloor (B - 2 \cdot 10^{12}) / L \rfloor$ for the
+    transaction's total gas limit $L$, and a priority fee of $f$. So the reserved cost leaves about
+    twice the pool's minimum deposit to be deposited.
+- **(f3a) The honest transaction, capped.** (a)'s transaction, at run 1's fees, on a fresh account
+  under the capped implementation.
+- **(f3b) The relayer's fee, capped.** (f2)'s transaction on another fresh account under the capped
+  implementation, with a control: the same transaction at run 1's fees, simulated by the node.
+
+**Measures.** For each case:
+- its outcome;
+- the account's balance before and after, and the deposit;
+- the priority fee the block's fee recipient received, as gas used times the priority fee paid
+  per gas, and the fee recipient's balance across the block;
+- the capped `VERIFY`'s gas against the uncapped one's.
+
+**Predictions.**
+- (f2) is included and deposits about $2 \cdot 10^{12}$ wei. More than half of $B$ goes to the
+  block's fee recipient as priority fee, and the rest of the reserved cost returns to the account.
+  So a relayer that is, or pays, the builder takes most of the balance, and arm A's claim, as run 1
+  tested it, does not cover the fee path.
+- (f3a) is included and deposits as (a) did.
+- (f3b) is refused at the node, in the account's `VERIFY`, and its control simulates valid.
+- The cap costs the capped `VERIFY` under 30 gas.
+
+**What would show them wrong:**
+- (f2) refused, or less than half of $B$ taken as fee, in which case the fee path is narrower than
+  argued above;
+- (f3b) included, in which case the cap does not close it.
